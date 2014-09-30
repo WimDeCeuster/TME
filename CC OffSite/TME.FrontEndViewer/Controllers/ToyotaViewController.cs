@@ -10,7 +10,8 @@ namespace TME.FrontEndViewer.Controllers
     public class ToyotaViewController : Controller
     {
         private readonly MyContext _context;
-        private readonly List<IModel> _newModel = new List<IModel>(); 
+        private readonly List<IModel> _oldReaderModel = new List<IModel>();
+        private readonly IList<IModel> _newReaderModel = new List<IModel>();
 
         public ToyotaViewController()
         {
@@ -19,17 +20,30 @@ namespace TME.FrontEndViewer.Controllers
 
         public ActionResult Index()
         {
-            var model = TMME.CarConfigurator.Models.GetModels(_context).Cast<Model>();
+            var oldData = TMME.CarConfigurator.Models.GetModels(_context).Cast<Model>();
+            var newData = new List<Model>();
+//            TME.CarConfigurator.QueryRepository.IModelRepository.GetModels(_context).Cast<Model>(); todo Implementatie.
+
+            //Old Reader Model
             AutoMapper.Mapper.CreateMap<Model, ModelDTO>();
 
-            foreach (var item in model)
+            foreach (var item in oldData)
             {
                 var modelDTO = AutoMapper.Mapper.Map<ModelDTO>(item);
-                _newModel.Add(modelDTO);
+                _oldReaderModel.Add(modelDTO);
             }
-            
 
-            return View(_newModel);
+            //New Reader Model
+            foreach (var item in newData)
+            {
+                var modelDTO = AutoMapper.Mapper.Map<ModelDTO>(item);
+                _newReaderModel.Add(modelDTO);
+            }
+
+            var model = new ComparingViewModel {OldReaderModel = _oldReaderModel,NewReaderModel = _newReaderModel};
+
+
+            return View(model);
         }
 
     }
