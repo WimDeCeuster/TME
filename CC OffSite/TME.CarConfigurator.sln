@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Repository.Objects", "TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj", "{2154EAAA-3D11-4654-BEA6-7B147451DBA8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.QueryRepository", "TME.CarConfigurator.QueryRepository\TME.CarConfigurator.QueryRepository.csproj", "{DB9741B6-62BF-4B1B-8094-E3C7CC4D5A29}"
@@ -16,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Publisher.Factory", "TME.CarConfigurator.Publisher.Factory\TME.CarConfigurator.Publisher.Factory.csproj", "{CCA2511F-6C7F-4A4A-85F8-7B9AAED096AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.FrontEndViewer", "TME.FrontEndViewer\TME.FrontEndViewer.csproj", "{33DC4253-B2BD-4273-82D0-969538FB96F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.Carconfigurator.Tests", "TME.Carconfigurator.Tests\TME.Carconfigurator.Tests.csproj", "{0A0C8BAA-A2AE-453E-978B-E348CF562000}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +59,10 @@ Global
 		{33DC4253-B2BD-4273-82D0-969538FB96F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33DC4253-B2BD-4273-82D0-969538FB96F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33DC4253-B2BD-4273-82D0-969538FB96F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A0C8BAA-A2AE-453E-978B-E348CF562000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A0C8BAA-A2AE-453E-978B-E348CF562000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A0C8BAA-A2AE-453E-978B-E348CF562000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A0C8BAA-A2AE-453E-978B-E348CF562000}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

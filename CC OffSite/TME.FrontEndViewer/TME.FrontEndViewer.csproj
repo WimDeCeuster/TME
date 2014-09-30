@@ -114,21 +114,17 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="TMME.BusinessObjects, Version=1.6.4.3, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Bin\TMME.BusinessObjects.dll</HintPath>
+    <Reference Include="TMME.BusinessObjects">
+      <HintPath>..\..\Libraries\TMME.BusinessObjects.dll</HintPath>
     </Reference>
-    <Reference Include="TMME.BusinessObjects.Core, Version=1.6.0.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Bin\TMME.BusinessObjects.Core.dll</HintPath>
+    <Reference Include="TMME.BusinessObjects.Core">
+      <HintPath>..\..\Libraries\TMME.BusinessObjects.Core.dll</HintPath>
     </Reference>
-    <Reference Include="TMME.BusinessObjects.Server.DataPortal, Version=1.6.3.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Bin\TMME.BusinessObjects.Server.DataPortal.dll</HintPath>
+    <Reference Include="TMME.BusinessObjects.Server.DataPortal">
+      <HintPath>..\..\Libraries\TMME.BusinessObjects.Server.DataPortal.dll</HintPath>
     </Reference>
-    <Reference Include="TMME.CarConfigurator, Version=7.0.3.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\DatabaseConnectionCheck\ToyotaFrontEnd\bin\TMME.CarConfigurator.dll</HintPath>
+    <Reference Include="TMME.CarConfigurator">
+      <HintPath>..\..\Libraries\TMME.CarConfigurator.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
