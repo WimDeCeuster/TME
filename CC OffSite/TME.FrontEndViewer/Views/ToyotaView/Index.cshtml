@@ -1,0 +1,20 @@
+﻿@model IList<TME.CarConfigurator.Interfaces.IModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Toyota Viewer</h2>
+<div>
+    <table>
+        <tr>
+            <td class="areaview">
+                @Html.Partial("_Models",Model);
+            </td>
+            <td>
+                <textarea>
+                    TextArea
+                </textarea>
+            </td>
+        </tr>
+    </table>
+</div>
