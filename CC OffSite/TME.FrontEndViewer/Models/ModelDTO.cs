@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TME.CarConfigurator;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
@@ -24,7 +25,7 @@ namespace TME.FrontEndViewer.Models
         public IEnumerable<ILink> Links { get; private set; }
         public IEnumerable<IAsset> Assets { get; private set; }
         public IEnumerable<IBodyType> BodyTypes { get; private set; }
-        public IEnumerable<IEngine> Egnines { get; private set; }
+        public IEnumerable<IEngine> Engines { get; private set; }
         public IEnumerable<IFuelType> FuelTypes { get; private set; }
         public IEnumerable<ICar> Cars { get; private set; }
     }

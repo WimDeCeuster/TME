@@ -68,7 +68,7 @@ namespace TME.CarConfigurator
             get { throw new NotImplementedException(); }
         }
 
-        public IEnumerable<IEngine> Egnines
+        public IEnumerable<IEngine> Engines
         {
             get { throw new NotImplementedException(); }
         }

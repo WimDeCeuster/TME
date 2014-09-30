@@ -39,8 +39,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Asset.cs" />
+    <Compile Include="AssetType.cs" />
+    <Compile Include="BodyType.cs" />
+    <Compile Include="Car.cs" />
+    <Compile Include="CarConfiguratorVersion.cs" />
     <Compile Include="Core\BaseObject.cs" />
     <Compile Include="Core\ReadOnlyList.cs" />
+    <Compile Include="Engine.cs" />
+    <Compile Include="EngineCategory.cs" />
+    <Compile Include="EngineType.cs" />
+    <Compile Include="FileType.cs" />
+    <Compile Include="FuelType.cs" />
+    <Compile Include="Link.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
