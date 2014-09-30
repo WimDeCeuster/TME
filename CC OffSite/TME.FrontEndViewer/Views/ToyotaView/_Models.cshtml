@@ -4,20 +4,24 @@
 @foreach (var model in Model)
 {
     <div class="clickable">
-        <ul class="top">
-            <li>
-                @Html.Raw(model.Name + "\n")
-                <div class="clickable">
-                    <ul class="sub1">
-                        @foreach (var t in model.Cars)
-                        {
-                            <li>
-                                @Html.Raw(t.Name + "\n")
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </li>
-        </ul>
+        <table class="top">
+            <tr>
+                <td>
+                    @Html.Raw(model.Name + "\n")
+                </td>
+            </tr>
+        </table>
+        <div class="clickable">
+            @foreach (var t in model.Cars)
+            {
+                <table class="sub1">
+                    <tr>
+                        <td>
+                            @Html.Raw(t.Name + "\n")
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
     </div>
 }
