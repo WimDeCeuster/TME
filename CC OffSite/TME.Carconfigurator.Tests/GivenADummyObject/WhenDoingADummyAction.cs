@@ -1,13 +1,19 @@
 ﻿using FluentAssertions;
+using TME.Carconfigurator.Tests.Base;
 using Xunit;
 
 namespace TME.Carconfigurator.Tests.GivenADummyObject
 {
-    public class WhenDoingADummyAction
+    public class WhenDoingADummyAction : TestBase
     {
-        private readonly int _numberOfTestsExecuted;
+        private int _numberOfTestsExecuted;
 
-        public WhenDoingADummyAction()
+        protected override void Arrange()
+        {
+            _numberOfTestsExecuted = 5;
+        }
+
+        protected override void Act()
         {
             _numberOfTestsExecuted += 1;
         }
@@ -15,7 +21,7 @@ namespace TME.Carconfigurator.Tests.GivenADummyObject
         [Fact]
         public void ThenItShouldDoADummyAssert()
         {
-            _numberOfTestsExecuted.Should().Be(1);
+            _numberOfTestsExecuted.Should().Be(6);
         }
     }
 }
