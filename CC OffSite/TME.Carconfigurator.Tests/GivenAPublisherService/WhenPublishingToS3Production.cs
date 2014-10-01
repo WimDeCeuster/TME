@@ -6,30 +6,31 @@ using Xunit;
 
 namespace TME.Carconfigurator.Tests.GivenAPublisherService
 {
-    public class WhenPublishingToS3Production
+    public class WhenPublishingToS3Production : Base.TestBase
     {
         IPublisherFactory _publisherFactory;
         PublicationTarget _target;
         PublicationEnvironment _environment;
+        PublicationService _service;
 
-        public WhenPublishingToS3Production()
+        protected override void Arrange()
         {
-            // Arrange
             _publisherFactory = A.Fake<IPublisherFactory>();
             _target = PublicationTarget.S3;
             _environment = PublicationEnvironment.Production;
 
-            var service = new PublicationService(A.Fake<IContextFactory>(), _publisherFactory, A.Fake<IMapper>());
+            _service = new PublicationService(A.Fake<IContextFactory>(), _publisherFactory, A.Fake<IMapper>());
+        }
 
-            // Act
-            service.Publish(Guid.Empty, _target, _environment, PublicationDataSubset.Live);
+        protected override void Act()
+        {
+            _service.Publish(Guid.Empty, _target, _environment, PublicationDataSubset.Live);
         }
 
         [Fact]
-        public void Then()
+        public void ThenPublisherFactoryShouldBeCalledWithCorrectParamaters()
         {
             A.CallTo(() => _publisherFactory.Get(_target, _environment)).MustHaveHappened(Repeated.Exactly.Once);
         }
-
     }
 }
