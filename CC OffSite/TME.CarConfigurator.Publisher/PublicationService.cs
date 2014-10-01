@@ -44,13 +44,13 @@ namespace TME.CarConfigurator.Publisher
 
         public void Publish(Guid generationId, PublicationTarget target, PublicationEnvironment environment, PublicationDataSubset dataSubset)
         {
-            //var context = _contextFactory.Get(generationId, dataSubset);
+            var context = _contextFactory.Get(generationId, dataSubset);
 
             //_mapper.Map(context);
 
             var publisher = _publisherFactory.Get(target, environment);
 
-            //publisher.Publish(context);
+            publisher.Publish(context);
         }
     }
 }

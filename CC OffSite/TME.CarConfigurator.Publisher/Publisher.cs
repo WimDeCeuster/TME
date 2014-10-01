@@ -8,15 +8,19 @@ namespace TME.CarConfigurator.Publisher
 {
     public interface IPublisher
     {
-
+        void Publish(IContext context);
     }
 
-    public class Publisher
+    public class Publisher : IPublisher
     {
         public Publisher()
         {
 
         }
-        
+
+        public void Publish(IContext context)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
