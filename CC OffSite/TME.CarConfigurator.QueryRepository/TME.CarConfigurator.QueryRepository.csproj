@@ -48,6 +48,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
+      <Project>{EFDB033C-66A8-40BB-B596-561F45E6C7F7}</Project>
+      <Name>TME.CarConfigurator.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
       <Project>{2154eaaa-3d11-4654-bea6-7b147451dba8}</Project>
       <Name>TME.CarConfigurator.Repository.Objects</Name>

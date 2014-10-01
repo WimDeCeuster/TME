@@ -1,8 +1,27 @@
 ﻿@model IList<TME.CarConfigurator.Interfaces.IModel>
 
-<textarea>
-    @foreach(var model in Model)
-    {
-        @Html.Raw(model.Name + "\n")
-    }
-</textarea>
+
+@foreach (var model in Model)
+{
+    <div class="clickable">
+        <table class="top">
+            <tr>
+                <td>
+                    @Html.Raw(model.Name + "\n")
+                </td>
+            </tr>
+        </table>
+        <div class="clickable">
+            @foreach (var t in model.Cars)
+            {
+                <table class="sub1">
+                    <tr>
+                        <td>
+                            @Html.Raw(t.Name + "\n")
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+    </div>
+}

@@ -1,4 +1,4 @@
-﻿@model IList<TME.CarConfigurator.Interfaces.IModel>
+﻿@model TME.FrontEndViewer.Models.ComparingViewModel
 @{
     ViewBag.Title = "Index";
 }
@@ -8,12 +8,10 @@
     <table>
         <tr>
             <td class="areaview">
-                @Html.Partial("_Models",Model);
+                @Html.Partial("_Models",Model.OldReaderModel);
             </td>
-            <td>
-                <textarea>
-                    TextArea
-                </textarea>
+            <td class="areaview">
+                @Html.Partial("_Models",Model.NewReaderModel)
             </td>
         </tr>
     </table>

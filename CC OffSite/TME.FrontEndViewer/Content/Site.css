@@ -28,6 +28,23 @@ textarea {
     min-width: 400px;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
+.clickable>.clickable {
+    display: none;
+}
+
+.top {
+    margin-bottom: 10px;
+}
+
+.sub1 {
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
 .areaview {
     width: 600px;
 }
