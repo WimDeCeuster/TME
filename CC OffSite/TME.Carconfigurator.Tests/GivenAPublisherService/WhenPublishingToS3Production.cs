@@ -1,5 +1,4 @@
 ﻿using FakeItEasy;
-using FluentAssertions;
 using System;
 using TME.CarConfigurator.Publisher;
 using Xunit;

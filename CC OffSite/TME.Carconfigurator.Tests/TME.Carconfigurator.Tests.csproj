@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\TestBase.cs" />
-    <Compile Include="GivenADummyObject\WhenDoingADummyAction.cs" />
     <Compile Include="GivenAPublisherService\WhenPublishingToS3Production.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
