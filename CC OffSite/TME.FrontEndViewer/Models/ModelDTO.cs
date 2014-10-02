@@ -19,7 +19,7 @@ namespace TME.FrontEndViewer.Models
         public int SortIndex { get; private set; }
         public IEnumerable<ILabel> Labels { get; private set; }
         public string Brand { get; private set; }
-        public string SSN { get; private set; }
+        public IEnumerable<string> SSNs { get; private set; }
         public bool Promoted { get; private set; }
         public ICarConfiguratorVersion CarConfiguratorVersion { get; private set; }
         public IEnumerable<ILink> Links { get; private set; }

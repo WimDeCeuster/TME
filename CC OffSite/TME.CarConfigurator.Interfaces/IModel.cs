@@ -7,7 +7,7 @@ namespace TME.CarConfigurator.Interfaces
     public interface IModel : IBaseObject
     {
         string Brand { get; }
-        string SSN { get; }
+        IEnumerable<string> SSNs { get; }
         bool Promoted { get; }
 
         ICarConfiguratorVersion CarConfiguratorVersion { get; }

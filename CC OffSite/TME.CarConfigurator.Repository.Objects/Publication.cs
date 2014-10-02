@@ -10,9 +10,9 @@ namespace TME.CarConfigurator.Repository.Objects
         [DataMember]
         public Guid ID { get; set; }
         [DataMember]
-        public DateTime? LineOfFrom { get; set; }
+        public DateTime? LineOffFrom { get; set; }
         [DataMember]
-        public DateTime? LineOfTo { get; set; }
+        public DateTime? LineOffTo { get; set; }
 
         [DataMember]
         public Generation Generation { get; set; }
