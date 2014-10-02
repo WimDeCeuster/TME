@@ -18,5 +18,11 @@ namespace TME.CarConfigurator.Publisher
         {
 
         }
+
+        public Repository(IEnumerable<T> collection)
+            : base(collection)
+        {
+
+        }
     }
 }

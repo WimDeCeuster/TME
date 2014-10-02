@@ -8,123 +8,39 @@ using FakeItEasy;
 using System.Collections.ObjectModel;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
+using TME.Carconfigurator.Tests.Builders;
+using TME.Carconfigurator.Tests.TestImplementations;
 
 namespace TME.Carconfigurator.Tests.Base
 {
     public class PublicationTest : TestBase
     {
-        IS3Service _service;
-        S3Publisher _publisher;
-        IContext _context;
-        String _brand = "Toyota";
-        String _country = "BE";
-        String[] _languages = new[] { "nl", "fr", "de", "en" };
+        protected TestS3Service Service;
+        protected S3Publisher Publisher;
+        protected IContext Context;
+        protected String Brand = "Toyota";
+        protected String Country = "BE";
+        protected String[] Languages = new[] { "nl", "fr", "de", "en" };
 
-        IReadOnlyDictionary<String, IReadOnlyList<TimeFrame>> _timeFrames;
+        protected String GuidRegexPattern = @"\b[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}\b";
 
         protected override void Arrange()
         {
-            _service = new TestImplementations.TestS3Service();
+            Service = new TestS3Service();
             var serialiser = A.Fake<IS3Serialiser>();
-            _publisher = new S3Publisher(_service, serialiser);
-            _context = CreateFakeContext();
 
-            
+            A.CallTo(() => serialiser.Serialise(null))
+                .WhenArgumentsMatch(args =>
+                    args[0] is Publication)
+                .Returns("publicationInfo");
 
-            _timeFrames = new ReadOnlyDictionary<String, IReadOnlyList<TimeFrame>>(
-                            _languages.ToDictionary(
-                                language => language,
-                                language => (IReadOnlyList<TimeFrame>)new ReadOnlyCollection<TimeFrame>(
-                                    new List<TimeFrame> { }
-                                )));
-            
-            A.CallTo(() => _context.Brand).Returns(_brand);
-            A.CallTo(() => _context.Country).Returns(_country);
-            A.CallTo(() => _context.TimeFrames).Returns(_timeFrames);
+            Publisher = new S3Publisher(Service, serialiser);
+            Context = ContextBuilder.GetDefaultContext();
         }
-
-        IContext CreateFakeContext()
-        {
-            var context = A.Fake<IContext>();
-
-            var dataSets = _languages.ToDictionary(
-                language => language,
-                CreateFakeContextData
-            );
-            
-            _timeFrames = new ReadOnlyDictionary<String, IReadOnlyList<TimeFrame>>(
-                            _languages.ToDictionary(
-                                language => language,
-                                language => (IReadOnlyList<TimeFrame>)new ReadOnlyCollection<TimeFrame>(
-                                    new List<TimeFrame> { }
-                                )));
-
-            A.CallTo(() => _context.Brand).Returns(_brand);
-            A.CallTo(() => _context.Country).Returns(_country);
-            A.CallTo(() => _context.TimeFrames).Returns(_timeFrames);
-
-            var foo = dataSets["foo"];
-
-            return context;
-        }
-
-        IContextData CreateFakeContextData(String language)
-        {
-            var data = A.Fake<IContextData>();
-
-            var generations = new Repository<Generation>();
-            generations.Add(CreateFakeGeneration(language));
-
-            var cars = new Repository<Car>();
-            cars.Add(new Car());
-
-            A.CallTo(() => data.Generations).Returns(generations);
-            A.CallTo(() => data.Cars).Returns(cars);
-
-            return data;
-        }
-
-        Generation CreateFakeGeneration(String language)
-        {
-            return FillFakeBaseObject(new Generation
-            {
-                CarConfiguratorVersion = new CarConfiguratorVersion
-                {
-                    Name = "carConfigVersion-" + language
-                },
-                SSNs = new List<String> { "SSN1-" + language, "SSN2-" + language }
-            }, language);
-        }
-
-        T FillFakeBaseObject<T>(T baseObject, String language) where T : BaseObject
-        {
-            var objectName = baseObject.GetType().Name;
-
-            baseObject.Description = objectName + "Description-" + language;
-            baseObject.FootNote = objectName + "generationFootNote-" + language;
-            baseObject.InternalCode = objectName + "generationInternalCode-" + language;
-            baseObject.LocalCode = objectName + "generationLocalCode-" + language;
-            baseObject.Name = objectName + "generationName-" + language;
-            baseObject.ToolTip = objectName + "generationToolTip-" + language;
-            baseObject.Labels = new List<Label>
-            {
-                new Label {
-                    Code = objectName + "Label1Code-" + language,
-                    Value = objectName + "Label1Value-" + language
-                },
-                new Label {
-                    Code = objectName + "Label2Code-" + language,
-                    Value = objectName + "Label2Value-" + language
-                }
-            };
-
-            return baseObject;
-        }
-
 
         protected override void Act()
         {
-            _publisher.Publish(_context);
+            Publisher.Publish(Context);
         }
     }
 }

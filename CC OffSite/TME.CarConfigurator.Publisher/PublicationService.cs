@@ -46,9 +46,11 @@ namespace TME.CarConfigurator.Publisher
             _generationFinder = generationFinder;
         }
 
-        public void Publish(Guid generationId, String target, String brand, String country, PublicationDataSubset dataSubset)
+        public void Publish(Guid generationID, String target, String brand, String country, PublicationDataSubset dataSubset)
         {
-            var context = _contextFactory.Get(brand, country, generationId, _generationFinder, _mapper, dataSubset);
+            var context = _contextFactory.Get(brand, country, generationID, dataSubset);
+
+            _mapper.Map(brand, country, generationID, _generationFinder, context);
 
             var publisher = _publisherFactory.Get(target);
 

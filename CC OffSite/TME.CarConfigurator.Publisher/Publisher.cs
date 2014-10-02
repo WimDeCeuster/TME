@@ -22,8 +22,10 @@ namespace TME.CarConfigurator.Publisher
         public S3Publisher(IS3Service service, IS3Serialiser serialiser)
         {
             if (service == null) throw new ArgumentNullException("service");
+            if (serialiser == null) throw new ArgumentNullException("serialiser");
 
             _service = service;
+            _serialiser = serialiser;
         }
 
         public void Publish(IContext context)

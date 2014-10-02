@@ -32,7 +32,7 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
             
 
             A.CallTo(() => _publisherFactory.Get(_target)).Returns(_publisher);
-            A.CallTo(() => _contextFactory.Get(_brand, _country, Guid.Empty, _generationFinder, _mapper, _dataSubset)).Returns(_context);
+            A.CallTo(() => _contextFactory.Get(_brand, _country, Guid.Empty, _dataSubset)).Returns(_context);
 
 
             _service = new PublicationService(_contextFactory, _publisherFactory, _mapper, _generationFinder);
@@ -52,7 +52,7 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
         [Fact]
         public void ThenContextFactoryShouldBeCalledWithCorrectParamaters()
         {
-            A.CallTo(() => _contextFactory.Get(_brand, _country, Guid.Empty, _generationFinder, _mapper, _dataSubset)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _contextFactory.Get(_brand, _country, Guid.Empty, _dataSubset)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]

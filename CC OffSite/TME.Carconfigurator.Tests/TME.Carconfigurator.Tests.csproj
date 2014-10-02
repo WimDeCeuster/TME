@@ -29,6 +29,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FakeItEasy">
       <HintPath>..\packages\FakeItEasy.1.24.0\lib\net40\FakeItEasy.dll</HintPath>
@@ -77,8 +80,9 @@
   <ItemGroup>
     <Compile Include="Base\PublicationTest.cs" />
     <Compile Include="Base\TestBase.cs" />
+    <Compile Include="Builders\ContextBuilder.cs" />
     <Compile Include="GivenAPublisherService\WhenPublishingToS3Production.cs" />
-    <Compile Include="GivenAPublisher\WhenIPublishAPublication.cs" />
+    <Compile Include="GivenAPublisher\WhenPublishingAPublication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestImplementations\TestS3Service.cs" />
   </ItemGroup>
