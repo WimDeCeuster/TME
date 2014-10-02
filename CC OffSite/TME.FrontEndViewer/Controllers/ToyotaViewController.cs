@@ -42,7 +42,6 @@ namespace TME.FrontEndViewer.Controllers
 
             var model = new ComparingViewModel {OldReaderModel = _oldReaderModel,NewReaderModel = _newReaderModel};
 
-
             return View(model);
         }
 
