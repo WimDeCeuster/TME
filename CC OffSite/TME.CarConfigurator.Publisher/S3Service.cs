@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace TME.CarConfigurator.Publisher
 {
-
-    public interface IPublisherFactory
+    public interface IS3Service
     {
-        IPublisher Get(String target);
+        void PutObject(String key, String item);
     }
 
-    public class PublisherFactory : IPublisherFactory
+    public class S3Service : IS3Service
     {
-        public IPublisher Get(String target)
+        public void PutObject(string key, string item)
         {
             throw new NotImplementedException();
         }

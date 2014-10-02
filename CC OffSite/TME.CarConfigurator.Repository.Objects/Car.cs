@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using TME.CarConfigurator.Repository.Objects.Core;
 
 namespace TME.CarConfigurator.Repository.Objects
@@ -6,6 +7,8 @@ namespace TME.CarConfigurator.Repository.Objects
     [DataContract]
     public class Car : BaseObject
     {
+        public Guid ID { get; set; }
+
         [DataMember]
         public int ShortID { get; set; }
         [DataMember]

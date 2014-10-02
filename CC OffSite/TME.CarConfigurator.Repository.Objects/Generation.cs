@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
@@ -9,7 +10,7 @@ namespace TME.CarConfigurator.Repository.Objects
     public class Generation : BaseObject
     {
         [DataMember]
-        public string SSN { get; set; }
+        public List<String> SSNs { get; set; }
 
         [DataMember]
         public CarConfiguratorVersion CarConfiguratorVersion { get; set; }

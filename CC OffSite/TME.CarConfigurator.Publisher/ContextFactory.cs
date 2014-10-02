@@ -7,14 +7,14 @@ namespace TME.CarConfigurator.Publisher
 {
     public interface IContextFactory
     {
-        IContext Get(Guid generationId, PublicationDataSubset dataSubset);
+        IContext Get(String brand, String country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IMapper mapper, PublicationDataSubset dataSubset);
     }
 
     public class ContextFactory : IContextFactory
     {
-        public IContext Get(Guid generationId, PublicationDataSubset dataSubset)
+        public IContext Get(String brand, String country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IMapper mapper, PublicationDataSubset dataSubset)
         {
-            throw new NotImplementedException();
+            return new Context(brand, country, generationID, generationFinder, mapper, dataSubset);
         }
     }
 }
