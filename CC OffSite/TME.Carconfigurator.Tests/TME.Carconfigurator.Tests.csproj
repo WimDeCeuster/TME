@@ -77,7 +77,6 @@
   <ItemGroup>
     <Compile Include="Base\PublicationTest.cs" />
     <Compile Include="Base\TestBase.cs" />
-    <Compile Include="GivenADummyObject\WhenDoingADummyAction.cs" />
     <Compile Include="GivenAPublisherService\WhenPublishingToS3Production.cs" />
     <Compile Include="GivenAPublisher\WhenIPublishAPublication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
