@@ -7,9 +7,19 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 {
     public class ShellViewModel : PropertyChangedBase
     {
-        private string _country;
+        private const string Brand = "Toyota";
+        private const string Target = "S3";
+
+        private string _country = "DE";
         private Model _selectedModel;
         private ModelGeneration _selectedGeneration;
+        private static IPublicationService _publicationService;
+
+        public IPublicationService PublicationService
+        {
+            get { return _publicationService; }
+            set { _publicationService = value; }
+        }
 
         public string Country
         {
@@ -34,7 +44,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
             {
                 try
                 {
-                    MyContext.SetSystemContext("Toyota", _country, "en");
+                    MyContext.SetSystemContext(Brand, _country, "en");
 
                     return Administration.Models.GetModels();
                 }
@@ -70,23 +80,29 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
             {
                 if (Equals(value, _selectedGeneration)) return;
                 _selectedGeneration = value;
+
                 NotifyOfPropertyChange(() => SelectedGeneration);
+                NotifyOfPropertyChange(() => CanPublishLive);
+                NotifyOfPropertyChange(() => CanPublishPreview);
             }
         }
 
-        public ShellViewModel()
-        {
-            Country = "DE";
-        }
+        public bool CanPublishLive { get { return SelectedGeneration != null; } }
+        public bool CanPublishPreview { get { return SelectedGeneration != null; } }
 
         public void PublishLive()
         {
-            
+            Publish(PublicationDataSubset.Live);
         }
 
         public void PublishPreview()
         {
-            
+            Publish(PublicationDataSubset.Preview);
+        }
+
+        private void Publish(PublicationDataSubset publicationDataSubset)
+        {
+            PublicationService.Publish(SelectedGeneration.ID, Target, Brand, Country, publicationDataSubset);
         }
     }
 }

@@ -25,7 +25,12 @@ namespace TME.CarConfigurator.Publisher
         Preview
     }
 
-    public class PublicationService
+    public interface IPublicationService
+    {
+        void Publish(Guid generationId, String target, String brand, String country, PublicationDataSubset dataSubset);
+    }
+
+    public class PublicationService : IPublicationService
     {
         IContextFactory _contextFactory;
         IPublisherFactory _publisherFactory;
