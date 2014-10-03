@@ -30,11 +30,11 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
                 var mainLanguage = language;
                 A.CallTo(() => Service.PutObject(null,null))
                                       .WhenArgumentsMatch(args => TestFunction(args, mainLanguage))
-                                      .MustHaveHappened(Repeated.Exactly.Times(4));
+                                      .MustHaveHappened();
 
 //                var publicationKey = Service.Content.Keys.Single(key => Regex.Match(key, language + "/generation/" + GuidRegexPattern, RegexOptions.IgnoreCase).Success);           
 //                var publicationJson = Service.Content[publicationKey];
-//
+//S
 //                var publication = JsonConvert.DeserializeObject<Publication>(publicationJson);
 //
 //                publication.Should().NotBeNull();
