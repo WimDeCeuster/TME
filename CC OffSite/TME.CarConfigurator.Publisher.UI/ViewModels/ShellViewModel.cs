@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Caliburn.Micro;
 using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.Publisher.Enums;
+using TME.CarConfigurator.Publisher.Interfaces;
 
 namespace TME.CarConfigurator.Publisher.UI.ViewModels
 {

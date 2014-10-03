@@ -1,25 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Publisher.Enums;
+using TME.CarConfigurator.Publisher.Interfaces;
 using ModelGeneration = TME.CarConfigurator.Administration.ModelGeneration;
 
 namespace TME.CarConfigurator.Publisher
 {
-    public interface IContext
-    {
-        String Brand { get; }
-        String Country { get; }
         PublicationDataSubset DataSubset { get; }
-        IDictionary<String, ModelGeneration> ModelGenerations { get; }
-        IDictionary<String, IContextData> ContextData { get; }
-        IDictionary<String, IReadOnlyList<TimeFrame>> TimeFrames { get; }
-        Guid GenerationID { get; }
-    }
-
     public class Context : IContext
     {
         public IDictionary<String, ModelGeneration> ModelGenerations { get; private set; }

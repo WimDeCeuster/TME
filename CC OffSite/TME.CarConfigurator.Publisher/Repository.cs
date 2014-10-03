@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using TME.CarConfigurator.Publisher.Interfaces;
 
 namespace TME.CarConfigurator.Publisher
 {
-    public interface IRepository<T> : IList<T>
-    {
-
-    }
-
     public class Repository<T> : List<T>, IRepository<T>
     {
         public Repository()

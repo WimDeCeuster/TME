@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher;
 using FakeItEasy;
 using System.Collections.ObjectModel;
+using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
 using TME.Carconfigurator.Tests.Builders;

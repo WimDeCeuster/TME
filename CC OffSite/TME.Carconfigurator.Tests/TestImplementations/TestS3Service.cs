@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher;
+using TME.CarConfigurator.Publisher.Interfaces;
 
 namespace TME.Carconfigurator.Tests.TestImplementations
 {
