@@ -16,9 +16,9 @@ namespace TME.CarConfigurator.Publisher
                     opt => opt.Ignore())
                 .ForMember(generation => generation.Assets,
                     opt => opt.Ignore())
-                .ForMember(generation => generation.SSNs,
+                .ForMember(generation => generation.SSN,
                     opt => opt.MapFrom(modelGeneration =>
-                        modelGeneration.FactoryGenerations.Select(factoryGeneration => factoryGeneration.SSN).ToList()));
+                        modelGeneration.FactoryGenerations.Select(factoryGeneration => factoryGeneration.SSN).First()));
         }
     }
 }
