@@ -13,6 +13,7 @@ namespace TME.CarConfigurator.Publisher
     {
         String Brand { get; }
         String Country { get; }
+        PublicationDataSubset DataSubset { get; }
         IDictionary<String, ModelGeneration> ModelGenerations { get; }
         IDictionary<String, IContextData> ContextData { get; }
         IDictionary<String, IReadOnlyList<TimeFrame>> TimeFrames { get; }
@@ -26,7 +27,7 @@ namespace TME.CarConfigurator.Publisher
         public IDictionary<String, IReadOnlyList<TimeFrame>> TimeFrames { get; private set; }
         public Guid GenerationID { get; private set; }
 
-        public readonly PublicationDataSubset DataSubset;
+        public PublicationDataSubset DataSubset { get; private set; }
 
         public String Brand { get; private set; }
         public String Country { get; private set; }

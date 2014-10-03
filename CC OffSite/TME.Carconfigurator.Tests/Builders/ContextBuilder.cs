@@ -91,10 +91,8 @@ namespace TME.Carconfigurator.Tests.Builders
             return baseObject;
         }
 
-        public static Context GetDefaultContext()
+        public static Context GetDefaultContext(IEnumerable<String> languages)
         {
-            var languages = new[] { "nl", "fr", "de", "en" };
-
             var builder = new ContextBuilder("Toyota", "BE", Guid.Empty, PublicationDataSubset.Live, languages);
 
             foreach (var language in languages)

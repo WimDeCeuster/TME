@@ -39,11 +39,14 @@ namespace TME.CarConfigurator.Publisher
 
         public IReadOnlyList<TimeFrame> GetTimeFrames(String language, IContext context)
         {
-            var TimeFrames = new List<TimeFrame>();
-
             var generation = context.ModelGenerations[language];
             var cars = context.ContextData[language].Cars;
 
+            //For preview, return only 1 Min/Max TimeFrame with all cars
+            if (context.DataSubset == PublicationDataSubset.Preview)
+                return new List<TimeFrame> { new TimeFrame(DateTime.MinValue, DateTime.MaxValue, cars.ToList()) };
+
+            var TimeFrames = new List<TimeFrame>();
 
             var timeProjection = generation.Cars.SelectMany(car => new[] {
                                                     new { Date = car.LineOffFromDate, Open = true, Car = car },
@@ -80,7 +83,7 @@ namespace TME.CarConfigurator.Publisher
                 }
             }
 
-            return new ReadOnlyCollection<TimeFrame>(TimeFrames);
+            return TimeFrames;
         }
     }
 

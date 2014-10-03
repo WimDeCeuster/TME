@@ -10,13 +10,15 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
 using TME.Carconfigurator.Tests.Builders;
 using TME.Carconfigurator.Tests.TestImplementations;
+using Newtonsoft.Json;
 
 namespace TME.Carconfigurator.Tests.Base
 {
-    public class PublicationTest : TestBase
+    public abstract class PublicationTest : TestBase
     {
         protected TestS3Service Service;
         protected S3Publisher Publisher;
+        protected IS3Serialiser Serialiser;
         protected IContext Context;
         protected String Brand = "Toyota";
         protected String Country = "BE";
@@ -24,21 +26,18 @@ namespace TME.Carconfigurator.Tests.Base
 
         protected String GuidRegexPattern = @"\b[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}\b";
 
-        protected override void Arrange()
+        protected void BaseArrange()
         {
             Service = new TestS3Service();
-            var serialiser = A.Fake<IS3Serialiser>();
+            Serialiser = A.Fake<IS3Serialiser>();
 
-            A.CallTo(() => serialiser.Serialise(null))
-                .WhenArgumentsMatch(args =>
-                    args[0] is Publication)
-                .Returns("publicationInfo");
+            A.CallTo(() => Serialiser.Serialise(null)).WithAnyArguments().ReturnsLazily(args => args.Arguments.First().GetType().Name);
 
-            Publisher = new S3Publisher(Service, serialiser);
-            Context = ContextBuilder.GetDefaultContext();
+            Publisher = new S3Publisher(Service, Serialiser);
+            Context = ContextBuilder.GetDefaultContext(Languages);
         }
 
-        protected override void Act()
+        protected void BaseAct()
         {
             Publisher.Publish(Context);
         }

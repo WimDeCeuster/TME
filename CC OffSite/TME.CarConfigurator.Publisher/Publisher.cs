@@ -53,14 +53,12 @@ namespace TME.CarConfigurator.Publisher
             {
                 ID = Guid.NewGuid(),
                 Generation = data.Generations.Single(),
-                LineOffFrom = timeFrames.First().From,
-                LineOffTo = timeFrames.Last().Until,
                 TimeFrames = timeFrames.Select(timeFrame => new PublicationTimeFrame
-                {
-                    ID = timeFrame.ID,
-                    LineOffFrom = timeFrame.From,
-                    LineOffTo = timeFrame.Until
-                })
+                                                {
+                                                    ID = timeFrame.ID,
+                                                    LineOffFrom = timeFrame.From,
+                                                    LineOffTo = timeFrame.Until
+                                                })
                                        .ToList(),
                 PublishedOn = DateTime.Now
             };
