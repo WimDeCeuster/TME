@@ -1,15 +1,10 @@
-﻿using FakeItEasy;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
-using ModelGeneration = TME.CarConfigurator.Administration.ModelGeneration;
 
 namespace TME.Carconfigurator.Tests.Builders
 {
@@ -47,6 +42,11 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
+        private void WithModels(String language, Model model)
+        {
+            Context.ContextData[language].Models.Add(model);
+        }
+
         public static Generation CreateFakeGeneration(String language)
         {
             return FillFakeBaseObject(new Generation
@@ -55,7 +55,7 @@ namespace TME.Carconfigurator.Tests.Builders
                 {
                     Name = "carConfigVersion-" + language
                 },
-                SSNs = new List<String> { "SSN1-" + language, "SSN2-" + language }
+                SSN =  "SSN1-" + language
             }, "", language);
         }
 
@@ -122,6 +122,7 @@ namespace TME.Carconfigurator.Tests.Builders
                 };
 
                 builder.WithTimeFrames(language, timeFrames);
+                builder.WithModels(language,new Model());
             }
 
             return builder.Context;

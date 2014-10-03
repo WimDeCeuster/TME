@@ -19,7 +19,7 @@ namespace TME.CarConfigurator.Publisher
 
             foreach (var entry in data) {
                 var contextData = new ContextData();
-                var modelGeneration = entry.Value;
+                var modelGeneration = entry.Value.Item1;
                 var language = entry.Key;
 
                 context.ModelGenerations[language] = modelGeneration;

@@ -83,11 +83,13 @@
     <Compile Include="Enums\PublicationDataSubset.cs" />
     <Compile Include="Enums\PublicationEnvironment.cs" />
     <Compile Include="Enums\PublicationTarget.cs" />
+    <Compile Include="Enums\Result\Failed.cs" />
+    <Compile Include="Enums\Result\Result.cs" />
+    <Compile Include="Enums\Result\Succesfull.cs" />
     <Compile Include="Factories\ContextFactory.cs" />
     <Compile Include="Factories\PublisherFactory.cs" />
     <Compile Include="Interfaces\ICarDbModelGenerationFinder.cs" />
     <Compile Include="Interfaces\IContext.cs" />
-    <Compile Include="Interfaces\IContextData.cs" />
     <Compile Include="Interfaces\IContextFactory.cs" />
     <Compile Include="Interfaces\IMapper.cs" />
     <Compile Include="Interfaces\IPublicationService.cs" />
