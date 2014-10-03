@@ -6,7 +6,6 @@ using ModelGeneration = TME.CarConfigurator.Administration.ModelGeneration;
 
 namespace TME.CarConfigurator.Publisher
 {
-        PublicationDataSubset DataSubset { get; }
     public class Context : IContext
     {
         public IDictionary<String, ModelGeneration> ModelGenerations { get; private set; }
