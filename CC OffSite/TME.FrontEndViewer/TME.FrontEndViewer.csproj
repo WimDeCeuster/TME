@@ -136,7 +136,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -146,7 +145,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ComparingViewModel.cs" />
-    <Compile Include="Models\ModelDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -223,7 +221,9 @@
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -247,6 +247,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
       <Project>{EFDB033C-66A8-40BB-B596-561F45E6C7F7}</Project>
       <Name>TME.CarConfigurator.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.LegacyAdapter\TME.CarConfigurator.LegacyAdapter.csproj">
+      <Project>{1d44f515-45aa-428a-91b5-3e0f227cd253}</Project>
+      <Name>TME.CarConfigurator.LegacyAdapter</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.QueryRepository\TME.CarConfigurator.QueryRepository.csproj">
       <Project>{DB9741B6-62BF-4B1B-8094-E3C7CC4D5A29}</Project>

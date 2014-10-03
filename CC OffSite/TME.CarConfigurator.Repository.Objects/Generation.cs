@@ -10,7 +10,7 @@ namespace TME.CarConfigurator.Repository.Objects
     public class Generation : BaseObject
     {
         [DataMember]
-        public List<String> SSNs { get; set; }
+        public String SSN { get; set; }
 
         [DataMember]
         public CarConfiguratorVersion CarConfiguratorVersion { get; set; }

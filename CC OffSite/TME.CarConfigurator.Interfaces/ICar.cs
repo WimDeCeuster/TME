@@ -4,16 +4,16 @@ namespace TME.CarConfigurator.Interfaces
 {
     public interface ICar : IBaseObject
     {
-        int ShortID { get; set; }
-        bool Promoted { get; set; }
+        int ShortID { get; }
+        bool Promoted { get; }
 
-        bool WebVisible { get; set; }
-        bool ConfigVisible { get; set; }
-        bool FinanceVisible { get; set; }
-        IPrice BasePrice { get; set; }
-        IPrice StartingPrice { get; set; }
+        bool WebVisible { get; }
+        bool ConfigVisible { get; }
+        bool FinanceVisible { get; }
+        IPrice BasePrice { get; }
+        IPrice StartingPrice { get; }
         
-        IBodyType BodyType { get; set; }
-        IEngine Engine { get; set; }
+        IBodyType BodyType { get; }
+        IEngine Engine { get; }
   }
 }

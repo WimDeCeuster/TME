@@ -55,7 +55,7 @@ namespace TME.Carconfigurator.Tests.Builders
                 {
                     Name = "carConfigVersion-" + language
                 },
-                SSNs = new List<String> { "SSN1-" + language, "SSN2-" + language }
+                SSN =  "SSN1-" + language
             }, "", language);
         }
 

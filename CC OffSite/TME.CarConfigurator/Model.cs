@@ -41,9 +41,9 @@ namespace TME.CarConfigurator
             get { return RepositoryModel.Promoted; }
         }
 
-        public IEnumerable<String> SSNs
+        public String SSN
         {
-            get { return RepositoryPublication.Generation.SSNs; }
+            get { return RepositoryPublication.Generation.SSN; }
         }
 
 
