@@ -8,12 +8,13 @@ namespace TME.CarConfigurator.Publisher
     {
         public IRepository<Car> Cars { get; private set; }
         public IRepository<Generation> Generations { get; private set; }
-        public IRepository<String> Strings { get; private set; }
+        public IRepository<Model> Models { get; private set; }
 
         public ContextData()
         {
             Cars = new Repository<Car>();
             Generations = new Repository<Generation>();
+            Models = new Repository<Model>();
         }
     }
 }

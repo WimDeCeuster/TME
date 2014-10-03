@@ -11,7 +11,7 @@ namespace TME.CarConfigurator.Publisher
 {
     public class CarDbModelGenerationFinder : ICarDbModelGenerationFinder
     {
-        public IReadOnlyDictionary<String, ModelGeneration> GetModelGeneration(String brand, String countryCode, Guid generationID)
+        public IReadOnlyDictionary<String, Tuple<ModelGeneration, Model>> GetModelGeneration(String brand, String countryCode, Guid generationID)
         {
             // Is ensuring a context can be retrieved by setting to the know global context necessary?
             MyContext.SetSystemContext("Toyota", "ZZ", "en");
@@ -20,7 +20,9 @@ namespace TME.CarConfigurator.Publisher
             return country.Languages.ToDictionary(lang => lang.Code, lang =>
             {
                 MyContext.SetSystemContext(brand, countryCode, lang.Code);
-                return Models.GetModels().SelectMany(model => model.Generations).Single(generation => generation.ID == generationID);
+                var model = Models.GetModels().Single(mdl => mdl.Generations.Count(gen => gen.ID == generationID) == 1);
+                var generation = model.Generations.Single(gen => gen.ID == generationID);
+                return Tuple.Create(generation, model);
             });
         }
     }
