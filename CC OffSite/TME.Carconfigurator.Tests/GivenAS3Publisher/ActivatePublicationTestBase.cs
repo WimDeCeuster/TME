@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using FakeItEasy;
+using TME.CarConfigurator.Administration.Translations;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
@@ -24,6 +26,11 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected const string ModelNameForLanguage1 = "ModelNameForLanguage1";
         protected const string ModelNameForLanguage2 = "ModelNameForLanguage2";
         protected const string InternalCodeForLanguage1 = "InternalCode1";
+        protected const string LocalCodeForLanguage1 = "LocalCode1";
+        protected const string DescriptionForLanguage1 = "Description";
+        protected const string FootNoteForLanguage1 = "FootNote";
+        protected const string TooltipForLanguage1 = "ToolTip";
+        protected const int SortIndexForLanguage1 = 4;
 
         protected override void Arrange()
         {
@@ -32,7 +39,17 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
 
             var contextDataForLanguage1 = new ContextData();
-            contextDataForLanguage1.Models.Add(new Model { Name = ModelNameForLanguage1, ID = ModelID,InternalCode = InternalCodeForLanguage1});
+            contextDataForLanguage1.Models.Add(new Model
+            {
+                Name = ModelNameForLanguage1, 
+                ID = ModelID,
+                InternalCode = InternalCodeForLanguage1,
+                LocalCode = LocalCodeForLanguage1,
+                Description = DescriptionForLanguage1,
+                FootNote = FootNoteForLanguage1,
+                ToolTip = TooltipForLanguage1,
+                SortIndex = SortIndexForLanguage1
+            });
             contextDataForLanguage1.Generations.Add(new Generation());
 
             var contextDataForLanguage2 = new ContextData();
@@ -58,13 +75,14 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Publisher.Publish(Context);
         }
 
-        protected Model GetModel(string modelName, string internalCode)
+        protected Model GetModel(string modelName, string internalCode, string localCode, string oldDescriptionForLanguage1,string footNote,string tooltip,int sortIndex)
         {
             return new Model
             {
                 Name = modelName,
                 ID = ModelID,
                 InternalCode = internalCode,
+                LocalCode = localCode,
                 Publications =
                 {
                     new PublicationInfo(new Publication{ID = Guid.NewGuid(),Generation = new Generation()})

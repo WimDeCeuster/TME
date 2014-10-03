@@ -53,6 +53,12 @@ namespace TME.CarConfigurator.Publisher.S3
                 {
                     s3Model.Name = contextModel.Name;
                     s3Model.InternalCode = contextModel.InternalCode;
+                    s3Model.LocalCode = contextModel.LocalCode;
+                    s3Model.Description = contextModel.Description;
+                    s3Model.FootNote = contextModel.FootNote;
+                    s3Model.ToolTip = contextModel.ToolTip;
+                    s3Model.SortIndex = contextModel.SortIndex;
+                    s3Model.Labels = contextModel.Labels;
                     s3Model.Publications.Single(e => e.State == PublicationState.Activated).State = PublicationState.ToBeDeleted;
                     s3Model.Publications.Add(contextModel.Publications.Single());
                 }
