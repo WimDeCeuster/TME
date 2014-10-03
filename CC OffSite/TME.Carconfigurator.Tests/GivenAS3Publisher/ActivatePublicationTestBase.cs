@@ -21,8 +21,9 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected Context Context;
         protected readonly Guid GenerationID = Guid.NewGuid();
         protected readonly Guid ModelID = Guid.NewGuid();
-        protected const string ModelNameForLanguage1 = "GenerationName1";
-        protected const string ModelNameForLanguage2 = "GenerationName2";
+        protected const string ModelNameForLanguage1 = "ModelNameForLanguage1";
+        protected const string ModelNameForLanguage2 = "ModelNameForLanguage2";
+        protected const string InternalCodeForLanguage1 = "InternalCode1";
 
         protected override void Arrange()
         {
@@ -31,11 +32,11 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
 
             var contextDataForLanguage1 = new ContextData();
-            contextDataForLanguage1.Models.Add(new Model { Name = ModelNameForLanguage1, ID = ModelID });
+            contextDataForLanguage1.Models.Add(new Model { Name = ModelNameForLanguage1, ID = ModelID,InternalCode = InternalCodeForLanguage1});
             contextDataForLanguage1.Generations.Add(new Generation());
 
             var contextDataForLanguage2 = new ContextData();
-            contextDataForLanguage2.Models.Add(new Model { Name = ModelNameForLanguage2, ID = ModelID });
+            contextDataForLanguage2.Models.Add(new Model { Name = ModelNameForLanguage2, ID = ModelID});
             contextDataForLanguage2.Generations.Add(new Generation());
 
             Context.ContextData.Add(Language1, contextDataForLanguage1);
@@ -46,7 +47,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context.TimeFrames.Add(Language1, timeFrames);
             Context.TimeFrames.Add(Language2, timeFrames);
 
-            A.CallTo(() => Service.PutModelsOverview(null, null, null)).WithAnyArguments();
+            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null, null, null)).WithAnyArguments();
             A.CallTo(() => Service.PutObject(null, null)).WithAnyArguments();
 
             Publisher = new S3Publisher(Service, serialiser);
@@ -57,12 +58,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Publisher.Publish(Context);
         }
 
-        protected Model GetModel(string modelName)
+        protected Model GetModel(string modelName, string internalCode)
         {
             return new Model
             {
                 Name = modelName,
                 ID = ModelID,
+                InternalCode = internalCode,
                 Publications =
                 {
                     new PublicationInfo(new Publication{ID = Guid.NewGuid(),Generation = new Generation()})

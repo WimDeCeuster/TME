@@ -35,7 +35,7 @@ namespace TME.CarConfigurator.Publisher.S3
                 PublishLanguage(language, context);
             }
 
-            var s3ModelsOverview = _service.GetModelsOverview(context.Brand, context.Country);
+            var s3ModelsOverview = _service.GetModelsOverviewPerLanguage(context.Brand, context.Country);
 
             foreach (var language in languages)
             {
@@ -51,12 +51,13 @@ namespace TME.CarConfigurator.Publisher.S3
                 }
                 else
                 {
+                    s3Model.Name = contextModel.Name;
+                    s3Model.InternalCode = contextModel.InternalCode;
                     s3Model.Publications.Single(e => e.State == PublicationState.Activated).State = PublicationState.ToBeDeleted;
                     s3Model.Publications.Add(contextModel.Publications.Single());
-                    s3Model.Name = contextModel.Name;
                 }
             }
-            _service.PutModelsOverview(context.Brand, context.Country, s3ModelsOverview);
+            _service.PutModelsOverviewPerLanguage(context.Brand, context.Country, s3ModelsOverview);
         }
 
         void PublishLanguage(String language, IContext context)

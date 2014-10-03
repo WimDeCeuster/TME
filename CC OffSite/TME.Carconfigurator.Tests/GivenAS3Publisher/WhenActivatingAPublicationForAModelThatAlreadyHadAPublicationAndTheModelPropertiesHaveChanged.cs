@@ -10,25 +10,27 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
     {
         private const string OldModelNameForLanguage1 = "tom";
         private const string OldModelNameForLanguage2 = "abe";
+        private const string OldInternalCodeForLanguage1 = "OldCode";
+        private const string OldInternalCodeForLanguage2 = "dsofc";
 
         protected override void Arrange()
         {
             base.Arrange();
-            var models1 = GetModel(OldModelNameForLanguage1);
-            var models2 = GetModel(OldModelNameForLanguage2);
+            var models1 = GetModel(OldModelNameForLanguage1,OldInternalCodeForLanguage1);
+            var models2 = GetModel(OldModelNameForLanguage2,OldInternalCodeForLanguage2);
             var languages = new Languages()
             {
                 new Language(Language1){Models = new Repository<Model>{models1}},
                 new Language(Language2){Models = new Repository<Model>{models2}}
             };
 
-            A.CallTo(() => Service.GetModelsOverview(Brand, Country)).Returns(languages);
+            A.CallTo(() => Service.GetModelsOverviewPerLanguage(Brand, Country)).Returns(languages);
         }
 
         [Fact]
         public void ThenItShouldPublishTheCorrectNewModelNameForLanguage1()
         {
-            A.CallTo(() => Service.PutModelsOverview(Brand, Country, null))
+            A.CallTo(() => Service.PutModelsOverviewPerLanguage(Brand, Country, null))
                 .WhenArgumentsMatch(args =>
                 {
                     var model = ((Languages) args[2]).Single(l => l.Code.Equals(Language1)).Models[0];
@@ -40,13 +42,23 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldPublishTheCorrectNewModelNameForLanguage2()
         {
-            A.CallTo(() => Service.PutModelsOverview(Brand, Country, null))
+            A.CallTo(() => Service.PutModelsOverviewPerLanguage(Brand, Country, null))
                 .WhenArgumentsMatch(args =>
                 {
                     var model = ((Languages) args[2]).Single(l => l.Code.Equals(Language2)).Models[0];
                     return model.Name.Equals(ModelNameForLanguage2);
                 })
                 .MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
+        public void ThenItShouldPublishTheCorrectInternalCodeForLanguage1()
+        {
+            A.CallTo(() => Service.PutModelsOverviewPerLanguage(Brand, Country, null)).WhenArgumentsMatch(args =>
+            {
+                var model = ((Languages) args[2]).Single(l => l.Code.Equals(Language1)).Models[0];
+                return model.InternalCode.Equals(InternalCodeForLanguage1);
+            }).MustHaveHappened(Repeated.Exactly.Once);
         }
     }
 }
