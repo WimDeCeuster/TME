@@ -105,7 +105,6 @@
     <Compile Include="Repository.cs" />
     <Compile Include="S3\S3Publisher.cs" />
     <Compile Include="S3\S3Serialiser.cs" />
-    <Compile Include="S3\S3Service.cs" />
     <Compile Include="TimeFrame.cs" />
   </ItemGroup>
   <ItemGroup>

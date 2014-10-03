@@ -56,7 +56,7 @@
     <Compile Include="Context\PublicationTimeFrame.cs" />
     <Compile Include="Core\Label.cs" />
     <Compile Include="Link.cs" />
-    <Compile Include="Models.cs" />
+    <Compile Include="Languages.cs" />
     <Compile Include="PublicationInfo.cs" />
     <Compile Include="Core\BaseObject.cs" />
     <Compile Include="Core\Price.cs" />

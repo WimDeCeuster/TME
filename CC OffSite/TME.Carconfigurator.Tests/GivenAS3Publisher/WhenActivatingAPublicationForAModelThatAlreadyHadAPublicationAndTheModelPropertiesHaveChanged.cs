@@ -1,7 +1,7 @@
-﻿using System;
+﻿using System.Linq;
 using FakeItEasy;
+using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Repository.Objects;
-using TME.Carconfigurator.Tests.Base;
 using Xunit;
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
@@ -16,17 +16,22 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             base.Arrange();
             var models1 = GetModel(OldModelNameForLanguage1);
             var models2 = GetModel(OldModelNameForLanguage2);
-            A.CallTo(() => Service.GetModelsOverview(Brand, Country, Language1)).Returns(models1);
-            A.CallTo(() => Service.GetModelsOverview(Brand, Country, Language2)).Returns(models2);
+            var languages = new Languages()
+            {
+                new Language(Language1){Models = new Repository<Model>{models1}},
+                new Language(Language2){Models = new Repository<Model>{models2}}
+            };
+
+            A.CallTo(() => Service.GetModelsOverview(Brand, Country)).Returns(languages);
         }
 
         [Fact]
         public void ThenItShouldPublishTheCorrectNewModelNameForLanguage1()
         {
-            A.CallTo(() => Service.PutModelsOverview(Brand, Country, Language1, null))
+            A.CallTo(() => Service.PutModelsOverview(Brand, Country, null))
                 .WhenArgumentsMatch(args =>
                 {
-                    var model = ((Models)args[3])[0];
+                    var model = ((Languages) args[2]).Single(l => l.Code.Equals(Language1)).Models[0];
                     return model.Name.Equals(ModelNameForLanguage1);
                 })
                 .MustHaveHappened(Repeated.Exactly.Once);
@@ -35,14 +40,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldPublishTheCorrectNewModelNameForLanguage2()
         {
-            A.CallTo(() => Service.PutModelsOverview(Brand, Country, Language2, null))
+            A.CallTo(() => Service.PutModelsOverview(Brand, Country, null))
                 .WhenArgumentsMatch(args =>
                 {
-                    var model = ((Models)args[3])[0];
+                    var model = ((Languages) args[2]).Single(l => l.Code.Equals(Language2)).Models[0];
                     return model.Name.Equals(ModelNameForLanguage2);
                 })
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
-
     }
 }

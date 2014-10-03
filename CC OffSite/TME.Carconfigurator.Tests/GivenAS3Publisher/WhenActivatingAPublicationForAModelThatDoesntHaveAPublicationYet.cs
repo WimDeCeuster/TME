@@ -2,17 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
-using TME.CarConfigurator.Publisher;
-using TME.CarConfigurator.Publisher.Enums;
-using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
-using TME.Carconfigurator.Tests.Base;
 using Xunit;
-using Car = TME.CarConfigurator.Repository.Objects.Car;
-using Model = TME.CarConfigurator.Repository.Objects.Model;
-using Models = TME.CarConfigurator.Repository.Objects.Models;
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
@@ -22,22 +14,20 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected override void Arrange()
         {
             base.Arrange();
-            var models1 = new Models();
-            var models2 = new Models();
-            A.CallTo(() => Service.GetModelsOverview(Brand, Country, Language1)).Returns(models1);
-            A.CallTo(() => Service.GetModelsOverview(Brand, Country, Language2)).Returns(models2);
+            var languages = new Languages();
+
+            A.CallTo(() => Service.GetModelsOverview(Brand, Country)).Returns(languages);
             
         }
 
         [Fact]
         public void ThenItShouldUploadCorrectDataForLanguage1()
         {
-            A.CallTo(() => Service.PutModelsOverview(Brand, Country, Language1, null))
+            A.CallTo(() => Service.PutModelsOverview(Brand, Country, null))
                 .WhenArgumentsMatch(args =>
                 {
-                    var language = (String)args[2];
-                    var models = ((Models)args[3]);
-                    return ShouldContainAModelWithActivatedPublicationForLanguage(language,models,Language1,ModelNameForLanguage1);
+                    var models = ((Languages)args[2]).Single(l => l.Code.Equals(Language1)).Models;
+                    return ShouldContainModelWithActivatedPublication(models, ModelNameForLanguage1);
                 })
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
@@ -45,19 +35,21 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldUploadCorrectDataForLanguage2()
         {
-            A.CallTo(() => Service.PutModelsOverview(Brand, Country, Language2, null))
+            A.CallTo(() => Service.PutModelsOverview(Brand, Country, null))
                 .WhenArgumentsMatch(args =>
                 {
-                    var language = (String) args[2];
-                    var models = ((Models)args[3]);
-                    return ShouldContainAModelWithActivatedPublicationForLanguage(language, models, Language2, ModelNameForLanguage2);
+                    var models = ((Languages)args[2]).Single(l => l.Code.Equals(Language2)).Models;
+                    return ShouldContainModelWithActivatedPublication(models, ModelNameForLanguage2);
                 })
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
-        private bool ShouldContainAModelWithActivatedPublicationForLanguage(string language, IEnumerable<Model> models, string expectedLanguage, string modelNameForLanguage)
+        [Fact]
+        public void ThenTheModelOverviewFileShouldOnlyBeUploadedOnce()
         {
-            return ShouldContainModelWithActivatedPublication(models, modelNameForLanguage) && language.Equals(expectedLanguage);
+            A.CallTo(() => Service.PutModelsOverview(null,null,null))
+                .WithAnyArguments()
+                .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         private bool ShouldContainModelWithActivatedPublication(IEnumerable<Model> models, string modelName)
