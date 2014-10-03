@@ -1,32 +1,22 @@
-﻿using FakeItEasy;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using TME.CarConfigurator.Publisher;
+using FakeItEasy;
+using FluentAssertions;
+using Newtonsoft.Json;
 using TME.CarConfigurator.Repository.Objects;
 using Xunit;
-using FluentAssertions;
 
-namespace TME.Carconfigurator.Tests.GivenAPublisher
+namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
-    public class WhenPublishingAModelGeneration : Base.PublicationTest
+    public class WhenPublishingAModelGeneration : Base.PublicationTestBase
     {
         protected override void Arrange()
         {
-            BaseArrange();
+            base.Arrange();
             A.CallTo(() => Serialiser.Serialise(null))
                 .WhenArgumentsMatch(args =>
                     args[0] is Publication)
                 .ReturnsLazily(args => JsonConvert.SerializeObject(args.Arguments[0]));
-        }
-
-        protected override void Act()
-        {
-            BaseAct();
         }
 
         [Fact]
