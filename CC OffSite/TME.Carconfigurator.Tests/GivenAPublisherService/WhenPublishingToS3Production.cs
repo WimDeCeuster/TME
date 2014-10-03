@@ -1,6 +1,8 @@
 ﻿using FakeItEasy;
 using System;
 using TME.CarConfigurator.Publisher;
+using TME.CarConfigurator.Publisher.Enums;
+using TME.CarConfigurator.Publisher.Interfaces;
 using Xunit;
 
 namespace TME.Carconfigurator.Tests.GivenAPublisherService

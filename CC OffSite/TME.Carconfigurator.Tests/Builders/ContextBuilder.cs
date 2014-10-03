@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher;
+using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
 using ModelGeneration = TME.CarConfigurator.Administration.ModelGeneration;

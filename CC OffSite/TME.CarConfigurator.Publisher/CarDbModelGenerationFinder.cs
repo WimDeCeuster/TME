@@ -5,14 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.Publisher.Interfaces;
 
 namespace TME.CarConfigurator.Publisher
 {
-    public interface ICarDbModelGenerationFinder
-    {
-        IReadOnlyDictionary<String, ModelGeneration> GetModelGeneration(String brand, String countryCode, Guid generationID);
-    }
-
     public class CarDbModelGenerationFinder : ICarDbModelGenerationFinder
     {
         public IReadOnlyDictionary<String, ModelGeneration> GetModelGeneration(String brand, String countryCode, Guid generationID)

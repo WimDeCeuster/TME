@@ -3,33 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TME.CarConfigurator.Publisher.Enums;
+using TME.CarConfigurator.Publisher.Interfaces;
 
 namespace TME.CarConfigurator.Publisher
 {
-    public enum PublicationTarget
-    {
-        S3,
-        SQL
-    }
-
-    public enum PublicationEnvironment
-    {
-        Production,
-        Acceptance,
-        Development
-    }
-
-    public enum PublicationDataSubset
-    {
-        Live,
-        Preview
-    }
-
-    public interface IPublicationService
-    {
-        void Publish(Guid generationId, String target, String brand, String country, PublicationDataSubset dataSubset);
-    }
-
     public class PublicationService : IPublicationService
     {
         IContextFactory _contextFactory;
