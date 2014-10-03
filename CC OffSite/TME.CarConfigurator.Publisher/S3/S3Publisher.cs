@@ -5,6 +5,8 @@ using TME.CarConfigurator.Publisher.Enums.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
+using Language = TME.CarConfigurator.Repository.Objects.Language;
+using Languages = TME.CarConfigurator.Repository.Objects.Languages;
 
 namespace TME.CarConfigurator.Publisher.S3
 {
@@ -33,9 +35,13 @@ namespace TME.CarConfigurator.Publisher.S3
                 PublishLanguage(language, context);
             }
 
+            var s3ModelsOverview = _service.GetModelsOverview(context.Brand, context.Country);
+
             foreach (var language in languages)
             {
-                var s3Models = _service.GetModelsOverview(context.Brand, context.Country, language);
+                var s3Language = GetS3Language(s3ModelsOverview, language);
+
+                var s3Models = s3Language.Models;
                 var contextModel = context.ContextData[language].Models.Single();
                 var s3Model = s3Models.SingleOrDefault(m => m.ID == contextModel.ID);
                
@@ -49,9 +55,8 @@ namespace TME.CarConfigurator.Publisher.S3
                     s3Model.Publications.Add(contextModel.Publications.Single());
                     s3Model.Name = contextModel.Name;
                 }
-                
-                _service.PutModelsOverview(context.Brand, context.Country, language, s3Models);
             }
+            _service.PutModelsOverview(context.Brand, context.Country, s3ModelsOverview);
         }
 
         void PublishLanguage(String language, IContext context)
@@ -85,6 +90,18 @@ namespace TME.CarConfigurator.Publisher.S3
                                _serialiser.Serialise(publication));
 
             data.Models.Single().Publications.Add(new PublicationInfo(publication));
+        }
+
+        private static Language GetS3Language(Languages s3ModelsOverview, string language)
+        {
+            var s3Language = s3ModelsOverview.SingleOrDefault(l => l.Code.Equals(language, StringComparison.InvariantCultureIgnoreCase));
+
+            if (s3Language != null)
+            {
+                return s3Language;
+            }
+            s3ModelsOverview.Add(new Language(language));
+            return s3ModelsOverview.Single(l => l.Code.Equals(language, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

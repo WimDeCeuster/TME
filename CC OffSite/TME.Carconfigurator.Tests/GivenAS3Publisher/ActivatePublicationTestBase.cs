@@ -46,7 +46,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context.TimeFrames.Add(Language1, timeFrames);
             Context.TimeFrames.Add(Language2, timeFrames);
 
-            A.CallTo(() => Service.PutModelsOverview(null, null, null, null)).WithAnyArguments();
+            A.CallTo(() => Service.PutModelsOverview(null, null, null)).WithAnyArguments();
             A.CallTo(() => Service.PutObject(null, null)).WithAnyArguments();
 
             Publisher = new S3Publisher(Service, serialiser);
@@ -57,14 +57,16 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Publisher.Publish(Context);
         }
 
-        protected Models GetModel(string modelName)
+        protected Model GetModel(string modelName)
         {
-            return new Models()
+            return new Model
             {
-                new Model {Name = modelName,ID = ModelID, Publications =
+                Name = modelName,
+                ID = ModelID,
+                Publications =
                 {
                     new PublicationInfo(new Publication{ID = Guid.NewGuid(),Generation = new Generation()})
-                }}
+                }
             };
         }
     }
