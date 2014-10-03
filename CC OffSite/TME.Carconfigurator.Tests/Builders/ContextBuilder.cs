@@ -42,6 +42,11 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
+        private void WithModels(String language, Model model)
+        {
+            Context.ContextData[language].Models.Add(model);
+        }
+
         public static Generation CreateFakeGeneration(String language)
         {
             return FillFakeBaseObject(new Generation
@@ -117,6 +122,7 @@ namespace TME.Carconfigurator.Tests.Builders
                 };
 
                 builder.WithTimeFrames(language, timeFrames);
+                builder.WithModels(language,new Model());
             }
 
             return builder.Context;

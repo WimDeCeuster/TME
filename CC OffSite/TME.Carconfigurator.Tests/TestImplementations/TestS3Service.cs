@@ -6,7 +6,7 @@ using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.Carconfigurator.Tests.TestImplementations
 {
-    public class TestS3Service : IS3Service
+/*    public class TestS3Service : IS3Service
     {
         public readonly Dictionary<String, String> Content = new Dictionary<String, String>();
 
@@ -32,5 +32,5 @@ namespace TME.Carconfigurator.Tests.TestImplementations
         {
             return null;
         }
-    }
+    }*/
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using FakeItEasy;
 using FluentAssertions;
@@ -10,27 +11,41 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
     public class WhenPublishingAModelGeneration : Base.PublicationTestBase
     {
+        private const string SerialisedData = "aaa";
+
         protected override void Arrange()
         {
             base.Arrange();
             A.CallTo(() => Serialiser.Serialise(null))
                 .WhenArgumentsMatch(args =>
                     args[0] is Publication)
-                .ReturnsLazily(args => JsonConvert.SerializeObject(args.Arguments[0]));
+                .ReturnsLazily(args => SerialisedData);
         }
 
         [Fact]
         public void APublicationShouldBePublishedForEveryLanguage()
         {
             foreach (var language in Languages)
-            { 
-                var publicationKey = Service.Content.Keys.Single(key => Regex.Match(key, "nl/generation/" + GuidRegexPattern, RegexOptions.IgnoreCase).Success);           
-                var publicationJson = Service.Content[publicationKey];
+            {
+                var mainLanguage = language;
+                A.CallTo(() => Service.PutObject(null,null))
+                                      .WhenArgumentsMatch(args => TestFunction(args, mainLanguage))
+                                      .MustHaveHappened(Repeated.Exactly.Times(4));
 
-                var publication = JsonConvert.DeserializeObject<Publication>(publicationJson);
-
-                publication.Should().NotBeNull();
+//                var publicationKey = Service.Content.Keys.Single(key => Regex.Match(key, language + "/generation/" + GuidRegexPattern, RegexOptions.IgnoreCase).Success);           
+//                var publicationJson = Service.Content[publicationKey];
+//
+//                var publication = JsonConvert.DeserializeObject<Publication>(publicationJson);
+//
+//                publication.Should().NotBeNull();
             }
+        }
+
+        private bool TestFunction(ArgumentCollection args, string language)
+        {
+            var key = (String)args[0];
+            var json = args[1];
+            return key.Contains(language) && json.Equals(SerialisedData);
         }
 
         [Fact]

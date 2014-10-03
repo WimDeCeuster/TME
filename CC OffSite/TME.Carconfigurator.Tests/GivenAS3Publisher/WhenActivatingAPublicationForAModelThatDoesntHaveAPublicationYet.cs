@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
-using FluentAssertions;
-using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
