@@ -20,6 +20,7 @@ namespace TME.CarConfigurator.Publisher
             foreach (var entry in data) {
                 var contextData = new ContextData();
                 var modelGeneration = entry.Value.Item1;
+                var model = entry.Value.Item2;
                 var language = entry.Key;
 
                 context.ModelGenerations[language] = modelGeneration;
@@ -28,6 +29,7 @@ namespace TME.CarConfigurator.Publisher
 
                 // fill contextData
                 contextData.Generations.Add(AutoMapper.Mapper.Map<Generation>(modelGeneration));
+                contextData.Models.Add(AutoMapper.Mapper.Map<Model>(model));
             }
 
             return context;
