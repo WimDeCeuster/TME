@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1D44F515-45AA-428A-91B5-3E0F227CD253}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TME.CarConfigurator.LegacyAdapter</RootNamespace>
+    <AssemblyName>TME.CarConfigurator.LegacyAdapter</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TMME.BusinessObjects, Version=1.6.4.3, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TMME.BusinessObjects.dll</HintPath>
+    </Reference>
+    <Reference Include="TMME.BusinessObjects.Core, Version=1.6.0.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TMME.BusinessObjects.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="TMME.BusinessObjects.Server.DataPortal, Version=1.6.3.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TMME.BusinessObjects.Server.DataPortal.dll</HintPath>
+    </Reference>
+    <Reference Include="TMME.CarConfigurator">
+      <HintPath>..\..\Libraries\TMME.CarConfigurator.dll</HintPath>
+    </Reference>
+    <Reference Include="TMME.Common, Version=1.3.0.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TMME.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="TMME.Common.DataObjects, Version=1.3.1.4, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TMME.Common.DataObjects.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Asset.cs" />
+    <Compile Include="AssetType.cs" />
+    <Compile Include="BaseObject.cs" />
+    <Compile Include="BodyType.cs" />
+    <Compile Include="Car.cs" />
+    <Compile Include="CarConfiguratorVersion.cs" />
+    <Compile Include="StartingPrice.cs" />
+    <Compile Include="Engine.cs" />
+    <Compile Include="EngineCategory.cs" />
+    <Compile Include="EngineType.cs" />
+    <Compile Include="FileType.cs" />
+    <Compile Include="FuelType.cs" />
+    <Compile Include="Label.cs" />
+    <Compile Include="Link.cs" />
+    <Compile Include="Model.cs" />
+    <Compile Include="Price.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
+      <Project>{efdb033c-66a8-40bb-b596-561f45e6c7f7}</Project>
+      <Name>TME.CarConfigurator.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
