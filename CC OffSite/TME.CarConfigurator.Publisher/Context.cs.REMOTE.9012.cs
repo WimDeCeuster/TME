@@ -9,7 +9,7 @@ namespace TME.CarConfigurator.Publisher
     public class Context : IContext
     {
         public IDictionary<String, ModelGeneration> ModelGenerations { get; private set; }
-        public IDictionary<String, ContextData> ContextData { get; private set; }
+        public IDictionary<String, IContextData> ContextData { get; private set; }
         public IDictionary<String, IReadOnlyList<TimeFrame>> TimeFrames { get; private set; }
         public Guid GenerationID { get; private set; }
 
@@ -27,7 +27,7 @@ namespace TME.CarConfigurator.Publisher
             GenerationID = generationID;
 
             ModelGenerations = new Dictionary<String, ModelGeneration>();
-            ContextData = new Dictionary<String, ContextData>();
+            ContextData = new Dictionary<String, IContextData>();
             TimeFrames = new Dictionary<String, IReadOnlyList<TimeFrame>>();
         }
 

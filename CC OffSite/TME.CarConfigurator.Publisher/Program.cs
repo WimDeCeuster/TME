@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Repository.Objects;
+using Models = TME.CarConfigurator.Administration.Models;
 
 namespace TME.CarConfigurator.Publisher
 {

@@ -47,15 +47,15 @@
     <Compile Include="IAssetPublicRepository.cs" />
     <Compile Include="IPublicationRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Result\Failed.cs" />
-    <Compile Include="Result\Result.cs" />
-    <Compile Include="Result\Succesfull.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
       <Project>{2154EAAA-3D11-4654-BEA6-7B147451DBA8}</Project>
       <Name>TME.CarConfigurator.Repository.Objects</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Result\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
