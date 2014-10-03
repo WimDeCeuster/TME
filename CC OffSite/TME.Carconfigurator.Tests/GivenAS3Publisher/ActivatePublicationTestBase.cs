@@ -56,5 +56,16 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         {
             Publisher.Publish(Context);
         }
+
+        protected Models GetModel(string modelName)
+        {
+            return new Models()
+            {
+                new Model {Name = modelName,ID = ModelID, Publications =
+                {
+                    new PublicationInfo(new Publication{ID = Guid.NewGuid(),Generation = new Generation()})
+                }}
+            };
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Enums.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
@@ -46,6 +47,7 @@ namespace TME.CarConfigurator.Publisher.S3
                 {
                     s3Model.Publications.Single(e => e.State == PublicationState.Activated).State = PublicationState.ToBeDeleted;
                     s3Model.Publications.Add(contextModel.Publications.Single());
+                    s3Model.Name = contextModel.Name;
                 }
                 
                 _service.PutModelsOverview(context.Brand, context.Country, language, s3Models);

@@ -17,30 +17,14 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
     {
         protected override void Arrange()
         {
+            base.Arrange();
             var models1 = GetModel(ModelNameForLanguage1);
             var models2 = GetModel(ModelNameForLanguage2);
-
             A.CallTo(() => Service.GetModelsOverview(Brand, Country, Language1)).Returns(models1);
             A.CallTo(() => Service.GetModelsOverview(Brand, Country, Language2)).Returns(models2);
-            A.CallTo(() => Service.PutModelsOverview(null, null, null, null)).WithAnyArguments();
-            A.CallTo(() => Service.PutObject(null, null)).WithAnyArguments();
         }
 
-        private Models GetModel(string modelName)
-        {
-            return new Models()
-            {
-                new Model {Name = modelName,ID = ModelID, Publications =
-                {
-                    new PublicationInfo(new Publication{ID = Guid.NewGuid(),Generation = new Generation()})
-                }}
-            };
-        }
-
-        protected override void Act()
-        {
-            Publisher.Publish(Context);
-        }
+        
 
         [Fact]
         public void ThenItShouldUploadCorrectDataForLanguage1()
