@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TME.CarConfigurator.Publisher;
+using TME.CarConfigurator.Publisher.Enums.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.Carconfigurator.Tests.TestImplementations
 {
@@ -12,7 +10,7 @@ namespace TME.Carconfigurator.Tests.TestImplementations
     {
         public readonly Dictionary<String, String> Content = new Dictionary<String, String>();
 
-        public void PutObject(String key, String item)
+        public void PutObject(string key, string item)
         {
             if (key == null) throw new ArgumentNullException("key");
             if (item == null) throw new ArgumentNullException("item");
@@ -23,6 +21,16 @@ namespace TME.Carconfigurator.Tests.TestImplementations
             if (Content.ContainsKey(key)) throw new ArgumentException("key has already been published by this service", "key");
 
             Content[key] = item;
+        }
+
+        public Models GetModelsOverview(string brand, string country, string language)
+        {
+            return null;
+        }
+
+        public Result PutModelsOverview(string brand, string country, string language, Models models)
+        {
+            return null;
         }
     }
 }

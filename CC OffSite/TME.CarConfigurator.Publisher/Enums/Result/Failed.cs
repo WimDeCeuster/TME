@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TME.CarConfigurator.CommandRepository.Result
+namespace TME.CarConfigurator.Publisher.Enums.Result
 {
     public class Failed : Result
     {

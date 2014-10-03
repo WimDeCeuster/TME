@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using TME.CarConfigurator.Publisher.Enums.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 
@@ -23,10 +24,19 @@ namespace TME.CarConfigurator.Publisher.S3
 
         public void Publish(IContext context)
         {
-            var languages = context.ModelGenerations.Keys;
+            var languages = context.ContextData.Keys;
 
             foreach (var language in languages)
+            { 
                 PublishLanguage(language, context);
+            }
+
+            foreach (var language in languages)
+            {
+                var models = _service.GetModelsOverview(context.Brand, context.Country, language);
+                models.Add(context.ContextData[language].Models.Single());
+                _service.PutModelsOverview(context.Brand, context.Country, language, models);
+            }
         }
 
         void PublishLanguage(String language, IContext context)
@@ -34,8 +44,6 @@ namespace TME.CarConfigurator.Publisher.S3
             PublishPublication(language, context);
 
             // publish rest
-
-            // update models file
         }
 
         void PublishPublication(String language, IContext context)
@@ -60,6 +68,8 @@ namespace TME.CarConfigurator.Publisher.S3
 
             _service.PutObject(String.Format(_publicationPathTemplate, language, publication.ID),
                                _serialiser.Serialise(publication));
+
+            data.Models.Single().Publications.Add(new PublicationInfo(publication));
         }
     }
 }
