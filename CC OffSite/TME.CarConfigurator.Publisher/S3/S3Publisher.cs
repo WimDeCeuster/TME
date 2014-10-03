@@ -3,6 +3,7 @@ using System.Linq;
 using TME.CarConfigurator.Publisher.Enums.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Enums;
 
 namespace TME.CarConfigurator.Publisher.S3
 {
@@ -33,9 +34,21 @@ namespace TME.CarConfigurator.Publisher.S3
 
             foreach (var language in languages)
             {
-                var models = _service.GetModelsOverview(context.Brand, context.Country, language);
-                models.Add(context.ContextData[language].Models.Single());
-                _service.PutModelsOverview(context.Brand, context.Country, language, models);
+                var s3Models = _service.GetModelsOverview(context.Brand, context.Country, language);
+                var contextModel = context.ContextData[language].Models.Single();
+                var s3Model = s3Models.SingleOrDefault(m => m.ID == contextModel.ID);
+               
+                if (s3Model == null)
+                {
+                    s3Models.Add(contextModel);
+                }
+                else
+                {
+                    s3Model.Publications.Single(e => e.State == PublicationState.Activated).State = PublicationState.ToBeDeleted;
+                    s3Model.Publications.Add(contextModel.Publications.Single());
+                }
+                
+                _service.PutModelsOverview(context.Brand, context.Country, language, s3Models);
             }
         }
 
