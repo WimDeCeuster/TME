@@ -16,7 +16,7 @@ namespace TME.CarConfigurator.Repository.Objects
             Models = new List<Model>();
         }
 
-        public string Code { get; private set; }
+        public string Code { get; set; }
         public List<Model> Models { get; set; }
     }
 }

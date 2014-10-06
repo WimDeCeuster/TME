@@ -29,22 +29,19 @@ namespace TME.CarConfigurator.Publisher.S3
             _service = service;
         }
 
-        public Task<Result> Publish(IContext context)
+        public async Task<Result> Publish(IContext context)
         {
             var languages = context.ContextData.Keys;
             var publishTasks = PublishPublicationForAllLanguages(context, languages);
             var s3ModelsOverview = ActivatePublicationForAllLanguages(context, languages);
 
-            return Task.Factory.StartNew(() =>
-            {
-                Task.WaitAll(publishTasks.ToArray());
+            var results = await Task.WhenAll(publishTasks);
 
-                var failure = publishTasks.Select(task => task.Result).FirstOrDefault(result => result is Failed);
-                if (failure != null)
-                    return failure;
+            var failure = results.SelectMany(xs => xs).FirstOrDefault(result => result is Failed);
+            if (failure != null)
+                return failure;
 
-                return _service.PutModelsOverviewPerLanguage(s3ModelsOverview);
-            });
+            return await _service.PutModelsOverviewPerLanguage(s3ModelsOverview);
         }
 
         private Languages ActivatePublicationForAllLanguages(IContext context, IEnumerable<string> languages)
@@ -83,16 +80,20 @@ namespace TME.CarConfigurator.Publisher.S3
             
         }
 
-        private List<Task<Result>> PublishPublicationForAllLanguages(IContext context, IEnumerable<string> languages)
+        private async Task<IEnumerable<Result>> PublishPublicationForAllLanguages(IContext context, IEnumerable<string> languages)
         {
-            var publishTasks = new List<Task<Result>>();
+            var publishTasks = new List<Task<IEnumerable<Result>>>();
             foreach (var language in languages)
             {
-                publishTasks.AddRange(PublishPublicationForLanguage(language, context));
+                publishTasks.Add(PublishPublicationForLanguage(language, context));
             }
-            return publishTasks;
+
+            var results = await Task.WhenAll(publishTasks);
+
+            return results.SelectMany(xs => xs);
         }
-        IEnumerable<Task<Result>> PublishPublicationForLanguage(String language, IContext context)
+
+        async Task<IEnumerable<Result>> PublishPublicationForLanguage(String language, IContext context)
         {
             var tasks = new List<Task<Result>>();
 
@@ -100,7 +101,7 @@ namespace TME.CarConfigurator.Publisher.S3
 
             // publish rest
 
-            return tasks;
+            return await Task.WhenAll(tasks);
         }
 
         Task<Result> PublishPublication(String language, IContext context)

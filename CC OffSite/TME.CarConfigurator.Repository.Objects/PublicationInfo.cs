@@ -11,6 +11,11 @@ namespace TME.CarConfigurator.Repository.Objects
         public Guid GenerationID { get; set; }
         public PublicationState State { get; set; }
 
+        public PublicationInfo()
+        {
+
+        }
+
         public PublicationInfo(Publication publication)
         {
             ID = publication.ID;
