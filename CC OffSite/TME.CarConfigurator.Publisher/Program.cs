@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
 using Models = TME.CarConfigurator.Administration.Models;
@@ -24,11 +25,20 @@ namespace TME.CarConfigurator.Publisher
 
             var service = new S3Service("Toyota", "DE", new S3Serialiser());
             var xs = service.GetObjects();
-
-            foreach (var x in xs)
+            
+            foreach (var x in xs) { 
                 Console.WriteLine(x.Key);
-
+            }
             Console.ReadLine();
+
+            Console.Write("Delete all? ");
+            if (Console.ReadLine().Equals("y", StringComparison.InvariantCultureIgnoreCase))
+                service.DeleteAll();
+            {
+                Console.WriteLine("All cleared");
+                Console.ReadLine();
+            }
+    
         }
     }
 }

@@ -4,6 +4,8 @@ using Caliburn.Micro;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
+using System.Windows;
+using TME.CarConfigurator.Publisher.Enums.Result;
 
 namespace TME.CarConfigurator.Publisher.UI.ViewModels
 {
@@ -102,9 +104,11 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
             Publish(PublicationDataSubset.Preview);
         }
 
-        private void Publish(PublicationDataSubset publicationDataSubset)
+        private async void Publish(PublicationDataSubset publicationDataSubset)
         {
-            PublicationService.Publish(SelectedGeneration.ID, Target, Brand, Country, publicationDataSubset);
+            var result = await PublicationService.Publish(SelectedGeneration.ID, Target, Brand, Country, publicationDataSubset);
+
+            MessageBox.Show(result is Successfull ? "Success!" : "Failure!");
         }
     }
 }

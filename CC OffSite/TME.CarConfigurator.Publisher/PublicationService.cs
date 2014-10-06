@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Enums;
+using TME.CarConfigurator.Publisher.Enums.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
 
 namespace TME.CarConfigurator.Publisher
@@ -32,7 +33,7 @@ namespace TME.CarConfigurator.Publisher
             _serviceFactory = serviceFactory;
         }
 
-        public void Publish(Guid generationID, String target, String brand, String country, PublicationDataSubset dataSubset)
+        public Task<Result> Publish(Guid generationID, String target, String brand, String country, PublicationDataSubset dataSubset)
         {
             var context = _contextFactory.Get(brand, country, generationID, dataSubset);
             var service = _serviceFactory.Get(target, brand, country);
@@ -41,7 +42,7 @@ namespace TME.CarConfigurator.Publisher
 
             var publisher = _publisherFactory.Get(service);
 
-            publisher.Publish(context);
+            return publisher.Publish(context);
         }
     }
 }

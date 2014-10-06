@@ -22,14 +22,14 @@ namespace TME.CarConfigurator.Publisher.S3
             _service = service;
         }
 
-        public Task<Result> Publish(IContext context)
+        public async Task<Result> Publish(IContext context)
         {
             var languages = context.ContextData.Keys;
 
-            var publishTasks = new List<Task<Result>>();
+            var publishTasks = new List<Task<IEnumerable<Result>>>();
             foreach (var language in languages)
-            { 
-                publishTasks.AddRange(PublishLanguage(language, context));
+            {
+                publishTasks.Add(PublishLanguage(language, context));
             }
 
             var s3ModelsOverview = _service.GetModelsOverviewPerLanguage();
@@ -59,32 +59,28 @@ namespace TME.CarConfigurator.Publisher.S3
                     s3Model.Publications.Single(e => e.State == PublicationState.Activated).State = PublicationState.ToBeDeleted;
                     s3Model.Publications.Add(contextModel.Publications.Single());
                 }
+
             }
 
-            return Task.Factory.StartNew(() =>
-            {
-                Task.WaitAll(publishTasks.ToArray());
+            var results = await Task.WhenAll(publishTasks);
 
-                var failure = publishTasks.Select(task => task.Result).FirstOrDefault(result => result is Failed);
-                if (failure != null)
-                    return failure;
+            var failure = results.SelectMany(x => x).FirstOrDefault(result => result is Failed);
+            if (failure != null)
+                return failure;
 
-                return _service.PutModelsOverviewPerLanguage(s3ModelsOverview);
-            });
+            return await _service.PutModelsOverviewPerLanguage(s3ModelsOverview);
         }
 
-        IEnumerable<Task<Result>> PublishLanguage(String language, IContext context)
+        async Task<IEnumerable<Result>> PublishLanguage(String language, IContext context)
         {
             var tasks = new List<Task<Result>>();
 
             tasks.Add(PublishPublication(language, context));
 
-            // publish rest
-
-            return tasks;
+            return await Task.WhenAll(tasks);
         }
 
-        Task<Result> PublishPublication(String language, IContext context)
+        public async Task<Result> PublishPublication(String language, IContext context)
         {
             var data = context.ContextData[language];
             var timeFrames = context.TimeFrames[language];
@@ -106,7 +102,7 @@ namespace TME.CarConfigurator.Publisher.S3
 
             data.Models.Single().Publications.Add(new PublicationInfo(publication));
 
-            return _service.PutPublication(language, publication);
+            return await _service.PutPublication(language, publication);
         }
 
         private static Language GetS3Language(Languages s3ModelsOverview, string language)
