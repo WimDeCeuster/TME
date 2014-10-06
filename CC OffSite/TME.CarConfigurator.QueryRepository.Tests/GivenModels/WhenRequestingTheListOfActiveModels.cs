@@ -1,4 +1,5 @@
-﻿using FakeItEasy;
+﻿using System.Collections.Generic;
+using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
@@ -10,7 +11,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
 {
     public class WhenRequestingTheListOfActiveModels : TestBase
     {
-        private IModels _modelsFromRespository;
+        private IEnumerable<Repository.Objects.Model> _modelsFromRespository;
         private IContext _context;
         private IModels _models;
         private IModelRepository _modelsRepository;
@@ -24,10 +25,10 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
 
         private void ArrangeModelsRepository()
         {
-            _modelsFromRespository = new TestImplementations.Models(); // TODO: initialize with values
+            //_modelsFromRespository = new TestImplementations.Models(); // TODO: initialize with values
 
             _modelsRepository = A.Fake<IModelRepository>();
-            A.CallTo(() => _modelsRepository.GetModels(null))
+            A.CallTo(() => _modelsRepository.Get(null))
                 .WhenArgumentsMatch(args =>
                 {
                     var contextInArgs = (IContext) args[0];
@@ -44,7 +45,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
         [Fact]
         public void ThenTheListShouldBeFetchedFromTheRepository()
         {
-            A.CallTo(() => _modelsRepository.GetModels(null))
+            A.CallTo(() => _modelsRepository.Get(null))
                 .WhenArgumentsMatch(args =>
                 {
                     var contextInArgs = (IContext) args[0];
