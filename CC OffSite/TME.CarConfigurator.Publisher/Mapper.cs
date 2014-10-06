@@ -25,11 +25,15 @@ namespace TME.CarConfigurator.Publisher
 
                 context.ModelGenerations[language] = modelGeneration;
                 context.ContextData[language] = contextData;
-                context.TimeFrames[language] = GetTimeFrames(language, context);
 
                 // fill contextData
                 contextData.Generations.Add(AutoMapper.Mapper.Map<Generation>(modelGeneration));
                 contextData.Models.Add(AutoMapper.Mapper.Map<Model>(model));
+                
+                foreach (var car in modelGeneration.Cars)
+                    contextData.Cars.Add(AutoMapper.Mapper.Map<Car>(car));
+
+                context.TimeFrames[language] = GetTimeFrames(language, context);
             }
 
             return context;
@@ -44,7 +48,7 @@ namespace TME.CarConfigurator.Publisher
             if (context.DataSubset == PublicationDataSubset.Preview)
                 return new List<TimeFrame> { new TimeFrame(DateTime.MinValue, DateTime.MaxValue, cars.ToList()) };
 
-            var TimeFrames = new List<TimeFrame>();
+            var timeFrames = new List<TimeFrame>();
 
             var timeProjection = generation.Cars.SelectMany(car => new[] {
                                                     new { Date = car.LineOffFromDate, Open = true, Car = car },
@@ -62,7 +66,11 @@ namespace TME.CarConfigurator.Publisher
                 if (point.Open)
                 {
                     if (openDate != null)
+                    { 
                         closeDate = point.Date;
+                        if (openDate != closeDate)
+                            timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(MapCar).ToList())));
+                    }
 
                     openCars.Add(point.Car);
                     openDate = point.Date;
@@ -74,14 +82,14 @@ namespace TME.CarConfigurator.Publisher
                     // time lines with identical from/until can occur when multiple line off dates fall on the same point
                     // these "empty" time lines can simply be ignored (though the openCars logic is still relevant)
                     if (openDate != closeDate)
-                        TimeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(MapCar).ToList())));
+                        timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(MapCar).ToList())));
 
                     openCars.Remove(point.Car);
                     openDate = openCars.Any() ? (DateTime?)point.Date : null;
                 }
             }
 
-            return TimeFrames;
+            return timeFrames;
         }
     }
 }
