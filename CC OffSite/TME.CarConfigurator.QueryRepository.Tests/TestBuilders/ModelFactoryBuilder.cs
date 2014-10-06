@@ -1,4 +1,5 @@
 using TME.CarConfigurator.Factories;
+using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
 
 namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
@@ -6,6 +7,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
     public class ModelFactoryBuilder
     {
         private IModelRepository _modelRepository = ModelRepositoryBuilder.InitializeFakeRepository().Build();
+        private IPublicationFactory _publicationFactory = PublicationFactoryBuilder.InitializeFakeFactory().Build();
 
         public static ModelFactoryBuilder Initialize()
         {
@@ -19,9 +21,16 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
             return this;
         }
 
-        public ModelFactory Build()
+        public ModelFactoryBuilder WithPublicationFactory(IPublicationFactory publicationFactory)
         {
-            return new ModelFactory(_modelRepository);
+            _publicationFactory = publicationFactory;
+
+            return this;
+        }
+
+        public IModelFactory Build()
+        {
+            return new ModelFactory(_modelRepository, _publicationFactory);
         }
     }
 }

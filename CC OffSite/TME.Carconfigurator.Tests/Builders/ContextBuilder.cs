@@ -4,6 +4,7 @@ using System.Linq;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
 
 namespace TME.Carconfigurator.Tests.Builders
@@ -55,7 +56,14 @@ namespace TME.Carconfigurator.Tests.Builders
                 {
                     Name = "carConfigVersion-" + language
                 },
-                SSN =  "SSN1-" + language
+                SSN =  "SSN1-" + language,
+                Assets = new List<Asset>
+                {
+                    new Asset(){ID = Guid.NewGuid()},
+                    new Asset(){ID = Guid.NewGuid()},
+                    new Asset(){ID = Guid.NewGuid()}
+                }
+
             }, "", language);
         }
 
@@ -104,6 +112,7 @@ namespace TME.Carconfigurator.Tests.Builders
                     CreateFakeCar(language, "Car2"),
                     CreateFakeCar(language, "Car3")
                 };
+
 
                 builder.WithCars(language, cars);
 

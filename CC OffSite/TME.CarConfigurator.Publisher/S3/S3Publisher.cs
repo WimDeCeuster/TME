@@ -6,14 +6,12 @@ using TME.CarConfigurator.Publisher.Enums.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
-using Language = TME.CarConfigurator.Repository.Objects.Language;
-using Languages = TME.CarConfigurator.Repository.Objects.Languages;
 
 namespace TME.CarConfigurator.Publisher.S3
 {
     public class S3Publisher : IPublisher
     {
-        IService _service;
+        readonly IService _service;
 
         public S3Publisher(IService service)
         {

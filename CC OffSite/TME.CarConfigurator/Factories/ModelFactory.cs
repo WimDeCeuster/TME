@@ -10,12 +10,15 @@ namespace TME.CarConfigurator.Factories
     public class ModelFactory : IModelFactory
     {
         private readonly IModelRepository _modelRepository;
+        private readonly IPublicationFactory _publicationFactory;
 
-        public ModelFactory(IModelRepository modelRepository)
+        public ModelFactory(IModelRepository modelRepository, IPublicationFactory publicationFactory)
         {
             if (modelRepository == null) throw new ArgumentNullException("modelRepository");
+            if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
 
             _modelRepository = modelRepository;
+            _publicationFactory = publicationFactory;
         }
 
         public IModels Get(IContext context)
@@ -32,9 +35,9 @@ namespace TME.CarConfigurator.Factories
             return model.Publications.Any(p => p.State == PublicationState.Activated && p.LineOffFrom <= DateTime.Now && DateTime.Now <= p.LineOffTo);
         }
 
-        private Model GetModel(Repository.Objects.Model m)
+        private Model GetModel(Repository.Objects.Model repositoryModel)
         {
-            return new Model(m); //TODO: get factories needed by Model (publicationfactory, ...) and inject into newly created Model
+            return new Model(repositoryModel, _publicationFactory);
         }
     }
 }

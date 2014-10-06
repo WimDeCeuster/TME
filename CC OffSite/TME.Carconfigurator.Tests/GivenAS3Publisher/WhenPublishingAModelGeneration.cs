@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text.RegularExpressions;
-using FakeItEasy;
-using FluentAssertions;
-using Newtonsoft.Json;
+﻿using FakeItEasy;
 using TME.CarConfigurator.Repository.Objects;
 using Xunit;
 
@@ -29,15 +24,22 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             {
                 var mainLanguage = language;
                 A.CallTo(() => Service.PutPublication(null,null))
-                                      .WhenArgumentsMatch(args => args[0].Equals(language) && args[1] != null)
+                                      .WhenArgumentsMatch(args => args[0].Equals(mainLanguage) && args[1] != null)
                                       .MustHaveHappened(Repeated.Exactly.Once);
             }
         }
 
         [Fact]
-        public void ModelGenerationAssetsShouldBePublished()
+        public void ModelGenerationAssetsShouldBePublishedForEveryLanguage()
         {
-
+            foreach (var language in Languages)
+            {
+                var mainLanguage = language;
+                A.CallTo(() => Service.PutPublication(null,null))
+                    .WhenArgumentsMatch(args => args[0].Equals(mainLanguage) 
+                                            && ((Publication) args[1]).Generation.Assets.Count != 0)
+                    .MustHaveHappened(Repeated.Exactly.Once);
+            }
         }
     }
 }
