@@ -117,7 +117,8 @@ namespace TME.CarConfigurator.Publisher.S3
 
             data.Models.Single().Publications.Add(new PublicationInfo(publication));
 
-            return _service.PutPublication(language, publication);
+            _service.PutPublication(language, publication);
+            return _service.PutAssetsOfPublication(language, publication);
         }
 
         private static Language GetS3Language(Languages s3ModelsOverview, string language)

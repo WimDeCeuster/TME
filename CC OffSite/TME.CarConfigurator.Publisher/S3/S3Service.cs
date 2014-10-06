@@ -20,6 +20,7 @@ namespace TME.CarConfigurator.Publisher.S3
         String _bucketName;
         RegionEndpoint _regionEndPoint = RegionEndpoint.EUWest1;
         String _publicationPathTemplate = "{0}/publication/{1}";
+        String _assetPathTemplate = "{0}/publication/{1}/assets";
         String _modelsOverviewPath = "models-per-language";
 
         public S3Service()
@@ -147,6 +148,18 @@ namespace TME.CarConfigurator.Publisher.S3
 
             var path = String.Format(_publicationPathTemplate, language, publication.ID);
             var value = _serialiser.Serialise(publication);
+
+            return await PutObjectAsync(path, value);
+        }
+
+        public async Task<Result> PutAssetsOfPublication(string language, Publication publication)
+        {
+            if (language == null) throw new ArgumentNullException("language");
+            if (publication == null) throw new ArgumentNullException("publication");
+            if (String.IsNullOrWhiteSpace(language)) throw new ArgumentException("language cannot empty");
+
+            var path = String.Format(_assetPathTemplate, language, publication.ID);
+            var value = _serialiser.Serialise(publication.Generation.Assets);
 
             return await PutObjectAsync(path, value);
         }
