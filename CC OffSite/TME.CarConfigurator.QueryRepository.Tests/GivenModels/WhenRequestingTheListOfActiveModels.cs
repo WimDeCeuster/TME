@@ -43,7 +43,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
 
         protected override void Act()
         {
-            _models = Models.GetModels(_modelsRepository, _context);
+            _models = Models.GetModels(_context, _modelsRepository);
         }
 
         [Fact]
