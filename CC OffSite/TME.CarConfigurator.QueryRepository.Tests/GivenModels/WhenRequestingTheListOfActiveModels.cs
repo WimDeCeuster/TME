@@ -17,7 +17,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
 
         protected override void Arrange()
         {
-            _context = ContextBuilder.FakeContext().Build();
+            _context = ContextBuilder.InitializeFakeContext().Build();
 
             ArrangeModelsRepository();
         }

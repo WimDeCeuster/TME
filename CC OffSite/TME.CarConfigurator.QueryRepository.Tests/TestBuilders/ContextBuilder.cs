@@ -12,7 +12,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
             _context = context;
         }
 
-        public static ContextBuilder FakeContext()
+        public static ContextBuilder InitializeFakeContext()
         {
             var context = A.Fake<IContext>();
             

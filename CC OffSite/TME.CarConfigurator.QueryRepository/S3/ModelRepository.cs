@@ -13,7 +13,7 @@ namespace TME.CarConfigurator.QueryRepository.S3
 
         public IModels GetModels(IContext context)
         {
-
+            return null;
         }
     }
 }
