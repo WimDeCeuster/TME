@@ -12,7 +12,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected override void Arrange()
         {
             base.Arrange();
-            A.CallTo(() => Serialiser.Serialise(null))
+            A.CallTo(() => Serialiser.Serialise((Publication)null))
                 .WhenArgumentsMatch(args =>
                     args[0] is Publication)
                 .ReturnsLazily(args => SerialisedData);

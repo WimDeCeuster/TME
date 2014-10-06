@@ -7,8 +7,6 @@ namespace TME.CarConfigurator.Repository.Objects
     [DataContract]
     public class Car : BaseObject
     {
-        public Guid ID { get; set; }
-
         [DataMember]
         public int ShortID { get; set; }
         [DataMember]

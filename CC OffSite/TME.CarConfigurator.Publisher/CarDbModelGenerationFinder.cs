@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Interfaces;
 
@@ -20,8 +17,9 @@ namespace TME.CarConfigurator.Publisher
             return country.Languages.ToDictionary(lang => lang.Code, lang =>
             {
                 MyContext.SetSystemContext(brand, countryCode, lang.Code);
-                var model = Models.GetModels().Single(mdl => mdl.Generations.Count(gen => gen.ID == generationID) == 1);
-                var generation = model.Generations.Single(gen => gen.ID == generationID);
+                var generation = ModelGeneration.GetModelGeneration(generationID);
+                var model = Model.GetModel(generation.Model.ID);
+                
                 return Tuple.Create(generation, model);
             });
         }

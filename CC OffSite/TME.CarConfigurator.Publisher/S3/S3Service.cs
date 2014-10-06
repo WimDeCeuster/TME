@@ -19,6 +19,8 @@ namespace TME.CarConfigurator.Publisher.S3
         IS3Serialiser _serialiser;
         String _bucketName;
         RegionEndpoint _regionEndPoint = RegionEndpoint.EUWest1;
+        String _publicationPathTemplate = "{0}/publication/{1}";
+        String _modelsOverviewPath = "models-per-language";
 
         public S3Service()
         {
@@ -102,14 +104,14 @@ namespace TME.CarConfigurator.Publisher.S3
             });
         }
 
-        public String GetObject(String key)
+        public T GetObject<T>(String key)
         {
             var response = _client.GetObject(_bucketName, key);
 
             using (var responseStream = response.ResponseStream)
             using (var reader = new StreamReader(responseStream))
             {
-                return reader.ReadToEnd();
+                return _serialiser.Deserialise<T>(reader.ReadToEnd());
             }
         }
 
@@ -118,14 +120,15 @@ namespace TME.CarConfigurator.Publisher.S3
             _client.DeleteObject(_bucketName, key);
         }
 
-        public Languages GetModelsOverviewPerLanguage(string brand, string country)
+        public Languages GetModelsOverviewPerLanguage()
         {
-            throw new NotImplementedException();
+            var modelsOverview = GetObject<Languages>(_modelsOverviewPath);
+            return modelsOverview ?? new Languages();
         }
 
-        public Result PutModelsOverviewPerLanguage(string brand, string country, TME.CarConfigurator.Repository.Objects.Languages languages)
+        public Result PutModelsOverviewPerLanguage(Languages languages)
         {
-            throw new NotImplementedException();
+            return PutObjectAsync(_modelsOverviewPath, _serialiser.Serialise(languages)).Result;
         }
 
         public Task<Result> PutPublication(String language, Publication publication)
@@ -134,7 +137,7 @@ namespace TME.CarConfigurator.Publisher.S3
             if (publication == null) throw new ArgumentNullException("publication");
             if (String.IsNullOrWhiteSpace(language)) throw new ArgumentException("language cannot empty");
 
-            var path = String.Format("{0}/publication/{1}", language, publication.ID);
+            var path = String.Format(_publicationPathTemplate, language, publication.ID);
             var value = _serialiser.Serialise(publication);
 
             return PutObjectAsync(path, value);

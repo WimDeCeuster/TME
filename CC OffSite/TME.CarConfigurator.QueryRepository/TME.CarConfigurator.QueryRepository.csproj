@@ -39,13 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IModelRepository.cs" />
-    <Compile Include="IAssetRepository.cs" />
-    <Compile Include="ICarRepository.cs" />
-    <Compile Include="IEngineRepository.cs" />
-    <Compile Include="IBodyTypeRepository.cs" />
-    <Compile Include="IPublicationRepository.cs" />
+    <Compile Include="Interfaces\IAssetRepository.cs" />
+    <Compile Include="Interfaces\IBodyTypeRepository.cs" />
+    <Compile Include="Interfaces\ICarRepository.cs" />
+    <Compile Include="Interfaces\IEngineRepository.cs" />
+    <Compile Include="Interfaces\IModelRepository.cs" />
+    <Compile Include="Interfaces\IPublicationRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="S3\ModelRepository.cs" />
+    <Compile Include="Service\Interfaces\ILanguageService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
