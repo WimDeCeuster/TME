@@ -6,6 +6,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface ICarDbModelGenerationFinder
     {
-        IReadOnlyDictionary<string, ModelGeneration> GetModelGeneration(String brand, String countryCode, Guid generationID);
+        IReadOnlyDictionary<string, Tuple<ModelGeneration, Model>> GetModelGeneration(String brand, String countryCode, Guid generationID);
     }
 }
