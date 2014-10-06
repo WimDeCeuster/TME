@@ -60,7 +60,6 @@
     <Compile Include="TestBuilders\ModelBuilder.cs" />
     <Compile Include="TestBuilders\PublicationInfoBuilder.cs" />
     <Compile Include="TestHelpers\Context.cs" />
-    <Compile Include="TestImplementations\Models.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
