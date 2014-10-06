@@ -2,7 +2,7 @@ using System;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
+namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjects
 {
     internal class PublicationInfoBuilder
     {
@@ -46,6 +46,18 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
         public PublicationInfo Build()
         {
             return new PublicationInfo(_publication) {State = _publicationState};
+        }
+
+        public PublicationInfoBuilder WithID(Guid id)
+        {
+            _publication.ID = id;
+
+            return this;
+        }
+
+        public PublicationInfoBuilder CurrentlyActive()
+        {
+            return WithDateRange(DateTime.MinValue, DateTime.MaxValue).WithState(PublicationState.Activated);
         }
     }
 }

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.Factories;
+using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
+using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjects;
 using TME.CarConfigurator.Repository.Objects.Enums;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
@@ -21,7 +23,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
         private IEnumerable<Repository.Objects.Model> _modelsFromRespository;
         private IContext _context;
         private IModels _models;
-        private ModelFactory _modelFactory;
+        private IModelFactory _modelFactory;
         private IModelRepository _modelRepository;
 
         protected override void Arrange()
