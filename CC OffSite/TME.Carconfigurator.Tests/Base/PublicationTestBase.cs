@@ -6,7 +6,6 @@ using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
-using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.Carconfigurator.Tests.Base
 {
