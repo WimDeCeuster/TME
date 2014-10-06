@@ -51,10 +51,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GivenAnS3ModelRepository\WhenGetIsCalled.cs" />
     <Compile Include="GivenModels\WhenRequestingTheListOfActiveModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestBuilders\ContextBuilder.cs" />
+    <Compile Include="TestBuilders\GenerationBuilder.cs" />
+    <Compile Include="TestBuilders\LanguagesBuilder.cs" />
+    <Compile Include="TestBuilders\ModelBuilder.cs" />
+    <Compile Include="TestBuilders\ModelFactoryBuilder.cs" />
+    <Compile Include="TestBuilders\ModelRepositoryBuilder.cs" />
+    <Compile Include="TestBuilders\PublicationInfoBuilder.cs" />
     <Compile Include="TestHelpers\Context.cs" />
-    <Compile Include="TestImplementations\Models.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">

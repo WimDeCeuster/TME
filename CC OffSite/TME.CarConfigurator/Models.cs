@@ -1,17 +1,23 @@
-﻿using TME.CarConfigurator.Core;
+﻿using System.Collections.Generic;
+using TME.CarConfigurator.Factories;
+using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.QueryRepository;
 
 namespace TME.CarConfigurator
 {
-    public class Models : ReadOnlyList<IModel>, IModels
+    public class Models : List<IModel>, IModels
     {
-        public static IModels GetModels(IContext context, IModelRepository repository = null)
+        public Models(IEnumerable<Model> intermediateModels)
+            : base(intermediateModels)
         {
-            // as Models is the entry point into the library, it can call upon the DI container. All objects in the sub hierarchy (cars, grades, ...) should have the repositories they need injected
-            repository = repository ?? null; // TODO: Get from DI container (poor man's DI)
+        }
 
-            return repository.GetModels(context);
+        public static IModels GetModels(IContext context, IModelFactory modelFactory = null)
+        {
+            // as Models is the entry point into the library, it can call upon the DI container. All objects in the sub hierarchy (cars, grades, ...) should have the factories they need injected
+            modelFactory = modelFactory ?? null; // TODO: Get from DI container (poor man's DI) instead of null
+
+            return modelFactory.Get(context);
         }
     }
 }

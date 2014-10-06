@@ -73,7 +73,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context.TimeFrames.Add(Language1, timeFrames);
             Context.TimeFrames.Add(Language2, timeFrames);
 
-            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null)).WithAnyArguments();
+            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null)).WithAnyArguments().Returns(successFullTask);
             A.CallTo(() => Service.PutPublication(null, null)).WithAnyArguments().Returns(successFullTask);
 
             Publisher = new S3Publisher(Service);
