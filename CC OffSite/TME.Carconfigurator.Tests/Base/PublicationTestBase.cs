@@ -3,6 +3,7 @@ using System.Linq;
 using FakeItEasy;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.S3;
+using TME.CarConfigurator.Repository.Objects;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
 

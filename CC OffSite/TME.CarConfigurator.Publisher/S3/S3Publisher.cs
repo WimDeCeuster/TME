@@ -10,7 +10,7 @@ namespace TME.CarConfigurator.Publisher.S3
 {
     public class S3Publisher : IPublisher
     {
-        readonly IS3Service _service;
+        readonly IService _service;
         readonly IS3Serialiser _serialiser;
 
         private const String PublicationPathTemplate = "{0}/generation/{1}";
