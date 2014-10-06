@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using FakeItEasy;
 using TME.CarConfigurator.Repository.Objects;
 using Xunit;
@@ -29,13 +28,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
                                       .WhenArgumentsMatch(args => args[0].Equals(mainLanguage) && args[1] != null)
                                       .MustHaveHappened(Repeated.Exactly.Once);
             }
-        }
-
-        private bool TestFunction(ArgumentCollection args, string language)
-        {
-            var key = (String)args[0];
-            var json = args[1];
-            return key.Contains(language) && json.Equals(SerialisedData);
         }
 
         [Fact]
