@@ -45,11 +45,12 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
 
         private void ArrangeModelsFromRepository()
         {
-            var models = new List<Repository.Objects.Model>();
-
-            models.Add(GetModelForContextLanguageWithActivePublicationsOfWhichTheTimeFramesDoNotSpanTheCurrentDate());
-            models.Add(GetModelForContextLanguageWithAnActiveAndADeletedPublicationForTheSameGeneration());
-            models.Add(GetModelForContextLanguageWithAnArchivedPublication());
+            var models = new List<Repository.Objects.Model>
+            {
+                GetModelForContextLanguageWithActivePublicationsOfWhichTheTimeFramesDoNotSpanTheCurrentDate(),
+                GetModelForContextLanguageWithAnActiveAndADeletedPublicationForTheSameGeneration(),
+                GetModelForContextLanguageWithAnArchivedPublication()
+            };
 
             _modelsFromRespository = models;
         }
