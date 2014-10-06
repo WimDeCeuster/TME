@@ -1,6 +1,6 @@
 ﻿namespace TME.CarConfigurator.Publisher.Enums.Result
 {
-    public class Succesfull : Result
+    public class Successfull : Result
     {
     }
 }

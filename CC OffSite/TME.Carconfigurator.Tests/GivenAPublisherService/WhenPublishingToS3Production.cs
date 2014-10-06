@@ -12,9 +12,11 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
         IPublisherFactory _publisherFactory;
         String _target;
         PublicationDataSubset _dataSubset;
-        PublicationService _service;
+        PublicationService _publicationService;
         IContextFactory _contextFactory;
+        IServiceFactory _serviceFactory;
         IPublisher _publisher;
+        IService _publisherService;
         IContext _context;
         ICarDbModelGenerationFinder _generationFinder;
         String _brand = "Toyota";
@@ -28,27 +30,29 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
             _dataSubset = PublicationDataSubset.Live;
             _context = A.Fake<IContext>();
             _contextFactory = A.Fake<IContextFactory>();
+            _serviceFactory = A.Fake<IServiceFactory>();
+            _publisherService = A.Fake<IService>();
             _publisher = A.Fake<IPublisher>();
             _generationFinder = A.Fake<ICarDbModelGenerationFinder>();
             _mapper = A.Fake<IMapper>();
             
 
-            A.CallTo(() => _publisherFactory.Get(_target)).Returns(_publisher);
+            A.CallTo(() => _publisherFactory.Get(_publisherService)).Returns(_publisher);
             A.CallTo(() => _contextFactory.Get(_brand, _country, Guid.Empty, _dataSubset)).Returns(_context);
+            A.CallTo(() => _serviceFactory.Get(_target, _brand, _country)).Returns(_publisherService);
 
-
-            _service = new PublicationService(_contextFactory, _publisherFactory, _mapper, _generationFinder);
+            _publicationService = new PublicationService(_contextFactory, _publisherFactory, _serviceFactory, _mapper, _generationFinder);
         }
 
         protected override void Act()
         {
-            _service.Publish(Guid.Empty, _target, _brand, _country, PublicationDataSubset.Live);
+            _publicationService.Publish(Guid.Empty, _target, _brand, _country, PublicationDataSubset.Live);
         }
 
         [Fact]
         public void ThenPublisherFactoryShouldBeCalledWithCorrectParamaters()
         {
-            A.CallTo(() => _publisherFactory.Get(_target)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _publisherFactory.Get(_publisherService)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]

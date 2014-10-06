@@ -12,7 +12,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
     public abstract class ActivatePublicationTestBase : TestBase
     {
-        protected IS3Service Service;
+        protected IService Service;
         protected IPublisher Publisher;
         protected const string Brand = "Toyota";
         protected const string Country = "BE";
@@ -26,7 +26,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 
         protected override void Arrange()
         {
-            Service = A.Fake<IS3Service>(x => x.Strict());
+            Service = A.Fake<IService>(x => x.Strict());
             var serialiser = A.Fake<IS3Serialiser>();
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
 
@@ -47,9 +47,9 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context.TimeFrames.Add(Language2, timeFrames);
 
             A.CallTo(() => Service.PutModelsOverview(null, null, null)).WithAnyArguments();
-            A.CallTo(() => Service.PutObject(null, null)).WithAnyArguments();
+            A.CallTo(() => Service.PutPublication(null, null)).WithAnyArguments();
 
-            Publisher = new S3Publisher(Service, serialiser);
+            Publisher = new S3Publisher(Service);
         }
 
         protected override void Act()

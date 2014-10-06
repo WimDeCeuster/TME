@@ -9,7 +9,7 @@ namespace TME.Carconfigurator.Tests.Base
 {
     public abstract class PublicationTestBase : TestBase
     {
-        protected IS3Service Service;
+        protected IService Service;
         protected S3Publisher Publisher;
         protected IS3Serialiser Serialiser;
         protected IContext Context;
@@ -22,13 +22,13 @@ namespace TME.Carconfigurator.Tests.Base
 
         protected override void Arrange()
         {
-            Service = A.Fake<IS3Service>();
+            Service = A.Fake<IService>();
             Serialiser = A.Fake<IS3Serialiser>();
 
             A.CallTo(() => Serialiser.Serialise(null)).WithAnyArguments().ReturnsLazily(args => args.Arguments.First().GetType().Name);
+            A.CallTo(() => Service.PutPublication(null, null)).WithAnyArguments();
 
-
-            Publisher = new S3Publisher(Service, Serialiser);
+            Publisher = new S3Publisher(Service);
             Context = ContextBuilder.GetDefaultContext(Languages);
         }
 
