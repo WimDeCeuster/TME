@@ -7,81 +7,25 @@ namespace TME.CarConfigurator
 {
     public class Model : Core.BaseObject, IModel
     {
-        
-        #region Dependencies (Adaptees)
+        private readonly Repository.Objects.Model _repositoryModel;
 
-        private Repository.Objects.Model RepositoryModel { get; set; }
-        private Repository.Objects.Publication RepositoryPublication { get; set; }
+        public string Brand { get { return _repositoryModel.Brand; } }
+        public bool Promoted { get { return _repositoryModel.Promoted; } }
+        public String SSN { get { throw new NotImplementedException(); } }
+        public ICarConfiguratorVersion CarConfiguratorVersion { get { throw new NotImplementedException(); } }
+        public IEnumerable<ILink> Links { get { throw new NotImplementedException(); } }
+        public IEnumerable<IAsset> Assets { get { throw new NotImplementedException(); } }
+        public IEnumerable<IBodyType> BodyTypes { get { throw new NotImplementedException(); } }
+        public IEnumerable<IEngine> Engines { get { throw new NotImplementedException(); } }
+        public IEnumerable<IFuelType> FuelTypes { get { throw new NotImplementedException(); } }
+        public IEnumerable<ICar> Cars { get { throw new NotImplementedException(); } }
 
-        #endregion
-
-        #region Constructor
-        internal Model(
-            Repository.Objects.Model repositoryModel, 
-            Repository.Objects.Publication repositoryPublication
-            )
+        public Model(Repository.Objects.Model repositoryModel)
             : base(repositoryModel)
         {
             if (repositoryModel == null) throw new ArgumentNullException("repositoryModel");
-            if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
 
-            RepositoryModel = repositoryModel;
-            RepositoryPublication = repositoryPublication;
+            _repositoryModel = repositoryModel;
         }
-
-        #endregion
-
-        #region Properties
-        public string Brand
-        {
-            get { return RepositoryModel.Brand; }
-        }
-        public bool Promoted
-        {
-            get { return RepositoryModel.Promoted; }
-        }
-
-        public String SSN
-        {
-            get { return RepositoryPublication.Generation.SSN; }
-        }
-
-
-
-        public ICarConfiguratorVersion CarConfiguratorVersion
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IEnumerable<ILink> Links
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IEnumerable<IAsset> Assets
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IEnumerable<IBodyType> BodyTypes
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IEnumerable<IEngine> Engines
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IEnumerable<IFuelType> FuelTypes
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IEnumerable<ICar> Cars
-        {
-            get { throw new NotImplementedException(); }
-        }
-        #endregion
     }
 }

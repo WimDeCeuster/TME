@@ -1,5 +1,5 @@
 ﻿using System;
-using TME.CarConfigurator.QueryRepository;
+using TME.CarConfigurator.QueryRepository.Interfaces;
 
 namespace TME.CarConfigurator.RepositoryFacades
 {
