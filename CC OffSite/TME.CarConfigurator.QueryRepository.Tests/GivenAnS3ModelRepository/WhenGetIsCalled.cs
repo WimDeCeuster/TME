@@ -4,7 +4,6 @@ using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.S3;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
-using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.Base;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
 using TME.CarConfigurator.Tests.Shared;
@@ -42,16 +41,22 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
         {
             const string otherLanguage = "first language";
 
-            var publication = PublicationInfoBuilder.Initialize().WithDateRange(DateTime.MinValue, DateTime.MaxValue).WithState(PublicationState.Activated).Build();
-            var publications = PublicationsBuilder.Initialize().AddPublication(publication).Build();
+            var generation = GenerationBuilder.Initialize().Build();
+            var publication = PublicationInfoBuilder.Initialize()
+                .WithGeneration(generation)
+                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                .WithState(PublicationState.Activated)
+                .Build();
+
             var otherLanguageModel = ModelBuilder
                 .Initialize()
                 .WithName("other language model")
-                .WithPublications(publications)
+                .AddPublication(publication)
                 .Build();
 
             var languages = LanguagesBuilder.Initialize()
                 .AddLanguage(otherLanguage)
+                .AddModelToLanguage(otherLanguage, otherLanguageModel)
                 .AddLanguage(Language)
                 .Build();
 
@@ -70,71 +75,25 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
         }
     }
 
-    internal class PublicationInfoBuilder
+    internal class GenerationBuilder
     {
-        private readonly Publication _publication;
-        private PublicationState _publicationState;
+        private readonly Generation _generation;
 
-        private PublicationInfoBuilder(Publication publication)
+        private GenerationBuilder(Generation generation)
         {
-            _publication = publication;
+            _generation = generation;
         }
 
-        public static PublicationInfoBuilder Initialize()
+        public static GenerationBuilder Initialize()
         {
-            var publication = new Publication();
+            var generation = new Generation();
 
-            return new PublicationInfoBuilder(publication);
+            return new GenerationBuilder(generation);
         }
 
-        public PublicationInfoBuilder WithDateRange(DateTime from, DateTime to)
+        public Generation Build()
         {
-            _publication.LineOffFrom = from;
-            _publication.LineOffTo = to;
-
-            return this;
-        }
-
-        public PublicationInfoBuilder WithState(PublicationState publicationState)
-        {
-            _publicationState = publicationState;
-
-            return this;
-        }
-
-        public PublicationInfo Build()
-        {
-            return new PublicationInfo(_publication) {State = _publicationState};
-        }
-    }
-
-
-    internal class ModelBuilder
-    {
-        private readonly Repository.Objects.Model _model;
-
-        private ModelBuilder(Repository.Objects.Model model)
-        {
-            _model = model;
-        }
-
-        public static ModelBuilder Initialize()
-        {
-            var model = new Repository.Objects.Model();
-
-            return new ModelBuilder(model);
-        }
-
-        public Repository.Objects.Model Build()
-        {
-            return _model;
-        }
-
-        public ModelBuilder WithName(string modelName)
-        {
-            _model.Name = modelName;
-
-            return this;
+            return _generation;
         }
     }
 }

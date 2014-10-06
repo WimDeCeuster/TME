@@ -56,6 +56,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBuilders\ContextBuilder.cs" />
     <Compile Include="TestBuilders\LanguagesBuilder.cs" />
+    <Compile Include="TestBuilders\ModelBuilder.cs" />
+    <Compile Include="TestBuilders\PublicationInfoBuilder.cs" />
     <Compile Include="TestHelpers\Context.cs" />
     <Compile Include="TestImplementations\Models.cs" />
   </ItemGroup>

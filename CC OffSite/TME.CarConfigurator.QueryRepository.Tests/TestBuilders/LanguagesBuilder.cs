@@ -28,7 +28,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
             return this;
         }
 
-        public LanguagesBuilder AddCountryToLanguage(string languageCode, Repository.Objects.Model model)
+        public LanguagesBuilder AddModelToLanguage(string languageCode, Repository.Objects.Model model)
         {
             var language = _languages.Single(l => l.Code == languageCode);
 
