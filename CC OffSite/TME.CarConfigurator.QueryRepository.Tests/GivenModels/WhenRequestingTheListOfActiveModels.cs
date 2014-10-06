@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FakeItEasy;
 using FluentAssertions;
+using TME.CarConfigurator.Factories;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
@@ -20,26 +21,25 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
         private IEnumerable<Repository.Objects.Model> _modelsFromRespository;
         private IContext _context;
         private IModels _models;
-        private IModelRepository _modelsRepository;
+        private ModelFactory _modelFactory;
+        private IModelRepository _modelRepository;
 
         protected override void Arrange()
         {
             _context = ContextBuilder.InitializeFakeContext().Build();
 
             ArrangeModelsRepository();
+
+            _modelFactory = ModelFactoryBuilder.Initialize().WithModelRepository(_modelRepository).Build();
         }
 
         private void ArrangeModelsRepository()
         {
             ArrangeModelsFromRepository();
 
-            _modelsRepository = A.Fake<IModelRepository>();
-            A.CallTo(() => _modelsRepository.Get(null))
-                .WhenArgumentsMatch(args =>
-                {
-                    var contextInArgs = (IContext) args[0];
-                    return TestHelpers.Context.AreEqual(contextInArgs, _context);
-                })
+            _modelRepository = ModelRepositoryBuilder.InitializeFakeRepository().Build();
+            A.CallTo(() => _modelRepository.Get(null))
+                .WhenArgumentsMatch(args => TestHelpers.Context.AreEqual((IContext) args[0], _context))
                 .Returns(_modelsFromRespository);
         }
 
@@ -125,13 +125,13 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
 
         protected override void Act()
         {
-            _models = Models.GetModels(_context, _modelsRepository);
+            _models = Models.GetModels(_context, _modelFactory);
         }
 
         [Fact]
         public void ThenTheListShouldBeFetchedFromTheRepository()
         {
-            A.CallTo(() => _modelsRepository.Get(null))
+            A.CallTo(() => _modelRepository.Get(null))
                 .WhenArgumentsMatch(args =>
                 {
                     var contextInArgs = (IContext) args[0];
@@ -146,7 +146,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
             _models.Should()
                 .HaveCount(1, "because we don't want duplicate models")
                 .And
-                .OnlyContain(m => m.Name.Equals(ModelName1));
+                .OnlyContain(m => m.Name.Equals(ModelName1), "because this is the only model that has an active publication that is available today");
         }
     }
 }
