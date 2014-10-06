@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Spring.Context.Support;
+using System;
 using TME.CarConfigurator.Publisher.Interfaces;
 
 namespace TME.CarConfigurator.Publisher.Factories
 {
     public class PublisherFactory : IPublisherFactory
     {
-        public IPublisher Get(String target)
+        public IPublisher Get(IService service)
         {
-            throw new NotImplementedException();
+            var springContext = ContextRegistry.GetContext();
+            return (IPublisher)springContext.CreateObject("Publisher", typeof(IPublisher), new object[] { service });
         }
     }
 }

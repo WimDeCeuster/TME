@@ -10,8 +10,13 @@ namespace TME.CarConfigurator.Publisher.S3
 {
     public class S3Publisher : IPublisher
     {
+<<<<<<< HEAD
         readonly IS3Service _service;
         readonly IS3Serialiser _serialiser;
+=======
+        IService _service;
+        IS3Serialiser _serialiser;
+>>>>>>> a8a9c7bd7cfeb13a353547161719ff4b1c0eb20a
 
         private const String PublicationPathTemplate = "{0}/generation/{1}";
 
@@ -89,7 +94,12 @@ namespace TME.CarConfigurator.Publisher.S3
                 PublishedOn = DateTime.Now
             };
 
+<<<<<<< HEAD
+            _service.PutObject(String.Format(PublicationPathTemplate, language, publication.ID),
+                               _serialiser.Serialise(publication));
+=======
             _service.PutPublication(language, publication);
+>>>>>>> a8a9c7bd7cfeb13a353547161719ff4b1c0eb20a
 
             data.Models.Single().Publications.Add(new PublicationInfo(publication));
         }
