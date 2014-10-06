@@ -122,16 +122,24 @@ namespace TME.CarConfigurator.Publisher.S3
 
         public Languages GetModelsOverviewPerLanguage()
         {
-            var modelsOverview = GetObject<Languages>(_modelsOverviewPath);
-            return modelsOverview ?? new Languages();
+            try
+            { 
+                return GetObject<Languages>(_modelsOverviewPath);
+            }
+            catch (AmazonS3Exception ex)
+            {
+                if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    return new Languages();
+                throw;
+            }
         }
 
-        public Result PutModelsOverviewPerLanguage(Languages languages)
+        public async Task<Result> PutModelsOverviewPerLanguage(Languages languages)
         {
-            return PutObjectAsync(_modelsOverviewPath, _serialiser.Serialise(languages)).Result;
+            return await PutObjectAsync(_modelsOverviewPath, _serialiser.Serialise(languages));
         }
 
-        public Task<Result> PutPublication(String language, Publication publication)
+        public async Task<Result> PutPublication(String language, Publication publication)
         {
             if (language == null) throw new ArgumentNullException("language");
             if (publication == null) throw new ArgumentNullException("publication");
@@ -140,7 +148,7 @@ namespace TME.CarConfigurator.Publisher.S3
             var path = String.Format(_publicationPathTemplate, language, publication.ID);
             var value = _serialiser.Serialise(publication);
 
-            return PutObjectAsync(path, value);
+            return await PutObjectAsync(path, value);
         }
 
         internal List<S3Bucket> GetBuckets()
@@ -151,6 +159,23 @@ namespace TME.CarConfigurator.Publisher.S3
         internal List<S3Object> GetObjects()
         {
             return _client.ListObjects(_bucketName).S3Objects;
+        }
+
+        internal void DeleteAll()
+        {
+            var request = new DeleteObjectsRequest();
+            request.BucketName = _bucketName;
+            foreach (var x in GetObjects())
+                request.AddKey(x.Key);
+
+            _client.DeleteObjects(request);
+        }
+
+        internal async Task<Int32> GetObjectsAsync()
+        {
+            var result = await _client.ListObjectsAsync(new ListObjectsRequest { BucketName = _bucketName });
+
+            return result.S3Objects.Count;
         }
     }
 }
