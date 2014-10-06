@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 using TME.CarConfigurator.Repository.Objects.Core;
 
 namespace TME.CarConfigurator.Repository.Objects

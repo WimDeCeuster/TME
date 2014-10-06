@@ -16,7 +16,7 @@ namespace TME.Carconfigurator.Tests.Base
         protected IContext Context;
         protected String Brand = "Toyota";
         protected String Country = "BE";
-        protected String[] Languages = new[] { "nl", "fr", "de", "en" };
+        protected String[] Languages = { "nl", "fr", "de", "en" };
 
         protected String GuidRegexPattern = @"\b[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}\b";
 
