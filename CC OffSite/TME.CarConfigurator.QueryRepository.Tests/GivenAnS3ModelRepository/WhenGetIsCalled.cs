@@ -20,9 +20,6 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
         private IEnumerable<Repository.Objects.Model> _models;
         private IContext _context;
         private const string Language = "language for test";
-        private const string ModelName1 = "ModelForContextLanguageWithAnActiveAndADeletedPublicationForTheSameGeneration";
-        private const string ModelName2 = "ModelForContextLanguageWithAActivePublicationsOfWhichTheTimeFramesDoNotSpanTheCurrentDate";
-        private const string ModelName3 = "ModelForContextLanguageWithAnArchivedPublication";
 
         protected override void Arrange()
         {
@@ -50,12 +47,12 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
             var languages = LanguagesBuilder.Initialize()
                 // other language => we don't want to see this data
                 .AddLanguage(otherLanguage)
-                .AddModelToLanguage(otherLanguage, GetActiveModelForOtherLanguage())
+                .AddModelToLanguage(otherLanguage, ModelBuilder.Initialize().Build())
                 // language from context => we want to see the active models for this language
                 .AddLanguage(Language)
-                .AddModelToLanguage(Language, GetModelForContextLanguageWithAnActiveAndADeletedPublicationForTheSameGeneration())
-                .AddModelToLanguage(Language, GetModelForContextLanguageWithActivePublicationsOfWhichTheTimeFramesDoNotSpanTheCurrentDate())
-                .AddModelToLanguage(Language, GetModelForContextLanguageWithAnArchivedPublication())
+                .AddModelToLanguage(Language, ModelBuilder.Initialize().Build())
+                .AddModelToLanguage(Language, ModelBuilder.Initialize().Build())
+                .AddModelToLanguage(Language, ModelBuilder.Initialize().Build())
                 .Build();
 
             return languages;
@@ -79,83 +76,9 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
             return otherLanguageModel;
         }
 
-        private static Repository.Objects.Model GetModelForContextLanguageWithAnActiveAndADeletedPublicationForTheSameGeneration()
-        {
-            var generation = GenerationBuilder.Initialize().Build();
-
-            var activePublication = PublicationInfoBuilder.Initialize()
-                .WithGeneration(generation)
-                .WithDateRange(DateTime.Now.AddDays(-2), DateTime.Now.AddDays(2))
-                .WithState(PublicationState.Activated)
-                .Build();
-
-            var deletedPublication = PublicationInfoBuilder.Initialize()
-                .WithGeneration(generation)
-                .WithDateRange(DateTime.Now.AddDays(-2), DateTime.Now.AddDays(2))
-                .WithState(PublicationState.ToBeDeleted)
-                .Build();
-
-            var model = ModelBuilder.Initialize()
-                .WithName(ModelName1)
-                .AddPublication(activePublication)
-                .AddPublication(deletedPublication)
-                .Build();
-
-            return model;
-        }
-
-        private static Repository.Objects.Model GetModelForContextLanguageWithActivePublicationsOfWhichTheTimeFramesDoNotSpanTheCurrentDate()
-        {
-            var generation = GenerationBuilder.Initialize().Build();
-
-            var publicationInThePast = PublicationInfoBuilder.Initialize()
-                .WithGeneration(generation)
-                .WithDateRange(DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-2))
-                .WithState(PublicationState.Activated)
-                .Build();
-
-            var publicationInTheFuture = PublicationInfoBuilder.Initialize()
-                .WithGeneration(generation)
-                .WithDateRange(DateTime.Now.AddDays(3), DateTime.Now.AddDays(12))
-                .WithState(PublicationState.Activated)
-                .Build();
-
-            var model = ModelBuilder.Initialize()
-                .WithName(ModelName2)
-                .AddPublication(publicationInThePast)
-                .AddPublication(publicationInTheFuture)
-                .Build();
-
-            return model;
-        }
-
-        private static Repository.Objects.Model GetModelForContextLanguageWithAnArchivedPublication()
-        {
-            var generation = GenerationBuilder.Initialize().Build();
-
-            var publication = PublicationInfoBuilder.Initialize()
-                .WithGeneration(generation)
-                .WithDateRange(DateTime.Now.AddDays(-10), DateTime.Now.AddDays(10))
-                .WithState(PublicationState.Archived)
-                .Build();
-
-            var model = ModelBuilder.Initialize()
-                .WithName(ModelName3)
-                .AddPublication(publication)
-                .Build();
-
-            return model;
-        }
-
         protected override void Act()
         {
             _models = _modelRepository.Get(_context);
-        }
-
-        [Fact]
-        public void ThenItShouldOnlyReturnTheModelThatHasAnActivePublicationThatIsAvailableToday()
-        {
-            _models.Should().OnlyContain(m => m.Name.Equals(ModelName1)).And.HaveCount(1, "because we don't want duplicate models");
         }
 
         [Fact]

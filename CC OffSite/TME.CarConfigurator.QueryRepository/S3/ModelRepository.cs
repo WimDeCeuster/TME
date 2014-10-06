@@ -25,11 +25,7 @@ namespace TME.CarConfigurator.QueryRepository.S3
 
             var s3Language = s3Languages.Single(l => l.Code.Equals(context.Language, StringComparison.InvariantCultureIgnoreCase));
 
-            var intermediateModels = s3Language.Models.SelectMany(m => m.Publications.Select(p => new Model(m)));
-
-            var models = new Models(intermediateModels);
-
-            return models;
+            return s3Language.Models;
         }
     }
 }
