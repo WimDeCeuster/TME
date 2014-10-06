@@ -2,7 +2,7 @@
 using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.QueryRepository.S3;
+using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
 using TME.CarConfigurator.Repository.Objects;
@@ -13,7 +13,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
 {
     public class WhenGetIsCalled : TestBase
     {
-        private ModelRepository _modelRepository;
+        private IModelRepository _modelRepository;
         private IEnumerable<Repository.Objects.Model> _models;
         private IContext _context;
         private const string Language = "language for test";
@@ -24,7 +24,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
 
             var languageService = ArrangeLanguageService();
 
-            _modelRepository = new ModelRepository(languageService);
+            _modelRepository = ModelRepositoryBuilder.Initialize().WithLanguageService(languageService).Build();
         }
 
         private static ILanguageService ArrangeLanguageService()
