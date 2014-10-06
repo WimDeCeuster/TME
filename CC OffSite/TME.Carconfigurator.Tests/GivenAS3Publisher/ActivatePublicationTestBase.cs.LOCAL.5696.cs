@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using FakeItEasy;
+using TME.CarConfigurator.Administration.Translations;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Core;
-using TME.CarConfigurator.Tests.Shared;
+using TME.Carconfigurator.Tests.Base;
+using Label = TME.CarConfigurator.Repository.Objects.Core.Label;
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {

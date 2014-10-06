@@ -6,8 +6,7 @@ using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Core;
-using TME.CarConfigurator.Tests.Shared;
+using TME.Carconfigurator.Tests.Base;
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
@@ -22,20 +21,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected Context Context;
         protected readonly Guid GenerationID = Guid.NewGuid();
         protected readonly Guid ModelID = Guid.NewGuid();
-        protected const string ModelNameForLanguage1 = "ModelNameForLanguage1";
-        protected const string ModelNameForLanguage2 = "ModelNameForLanguage2";
-        protected const string InternalCodeForLanguage1 = "InternalCode1";
-        protected const string LocalCodeForLanguage1 = "LocalCode1";
-        protected const string DescriptionForLanguage1 = "Description";
-        protected const string FootNoteForLanguage1 = "FootNote";
-        protected const string TooltipForLanguage1 = "ToolTip";
-        protected const int SortIndexForLanguage1 = 4;
-        protected List<Label> LabelsForLanguage1 = new List<Label>()
-        {
-            new Label(){Code = "New Code 1",Value = "new value 1"},
-            new Label(){Code = "New Code 2",Value = "new value 2"},
-            new Label(){Code = "New Code 3",Value = "new value 3"}
-        }; 
+        protected const string ModelNameForLanguage1 = "GenerationName1";
+        protected const string ModelNameForLanguage2 = "GenerationName2";
 
         protected override void Arrange()
         {
@@ -44,22 +31,11 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
 
             var contextDataForLanguage1 = new ContextData();
-            contextDataForLanguage1.Models.Add(new Model
-            {
-                Name = ModelNameForLanguage1, 
-                ID = ModelID,
-                InternalCode = InternalCodeForLanguage1,
-                LocalCode = LocalCodeForLanguage1,
-                Description = DescriptionForLanguage1,
-                FootNote = FootNoteForLanguage1,
-                ToolTip = TooltipForLanguage1,
-                SortIndex = SortIndexForLanguage1,
-                Labels = LabelsForLanguage1
-            });
+            contextDataForLanguage1.Models.Add(new Model { Name = ModelNameForLanguage1, ID = ModelID });
             contextDataForLanguage1.Generations.Add(new Generation());
 
             var contextDataForLanguage2 = new ContextData();
-            contextDataForLanguage2.Models.Add(new Model { Name = ModelNameForLanguage2, ID = ModelID});
+            contextDataForLanguage2.Models.Add(new Model { Name = ModelNameForLanguage2, ID = ModelID });
             contextDataForLanguage2.Generations.Add(new Generation());
 
             Context.ContextData.Add(Language1, contextDataForLanguage1);
@@ -70,7 +46,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context.TimeFrames.Add(Language1, timeFrames);
             Context.TimeFrames.Add(Language2, timeFrames);
 
-            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null, null, null)).WithAnyArguments();
+            A.CallTo(() => Service.PutModelsOverview(null, null, null)).WithAnyArguments();
             A.CallTo(() => Service.PutObject(null, null)).WithAnyArguments();
 
             Publisher = new S3Publisher(Service, serialiser);
@@ -81,15 +57,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Publisher.Publish(Context);
         }
 
-        protected Model GetModel(string modelName, string internalCode, string localCode, string oldDescriptionForLanguage1,string footNote,string tooltip,int sortIndex,List<Label> labels)
+        protected Model GetModel(string modelName)
         {
             return new Model
             {
                 Name = modelName,
                 ID = ModelID,
-                InternalCode = internalCode,
-                LocalCode = localCode,
-                Labels = labels,
                 Publications =
                 {
                     new PublicationInfo(new Publication{ID = Guid.NewGuid(),Generation = new Generation()})
