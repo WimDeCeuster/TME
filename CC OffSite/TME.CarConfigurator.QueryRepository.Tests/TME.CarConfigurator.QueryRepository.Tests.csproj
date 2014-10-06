@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{89489B1E-DFAA-4164-93C3-A79859368CF8}</ProjectGuid>
+    <ProjectGuid>{B12A8825-69C1-4C60-BC64-208C202A3A78}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TME.CarConfigurator</RootNamespace>
-    <AssemblyName>TME.CarConfigurator</AssemblyName>
+    <RootNamespace>TME.CarConfigurator.QueryRepository.Tests</RootNamespace>
+    <AssemblyName>TME.CarConfigurator.QueryRepository.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,8 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Common.Logging">
-      <HintPath>..\packages\Common.Logging.1.2.0\lib\1.0\Common.Logging.dll</HintPath>
+    <Reference Include="FakeItEasy">
+      <HintPath>..\packages\FakeItEasy.1.24.0\lib\net40\FakeItEasy.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\packages\FluentAssertions.3.2.1\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions.Core">
+      <HintPath>..\packages\FluentAssertions.3.2.1\lib\net45\FluentAssertions.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -40,46 +46,47 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="xunit">
+      <HintPath>..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Asset.cs" />
-    <Compile Include="AssetType.cs" />
-    <Compile Include="BodyType.cs" />
-    <Compile Include="Car.cs" />
-    <Compile Include="CarConfiguratorVersion.cs" />
-    <Compile Include="Core\BaseObject.cs" />
-    <Compile Include="Core\ReadOnlyList.cs" />
-    <Compile Include="Engine.cs" />
-    <Compile Include="EngineCategory.cs" />
-    <Compile Include="EngineType.cs" />
-    <Compile Include="FileType.cs" />
-    <Compile Include="FuelType.cs" />
-    <Compile Include="Link.cs" />
-    <Compile Include="Model.cs" />
-    <Compile Include="Models.cs" />
+    <Compile Include="GivenModels\WhenRequestingTheListOfActiveModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RepositoryFacades\PublicationRepositoryFacade.cs" />
-    <Compile Include="RepositoryFacades\CarRepositoryFacade.cs" />
-    <Compile Include="RepositoryFacades\PublicationTimeFrameRepositoryFacade.cs" />
-    <Compile Include="RepositoryFacades\PublicationTimeFramePartsRepositoryFacade.cs" />
+    <Compile Include="TestHelpers\Context.cs" />
+    <Compile Include="TestImplementations\Models.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
       <Project>{efdb033c-66a8-40bb-b596-561f45e6c7f7}</Project>
       <Name>TME.CarConfigurator.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Publisher\TME.CarConfigurator.Publisher.csproj">
+      <Project>{90212D66-76E4-4842-8CF0-EAD35988D8E2}</Project>
+      <Name>TME.CarConfigurator.Publisher</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.QueryRepository\TME.CarConfigurator.QueryRepository.csproj">
       <Project>{DB9741B6-62BF-4B1B-8094-E3C7CC4D5A29}</Project>
       <Name>TME.CarConfigurator.QueryRepository</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
-      <Project>{2154eaaa-3d11-4654-bea6-7b147451dba8}</Project>
+      <Project>{2154EAAA-3D11-4654-BEA6-7B147451DBA8}</Project>
       <Name>TME.CarConfigurator.Repository.Objects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Tests.Shared\TME.CarConfigurator.Tests.Shared.csproj">
+      <Project>{7DFDEC11-EB2D-4844-B822-C47CC899D138}</Project>
+      <Name>TME.CarConfigurator.Tests.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator\TME.CarConfigurator.csproj">
+      <Project>{89489B1E-DFAA-4164-93C3-A79859368CF8}</Project>
+      <Name>TME.CarConfigurator</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

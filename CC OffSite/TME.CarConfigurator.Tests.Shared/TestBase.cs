@@ -1,4 +1,4 @@
-namespace TME.Carconfigurator.Tests.Base
+namespace TME.CarConfigurator.Tests.Shared
 {
     public abstract class TestBase
     {
