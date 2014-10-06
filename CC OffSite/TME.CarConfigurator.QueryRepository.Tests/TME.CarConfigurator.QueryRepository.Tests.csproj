@@ -58,6 +58,8 @@
     <Compile Include="TestBuilders\GenerationBuilder.cs" />
     <Compile Include="TestBuilders\LanguagesBuilder.cs" />
     <Compile Include="TestBuilders\ModelBuilder.cs" />
+    <Compile Include="TestBuilders\ModelFactoryBuilder.cs" />
+    <Compile Include="TestBuilders\ModelRepositoryBuilder.cs" />
     <Compile Include="TestBuilders\PublicationInfoBuilder.cs" />
     <Compile Include="TestHelpers\Context.cs" />
   </ItemGroup>

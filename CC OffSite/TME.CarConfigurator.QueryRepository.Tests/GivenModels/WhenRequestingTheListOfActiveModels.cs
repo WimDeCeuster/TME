@@ -22,29 +22,25 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
         private IContext _context;
         private IModels _models;
         private ModelFactory _modelFactory;
-        private IModelRepository _modelsRepository;
+        private IModelRepository _modelRepository;
 
         protected override void Arrange()
         {
             _context = ContextBuilder.InitializeFakeContext().Build();
 
             ArrangeModelsRepository();
+
+            _modelFactory = ModelFactoryBuilder.Initialize().WithModelRepository(_modelRepository).Build();
         }
 
         private void ArrangeModelsRepository()
         {
             ArrangeModelsFromRepository();
 
-            _modelsRepository = A.Fake<IModelRepository>();
-            A.CallTo(() => _modelsRepository.Get(null))
-                .WhenArgumentsMatch(args =>
-                {
-                    var contextInArgs = (IContext) args[0];
-                    return TestHelpers.Context.AreEqual(contextInArgs, _context);
-                })
+            _modelRepository = ModelRepositoryBuilder.InitializeFakeRepository().Build();
+            A.CallTo(() => _modelRepository.Get(null))
+                .WhenArgumentsMatch(args => TestHelpers.Context.AreEqual((IContext) args[0], _context))
                 .Returns(_modelsFromRespository);
-
-            _modelFactory = new ModelFactory(_modelsRepository);
         }
 
         private void ArrangeModelsFromRepository()
@@ -135,7 +131,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
         [Fact]
         public void ThenTheListShouldBeFetchedFromTheRepository()
         {
-            A.CallTo(() => _modelsRepository.Get(null))
+            A.CallTo(() => _modelRepository.Get(null))
                 .WhenArgumentsMatch(args =>
                 {
                     var contextInArgs = (IContext) args[0];
@@ -150,7 +146,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
             _models.Should()
                 .HaveCount(1, "because we don't want duplicate models")
                 .And
-                .OnlyContain(m => m.Name.Equals(ModelName1));
+                .OnlyContain(m => m.Name.Equals(ModelName1), "because this is the only model that has an active publication that is available today");
         }
     }
 }
