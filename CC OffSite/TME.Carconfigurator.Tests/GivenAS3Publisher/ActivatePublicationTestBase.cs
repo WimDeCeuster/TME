@@ -9,6 +9,7 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
 using TME.Carconfigurator.Tests.Base;
+using Label = TME.CarConfigurator.Repository.Objects.Core.Label;
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
@@ -31,6 +32,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected const string FootNoteForLanguage1 = "FootNote";
         protected const string TooltipForLanguage1 = "ToolTip";
         protected const int SortIndexForLanguage1 = 4;
+        protected List<Label> LabelsForLanguage1 = new List<Label>()
+        {
+            new Label(){Code = "New Code 1",Value = "new value 1"},
+            new Label(){Code = "New Code 2",Value = "new value 2"},
+            new Label(){Code = "New Code 3",Value = "new value 3"}
+        }; 
 
         protected override void Arrange()
         {
@@ -48,7 +55,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
                 Description = DescriptionForLanguage1,
                 FootNote = FootNoteForLanguage1,
                 ToolTip = TooltipForLanguage1,
-                SortIndex = SortIndexForLanguage1
+                SortIndex = SortIndexForLanguage1,
+                Labels = LabelsForLanguage1
             });
             contextDataForLanguage1.Generations.Add(new Generation());
 
@@ -75,7 +83,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Publisher.Publish(Context);
         }
 
-        protected Model GetModel(string modelName, string internalCode, string localCode, string oldDescriptionForLanguage1,string footNote,string tooltip,int sortIndex)
+        protected Model GetModel(string modelName, string internalCode, string localCode, string oldDescriptionForLanguage1,string footNote,string tooltip,int sortIndex,List<Label> labels)
         {
             return new Model
             {
@@ -83,6 +91,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
                 ID = ModelID,
                 InternalCode = internalCode,
                 LocalCode = localCode,
+                Labels = labels,
                 Publications =
                 {
                     new PublicationInfo(new Publication{ID = Guid.NewGuid(),Generation = new Generation()})

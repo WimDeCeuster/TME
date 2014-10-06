@@ -13,8 +13,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected override void Arrange()
         {
             base.Arrange();
-            var models1 = GetModel(ModelNameForLanguage1, null, null, null, null, null, 0);
-            var models2 = GetModel(ModelNameForLanguage2, null, null, null, null, null, 0);
+            var models1 = GetModel(ModelNameForLanguage1, null, null, null, null, null, 0,null);
+            var models2 = GetModel(ModelNameForLanguage2, null, null, null, null, null, 0,null);
             var languages = new Languages()
             {
                 new Language(Language1){Models = new Repository<Model>{models1}},

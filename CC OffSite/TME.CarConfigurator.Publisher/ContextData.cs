@@ -15,7 +15,6 @@ namespace TME.CarConfigurator.Publisher
             Cars = new Repository<Car>();
             Models = new Repository<Model>();
             Generations = new Repository<Generation>();
-            Models = new Repository<Model>();
         }
     }
 }

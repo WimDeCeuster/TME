@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using TME.CarConfigurator.Administration;
-using TME.CarConfigurator.Publisher.Enums.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
