@@ -6,21 +6,12 @@ using TME.CarConfigurator.Publisher.Enums.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
-using Language = TME.CarConfigurator.Repository.Objects.Language;
-using Languages = TME.CarConfigurator.Repository.Objects.Languages;
 
 namespace TME.CarConfigurator.Publisher.S3
 {
     public class S3Publisher : IPublisher
     {
-<<<<<<< HEAD
         readonly IService _service;
-        readonly IS3Serialiser _serialiser;
-
-        private const String PublicationPathTemplate = "{0}/generation/{1}";
-=======
-        IService _service;
->>>>>>> 5253f3c97c75c49a8d5dd11371197cdddc8f56ec
 
         public S3Publisher(IService service)
         {

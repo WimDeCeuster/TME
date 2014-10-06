@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using FakeItEasy;
+﻿using FakeItEasy;
 using TME.CarConfigurator.Repository.Objects;
 using Xunit;
 
