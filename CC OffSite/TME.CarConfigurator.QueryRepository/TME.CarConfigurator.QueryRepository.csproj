@@ -46,6 +46,7 @@
     <Compile Include="Interfaces\IModelRepository.cs" />
     <Compile Include="Interfaces\IPublicationRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="S3\ModelRepository.cs" />
     <Compile Include="Service\Interfaces\ILanguageService.cs" />
   </ItemGroup>
   <ItemGroup>

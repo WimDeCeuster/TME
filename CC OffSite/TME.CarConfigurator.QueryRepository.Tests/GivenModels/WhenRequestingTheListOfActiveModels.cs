@@ -2,6 +2,7 @@
 using FluentAssertions;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
+using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
 
@@ -16,7 +17,8 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
 
         protected override void Arrange()
         {
-            ArrangeContext();
+            _context = ContextBuilder.FakeContext().Build();
+
             ArrangeModelsRepository();
         }
 
@@ -32,14 +34,6 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
                     return TestHelpers.Context.AreEqual(contextInArgs, _context);
                 })
                 .Returns(_modelsFromRespository);
-        }
-
-        private void ArrangeContext()
-        {
-            _context = A.Fake<IContext>();
-            A.CallTo(() => _context.Brand).Returns("brand");
-            A.CallTo(() => _context.Country).Returns("country");
-            A.CallTo(() => _context.Language).Returns("language");
         }
 
         protected override void Act()
