@@ -82,7 +82,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\PublicationTestBase.cs" />
-    <Compile Include="Base\TestBase.cs" />
     <Compile Include="Builders\ContextBuilder.cs" />
     <Compile Include="GivenAPublisherService\WhenPublishingToS3Production.cs" />
     <Compile Include="GivenAS3Publisher\ActivatePublicationTestBase.cs" />
@@ -106,6 +105,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
       <Project>{2154eaaa-3d11-4654-bea6-7b147451dba8}</Project>
       <Name>TME.CarConfigurator.Repository.Objects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Tests.Shared\TME.CarConfigurator.Tests.Shared.csproj">
+      <Project>{7DFDEC11-EB2D-4844-B822-C47CC899D138}</Project>
+      <Name>TME.CarConfigurator.Tests.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
