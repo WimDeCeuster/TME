@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using TME.CarConfigurator.Administration;
+using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Enums.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
@@ -12,30 +13,26 @@ namespace TME.CarConfigurator.Publisher.S3
 {
     public class S3Publisher : IPublisher
     {
-        IS3Service _service;
-        IS3Serialiser _serialiser;
+        IService _service;
 
-        String _publicationPathTemplate = "{0}/generation/{1}";
-
-        public S3Publisher(IS3Service service, IS3Serialiser serialiser)
+        public S3Publisher(IService service)
         {
             if (service == null) throw new ArgumentNullException("service");
-            if (serialiser == null) throw new ArgumentNullException("serialiser");
 
             _service = service;
-            _serialiser = serialiser;
         }
 
-        public void Publish(IContext context)
+        public Task<Result> Publish(IContext context)
         {
             var languages = context.ContextData.Keys;
 
+            var publishTasks = new List<Task<Result>>();
             foreach (var language in languages)
             { 
-                PublishLanguage(language, context);
+                publishTasks.AddRange(PublishLanguage(language, context));
             }
 
-            var s3ModelsOverview = _service.GetModelsOverview(context.Brand, context.Country);
+            var s3ModelsOverview = _service.GetModelsOverviewPerLanguage();
 
             foreach (var language in languages)
             {
@@ -51,22 +48,43 @@ namespace TME.CarConfigurator.Publisher.S3
                 }
                 else
                 {
+                    s3Model.Name = contextModel.Name;
+                    s3Model.InternalCode = contextModel.InternalCode;
+                    s3Model.LocalCode = contextModel.LocalCode;
+                    s3Model.Description = contextModel.Description;
+                    s3Model.FootNote = contextModel.FootNote;
+                    s3Model.ToolTip = contextModel.ToolTip;
+                    s3Model.SortIndex = contextModel.SortIndex;
+                    s3Model.Labels = contextModel.Labels;
                     s3Model.Publications.Single(e => e.State == PublicationState.Activated).State = PublicationState.ToBeDeleted;
                     s3Model.Publications.Add(contextModel.Publications.Single());
-                    s3Model.Name = contextModel.Name;
                 }
             }
-            _service.PutModelsOverview(context.Brand, context.Country, s3ModelsOverview);
+
+            return Task.Factory.StartNew(() =>
+            {
+                Task.WaitAll(publishTasks.ToArray());
+
+                var failure = publishTasks.Select(task => task.Result).FirstOrDefault(result => result is Failed);
+                if (failure != null)
+                    return failure;
+
+                return _service.PutModelsOverviewPerLanguage(s3ModelsOverview);
+            });
         }
 
-        void PublishLanguage(String language, IContext context)
+        IEnumerable<Task<Result>> PublishLanguage(String language, IContext context)
         {
-            PublishPublication(language, context);
+            var tasks = new List<Task<Result>>();
+
+            tasks.Add(PublishPublication(language, context));
 
             // publish rest
+
+            return tasks;
         }
 
-        void PublishPublication(String language, IContext context)
+        Task<Result> PublishPublication(String language, IContext context)
         {
             var data = context.ContextData[language];
             var timeFrames = context.TimeFrames[language];
@@ -86,10 +104,9 @@ namespace TME.CarConfigurator.Publisher.S3
                 PublishedOn = DateTime.Now
             };
 
-            _service.PutObject(String.Format(_publicationPathTemplate, language, publication.ID),
-                               _serialiser.Serialise(publication));
-
             data.Models.Single().Publications.Add(new PublicationInfo(publication));
+
+            return _service.PutPublication(language, publication);
         }
 
         private static Language GetS3Language(Languages s3ModelsOverview, string language)

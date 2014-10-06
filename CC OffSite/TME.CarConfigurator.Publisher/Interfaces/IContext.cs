@@ -11,7 +11,7 @@ namespace TME.CarConfigurator.Publisher.Interfaces
         String Brand { get; }
         String Country { get; }
         IDictionary<String, ModelGeneration> ModelGenerations { get; }
-        IDictionary<string, ContextData> ContextData { get; }
+        IDictionary<String, ContextData> ContextData { get; }
         IDictionary<String, IReadOnlyList<TimeFrame>> TimeFrames { get; }
         Guid GenerationID { get; }
     }

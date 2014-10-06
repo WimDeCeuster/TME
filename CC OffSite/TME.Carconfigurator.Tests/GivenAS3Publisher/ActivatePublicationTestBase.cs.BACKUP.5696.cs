@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using FakeItEasy;
+using TME.CarConfigurator.Administration.Translations;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Core;
+using TME.Carconfigurator.Tests.Base;
+<<<<<<< HEAD
+using Label = TME.CarConfigurator.Repository.Objects.Core.Label;
+=======
 using TME.CarConfigurator.Tests.Shared;
-using System.Threading.Tasks;
-using TME.CarConfigurator.Publisher.Enums.Result;
+>>>>>>> d4843328f0c1fa2793ada15ecf2e3c42c0b1d720
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
     public abstract class ActivatePublicationTestBase : TestBase
     {
-        protected IService Service;
+        protected IS3Service Service;
         protected IPublisher Publisher;
         protected const string Brand = "Toyota";
         protected const string Country = "BE";
@@ -41,10 +45,9 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 
         protected override void Arrange()
         {
-            Service = A.Fake<IService>(x => x.Strict());
+            Service = A.Fake<IS3Service>(x => x.Strict());
             var serialiser = A.Fake<IS3Serialiser>();
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
-            var successFullTask = Task.FromResult((Result)new Successfull());
 
             var contextDataForLanguage1 = new ContextData();
             contextDataForLanguage1.Models.Add(new Model
@@ -73,15 +76,15 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context.TimeFrames.Add(Language1, timeFrames);
             Context.TimeFrames.Add(Language2, timeFrames);
 
-            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null)).WithAnyArguments();
-            A.CallTo(() => Service.PutPublication(null, null)).WithAnyArguments().Returns(successFullTask);
+            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null, null, null)).WithAnyArguments();
+            A.CallTo(() => Service.PutObject(null, null)).WithAnyArguments();
 
-            Publisher = new S3Publisher(Service);
+            Publisher = new S3Publisher(Service, serialiser);
         }
 
         protected override void Act()
         {
-            var result = Publisher.Publish(Context).Result;
+            Publisher.Publish(Context);
         }
 
         protected Model GetModel(string modelName, string internalCode, string localCode, string oldDescriptionForLanguage1,string footNote,string tooltip,int sortIndex,List<Label> labels)

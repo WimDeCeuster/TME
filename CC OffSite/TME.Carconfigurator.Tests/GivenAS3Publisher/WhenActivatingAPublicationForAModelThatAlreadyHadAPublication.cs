@@ -13,15 +13,15 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected override void Arrange()
         {
             base.Arrange();
-            var models1 = GetModel(ModelNameForLanguage1);
-            var models2 = GetModel(ModelNameForLanguage2);
+            var models1 = GetModel(ModelNameForLanguage1, null, null, null, null, null, 0,null);
+            var models2 = GetModel(ModelNameForLanguage2, null, null, null, null, null, 0,null);
             var languages = new Languages()
             {
                 new Language(Language1){Models = new Repository<Model>{models1}},
                 new Language(Language2){Models = new Repository<Model>{models2}}
             };
 
-            A.CallTo(() => Service.GetModelsOverview(Brand, Country)).Returns(languages);
+            A.CallTo(() => Service.GetModelsOverviewPerLanguage()).Returns(languages);
         }
 
         
@@ -29,10 +29,10 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldUploadCorrectDataForLanguage1()
         {
-            A.CallTo(() => Service.PutModelsOverview(Brand, Country, null))
+            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null))
                 .WhenArgumentsMatch(args =>
                 {
-                    var models = ((Languages)args[2]).Single(l=>l.Code.Equals(Language1)).Models;
+                    var models = ((Languages)args[0]).Single(l=>l.Code.Equals(Language1)).Models;
                     return ShouldContainModelWithActivatedPublicationAndDeletedPublication(models, ModelNameForLanguage1);
                 })
                 .MustHaveHappened(Repeated.Exactly.Once);
@@ -41,10 +41,10 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldUploadCorrectDataForLanguage2()
         {
-            A.CallTo(() => Service.PutModelsOverview(Brand, Country, null))
+            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null))
                 .WhenArgumentsMatch(args =>
                 {
-                    var models = ((Languages)args[2]).Single(l=>l.Code.Equals(Language2)).Models;
+                    var models = ((Languages)args[0]).Single(l=>l.Code.Equals(Language2)).Models;
                     return ShouldContainModelWithActivatedPublicationAndDeletedPublication(models, ModelNameForLanguage2);
                 })
                 .MustHaveHappened(Repeated.Exactly.Once);
@@ -53,7 +53,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenTheModelOverviewFileShouldOnlyBeUploadedOnce()
         {
-            A.CallTo(() => Service.PutModelsOverview(null, null, null))
+            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null))
                 .WithAnyArguments()
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
