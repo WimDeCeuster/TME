@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.Interfaces;
@@ -8,7 +6,6 @@ using TME.CarConfigurator.QueryRepository.S3;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Enums;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
 
@@ -56,24 +53,6 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
                 .Build();
 
             return languages;
-        }
-
-        private static Repository.Objects.Model GetActiveModelForOtherLanguage()
-        {
-            var generation = GenerationBuilder.Initialize().Build();
-
-            var publication = PublicationInfoBuilder.Initialize()
-                .WithGeneration(generation)
-                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
-                .WithState(PublicationState.Activated)
-                .Build();
-
-            var otherLanguageModel = ModelBuilder
-                .Initialize()
-                .AddPublication(publication)
-                .Build();
-
-            return otherLanguageModel;
         }
 
         protected override void Act()

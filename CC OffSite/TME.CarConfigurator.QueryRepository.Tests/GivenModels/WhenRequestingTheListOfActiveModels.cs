@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FakeItEasy;
 using FluentAssertions;
+using TME.CarConfigurator.Factories;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
@@ -20,6 +21,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
         private IEnumerable<Repository.Objects.Model> _modelsFromRespository;
         private IContext _context;
         private IModels _models;
+        private ModelFactory _modelFactory;
         private IModelRepository _modelsRepository;
 
         protected override void Arrange()
@@ -41,6 +43,8 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
                     return TestHelpers.Context.AreEqual(contextInArgs, _context);
                 })
                 .Returns(_modelsFromRespository);
+
+            _modelFactory = new ModelFactory(_modelsRepository);
         }
 
         private void ArrangeModelsFromRepository()
@@ -125,7 +129,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
 
         protected override void Act()
         {
-            _models = Models.GetModels(_context, _modelsRepository);
+            _models = Models.GetModels(_context, _modelFactory);
         }
 
         [Fact]
