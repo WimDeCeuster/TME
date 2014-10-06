@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using FakeItEasy;
+using TME.CarConfigurator.Administration.Translations;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Core;
-using TME.CarConfigurator.Tests.Shared;
+using TME.Carconfigurator.Tests.Base;
+using Label = TME.CarConfigurator.Repository.Objects.Core.Label;
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
     public abstract class ActivatePublicationTestBase : TestBase
     {
-        protected IService Service;
+        protected IS3Service Service;
         protected IPublisher Publisher;
         protected const string Brand = "Toyota";
         protected const string Country = "BE";
@@ -39,7 +41,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 
         protected override void Arrange()
         {
-            Service = A.Fake<IService>(x => x.Strict());
+            Service = A.Fake<IS3Service>(x => x.Strict());
             var serialiser = A.Fake<IS3Serialiser>();
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
 
@@ -71,9 +73,9 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context.TimeFrames.Add(Language2, timeFrames);
 
             A.CallTo(() => Service.PutModelsOverviewPerLanguage(null, null, null)).WithAnyArguments();
-            A.CallTo(() => Service.PutPublication(null, null)).WithAnyArguments();
+            A.CallTo(() => Service.PutObject(null, null)).WithAnyArguments();
 
-            Publisher = new S3Publisher(Service);
+            Publisher = new S3Publisher(Service, serialiser);
         }
 
         protected override void Act()

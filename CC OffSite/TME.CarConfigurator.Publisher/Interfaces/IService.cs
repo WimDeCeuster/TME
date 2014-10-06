@@ -7,8 +7,8 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface IService
     {
-        Languages GetModelsOverview(String brand, String country);
-        Result PutModelsOverview(String brand, String country, Languages languages);
+        Languages GetModelsOverviewPerLanguage(String brand, String country);
+        Result PutModelsOverviewPerLanguage(String brand, String country, Languages languages);
         Task<Result> PutPublication(String language, Publication publication);
     }
 }

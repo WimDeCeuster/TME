@@ -3,11 +3,12 @@ using System;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Tests.Shared;
 using Xunit;
 
 namespace TME.Carconfigurator.Tests.GivenAPublisherService
 {
-    public class WhenPublishingToS3Production : Base.TestBase
+    public class WhenPublishingToS3Production : TestBase
     {
         IPublisherFactory _publisherFactory;
         String _target;

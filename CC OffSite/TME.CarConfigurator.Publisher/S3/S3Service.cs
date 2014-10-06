@@ -118,12 +118,12 @@ namespace TME.CarConfigurator.Publisher.S3
             _client.DeleteObject(_bucketName, key);
         }
 
-        public Languages GetModelsOverview(string brand, string country)
+        public Languages GetModelsOverviewPerLanguage(string brand, string country)
         {
             throw new NotImplementedException();
         }
 
-        public Result PutModelsOverview(string brand, string country, TME.CarConfigurator.Repository.Objects.Languages languages)
+        public Result PutModelsOverviewPerLanguage(string brand, string country, TME.CarConfigurator.Repository.Objects.Languages languages)
         {
             throw new NotImplementedException();
         }
