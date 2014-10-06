@@ -1,6 +1,7 @@
 ﻿using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository;
+using TME.CarConfigurator.QueryRepository.Interfaces;
 
 namespace TME.CarConfigurator
 {

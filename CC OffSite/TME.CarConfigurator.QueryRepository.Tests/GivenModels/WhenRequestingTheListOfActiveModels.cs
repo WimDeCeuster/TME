@@ -1,6 +1,7 @@
 ﻿using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
 
