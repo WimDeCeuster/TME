@@ -8,6 +8,8 @@ using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
 using TME.CarConfigurator.Tests.Shared;
+using System.Threading.Tasks;
+using TME.CarConfigurator.Publisher.Enums.Result;
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
@@ -42,6 +44,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Service = A.Fake<IService>(x => x.Strict());
             var serialiser = A.Fake<IS3Serialiser>();
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
+            var successFullTask = Task.FromResult((Result)new Successfull());
 
             var contextDataForLanguage1 = new ContextData();
             contextDataForLanguage1.Models.Add(new Model
@@ -70,15 +73,15 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context.TimeFrames.Add(Language1, timeFrames);
             Context.TimeFrames.Add(Language2, timeFrames);
 
-            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null, null, null)).WithAnyArguments();
-            A.CallTo(() => Service.PutPublication(null, null)).WithAnyArguments();
+            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null)).WithAnyArguments();
+            A.CallTo(() => Service.PutPublication(null, null)).WithAnyArguments().Returns(successFullTask);
 
             Publisher = new S3Publisher(Service);
         }
 
         protected override void Act()
         {
-            Publisher.Publish(Context);
+            var result = Publisher.Publish(Context).Result;
         }
 
         protected Model GetModel(string modelName, string internalCode, string localCode, string oldDescriptionForLanguage1,string footNote,string tooltip,int sortIndex,List<Label> labels)

@@ -21,7 +21,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
                 new Language(Language2){Models = new Repository<Model>{models2}}
             };
 
-            A.CallTo(() => Service.GetModelsOverviewPerLanguage(Brand, Country)).Returns(languages);
+            A.CallTo(() => Service.GetModelsOverviewPerLanguage()).Returns(languages);
         }
 
         
@@ -29,10 +29,10 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldUploadCorrectDataForLanguage1()
         {
-            A.CallTo(() => Service.PutModelsOverviewPerLanguage(Brand, Country, null))
+            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null))
                 .WhenArgumentsMatch(args =>
                 {
-                    var models = ((Languages)args[2]).Single(l=>l.Code.Equals(Language1)).Models;
+                    var models = ((Languages)args[0]).Single(l=>l.Code.Equals(Language1)).Models;
                     return ShouldContainModelWithActivatedPublicationAndDeletedPublication(models, ModelNameForLanguage1);
                 })
                 .MustHaveHappened(Repeated.Exactly.Once);
@@ -41,10 +41,10 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldUploadCorrectDataForLanguage2()
         {
-            A.CallTo(() => Service.PutModelsOverviewPerLanguage(Brand, Country, null))
+            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null))
                 .WhenArgumentsMatch(args =>
                 {
-                    var models = ((Languages)args[2]).Single(l=>l.Code.Equals(Language2)).Models;
+                    var models = ((Languages)args[0]).Single(l=>l.Code.Equals(Language2)).Models;
                     return ShouldContainModelWithActivatedPublicationAndDeletedPublication(models, ModelNameForLanguage2);
                 })
                 .MustHaveHappened(Repeated.Exactly.Once);
@@ -53,7 +53,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenTheModelOverviewFileShouldOnlyBeUploadedOnce()
         {
-            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null, null, null))
+            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null))
                 .WithAnyArguments()
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
