@@ -11,13 +11,19 @@ namespace TME.CarConfigurator.Publisher.S3
 {
     public class S3Publisher : IPublisher
     {
-        readonly IService _service;
+        readonly IS3PublicationService _publicationService;
+        readonly IS3LanguageService _languageService;
+        readonly IS3BodyTypeService _bodyTypeService;
 
-        public S3Publisher(IService service)
+        public S3Publisher(IS3PublicationService publicationService, IS3LanguageService languageService, IS3BodyTypeService bodyTypeService)
         {
-            if (service == null) throw new ArgumentNullException("service");
+            if (publicationService == null) throw new ArgumentNullException("publicationService");
+            if (languageService == null) throw new ArgumentNullException("languageService");
+            if (bodyTypeService == null) throw new ArgumentNullException("bodyTypeService");
 
-            _service = service;
+            _publicationService = publicationService;
+            _languageService = languageService;
+            _bodyTypeService = bodyTypeService;
         }
 
         public async Task<Result> Publish(IContext context)
@@ -32,12 +38,12 @@ namespace TME.CarConfigurator.Publisher.S3
             if (failure != null)
                 return failure;
 
-            return await _service.PutModelsOverviewPerLanguage(s3ModelsOverview);
+            return await _languageService.PutModelsOverviewPerLanguage(s3ModelsOverview);
         }
 
         private Languages ActivatePublicationForAllLanguages(IContext context, IEnumerable<string> languages)
         {
-            var s3ModelsOverview = _service.GetModelsOverviewPerLanguage();
+            var s3ModelsOverview = _languageService.GetModelsOverviewPerLanguage();
             foreach (var language in languages)
             {
                 ActivatePublicationForLanguage(context, s3ModelsOverview, language);
@@ -106,7 +112,7 @@ namespace TME.CarConfigurator.Publisher.S3
         {
             data.Models.Single().Publications.Add(new PublicationInfo(publication));
 
-            return await _service.PutPublication(publication);
+            return await _publicationService.PutPublication(publication);
         }
 
         private Publication CreateNewPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames)
@@ -139,7 +145,7 @@ namespace TME.CarConfigurator.Publisher.S3
             var tasks = new List<Task<Result>>();
 
             foreach (var entry in bodyTypes)
-                tasks.Add(_service.PutGenerationBodyTypes(publication, entry.Key, entry.Value));
+                tasks.Add(_bodyTypeService.PutGenerationBodyTypes(publication, entry.Key, entry.Value));
 
             return tasks;
         }

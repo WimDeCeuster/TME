@@ -1,4 +1,5 @@
-﻿using Spring.Context.Support;
+﻿using Amazon.S3;
+using Spring.Context.Support;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,14 @@ namespace TME.CarConfigurator.Publisher.Factories
 {
     public class ServiceFactory : IServiceFactory
     {
-        public IService Get(String target, String brand, String country)
+        public IS3Service Get(String target, String brand, String country)
         {
             var springContext = ContextRegistry.GetContext();
             switch (target)
             {
                 case "S3":
-                    var serialiser = (IS3Serialiser)springContext.CreateObject("S3Serialiser", typeof(IS3Serialiser), new object[] {});
-                    return (IService)springContext.CreateObject("S3Service", typeof(IService), new object[] { brand, country, serialiser });
+                    var client = (IAmazonS3)springContext.CreateObject("AmazonS3", typeof(IAmazonS3), new object[] { });
+                    return (IS3Service)springContext.CreateObject("S3Service", typeof(IS3Service), new object[] { brand, country, client });
                 default:
                     throw new NotImplementedException();
             }

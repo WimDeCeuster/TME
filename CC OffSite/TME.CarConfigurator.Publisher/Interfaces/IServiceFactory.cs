@@ -8,6 +8,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface IServiceFactory
     {
-        IService Get(String target, String brand, String country);
+        IS3Service Get(String target, String brand, String country);
     }
 }

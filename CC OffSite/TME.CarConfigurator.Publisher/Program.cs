@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Amazon.S3;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,8 +29,11 @@ namespace TME.CarConfigurator.Publisher
             var mapper = new Mapper();
             mapper.Map("Toyota", "DE", aygo2014.ID, new CarDbModelGenerationFinder(), context);
 
+            var accessKey = ConfigurationManager.AppSettings["AWSKey"];
+            var secretKey = ConfigurationManager.AppSettings["AWSSecretKey"];
+            var client = new AmazonS3Client(accessKey, secretKey, Amazon.RegionEndpoint.EUWest1);
 
-            var service = new S3Service("Toyota", "DE", new S3Serialiser());
+            var service = new S3Service("Toyota", "DE", client);
             var xs = service.GetObjects();
             
             foreach (var x in xs) {

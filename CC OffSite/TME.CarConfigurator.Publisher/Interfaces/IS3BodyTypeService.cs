@@ -1,14 +1,15 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Enums.Result;
 using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.Publisher.Interfaces
 {
-    public interface IS3Service : IDisposable
+    public interface IS3BodyTypeService
     {
-        Task<Result> PutObjectAsync(String key, String item);
-        String GetObject(String key);
+        Task<Result> PutGenerationBodyTypes(Publication publication, TimeFrame timeFrame, IEnumerable<BodyType> bodyTypes);
     }
 }

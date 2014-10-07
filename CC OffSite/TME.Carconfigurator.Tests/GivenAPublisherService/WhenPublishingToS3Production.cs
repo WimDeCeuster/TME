@@ -17,7 +17,7 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
         IContextFactory _contextFactory;
         IServiceFactory _serviceFactory;
         IPublisher _publisher;
-        IService _publisherService;
+        IS3Service _publisherService;
         IContext _context;
         ICarDbModelGenerationFinder _generationFinder;
         String _brand = "Toyota";
@@ -32,7 +32,7 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
             _context = A.Fake<IContext>();
             _contextFactory = A.Fake<IContextFactory>();
             _serviceFactory = A.Fake<IServiceFactory>();
-            _publisherService = A.Fake<IService>();
+            _publisherService = A.Fake<IS3Service>();
             _publisher = A.Fake<IPublisher>();
             _generationFinder = A.Fake<ICarDbModelGenerationFinder>();
             _mapper = A.Fake<IMapper>();
