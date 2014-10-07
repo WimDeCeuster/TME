@@ -95,8 +95,9 @@ namespace TME.CarConfigurator.Publisher.S3
             {
                 PublishPublication(data,publication),
             };
-
+            
             // publish rest
+            tasks.AddRange(PublishGenerationBodyTypesPerTimeFrame(publication, language, context));
 
             return await Task.WhenAll(tasks);
         }
@@ -125,6 +126,25 @@ namespace TME.CarConfigurator.Publisher.S3
                     .ToList(),
                 PublishedOn = DateTime.Now
             };
+        }
+
+        IEnumerable<Task<Result>> PublishGenerationBodyTypesPerTimeFrame(Publication publication, String language, IContext context)
+        {
+            var data = context.ContextData[language];
+            var timeFrames = context.TimeFrames[language];
+
+            var bodyTypes = timeFrames.ToDictionary(
+                                timeFrame => timeFrame,
+                                timeFrame => data.GenerationBodyTypes.Where(bodyType =>
+                                                                            timeFrame.Cars.Any(car => car.BodyType.ID == bodyType.ID))
+                                                                     .ToList());
+
+            var tasks = new List<Task<Result>>();
+
+            foreach (var entry in bodyTypes)
+                tasks.Add(_service.PutGenerationBodyTypes(publication, entry.Key, entry.Value));
+
+            return tasks;
         }
 
         private static Language GetS3Language(Languages s3ModelsOverview, String language)

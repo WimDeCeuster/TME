@@ -33,6 +33,9 @@ namespace TME.CarConfigurator.Publisher
                 foreach (var car in modelGeneration.Cars)
                     contextData.Cars.Add(AutoMapper.Mapper.Map<Car>(car));
 
+                foreach (var bodyType in modelGeneration.BodyTypes)
+                    contextData.GenerationBodyTypes.Add(AutoMapper.Mapper.Map<BodyType>(bodyType));
+
                 context.TimeFrames[language] = GetTimeFrames(language, context);
             }
 
