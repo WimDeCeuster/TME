@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using FakeItEasy;
 using FluentAssertions;
-using TME.CarConfigurator.Factories;
 using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;

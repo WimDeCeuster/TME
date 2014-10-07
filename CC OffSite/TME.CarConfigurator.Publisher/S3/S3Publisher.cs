@@ -44,7 +44,8 @@ namespace TME.CarConfigurator.Publisher.S3
             }
             return s3ModelsOverview;
         }
-        private static void ActivatePublicationForLanguage(IContext context, Languages s3ModelsOverview, string language)
+
+        private static void ActivatePublicationForLanguage(IContext context, Languages s3ModelsOverview, String language)
         {
             var s3Language = GetS3Language(s3ModelsOverview, language);
 
@@ -86,20 +87,38 @@ namespace TME.CarConfigurator.Publisher.S3
 
         async Task<IEnumerable<Result>> PublishPublicationForLanguage(String language, IContext context)
         {
-            var tasks = new List<Task<Result>>();
+            var data = context.ContextData[language];
+            var timeFrames = context.TimeFrames[language];
 
-            tasks.Add(PublishPublication(language, context));
+            var tasks = new List<Task<Result>>
+            {
+                PublishPublication(language, data,timeFrames),
+                PublishPublicationAssets(language, data,timeFrames)
+            };
 
             // publish rest
 
             return await Task.WhenAll(tasks);
         }
 
-        Task<Result> PublishPublication(String language, IContext context)
+        private Task<Result> PublishPublicationAssets(String language, ContextData data, IReadOnlyList<TimeFrame> timeFrames)
         {
-            var data = context.ContextData[language];
-            var timeFrames = context.TimeFrames[language];
-            var publication = new Publication
+            var publication = CreateNewPublication(data, timeFrames);
+
+            return _service.PutAssetsOfPublication(language, publication);
+        }
+
+        Task<Result> PublishPublication(String language, ContextData data, IReadOnlyList<TimeFrame> timeFrames)
+        {
+            var publication = CreateNewPublication(data, timeFrames);
+            data.Models.Single().Publications.Add(new PublicationInfo(publication));
+
+            return _service.PutPublication(language, publication);
+        }
+
+        private Publication CreateNewPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames)
+        {
+            return new Publication
             {
                 ID = Guid.NewGuid(),
                 Generation = data.Generations.Single(),
@@ -111,17 +130,12 @@ namespace TME.CarConfigurator.Publisher.S3
                     LineOffFrom = timeFrame.From,
                     LineOffTo = timeFrame.Until
                 })
-                                       .ToList(),
+                    .ToList(),
                 PublishedOn = DateTime.Now
             };
-
-            data.Models.Single().Publications.Add(new PublicationInfo(publication));
-
-            _service.PutPublication(language, publication);
-            return _service.PutAssetsOfPublication(language, publication);
         }
 
-        private static Language GetS3Language(Languages s3ModelsOverview, string language)
+        private static Language GetS3Language(Languages s3ModelsOverview, String language)
         {
             var s3Language = s3ModelsOverview.SingleOrDefault(l => l.Code.Equals(language, StringComparison.InvariantCultureIgnoreCase));
 

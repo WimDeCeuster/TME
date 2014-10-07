@@ -10,6 +10,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
         Languages GetModelsOverviewPerLanguage();
         Task<Result> PutModelsOverviewPerLanguage(Languages languages);
         Task<Result> PutPublication(String language, Publication publication);
-        Task<Result> PutAssetsOfPublication(string language, Publication publication);
+        Task<Result> PutAssetsOfPublication(String language, Publication publication);
     }
 }

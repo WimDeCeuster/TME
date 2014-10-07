@@ -176,8 +176,7 @@ namespace TME.CarConfigurator.Publisher.S3
 
         internal void DeleteAll()
         {
-            var request = new DeleteObjectsRequest();
-            request.BucketName = _bucketName;
+            var request = new DeleteObjectsRequest {BucketName = _bucketName};
             foreach (var x in GetObjects())
                 request.AddKey(x.Key);
 

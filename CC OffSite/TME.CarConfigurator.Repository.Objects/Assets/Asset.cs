@@ -12,12 +12,10 @@ namespace TME.CarConfigurator.Repository.Objects.Assets
         public int ShortID { get; set; }
         [DataMember]
         public string Name { get; set; }
-
         [DataMember]
         public string FilePath{ get; set; }
         [DataMember]
         public FileType FileType { get; set; }
-
         [DataMember]
         public bool IsTransparent { get; set; }
         [DataMember]
@@ -32,12 +30,10 @@ namespace TME.CarConfigurator.Repository.Objects.Assets
         public int PositionX { get; set; }
         [DataMember]
         public int PositionY { get; set; }
-
         [DataMember]
         public bool AlwaysInclude { get; set; }
         [DataMember]
         public AssetType AssetType { get; set; }
-        
         [DataMember]
         public string Hash { get; set; }
 
