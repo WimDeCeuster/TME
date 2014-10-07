@@ -28,7 +28,7 @@ namespace TME.Carconfigurator.Tests.Base
             Serialiser = A.Fake<IS3Serialiser>();
 
             A.CallTo(() => Serialiser.Serialise((Publication)null)).WithAnyArguments().ReturnsLazily(args => args.Arguments.First().GetType().Name);
-            A.CallTo(() => Service.PutPublication(null, null)).WithAnyArguments();
+            A.CallTo(() => Service.PutPublication(null)).WithAnyArguments();
 
             Publisher = new S3Publisher(Service);
             Context = ContextBuilder.GetDefaultContext(Languages);

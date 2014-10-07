@@ -1,4 +1,5 @@
-﻿using FakeItEasy;
+﻿using System.Linq;
+using FakeItEasy;
 using TME.CarConfigurator.Repository.Objects;
 using Xunit;
 
@@ -22,10 +23,9 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         {
             foreach (var language in Languages)
             {
-                var mainLanguage = language;
-                A.CallTo(() => Service.PutPublication(null,null))
-                                      .WhenArgumentsMatch(args => args[0].Equals(mainLanguage) && args[1] != null)
-                                      .MustHaveHappened(Repeated.Exactly.Once);
+                A.CallTo(() => Service.PutPublication(null))
+                                      .WhenArgumentsMatch(args => args[0] != null)
+                                      .MustHaveHappened(Repeated.Exactly.Times(Languages.Count()));
             }
         }
 
@@ -34,11 +34,9 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         {
             foreach (var language in Languages)
             {
-                var mainLanguage = language;
-                A.CallTo(() => Service.PutAssetsOfPublication(null,null))
-                    .WhenArgumentsMatch(args => args[0].Equals(mainLanguage) 
-                                            && ((Publication) args[1]).Generation.Assets.Count != 0)
-                    .MustHaveHappened(Repeated.Exactly.Once);
+                A.CallTo(() => Service.PutPublication(null))
+                    .WhenArgumentsMatch(args => ((Publication) args[0]).Generation.Assets.Count != 0)
+                    .MustHaveHappened(Repeated.Exactly.Times(Languages.Count()));
             }
         }
     }

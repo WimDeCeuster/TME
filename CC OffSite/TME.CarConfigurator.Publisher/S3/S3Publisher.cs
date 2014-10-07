@@ -89,11 +89,11 @@ namespace TME.CarConfigurator.Publisher.S3
         {
             var data = context.ContextData[language];
             var timeFrames = context.TimeFrames[language];
+            var publication = CreateNewPublication(data, timeFrames);
 
             var tasks = new List<Task<Result>>
             {
-                PublishPublication(language, data,timeFrames),
-                PublishPublicationAssets(language, data,timeFrames)
+                PublishPublication(data,publication),
             };
 
             // publish rest
@@ -101,19 +101,11 @@ namespace TME.CarConfigurator.Publisher.S3
             return await Task.WhenAll(tasks);
         }
 
-        private Task<Result> PublishPublicationAssets(String language, ContextData data, IReadOnlyList<TimeFrame> timeFrames)
+        Task<Result> PublishPublication(ContextData data, Publication publication)
         {
-            var publication = CreateNewPublication(data, timeFrames);
-
-            return _service.PutAssetsOfPublication(language, publication);
-        }
-
-        Task<Result> PublishPublication(String language, ContextData data, IReadOnlyList<TimeFrame> timeFrames)
-        {
-            var publication = CreateNewPublication(data, timeFrames);
             data.Models.Single().Publications.Add(new PublicationInfo(publication));
 
-            return _service.PutPublication(language, publication);
+            return _service.PutPublication(publication);
         }
 
         private Publication CreateNewPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames)
