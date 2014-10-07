@@ -1,9 +1,10 @@
+using System;
 using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.QueryRepository.Service.Interfaces
 {
-    public interface ILanguageService
+    public interface IPublicationService
     {
-        Languages GetLanguages();
+        Publication GetPublication(Guid publicationId);
     }
 }

@@ -19,9 +19,9 @@ namespace TME.CarConfigurator.QueryRepository.S3
             _languageService = languageService;
         }
 
-        public IEnumerable<Model> Get(IContext context)
+        public IEnumerable<Model> GetModels(IContext context)
         {
-            var s3Languages = _languageService.Get();
+            var s3Languages = _languageService.GetLanguages();
 
             var s3Language = s3Languages.Single(l => l.Code.Equals(context.Language, StringComparison.InvariantCultureIgnoreCase));
 

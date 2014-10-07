@@ -53,19 +53,21 @@
   <ItemGroup>
     <Compile Include="GivenAModel\WhenAccessingAPublicationProertyWhileItAlreadyFetchedThePublication.cs" />
     <Compile Include="GivenAModel\WhenAccessingAPublicationPropertyWhileItDidNotFetchThePublicationYet.cs" />
-    <Compile Include="GivenAnS3ModelRepository\WhenGetIsCalled.cs" />
+    <Compile Include="GivenAnS3ModelRepository\WhenGetModelsIsCalled.cs" />
+    <Compile Include="GivenAnS3PublicationRepository\WhenGetPublicationIsCalled.cs" />
     <Compile Include="GivenModels\WhenRequestingTheListOfActiveModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBuilders\ContextBuilder.cs" />
     <Compile Include="TestBuilders\ModelFactoryBuilder.cs" />
-    <Compile Include="TestBuilders\ModelRepositoryBuilder.cs" />
     <Compile Include="TestBuilders\PublicationFactoryBuilder.cs" />
-    <Compile Include="TestBuilders\PublicationRepositoryBuilder.cs" />
+    <Compile Include="TestBuilders\PublicationServiceBuilder.cs" />
     <Compile Include="TestBuilders\RepositoryObjects\GenerationBuilder.cs" />
     <Compile Include="TestBuilders\RepositoryObjects\LanguagesBuilder.cs" />
     <Compile Include="TestBuilders\RepositoryObjects\ModelBuilder.cs" />
     <Compile Include="TestBuilders\RepositoryObjects\PublicationBuilder.cs" />
     <Compile Include="TestBuilders\RepositoryObjects\PublicationInfoBuilder.cs" />
+    <Compile Include="TestBuilders\S3\ModelRepositoryBuilder.cs" />
+    <Compile Include="TestBuilders\S3\PublicationRepositoryBuilder.cs" />
     <Compile Include="TestHelpers\Context.cs" />
   </ItemGroup>
   <ItemGroup>

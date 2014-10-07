@@ -33,7 +33,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
 
             var context = ContextBuilder.InitializeFakeContext().Build();
 
-            _model = modelFactory.Get(context).Single();
+            _model = modelFactory.GetModels(context).Single();
 
             var dumnmy = _model.SSN; // call publication property a first time
         }
@@ -42,7 +42,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
         {
             _publicationRepository = A.Fake<IPublicationRepository>();
 
-            A.CallTo(() => _publicationRepository.Get(_publicationID))
+            A.CallTo(() => _publicationRepository.GetPublication(_publicationID))
                 .Returns(
                     PublicationBuilder.Initialize()
                         .WithGeneration(GenerationBuilder.Initialize()
@@ -67,7 +67,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
             var repoModel = ModelBuilder.Initialize().AddPublication(publicationInfo).Build();
 
             var modelRepository = A.Fake<IModelRepository>();
-            A.CallTo(() => modelRepository.Get(A<IContext>._)).Returns(new List<Repository.Objects.Model> { repoModel });
+            A.CallTo(() => modelRepository.GetModels(A<IContext>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
             return ModelFactoryBuilder.Initialize()
                 .WithModelRepository(modelRepository)
@@ -83,7 +83,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
         [Fact]
         public void ThenItShouldNotFetchThePublicationAgain()
         {
-            A.CallTo(() => _publicationRepository.Get(_publicationID)).MustHaveHappened(Repeated.Exactly.Once); // only fetch the publication once, no matter how many times the properties are being called
+            A.CallTo(() => _publicationRepository.GetPublication(_publicationID)).MustHaveHappened(Repeated.Exactly.Once); // only fetch the publication once, no matter how many times the properties are being called
         }
 
         [Fact]

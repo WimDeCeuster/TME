@@ -17,7 +17,7 @@ namespace TME.CarConfigurator
         {
             get
             {
-                _publication = _publication ?? _publicationFactory.Get(_repositoryModel);
+                _publication = _publication ?? _publicationFactory.GetPublication(_repositoryModel);
                 return _publication;
             }
         }

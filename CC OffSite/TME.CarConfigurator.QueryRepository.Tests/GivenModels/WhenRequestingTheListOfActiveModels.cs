@@ -7,6 +7,7 @@ using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjects;
+using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.S3;
 using TME.CarConfigurator.Repository.Objects.Enums;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
@@ -39,7 +40,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
             ArrangeModelsFromRepository();
 
             _modelRepository = ModelRepositoryBuilder.InitializeFakeRepository().Build();
-            A.CallTo(() => _modelRepository.Get(null))
+            A.CallTo(() => _modelRepository.GetModels(null))
                 .WhenArgumentsMatch(args => TestHelpers.Context.AreEqual((IContext) args[0], _context))
                 .Returns(_modelsFromRespository);
         }
@@ -132,7 +133,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
         [Fact]
         public void ThenTheListShouldBeFetchedFromTheRepository()
         {
-            A.CallTo(() => _modelRepository.Get(null))
+            A.CallTo(() => _modelRepository.GetModels(null))
                 .WhenArgumentsMatch(args =>
                 {
                     var contextInArgs = (IContext) args[0];

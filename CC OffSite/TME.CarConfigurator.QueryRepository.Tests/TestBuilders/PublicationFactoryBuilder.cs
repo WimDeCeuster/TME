@@ -2,6 +2,7 @@ using FakeItEasy;
 using TME.CarConfigurator.Factories;
 using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
+using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.S3;
 
 namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
 {

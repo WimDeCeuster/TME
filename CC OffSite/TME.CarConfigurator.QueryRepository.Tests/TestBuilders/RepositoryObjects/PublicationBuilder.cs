@@ -1,3 +1,4 @@
+using System;
 using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjects
@@ -21,6 +22,13 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjec
         public PublicationBuilder WithGeneration(Generation generation)
         {
             _publication.Generation = generation;
+
+            return this;
+        }
+
+        public PublicationBuilder WithID(Guid publicationId)
+        {
+            _publication.ID = publicationId;
 
             return this;
         }

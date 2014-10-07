@@ -5,6 +5,6 @@ namespace TME.CarConfigurator.Factories.Interfaces
 {
     public interface IPublicationFactory
     {
-        Publication Get(Repository.Objects.Model repositoryModel);
+        Publication GetPublication(Repository.Objects.Model repositoryModel);
     }
 }

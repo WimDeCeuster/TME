@@ -17,11 +17,11 @@ namespace TME.CarConfigurator.Factories
             _publicationRepository = publicationRepository;
         }
 
-        public Publication Get(Repository.Objects.Model repositoryModel)
+        public Publication GetPublication(Repository.Objects.Model repositoryModel)
         {
             var publicationInfo = repositoryModel.GetActivePublicationInfo();
 
-            return _publicationRepository.Get(publicationInfo.ID);
+            return _publicationRepository.GetPublication(publicationInfo.ID);
         }
     }
 }

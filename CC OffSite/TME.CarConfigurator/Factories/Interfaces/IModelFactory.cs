@@ -4,6 +4,6 @@ namespace TME.CarConfigurator.Factories.Interfaces
 {
     public interface IModelFactory
     {
-        IModels Get(IContext context);
+        IModels GetModels(IContext context);
     }
 }
