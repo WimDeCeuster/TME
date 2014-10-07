@@ -30,6 +30,8 @@ namespace TME.CarConfigurator.Publisher
             AutoMapper.Mapper.CreateMap<Administration.ModelGenerationCarConfiguratorVersion, CarConfiguratorVersion>();
 
             AutoMapper.Mapper.CreateMap<Administration.ModelGeneration, Generation>()
+                .ForMember(generation => generation.Assets,
+                           opt => opt.Ignore())
                 .ForMember(generation => generation.Links,
                            opt => opt.Ignore())
                 .ForMember(generation => generation.SSN,
