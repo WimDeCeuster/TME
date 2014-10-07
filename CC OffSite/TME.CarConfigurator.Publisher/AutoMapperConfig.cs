@@ -12,10 +12,8 @@ namespace TME.CarConfigurator.Publisher
     {
         public static void Configure()
         {
-
-            AutoMapper.Mapper.CreateMap<Administration.Assets.LinkedAsset, Asset>();
-            AutoMapper.Mapper.CreateMap<Administration.Assets.Asset, Asset>();
-            AutoMapper.Mapper.CreateMap<Administration.FileType, FileType>();
+            MapAssets();
+            
             AutoMapper.Mapper.CreateMap<Administration.Brand, String>().ConvertUsing(brand => brand.Name);
             AutoMapper.Mapper.CreateMap<Administration.Model, Model>();
             AutoMapper.Mapper.CreateMap<Administration.Translations.Label, Label>()
@@ -29,8 +27,6 @@ namespace TME.CarConfigurator.Publisher
             AutoMapper.Mapper.CreateMap<Administration.ModelGeneration, Generation>()
                 .ForMember(generation => generation.Links,
                            opt => opt.Ignore())
-                    /*.ForMember(generation => generation.Assets,
-                    opt => opt.Ignore())*/
                 .ForMember(generation => generation.SSN,
                            opt => opt.MapFrom(modelGeneration =>
                                               modelGeneration.FactoryGenerations.Select(factoryGeneration => factoryGeneration.SSN).First()))
@@ -51,6 +47,15 @@ namespace TME.CarConfigurator.Publisher
             AutoMapper.Mapper.CreateMap<Administration.FuelTypeInfo, FuelType>();
             //AutoMapper.Mapper.CreateMap<Administration.EngineCategory, EngineCategory>();
             AutoMapper.Mapper.CreateMap<Administration.BodyTypeInfo, BodyType>();
+        }
+
+        private static void MapAssets()
+        {
+            AutoMapper.Mapper.CreateMap<Administration.Assets.LinkedAsset, Asset>();
+            AutoMapper.Mapper.CreateMap<Administration.Assets.Asset, Asset>();
+            AutoMapper.Mapper.CreateMap<Administration.Assets.AssetType, AssetType>();
+            AutoMapper.Mapper.CreateMap<Administration.FileType, FileType>();
+
         }
 
         static AutoMapper.IMappingExpression<TSource, TDestination> Translate<TSource, TDestination>(
