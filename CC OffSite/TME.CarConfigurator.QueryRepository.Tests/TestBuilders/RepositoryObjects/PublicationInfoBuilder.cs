@@ -43,11 +43,6 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjec
             return this;
         }
 
-        public PublicationInfo Build()
-        {
-            return new PublicationInfo(_publication) {State = _publicationState};
-        }
-
         public PublicationInfoBuilder WithID(Guid id)
         {
             _publication.ID = id;
@@ -58,6 +53,11 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjec
         public PublicationInfoBuilder CurrentlyActive()
         {
             return WithDateRange(DateTime.MinValue, DateTime.MaxValue).WithState(PublicationState.Activated);
+        }
+
+        public PublicationInfo Build()
+        {
+            return new PublicationInfo(_publication) {State = _publicationState};
         }
     }
 }

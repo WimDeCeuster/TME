@@ -33,7 +33,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
             var languages = ArrangeLanguages();
 
             var service = A.Fake<ILanguageService>();
-            A.CallTo(() => service.Get()).Returns(languages);
+            A.CallTo(() => service.GetLanguages()).Returns(languages);
 
             return service;
         }
@@ -58,7 +58,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
 
         protected override void Act()
         {
-            _models = _modelRepository.Get(_context);
+            _models = _modelRepository.GetModels(_context);
         }
 
         [Fact]

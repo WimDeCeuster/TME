@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using FakeItEasy;
 using FluentAssertions;
-using TME.CarConfigurator.Factories;
 using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
@@ -40,7 +39,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
             ArrangeModelsFromRepository();
 
             _modelRepository = ModelRepositoryBuilder.InitializeFakeRepository().Build();
-            A.CallTo(() => _modelRepository.Get(null))
+            A.CallTo(() => _modelRepository.GetModels(null))
                 .WhenArgumentsMatch(args => TestHelpers.Context.AreEqual((IContext) args[0], _context))
                 .Returns(_modelsFromRespository);
         }
@@ -133,7 +132,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
         [Fact]
         public void ThenTheListShouldBeFetchedFromTheRepository()
         {
-            A.CallTo(() => _modelRepository.Get(null))
+            A.CallTo(() => _modelRepository.GetModels(null))
                 .WhenArgumentsMatch(args =>
                 {
                     var contextInArgs = (IContext) args[0];

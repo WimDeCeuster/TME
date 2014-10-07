@@ -33,7 +33,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
 
             var context = ContextBuilder.InitializeFakeContext().Build();
 
-            _model = modelFactory.Get(context).Single();
+            _model = modelFactory.GetModels(context).Single();
 
             var dumnmy = _model.SSN; // call publication property a first time
         }
@@ -67,7 +67,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
             var repoModel = ModelBuilder.Initialize().AddPublication(publicationInfo).Build();
 
             var modelRepository = A.Fake<IModelRepository>();
-            A.CallTo(() => modelRepository.Get(A<IContext>._)).Returns(new List<Repository.Objects.Model> { repoModel });
+            A.CallTo(() => modelRepository.GetModels(A<IContext>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
             return ModelFactoryBuilder.Initialize()
                 .WithModelRepository(modelRepository)

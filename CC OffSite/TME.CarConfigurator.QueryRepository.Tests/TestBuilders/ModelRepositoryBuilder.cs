@@ -17,7 +17,6 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
 
         private ModelRepositoryBuilder(IModelRepository modelRepository)
         {
-            if (modelRepository == null) throw new ArgumentNullException("modelRepository");
             _modelRepository = modelRepository;
         }
 
