@@ -7,27 +7,27 @@ using FluentAssertions;
 
 namespace TME.Carconfigurator.Tests.GivenAMapper
 {
-    public class WhenMappingALiveContext : TimeFramesTestBase
+    public class WhenMappingLiveTimeFrames : TimeFramesTestBase
     {
 
         protected override void Arrange()
         {
             base.Arrange();
 
-            _context = new Context(_brand, _country, _generation.ID, PublicationDataSubset.Live);
+            context = new Context(brand, country, generation.ID, PublicationDataSubset.Live);
         }
 
         protected override void Act()
         {
-            _mapper.Map(_brand, _country, _generation.ID, _generationFinder, _context);
+            mapper.Map(brand, country, generation.ID, generationFinder, context);
         }
 
         [Fact]
         public void ThenThereShouldBeSeveralTimeFrames()
         {
-            var timeFrames = _context.TimeFrames[_language];
+            var timeFrames = context.TimeFrames[language];
 
-            if (_context.ContextData[_language].Cars.Count == _minimumCarCount)
+            if (context.ContextData[language].Cars.Count == minimumCarCount)
                 timeFrames.Count.ShouldBeEquivalentTo(9);
             else
                 timeFrames.Count.ShouldBeEquivalentTo(11);
@@ -36,9 +36,9 @@ namespace TME.Carconfigurator.Tests.GivenAMapper
         [Fact]
         public void ThenLastTimeFrameShouldMatch()
         {
-            var lastTimeFrame = _context.TimeFrames[_language].Last();
+            var lastTimeFrame = context.TimeFrames[language].Last();
 
-            var latestCar = _context.ModelGenerations[_language].Cars.OrderBy(car => car.LineOffToDate).Last();
+            var latestCar = context.ModelGenerations[language].Cars.OrderBy(car => car.LineOffToDate).Last();
 
             lastTimeFrame.From.ShouldBeEquivalentTo(new DateTime(2014, 11, 1));
             lastTimeFrame.Until.ShouldBeEquivalentTo(new DateTime(2014, 12, 1));
@@ -48,9 +48,9 @@ namespace TME.Carconfigurator.Tests.GivenAMapper
         [Fact]
         public void ThenLast2TimeFramesShouldMatch()
         {
-            var lastTimeFrame = _context.TimeFrames[_language].Reverse().Skip(1).First();
+            var lastTimeFrame = context.TimeFrames[language].Reverse().Skip(1).First();
 
-            var latestCars = _context.ModelGenerations[_language].Cars.OrderBy(car => car.LineOffToDate)
+            var latestCars = context.ModelGenerations[language].Cars.OrderBy(car => car.LineOffToDate)
                                                                       .Reverse()
                                                                       .Take(2)
                                                                       .Reverse()

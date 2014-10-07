@@ -37,6 +37,13 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
+        public ContextBuilder WithGenerationBodyTypes(String language, IEnumerable<BodyType> bodyTypes)
+        {
+            foreach (var bodyType in bodyTypes)
+                Context.ContextData[language].GenerationBodyTypes.Add(bodyType);
+            return this;
+        }
+
         private ContextBuilder WithTimeFrames(String language, IEnumerable<TimeFrame> timeFrames)
         {
             Context.TimeFrames[language] = timeFrames.ToList();

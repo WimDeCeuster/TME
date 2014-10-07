@@ -18,7 +18,6 @@ namespace TME.CarConfigurator.Publisher
 
             AutoMapper.Mapper.CreateMap<Administration.Brand, String>().ConvertUsing(brand => brand.Name);
 
-            AutoMapper.Mapper.CreateMap<Administration.Model, Model>();
             AutoMapper.Mapper.CreateMap<Administration.Translations.Label, Label>()
                 .ForMember(label => label.Code,
                            opt => opt.MapFrom(label => label.Definition.Code));
@@ -27,12 +26,8 @@ namespace TME.CarConfigurator.Publisher
             AutoMapper.Mapper.CreateMap<Administration.Model, Model>()
                 .Translate(model => model.Name);
 
-            AutoMapper.Mapper.CreateMap<Administration.ModelGenerationCarConfiguratorVersion, CarConfiguratorVersion>();
-
             AutoMapper.Mapper.CreateMap<Administration.ModelGeneration, Generation>()
                 .ForMember(generation => generation.Assets,
-                           opt => opt.Ignore())
-                .ForMember(generation => generation.Links,
                            opt => opt.Ignore())
                 .ForMember(generation => generation.SSN,
                            opt => opt.MapFrom(modelGeneration =>

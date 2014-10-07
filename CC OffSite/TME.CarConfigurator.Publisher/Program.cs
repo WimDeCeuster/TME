@@ -18,7 +18,8 @@ namespace TME.CarConfigurator.Publisher
             AutoMapperConfig.Configure();
 
             MyContext.SetSystemContext("Toyota", "DE", "de");
-            var aygo2014 = Models.GetModels()["aygo"].Generations.Last();
+            var aygo = Models.GetModels()["aygo"];
+            var aygo2014 = aygo.Generations.Last();
             //
             //var mapped = AutoMapper.Mapper.Map<Generation>(aygo2014);
 

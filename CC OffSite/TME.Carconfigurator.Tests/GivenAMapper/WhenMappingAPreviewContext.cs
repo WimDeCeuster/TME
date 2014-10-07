@@ -15,25 +15,25 @@ using FluentAssertions;
 
 namespace TME.Carconfigurator.Tests.GivenAMapper
 {
-    public class WhenMappingAPreviewContext : TimeFramesTestBase
+    public class WhenMappingPreviewTimeFrames : TimeFramesTestBase
     {
 
         protected override void Arrange()
         {
             base.Arrange();
 
-            _context = new Context(_brand, _country, _generation.ID, PublicationDataSubset.Preview);
+            context = new Context(brand, country, generation.ID, PublicationDataSubset.Preview);
         }
 
         protected override void Act()
         {
-            _mapper.Map(_brand, _country, _generation.ID, _generationFinder, _context);
+            mapper.Map(brand, country, generation.ID, generationFinder, context);
         }
 
         [Fact]
         public void ThenThereShouldBeOnly1TimeFrame()
         {
-            var timeFrames = _context.TimeFrames[_language];
+            var timeFrames = context.TimeFrames[language];
 
             timeFrames.Count.ShouldBeEquivalentTo(1);
         }
@@ -41,11 +41,11 @@ namespace TME.Carconfigurator.Tests.GivenAMapper
         [Fact]
         public void ThenTimeFrameShouldMatch()
         {
-            var timeFrame = _context.TimeFrames[_language].Single();
+            var timeFrame = context.TimeFrames[language].Single();
 
             timeFrame.From.ShouldBeEquivalentTo(DateTime.MinValue);
             timeFrame.Until.ShouldBeEquivalentTo(DateTime.MaxValue);
-            timeFrame.Cars.Count.ShouldBeEquivalentTo(_context.ModelGenerations[_language].Cars.Count);
+            timeFrame.Cars.Count.ShouldBeEquivalentTo(context.ModelGenerations[language].Cars.Count);
         }
     }
 }
