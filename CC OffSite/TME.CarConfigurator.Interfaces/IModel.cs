@@ -11,14 +11,11 @@ namespace TME.CarConfigurator.Interfaces
         bool Promoted { get; }
 
         ICarConfiguratorVersion CarConfiguratorVersion { get; }
-
         IEnumerable<ILink> Links { get; }
         IEnumerable<IAsset> Assets { get; }
-        
         IEnumerable<IBodyType> BodyTypes { get; }
         IEnumerable<IEngine> Engines { get; }
         IEnumerable<IFuelType> FuelTypes { get; }
-        
         IEnumerable<ICar> Cars { get; }
     }
 }

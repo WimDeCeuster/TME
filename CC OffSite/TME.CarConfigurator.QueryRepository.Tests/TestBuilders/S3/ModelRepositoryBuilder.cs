@@ -1,10 +1,9 @@
-using System;
 using FakeItEasy;
 using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.QueryRepository.S3;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
+namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.S3
 {
     internal class ModelRepositoryBuilder
     {

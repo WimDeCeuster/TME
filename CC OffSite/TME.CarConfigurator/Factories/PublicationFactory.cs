@@ -21,7 +21,7 @@ namespace TME.CarConfigurator.Factories
         {
             var publicationInfo = repositoryModel.GetActivePublicationInfo();
 
-            return _publicationRepository.Get(publicationInfo.ID);
+            return _publicationRepository.GetPublication(publicationInfo.ID);
         }
     }
 }

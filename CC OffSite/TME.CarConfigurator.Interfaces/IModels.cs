@@ -4,6 +4,5 @@ namespace TME.CarConfigurator.Interfaces
 {
     public interface IModels : IReadOnlyCollection<IModel>
     {
-         
     }
 }

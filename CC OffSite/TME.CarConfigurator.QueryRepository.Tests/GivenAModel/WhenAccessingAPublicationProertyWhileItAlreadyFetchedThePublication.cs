@@ -42,7 +42,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
         {
             _publicationRepository = A.Fake<IPublicationRepository>();
 
-            A.CallTo(() => _publicationRepository.Get(_publicationID))
+            A.CallTo(() => _publicationRepository.GetPublication(_publicationID))
                 .Returns(
                     PublicationBuilder.Initialize()
                         .WithGeneration(GenerationBuilder.Initialize()
@@ -83,7 +83,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
         [Fact]
         public void ThenItShouldNotFetchThePublicationAgain()
         {
-            A.CallTo(() => _publicationRepository.Get(_publicationID)).MustHaveHappened(Repeated.Exactly.Once); // only fetch the publication once, no matter how many times the properties are being called
+            A.CallTo(() => _publicationRepository.GetPublication(_publicationID)).MustHaveHappened(Repeated.Exactly.Once); // only fetch the publication once, no matter how many times the properties are being called
         }
 
         [Fact]

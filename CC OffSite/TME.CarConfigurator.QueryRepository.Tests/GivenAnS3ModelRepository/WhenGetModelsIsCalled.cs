@@ -6,13 +6,14 @@ using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjects;
+using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.S3;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
 
 namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
 {
-    public class WhenGetIsCalled : TestBase
+    public class WhenGetModelsIsCalled : TestBase
     {
         private IModelRepository _modelRepository;
         private IEnumerable<Repository.Objects.Model> _models;

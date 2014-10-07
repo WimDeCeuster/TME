@@ -40,7 +40,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
         {
             _publicationRepository = A.Fake<IPublicationRepository>();
 
-            A.CallTo(() => _publicationRepository.Get(_publicationID))
+            A.CallTo(() => _publicationRepository.GetPublication(_publicationID))
                 .Returns(
                     PublicationBuilder.Initialize()
                         .WithGeneration(GenerationBuilder.Initialize()
@@ -81,7 +81,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
         [Fact]
         public void ThenItShouldGetThePublicationFromThePublicationFactory()
         {
-            A.CallTo(() => _publicationRepository.Get(_publicationID)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _publicationRepository.GetPublication(_publicationID)).MustHaveHappened(Repeated.Exactly.Once);
 
         }
 
