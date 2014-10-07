@@ -92,6 +92,7 @@
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatAlreadyHadAPublicationAndTheModelPropertiesHaveChanged.cs" />
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatDoesntHaveAPublicationYet.cs" />
     <Compile Include="GivenAS3Publisher\WhenPublishingAModelGeneration.cs" />
+    <Compile Include="GivenAS3Publisher\WhenPublishingBodyTypesPerTimeFrame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
