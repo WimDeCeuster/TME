@@ -52,17 +52,7 @@ namespace TME.CarConfigurator.Publisher
         {
             AutoMapper.Mapper.CreateMap<Administration.FileType, FileType>();
             AutoMapper.Mapper.CreateMap<Administration.Assets.AssetType, AssetType>();
-            AutoMapper.Mapper.CreateMap<Administration.Assets.DetailedAssetInfo, Asset>()
-                .ForMember(generation => generation.Height,
-                    opt => opt.MapFrom(generation => generation.Height))
-                .ForMember(generation => generation.PositionX,
-                    opt => opt.MapFrom(generation => generation.PositionX))
-                .ForMember(generation => generation.PositionY,
-                    opt => opt.MapFrom(generation => generation.PositionY))
-                .ForMember(generation => generation.StackingOrder, 
-                    opt => opt.MapFrom(generation => generation.StackingOrder))
-                .ForMember(generation => generation.Width,
-                    opt => opt.MapFrom(generation => generation.Width));
+            AutoMapper.Mapper.CreateMap<Administration.Assets.DetailedAssetInfo, Asset>();
             AutoMapper.Mapper.CreateMap<Administration.Assets.LinkedAsset, Asset>();
         }
 

@@ -1,7 +1,6 @@
 ﻿using System;
 namespace TME.CarConfigurator.Repository.Objects.Assets
 {
-    [Serializable]
     public class Asset
     {
         public Guid ID { get; set; }
@@ -19,6 +18,5 @@ namespace TME.CarConfigurator.Repository.Objects.Assets
         public bool AlwaysInclude { get; set; }
         public AssetType AssetType { get; set; }
         public string Hash { get; set; }
-
     }
 }
