@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
@@ -13,22 +12,21 @@ namespace TME.CarConfigurator.Publisher
         public static void Configure()
         {
             MapAssets();
-            
+
             AutoMapper.Mapper.CreateMap<Administration.Brand, String>().ConvertUsing(brand => brand.Name);
             AutoMapper.Mapper.CreateMap<Administration.Model, Model>();
             AutoMapper.Mapper.CreateMap<Administration.Translations.Label, Label>()
                 .ForMember(label => label.Code,
                            opt => opt.MapFrom(label => label.Definition.Code));
-
             AutoMapper.Mapper.CreateMap<Administration.ModelGenerationCarConfiguratorVersion, CarConfiguratorVersion>();
             AutoMapper.Mapper.CreateMap<Administration.Model, Model>()
                 .Translate(model => model.Name);
             AutoMapper.Mapper.CreateMap<Administration.ModelGenerationCarConfiguratorVersion, CarConfiguratorVersion>();
             AutoMapper.Mapper.CreateMap<Administration.ModelGeneration, Generation>()
-                .ForMember(generation => generation.Assets,
-                           opt => opt.Ignore())
                 .ForMember(generation => generation.Links,
                            opt => opt.Ignore())
+                .ForMember(gen => gen.Assets, 
+                           opt => opt.MapFrom(modelGeneration => modelGeneration.Assets))
                 .ForMember(generation => generation.SSN,
                            opt => opt.MapFrom(modelGeneration =>
                                               modelGeneration.FactoryGenerations.Select(factoryGeneration => factoryGeneration.SSN).First()))
@@ -52,11 +50,20 @@ namespace TME.CarConfigurator.Publisher
 
         private static void MapAssets()
         {
-            AutoMapper.Mapper.CreateMap<Administration.Assets.LinkedAsset, Asset>();
-            AutoMapper.Mapper.CreateMap<Administration.Assets.Asset, Asset>();
-            AutoMapper.Mapper.CreateMap<Administration.Assets.AssetType, AssetType>();
             AutoMapper.Mapper.CreateMap<Administration.FileType, FileType>();
-
+            AutoMapper.Mapper.CreateMap<Administration.Assets.AssetType, AssetType>();
+            AutoMapper.Mapper.CreateMap<Administration.Assets.DetailedAssetInfo, Asset>()
+                .ForMember(generation => generation.Height,
+                    opt => opt.MapFrom(generation => generation.Height))
+                .ForMember(generation => generation.PositionX,
+                    opt => opt.MapFrom(generation => generation.PositionX))
+                .ForMember(generation => generation.PositionY,
+                    opt => opt.MapFrom(generation => generation.PositionY))
+                .ForMember(generation => generation.StackingOrder, 
+                    opt => opt.MapFrom(generation => generation.StackingOrder))
+                .ForMember(generation => generation.Width,
+                    opt => opt.MapFrom(generation => generation.Width));
+            AutoMapper.Mapper.CreateMap<Administration.Assets.LinkedAsset, Asset>();
         }
 
         static AutoMapper.IMappingExpression<TSource, TDestination> Translate<TSource, TDestination>(
