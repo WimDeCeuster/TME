@@ -9,21 +9,18 @@ namespace TME.CarConfigurator.Publisher
     {
         public static void Configure()
         {
-           /* AutoMapper.Mapper.CreateMap<Administration.Assets.Asset, Asset>()
-                .ForMember(generation => generation.AssetType, 
-                    opt => opt.MapFrom(asset => asset.AssetType));*/
 
+            AutoMapper.Mapper.CreateMap<Administration.Assets.LinkedAsset, Asset>();
+            AutoMapper.Mapper.CreateMap<Administration.Assets.Asset, Asset>();
+            AutoMapper.Mapper.CreateMap<Administration.FileType, FileType>();
             AutoMapper.Mapper.CreateMap<Administration.Brand, String>().ConvertUsing(brand => brand.Name);
-
             AutoMapper.Mapper.CreateMap<Administration.Model, Model>();
-
             AutoMapper.Mapper.CreateMap<Administration.ModelGenerationCarConfiguratorVersion, CarConfiguratorVersion>();
-
             AutoMapper.Mapper.CreateMap<Administration.ModelGeneration, Generation>()
                 .ForMember(generation => generation.Links,
                     opt => opt.Ignore())
-                    .ForMember(generation => generation.Assets,
-                    opt => opt.Ignore())
+                    /*.ForMember(generation => generation.Assets,
+                    opt => opt.Ignore())*/
                 .ForMember(generation => generation.SSN,
                     opt => opt.MapFrom(modelGeneration =>
                         modelGeneration.FactoryGenerations.Select(factoryGeneration => factoryGeneration.SSN).First()));
