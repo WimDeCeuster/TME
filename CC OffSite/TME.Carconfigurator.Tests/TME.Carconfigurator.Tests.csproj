@@ -82,7 +82,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\PublicationTestBase.cs" />
+    <Compile Include="GivenAMapper\TimeFramesTestBase.cs" />
     <Compile Include="Builders\ContextBuilder.cs" />
+    <Compile Include="GivenAMapper\WhenMappingAPreviewContext.cs" />
+    <Compile Include="GivenAMapper\WhenMappingALiveContext.cs" />
     <Compile Include="GivenAPublisherService\WhenPublishingToS3Production.cs" />
     <Compile Include="GivenAS3Publisher\ActivatePublicationTestBase.cs" />
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatAlreadyHadAPublication.cs" />
@@ -98,6 +101,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
+      <Project>{EFDB033C-66A8-40BB-B596-561F45E6C7F7}</Project>
+      <Name>TME.CarConfigurator.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Publisher\TME.CarConfigurator.Publisher.csproj">
       <Project>{90212d66-76e4-4842-8cf0-ead35988d8e2}</Project>
       <Name>TME.CarConfigurator.Publisher</Name>
@@ -111,9 +118,7 @@
       <Name>TME.CarConfigurator.Tests.Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GivenAMapper\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

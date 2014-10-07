@@ -1,7 +1,9 @@
-﻿using TME.CarConfigurator.Publisher.Interfaces;
+﻿using System.Collections.Generic;
+using TME.CarConfigurator.Publisher.Interfaces;
 using Newtonsoft.Json;
 using System;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 
 namespace TME.CarConfigurator.Publisher.S3
 {
@@ -15,6 +17,11 @@ namespace TME.CarConfigurator.Publisher.S3
         public String Serialise(Languages languages)
         {
             return SerialiseObject(languages);
+        }
+
+        public string Serialise(List<Asset> publication)
+        {
+            return SerialiseObject(publication);
         }
 
         private String SerialiseObject(Object obj)

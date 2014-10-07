@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 
 namespace TME.CarConfigurator.Publisher.Interfaces
 {
@@ -8,5 +10,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
         String Serialise(Publication publication);
         String Serialise(Languages languages);
         T Deserialise<T>(String value);
+        String Serialise(List<Asset> publication);
     }
 }

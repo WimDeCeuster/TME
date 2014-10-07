@@ -3,9 +3,9 @@ using System.Linq;
 using FakeItEasy;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.S3;
+using TME.CarConfigurator.Repository.Objects;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
-using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.Carconfigurator.Tests.Base
 {
@@ -17,7 +17,7 @@ namespace TME.Carconfigurator.Tests.Base
         protected IContext Context;
         protected String Brand = "Toyota";
         protected String Country = "BE";
-        protected String[] Languages = new[] { "nl", "fr", "de", "en" };
+        protected String[] Languages = { "nl", "fr", "de", "en" };
 
         protected String GuidRegexPattern = @"\b[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}\b";
 
