@@ -2,12 +2,12 @@
 
 namespace TME.CarConfigurator.Repository.Objects.Assets
 {
-    [DataContract]
+    
     public class VisibleInModeAndView
     {
-        [DataMember]
+        
         public string Mode { get; set; }
-        [DataMember]
+        
         public string View { get; set; }
 
 

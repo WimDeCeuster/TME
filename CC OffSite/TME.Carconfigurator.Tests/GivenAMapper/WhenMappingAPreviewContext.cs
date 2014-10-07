@@ -31,7 +31,7 @@ namespace TME.Carconfigurator.Tests.GivenAMapper
         }
 
         [Fact]
-        public void ThenThereShouldOnly1TimeFrames()
+        public void ThenThereShouldBeOnly1TimeFrame()
         {
             var timeFrames = _context.TimeFrames[_language];
 

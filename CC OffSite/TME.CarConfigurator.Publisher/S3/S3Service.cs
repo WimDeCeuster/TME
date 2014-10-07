@@ -15,17 +15,13 @@ namespace TME.CarConfigurator.Publisher.S3
 {
     public class S3Service : IService
     {
-        AmazonS3Client _client;
-        IS3Serialiser _serialiser;
-        String _bucketName;
-        RegionEndpoint _regionEndPoint = RegionEndpoint.EUWest1;
+        readonly AmazonS3Client _client;
+        readonly IS3Serialiser _serialiser;
+        readonly String _bucketName;
+        readonly RegionEndpoint _regionEndPoint = RegionEndpoint.EUWest1;
         String _publicationPathTemplate = "publication/{1}";
-        String _modelsOverviewPath = "models-per-language";
-
-        public S3Service()
-        {
-            //throw new NotImplementedException();
-        }
+        readonly String _modelsOverviewPath = "models-per-language";
+        readonly String _generationBodyTypeTimeFramePath = "publication/{0}/time-frame/{1}/body-types";
 
         public S3Service(String brand, String country, IS3Serialiser serialiser)
         {
@@ -145,6 +141,17 @@ namespace TME.CarConfigurator.Publisher.S3
 
             var path = String.Format(_publicationPathTemplate, publication.ID);
             var value = _serialiser.Serialise(publication);
+
+            return await PutObjectAsync(path, value);
+        }
+
+        public async Task<Result> PutGenerationBodyTypes(Publication publication, TimeFrame timeFrame, IEnumerable<BodyType> bodyTypes)
+        {
+            if (timeFrame == null) throw new ArgumentNullException("timeFrame");
+            if (bodyTypes == null) throw new ArgumentNullException("bodyTypes");
+
+            var path = String.Format(_generationBodyTypeTimeFramePath, publication.ID, timeFrame.ID);
+            var value = _serialiser.Serialise(bodyTypes);
 
             return await PutObjectAsync(path, value);
         }

@@ -19,9 +19,14 @@ namespace TME.CarConfigurator.Publisher.S3
             return SerialiseObject(languages);
         }
 
-        public string Serialise(List<Asset> publication)
+        public string Serialise(IEnumerable<Asset> assets)
         {
-            return SerialiseObject(publication);
+            return SerialiseObject(assets);
+        }
+
+        public string Serialise(IEnumerable<BodyType> bodyTypes)
+        {
+            return SerialiseObject(bodyTypes);
         }
 
         private String SerialiseObject(Object obj)
