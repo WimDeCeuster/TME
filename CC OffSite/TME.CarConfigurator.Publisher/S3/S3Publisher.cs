@@ -97,16 +97,16 @@ namespace TME.CarConfigurator.Publisher.S3
             };
             
             // publish rest
-            tasks.AddRange(PublishGenerationBodyTypesPerTimeFrame(publication, language, context));
+            tasks.AddRange(PublishGenerationBodyTypesPerTimeFrame(publication, timeFrames, data));
 
             return await Task.WhenAll(tasks);
         }
 
-        Task<Result> PublishPublication(ContextData data, Publication publication)
+        async Task<Result> PublishPublication(ContextData data, Publication publication)
         {
             data.Models.Single().Publications.Add(new PublicationInfo(publication));
 
-            return _service.PutPublication(publication);
+            return await _service.PutPublication(publication);
         }
 
         private Publication CreateNewPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames)
@@ -128,11 +128,8 @@ namespace TME.CarConfigurator.Publisher.S3
             };
         }
 
-        IEnumerable<Task<Result>> PublishGenerationBodyTypesPerTimeFrame(Publication publication, String language, IContext context)
+        IEnumerable<Task<Result>> PublishGenerationBodyTypesPerTimeFrame(Publication publication, IReadOnlyList<TimeFrame> timeFrames, ContextData data)
         {
-            var data = context.ContextData[language];
-            var timeFrames = context.TimeFrames[language];
-
             var bodyTypes = timeFrames.ToDictionary(
                                 timeFrame => timeFrame,
                                 timeFrame => data.GenerationBodyTypes.Where(bodyType =>

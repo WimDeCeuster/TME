@@ -25,6 +25,8 @@ namespace TME.CarConfigurator.Publisher
                 .Translate(model => model.Name);
             AutoMapper.Mapper.CreateMap<Administration.ModelGenerationCarConfiguratorVersion, CarConfiguratorVersion>();
             AutoMapper.Mapper.CreateMap<Administration.ModelGeneration, Generation>()
+                .ForMember(generation => generation.Assets,
+                           opt => opt.Ignore())
                 .ForMember(generation => generation.Links,
                            opt => opt.Ignore())
                 .ForMember(generation => generation.SSN,
@@ -37,8 +39,7 @@ namespace TME.CarConfigurator.Publisher
                 .ForMember(bodyType => bodyType.VisibleIn,
                            opt => opt.MapFrom(bodyType => bodyType.GetVisibleInList()))
                 .Translate(
-                    bodyType => bodyType.Name,
-                    bodyType => bodyType.MasterDescription.DefaultIfEmpty(bodyType.RefMasterDescription));
+                    bodyType => bodyType.Name);
             
             AutoMapper.Mapper.CreateMap<Administration.Car, Car>();
 
@@ -59,25 +60,18 @@ namespace TME.CarConfigurator.Publisher
         }
 
         static AutoMapper.IMappingExpression<TSource, TDestination> Translate<TSource, TDestination>(
-            this AutoMapper.IMappingExpression<TSource, TDestination> mapping,
-            Func<TSource, String> name,
-            Func<TSource, String> description = null,
-            Func<TSource, String> footNote = null,
-            Func<TSource, String> toolTip = null
+            this AutoMapper.IMappingExpression<TSource, TDestination> mapping, Func<TSource, String> name
             )
             where TSource : Administration.BaseObjects.TranslateableBusinessBase
             where TDestination : Repository.Objects.Core.BaseObject
         {
             Func<TSource, String> empty = source => "";
-            description = description ?? empty;
-            footNote = footNote ?? empty;
-            toolTip = toolTip ?? empty;
 
             mapping
                 .ForMember(destination => destination.Name, opt => opt.MapFrom(source => source.Translation.Name.DefaultIfEmpty(name(source))))
-                .ForMember(destination => destination.Name, opt => opt.MapFrom(source => source.Translation.Description.DefaultIfEmpty(description(source))))
-                .ForMember(destination => destination.Name, opt => opt.MapFrom(source => source.Translation.FootNote.DefaultIfEmpty(footNote(source))))
-                .ForMember(destination => destination.Name, opt => opt.MapFrom(source => source.Translation.ToolTip.DefaultIfEmpty(toolTip(source))))
+                .ForMember(destination => destination.Description, opt => opt.MapFrom(source => source.Translation.Description))
+                .ForMember(destination => destination.FootNote, opt => opt.MapFrom(source => source.Translation.FootNote))
+                .ForMember(destination => destination.ToolTip, opt => opt.MapFrom(source => source.Translation.ToolTip))
                 .ForMember(destination => destination.Labels, opt => opt.MapFrom(source => source.Translation.Labels));
 
             return mapping;

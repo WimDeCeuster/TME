@@ -19,9 +19,9 @@ namespace TME.CarConfigurator.Publisher.S3
         readonly IS3Serialiser _serialiser;
         readonly String _bucketName;
         readonly RegionEndpoint _regionEndPoint = RegionEndpoint.EUWest1;
-        String _publicationPathTemplate = "publication/{1}";
+        String _publicationPathTemplate = "publication/{0}";
         readonly String _modelsOverviewPath = "models-per-language";
-        readonly String _generationBodyTypeTimeFramePath = "publication/{0}/time-frame/{1}/body-types";
+        readonly String _generationBodyTypesTimeFramePath = "publication/{0}/time-frame/{1}/body-types";
 
         public S3Service(String brand, String country, IS3Serialiser serialiser)
         {
@@ -150,7 +150,7 @@ namespace TME.CarConfigurator.Publisher.S3
             if (timeFrame == null) throw new ArgumentNullException("timeFrame");
             if (bodyTypes == null) throw new ArgumentNullException("bodyTypes");
 
-            var path = String.Format(_generationBodyTypeTimeFramePath, publication.ID, timeFrame.ID);
+            var path = String.Format(_generationBodyTypesTimeFramePath, publication.ID, timeFrame.ID);
             var value = _serialiser.Serialise(bodyTypes);
 
             return await PutObjectAsync(path, value);
