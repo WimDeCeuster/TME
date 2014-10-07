@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
@@ -12,33 +11,33 @@ namespace TME.CarConfigurator.Publisher
     {
         public static void Configure()
         {
+            MapAssets();
 
-            AutoMapper.Mapper.CreateMap<Administration.Assets.LinkedAsset, Asset>();
-            AutoMapper.Mapper.CreateMap<Administration.Assets.Asset, Asset>();
-            AutoMapper.Mapper.CreateMap<Administration.FileType, FileType>();
             AutoMapper.Mapper.CreateMap<Administration.Brand, String>().ConvertUsing(brand => brand.Name);
-            AutoMapper.Mapper.CreateMap<Administration.Model, Model>();
 <<<<<<< HEAD
+            AutoMapper.Mapper.CreateMap<Administration.Model, Model>();
 =======
+
+>>>>>>> cc32fc97940345b54828c9a9c048eed639145e4b
             AutoMapper.Mapper.CreateMap<Administration.Translations.Label, Label>()
                 .ForMember(label => label.Code,
                            opt => opt.MapFrom(label => label.Definition.Code));
-
             AutoMapper.Mapper.CreateMap<Administration.ModelGenerationCarConfiguratorVersion, CarConfiguratorVersion>();
             AutoMapper.Mapper.CreateMap<Administration.Model, Model>()
                 .Translate(model => model.Name);
-
->>>>>>> 2c30a0c2db75977704b0db4283bab1009770e350
+<<<<<<< HEAD
             AutoMapper.Mapper.CreateMap<Administration.ModelGenerationCarConfiguratorVersion, CarConfiguratorVersion>();
             AutoMapper.Mapper.CreateMap<Administration.ModelGeneration, Generation>()
                 .ForMember(generation => generation.Links,
-<<<<<<< HEAD
-                    opt => opt.Ignore())
-                    /*.ForMember(generation => generation.Assets,
-                    opt => opt.Ignore())*/
-=======
                            opt => opt.Ignore())
->>>>>>> 2c30a0c2db75977704b0db4283bab1009770e350
+                .ForMember(gen => gen.Assets, 
+                           opt => opt.MapFrom(modelGeneration => modelGeneration.Assets))
+=======
+
+            AutoMapper.Mapper.CreateMap<Administration.ModelGeneration, Generation>()
+                .ForMember(generation => generation.Assets,
+                           opt => opt.Ignore())
+>>>>>>> cc32fc97940345b54828c9a9c048eed639145e4b
                 .ForMember(generation => generation.SSN,
                            opt => opt.MapFrom(modelGeneration =>
                                               modelGeneration.FactoryGenerations.Select(factoryGeneration => factoryGeneration.SSN).First()))
@@ -49,8 +48,7 @@ namespace TME.CarConfigurator.Publisher
                 .ForMember(bodyType => bodyType.VisibleIn,
                            opt => opt.MapFrom(bodyType => bodyType.GetVisibleInList()))
                 .Translate(
-                    bodyType => bodyType.Name,
-                    bodyType => bodyType.MasterDescription.DefaultIfEmpty(bodyType.RefMasterDescription));
+                    bodyType => bodyType.Name);
             
             AutoMapper.Mapper.CreateMap<Administration.Car, Car>();
 
@@ -61,26 +59,27 @@ namespace TME.CarConfigurator.Publisher
             AutoMapper.Mapper.CreateMap<Administration.BodyTypeInfo, BodyType>();
         }
 
+        private static void MapAssets()
+        {
+            AutoMapper.Mapper.CreateMap<Administration.FileType, FileType>();
+            AutoMapper.Mapper.CreateMap<Administration.Assets.AssetType, AssetType>();
+            AutoMapper.Mapper.CreateMap<Administration.Assets.DetailedAssetInfo, Asset>();
+            AutoMapper.Mapper.CreateMap<Administration.Assets.LinkedAsset, Asset>();
+        }
+
         static AutoMapper.IMappingExpression<TSource, TDestination> Translate<TSource, TDestination>(
-            this AutoMapper.IMappingExpression<TSource, TDestination> mapping,
-            Func<TSource, String> name,
-            Func<TSource, String> description = null,
-            Func<TSource, String> footNote = null,
-            Func<TSource, String> toolTip = null
+            this AutoMapper.IMappingExpression<TSource, TDestination> mapping, Func<TSource, String> name
             )
             where TSource : Administration.BaseObjects.TranslateableBusinessBase
             where TDestination : Repository.Objects.Core.BaseObject
         {
             Func<TSource, String> empty = source => "";
-            description = description ?? empty;
-            footNote = footNote ?? empty;
-            toolTip = toolTip ?? empty;
 
             mapping
                 .ForMember(destination => destination.Name, opt => opt.MapFrom(source => source.Translation.Name.DefaultIfEmpty(name(source))))
-                .ForMember(destination => destination.Name, opt => opt.MapFrom(source => source.Translation.Description.DefaultIfEmpty(description(source))))
-                .ForMember(destination => destination.Name, opt => opt.MapFrom(source => source.Translation.FootNote.DefaultIfEmpty(footNote(source))))
-                .ForMember(destination => destination.Name, opt => opt.MapFrom(source => source.Translation.ToolTip.DefaultIfEmpty(toolTip(source))))
+                .ForMember(destination => destination.Description, opt => opt.MapFrom(source => source.Translation.Description))
+                .ForMember(destination => destination.FootNote, opt => opt.MapFrom(source => source.Translation.FootNote))
+                .ForMember(destination => destination.ToolTip, opt => opt.MapFrom(source => source.Translation.ToolTip))
                 .ForMember(destination => destination.Labels, opt => opt.MapFrom(source => source.Translation.Labels));
 
             return mapping;

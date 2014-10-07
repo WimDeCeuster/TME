@@ -86,6 +86,7 @@
     <Compile Include="Builders\ContextBuilder.cs" />
     <Compile Include="GivenAMapper\WhenMappingAPreviewContext.cs" />
     <Compile Include="GivenAMapper\WhenMappingALiveContext.cs" />
+    <Compile Include="GivenAMapper\WhenMappingLinks.cs" />
     <Compile Include="GivenAPublisherService\WhenPublishingToS3Production.cs" />
     <Compile Include="GivenAS3Publisher\ActivatePublicationTestBase.cs" />
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatAlreadyHadAPublication.cs" />

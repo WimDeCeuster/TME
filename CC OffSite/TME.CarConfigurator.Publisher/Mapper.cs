@@ -16,6 +16,8 @@ namespace TME.CarConfigurator.Publisher
         public IContext Map(String brand, String country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IContext context)
         {
             var data = generationFinder.GetModelGeneration(brand, country, generationID);
+            var isPreview = context.DataSubset == PublicationDataSubset.Preview;
+
 
             foreach (var entry in data) {
                 var contextData = new ContextData();
@@ -27,14 +29,13 @@ namespace TME.CarConfigurator.Publisher
                 context.ContextData[language] = contextData;
 
                 // fill contextData
-                contextData.Generations.Add(AutoMapper.Mapper.Map<Generation>(modelGeneration));
+                var generation = AutoMapper.Mapper.Map<Generation>(modelGeneration);
+                contextData.Generations.Add(generation);
                 contextData.Models.Add(AutoMapper.Mapper.Map<Model>(model));
-                
-                foreach (var car in modelGeneration.Cars)
-                    contextData.Cars.Add(AutoMapper.Mapper.Map<Car>(car));
 
-                foreach (var bodyType in modelGeneration.BodyTypes)
-                    contextData.GenerationBodyTypes.Add(AutoMapper.Mapper.Map<BodyType>(bodyType));
+                FillModelLinks(model, modelGeneration, generation, brand, country, language, isPreview);
+                FillCars(modelGeneration, contextData);
+                FillGenerationBodyTypes(modelGeneration, contextData);
 
                 context.TimeFrames[language] = GetTimeFrames(language, context);
             }
@@ -42,7 +43,50 @@ namespace TME.CarConfigurator.Publisher
             return context;
         }
 
-        public IReadOnlyList<TimeFrame> GetTimeFrames(String language, IContext context)
+        void FillModelLinks(Administration.Model model, Administration.ModelGeneration modelGeneration, Generation generation, String brand, String country, String language, Boolean isPreview)
+        {
+            Administration.MyContext.SetSystemContext(brand, country, language);
+            generation.Links = model.Links.Where(link => link.Type.CarConfiguratorversionID == modelGeneration.ActiveCarConfiguratorVersion.ID ||
+                                                         link.Type.CarConfiguratorversionID == 0)
+                                          .Select(link => GetLink(link, country, language, isPreview))
+                                          .Where(x => x != null)
+                                          .ToList();
+        }
+
+        void FillCars(Administration.ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var car in modelGeneration.Cars)
+                contextData.Cars.Add(AutoMapper.Mapper.Map<Car>(car));
+        }
+
+        void FillGenerationBodyTypes(Administration.ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var bodyType in modelGeneration.BodyTypes)
+                contextData.GenerationBodyTypes.Add(AutoMapper.Mapper.Map<BodyType>(bodyType));
+        }
+
+        Link GetLink(Administration.Link link, String countryCode, String languageCode, Boolean isPreview)
+        {
+            var baseLink = Administration.BaseLinks.GetBaseLinks(link.Type, isPreview)
+                                                   .SingleOrDefault(baseLnk => baseLnk.CountryCode == countryCode && baseLnk.LanguageCode == languageCode);
+
+            return new Link {
+                ID = link.Type.ID,
+                Label = link.Label,
+                Name = link.Type.Name,
+                Url = GetUrl(baseLink, link)
+            };
+        }
+
+        String GetUrl(Administration.BaseLink baseLink, Administration.Link link) {
+            if (baseLink == null || String.IsNullOrWhiteSpace(baseLink.Url))
+                return link.UrlPart;
+            if (link.UrlPart.StartsWith("http://") || link.UrlPart.StartsWith("https://"))
+                return link.UrlPart;
+            return baseLink.Url + "/" + link.UrlPart;
+        }
+
+        IReadOnlyList<TimeFrame> GetTimeFrames(String language, IContext context)
         {
             var generation = context.ModelGenerations[language];
             var cars = context.ContextData[language].Cars;
