@@ -1,5 +1,6 @@
 ﻿using FakeItEasy;
 using FluentAssertions;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
 using TME.CarConfigurator.Repository.Objects;
@@ -14,14 +15,19 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
     {
         private const string Language1 = "lang 1";
         private const string Language2 = "lang 2";
+        private const string Brand = "a brand";
+        private const string Country = "a country";
 
         private ILanguageService _languageService;
         private Languages _expectedLanguages;
         private Languages _actualLanguages;
         private string _s3Key;
+        private IContext _context;
 
         protected override void Arrange()
         {
+            _context = ContextBuilder.InitializeFakeContext().WithBrand(Brand).WithCountry(Country).Build();
+
             _s3Key = "fake s3 key";
             const string serializedObject = "this object is serialized";
 
@@ -36,7 +42,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
 
 
             A.CallTo(() => keyManager.GetLanguagesKey()).Returns(_s3Key);
-            A.CallTo(() => s3Service.GetObject("todo", "todo", _s3Key)).Returns(serializedObject);
+            A.CallTo(() => s3Service.GetObject(Brand, Country, _s3Key)).Returns(serializedObject);
             A.CallTo(() => serialiser.Deserialise<Languages>(serializedObject)).Returns(_expectedLanguages);
 
             _languageService = LanguageServiceBuilder.Initialize()
@@ -48,7 +54,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
 
         protected override void Act()
         {
-            _actualLanguages = _languageService.GetLanguages(null);
+            _actualLanguages = _languageService.GetLanguages(_context);
         }
 
         [Fact]
