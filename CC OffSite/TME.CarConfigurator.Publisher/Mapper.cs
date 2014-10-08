@@ -4,10 +4,17 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.Administration.Assets;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using DBCar = TME.CarConfigurator.Administration.Car;
 using TME.CarConfigurator.Publisher.Enums;
+using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
+using BodyType = TME.CarConfigurator.Repository.Objects.BodyType;
+using Car = TME.CarConfigurator.Repository.Objects.Car;
+using Link = TME.CarConfigurator.Repository.Objects.Link;
+using Model = TME.CarConfigurator.Repository.Objects.Model;
 
 namespace TME.CarConfigurator.Publisher
 {
@@ -34,12 +41,35 @@ namespace TME.CarConfigurator.Publisher
 
                 FillModelLinks(model, modelGeneration, generation, brand, country, language, isPreview);
                 FillCars(modelGeneration, contextData);
+                FillGenerationAssets(modelGeneration, generation, brand, country, language);
                 FillGenerationBodyTypes(modelGeneration, contextData);
 
                 context.TimeFrames[language] = GetTimeFrames(language, context);
             }
 
             return context;
+        }
+
+        private void FillGenerationAssets(ModelGeneration modelGeneration, Generation generation, string brand, string country, string language)
+        {
+            MyContext.SetSystemContext(brand, country, language);
+            generation.Assets = FillAssetList(modelGeneration);
+        }
+
+        private List<Asset> FillAssetList(ModelGeneration modelGeneration)
+        {
+            var assetList = new List<Asset>();
+            foreach (var asset in modelGeneration.Assets)
+            {
+                var newAsset = AutoMapper.Mapper.Map<Asset>(asset);
+                newAsset.Height = DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).Height;
+                newAsset.Width = DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).Width;
+                newAsset.PositionX = DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).PositionX;
+                newAsset.PositionY = DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).PositionY;
+                
+                assetList.Add(newAsset);
+            }
+            return assetList;
         }
 
         void FillModelLinks(Administration.Model model, Administration.ModelGeneration modelGeneration, Generation generation, String brand, String country, String language, Boolean isPreview)

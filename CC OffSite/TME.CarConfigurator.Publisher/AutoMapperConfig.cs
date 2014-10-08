@@ -13,6 +13,8 @@ namespace TME.CarConfigurator.Publisher
         {
             MapAssets();
 
+
+            AutoMapper.Mapper.CreateMap<BaseObject, Model>();
             AutoMapper.Mapper.CreateMap<Administration.Brand, String>().ConvertUsing(brand => brand.Name);
             AutoMapper.Mapper.CreateMap<Administration.Translations.Label, Label>()
                 .ForMember(label => label.Code,
@@ -24,7 +26,7 @@ namespace TME.CarConfigurator.Publisher
                 .ForMember(gen => gen.Links,
                     opt => opt.Ignore())
                 .ForMember(gen => gen.Assets, 
-                           opt => opt.Ignore())  //MapFrom(modelGeneration => modelGeneration.Assets))
+                           opt => opt.MapFrom(modelGeneration => modelGeneration.Assets))
                 .ForMember(generation => generation.SSN,
                            opt => opt.MapFrom(modelGeneration =>
                                               modelGeneration.FactoryGenerations.Select(factoryGeneration => factoryGeneration.SSN).First()))
@@ -49,8 +51,11 @@ namespace TME.CarConfigurator.Publisher
         private static void MapAssets()
         {
             AutoMapper.Mapper.CreateMap<Administration.FileType, FileType>();
-            AutoMapper.Mapper.CreateMap<Administration.Assets.AssetType, AssetType>();
-            AutoMapper.Mapper.CreateMap<Administration.Assets.DetailedAssetInfo, Asset>();
+            AutoMapper.Mapper.CreateMap<Administration.Assets.AssetType, AssetType>()
+                .ForMember(assetType => assetType.Mode,opt => opt.MapFrom(assetType => assetType.Details.Mode))
+                .ForMember(assetType => assetType.Side,opt => opt.MapFrom(assetType => assetType.Details.Side))
+                .ForMember(assetType => assetType.View,opt => opt.MapFrom(assetType => assetType.Details.View))
+                .ForMember(assetType => assetType.Type,opt => opt.MapFrom(assetType => assetType.Details.Type));
             AutoMapper.Mapper.CreateMap<Administration.Assets.LinkedAsset, Asset>();
         }
 
