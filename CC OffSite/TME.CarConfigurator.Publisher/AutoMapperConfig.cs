@@ -21,9 +21,10 @@ namespace TME.CarConfigurator.Publisher
             AutoMapper.Mapper.CreateMap<Administration.Model, Model>()
                 .Translate(model => model.Name);
             AutoMapper.Mapper.CreateMap<Administration.ModelGeneration, Generation>()
-                           opt => opt.Ignore())
+                .ForMember(gen => gen.Links,
+                    opt => opt.Ignore())
                 .ForMember(gen => gen.Assets, 
-                           opt => opt.MapFrom(modelGeneration => modelGeneration.Assets))
+                           opt => opt.Ignore())  //MapFrom(modelGeneration => modelGeneration.Assets))
                 .ForMember(generation => generation.SSN,
                            opt => opt.MapFrom(modelGeneration =>
                                               modelGeneration.FactoryGenerations.Select(factoryGeneration => factoryGeneration.SSN).First()))
