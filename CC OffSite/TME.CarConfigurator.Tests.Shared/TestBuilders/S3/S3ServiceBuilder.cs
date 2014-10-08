@@ -1,7 +1,7 @@
 using FakeItEasy;
 using TME.CarConfigurator.QueryRepository.Service;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
+namespace TME.CarConfigurator.Tests.Shared.TestBuilders.S3
 {
     public class S3ServiceBuilder
     {

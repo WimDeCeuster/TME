@@ -5,6 +5,7 @@ using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
+using TME.CarConfigurator.Tests.Shared.TestBuilders.S3;
 using Xunit;
 
 namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
