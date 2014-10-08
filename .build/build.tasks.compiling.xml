@@ -1,0 +1,9 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Target Name="build-tasks-compiling-Build">
+    <MSBuild 
+      Projects="$(SolutionPath)" 
+      Targets="Rebuild" 
+      Properties="Configuration=$(BuildConfiguration);"
+    />
+  </Target>
+</Project>

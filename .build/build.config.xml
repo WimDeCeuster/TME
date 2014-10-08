@@ -1,0 +1,20 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <!-- PROPERTIES -->
+  <PropertyGroup Label="Common properties">
+    <SolutionDir>..\CC OffSite</SolutionDir>
+    <SolutionFileName>TME.CarConfigurator.sln</SolutionFileName>
+    <SolutionPath>$(SolutionDir)\$(SolutionFileName)</SolutionPath>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Build properties">
+    <BuildConfiguration Condition="'$(BuildConfiguration)' == ''">Release</BuildConfiguration>
+  </PropertyGroup>
+  
+  <PropertyGroup Label="Version properties">
+    <BuildVersionMajor Condition="'$(BuildVersionMajor)' == ''">0</BuildVersionMajor>
+    <BuildVersionMinor Condition="'$(BuildVersionMinor)' == ''">0</BuildVersionMinor>
+    <BuildVersionNumber Condition="'$(BuildVersionNumber)' == ''">0</BuildVersionNumber>
+    <BuildVersionRevision Condition="'$(BuildVersionRevision)' == ''">0</BuildVersionRevision>
+    <BuildVersion Condition="'$(BuildNumber)' == ''">$(BuildVersionMajor).$(BuildVersionMinor).$(BuildVersionNumber).$(BuildVersionRevision)</BuildVersion>
+  </PropertyGroup>
+</Project>
