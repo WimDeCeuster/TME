@@ -6,10 +6,9 @@ using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
-using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjects;
-using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.S3;
 using TME.CarConfigurator.Repository.Objects.Enums;
 using TME.CarConfigurator.Tests.Shared;
+using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
 
 namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
@@ -39,7 +38,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
         {
             ArrangeModelsFromRepository();
 
-            _modelRepository = ModelRepositoryBuilder.InitializeFakeRepository().Build();
+            _modelRepository = S3ModelRepositoryBuilder.InitializeFakeRepository().Build();
             A.CallTo(() => _modelRepository.GetModels(null))
                 .WhenArgumentsMatch(args => TestHelpers.Context.AreEqual((IContext) args[0], _context))
                 .Returns(_modelsFromRespository);
