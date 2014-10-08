@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using TME.CarConfigurator.Publisher.Interfaces;
 using Newtonsoft.Json;
 using System;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
+using TME.CarConfigurator.S3.Shared.Interfaces;
 
-namespace TME.CarConfigurator.Publisher.S3
+namespace TME.CarConfigurator.S3.Shared
 {
-    public class S3Serialiser : IS3Serialiser
+    public class Serialiser : ISerialiser
     {
         public String Serialise(Publication publication)
         {

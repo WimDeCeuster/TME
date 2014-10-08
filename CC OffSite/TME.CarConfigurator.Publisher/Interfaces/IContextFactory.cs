@@ -1,5 +1,6 @@
 using System;
 using TME.CarConfigurator.Publisher.Enums;
+using TME.CarConfigurator.Publisher.S3;
 
 namespace TME.CarConfigurator.Publisher.Interfaces
 {

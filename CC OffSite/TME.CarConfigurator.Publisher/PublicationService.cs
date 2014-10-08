@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TME.CarConfigurator.Publisher.Enums;
-using TME.CarConfigurator.Publisher.Enums.Result;
+using TME.CarConfigurator.Publisher.S3;
+using TME.CarConfigurator.S3.Shared.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Publisher.Enums;
 
 namespace TME.CarConfigurator.Publisher
 {

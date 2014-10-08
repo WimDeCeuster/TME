@@ -3,6 +3,7 @@ using System;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
 
@@ -15,9 +16,8 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
         PublicationDataSubset _dataSubset;
         PublicationService _publicationService;
         IContextFactory _contextFactory;
-        IServiceFactory _serviceFactory;
         IPublisher _publisher;
-        IS3Service _publisherService;
+        IService _publisherService;
         IContext _context;
         ICarDbModelGenerationFinder _generationFinder;
         String _brand = "Toyota";
@@ -31,8 +31,7 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
             _dataSubset = PublicationDataSubset.Live;
             _context = A.Fake<IContext>();
             _contextFactory = A.Fake<IContextFactory>();
-            _serviceFactory = A.Fake<IServiceFactory>();
-            _publisherService = A.Fake<IS3Service>();
+            _publisherService = A.Fake<IService>();
             _publisher = A.Fake<IPublisher>();
             _generationFinder = A.Fake<ICarDbModelGenerationFinder>();
             _mapper = A.Fake<IMapper>();
@@ -40,7 +39,6 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
 
             A.CallTo(() => _publisherFactory.Get(_target)).Returns(_publisher);
             A.CallTo(() => _contextFactory.Get(_brand, _country, Guid.Empty, _dataSubset)).Returns(_context);
-            A.CallTo(() => _serviceFactory.Get(_target, _brand, _country)).Returns(_publisherService);
 
             _publicationService = new PublicationService(_contextFactory, _publisherFactory, _mapper, _generationFinder);
         }

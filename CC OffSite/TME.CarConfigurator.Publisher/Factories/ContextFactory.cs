@@ -1,6 +1,6 @@
 ﻿using System;
-using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Publisher.Enums;
 
 namespace TME.CarConfigurator.Publisher.Factories
 {

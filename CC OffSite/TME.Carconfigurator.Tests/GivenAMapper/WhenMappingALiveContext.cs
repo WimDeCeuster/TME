@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using TME.CarConfigurator.Publisher;
-using TME.CarConfigurator.Publisher.Enums;
 using Xunit;
 using FluentAssertions;
+using TME.CarConfigurator.Publisher.Enums;
 
 namespace TME.Carconfigurator.Tests.GivenAMapper
 {
