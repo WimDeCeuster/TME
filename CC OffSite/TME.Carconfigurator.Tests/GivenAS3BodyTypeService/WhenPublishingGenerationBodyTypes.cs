@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.S3;
@@ -26,26 +27,18 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
         const string _language2 = "lang 2";
         Guid _publicationId1 = Guid.NewGuid();
         Guid _publicationId2 = Guid.NewGuid();
-        Guid _timeFrameId1 = Guid.NewGuid();
-        Guid _timeFrameId2 = Guid.NewGuid();
-        Guid _timeFrameId3 = Guid.NewGuid();
-        Guid _timeFrameId4 = Guid.NewGuid();
+        Guid _timeFrameId1;
+        Guid _timeFrameId2;
+        Guid _timeFrameId3;
+        Guid _timeFrameId4;
         IService _s3Service;
         S3BodyTypeService _service;
         IContext _context;
 
         protected override void Arrange()
         {
-            _context = new Context(_brand, _country, Guid.Empty, CarConfigurator.Publisher.Enums.PublicationDataSubset.Live);
-
             var publication1 = new Publication { ID = _publicationId1 };
             var publication2 = new Publication { ID = _publicationId2 };
-
-            _context.ContextData[_language1] = new ContextData();
-            _context.ContextData[_language1].Publication = publication1;
-
-            _context.ContextData[_language2] = new ContextData();
-            _context.ContextData[_language2].Publication = publication2;
 
             var bodyTypeId1 = Guid.NewGuid();
             var bodyTypeId2 = Guid.NewGuid();
@@ -56,11 +49,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
             var car2 = new Car { BodyType = new BodyType { ID = bodyTypeId2 } };
             var car3 = new Car { BodyType = new BodyType { ID = bodyTypeId3 } };
             var car4 = new Car { BodyType = new BodyType { ID = bodyTypeId4 } };
-            
-            _context.ContextData[_language1].Cars.Add(car1);
-            _context.ContextData[_language1].Cars.Add(car2);
-            _context.ContextData[_language2].Cars.Add(car3);
-            _context.ContextData[_language2].Cars.Add(car4);
 
             var timeFrame1 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1 });
             var timeFrame2 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1, car2 });
@@ -72,18 +60,24 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
             _timeFrameId3 = timeFrame3.ID;
             _timeFrameId4 = timeFrame4.ID;
 
-            _context.TimeFrames[_language1] = new List<TimeFrame> { timeFrame1, timeFrame2 };
-            _context.TimeFrames[_language2] = new List<TimeFrame> { timeFrame3, timeFrame4 };
-
             var generationBodyType1 = new BodyType { ID = bodyTypeId1 };
             var generationBodyType2 = new BodyType { ID = bodyTypeId2 };
             var generationBodyType3 = new BodyType { ID = bodyTypeId3 };
             var generationBodyType4 = new BodyType { ID = bodyTypeId4 };
 
-            _context.ContextData[_language1].GenerationBodyTypes.Add(generationBodyType1);
-            _context.ContextData[_language1].GenerationBodyTypes.Add(generationBodyType2);
-            _context.ContextData[_language2].GenerationBodyTypes.Add(generationBodyType3);
-            _context.ContextData[_language2].GenerationBodyTypes.Add(generationBodyType4);
+            _context = ContextBuilder.InitialiseFakeContext()
+                        .WithBrand(_brand)
+                        .WithCountry(_country)
+                        .WithLanguages(_language1, _language2)
+                        .WithPublication(_language1, publication1)
+                        .WithPublication(_language2, publication2)
+                        .WithCars(_language1, car1, car2)
+                        .WithCars(_language2, car3, car4)
+                        .WithTimeFrames(_language1, timeFrame1, timeFrame2)
+                        .WithTimeFrames(_language2, timeFrame3, timeFrame4)
+                        .WithGenerationBodyTypes(_language1, generationBodyType1, generationBodyType2)
+                        .WithGenerationBodyTypes(_language2, generationBodyType3, generationBodyType4)
+                        .Build();
 
             _s3Service = A.Fake<IService>();
 

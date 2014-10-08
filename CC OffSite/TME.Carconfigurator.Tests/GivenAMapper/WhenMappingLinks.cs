@@ -23,6 +23,7 @@ namespace TME.Carconfigurator.Tests.GivenAMapper
         ICarDbModelGenerationFinder _generationFinder;
         IContext _context;
         Guid _generationID;
+        private int _linkCount;
         
         protected override void Arrange()
         {
@@ -35,6 +36,8 @@ namespace TME.Carconfigurator.Tests.GivenAMapper
             _country = generationInfo.Country;
             _language = generationInfo.Language;
 
+            _linkCount = generationInfo.Links.Count;
+            
             _context = new Context(_brand, _country, _generationID, PublicationDataSubset.Live);
 
             _generationFinder = new CarDbModelGenerationFinder();
@@ -49,7 +52,7 @@ namespace TME.Carconfigurator.Tests.GivenAMapper
         [Fact]
         public void ThereShouldBeLinks()
         {
-            _context.ContextData[_language].Generations.Single().Links.Should().NotBeEmpty();
+            _context.ContextData[_language].Generations.Single().Links.Count.ShouldBeEquivalentTo(_linkCount);
         }
 
         GenerationInfo FindCompatibleGeneration()
@@ -61,15 +64,21 @@ namespace TME.Carconfigurator.Tests.GivenAMapper
                 {
                     MyContext.SetSystemContext(_brand, country.Code, language.Code);
                     foreach (var model in Models.GetModels())
-                        foreach (var generation in model.Generations)
-                            if (model.Links.Any(link => link.Type.CarConfiguratorversionID == generation.ActiveCarConfiguratorVersion.ID) ||
-                                model.Links.Any(link => link.Type.CarConfiguratorversionID == 0))
+                        foreach (var generation in model.Generations) {
+                            var links = model.Links.Where(link => link.Type.CarConfiguratorversionID == generation.ActiveCarConfiguratorVersion.ID ||
+                                                                  link.Type.CarConfiguratorversionID == 0)
+                                                   .ToList();
+                            if (links.Any()) {
                                 return new GenerationInfo
                                 {
                                     Country = country.Code,
                                     Language = language.Code,
-                                    GenerationID = generation.ID
+                                    GenerationID = generation.ID,
+                                    Model = model,
+                                    Links = links
                                 };
+                            }
+                        }
                 }
             
             throw new Exception("No generations with links found.");
@@ -80,6 +89,8 @@ namespace TME.Carconfigurator.Tests.GivenAMapper
             public String Country { get; set; }
             public String Language { get; set; }
             public Guid GenerationID { get; set; }
+            public Model Model { get; set; }
+            public List<Link> Links { get; set; }
         }
     }
 }

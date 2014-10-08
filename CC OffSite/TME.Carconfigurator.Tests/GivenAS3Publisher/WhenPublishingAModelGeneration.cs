@@ -21,12 +21,15 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenAPublicationShouldBePublished()
         {
-            foreach (var language in Languages)
-            {
-                A.CallTo(() => PublicationService.PutPublications(null))
-                                      .WhenArgumentsMatch(args => args[0] != null)
-                                      .MustHaveHappened(Repeated.Exactly.Once);
-            }
+            A.CallTo(() => PublicationService.PutPublications(Context))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
+        public void ThenAPublishGenerationBodyTypesShouldHappen()
+        {
+            A.CallTo(() => BodyTypeService.PutGenerationBodyTypes(Context))
+                .MustHaveHappened(Repeated.Exactly.Once);
         }
     }
 }

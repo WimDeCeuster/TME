@@ -31,16 +31,16 @@ namespace TME.Carconfigurator.Tests.GivenAS3PublicationService
 
         protected override void Arrange()
         {
-            _context = new Context(_brand, _country, Guid.Empty, CarConfigurator.Publisher.Enums.PublicationDataSubset.Live);
-
             var publication1 = new Publication { ID = _publicationId1 };
             var publication2 = new Publication { ID = _publicationId2 };
 
-            _context.ContextData[_language1] = new ContextData();
-            _context.ContextData[_language1].Publication = publication1;
-
-            _context.ContextData[_language2] = new ContextData();
-            _context.ContextData[_language2].Publication = publication2;
+            _context = ContextBuilder.InitialiseFakeContext()
+                        .WithBrand(_brand)
+                        .WithCountry(_country)
+                        .WithLanguages(_language1, _language2)
+                        .WithPublication(_language1, publication1)
+                        .WithPublication(_language2, publication2)
+                        .Build();
 
             _s3Service = A.Fake<IService>();
             
