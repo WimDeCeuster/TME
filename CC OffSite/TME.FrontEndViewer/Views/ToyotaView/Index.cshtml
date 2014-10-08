@@ -1,4 +1,4 @@
-﻿@model TME.FrontEndViewer.Models.ComparingViewModel
+﻿@model TME.FrontEndViewer.Models.CompareView<TME.CarConfigurator.Interfaces.IModel>
 @{
     ViewBag.Title = "Index";
 }
@@ -7,12 +7,17 @@
 <div>
     <table>
         <tr>
-            <td class="areaview">
+            <td id="oldarea" class="areaview">
                 @Html.Partial("_Models",Model.OldReaderModel);
             </td>
-            <td class="areaview">
+            <td id="newarea" class="areaview">
                 @Html.Partial("_Models",Model.NewReaderModel)
             </td>
         </tr>
     </table>
 </div>
+<script language="javascript">
+    document.onload = {
+        $('oldarea').in
+    };
+</script>

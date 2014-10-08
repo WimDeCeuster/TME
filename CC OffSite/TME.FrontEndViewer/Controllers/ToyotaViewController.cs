@@ -19,7 +19,7 @@ namespace TME.FrontEndViewer.Controllers
         public ActionResult Index()
         {
 
-            var model = new ComparingViewModel
+            var model = new CompareView<IModel>
             {
                 OldReaderModel = TMME.CarConfigurator.Models.GetModels(_context)
                                         .Cast<Model>()
