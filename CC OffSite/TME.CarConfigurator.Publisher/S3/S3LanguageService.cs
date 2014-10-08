@@ -17,12 +17,13 @@ namespace TME.CarConfigurator.Publisher.S3
     {
         readonly IService _service;
         readonly ISerialiser _serialiser;
-        readonly String _modelsOverviewPath = "models-per-language";
+        readonly IKeyManager _keyManager;
 
-        public S3LanguageService(IService service, ISerialiser serialiser)
+        public S3LanguageService(IService service, ISerialiser serialiser, IKeyManager keyManager)
         {
             _service = service ?? new Service(null);
             _serialiser = serialiser ?? new Serialiser();
+            _keyManager = keyManager ?? new KeyManager();
         }
 
         public Languages GetModelsOverviewPerLanguage(IContext context)
@@ -31,7 +32,7 @@ namespace TME.CarConfigurator.Publisher.S3
 
             try
             {
-                var value = _service.GetObject(context.Brand, context.Country, _modelsOverviewPath);
+                var value = _service.GetObject(context.Brand, context.Country, _keyManager.GetLanguagesKey());
                 return _serialiser.Deserialise<Languages>(value);
             }
             catch (ObjectNotFoundException)
@@ -44,7 +45,7 @@ namespace TME.CarConfigurator.Publisher.S3
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            return await _service.PutObjectAsync(context.Brand, context.Country, _modelsOverviewPath, _serialiser.Serialise(languages));
+            return await _service.PutObjectAsync(context.Brand, context.Country, _keyManager.GetLanguagesKey(), _serialiser.Serialise(languages));
         }
     }
 }

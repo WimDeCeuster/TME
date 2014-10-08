@@ -21,6 +21,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3LanguageService
         const String _serialisedLanguages = "serialised languages";
         const string _language1 = "lang 1";
         const string _language2 = "lang 2";
+        const String _languagesKey = "languages key";
         Guid _publicationId1 = Guid.NewGuid();
         Guid _publicationId2 = Guid.NewGuid();
         IService _s3Service;
@@ -40,10 +41,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3LanguageService
             _s3Service = A.Fake<IService>();
 
             var serialiser = A.Fake<ISerialiser>();
+            var keyManager = A.Fake<IKeyManager>();
 
-            _service = new S3LanguageService(_s3Service, serialiser);
+            _service = new S3LanguageService(_s3Service, serialiser, keyManager);
 
             A.CallTo(() => serialiser.Serialise(_languages)).Returns(_serialisedLanguages);
+            A.CallTo(() => keyManager.GetLanguagesKey()).Returns(_languagesKey);
             
         }
 
@@ -55,7 +58,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3LanguageService
         [Fact]
         public void ThenLanguagesShouldBePut()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, "models-per-language", _serialisedLanguages))
+            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _languagesKey, _serialisedLanguages))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
     }

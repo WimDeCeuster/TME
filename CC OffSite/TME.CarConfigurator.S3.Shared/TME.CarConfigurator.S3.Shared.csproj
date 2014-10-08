@@ -48,8 +48,10 @@
   <ItemGroup>
     <Compile Include="Exceptions\ObjectNotFoundException.cs" />
     <Compile Include="Factories\AmazonS3Factory.cs" />
+    <Compile Include="Interfaces\IKeyManager.cs" />
     <Compile Include="Interfaces\ISerialiser.cs" />
     <Compile Include="Interfaces\IService.cs" />
+    <Compile Include="KeyManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result\Failed.cs" />
     <Compile Include="Result\Result.cs" />

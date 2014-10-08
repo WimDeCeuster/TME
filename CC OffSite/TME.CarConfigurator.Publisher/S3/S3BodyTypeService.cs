@@ -15,12 +15,13 @@ namespace TME.CarConfigurator.Publisher.S3
     {
         readonly IService _service;
         readonly ISerialiser _serialiser;
-        readonly String _generationBodyTypesTimeFramePath = "publication/{0}/time-frame/{1}/body-types";
+        readonly IKeyManager _keyManager;
 
-        public S3BodyTypeService(IService service, ISerialiser serialiser)
+        public S3BodyTypeService(IService service, ISerialiser serialiser, IKeyManager keyManager)
         {
             _service = service ?? new Service(null);
             _serialiser = serialiser ?? new Serialiser();
+            _keyManager = keyManager ?? new KeyManager();
         }
 
         public async Task<IEnumerable<Result>> PutGenerationBodyTypes(IContext context)
@@ -47,7 +48,7 @@ namespace TME.CarConfigurator.Publisher.S3
             var publication = data.Publication;
 
             var bodyTypes = timeFrames.ToDictionary(
-                                timeFrame => timeFrame,
+                                timeFrame => data.Publication.TimeFrames.Single(publicationTimeFrame => publicationTimeFrame.ID == timeFrame.ID),
                                 timeFrame => data.GenerationBodyTypes.Where(bodyType =>
                                                                             timeFrame.Cars.Any(car => car.BodyType.ID == bodyType.ID))
                                                                      .ToList());
@@ -60,9 +61,9 @@ namespace TME.CarConfigurator.Publisher.S3
             return await Task.WhenAll(tasks);
         }
 
-        async Task<Result> PutTimeFrameGenerationBodyTypes(String brand, String country, Publication publication, TimeFrame timeFrame, IEnumerable<BodyType> bodyTypes)
+        async Task<Result> PutTimeFrameGenerationBodyTypes(String brand, String country, Publication publication, PublicationTimeFrame timeFrame, IEnumerable<BodyType> bodyTypes)
         {
-            var path = String.Format(_generationBodyTypesTimeFramePath, publication.ID, timeFrame.ID);
+            var path = _keyManager.GetGenerationBodyTypesKey(publication, timeFrame);
             var value = _serialiser.Serialise(bodyTypes);
 
             return await _service.PutObjectAsync(brand, country, path, value);

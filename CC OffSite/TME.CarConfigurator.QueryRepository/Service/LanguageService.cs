@@ -21,10 +21,4 @@ namespace TME.CarConfigurator.QueryRepository.Service
             return Serialiser.Deserialise<Languages>(serialisedLanguages);
         }
     }
-
-    public interface IKeyManager
-    {
-        string GetLanguagesKey();
-    }
-
 }

@@ -13,12 +13,13 @@ namespace TME.CarConfigurator.Publisher.S3
     {
         readonly IService _service;
         readonly ISerialiser _serialiser;
-        readonly String _publicationPathTemplate = "publication/{0}";
+        readonly IKeyManager _keyManager;
 
-        public S3PublicationService(IService service, ISerialiser serialiser)
+        public S3PublicationService(IService service, ISerialiser serialiser, IKeyManager keyManager)
         {
             _service = service ?? new Service(null);
             _serialiser = serialiser ?? new Serialiser();
+            _keyManager = keyManager ?? new KeyManager();
         }
 
         public async Task<IEnumerable<Result>> PutPublications(IContext context)
@@ -40,7 +41,7 @@ namespace TME.CarConfigurator.Publisher.S3
 
         async Task<Result> PutPublication(String brand, String country, Publication publication)
         {
-            var path = String.Format(_publicationPathTemplate, publication.ID);
+            var path = _keyManager.GetPublicationKey(publication);
             var value = _serialiser.Serialise(publication);
 
             return await _service.PutObjectAsync(brand, country, path, value);

@@ -21,18 +21,18 @@ namespace TME.Carconfigurator.Tests.GivenAS3PublicationService
         const String _country = "DE";
         const String _serialisedPublication1 = "serialised publication 1";
         const String _serialisedPublication2 = "serialised publication 2";
-        const string _language1 = "lang 1";
-        const string _language2 = "lang 2";
-        Guid _publicationId1 = Guid.NewGuid();
-        Guid _publicationId2 = Guid.NewGuid();
+        const String _language1 = "lang 1";
+        const String _language2 = "lang 2";
+        const String _publication1Key = "publication 1 key";
+        const String _publication2Key = "publication 2 key";
         IService _s3Service;
         S3PublicationService _service;
         IContext _context;
 
         protected override void Arrange()
         {
-            var publication1 = new Publication { ID = _publicationId1 };
-            var publication2 = new Publication { ID = _publicationId2 };
+            var publication1 = new Publication();
+            var publication2 = new Publication();
 
             _context = ContextBuilder.InitialiseFakeContext()
                         .WithBrand(_brand)
@@ -45,11 +45,14 @@ namespace TME.Carconfigurator.Tests.GivenAS3PublicationService
             _s3Service = A.Fake<IService>();
             
             var serialiser = A.Fake<ISerialiser>();
+            var keyManager = A.Fake<IKeyManager>();
 
-            _service = new S3PublicationService(_s3Service, serialiser);
+            _service = new S3PublicationService(_s3Service, serialiser, keyManager);
 
             A.CallTo(() => serialiser.Serialise(publication1)).Returns(_serialisedPublication1);
             A.CallTo(() => serialiser.Serialise(publication2)).Returns(_serialisedPublication2);
+            A.CallTo(() => keyManager.GetPublicationKey(publication1)).Returns(_publication1Key);
+            A.CallTo(() => keyManager.GetPublicationKey(publication2)).Returns(_publication2Key);
         }
 
         protected override void Act()
@@ -68,14 +71,14 @@ namespace TME.Carconfigurator.Tests.GivenAS3PublicationService
         [Fact]
         public void ThenAPublicationShouldBePutForLanguage1()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, "publication/" + _publicationId1.ToString(), _serialisedPublication1))
+            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _publication1Key, _serialisedPublication1))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenAPublicationShouldBePutForLanguage2()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, "publication/" + _publicationId2.ToString(), _serialisedPublication2))
+            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _publication2Key, _serialisedPublication2))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
     }

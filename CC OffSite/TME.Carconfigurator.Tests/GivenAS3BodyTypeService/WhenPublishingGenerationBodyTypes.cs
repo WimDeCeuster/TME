@@ -11,6 +11,7 @@ using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
+using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
 
 namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
@@ -23,23 +24,18 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
         const String _serialisedBodyType12 = "serialised body type 1+2";
         const String _serialisedBodyType34 = "serialised body type 3+4";
         const String _serialisedBodyType4 = "serialised body type 4";
-        const string _language1 = "lang 1";
-        const string _language2 = "lang 2";
-        Guid _publicationId1 = Guid.NewGuid();
-        Guid _publicationId2 = Guid.NewGuid();
-        Guid _timeFrameId1;
-        Guid _timeFrameId2;
-        Guid _timeFrameId3;
-        Guid _timeFrameId4;
+        const String _language1 = "lang 1";
+        const String _language2 = "lang 2";
+        const String _timeFrame1BodyTypesKey = "time frame 1 body types key";
+        const String _timeFrame2BodyTypesKey = "time frame 2 body types key";
+        const String _timeFrame3BodyTypesKey = "time frame 3 body types key";
+        const String _timeFrame4BodyTypesKey = "time frame 4 body types key";
         IService _s3Service;
         S3BodyTypeService _service;
         IContext _context;
 
         protected override void Arrange()
         {
-            var publication1 = new Publication { ID = _publicationId1 };
-            var publication2 = new Publication { ID = _publicationId2 };
-
             var bodyTypeId1 = Guid.NewGuid();
             var bodyTypeId2 = Guid.NewGuid();
             var bodyTypeId3 = Guid.NewGuid();
@@ -55,10 +51,20 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
             var timeFrame3 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car3, car4 });
             var timeFrame4 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car4 });
 
-            _timeFrameId1 = timeFrame1.ID;
-            _timeFrameId2 = timeFrame2.ID;
-            _timeFrameId3 = timeFrame3.ID;
-            _timeFrameId4 = timeFrame4.ID;
+            var publicationTimeFrame1 = new PublicationTimeFrame { ID = timeFrame1.ID };
+            var publicationTimeFrame2 = new PublicationTimeFrame { ID = timeFrame2.ID };
+            var publicationTimeFrame3 = new PublicationTimeFrame { ID = timeFrame3.ID };
+            var publicationTimeFrame4 = new PublicationTimeFrame { ID = timeFrame4.ID };
+
+            var publication1 = PublicationBuilder.Initialize()
+                                                 .WithTimeFrames(publicationTimeFrame1,
+                                                                 publicationTimeFrame2)
+                                                 .Build();
+
+            var publication2 = PublicationBuilder.Initialize()
+                                                 .WithTimeFrames(publicationTimeFrame3,
+                                                                 publicationTimeFrame4)
+                                                 .Build();
 
             var generationBodyType1 = new BodyType { ID = bodyTypeId1 };
             var generationBodyType2 = new BodyType { ID = bodyTypeId2 };
@@ -82,8 +88,9 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
             _s3Service = A.Fake<IService>();
 
             var serialiser = A.Fake<ISerialiser>();
+            var keyManager = A.Fake<IKeyManager>();
 
-            _service = new S3BodyTypeService(_s3Service, serialiser);
+            _service = new S3BodyTypeService(_s3Service, serialiser, keyManager);
 
             A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
                 .WhenArgumentsMatch(ArgumentMatchesList(generationBodyType1))
@@ -97,6 +104,11 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
             A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
                 .WhenArgumentsMatch(ArgumentMatchesList(generationBodyType4))
                 .Returns(_serialisedBodyType4);
+
+            A.CallTo(() => keyManager.GetGenerationBodyTypesKey(publication1, publicationTimeFrame1)).Returns(_timeFrame1BodyTypesKey);
+            A.CallTo(() => keyManager.GetGenerationBodyTypesKey(publication1, publicationTimeFrame2)).Returns(_timeFrame2BodyTypesKey);
+            A.CallTo(() => keyManager.GetGenerationBodyTypesKey(publication2, publicationTimeFrame3)).Returns(_timeFrame3BodyTypesKey);
+            A.CallTo(() => keyManager.GetGenerationBodyTypesKey(publication2, publicationTimeFrame4)).Returns(_timeFrame4BodyTypesKey);
         }
 
         Func<ArgumentCollection, Boolean> ArgumentMatchesList<T>(params T[] items)
@@ -125,28 +137,28 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
         [Fact]
         public void ThenGenerationBodyTypesShouldBePutForTimeFrame1()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, "publication/" + _publicationId1.ToString() + "/time-frame/" + _timeFrameId1.ToString() + "/body-types", _serialisedBodyType1))
+            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame1BodyTypesKey, _serialisedBodyType1))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenGenerationBodyTypesShouldBePutForTimeFrame2()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, "publication/" + _publicationId1.ToString() + "/time-frame/" + _timeFrameId2.ToString() + "/body-types", _serialisedBodyType12))
+            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame2BodyTypesKey, _serialisedBodyType12))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenGenerationBodyTypesShouldBePutForTimeFrame3()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, "publication/" + _publicationId2.ToString() + "/time-frame/" + _timeFrameId3.ToString() + "/body-types", _serialisedBodyType34))
+            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame3BodyTypesKey, _serialisedBodyType34))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenGenerationBodyTypesShouldBePutForTimeFrame4()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, "publication/" + _publicationId2.ToString() + "/time-frame/" + _timeFrameId4.ToString() + "/body-types", _serialisedBodyType4))
+            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame4BodyTypesKey, _serialisedBodyType4))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
     }
