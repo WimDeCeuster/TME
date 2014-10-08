@@ -36,17 +36,18 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
                 new Language(Language2){Models = new Repository<Model>{models2}}
             };
 
-            A.CallTo(() => LanguageService.GetModelsOverviewPerLanguage()).Returns(languages);
+            A.CallTo(() => LanguageService.GetModelsOverviewPerLanguage(Context)).Returns(languages);
         }
 
         [Fact]
         public void ThenItShouldPublishTheCorrectNewModelNameForLanguage1()
         {
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null))
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null))
                 .WhenArgumentsMatch(args =>
                 {
-                    var model = ((Languages) args[0]).Single(l => l.Code.Equals(Language1)).Models[0];
-                    return model.Name.Equals(ModelNameForLanguage1);
+                    var isContext = args[0].Equals(Context);
+                    var model = ((Languages) args[1]).Single(l => l.Code.Equals(Language1)).Models[0];
+                    return isContext && model.Name.Equals(ModelNameForLanguage1);
                 })
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
@@ -54,11 +55,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldPublishTheCorrectNewModelNameForLanguage2()
         {
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null))
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null))
                 .WhenArgumentsMatch(args =>
                 {
-                    var model = ((Languages) args[0]).Single(l => l.Code.Equals(Language2)).Models[0];
-                    return model.Name.Equals(ModelNameForLanguage2);
+                    var isContext = args[0].Equals(Context);
+                    var model = ((Languages) args[1]).Single(l => l.Code.Equals(Language2)).Models[0];
+                    return isContext && model.Name.Equals(ModelNameForLanguage2);
                 })
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
@@ -66,59 +68,66 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldPublishTheCorrectInternalCodeForLanguage1()
         {
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null)).WhenArgumentsMatch(args =>
-            {
-                var model = ((Languages) args[0]).Single(l => l.Code.Equals(Language1)).Models[0];
-                return model.InternalCode.Equals(InternalCodeForLanguage1);
-            }).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null))
+                .WhenArgumentsMatch(args =>
+                {
+                    var isContext = args[0].Equals(Context);
+                    var model = ((Languages) args[1]).Single(l => l.Code.Equals(Language1)).Models[0];
+                    return isContext && model.InternalCode.Equals(InternalCodeForLanguage1);
+                }).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenItShouldPublishTheCorrectLocalCodeForLanguage1()
         {
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null)).WhenArgumentsMatch(args =>
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null)).WhenArgumentsMatch(args =>
             {
-                var model = ((Languages)args[0]).Single(l => l.Code.Equals(Language1)).Models[0];
-                return model.LocalCode.Equals(LocalCodeForLanguage1);
+                var isContext = args[0].Equals(Context);
+                var model = ((Languages)args[1]).Single(l => l.Code.Equals(Language1)).Models[0];
+                return isContext && model.LocalCode.Equals(LocalCodeForLanguage1);
             }).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenItShouldPublishTheCorrectDescriptionForLanguage1()
         {
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null)).WhenArgumentsMatch(args =>
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null)).WhenArgumentsMatch(args =>
             {
-                var model = ((Languages)args[0]).Single(l => l.Code.Equals(Language1)).Models[0];
-                return model.Description.Equals(DescriptionForLanguage1);
+                var isContext = args[0].Equals(Context);
+                var model = ((Languages)args[1]).Single(l => l.Code.Equals(Language1)).Models[0];
+                return isContext && model.Description.Equals(DescriptionForLanguage1);
             }).MustHaveHappened(Repeated.Exactly.Once);
         }
         
         [Fact]
         public void ThenItShouldPublishTheCorrectFootNoteForLanguage1()
         {
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null)).WhenArgumentsMatch(args =>
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null)).WhenArgumentsMatch(args =>
             {
-                var model = ((Languages)args[0]).Single(l => l.Code.Equals(Language1)).Models[0];
-                return model.FootNote.Equals(FootNoteForLanguage1);
+                var isContext = args[0].Equals(Context);
+                var model = ((Languages)args[1]).Single(l => l.Code.Equals(Language1)).Models[0];
+                return isContext && model.FootNote.Equals(FootNoteForLanguage1);
             }).MustHaveHappened(Repeated.Exactly.Once);
         }
         
         [Fact]
         public void ThenItShouldPublishTheCorrectTooltipForLanguage1()
         {
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null)).WhenArgumentsMatch(args =>
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null)).WhenArgumentsMatch(args =>
             {
-                var model = ((Languages)args[0]).Single(l => l.Code.Equals(Language1)).Models[0];
-                return model.ToolTip.Equals(TooltipForLanguage1);
+                var isContext = args[0].Equals(Context);
+                var model = ((Languages)args[1]).Single(l => l.Code.Equals(Language1)).Models[0];
+                return isContext && model.ToolTip.Equals(TooltipForLanguage1);
             }).MustHaveHappened(Repeated.Exactly.Once);
         }
         
         [Fact]
         public void ThenItShouldPublishTheCorrectSortIndexForLanguage1()
         {
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null)).WhenArgumentsMatch(args =>
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null)).WhenArgumentsMatch(args =>
             {
-                var model = ((Languages)args[0]).Single(l => l.Code.Equals(Language1)).Models[0];
+                var isContext = args[0].Equals(Context);
+                var model = ((Languages)args[1]).Single(l => l.Code.Equals(Language1)).Models[0];
                 return model.SortIndex.Equals(SortIndexForLanguage1);
             }).MustHaveHappened(Repeated.Exactly.Once);
         }
@@ -126,9 +135,10 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldPublishTheCorrectLabelsForLanguage1()
         {
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null)).WhenArgumentsMatch(args =>
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null)).WhenArgumentsMatch(args =>
             {
-                var model = ((Languages)args[0]).Single(l => l.Code.Equals(Language1)).Models[0];
+                var isContext = args[0].Equals(Context);
+                var model = ((Languages)args[1]).Single(l => l.Code.Equals(Language1)).Models[0];
                 return model.Labels.Equals(LabelsForLanguage1);
             }).MustHaveHappened(Repeated.Exactly.Once);
         }

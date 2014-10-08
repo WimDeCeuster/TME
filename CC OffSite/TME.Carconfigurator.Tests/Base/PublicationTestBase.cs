@@ -8,6 +8,7 @@ using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Enums.Result;
+using System.Collections.Generic;
 
 namespace TME.Carconfigurator.Tests.Base
 {
@@ -33,21 +34,24 @@ namespace TME.Carconfigurator.Tests.Base
             BodyTypeService = A.Fake<IS3BodyTypeService>(x => x.Strict());
 
             var successFullTask = Task.FromResult((Result)new Successfull());
+            var successFullTasks = Task.FromResult((IEnumerable<Result>)new[] { new Successfull() });
 
             Serialiser = A.Fake<IS3Serialiser>();
 
-            A.CallTo(() => Serialiser.Serialise((Publication)null)).WithAnyArguments().ReturnsLazily(args => args.Arguments.First().GetType().Name);
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null)).WithAnyArguments().Returns(successFullTask);
-            A.CallTo(() => PublicationService.PutPublication(null)).WithAnyArguments().Returns(successFullTask);
-            A.CallTo(() => BodyTypeService.PutGenerationBodyTypes(null, null, null)).WithAnyArguments().Returns(successFullTask);
-
             Publisher = new S3Publisher(PublicationService, LanguageService, BodyTypeService);
             Context = ContextBuilder.GetDefaultContext(Languages);
+
+            A.CallTo(() => Serialiser.Serialise((Publication)null)).WithAnyArguments().ReturnsLazily(args => args.Arguments.First().GetType().Name);
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
+            A.CallTo(() => LanguageService.GetModelsOverviewPerLanguage(Context)).Returns(new Languages());
+            A.CallTo(() => PublicationService.PutPublications(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => BodyTypeService.PutGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
+
         }
 
         protected override void Act()
         {
-            Publisher.Publish(Context);
+            var result = Publisher.Publish(Context).Result;
         }
     }
 }

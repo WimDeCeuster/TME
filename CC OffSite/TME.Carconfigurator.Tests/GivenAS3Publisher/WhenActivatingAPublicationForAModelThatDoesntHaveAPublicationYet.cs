@@ -16,18 +16,19 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             base.Arrange();
             var languages = new Languages();
 
-            A.CallTo(() => LanguageService.GetModelsOverviewPerLanguage()).Returns(languages);
+            A.CallTo(() => LanguageService.GetModelsOverviewPerLanguage(Context)).Returns(languages);
             
         }
 
         [Fact]
         public void ThenItShouldUploadCorrectDataForLanguage1()
         {
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null))
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null))
                 .WhenArgumentsMatch(args =>
                 {
-                    var models = ((Languages)args[0]).Single(l => l.Code.Equals(Language1)).Models;
-                    return ShouldContainModelWithActivatedPublication(models, ModelNameForLanguage1);
+                    var isContext = args[0].Equals(Context);
+                    var models = ((Languages)args[1]).Single(l => l.Code.Equals(Language1)).Models;
+                    return isContext && ShouldContainModelWithActivatedPublication(models, ModelNameForLanguage1);
                 })
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
@@ -35,11 +36,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldUploadCorrectDataForLanguage2()
         {
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null))
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null))
                 .WhenArgumentsMatch(args =>
                 {
-                    var models = ((Languages)args[0]).Single(l => l.Code.Equals(Language2)).Models;
-                    return ShouldContainModelWithActivatedPublication(models, ModelNameForLanguage2);
+                    var isContext = args[0].Equals(Context);
+                    var models = ((Languages)args[1]).Single(l => l.Code.Equals(Language2)).Models;
+                    return isContext && ShouldContainModelWithActivatedPublication(models, ModelNameForLanguage2);
                 })
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
@@ -47,7 +49,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenTheModelOverviewFileShouldOnlyBeUploadedOnce()
         {
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null))
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null))
                 .WithAnyArguments()
                 .MustHaveHappened(Repeated.Exactly.Once);
         }

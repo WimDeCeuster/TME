@@ -10,6 +10,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface IS3BodyTypeService
     {
-        Task<Result> PutGenerationBodyTypes(Publication publication, TimeFrame timeFrame, IEnumerable<BodyType> bodyTypes);
+        Task<IEnumerable<Result>> PutGenerationBodyTypes(IContext context);
     }
 }

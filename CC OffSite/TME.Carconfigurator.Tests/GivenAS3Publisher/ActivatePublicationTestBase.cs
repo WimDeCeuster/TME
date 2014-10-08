@@ -50,6 +50,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             var serialiser = A.Fake<IS3Serialiser>();
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
             var successFullTask = Task.FromResult((Result)new Successfull());
+            var successFullTasks = Task.FromResult((IEnumerable<Result>)new[] { new Successfull() });
 
             var contextDataForLanguage1 = new ContextData();
             contextDataForLanguage1.Models.Add(new Model
@@ -78,9 +79,9 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context.TimeFrames.Add(Language1, timeFrames);
             Context.TimeFrames.Add(Language2, timeFrames);
 
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null)).WithAnyArguments().Returns(successFullTask);
-            A.CallTo(() => PublicationService.PutPublication(null)).WithAnyArguments().Returns(successFullTask);
-            A.CallTo(() => BodyTypeService.PutGenerationBodyTypes(null, null, null)).WithAnyArguments().Returns(successFullTask);
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
+            A.CallTo(() => PublicationService.PutPublications(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => BodyTypeService.PutGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
 
             Publisher = new S3Publisher(PublicationService, LanguageService, BodyTypeService);
         }

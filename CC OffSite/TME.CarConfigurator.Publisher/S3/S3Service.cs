@@ -11,52 +11,43 @@ using System;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Publisher.Enums.Result;
 using TME.CarConfigurator.Publisher.S3.Exceptions;
+using TME.CarConfigurator.Publisher.Factories;
 
 namespace TME.CarConfigurator.Publisher.S3
 {
     public class S3Service : IS3Service
     {
+        const String BucketNameTemplate = "{environment}-cardb-{brand}-{country}";
+        readonly String _environment;
         IAmazonS3 _client;
-        readonly String _bucketName;
 
-        public S3Service(String brand, String country, IAmazonS3 client)
+        public S3Service(IAmazonS3 client)
+        {
+            _client = client ?? new AmazonS3Factory().CreateInstance();
+            _environment = ConfigurationManager.AppSettings["Environment"];
+        }
+
+        public async Task<Result> PutObjectAsync(String brand, String country, String key, String item)
         {
             if (brand == null) throw new ArgumentNullException("brand");
             if (country == null) throw new ArgumentNullException("country");
-            if (client == null) throw new ArgumentNullException("client");
-            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
-            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
-
-            //var accessKey = ConfigurationManager.AppSettings["AWSKey"];
-            //var secretKey = ConfigurationManager.AppSettings["AWSSecretKey"];
-            _client = client; //new AmazonS3Client(accessKey, secretKey, _regionEndPoint);
-
-
-            var bucketNameTemplate = ConfigurationManager.AppSettings["AWSBucketNameTemplate"];
-            var environment = ConfigurationManager.AppSettings["Environment"];
-
-            _bucketName = bucketNameTemplate.Replace("{environment}", environment.ToLowerInvariant())
-                                            .Replace("{brand}", brand.ToLowerInvariant())
-                                            .Replace("{country}", country.ToLowerInvariant());
-        }
-
-        public async Task<Result> PutObjectAsync(String key, String item)
-        {
             if (key == null) throw new ArgumentNullException("key");
             if (item == null) throw new ArgumentNullException("item");
+            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
+            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
             if (String.IsNullOrWhiteSpace(key)) throw new ArgumentException("key cannot be empty", "key");
             if (String.IsNullOrWhiteSpace(item)) throw new ArgumentException("item cannot be empty", "item");
 
             var request = new PutObjectRequest
             {
-                BucketName = _bucketName,
+                BucketName = GetBucketName(brand, country),
                 Key = key,
                 ContentBody = item,
                 ContentType = "application/json"
             };
 
-            if (!DoesBucketExist())
-                CreateBucket();
+            if (!DoesBucketExist(brand, country))
+                CreateBucket(brand, country);
 
             var result = await _client.PutObjectAsync(request);
 
@@ -66,13 +57,25 @@ namespace TME.CarConfigurator.Publisher.S3
                 return new Failed();
         }
 
-        Boolean DoesBucketExist()
+        private string GetBucketName(String brand, String country)
         {
+            return BucketNameTemplate.Replace("{environment}", _environment.ToLowerInvariant())
+                                     .Replace("{brand}", brand.ToLowerInvariant())
+                                     .Replace("{country}", country.ToLowerInvariant());
+        }
+
+        Boolean DoesBucketExist(String brand, String country)
+        {
+            if (brand == null) throw new ArgumentNullException("brand");
+            if (country == null) throw new ArgumentNullException("country");
+            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
+            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
+            
             try
             {
                 _client.ListObjects(new ListObjectsRequest
                 {
-                    BucketName = _bucketName,
+                    BucketName = GetBucketName(brand, country),
                     MaxKeys = 0
                 });
 
@@ -87,19 +90,30 @@ namespace TME.CarConfigurator.Publisher.S3
             }
         }
 
-        void CreateBucket()
+        void CreateBucket(String brand, String country)
         {
+            if (brand == null) throw new ArgumentNullException("brand");
+            if (country == null) throw new ArgumentNullException("country");
+            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
+            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
+
             _client.PutBucket(new PutBucketRequest
             {
-                BucketName = _bucketName,
+                BucketName = GetBucketName(brand, country),
                 UseClientRegion = true
             });
         }
 
-        public String GetObject(String key)
+        public String GetObject(String brand, String country, String key)
         {
-            try { 
-                var response = _client.GetObject(_bucketName, key);
+            if (brand == null) throw new ArgumentNullException("brand");
+            if (country == null) throw new ArgumentNullException("country");
+            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
+            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
+
+            try
+            { 
+                var response = _client.GetObject(GetBucketName(brand, country), key);
 
                 using (var responseStream = response.ResponseStream)
                 using (var reader = new StreamReader(responseStream))
@@ -115,9 +129,14 @@ namespace TME.CarConfigurator.Publisher.S3
             }
         }
 
-        public void DeleteObject(String key)
+        public void DeleteObject(String brand, String country, String key)
         {
-            _client.DeleteObject(_bucketName, key);
+            if (brand == null) throw new ArgumentNullException("brand");
+            if (country == null) throw new ArgumentNullException("country");
+            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
+            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
+
+            _client.DeleteObject(GetBucketName(brand, country), key);
         }
 
         internal List<S3Bucket> GetBuckets()
@@ -125,23 +144,38 @@ namespace TME.CarConfigurator.Publisher.S3
             return _client.ListBuckets().Buckets;
         }
 
-        internal List<S3Object> GetObjects()
+        internal List<S3Object> GetObjects(String brand, String country)
         {
-            return _client.ListObjects(_bucketName).S3Objects;
+            if (brand == null) throw new ArgumentNullException("brand");
+            if (country == null) throw new ArgumentNullException("country");
+            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
+            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
+
+            return _client.ListObjects(GetBucketName(brand, country)).S3Objects;
         }
 
-        internal void DeleteAll()
+        internal void DeleteAll(String brand, String country)
         {
-            var request = new DeleteObjectsRequest {BucketName = _bucketName};
-            foreach (var x in GetObjects())
+            if (brand == null) throw new ArgumentNullException("brand");
+            if (country == null) throw new ArgumentNullException("country");
+            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
+            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
+
+            var request = new DeleteObjectsRequest { BucketName = GetBucketName(brand, country) };
+            foreach (var x in GetObjects(brand, country))
                 request.AddKey(x.Key);
 
             _client.DeleteObjects(request);
         }
 
-        internal async Task<Int32> GetObjectsAsync()
+        internal async Task<Int32> GetObjectsAsync(String brand, String country)
         {
-            var result = await _client.ListObjectsAsync(new ListObjectsRequest { BucketName = _bucketName });
+            if (brand == null) throw new ArgumentNullException("brand");
+            if (country == null) throw new ArgumentNullException("country");
+            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
+            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
+
+            var result = await _client.ListObjectsAsync(new ListObjectsRequest { BucketName = GetBucketName(brand, country) });
 
             return result.S3Objects.Count;
         }

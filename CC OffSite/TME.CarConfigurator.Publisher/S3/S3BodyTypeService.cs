@@ -17,23 +17,53 @@ namespace TME.CarConfigurator.Publisher.S3
 
         public S3BodyTypeService(IS3Service service, IS3Serialiser serialiser)
         {
-            if (service == null) throw new ArgumentNullException("service");
-            if (serialiser == null) throw new ArgumentNullException("serialiser");
-
-            _service = service;
-            _serialiser = serialiser;
+            _service = service ?? new S3Service(null);
+            _serialiser = serialiser ?? new S3Serialiser();
         }
 
-
-        public async Task<Result> PutGenerationBodyTypes(Publication publication, TimeFrame timeFrame, IEnumerable<BodyType> bodyTypes)
+        public async Task<IEnumerable<Result>> PutGenerationBodyTypes(IContext context)
         {
-            if (timeFrame == null) throw new ArgumentNullException("timeFrame");
-            if (bodyTypes == null) throw new ArgumentNullException("bodyTypes");
+            if (context == null) throw new ArgumentNullException("context");
 
+            var tasks = new List<Task<IEnumerable<Result>>>();
+
+            foreach (var entry in context.ContextData)
+            {
+                var language = entry.Key;
+                var data = entry.Value;
+                var timeFrames = context.TimeFrames[language];
+
+                tasks.Add(PutTimeFramesGenerationBodyTypes(context.Brand, context.Country, timeFrames, data));
+            }
+
+            var result = await Task.WhenAll(tasks);
+            return result.SelectMany(xs => xs);
+        }
+
+        async Task<IEnumerable<Result>> PutTimeFramesGenerationBodyTypes(String brand, String country, IReadOnlyList<TimeFrame> timeFrames, ContextData data)
+        {
+            var publication = data.Publication;
+
+            var bodyTypes = timeFrames.ToDictionary(
+                                timeFrame => timeFrame,
+                                timeFrame => data.GenerationBodyTypes.Where(bodyType =>
+                                                                            timeFrame.Cars.Any(car => car.BodyType.ID == bodyType.ID))
+                                                                     .ToList());
+
+            var tasks = new List<Task<Result>>();
+
+            foreach (var entry in bodyTypes)
+                tasks.Add(PutTimeFrameGenerationBodyTypes(brand, country, publication, entry.Key, entry.Value));
+
+            return await Task.WhenAll(tasks);
+        }
+
+        async Task<Result> PutTimeFrameGenerationBodyTypes(String brand, String country, Publication publication, TimeFrame timeFrame, IEnumerable<BodyType> bodyTypes)
+        {
             var path = String.Format(_generationBodyTypesTimeFramePath, publication.ID, timeFrame.ID);
             var value = _serialiser.Serialise(bodyTypes);
 
-            return await _service.PutObjectAsync(path, value);
+            return await _service.PutObjectAsync(brand, country, path, value);
         }
     }
 }

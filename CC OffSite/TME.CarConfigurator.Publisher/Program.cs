@@ -33,8 +33,8 @@ namespace TME.CarConfigurator.Publisher
             var secretKey = ConfigurationManager.AppSettings["AWSSecretKey"];
             var client = new AmazonS3Client(accessKey, secretKey, Amazon.RegionEndpoint.EUWest1);
 
-            var service = new S3Service("Toyota", "DE", client);
-            var xs = service.GetObjects();
+            var service = new S3Service(client);
+            var xs = service.GetObjects(context.Brand, context.Country);
             
             foreach (var x in xs) {
                 Console.WriteLine(x.Key);
@@ -43,7 +43,7 @@ namespace TME.CarConfigurator.Publisher
             Console.WriteLine();
             Console.Write("Delete all? ");
             if (Console.ReadLine().Equals("y", StringComparison.InvariantCultureIgnoreCase)) {
-                service.DeleteAll();
+                service.DeleteAll(context.Brand, context.Country);
                 Console.WriteLine("All cleared");
                 Console.ReadLine();
             }

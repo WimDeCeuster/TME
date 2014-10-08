@@ -10,7 +10,7 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface IS3LanguageService
     {
-        Languages GetModelsOverviewPerLanguage();
-        Task<Result> PutModelsOverviewPerLanguage(Languages languages);
+        Languages GetModelsOverviewPerLanguage(IContext context);
+        Task<Result> PutModelsOverviewPerLanguage(IContext context, Languages languages);
     }
 }

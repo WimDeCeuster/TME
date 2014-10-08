@@ -8,7 +8,7 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface IS3Service : IDisposable
     {
-        Task<Result> PutObjectAsync(String key, String item);
-        String GetObject(String key);
+        Task<Result> PutObjectAsync(String brand, String country, String key, String item);
+        String GetObject(String brand, String country, String key);
     }
 }

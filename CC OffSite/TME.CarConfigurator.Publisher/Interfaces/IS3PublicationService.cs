@@ -10,6 +10,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface IS3PublicationService
     {
-        Task<Result> PutPublication(Publication publication);
+        Task<IEnumerable<Result>> PutPublications(IContext context);
     }
 }

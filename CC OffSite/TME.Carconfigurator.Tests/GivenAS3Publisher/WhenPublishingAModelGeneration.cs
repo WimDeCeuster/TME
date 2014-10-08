@@ -19,24 +19,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         }
 
         [Fact]
-        public void ThenAPublicationShouldBePublishedForEveryLanguage()
+        public void ThenAPublicationShouldBePublished()
         {
             foreach (var language in Languages)
             {
-                A.CallTo(() => PublicationService.PutPublication(null))
+                A.CallTo(() => PublicationService.PutPublications(null))
                                       .WhenArgumentsMatch(args => args[0] != null)
-                                      .MustHaveHappened(Repeated.Exactly.Times(Languages.Count()));
-            }
-        }
-
-        [Fact]
-        public void ThenModelGenerationAssetsShouldBePublishedForEveryLanguage()
-        {
-            foreach (var language in Languages)
-            {
-                A.CallTo(() => PublicationService.PutPublication(null))
-                    .WhenArgumentsMatch(args => ((Publication) args[0]).Generation.Assets.Count != 0)
-                    .MustHaveHappened(Repeated.Exactly.Times(Languages.Count()));
+                                      .MustHaveHappened(Repeated.Exactly.Once);
             }
         }
     }

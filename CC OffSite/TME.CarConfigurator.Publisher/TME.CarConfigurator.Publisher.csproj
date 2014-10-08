@@ -95,7 +95,6 @@
     <Compile Include="Factories\ContextFactory.cs" />
     <Compile Include="Factories\PublisherFactory.cs" />
     <Compile Include="Factories\AmazonS3Factory.cs" />
-    <Compile Include="Factories\ServiceFactory.cs" />
     <Compile Include="Interfaces\ICarDbModelGenerationFinder.cs" />
     <Compile Include="Interfaces\IContext.cs" />
     <Compile Include="Interfaces\IContextFactory.cs" />

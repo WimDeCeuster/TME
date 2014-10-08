@@ -38,22 +38,16 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
             _mapper = A.Fake<IMapper>();
             
 
-            A.CallTo(() => _publisherFactory.Get(_publisherService)).Returns(_publisher);
+            A.CallTo(() => _publisherFactory.Get(_target)).Returns(_publisher);
             A.CallTo(() => _contextFactory.Get(_brand, _country, Guid.Empty, _dataSubset)).Returns(_context);
             A.CallTo(() => _serviceFactory.Get(_target, _brand, _country)).Returns(_publisherService);
 
-            _publicationService = new PublicationService(_contextFactory, _publisherFactory, _serviceFactory, _mapper, _generationFinder);
+            _publicationService = new PublicationService(_contextFactory, _publisherFactory, _mapper, _generationFinder);
         }
 
         protected override void Act()
         {
             _publicationService.Publish(Guid.Empty, _target, _brand, _country, PublicationDataSubset.Live);
-        }
-
-        [Fact]
-        public void ThenPublisherFactoryShouldBeCalledWithCorrectParamaters()
-        {
-            A.CallTo(() => _publisherFactory.Get(_publisherService)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
