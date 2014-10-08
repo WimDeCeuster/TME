@@ -24,6 +24,11 @@ namespace TME.CarConfigurator.S3.Shared
             return SerialiseObject(bodyTypes);
         }
 
+        public string Serialise(IEnumerable<Engine> engines)
+        {
+            return SerialiseObject(engines);
+        }
+
         public string Serialise(IEnumerable<Asset> assets)
         {
             return SerialiseObject(assets);

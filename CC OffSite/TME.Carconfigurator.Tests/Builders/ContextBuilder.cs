@@ -97,6 +97,13 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
+        public ContextBuilder WithGenerationEngines(String language, params Engine[] engines)
+        {
+            foreach (var engine in engines)
+                _context.ContextData[language].GenerationEngines.Add(engine);
+            return this;
+        }
+
         private ContextBuilder WithTimeFrames(String language, IEnumerable<TimeFrame> timeFrames)
         {
             _context.TimeFrames[language] = timeFrames.ToList();

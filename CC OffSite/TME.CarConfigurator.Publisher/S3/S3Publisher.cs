@@ -14,16 +14,19 @@ namespace TME.CarConfigurator.Publisher.S3
         readonly IS3PublicationService _publicationService;
         readonly IS3LanguageService _languageService;
         readonly IS3BodyTypeService _bodyTypeService;
+        readonly IS3EngineService _engineService;
 
-        public S3Publisher(IS3PublicationService publicationService, IS3LanguageService languageService, IS3BodyTypeService bodyTypeService)
+        public S3Publisher(IS3PublicationService publicationService, IS3LanguageService languageService, IS3BodyTypeService bodyTypeService, IS3EngineService engineService)
         {
             if (publicationService == null) throw new ArgumentNullException("publicationService");
             if (languageService == null) throw new ArgumentNullException("languageService");
             if (bodyTypeService == null) throw new ArgumentNullException("bodyTypeService");
+            if (engineService == null) throw new ArgumentNullException("engineService");
 
             _publicationService = publicationService;
             _languageService = languageService;
             _bodyTypeService = bodyTypeService;
+            _engineService = engineService;
         }
 
         public async Task<Result> Publish(IContext context)
@@ -91,6 +94,7 @@ namespace TME.CarConfigurator.Publisher.S3
 
             tasks.Add(PublishPublication(context));
             tasks.Add(PublishGenerationBodyTypes(context));
+            tasks.Add(PublishGenerationEngines(context));
             
             var results = await Task.WhenAll(tasks);
 
@@ -128,6 +132,11 @@ namespace TME.CarConfigurator.Publisher.S3
         Task<IEnumerable<Result>> PublishGenerationBodyTypes(IContext context)
         {
             return _bodyTypeService.PutGenerationBodyTypes(context);
+        }
+
+        Task<IEnumerable<Result>> PublishGenerationEngines(IContext context)
+        {
+            return _engineService.PutGenerationEngines(context);
         }
 
         private static Language GetS3Language(Languages s3ModelsOverview, String language)

@@ -31,5 +31,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => BodyTypeService.PutGenerationBodyTypes(Context))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
+
+        [Fact]
+        public void ThenAPublishGenerationEnginesShouldHappen()
+        {
+            A.CallTo(() => EngineService.PutGenerationEngines(Context))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
     }
 }

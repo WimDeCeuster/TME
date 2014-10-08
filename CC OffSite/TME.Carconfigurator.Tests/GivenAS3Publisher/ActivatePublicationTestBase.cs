@@ -19,6 +19,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected IS3PublicationService PublicationService;
         protected IS3LanguageService LanguageService;
         protected IS3BodyTypeService BodyTypeService;
+        protected IS3EngineService EngineService;
         protected IPublisher Publisher;
         protected const string Brand = "Toyota";
         protected const string Country = "BE";
@@ -47,6 +48,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             PublicationService = A.Fake<IS3PublicationService>(x => x.Strict());
             LanguageService = A.Fake<IS3LanguageService>(x => x.Strict());
             BodyTypeService = A.Fake<IS3BodyTypeService>(x => x.Strict());
+            EngineService = A.Fake<IS3EngineService>(x => x.Strict());
 
             var serialiser = A.Fake<ISerialiser>();
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
@@ -83,8 +85,9 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
             A.CallTo(() => PublicationService.PutPublications(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => BodyTypeService.PutGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => EngineService.PutGenerationEngines(null)).WithAnyArguments().Returns(successFullTasks);
 
-            Publisher = new S3Publisher(PublicationService, LanguageService, BodyTypeService);
+            Publisher = new S3Publisher(PublicationService, LanguageService, BodyTypeService, EngineService);
         }
 
         protected override void Act()

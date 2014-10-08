@@ -13,7 +13,6 @@ namespace TME.Carconfigurator.Tests.GivenAMapper
 {
     public class WhenMappingABodyType : MappingTestBase
     {
-        Mapper _mapper;
         ModelGenerationBodyType _bodyType;
 
         protected override void Arrange()
@@ -46,7 +45,7 @@ namespace TME.Carconfigurator.Tests.GivenAMapper
             bodyType.SortIndex.ShouldBeEquivalentTo(0);
             bodyType.ToolTip.ShouldBeEquivalentTo(_bodyType.Translation.ToolTip);
 
-            //bodyType.VisibleIn.Should().NotBeEmpty();
+            bodyType.VisibleIn.Should().NotBeEmpty();
         }
     }
 }

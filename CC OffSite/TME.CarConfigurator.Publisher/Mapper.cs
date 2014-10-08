@@ -4,17 +4,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TME.CarConfigurator.Administration;
-using TME.CarConfigurator.Administration.Assets;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using DBCar = TME.CarConfigurator.Administration.Car;
 using TME.CarConfigurator.Publisher.Enums;
-using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
-using BodyType = TME.CarConfigurator.Repository.Objects.BodyType;
-using Car = TME.CarConfigurator.Repository.Objects.Car;
-using Link = TME.CarConfigurator.Repository.Objects.Link;
-using Model = TME.CarConfigurator.Repository.Objects.Model;
+using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 
 namespace TME.CarConfigurator.Publisher
 {
@@ -43,6 +38,7 @@ namespace TME.CarConfigurator.Publisher
                 FillCars(modelGeneration, contextData);
                 FillGenerationAssets(modelGeneration, generation, brand, country, language);
                 FillGenerationBodyTypes(modelGeneration, contextData);
+                FillGenerationEngines(modelGeneration, contextData);
 
                 context.TimeFrames[language] = GetTimeFrames(language, context);
             }
@@ -50,22 +46,22 @@ namespace TME.CarConfigurator.Publisher
             return context;
         }
 
-        private void FillGenerationAssets(ModelGeneration modelGeneration, Generation generation, string brand, string country, string language)
+        private void FillGenerationAssets(Administration.ModelGeneration modelGeneration, Generation generation, string brand, string country, string language)
         {
-            MyContext.SetSystemContext(brand, country, language);
+            Administration.MyContext.SetSystemContext(brand, country, language);
             generation.Assets = FillAssetList(modelGeneration);
         }
 
-        private List<Asset> FillAssetList(ModelGeneration modelGeneration)
+        private List<Asset> FillAssetList(Administration.ModelGeneration modelGeneration)
         {
             var assetList = new List<Asset>();
             foreach (var asset in modelGeneration.Assets)
             {
                 var newAsset = AutoMapper.Mapper.Map<Asset>(asset);
-                newAsset.Height = DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).Height;
-                newAsset.Width = DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).Width;
-                newAsset.PositionX = DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).PositionX;
-                newAsset.PositionY = DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).PositionY;
+                newAsset.Height = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).Height;
+                newAsset.Width = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).Width;
+                newAsset.PositionX = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).PositionX;
+                newAsset.PositionY = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).PositionY;
                 
                 assetList.Add(newAsset);
             }
@@ -92,6 +88,12 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var bodyType in modelGeneration.BodyTypes)
                 contextData.GenerationBodyTypes.Add(AutoMapper.Mapper.Map<BodyType>(bodyType));
+        }
+
+        void FillGenerationEngines(Administration.ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var engine in modelGeneration.Engines)
+                contextData.GenerationEngines.Add(AutoMapper.Mapper.Map<Engine>(engine));
         }
 
         Link GetLink(Administration.Link link, String countryCode, String languageCode, Boolean isPreview)

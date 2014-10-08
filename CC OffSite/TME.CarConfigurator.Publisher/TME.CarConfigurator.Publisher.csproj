@@ -96,6 +96,7 @@
     <Compile Include="Interfaces\IPublisher.cs" />
     <Compile Include="Interfaces\IPublisherFactory.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\IS3EngineService.cs" />
     <Compile Include="Interfaces\IS3BodyTypeService.cs" />
     <Compile Include="Interfaces\IS3LanguageService.cs" />
     <Compile Include="Interfaces\IS3PublicationService.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Repository.cs" />
     <Compile Include="S3\S3BodyTypeService.cs" />
     <Compile Include="S3\S3LanguageService.cs" />
+    <Compile Include="S3\S3EngineService.cs" />
     <Compile Include="S3\S3PublicationService.cs" />
     <Compile Include="S3\S3Publisher.cs" />
     <Compile Include="TimeFrame.cs" />

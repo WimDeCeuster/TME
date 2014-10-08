@@ -12,5 +12,6 @@ namespace TME.CarConfigurator.S3.Shared.Interfaces
         String GetLanguagesKey();
         String GetPublicationKey(Publication publication);
         String GetGenerationBodyTypesKey(Publication publication, PublicationTimeFrame timeFrame);
+        String GetGenerationEnginesKey(Publication publication, PublicationTimeFrame timeFrame);
     }
 }

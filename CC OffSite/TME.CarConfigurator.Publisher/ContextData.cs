@@ -10,6 +10,7 @@ namespace TME.CarConfigurator.Publisher
         public IRepository<Generation> Generations { get; private set; }
         public IRepository<Model> Models { get; private set; }
         public IRepository<BodyType> GenerationBodyTypes { get; private set; }
+        public IRepository<Engine> GenerationEngines { get; private set; }
         public Publication Publication { get; set; }
 
         public ContextData()
@@ -18,6 +19,7 @@ namespace TME.CarConfigurator.Publisher
             Models = new Repository<Model>();
             Generations = new Repository<Generation>();
             GenerationBodyTypes = new Repository<BodyType>();
+            GenerationEngines = new Repository<Engine>();
         }
     }
 }
