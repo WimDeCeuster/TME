@@ -90,6 +90,8 @@
     <Compile Include="GivenAMapper\WhenMappingLinks.cs" />
     <Compile Include="GivenAPublisherService\IServiceFactory.cs" />
     <Compile Include="GivenAPublisherService\WhenPublishingToS3Production.cs" />
+    <Compile Include="GivenAS3BodyTypeService\WhenPublishingGenerationBodyTypes.cs" />
+    <Compile Include="GivenAS3PublicationService\WhenPublishingAPublication.cs" />
     <Compile Include="GivenAS3Publisher\ActivatePublicationTestBase.cs" />
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatAlreadyHadAPublication.cs" />
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatAlreadyHadAPublicationAndTheModelPropertiesHaveChanged.cs" />
