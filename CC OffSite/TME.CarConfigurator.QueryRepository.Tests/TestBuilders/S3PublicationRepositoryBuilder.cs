@@ -3,28 +3,28 @@ using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.QueryRepository.S3;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.S3
+namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
 {
-    internal class PublicationRepositoryBuilder
+    internal class S3PublicationRepositoryBuilder
     {
         private readonly IPublicationRepository _publicationRepository;
         private IPublicationService _publicationService = PublicationServiceBuilder.InitializeFakeService().Build();
 
-        private PublicationRepositoryBuilder(IPublicationRepository publicationRepository)
+        private S3PublicationRepositoryBuilder(IPublicationRepository publicationRepository)
         {
             _publicationRepository = publicationRepository;
         }
 
-        public static PublicationRepositoryBuilder Initialize()
+        public static S3PublicationRepositoryBuilder Initialize()
         {
-            return new PublicationRepositoryBuilder(null);
+            return new S3PublicationRepositoryBuilder(null);
         }
 
-        public static PublicationRepositoryBuilder InitializeFakeRepository()
+        public static S3PublicationRepositoryBuilder InitializeFakeRepository()
         {
             var repository = A.Fake<IPublicationRepository>();
 
-            return new PublicationRepositoryBuilder(repository);
+            return new S3PublicationRepositoryBuilder(repository);
         }
 
         public IPublicationRepository Build()
@@ -32,7 +32,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.S3
             return _publicationRepository ?? new PublicationRepository(_publicationService);
         }
 
-        public PublicationRepositoryBuilder WithPublicationService(IPublicationService publicationService)
+        public S3PublicationRepositoryBuilder WithPublicationService(IPublicationService publicationService)
         {
             _publicationService = publicationService;
 

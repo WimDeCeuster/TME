@@ -3,35 +3,35 @@ using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.QueryRepository.S3;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.S3
+namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
 {
-    internal class ModelRepositoryBuilder
+    internal class S3ModelRepositoryBuilder
     {
         private readonly IModelRepository _modelRepository;
         private ILanguageService _languageService = A.Fake<ILanguageService>();
 
-        private ModelRepositoryBuilder()
+        private S3ModelRepositoryBuilder()
         {
         }
 
-        private ModelRepositoryBuilder(IModelRepository modelRepository)
+        private S3ModelRepositoryBuilder(IModelRepository modelRepository)
         {
             _modelRepository = modelRepository;
         }
 
-        public static ModelRepositoryBuilder InitializeFakeRepository()
+        public static S3ModelRepositoryBuilder InitializeFakeRepository()
         {
             var modelRepository = A.Fake<IModelRepository>();
 
-            return new ModelRepositoryBuilder(modelRepository);
+            return new S3ModelRepositoryBuilder(modelRepository);
         }
 
-        public static ModelRepositoryBuilder Initialize()
+        public static S3ModelRepositoryBuilder Initialize()
         {
-            return new ModelRepositoryBuilder();
+            return new S3ModelRepositoryBuilder();
         }
 
-        public ModelRepositoryBuilder WithLanguageService(ILanguageService languageService)
+        public S3ModelRepositoryBuilder WithLanguageService(ILanguageService languageService)
         {
             _languageService = languageService;
 
