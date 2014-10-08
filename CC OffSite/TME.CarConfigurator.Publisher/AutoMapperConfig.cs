@@ -13,6 +13,8 @@ namespace TME.CarConfigurator.Publisher
         {
             MapAssets();
 
+
+            AutoMapper.Mapper.CreateMap<BaseObject, Model>();
             AutoMapper.Mapper.CreateMap<Administration.Brand, String>().ConvertUsing(brand => brand.Name);
             AutoMapper.Mapper.CreateMap<Administration.Translations.Label, Label>()
                 .ForMember(label => label.Code,
