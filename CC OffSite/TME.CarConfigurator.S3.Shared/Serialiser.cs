@@ -31,7 +31,7 @@ namespace TME.CarConfigurator.S3.Shared
 
         private String SerialiseObject(Object obj)
         {
-            return JsonConvert.SerializeObject(obj);
+            return JsonConvert.SerializeObject(obj,Formatting.Indented);
         }
 
         public T Deserialise<T>(String value)

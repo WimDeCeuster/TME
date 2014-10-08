@@ -24,7 +24,7 @@ namespace TME.CarConfigurator.Publisher
                 .ForMember(gen => gen.Links,
                     opt => opt.Ignore())
                 .ForMember(gen => gen.Assets, 
-                           opt => opt.Ignore())  //MapFrom(modelGeneration => modelGeneration.Assets))
+                           opt => opt.MapFrom(modelGeneration => modelGeneration.Assets))
                 .ForMember(generation => generation.SSN,
                            opt => opt.MapFrom(modelGeneration =>
                                               modelGeneration.FactoryGenerations.Select(factoryGeneration => factoryGeneration.SSN).First()))
@@ -50,7 +50,6 @@ namespace TME.CarConfigurator.Publisher
         {
             AutoMapper.Mapper.CreateMap<Administration.FileType, FileType>();
             AutoMapper.Mapper.CreateMap<Administration.Assets.AssetType, AssetType>();
-            AutoMapper.Mapper.CreateMap<Administration.Assets.DetailedAssetInfo, Asset>();
             AutoMapper.Mapper.CreateMap<Administration.Assets.LinkedAsset, Asset>();
         }
 
