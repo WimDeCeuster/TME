@@ -1,19 +1,19 @@
 using TME.CarConfigurator.Repository.Objects;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjects
+namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
 {
-    internal class ModelBuilder
+    public class ModelBuilder
     {
-        private readonly Repository.Objects.Model _model;
+        private readonly Model _model;
 
-        private ModelBuilder(Repository.Objects.Model model)
+        private ModelBuilder(Model model)
         {
             _model = model;
         }
 
         public static ModelBuilder Initialize()
         {
-            var model = new Repository.Objects.Model();
+            var model = new Model();
 
             return new ModelBuilder(model);
         }
@@ -32,7 +32,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjec
             return this;
         }
 
-        public Repository.Objects.Model Build()
+        public Model Build()
         {
             return _model;
         }

@@ -45,9 +45,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetUpFixture.cs" />
     <Compile Include="TestBase.cs" />
+    <Compile Include="TestBuilders\RepositoryObjects\GenerationBuilder.cs" />
+    <Compile Include="TestBuilders\RepositoryObjects\LanguagesBuilder.cs" />
+    <Compile Include="TestBuilders\RepositoryObjects\ModelBuilder.cs" />
+    <Compile Include="TestBuilders\RepositoryObjects\PublicationBuilder.cs" />
+    <Compile Include="TestBuilders\RepositoryObjects\PublicationInfoBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
+      <Project>{2154EAAA-3D11-4654-BEA6-7B147451DBA8}</Project>
+      <Name>TME.CarConfigurator.Repository.Objects</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,8 +1,8 @@
 using TME.CarConfigurator.Repository.Objects;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjects
+namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
 {
-    internal class GenerationBuilder
+    public class GenerationBuilder
     {
         private readonly Generation _generation;
 

@@ -2,9 +2,9 @@ using System;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjects
+namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
 {
-    internal class PublicationInfoBuilder
+    public class PublicationInfoBuilder
     {
         private readonly Publication _publication;
         private PublicationState _publicationState;

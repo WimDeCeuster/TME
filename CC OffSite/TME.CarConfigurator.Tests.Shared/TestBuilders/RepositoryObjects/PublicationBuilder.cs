@@ -1,9 +1,9 @@
 using System;
 using TME.CarConfigurator.Repository.Objects;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjects
+namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
 {
-    internal class PublicationBuilder
+    public class PublicationBuilder
     {
         private readonly Publication _publication;
 

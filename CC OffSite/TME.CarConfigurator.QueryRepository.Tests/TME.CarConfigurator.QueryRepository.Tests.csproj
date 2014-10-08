@@ -64,11 +64,6 @@
     <Compile Include="TestBuilders\ModelFactoryBuilder.cs" />
     <Compile Include="TestBuilders\PublicationFactoryBuilder.cs" />
     <Compile Include="TestBuilders\PublicationServiceBuilder.cs" />
-    <Compile Include="TestBuilders\RepositoryObjects\GenerationBuilder.cs" />
-    <Compile Include="TestBuilders\RepositoryObjects\LanguagesBuilder.cs" />
-    <Compile Include="TestBuilders\RepositoryObjects\ModelBuilder.cs" />
-    <Compile Include="TestBuilders\RepositoryObjects\PublicationBuilder.cs" />
-    <Compile Include="TestBuilders\RepositoryObjects\PublicationInfoBuilder.cs" />
     <Compile Include="TestBuilders\S3ServiceBuilder.cs" />
     <Compile Include="TestBuilders\S3\ModelRepositoryBuilder.cs" />
     <Compile Include="TestBuilders\S3\PublicationRepositoryBuilder.cs" />

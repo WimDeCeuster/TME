@@ -7,8 +7,8 @@ using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
-using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjects;
 using TME.CarConfigurator.Tests.Shared;
+using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
 
 namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel

@@ -1,9 +1,9 @@
 using System.Linq;
 using TME.CarConfigurator.Repository.Objects;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjects
+namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
 {
-    internal class LanguagesBuilder
+    public class LanguagesBuilder
     {
         private readonly Languages _languages;
 
@@ -28,7 +28,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjec
             return this;
         }
 
-        public LanguagesBuilder AddModelToLanguage(string languageCode, Repository.Objects.Model model)
+        public LanguagesBuilder AddModelToLanguage(string languageCode, Model model)
         {
             var language = _languages.Single(l => l.Code == languageCode);
 

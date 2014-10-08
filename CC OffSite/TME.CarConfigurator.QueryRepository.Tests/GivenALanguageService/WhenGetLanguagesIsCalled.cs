@@ -2,9 +2,9 @@
 using FluentAssertions;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
-using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjects;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Tests.Shared;
+using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
 
 namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
