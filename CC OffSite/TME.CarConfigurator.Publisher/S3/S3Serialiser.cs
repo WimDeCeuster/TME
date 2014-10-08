@@ -13,20 +13,20 @@ namespace TME.CarConfigurator.Publisher.S3
         {
             return SerialiseObject(publication);
         }
-
+        
         public String Serialise(Languages languages)
         {
             return SerialiseObject(languages);
         }
 
-        public string Serialise(IEnumerable<Asset> assets)
-        {
-            return SerialiseObject(assets);
-        }
-
         public string Serialise(IEnumerable<BodyType> bodyTypes)
         {
             return SerialiseObject(bodyTypes);
+        }
+
+        public string Serialise(IEnumerable<Asset> assets)
+        {
+            return SerialiseObject(assets);
         }
 
         private String SerialiseObject(Object obj)

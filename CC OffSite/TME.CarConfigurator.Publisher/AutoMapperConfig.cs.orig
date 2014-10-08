@@ -14,17 +14,30 @@ namespace TME.CarConfigurator.Publisher
             MapAssets();
 
             AutoMapper.Mapper.CreateMap<Administration.Brand, String>().ConvertUsing(brand => brand.Name);
+<<<<<<< HEAD
+            AutoMapper.Mapper.CreateMap<Administration.Model, Model>();
+=======
+
+>>>>>>> cc32fc97940345b54828c9a9c048eed639145e4b
             AutoMapper.Mapper.CreateMap<Administration.Translations.Label, Label>()
                 .ForMember(label => label.Code,
                            opt => opt.MapFrom(label => label.Definition.Code));
             AutoMapper.Mapper.CreateMap<Administration.ModelGenerationCarConfiguratorVersion, CarConfiguratorVersion>();
             AutoMapper.Mapper.CreateMap<Administration.Model, Model>()
                 .Translate(model => model.Name);
+<<<<<<< HEAD
+            AutoMapper.Mapper.CreateMap<Administration.ModelGenerationCarConfiguratorVersion, CarConfiguratorVersion>();
             AutoMapper.Mapper.CreateMap<Administration.ModelGeneration, Generation>()
-                .ForMember(gen => gen.Links,
-                    opt => opt.Ignore())
+                .ForMember(generation => generation.Links,
+                           opt => opt.Ignore())
                 .ForMember(gen => gen.Assets, 
-                           opt => opt.Ignore())  //MapFrom(modelGeneration => modelGeneration.Assets))
+                           opt => opt.MapFrom(modelGeneration => modelGeneration.Assets))
+=======
+
+            AutoMapper.Mapper.CreateMap<Administration.ModelGeneration, Generation>()
+                .ForMember(generation => generation.Assets,
+                           opt => opt.Ignore())
+>>>>>>> cc32fc97940345b54828c9a9c048eed639145e4b
                 .ForMember(generation => generation.SSN,
                            opt => opt.MapFrom(modelGeneration =>
                                               modelGeneration.FactoryGenerations.Select(factoryGeneration => factoryGeneration.SSN).First()))
