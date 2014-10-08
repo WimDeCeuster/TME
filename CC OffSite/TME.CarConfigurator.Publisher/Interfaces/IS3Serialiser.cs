@@ -10,7 +10,7 @@ namespace TME.CarConfigurator.Publisher.Interfaces
         String Serialise(Publication publication);
         String Serialise(Languages languages);
         T Deserialise<T>(String value);
-        String Serialise(IEnumerable<Asset> publication);
         String Serialise(IEnumerable<BodyType> bodyType);
+        String Serialise(IEnumerable<Asset> assets);
     }
 }
