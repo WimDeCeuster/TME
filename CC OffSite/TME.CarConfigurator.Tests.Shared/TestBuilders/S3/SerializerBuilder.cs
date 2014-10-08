@@ -1,5 +1,5 @@
 using FakeItEasy;
-using TME.CarConfigurator.QueryRepository.Service;
+using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders.S3
 {

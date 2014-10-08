@@ -34,9 +34,9 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
             var keyManager = KeyManagerBuilder.InitializeFake().Build();
             var s3Service = S3ServiceBuilder.InitializeFake().Build();
 
-            
+
             A.CallTo(() => keyManager.GetLanguagesKey()).Returns(_s3Key);
-            A.CallTo(() => s3Service.GetObject(_s3Key)).Returns(serializedObject);
+            A.CallTo(() => s3Service.GetObject("todo", "todo", _s3Key)).Returns(serializedObject);
             A.CallTo(() => serialiser.Deserialise<Languages>(serializedObject)).Returns(_expectedLanguages);
 
             _languageService = LanguageServiceBuilder.Initialize()
@@ -48,7 +48,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
 
         protected override void Act()
         {
-            _actualLanguages = _languageService.GetLanguages();
+            _actualLanguages = _languageService.GetLanguages(null);
         }
 
         [Fact]
