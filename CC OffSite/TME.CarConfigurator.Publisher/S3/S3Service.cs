@@ -10,34 +10,30 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using System;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Publisher.Enums.Result;
+using TME.CarConfigurator.Publisher.S3.Exceptions;
 
 namespace TME.CarConfigurator.Publisher.S3
 {
-    public class S3Service : IService
+    public class S3Service : IS3Service
     {
-        readonly AmazonS3Client _client;
-        readonly IS3Serialiser _serialiser;
+        IAmazonS3 _client;
         readonly String _bucketName;
-        readonly RegionEndpoint _regionEndPoint = RegionEndpoint.EUWest1;
-        String _publicationPathTemplate = "publication/{0}";
-        readonly String _modelsOverviewPath = "models-per-language";
-        readonly String _generationBodyTypesTimeFramePath = "publication/{0}/time-frame/{1}/body-types";
 
-        public S3Service(String brand, String country, IS3Serialiser serialiser)
+        public S3Service(String brand, String country, IAmazonS3 client)
         {
             if (brand == null) throw new ArgumentNullException("brand");
             if (country == null) throw new ArgumentNullException("country");
-            if (serialiser == null) throw new ArgumentNullException("serialiser");
+            if (client == null) throw new ArgumentNullException("client");
             if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
 
-            var accessKey = ConfigurationManager.AppSettings["AWSKey"];
-            var secretKey = ConfigurationManager.AppSettings["AWSSecretKey"];
+            //var accessKey = ConfigurationManager.AppSettings["AWSKey"];
+            //var secretKey = ConfigurationManager.AppSettings["AWSSecretKey"];
+            _client = client; //new AmazonS3Client(accessKey, secretKey, _regionEndPoint);
+
+
             var bucketNameTemplate = ConfigurationManager.AppSettings["AWSBucketNameTemplate"];
             var environment = ConfigurationManager.AppSettings["Environment"];
-
-            _serialiser = serialiser;
-            _client = new AmazonS3Client(accessKey, secretKey, _regionEndPoint);
 
             _bucketName = bucketNameTemplate.Replace("{environment}", environment.ToLowerInvariant())
                                             .Replace("{brand}", brand.ToLowerInvariant())
@@ -100,60 +96,28 @@ namespace TME.CarConfigurator.Publisher.S3
             });
         }
 
-        public T GetObject<T>(String key)
+        public String GetObject(String key)
         {
-            var response = _client.GetObject(_bucketName, key);
+            try { 
+                var response = _client.GetObject(_bucketName, key);
 
-            using (var responseStream = response.ResponseStream)
-            using (var reader = new StreamReader(responseStream))
+                using (var responseStream = response.ResponseStream)
+                using (var reader = new StreamReader(responseStream))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+            catch (Amazon.S3.AmazonS3Exception ex)
             {
-                return _serialiser.Deserialise<T>(reader.ReadToEnd());
+                if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    throw new ObjectNotFoundException(ex);
+                throw;
             }
         }
 
         public void DeleteObject(String key)
         {
             _client.DeleteObject(_bucketName, key);
-        }
-
-        public Languages GetModelsOverviewPerLanguage()
-        {
-            try
-            { 
-                return GetObject<Languages>(_modelsOverviewPath);
-            }
-            catch (AmazonS3Exception ex)
-            {
-                if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-                    return new Languages();
-                throw;
-            }
-        }
-
-        public async Task<Result> PutModelsOverviewPerLanguage(Languages languages)
-        {
-            return await PutObjectAsync(_modelsOverviewPath, _serialiser.Serialise(languages));
-        }
-
-        public async Task<Result> PutPublication(Publication publication)
-        {
-            if (publication == null) throw new ArgumentNullException("publication");
-
-            var path = String.Format(_publicationPathTemplate, publication.ID);
-            var value = _serialiser.Serialise(publication);
-
-            return await PutObjectAsync(path, value);
-        }
-
-        public async Task<Result> PutGenerationBodyTypes(Publication publication, TimeFrame timeFrame, IEnumerable<BodyType> bodyTypes)
-        {
-            if (timeFrame == null) throw new ArgumentNullException("timeFrame");
-            if (bodyTypes == null) throw new ArgumentNullException("bodyTypes");
-
-            var path = String.Format(_generationBodyTypesTimeFramePath, publication.ID, timeFrame.ID);
-            var value = _serialiser.Serialise(bodyTypes);
-
-            return await PutObjectAsync(path, value);
         }
 
         internal List<S3Bucket> GetBuckets()
@@ -180,6 +144,29 @@ namespace TME.CarConfigurator.Publisher.S3
             var result = await _client.ListObjectsAsync(new ListObjectsRequest { BucketName = _bucketName });
 
             return result.S3Objects.Count;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~S3Service()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(Boolean disposing)
+        {
+            if (disposing)
+            {
+                if (_client != null)
+                {
+                    _client.Dispose();
+                    _client = null;
+                }
+            }
         }
     }
 }

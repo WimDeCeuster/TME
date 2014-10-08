@@ -18,7 +18,6 @@ namespace TME.CarConfigurator.Publisher
             var data = generationFinder.GetModelGeneration(brand, country, generationID);
             var isPreview = context.DataSubset == PublicationDataSubset.Preview;
 
-
             foreach (var entry in data) {
                 var contextData = new ContextData();
                 var modelGeneration = entry.Value.Item1;

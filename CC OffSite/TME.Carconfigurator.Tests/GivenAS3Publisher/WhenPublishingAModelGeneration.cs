@@ -23,7 +23,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         {
             foreach (var language in Languages)
             {
-                A.CallTo(() => Service.PutPublication(null))
+                A.CallTo(() => PublicationService.PutPublication(null))
                                       .WhenArgumentsMatch(args => args[0] != null)
                                       .MustHaveHappened(Repeated.Exactly.Times(Languages.Count()));
             }
@@ -34,7 +34,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         {
             foreach (var language in Languages)
             {
-                A.CallTo(() => Service.PutPublication(null))
+                A.CallTo(() => PublicationService.PutPublication(null))
                     .WhenArgumentsMatch(args => ((Publication) args[0]).Generation.Assets.Count != 0)
                     .MustHaveHappened(Repeated.Exactly.Times(Languages.Count()));
             }
