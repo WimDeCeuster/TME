@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TME.CarConfigurator.Publisher.S3.Exceptions
+namespace TME.CarConfigurator.S3.Shared.Exceptions
 {
     public class ObjectNotFoundException : Exception
     {

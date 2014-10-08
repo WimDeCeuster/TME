@@ -2,13 +2,14 @@
 using System.Linq;
 using FakeItEasy;
 using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
 using System.Threading.Tasks;
-using TME.CarConfigurator.Publisher.Enums.Result;
+using TME.CarConfigurator.S3.Shared.Result;
 using System.Collections.Generic;
+using TME.CarConfigurator.S3.Shared.Interfaces;
+using TME.CarConfigurator.Publisher.S3;
 
 namespace TME.Carconfigurator.Tests.Base
 {
@@ -18,7 +19,7 @@ namespace TME.Carconfigurator.Tests.Base
         protected IS3LanguageService LanguageService;
         protected IS3BodyTypeService BodyTypeService; 
         protected S3Publisher Publisher;
-        protected IS3Serialiser Serialiser;
+        protected ISerialiser Serialiser;
         protected IContext Context;
         protected String Brand = "Toyota";
         protected String Country = "BE";
@@ -36,7 +37,7 @@ namespace TME.Carconfigurator.Tests.Base
             var successFullTask = Task.FromResult((Result)new Successfull());
             var successFullTasks = Task.FromResult((IEnumerable<Result>)new[] { new Successfull() });
 
-            Serialiser = A.Fake<IS3Serialiser>();
+            Serialiser = A.Fake<ISerialiser>();
 
             Publisher = new S3Publisher(PublicationService, LanguageService, BodyTypeService);
             Context = ContextBuilder.GetDefaultContext(Languages);

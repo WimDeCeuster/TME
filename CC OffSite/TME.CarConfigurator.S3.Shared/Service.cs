@@ -6,28 +6,28 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.Collections.Generic;
 using System.IO;
-using TME.CarConfigurator.Publisher.Interfaces;
 using System;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Publisher.Enums.Result;
-using TME.CarConfigurator.Publisher.S3.Exceptions;
-using TME.CarConfigurator.Publisher.Factories;
+using TME.CarConfigurator.S3.Shared.Result;
+using TME.CarConfigurator.S3.Shared.Interfaces;
+using TME.CarConfigurator.S3.Shared.Factories;
+using TME.CarConfigurator.S3.Shared.Exceptions;
 
-namespace TME.CarConfigurator.Publisher.S3
+namespace TME.CarConfigurator.S3.Shared
 {
-    public class S3Service : IS3Service
+    public class Service : IService
     {
         const String BucketNameTemplate = "{environment}-cardb-{brand}-{country}";
         readonly String _environment;
         IAmazonS3 _client;
 
-        public S3Service(IAmazonS3 client)
+        public Service(IAmazonS3 client)
         {
             _client = client ?? new AmazonS3Factory().CreateInstance();
             _environment = ConfigurationManager.AppSettings["Environment"];
         }
 
-        public async Task<Result> PutObjectAsync(String brand, String country, String key, String item)
+        public async Task<Result.Result> PutObjectAsync(String brand, String country, String key, String item)
         {
             if (brand == null) throw new ArgumentNullException("brand");
             if (country == null) throw new ArgumentNullException("country");
@@ -186,7 +186,7 @@ namespace TME.CarConfigurator.Publisher.S3
             GC.SuppressFinalize(this);
         }
 
-        ~S3Service()
+        ~Service()
         {
             Dispose(false);
         }

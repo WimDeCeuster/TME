@@ -140,6 +140,10 @@
       <Project>{90212D66-76E4-4842-8CF0-EAD35988D8E2}</Project>
       <Name>TME.CarConfigurator.Publisher</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.Shared\TME.CarConfigurator.S3.Shared.csproj">
+      <Project>{07be5767-abba-4dc4-bb09-f1ce85cac7fc}</Project>
+      <Name>TME.CarConfigurator.S3.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\ShellView.xaml">

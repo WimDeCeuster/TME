@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TME.CarConfigurator.Publisher.Factories
+namespace TME.CarConfigurator.S3.Shared.Factories
 {
     public class AmazonS3Factory
     {

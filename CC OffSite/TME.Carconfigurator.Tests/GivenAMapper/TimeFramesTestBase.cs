@@ -8,7 +8,7 @@ using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using FakeItEasy;
-using TME.CarConfigurator.Publisher.Enums;
+using TME.CarConfigurator.Publisher.S3;
 
 namespace TME.Carconfigurator.Tests.GivenAMapper
 {

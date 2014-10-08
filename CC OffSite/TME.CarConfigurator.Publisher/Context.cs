@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
 using ModelGeneration = TME.CarConfigurator.Administration.ModelGeneration;
+using TME.CarConfigurator.Publisher.Enums;
 
 namespace TME.CarConfigurator.Publisher
 {

@@ -4,10 +4,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using DBCar = TME.CarConfigurator.Administration.Car;
+using TME.CarConfigurator.Publisher.Enums;
 
 namespace TME.CarConfigurator.Publisher
 {

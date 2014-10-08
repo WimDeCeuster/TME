@@ -42,8 +42,9 @@
     <Reference Include="FluentAssertions.Core">
       <HintPath>..\packages\FluentAssertions.3.2.1\lib\net45\FluentAssertions.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -87,6 +88,7 @@
     <Compile Include="GivenAMapper\WhenMappingAPreviewContext.cs" />
     <Compile Include="GivenAMapper\WhenMappingALiveContext.cs" />
     <Compile Include="GivenAMapper\WhenMappingLinks.cs" />
+    <Compile Include="GivenAPublisherService\IServiceFactory.cs" />
     <Compile Include="GivenAPublisherService\WhenPublishingToS3Production.cs" />
     <Compile Include="GivenAS3Publisher\ActivatePublicationTestBase.cs" />
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatAlreadyHadAPublication.cs" />
@@ -114,6 +116,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
       <Project>{2154eaaa-3d11-4654-bea6-7b147451dba8}</Project>
       <Name>TME.CarConfigurator.Repository.Objects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.Shared\TME.CarConfigurator.S3.Shared.csproj">
+      <Project>{07be5767-abba-4dc4-bb09-f1ce85cac7fc}</Project>
+      <Name>TME.CarConfigurator.S3.Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Tests.Shared\TME.CarConfigurator.Tests.Shared.csproj">
       <Project>{7DFDEC11-EB2D-4844-B822-C47CC899D138}</Project>

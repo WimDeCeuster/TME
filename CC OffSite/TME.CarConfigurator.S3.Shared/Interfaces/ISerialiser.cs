@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 
-namespace TME.CarConfigurator.Publisher.Interfaces
+namespace TME.CarConfigurator.S3.Shared.Interfaces
 {
-    public interface IS3Serialiser
+    public interface ISerialiser
     {
         String Serialise(Publication publication);
         String Serialise(Languages languages);

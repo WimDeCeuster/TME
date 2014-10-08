@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using FakeItEasy;
 using TME.CarConfigurator.Publisher;
-using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
 using TME.CarConfigurator.Tests.Shared;
 using System.Threading.Tasks;
-using TME.CarConfigurator.Publisher.Enums.Result;
+using TME.CarConfigurator.S3.Shared.Result;
+using TME.CarConfigurator.S3.Shared.Interfaces;
+using TME.CarConfigurator.Publisher.Enums;
+using TME.CarConfigurator.Publisher.S3;
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
@@ -47,7 +48,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             LanguageService = A.Fake<IS3LanguageService>(x => x.Strict());
             BodyTypeService = A.Fake<IS3BodyTypeService>(x => x.Strict());
 
-            var serialiser = A.Fake<IS3Serialiser>();
+            var serialiser = A.Fake<ISerialiser>();
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
             var successFullTask = Task.FromResult((Result)new Successfull());
             var successFullTasks = Task.FromResult((IEnumerable<Result>)new[] { new Successfull() });

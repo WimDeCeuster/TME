@@ -3,22 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TME.CarConfigurator.Publisher.Enums.Result;
+using TME.CarConfigurator.S3.Shared.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.S3.Shared.Interfaces;
+using TME.CarConfigurator.S3.Shared;
 
 namespace TME.CarConfigurator.Publisher.S3
 {
     public class S3BodyTypeService : IS3BodyTypeService
     {
-        readonly IS3Service _service;
-        readonly IS3Serialiser _serialiser;
+        readonly IService _service;
+        readonly ISerialiser _serialiser;
         readonly String _generationBodyTypesTimeFramePath = "publication/{0}/time-frame/{1}/body-types";
 
-        public S3BodyTypeService(IS3Service service, IS3Serialiser serialiser)
+        public S3BodyTypeService(IService service, ISerialiser serialiser)
         {
-            _service = service ?? new S3Service(null);
-            _serialiser = serialiser ?? new S3Serialiser();
+            _service = service ?? new Service(null);
+            _serialiser = serialiser ?? new Serialiser();
         }
 
         public async Task<IEnumerable<Result>> PutGenerationBodyTypes(IContext context)
