@@ -7,21 +7,17 @@
         <table class="top">
             <tr>
                 <td>
-                    @Html.Raw(model.Name + "\n")
+                    <b>@Html.Raw(model.Name)</b>
                 </td>
             </tr>
         </table>
         <div class="clickable">
-            @foreach (var t in model.Cars)
-            {
-                <table class="sub1">
-                    <tr>
-                        <td>
-                            @Html.Raw(t.Name + "\n")
-                        </td>
-                    </tr>
-                </table>
-            }
+            Description : @Html.Raw(model.Description)<br/>
+            ToolTip : @Html.Raw(model.ToolTip)<br/>
+            FootNote : @Html.Raw(model.FootNote)<br/>
+            <br/>
+            <a href="">Assets</a> | <a href="">Cars</a> 
+            <br/> <br/>
         </div>
     </div>
 }
