@@ -37,7 +37,14 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
-        private ContextBuilder WithTimeFrames(string language, IEnumerable<TimeFrame> timeFrames)
+        public ContextBuilder WithGenerationBodyTypes(String language, IEnumerable<BodyType> bodyTypes)
+        {
+            foreach (var bodyType in bodyTypes)
+                Context.ContextData[language].GenerationBodyTypes.Add(bodyType);
+            return this;
+        }
+
+        private ContextBuilder WithTimeFrames(String language, IEnumerable<TimeFrame> timeFrames)
         {
             Context.TimeFrames[language] = timeFrames.ToList();
             return this;
@@ -59,9 +66,9 @@ namespace TME.Carconfigurator.Tests.Builders
                 SSN =  "SSN1-" + language,
                 Assets = new List<Asset>
                 {
-                    new Asset(){ID = Guid.NewGuid()},
-                    new Asset(){ID = Guid.NewGuid()},
-                    new Asset(){ID = Guid.NewGuid()}
+                    CreateFakeAsset("Asset1"),
+                    CreateFakeAsset("Asset2"),
+                    CreateFakeAsset("Asset3")
                 }
 
             }, "", language);
@@ -73,6 +80,11 @@ namespace TME.Carconfigurator.Tests.Builders
             {
                 ID = Guid.NewGuid()
             }, name, language);
+        }
+
+        private static Asset CreateFakeAsset(string name)
+        {
+            return new Asset() {ID = Guid.NewGuid(), Name = name};
         }
 
         public static T FillFakeBaseObject<T>(T baseObject, String name, String language) where T : BaseObject
@@ -112,7 +124,6 @@ namespace TME.Carconfigurator.Tests.Builders
                     CreateFakeCar(language, "Car2"),
                     CreateFakeCar(language, "Car3")
                 };
-
 
                 builder.WithCars(language, cars);
 

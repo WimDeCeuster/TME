@@ -14,35 +14,36 @@ namespace TME.Carconfigurator.Tests.GivenAMapper
 {
     public abstract class TimeFramesTestBase : TestBase
     {
-        protected Mapper _mapper;
-        protected String _brand;
-        protected String _country;
-        protected String _language;
-        protected Int32 _minimumCarCount;
-        protected ModelGeneration _generation;
-        protected ICarDbModelGenerationFinder _generationFinder;
-        protected IContext _context;
-        protected Model _model;
+        protected Mapper mapper;
+        protected String brand;
+        protected String country;
+        protected String language;
+        protected Int32 minimumCarCount;
+        protected ModelGeneration generation;
+        protected ICarDbModelGenerationFinder generationFinder;
+        protected IContext context;
+        protected Model model;
 
         protected override void Arrange()
         {
             AutoMapperConfig.Configure();
 
-            _brand = "Toyota";
+            brand = "Toyota";
 
-            MyContext.SetSystemContext("Toyota", "ZZ", "en");
+            var timeFrameGenerationInfo = SetupTimeFrameData();
+            generation = timeFrameGenerationInfo.ModelGeneration;
+            model = timeFrameGenerationInfo.Model;
+            country = timeFrameGenerationInfo.Country;
+            language = timeFrameGenerationInfo.Language;
+            minimumCarCount = timeFrameGenerationInfo.MinimumCarCount;
 
-            var generationInfo = SetupTimeFrameData(out _country, out _language, out _minimumCarCount);
-            _generation = generationInfo.Item1;
-            _model = generationInfo.Item2;
+            generationFinder = A.Fake<ICarDbModelGenerationFinder>();
+            mapper = new Mapper();
 
-            _generationFinder = A.Fake<ICarDbModelGenerationFinder>();
-            _mapper = new Mapper();
-
-            A.CallTo(() => _generationFinder.GetModelGeneration(_brand, _country, _generation.ID)).Returns(new Dictionary<String, Tuple<ModelGeneration, Model>> { { _language, Tuple.Create(_generation, _model) } });
+            A.CallTo(() => generationFinder.GetModelGeneration(brand, country, generation.ID)).Returns(new Dictionary<String, Tuple<ModelGeneration, Model>> { { language, Tuple.Create(generation, model) } });
         }
 
-        Tuple<ModelGeneration, Model> SetupTimeFrameData(out String countryCode, out String languageCode, out Int32 minimumCarCount)
+        TimeFrameGenerationInfo SetupTimeFrameData()
         {
             var timeFramesPre = new[] {
                 Tuple.Create(new DateTime(2014, 1, 1), new DateTime(2014, 6, 1)),
@@ -61,8 +62,8 @@ namespace TME.Carconfigurator.Tests.GivenAMapper
 
             minimumCarCount = timeFramesPre.Length + timeFramesPost.Length;
 
-            var generationInfo = FindCompatibleModelGeneration(minimumCarCount, out countryCode, out languageCode);
-            var cars = generationInfo.Item1.Cars;
+            var timeFrameGenerationInfo = FindCompatibleModelGeneration(minimumCarCount);
+            var cars = timeFrameGenerationInfo.ModelGeneration.Cars;
 
             var extraTimeFrame = Tuple.Create(new DateTime(2014, 3, 10), new DateTime(2014, 3, 20));
             var timeFramesExtra = Enumerable.Repeat(extraTimeFrame, cars.Count - minimumCarCount);
@@ -79,23 +80,40 @@ namespace TME.Carconfigurator.Tests.GivenAMapper
                 car.LineOffToDate = lineOffTo;
             }
 
-            return generationInfo;
+            return timeFrameGenerationInfo;
         }
 
-        Tuple<ModelGeneration, Model> FindCompatibleModelGeneration(Int32 minimumCarCount, out String countryCode, out String languageCode)
+        TimeFrameGenerationInfo FindCompatibleModelGeneration(Int32 minimumCarCount)
         {
+            MyContext.SetSystemContext(brand, "ZZ", "en");
             foreach (var country in MyContext.GetContext().Countries)
             {
-                countryCode = country.Code;
-                languageCode = country.Languages.First().Code;
-                MyContext.SetSystemContext(_brand, countryCode, languageCode);
+                var countryCode = country.Code;
+                var languageCode = country.Languages.First().Code;
+                MyContext.SetSystemContext(brand, countryCode, languageCode);
                 foreach (var model in Models.GetModels())
                     foreach (var generation in model.Generations)
                         if (generation.Cars.Count >= minimumCarCount)
-                            return Tuple.Create(generation, model);
+                            return new TimeFrameGenerationInfo
+                            {
+                                Country = countryCode,
+                                Language = languageCode,
+                                MinimumCarCount = minimumCarCount,
+                                Model = model,
+                                ModelGeneration = generation
+                            };
             }
 
             throw new Exception(String.Format("No generation with at least {0} cars found.", minimumCarCount));
+        }
+
+        class TimeFrameGenerationInfo
+        {
+            public String Country { get; set; }
+            public String Language { get; set; }
+            public Int32 MinimumCarCount { get; set; }
+            public ModelGeneration ModelGeneration { get; set; }
+            public Model Model { get; set; }
         }
     }
 }

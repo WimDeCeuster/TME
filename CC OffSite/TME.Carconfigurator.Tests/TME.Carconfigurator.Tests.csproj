@@ -86,12 +86,14 @@
     <Compile Include="Builders\ContextBuilder.cs" />
     <Compile Include="GivenAMapper\WhenMappingAPreviewContext.cs" />
     <Compile Include="GivenAMapper\WhenMappingALiveContext.cs" />
+    <Compile Include="GivenAMapper\WhenMappingLinks.cs" />
     <Compile Include="GivenAPublisherService\WhenPublishingToS3Production.cs" />
     <Compile Include="GivenAS3Publisher\ActivatePublicationTestBase.cs" />
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatAlreadyHadAPublication.cs" />
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatAlreadyHadAPublicationAndTheModelPropertiesHaveChanged.cs" />
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatDoesntHaveAPublicationYet.cs" />
     <Compile Include="GivenAS3Publisher\WhenPublishingAModelGeneration.cs" />
+    <Compile Include="GivenAS3Publisher\WhenPublishingBodyTypesPerTimeFrame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

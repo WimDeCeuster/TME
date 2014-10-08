@@ -21,7 +21,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
                 new Language(Language2){Models = new Repository<Model>{models2}}
             };
 
-            A.CallTo(() => Service.GetModelsOverviewPerLanguage()).Returns(languages);
+            A.CallTo(() => LanguageService.GetModelsOverviewPerLanguage()).Returns(languages);
         }
 
         
@@ -29,7 +29,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldUploadCorrectDataForLanguage1()
         {
-            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null))
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null))
                 .WhenArgumentsMatch(args =>
                 {
                     var models = ((Languages)args[0]).Single(l=>l.Code.Equals(Language1)).Models;
@@ -41,7 +41,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldUploadCorrectDataForLanguage2()
         {
-            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null))
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null))
                 .WhenArgumentsMatch(args =>
                 {
                     var models = ((Languages)args[0]).Single(l=>l.Code.Equals(Language2)).Models;
@@ -53,7 +53,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenTheModelOverviewFileShouldOnlyBeUploadedOnce()
         {
-            A.CallTo(() => Service.PutModelsOverviewPerLanguage(null))
+            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null))
                 .WithAnyArguments()
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
