@@ -50,6 +50,8 @@
     <Compile Include="S3\PublicationRepository.cs" />
     <Compile Include="Service\Interfaces\ILanguageService.cs" />
     <Compile Include="Service\Interfaces\IPublicationService.cs" />
+    <Compile Include="Service\LanguageService.cs" />
+    <Compile Include="Service\PublicationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
