@@ -1,37 +1,25 @@
+using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.QueryRepository.Service.Base;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.QueryRepository.Service
 {
-    public class LanguageService : ILanguageService
+    public class LanguageService : ServiceBase, ILanguageService
     {
-        private readonly ISerialiser _serialiser;
-        private readonly IS3Service _service;
-        private readonly IKeyManager _keyManager;
 
-        public LanguageService(ISerialiser serialiser, IS3Service service, IKeyManager keyManager)
+        public LanguageService(ISerialiser serialiser, IService service, IKeyManager keyManager)
+            : base(serialiser, service, keyManager)
         {
-            _serialiser = serialiser;
-            _service = service;
-            _keyManager = keyManager;
         }
 
-        public Languages GetLanguages()
+        public Languages GetLanguages(IContext context)
         {
-            var key = _keyManager.GetLanguagesKey();
-            var serialisedLanguages = _service.GetObject(key);
-            return _serialiser.Deserialise<Languages>(serialisedLanguages);
+            var key = KeyManager.GetLanguagesKey();
+            var serialisedLanguages = Service.GetObject("", "", key);
+            return Serialiser.Deserialise<Languages>(serialisedLanguages);
         }
-    }
-
-    public interface ISerialiser
-    {
-        T Deserialise<T>(string serialisedObject);
-    }
-
-    public interface IS3Service
-    {
-        string GetObject(string key);
     }
 
     public interface IKeyManager

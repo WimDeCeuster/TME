@@ -1,6 +1,5 @@
 using System;
 using TME.CarConfigurator.QueryRepository.Interfaces;
-using TME.CarConfigurator.QueryRepository.Service;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 
@@ -12,9 +11,7 @@ namespace TME.CarConfigurator.QueryRepository.S3
 
         public PublicationRepository(IPublicationService publicationService = null)
         {
-            if (publicationService == null) publicationService = new PublicationService();
-
-            _publicationService = publicationService;
+            _publicationService = publicationService; // todo: local default
         }
 
         public Publication GetPublication(Guid publicationID)

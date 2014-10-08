@@ -1,9 +1,11 @@
 using FakeItEasy;
+using TME.CarConfigurator.QueryRepository.Service;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
+using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.Base;
 
 namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
 {
-    public class PublicationServiceBuilder
+    public class PublicationServiceBuilder : ServiceBuilderBase<IPublicationService>
     {
         private readonly IPublicationService _service;
 
@@ -19,9 +21,14 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
             return new PublicationServiceBuilder(service);
         }
 
-        public IPublicationService Build()
+        public static PublicationServiceBuilder Initialize()
         {
-            return _service;
+            return new PublicationServiceBuilder(null);
+        }
+
+        public override IPublicationService Build()
+        {
+            return _service ?? new PublicationService(Serialiser, Service, KeyManager);
         }
     }
 }

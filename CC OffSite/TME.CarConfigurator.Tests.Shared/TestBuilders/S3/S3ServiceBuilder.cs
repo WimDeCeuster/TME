@@ -1,25 +1,25 @@
 using FakeItEasy;
-using TME.CarConfigurator.QueryRepository.Service;
+using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders.S3
 {
     public class S3ServiceBuilder
     {
-        private readonly IS3Service _service;
+        private readonly IService _service;
 
-        private S3ServiceBuilder(IS3Service service)
+        private S3ServiceBuilder(IService service)
         {
             _service = service;
         }
 
         public static S3ServiceBuilder InitializeFake()
         {
-            var service = A.Fake<IS3Service>();
+            var service = A.Fake<IService>();
 
             return new S3ServiceBuilder(service);
         }
 
-        public IS3Service Build()
+        public IService Build()
         {
             return _service;
         }
