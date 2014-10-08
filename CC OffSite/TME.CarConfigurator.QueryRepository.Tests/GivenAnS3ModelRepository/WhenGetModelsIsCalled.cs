@@ -5,10 +5,9 @@ using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
-using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.RepositoryObjects;
-using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.S3;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Tests.Shared;
+using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
 
 namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
@@ -26,7 +25,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
 
             var languageService = ArrangeLanguageService();
 
-            _modelRepository = ModelRepositoryBuilder.Initialize().WithLanguageService(languageService).Build();
+            _modelRepository = S3ModelRepositoryBuilder.Initialize().WithLanguageService(languageService).Build();
         }
 
         private static ILanguageService ArrangeLanguageService()

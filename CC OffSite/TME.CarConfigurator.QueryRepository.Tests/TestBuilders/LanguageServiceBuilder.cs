@@ -1,6 +1,5 @@
 using TME.CarConfigurator.QueryRepository.Service;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
-using TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService;
 
 namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
 {

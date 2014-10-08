@@ -2,14 +2,13 @@ using FakeItEasy;
 using TME.CarConfigurator.Factories;
 using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
-using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.S3;
 
 namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
 {
     internal class PublicationFactoryBuilder
     {
         private readonly IPublicationFactory _publicationFactory;
-        private IPublicationRepository _publicationRepository = PublicationRepositoryBuilder.InitializeFakeRepository().Build();
+        private IPublicationRepository _publicationRepository = S3PublicationRepositoryBuilder.InitializeFakeRepository().Build();
 
         private PublicationFactoryBuilder()
         {
