@@ -12,15 +12,16 @@ using System.Threading.Tasks;
 using TME.CarConfigurator.S3.Shared.Result;
 using System.Collections.Generic;
 using TME.CarConfigurator.S3.Shared.Interfaces;
+using IPublicationService = TME.CarConfigurator.S3.PutServices.Interfaces.IPublicationService;
 
 namespace TME.Carconfigurator.Tests.Base
 {
     public abstract class PublicationTestBase : TestBase
     {
-        protected IS3PublicationService PublicationService;
-        protected IS3LanguageService LanguageService;
-        protected IS3BodyTypeService BodyTypeService;
-        protected IS3EngineService EngineService; 
+        protected IPublicationService PublicationService;
+        protected ILanguageService LanguageService;
+        protected IBodyTypeService BodyTypeService;
+        protected IEngineService EngineService; 
         protected S3Publisher Publisher;
         protected ISerialiser Serialiser;
         protected IContext Context;
@@ -33,10 +34,10 @@ namespace TME.Carconfigurator.Tests.Base
 
         protected override void Arrange()
         {
-            PublicationService = A.Fake<IS3PublicationService>(x => x.Strict());
-            LanguageService = A.Fake<IS3LanguageService>(x => x.Strict());
-            BodyTypeService = A.Fake<IS3BodyTypeService>(x => x.Strict());
-            EngineService = A.Fake<IS3EngineService>(x => x.Strict());
+            PublicationService = A.Fake<IPublicationService>(x => x.Strict());
+            LanguageService = A.Fake<ILanguageService>(x => x.Strict());
+            BodyTypeService = A.Fake<IBodyTypeService>(x => x.Strict());
+            EngineService = A.Fake<IEngineService>(x => x.Strict());
 
             var successFullTask = Task.FromResult((Result)new Successfull());
             var successFullTasks = Task.FromResult((IEnumerable<Result>)new[] { new Successfull() });

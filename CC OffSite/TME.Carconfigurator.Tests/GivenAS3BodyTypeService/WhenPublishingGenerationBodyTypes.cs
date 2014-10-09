@@ -33,7 +33,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
         const String _timeFrame3BodyTypesKey = "time frame 3 body types key";
         const String _timeFrame4BodyTypesKey = "time frame 4 body types key";
         IService _s3Service;
-        S3BodyTypeService _service;
+        BodyTypeService _service;
         IContext _context;
 
         protected override void Arrange()
@@ -92,7 +92,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
             var serialiser = A.Fake<ISerialiser>();
             var keyManager = A.Fake<IKeyManager>();
 
-            _service = new S3BodyTypeService(_s3Service, serialiser, keyManager);
+            _service = new BodyTypeService(_s3Service, serialiser, keyManager);
 
             A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
                 .WhenArgumentsMatch(ArgumentMatchesList(generationBodyType1))

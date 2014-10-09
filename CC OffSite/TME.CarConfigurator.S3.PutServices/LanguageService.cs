@@ -10,13 +10,13 @@ using TME.CarConfigurator.S3.Shared.Result;
 
 namespace TME.CarConfigurator.S3.PutServices
 {
-    public class S3LanguageService : IS3LanguageService
+    public class LanguageService : ILanguageService
     {
         readonly IService _service;
         readonly ISerialiser _serialiser;
         readonly IKeyManager _keyManager;
 
-        public S3LanguageService(IService service, ISerialiser serialiser, IKeyManager keyManager)
+        public LanguageService(IService service, ISerialiser serialiser, IKeyManager keyManager)
         {
             _service = service ?? new Service(null);
             _serialiser = serialiser ?? new Serialiser();

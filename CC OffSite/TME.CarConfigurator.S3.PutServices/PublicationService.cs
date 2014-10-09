@@ -10,13 +10,13 @@ using TME.CarConfigurator.S3.Shared.Result;
 
 namespace TME.CarConfigurator.S3.PutServices
 {
-    public class S3PublicationService : IS3PublicationService
+    public class PublicationService : IPublicationService
     {
         readonly IService _service;
         readonly ISerialiser _serialiser;
         readonly IKeyManager _keyManager;
 
-        public S3PublicationService(IService service, ISerialiser serialiser, IKeyManager keyManager)
+        public PublicationService(IService service, ISerialiser serialiser, IKeyManager keyManager)
         {
             _service = service ?? new Service(null);
             _serialiser = serialiser ?? new Serialiser();

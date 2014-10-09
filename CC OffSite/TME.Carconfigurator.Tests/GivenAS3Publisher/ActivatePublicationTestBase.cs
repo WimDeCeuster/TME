@@ -14,15 +14,16 @@ using System.Threading.Tasks;
 using TME.CarConfigurator.S3.Shared.Result;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using Context = TME.CarConfigurator.Publisher.Common.Context;
+using IPublicationService = TME.CarConfigurator.S3.PutServices.Interfaces.IPublicationService;
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
     public abstract class ActivatePublicationTestBase : TestBase
     {
-        protected IS3PublicationService PublicationService;
-        protected IS3LanguageService LanguageService;
-        protected IS3BodyTypeService BodyTypeService;
-        protected IS3EngineService EngineService;
+        protected IPublicationService PublicationService;
+        protected ILanguageService LanguageService;
+        protected IBodyTypeService BodyTypeService;
+        protected IEngineService EngineService;
         protected IPublisher Publisher;
         protected const string Brand = "Toyota";
         protected const string Country = "BE";
@@ -48,10 +49,10 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 
         protected override void Arrange()
         {
-            PublicationService = A.Fake<IS3PublicationService>(x => x.Strict());
-            LanguageService = A.Fake<IS3LanguageService>(x => x.Strict());
-            BodyTypeService = A.Fake<IS3BodyTypeService>(x => x.Strict());
-            EngineService = A.Fake<IS3EngineService>(x => x.Strict());
+            PublicationService = A.Fake<IPublicationService>(x => x.Strict());
+            LanguageService = A.Fake<ILanguageService>(x => x.Strict());
+            BodyTypeService = A.Fake<IBodyTypeService>(x => x.Strict());
+            EngineService = A.Fake<IEngineService>(x => x.Strict());
 
             var serialiser = A.Fake<ISerialiser>();
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);

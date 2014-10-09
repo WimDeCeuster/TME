@@ -5,8 +5,8 @@ using TME.CarConfigurator.S3.Shared.Result;
 
 namespace TME.CarConfigurator.S3.PutServices.Interfaces
 {
-    public interface IS3PublicationService
+    public interface IEngineService
     {
-        Task<IEnumerable<Result>> PutPublications(IContext context);
+        Task<IEnumerable<Result>> PutGenerationEngines(IContext context);
     }
 }

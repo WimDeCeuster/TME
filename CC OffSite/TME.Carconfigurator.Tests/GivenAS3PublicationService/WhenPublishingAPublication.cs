@@ -21,7 +21,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3PublicationService
         const String _publication1Key = "publication 1 key";
         const String _publication2Key = "publication 2 key";
         IService _s3Service;
-        IS3PublicationService _service;
+        IPublicationService _service;
         IContext _context;
 
         protected override void Arrange()
@@ -42,7 +42,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3PublicationService
             var serialiser = A.Fake<ISerialiser>();
             var keyManager = A.Fake<IKeyManager>();
 
-            _service = new S3PublicationService(_s3Service, serialiser, keyManager);
+            _service = new PublicationService(_s3Service, serialiser, keyManager);
 
             A.CallTo(() => serialiser.Serialise(publication1)).Returns(_serialisedPublication1);
             A.CallTo(() => serialiser.Serialise(publication2)).Returns(_serialisedPublication2);

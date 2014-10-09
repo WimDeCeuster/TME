@@ -9,17 +9,18 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
 using TME.CarConfigurator.S3.PutServices.Interfaces;
 using TME.CarConfigurator.S3.Shared.Result;
+using IPublicationService = TME.CarConfigurator.S3.PutServices.Interfaces.IPublicationService;
 
 namespace TME.CarConfigurator.Publisher
 {
     public class S3Publisher : IPublisher
     {
-        readonly IS3PublicationService _publicationService;
-        readonly IS3LanguageService _languageService;
-        readonly IS3BodyTypeService _bodyTypeService;
-        readonly IS3EngineService _engineService;
+        readonly IPublicationService _publicationService;
+        readonly ILanguageService _languageService;
+        readonly IBodyTypeService _bodyTypeService;
+        readonly IEngineService _engineService;
 
-        public S3Publisher(IS3PublicationService publicationService, IS3LanguageService languageService, IS3BodyTypeService bodyTypeService, IS3EngineService engineService)
+        public S3Publisher(IPublicationService publicationService, ILanguageService languageService, IBodyTypeService bodyTypeService, IEngineService engineService)
         {
             if (publicationService == null) throw new ArgumentNullException("publicationService");
             if (languageService == null) throw new ArgumentNullException("languageService");

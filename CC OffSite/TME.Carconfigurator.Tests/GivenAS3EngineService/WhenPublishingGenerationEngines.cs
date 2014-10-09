@@ -29,7 +29,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3EngineService
         const String _timeFrame3EnginesKey = "time frame 3 engines key";
         const String _timeFrame4EnginesKey = "time frame 4 engines key";
         IService _s3Service;
-        IS3EngineService _service;
+        IEngineService _service;
         IContext _context;
 
         protected override void Arrange()
@@ -88,7 +88,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3EngineService
             var serialiser = A.Fake<ISerialiser>();
             var keyManager = A.Fake<IKeyManager>();
 
-            _service = new S3EngineService(_s3Service, serialiser, keyManager);
+            _service = new EngineService(_s3Service, serialiser, keyManager);
 
             A.CallTo(() => serialiser.Serialise((IEnumerable<Engine>)null))
                 .WhenArgumentsMatch(ArgumentMatchesList(generationEngine1))
