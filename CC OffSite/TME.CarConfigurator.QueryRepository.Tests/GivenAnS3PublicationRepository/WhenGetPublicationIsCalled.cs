@@ -24,7 +24,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3PublicationReposito
             _publicationId = Guid.NewGuid();
             _expectedPublication = PublicationBuilder.Initialize().WithID(_publicationId).Build();
 
-            _context = ContextBuilder.InitializeFakeContext().Build();
+            _context = ContextBuilder.Initialize().Build();
 
             var publicationService = PublicationServiceBuilder.InitializeFakeService().Build();
 

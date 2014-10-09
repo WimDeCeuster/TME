@@ -24,7 +24,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAPublicationService
             const string brand = "a brand";
             const string country = "a country"; 
             
-            _context = ContextBuilder.InitializeFakeContext()
+            _context = ContextBuilder.Initialize()
                  .WithBrand(brand)
                  .WithCountry(country)
                  .Build();

@@ -29,7 +29,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
             _publicationID = Guid.NewGuid();
             _expectedSsn = "expected ssn";
 
-            _context = ContextBuilder.InitializeFakeContext().Build();
+            _context = ContextBuilder.Initialize().Build();
 
             ArrangePublicationFactory();
 

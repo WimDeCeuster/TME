@@ -21,7 +21,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
 
         protected override void Arrange()
         {
-            _context = ContextBuilder.InitializeFakeContext().WithLanguage(Language).Build();
+            _context = ContextBuilder.Initialize().WithLanguage(Language).Build();
 
             var languageService = ArrangeLanguageService();
 
