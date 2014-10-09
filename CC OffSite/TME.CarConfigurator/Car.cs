@@ -25,5 +25,6 @@ namespace TME.CarConfigurator
         public IPrice StartingPrice { get; set; }
         public IBodyType BodyType { get; set; }
         public IEngine Engine { get; set; }
+        public ITransmission Transmission { get; set; }
     }
 }

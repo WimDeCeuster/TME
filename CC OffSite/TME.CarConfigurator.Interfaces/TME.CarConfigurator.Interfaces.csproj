@@ -42,6 +42,8 @@
     <Compile Include="Assets\IAsset.cs" />
     <Compile Include="Assets\IAssetType.cs" />
     <Compile Include="Assets\IFileType.cs" />
+    <Compile Include="ITransmissionType.cs" />
+    <Compile Include="ITransmission.cs" />
     <Compile Include="ICar.cs" />
     <Compile Include="ICarConfiguratorVersion.cs" />
     <Compile Include="IContext.cs" />

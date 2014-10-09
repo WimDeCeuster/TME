@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\ITransmissionRepository.cs" />
     <Compile Include="Interfaces\IAssetRepository.cs" />
     <Compile Include="Interfaces\IBodyTypeRepository.cs" />
     <Compile Include="Interfaces\ICarRepository.cs" />
