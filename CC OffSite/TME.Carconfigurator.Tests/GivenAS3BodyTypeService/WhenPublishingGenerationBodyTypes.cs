@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TME.CarConfigurator.Publisher.Common;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
+using TME.CarConfigurator.S3.PutServices;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
-using IContext = TME.CarConfigurator.Publisher.Interfaces.IContext;
 
 namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
 {
@@ -32,7 +33,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
         const String _timeFrame3BodyTypesKey = "time frame 3 body types key";
         const String _timeFrame4BodyTypesKey = "time frame 4 body types key";
         IService _s3Service;
-        S3BodyTypeService _service;
+        BodyTypeService _service;
         IContext _context;
 
         protected override void Arrange()
@@ -91,7 +92,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
             var serialiser = A.Fake<ISerialiser>();
             var keyManager = A.Fake<IKeyManager>();
 
-            _service = new S3BodyTypeService(_s3Service, serialiser, keyManager);
+            _service = new BodyTypeService(_s3Service, serialiser, keyManager);
 
             A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
                 .WhenArgumentsMatch(ArgumentMatchesList(generationBodyType1))

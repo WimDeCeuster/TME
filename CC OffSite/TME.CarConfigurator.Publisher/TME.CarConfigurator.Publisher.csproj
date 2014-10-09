@@ -81,40 +81,31 @@
   <ItemGroup>
     <Compile Include="AutoMapperConfig.cs" />
     <Compile Include="CarDbModelGenerationFinder.cs" />
-    <Compile Include="Context.cs" />
-    <Compile Include="ContextData.cs" />
-    <Compile Include="Enums\PublicationDataSubset.cs" />
-    <Compile Include="Enums\PublicationEnvironment.cs" />
-    <Compile Include="Enums\PublicationTarget.cs" />
     <Compile Include="Factories\ContextFactory.cs" />
     <Compile Include="Factories\PublisherFactory.cs" />
     <Compile Include="Interfaces\ICarDbModelGenerationFinder.cs" />
-    <Compile Include="Interfaces\IContext.cs" />
     <Compile Include="Interfaces\IContextFactory.cs" />
     <Compile Include="Interfaces\IMapper.cs" />
     <Compile Include="Interfaces\IPublicationService.cs" />
     <Compile Include="Interfaces\IPublisher.cs" />
     <Compile Include="Interfaces\IPublisherFactory.cs" />
-    <Compile Include="Interfaces\IRepository.cs" />
-    <Compile Include="Interfaces\IS3EngineService.cs" />
-    <Compile Include="Interfaces\IS3BodyTypeService.cs" />
-    <Compile Include="Interfaces\IS3LanguageService.cs" />
-    <Compile Include="Interfaces\IS3PublicationService.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="PublicationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository.cs" />
-    <Compile Include="S3\S3BodyTypeService.cs" />
-    <Compile Include="S3\S3LanguageService.cs" />
-    <Compile Include="S3\S3EngineService.cs" />
-    <Compile Include="S3\S3PublicationService.cs" />
-    <Compile Include="S3\S3Publisher.cs" />
-    <Compile Include="TimeFrame.cs" />
+    <Compile Include="S3Publisher.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj">
+      <Project>{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}</Project>
+      <Name>TME.CarConfigurator.Publisher.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
       <Project>{2154eaaa-3d11-4654-bea6-7b147451dba8}</Project>
       <Name>TME.CarConfigurator.Repository.Objects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.PutServices.csproj">
+      <Project>{F2D02000-FCD7-4356-9356-30E98CF5B829}</Project>
+      <Name>TME.CarConfigurator.S3.PutServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.S3.Shared\TME.CarConfigurator.S3.Shared.csproj">
       <Project>{07be5767-abba-4dc4-bb09-f1ce85cac7fc}</Project>

@@ -6,11 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher;
+using TME.CarConfigurator.Publisher.Common;
+using TME.CarConfigurator.Publisher.Common.Enums;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
 using FluentAssertions;
-using TME.CarConfigurator.Publisher.Enums;
 
 namespace TME.Carconfigurator.Tests.GivenAMapper
 {

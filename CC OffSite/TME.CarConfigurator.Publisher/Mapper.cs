@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using TME.CarConfigurator.Publisher.Common;
+using TME.CarConfigurator.Publisher.Common.Enums;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using DBCar = TME.CarConfigurator.Administration.Car;
-using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Repository.Objects.Assets;
-using IContext = TME.CarConfigurator.Publisher.Interfaces.IContext;
 
 namespace TME.CarConfigurator.Publisher
 {
