@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.QuerySe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.CommandServices", "TME.CarConfigurator.CommandServices\TME.CarConfigurator.CommandServices.csproj", "{3DB012EE-FEB6-40F1-9C09-97212C142013}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.DI", "TME.CarConfigurator.DI\TME.CarConfigurator.DI.csproj", "{4D5EB607-E56D-47BA-8E67-E196AE1CB19B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -110,6 +112,10 @@ Global
 		{3DB012EE-FEB6-40F1-9C09-97212C142013}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DB012EE-FEB6-40F1-9C09-97212C142013}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DB012EE-FEB6-40F1-9C09-97212C142013}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D5EB607-E56D-47BA-8E67-E196AE1CB19B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D5EB607-E56D-47BA-8E67-E196AE1CB19B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D5EB607-E56D-47BA-8E67-E196AE1CB19B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D5EB607-E56D-47BA-8E67-E196AE1CB19B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
