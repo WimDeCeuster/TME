@@ -12,11 +12,8 @@ header, footer, nav, section {
 
 /* Styles for basic forms
 -----------------------------------------------------------*/
-fieldset {
-    border: 1px solid #ddd;
-    padding: 0 1.4em 1.4em 1.4em;
-    margin: 0 0 1.5em 0;
-}
+
+
 
 legend {
     font-size: 1.2em;
@@ -81,3 +78,22 @@ textarea {
 .validation-summary-valid {
     display: none;
 }
+
+table td { vertical-align: top;}
+
+
+.object {
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+    background-color: white;
+}
+
+
+.missing {
+     background-color: orange;
+}
+.mismatch {
+     background-color: red;
+}
+

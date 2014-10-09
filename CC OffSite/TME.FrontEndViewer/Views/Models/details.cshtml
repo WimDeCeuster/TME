@@ -11,13 +11,10 @@
                 </td>
             </tr>
         </table>
-        <div class="clickable">
-            Description : @Html.Raw(model.Description)<br/>
-            ToolTip : @Html.Raw(model.ToolTip)<br/>
-            FootNote : @Html.Raw(model.FootNote)<br/>
-            <br/>
-            <a href="">Assets</a> | <a href="">Cars</a> 
-            <br/> <br/>
+        <div class="clickable object" data-id="@Html.Raw(model.ID)">
+                @Html.Partial("_baseObject", model)
+                <br/>
+                <a href="">Assets</a> | @Html.ActionLink("Cars", "Index", "ModelCars", new { modelID=model.ID }, new {})
         </div>
     </div>
 }
