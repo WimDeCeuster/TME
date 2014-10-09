@@ -25,11 +25,11 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
             return (IService)ContextRegistry.GetContext().GetObject(String.Format("{0}{1}S3Service", environment, dataSubset.ToString()));
         }
 
-        public ILanguageService GetLanguageService(String environment, PublicationDataSubset dataSubset)
+        public IModelService GetLanguageService(String environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
         
-            return (ILanguageService)ContextRegistry.GetContext().GetObject("S3LanguageService", new Object[] { service, _serialiser, _keyManager });
+            return (IModelService)ContextRegistry.GetContext().GetObject("S3LanguageService", new Object[] { service, _serialiser, _keyManager });
         }
 
         public IPublicationService GetPublicationService(String environment, PublicationDataSubset dataSubset)

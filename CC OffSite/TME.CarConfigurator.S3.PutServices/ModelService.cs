@@ -9,20 +9,20 @@ using TME.CarConfigurator.S3.Shared.Result;
 
 namespace TME.CarConfigurator.S3.CommandServices
 {
-    public class LanguageService : ILanguageService
+    public class ModelService : IModelService
     {
         readonly IService _service;
         readonly ISerialiser _serialiser;
         readonly IKeyManager _keyManager;
 
-        public LanguageService(IService service, ISerialiser serialiser, IKeyManager keyManager)
+        public ModelService(IService service, ISerialiser serialiser, IKeyManager keyManager)
         {
             _service = service ?? new Service(null);
             _serialiser = serialiser ?? new Serialiser();
             _keyManager = keyManager ?? new KeyManager();
         }
 
-        public async Task<Result> PutModelsOverviewPerLanguage(IContext context, Languages languages)
+        public async Task<Result> PutModelsByLanguage(IContext context, Languages languages)
         {
             if (context == null) throw new ArgumentNullException("context");
 

@@ -7,7 +7,7 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Interfaces
 {
     public interface IS3ServiceFactory
     {
-        ILanguageService GetLanguageService(String environment, PublicationDataSubset dataSubset);
+        IModelService GetLanguageService(String environment, PublicationDataSubset dataSubset);
         IPublicationService GetPublicationService(String environment, PublicationDataSubset dataSubset);
         IBodyTypeService GetBodyTypeService(String environment, PublicationDataSubset dataSubset);
         IEngineService GetEngineService(String environment, PublicationDataSubset dataSubset);

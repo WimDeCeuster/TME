@@ -45,7 +45,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BodyTypeService.cs" />
     <Compile Include="EngineService.cs" />
-    <Compile Include="LanguageService.cs" />
+    <Compile Include="ModelService.cs" />
     <Compile Include="PublicationService.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -15,21 +15,21 @@ namespace TME.CarConfigurator.Publisher
     public class S3Publisher : IPublisher
     {
         readonly CommandServices.IPublicationService _publicationService;
-        readonly ILanguageService _putLanguageService;
+        readonly IModelService _putModelService;
         private readonly QueryServices.IModelService _getModelService;
         readonly IBodyTypeService _bodyTypeService;
         readonly IEngineService _engineService;
 
-        public S3Publisher(CommandServices.IPublicationService publicationService, ILanguageService putLanguageService, QueryServices.IModelService getModelService, IBodyTypeService bodyTypeService, IEngineService engineService)
+        public S3Publisher(CommandServices.IPublicationService publicationService, IModelService putModelService, QueryServices.IModelService getModelService, IBodyTypeService bodyTypeService, IEngineService engineService)
         {
             if (publicationService == null) throw new ArgumentNullException("publicationService");
-            if (putLanguageService == null) throw new ArgumentNullException("putLanguageService");
+            if (putModelService == null) throw new ArgumentNullException("putModelService");
             if (getModelService == null) throw new ArgumentNullException("getModelService");
             if (bodyTypeService == null) throw new ArgumentNullException("bodyTypeService");
             if (engineService == null) throw new ArgumentNullException("engineService");
 
             _publicationService = publicationService;
-            _putLanguageService = putLanguageService;
+            _putModelService = putModelService;
             _getModelService = getModelService;
             _bodyTypeService = bodyTypeService;
             _engineService = engineService;
@@ -47,7 +47,7 @@ namespace TME.CarConfigurator.Publisher
                 return failure;
 
             var s3ModelsOverview = ActivatePublicationForAllLanguages(context, languages);
-            return await _putLanguageService.PutModelsOverviewPerLanguage(context, s3ModelsOverview);
+            return await _putModelService.PutModelsByLanguage(context, s3ModelsOverview);
         }
 
         private Languages ActivatePublicationForAllLanguages(IContext context, IEnumerable<String> languages)

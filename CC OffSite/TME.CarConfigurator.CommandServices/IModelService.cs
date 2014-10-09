@@ -5,8 +5,8 @@ using TME.CarConfigurator.S3.Shared.Result;
 
 namespace TME.CarConfigurator.CommandServices
 {
-    public interface ILanguageService
+    public interface IModelService
     {
-        Task<Result> PutModelsOverviewPerLanguage(IContext context, Languages languages);
+        Task<Result> PutModelsByLanguage(IContext context, Languages languages);
     }
 }

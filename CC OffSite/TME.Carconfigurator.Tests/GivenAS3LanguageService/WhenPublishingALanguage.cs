@@ -17,7 +17,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3LanguageService
         const String _serialisedLanguages = "serialised languages";
         const String _languagesKey = "languages key";
         IService _s3Service;
-        LanguageService _service;
+        ModelService _service;
         IContext _context;
         Languages _languages;
 
@@ -35,7 +35,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3LanguageService
             var serialiser = A.Fake<ISerialiser>();
             var keyManager = A.Fake<IKeyManager>();
 
-            _service = new LanguageService(_s3Service, serialiser, keyManager);
+            _service = new ModelService(_s3Service, serialiser, keyManager);
 
             A.CallTo(() => serialiser.Serialise(_languages)).Returns(_serialisedLanguages);
             A.CallTo(() => keyManager.GetLanguagesKey()).Returns(_languagesKey);
@@ -44,7 +44,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3LanguageService
 
         protected override void Act()
         {
-            var result = _service.PutModelsOverviewPerLanguage(_context, _languages).Result;
+            var result = _service.PutModelsByLanguage(_context, _languages).Result;
         }
 
         [Fact]

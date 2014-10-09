@@ -17,7 +17,7 @@ namespace TME.Carconfigurator.Tests.Base
     public abstract class PublicationTestBase : TestBase
     {
         protected IPublicationService PublicationService;
-        protected ILanguageService PutLanguageService;
+        protected IModelService PutModelService;
         protected CarConfigurator.QueryServices.IModelService GetModelService;
         protected IBodyTypeService BodyTypeService;
         protected IEngineService EngineService;
@@ -34,7 +34,7 @@ namespace TME.Carconfigurator.Tests.Base
         protected override void Arrange()
         {
             PublicationService = A.Fake<IPublicationService>(x => x.Strict());
-            PutLanguageService = A.Fake<ILanguageService>(x => x.Strict());
+            PutModelService = A.Fake<IModelService>(x => x.Strict());
             GetModelService = A.Fake<CarConfigurator.QueryServices.IModelService>(x => x.Strict());
             BodyTypeService = A.Fake<IBodyTypeService>(x => x.Strict());
             EngineService = A.Fake<IEngineService>(x => x.Strict());
@@ -44,11 +44,11 @@ namespace TME.Carconfigurator.Tests.Base
 
             Serialiser = A.Fake<ISerialiser>();
 
-            Publisher = new S3Publisher(PublicationService, PutLanguageService, GetModelService, BodyTypeService, EngineService);
+            Publisher = new S3Publisher(PublicationService, PutModelService, GetModelService, BodyTypeService, EngineService);
             Context = ContextBuilder.GetDefaultContext(Languages);
 
             A.CallTo(() => Serialiser.Serialise((Publication)null)).WithAnyArguments().ReturnsLazily(args => args.Arguments.First().GetType().Name);
-            A.CallTo(() => PutLanguageService.PutModelsOverviewPerLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
+            A.CallTo(() => PutModelService.PutModelsByLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
             A.CallTo(() => GetModelService.GetModelsByLanguage(Context.Brand, Context.Country)).Returns(new Languages());
             A.CallTo(() => PublicationService.PutPublications(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => BodyTypeService.PutGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
