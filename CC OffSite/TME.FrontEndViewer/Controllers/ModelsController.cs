@@ -7,11 +7,11 @@ using TMME.CarConfigurator;
 
 namespace TME.FrontEndViewer.Controllers
 {
-    public class ToyotaViewController : Controller
+    public class ModelsController : Controller
     {
         private readonly MyContext _context;
 
-        public ToyotaViewController()
+        public ModelsController()
         {
             _context = MyContext.NewContext("BE", "nl");
         }
@@ -28,6 +28,11 @@ namespace TME.FrontEndViewer.Controllers
                                         .ToList(),
                 NewReaderModel = new List<IModel>() //TODO: provide implementation
             };
+
+
+            model.NewReaderModel.Add(model.OldReaderModel[0]);
+            model.NewReaderModel.Add(model.OldReaderModel[1]);
+            model.NewReaderModel.Add(model.OldReaderModel[3]);
 
             return View(model);
         }
