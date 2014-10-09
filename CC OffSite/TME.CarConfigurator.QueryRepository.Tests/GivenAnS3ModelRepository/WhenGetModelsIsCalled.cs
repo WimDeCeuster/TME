@@ -33,7 +33,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
             var languages = ArrangeLanguages();
 
             var service = A.Fake<ILanguageService>();
-            A.CallTo(() => service.GetLanguages(_context)).Returns(languages);
+            A.CallTo(() => service.GetLanguages(_context.Brand, _context.Country)).Returns(languages);
 
             return service;
         }

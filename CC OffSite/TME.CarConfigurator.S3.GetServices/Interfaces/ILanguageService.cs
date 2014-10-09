@@ -4,6 +4,6 @@ namespace TME.CarConfigurator.S3.GetServices.Interfaces
 {
     public interface ILanguageService
     {
-        Languages GetLanguages(Context context);
+        Languages GetLanguages(string brand, string country);
     }
 }
