@@ -28,5 +28,7 @@ namespace TME.CarConfigurator.Repository.Objects
         public BodyType BodyType { get; set; }
         
         public Engine Engine { get; set; }
+
+        public Transmission Transmission { get; set; }
   }
 }

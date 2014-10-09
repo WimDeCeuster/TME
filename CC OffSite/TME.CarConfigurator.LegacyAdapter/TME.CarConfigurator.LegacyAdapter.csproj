@@ -68,6 +68,8 @@
     <Compile Include="BodyType.cs" />
     <Compile Include="Car.cs" />
     <Compile Include="CarConfiguratorVersion.cs" />
+    <Compile Include="Transmission.cs" />
+    <Compile Include="TransmissionType.cs" />
     <Compile Include="StartingPrice.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="EngineCategory.cs" />

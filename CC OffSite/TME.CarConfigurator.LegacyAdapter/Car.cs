@@ -66,5 +66,10 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get { return new Engine(Adaptee.Engine); }
         }
+
+        public ITransmission Transmission
+        {
+            get { return new Transmission(Adaptee.Transmission); }
+        }
     }
 }
