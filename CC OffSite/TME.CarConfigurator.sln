@@ -32,9 +32,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Tests.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.S3.Shared", "TME.CarConfigurator.S3.Shared\TME.CarConfigurator.S3.Shared.csproj", "{07BE5767-ABBA-4DC4-BB09-F1CE85CAC7FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.S3.GetServices", "TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.GetServices.csproj", "{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.S3.QueryServices", "TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.QueryServices.csproj", "{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.S3.PutServices", "TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.PutServices.csproj", "{F2D02000-FCD7-4356-9356-30E98CF5B829}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.S3.CommandServices", "TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.CommandServices.csproj", "{F2D02000-FCD7-4356-9356-30E98CF5B829}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Publisher.Common", "TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj", "{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}"
 EndProject

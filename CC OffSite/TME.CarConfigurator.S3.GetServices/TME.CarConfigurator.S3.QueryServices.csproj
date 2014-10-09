@@ -7,8 +7,8 @@
     <ProjectGuid>{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TME.CarConfigurator.S3.GetServices</RootNamespace>
-    <AssemblyName>TME.CarConfigurator.S3.GetServices</AssemblyName>
+    <RootNamespace>TME.CarConfigurator.S3.QueryServices</RootNamespace>
+    <AssemblyName>TME.CarConfigurator.S3.QueryServices</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

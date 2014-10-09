@@ -150,9 +150,9 @@
       <Project>{90212D66-76E4-4842-8CF0-EAD35988D8E2}</Project>
       <Name>TME.CarConfigurator.Publisher</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.PutServices.csproj">
+    <ProjectReference Include="..\TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.CommandServices.csproj">
       <Project>{f2d02000-fcd7-4356-9356-30e98cf5b829}</Project>
-      <Name>TME.CarConfigurator.S3.PutServices</Name>
+      <Name>TME.CarConfigurator.S3.CommandServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.S3.Shared\TME.CarConfigurator.S3.Shared.csproj">
       <Project>{07be5767-abba-4dc4-bb09-f1ce85cac7fc}</Project>

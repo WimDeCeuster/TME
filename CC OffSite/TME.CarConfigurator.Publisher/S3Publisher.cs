@@ -7,9 +7,9 @@ using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
-using TME.CarConfigurator.S3.PutServices.Interfaces;
+using TME.CarConfigurator.S3.CommandServices.Interfaces;
 using TME.CarConfigurator.S3.Shared.Result;
-using IPublicationService = TME.CarConfigurator.S3.PutServices.Interfaces.IPublicationService;
+using IPublicationService = TME.CarConfigurator.S3.CommandServices.Interfaces.IPublicationService;
 
 namespace TME.CarConfigurator.Publisher
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Common.Enums;
-using TME.CarConfigurator.S3.PutServices.Interfaces;
+using TME.CarConfigurator.S3.CommandServices.Interfaces;
 
 namespace TME.CarConfigurator.Publisher.UI.DI.Interfaces
 {

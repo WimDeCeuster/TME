@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
-using TME.CarConfigurator.S3.PutServices;
+using TME.CarConfigurator.S3.CommandServices;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Interfaces;

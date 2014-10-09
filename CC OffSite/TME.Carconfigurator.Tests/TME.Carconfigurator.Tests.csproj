@@ -127,13 +127,13 @@
       <Project>{2154eaaa-3d11-4654-bea6-7b147451dba8}</Project>
       <Name>TME.CarConfigurator.Repository.Objects</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.GetServices.csproj">
+    <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.QueryServices.csproj">
       <Project>{5f4575a4-88db-4b32-bc1e-cd6fed06ca12}</Project>
-      <Name>TME.CarConfigurator.S3.GetServices</Name>
+      <Name>TME.CarConfigurator.S3.QueryServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.PutServices.csproj">
+    <ProjectReference Include="..\TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.CommandServices.csproj">
       <Project>{F2D02000-FCD7-4356-9356-30E98CF5B829}</Project>
-      <Name>TME.CarConfigurator.S3.PutServices</Name>
+      <Name>TME.CarConfigurator.S3.CommandServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.S3.Shared\TME.CarConfigurator.S3.Shared.csproj">
       <Project>{07be5767-abba-4dc4-bb09-f1ce85cac7fc}</Project>

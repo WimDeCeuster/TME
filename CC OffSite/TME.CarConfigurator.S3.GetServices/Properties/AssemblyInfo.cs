@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TME.CarConfigurator.S3.GetServices")]
+[assembly: AssemblyTitle("TME.CarConfigurator.S3.QueryServices")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TME.CarConfigurator.S3.GetServices")]
+[assembly: AssemblyProduct("TME.CarConfigurator.S3.QueryServices")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

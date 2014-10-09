@@ -8,13 +8,13 @@ using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
-using TME.CarConfigurator.S3.PutServices.Interfaces;
+using TME.CarConfigurator.S3.CommandServices.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using System.Threading.Tasks;
 using TME.CarConfigurator.S3.Shared.Result;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using Context = TME.CarConfigurator.Publisher.Common.Context;
-using IPublicationService = TME.CarConfigurator.S3.PutServices.Interfaces.IPublicationService;
+using IPublicationService = TME.CarConfigurator.S3.CommandServices.Interfaces.IPublicationService;
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
