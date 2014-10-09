@@ -1,4 +1,3 @@
-using TME.CarConfigurator.QueryRepository.Service;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders.Base

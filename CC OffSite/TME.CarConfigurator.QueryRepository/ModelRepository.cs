@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
-using TME.CarConfigurator.QueryRepository.Service.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.S3.GetServices.Interfaces;
 
-namespace TME.CarConfigurator.QueryRepository.S3
+namespace TME.CarConfigurator.QueryRepository
 {
     public class ModelRepository : IModelRepository
     {
