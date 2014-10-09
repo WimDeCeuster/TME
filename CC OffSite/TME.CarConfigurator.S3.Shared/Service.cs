@@ -17,14 +17,21 @@ namespace TME.CarConfigurator.S3.Shared
 {
     public class Service : IService
     {
-        const String BucketNameTemplate = "{environment}-cardb-{brand}-{country}";
-        readonly String _environment;
+        String _bucketNameTemplate;
         IAmazonS3 _client;
-
-        public Service(IAmazonS3 client)
+        
+        public Service(String bucketNameTemplate, String accessKey, String secretKey, IAmazonS3Factory clientFactory)
         {
-            _client = client ?? new AmazonS3Factory().CreateInstance();
-            _environment = ConfigurationManager.AppSettings["Environment"];
+            if (bucketNameTemplate == null) throw new ArgumentNullException("bucketNameTemplate");
+            if (accessKey == null) throw new ArgumentNullException("acccessKey");
+            if (secretKey == null) throw new ArgumentNullException("secretKey");
+            if (clientFactory == null) throw new ArgumentNullException("clientFactory");
+            if (String.IsNullOrWhiteSpace(accessKey)) throw new ArgumentException("accessKey cannot be empty");
+            if (String.IsNullOrWhiteSpace(secretKey)) throw new ArgumentException("secretKey cannot be empty");
+            if (String.IsNullOrWhiteSpace(bucketNameTemplate)) throw new ArgumentException("bucketNameTemplate cannot be empty");
+
+            _client = clientFactory.CreateInstance(accessKey, secretKey);
+            _bucketNameTemplate = bucketNameTemplate;
         }
 
         public async Task<Result.Result> PutObjectAsync(String brand, String country, String key, String item)
@@ -59,8 +66,7 @@ namespace TME.CarConfigurator.S3.Shared
 
         private string GetBucketName(String brand, String country)
         {
-            return BucketNameTemplate.Replace("{environment}", _environment.ToLowerInvariant())
-                                     .Replace("{brand}", brand.ToLowerInvariant())
+            return _bucketNameTemplate.Replace("{brand}", brand.ToLowerInvariant())
                                      .Replace("{country}", country.ToLowerInvariant());
         }
 

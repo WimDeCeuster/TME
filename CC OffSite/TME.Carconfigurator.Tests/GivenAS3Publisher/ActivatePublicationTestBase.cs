@@ -93,7 +93,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => BodyTypeService.PutGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => EngineService.PutGenerationEngines(null)).WithAnyArguments().Returns(successFullTasks);
 
-            Publisher = new S3Publisher(PublicationService, PutLanguageService, GetLanguageService, BodyTypeService, EngineService);
+            Publisher = new Publisher(PublicationService, PutLanguageService, GetLanguageService, BodyTypeService, EngineService);
         }
 
         protected override void Act()

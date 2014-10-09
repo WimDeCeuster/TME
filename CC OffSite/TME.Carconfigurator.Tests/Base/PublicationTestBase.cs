@@ -23,7 +23,7 @@ namespace TME.Carconfigurator.Tests.Base
         protected CarConfigurator.S3.GetServices.Interfaces.ILanguageService GetLanguageService;
         protected IBodyTypeService BodyTypeService;
         protected IEngineService EngineService;
-        protected S3Publisher Publisher;
+        protected Publisher Publisher;
         protected ISerialiser Serialiser;
         protected IContext Context;
         protected String Brand = "Toyota";
@@ -46,7 +46,7 @@ namespace TME.Carconfigurator.Tests.Base
 
             Serialiser = A.Fake<ISerialiser>();
 
-            Publisher = new S3Publisher(PublicationService, PutLanguageService, GetLanguageService, BodyTypeService, EngineService);
+            Publisher = new Publisher(PublicationService, PutLanguageService, GetLanguageService, BodyTypeService, EngineService);
             Context = ContextBuilder.GetDefaultContext(Languages);
 
             A.CallTo(() => Serialiser.Serialise((Publication)null)).WithAnyArguments().ReturnsLazily(args => args.Arguments.First().GetType().Name);

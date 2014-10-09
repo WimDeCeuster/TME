@@ -9,19 +9,19 @@ namespace TME.CarConfigurator.Publisher
     public class PublicationService : IPublicationService
     {
         readonly IContextFactory _contextFactory;
-        readonly IPublisherFactory _publisherFactory;
+        readonly IPublisherFacadeFactory _publisherFacadeFactory;
         readonly IMapper _mapper;
         readonly ICarDbModelGenerationFinder _generationFinder;
 
-        public PublicationService(IContextFactory contextFactory, IPublisherFactory publisherFactory, IMapper mapper, ICarDbModelGenerationFinder generationFinder)
+        public PublicationService(IContextFactory contextFactory, IPublisherFacadeFactory publisherFacadeFactory, IMapper mapper, ICarDbModelGenerationFinder generationFinder)
         {
             if (contextFactory == null) throw new ArgumentNullException("contextFactory");
-            if (publisherFactory == null) throw new ArgumentNullException("publisherFactory");
+            if (publisherFacadeFactory == null) throw new ArgumentNullException("publisherFactory");
             if (mapper == null) throw new ArgumentNullException("mapper");
             if (generationFinder == null) throw new ArgumentNullException("generationFinder");
 
             _contextFactory = contextFactory;
-            _publisherFactory = publisherFactory;
+            _publisherFacadeFactory = publisherFacadeFactory;
             _mapper = mapper;
             _generationFinder = generationFinder;
         }
@@ -32,7 +32,7 @@ namespace TME.CarConfigurator.Publisher
 
             _mapper.Map(brand, country, generationID, _generationFinder, context);
             
-            var publisher = _publisherFactory.Get(target);
+            var publisher = _publisherFacadeFactory.GetFacade(target).GetPublisher("Development", dataSubset);
 
             return publisher.Publish(context);
         }

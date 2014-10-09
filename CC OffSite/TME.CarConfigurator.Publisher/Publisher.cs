@@ -13,7 +13,7 @@ using IPublicationService = TME.CarConfigurator.S3.PutServices.Interfaces.IPubli
 
 namespace TME.CarConfigurator.Publisher
 {
-    public class S3Publisher : IPublisher
+    public class Publisher : IPublisher
     {
         readonly IPublicationService _publicationService;
         readonly ILanguageService _putLanguageService;
@@ -21,13 +21,13 @@ namespace TME.CarConfigurator.Publisher
         readonly IBodyTypeService _bodyTypeService;
         readonly IEngineService _engineService;
 
-        public S3Publisher(IPublicationService publicationService, ILanguageService putLanguageService, S3.GetServices.Interfaces.ILanguageService getLanguageService, IBodyTypeService bodyTypeService, IEngineService engineService)
+        public Publisher(IPublicationService publicationService, ILanguageService putLanguageService, S3.GetServices.Interfaces.ILanguageService getLanguageService, IBodyTypeService bodyTypeService, IEngineService engineService)
         {
-            if (publicationService == null) throw new ArgumentNullException("publicationService");
-            if (putLanguageService == null) throw new ArgumentNullException("putLanguageService");
-            if (getLanguageService == null) throw new ArgumentNullException("getLanguageService");
-            if (bodyTypeService == null) throw new ArgumentNullException("bodyTypeService");
-            if (engineService == null) throw new ArgumentNullException("engineService");
+            //if (publicationService == null) throw new ArgumentNullException("publicationService");
+            //if (putLanguageService == null) throw new ArgumentNullException("putLanguageService");
+            //if (getLanguageService == null) throw new ArgumentNullException("getLanguageService");
+            //if (bodyTypeService == null) throw new ArgumentNullException("bodyTypeService");
+            //if (engineService == null) throw new ArgumentNullException("engineService");
 
             _publicationService = publicationService;
             _putLanguageService = putLanguageService;

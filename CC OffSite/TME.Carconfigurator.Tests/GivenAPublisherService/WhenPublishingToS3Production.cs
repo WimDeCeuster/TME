@@ -12,8 +12,12 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
 {
     public class WhenPublishingToS3Production : TestBase
     {
-        IPublisherFactory _publisherFactory;
-        String _target;
+        const String Environment = "development";
+        const String Brand = "Toyota";
+        const String Country = "BE";
+        const String Target = "S3";
+        IPublisherFacadeFactory _publisherFacadeFactory;
+        IPublisherFacade _publisherFacade;
         PublicationDataSubset _dataSubset;
         PublicationService _publicationService;
         IContextFactory _contextFactory;
@@ -21,14 +25,12 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
         IService _publisherService;
         IContext _context;
         ICarDbModelGenerationFinder _generationFinder;
-        String _brand = "Toyota";
-        String _country = "BE";
         IMapper _mapper;
 
         protected override void Arrange()
         {
-            _publisherFactory = A.Fake<IPublisherFactory>();
-            _target = "S3";
+            _publisherFacadeFactory = A.Fake<IPublisherFacadeFactory>();
+            _publisherFacade = A.Fake<IPublisherFacade>();
             _dataSubset = PublicationDataSubset.Live;
             _context = A.Fake<IContext>();
             _contextFactory = A.Fake<IContextFactory>();
@@ -36,23 +38,24 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
             _publisher = A.Fake<IPublisher>();
             _generationFinder = A.Fake<ICarDbModelGenerationFinder>();
             _mapper = A.Fake<IMapper>();
-            
 
-            A.CallTo(() => _publisherFactory.Get(_target)).Returns(_publisher);
-            A.CallTo(() => _contextFactory.Get(_brand, _country, Guid.Empty, _dataSubset)).Returns(_context);
 
-            _publicationService = new PublicationService(_contextFactory, _publisherFactory, _mapper, _generationFinder);
+            A.CallTo(() => _publisherFacadeFactory.GetFacade(Target)).Returns(_publisherFacade);
+            A.CallTo(() => _publisherFacade.GetPublisher(Environment, _dataSubset)).Returns(_publisher);
+            A.CallTo(() => _contextFactory.Get(Brand, Country, Guid.Empty, _dataSubset)).Returns(_context);
+
+            _publicationService = new PublicationService(_contextFactory, _publisherFacadeFactory, _mapper, _generationFinder);
         }
 
         protected override void Act()
         {
-            _publicationService.Publish(Guid.Empty, _target, _brand, _country, PublicationDataSubset.Live);
+            _publicationService.Publish(Guid.Empty, Target, Brand, Country, PublicationDataSubset.Live);
         }
 
         [Fact]
         public void ThenContextFactoryShouldBeCalledWithCorrectParamaters()
         {
-            A.CallTo(() => _contextFactory.Get(_brand, _country, Guid.Empty, _dataSubset)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _contextFactory.Get(Brand, Country, Guid.Empty, _dataSubset)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
