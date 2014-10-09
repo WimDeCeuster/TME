@@ -51,8 +51,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3PublicationService
 
             A.CallTo(() => serialiser.Serialise(publication1)).Returns(_serialisedPublication1);
             A.CallTo(() => serialiser.Serialise(publication2)).Returns(_serialisedPublication2);
-            A.CallTo(() => keyManager.GetPublicationKey(publication1)).Returns(_publication1Key);
-            A.CallTo(() => keyManager.GetPublicationKey(publication2)).Returns(_publication2Key);
+            A.CallTo(() => keyManager.GetPublicationKey(publication1.ID)).Returns(_publication1Key);
+            A.CallTo(() => keyManager.GetPublicationKey(publication2.ID)).Returns(_publication2Key);
         }
 
         protected override void Act()

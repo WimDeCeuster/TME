@@ -105,10 +105,10 @@ namespace TME.Carconfigurator.Tests.GivenAS3EngineService
                 .WhenArgumentsMatch(ArgumentMatchesList(generationEngine4))
                 .Returns(_serialisedEngine4);
 
-            A.CallTo(() => keyManager.GetGenerationEnginesKey(publication1, publicationTimeFrame1)).Returns(_timeFrame1EnginesKey);
-            A.CallTo(() => keyManager.GetGenerationEnginesKey(publication1, publicationTimeFrame2)).Returns(_timeFrame2EnginesKey);
-            A.CallTo(() => keyManager.GetGenerationEnginesKey(publication2, publicationTimeFrame3)).Returns(_timeFrame3EnginesKey);
-            A.CallTo(() => keyManager.GetGenerationEnginesKey(publication2, publicationTimeFrame4)).Returns(_timeFrame4EnginesKey);
+            A.CallTo(() => keyManager.GetGenerationEnginesKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1EnginesKey);
+            A.CallTo(() => keyManager.GetGenerationEnginesKey(publication1.ID, publicationTimeFrame2.ID)).Returns(_timeFrame2EnginesKey);
+            A.CallTo(() => keyManager.GetGenerationEnginesKey(publication2.ID, publicationTimeFrame3.ID)).Returns(_timeFrame3EnginesKey);
+            A.CallTo(() => keyManager.GetGenerationEnginesKey(publication2.ID, publicationTimeFrame4.ID)).Returns(_timeFrame4EnginesKey);
         }
 
         protected override void Act()

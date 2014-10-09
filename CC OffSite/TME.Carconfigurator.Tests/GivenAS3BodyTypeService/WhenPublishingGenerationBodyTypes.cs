@@ -105,10 +105,10 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
                 .WhenArgumentsMatch(ArgumentMatchesList(generationBodyType4))
                 .Returns(_serialisedBodyType4);
 
-            A.CallTo(() => keyManager.GetGenerationBodyTypesKey(publication1, publicationTimeFrame1)).Returns(_timeFrame1BodyTypesKey);
-            A.CallTo(() => keyManager.GetGenerationBodyTypesKey(publication1, publicationTimeFrame2)).Returns(_timeFrame2BodyTypesKey);
-            A.CallTo(() => keyManager.GetGenerationBodyTypesKey(publication2, publicationTimeFrame3)).Returns(_timeFrame3BodyTypesKey);
-            A.CallTo(() => keyManager.GetGenerationBodyTypesKey(publication2, publicationTimeFrame4)).Returns(_timeFrame4BodyTypesKey);
+            A.CallTo(() => keyManager.GetGenerationBodyTypesKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1BodyTypesKey);
+            A.CallTo(() => keyManager.GetGenerationBodyTypesKey(publication1.ID, publicationTimeFrame2.ID)).Returns(_timeFrame2BodyTypesKey);
+            A.CallTo(() => keyManager.GetGenerationBodyTypesKey(publication2.ID, publicationTimeFrame3.ID)).Returns(_timeFrame3BodyTypesKey);
+            A.CallTo(() => keyManager.GetGenerationBodyTypesKey(publication2.ID, publicationTimeFrame4.ID)).Returns(_timeFrame4BodyTypesKey);
         }
 
         Func<ArgumentCollection, Boolean> ArgumentMatchesList<T>(params T[] items)
