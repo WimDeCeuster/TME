@@ -5,6 +5,7 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
 using AutoMapper;
+using System.Linq.Expressions;
 
 namespace TME.CarConfigurator.Publisher
 {
@@ -13,15 +14,19 @@ namespace TME.CarConfigurator.Publisher
         public static void Configure()
         {
             ConfigureBase();
+
+            ConfigureBodyType();
+            ConfigureEngine();
             ConfigureAssets();
             ConfigureModel();
             ConfigureGeneration();
-            ConfigureBodyType();
-            ConfigureEngine();
             ConfigureCar();
+
+            //AutoMapper.Mapper.AssertConfigurationIsValid();
+            AutoMapper.Mapper.Configuration.Seal();
         }
 
-        static void ConfigureBase()
+        public static void ConfigureBase()
         {
             AutoMapper.Mapper.CreateMap<Administration.Brand, String>().ConvertUsing(brand => brand.Name);
             AutoMapper.Mapper.CreateMap<Administration.Translations.Label, Label>()
@@ -29,13 +34,13 @@ namespace TME.CarConfigurator.Publisher
                            opt => opt.MapFrom(label => label.Definition.Code));
         }
 
-        static void ConfigureModel()
+        public static void ConfigureModel()
         {
             AutoMapper.Mapper.CreateMap<Administration.Model, Model>()
                 .Translate(model => model.Name);
         }
 
-        static void ConfigureGeneration()
+        public static void ConfigureGeneration()
         {
             AutoMapper.Mapper.CreateMap<Administration.ModelGenerationCarConfiguratorVersion, CarConfiguratorVersion>();
 
@@ -50,64 +55,64 @@ namespace TME.CarConfigurator.Publisher
                 .Translate(modelGeneration => modelGeneration.Name);
         }
 
-        public class CrossModelObjectTypeConverter<TSource, TCrossModelType, TDestination> : ITypeConverter<Tuple<TSource, TCrossModelType>, TDestination>
+        public static void ConfigureBodyType()
         {
-            public TDestination Convert(AutoMapper.ResolutionContext context)
-            {
-                var values = (Tuple<TSource, TCrossModelType>)context.SourceValue;
-                var bodyType = AutoMapper.Mapper.Map(values.Item2, (TDestination)context.DestinationValue);
-                return AutoMapper.Mapper.Map(values.Item1, bodyType);
-            }
-        }
-
-        public class BodyTypeConverter : CrossModelObjectTypeConverter<Administration.ModelGenerationBodyType, Administration.BodyType, BodyType>
-        { }
-
-        static void ConfigureBodyType()
-        {
-            AutoMapper.Mapper.CreateMap<Tuple<Administration.ModelGenerationBodyType, Administration.BodyType>, BodyType>()
-                .ConvertUsing<CrossModelObjectTypeConverter<Administration.ModelGenerationBodyType, Administration.BodyType, BodyType>>();
-
             AutoMapper.Mapper.CreateMap<Administration.BodyType, BodyType>()
-                .ForMember(bodyType => bodyType.InternalCode,
-                           opt => opt.MapFrom(bodyType => bodyType.BaseCode))
-                .Localize(bodyType => bodyType.Name);
+                .Localize(bodyType => bodyType.Name)
+                .Ignore(bodyType => bodyType.VisibleIn)
+                .Ignore(bodyType => bodyType.NumberOfSeats)
+                .Ignore(bodyType => bodyType.NumberOfDoors)
+                .Ignore(bodyType => bodyType.SortIndex);
 
             AutoMapper.Mapper.CreateMap<Administration.ModelGenerationBodyType, BodyType>()
                 .ForMember(bodyType => bodyType.VisibleIn,
                            opt => opt.MapFrom(bodyType => bodyType.AssetSet.GetVisibleInList()))
+                .IgnoreLocalized()
                 .Translate(bodyType => bodyType.Name)
                 .Sort();
-            
-            AutoMapper.Mapper.CreateMap<Administration.BodyTypeInfo, BodyType>();
         }
 
-        static void ConfigureEngine()
+        public static void ConfigureEngine()
         {
+            AutoMapper.Mapper.CreateMap<Administration.Engine, Engine>()
+                .Ignore(engine => engine.KeyFeature)
+                .Ignore(engine => engine.Brochure)
+                .Ignore(engine => engine.SortIndex)
+                .Ignore(engine => engine.VisibleIn)
+                .Ignore(engine => engine.Type)
+                .Ignore(engine => engine.Category)
+                .Localize(engine => engine.Name);
+
             AutoMapper.Mapper.CreateMap<Administration.ModelGenerationEngine, Engine>()
                 .ForMember(engine => engine.VisibleIn,
-                           opt => opt.MapFrom(engine => engine.AssetSet.GetVisibleInList()))
-                .ForMember(engine => engine.Category,
-                           opt => opt.Ignore())
-                .Translate(engine => engine.Name);
+                            opt => opt.MapFrom(engine => engine.AssetSet.GetVisibleInList()))
+                .Ignore(engine => engine.Category)
+                .IgnoreLocalized()
+                .Translate(engine => engine.Name)
+                .Sort();
 
-            AutoMapper.Mapper.CreateMap<Administration.EngineTypeInfo, EngineType>();
-
-            AutoMapper.Mapper.CreateMap<Administration.FuelTypeInfo, FuelType>()
-                .ForMember(fuelType => fuelType.Hybrid, opt => opt.Ignore());
-
-            AutoMapper.Mapper.CreateMap<Administration.EngineInfo, Engine>();
+            AutoMapper.Mapper.CreateMap<Administration.EngineCategory, EngineCategory>()
+                .Translate(engine => engine.Name)
+                .IgnoreLocalized()
+                .Sort();
             
-            AutoMapper.Mapper.CreateMap<Administration.EngineCategory, EngineCategory>();   
+            AutoMapper.Mapper.CreateMap<Administration.EngineTypeInfo, EngineType>()
+                .Ignore(engineType => engineType.FuelType);
+
+            AutoMapper.Mapper.CreateMap<Administration.FuelType, FuelType>()
+                .Localize(fuelType => fuelType.Name)
+                .Ignore(fuelType => fuelType.SortIndex);
         }
 
-        static void ConfigureCar()
+        public static void ConfigureCar()
         {
             AutoMapper.Mapper.CreateMap<Administration.Car, Car>()
+                .ForMember(car => car.Engine, opt => opt.Ignore())
+                .ForMember(car => car.BodyType, opt => opt.Ignore())
                 .ForMember(car => car.Transmission, opt => opt.Ignore());
         }
 
-        static void ConfigureAssets()
+        public static void ConfigureAssets()
         {
             AutoMapper.Mapper.CreateMap<Administration.FileType, FileType>();
             AutoMapper.Mapper.CreateMap<Administration.Assets.AssetType, AssetType>()
@@ -153,6 +158,22 @@ namespace TME.CarConfigurator.Publisher
         {
             return mapping
                 .ForMember(destination => destination.SortIndex, opt => opt.MapFrom(source => source.Index));
+        }
+
+        static AutoMapper.IMappingExpression<TSource, TDestination> IgnoreLocalized<TSource, TDestination>(
+            this AutoMapper.IMappingExpression<TSource, TDestination> mapping)
+            where TDestination : Repository.Objects.Core.BaseObject
+        {
+            return mapping
+                .Ignore(source => source.LocalCode)
+                .Ignore(source => source.InternalCode);
+        }
+
+        static AutoMapper.IMappingExpression<TSource, TDestination> Ignore<TSource, TDestination>(
+            this AutoMapper.IMappingExpression<TSource, TDestination> mapping,
+            Expression<Func<TDestination, Object>> property)
+        {
+            return mapping.ForMember(property, opt => opt.Ignore());
         }
 
         static String DefaultIfEmpty(this String str, String defaultStr)
