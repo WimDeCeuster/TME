@@ -1,6 +1,7 @@
 using System;
 using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Factories.Interfaces;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 
@@ -17,11 +18,11 @@ namespace TME.CarConfigurator.Factories
             _publicationRepository = publicationRepository;
         }
 
-        public Publication GetPublication(Repository.Objects.Model repositoryModel)
+        public Publication GetPublication(Repository.Objects.Model repositoryModel, IContext context)
         {
             var publicationInfo = repositoryModel.GetActivePublicationInfo();
 
-            return _publicationRepository.GetPublication(publicationInfo.ID);
+            return _publicationRepository.GetPublication(publicationInfo.ID, context);
         }
     }
 }

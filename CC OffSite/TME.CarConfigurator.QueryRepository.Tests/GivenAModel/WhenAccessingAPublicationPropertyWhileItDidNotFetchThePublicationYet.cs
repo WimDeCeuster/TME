@@ -21,26 +21,27 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
         private string _expectedSsn;
         private IPublicationFactory _publicationFactory;
         private IPublicationRepository _publicationRepository;
+        private IContext _context;
 
         protected override void Arrange()
         {
             _publicationID = Guid.NewGuid();
             _expectedSsn = "expected ssn";
 
+            _context = ContextBuilder.InitializeFakeContext().Build();
+
             ArrangePublicationFactory();
 
             var modelFactory = ArrangeModelFactory();
 
-            var context = ContextBuilder.InitializeFakeContext().Build();
-
-            _model = modelFactory.GetModels(context).Single();
+            _model = modelFactory.GetModels(_context).Single();
         }
 
         private void ArrangePublicationFactory()
         {
             _publicationRepository = A.Fake<IPublicationRepository>();
 
-            A.CallTo(() => _publicationRepository.GetPublication(_publicationID))
+            A.CallTo(() => _publicationRepository.GetPublication(_publicationID, _context))
                 .Returns(
                     PublicationBuilder.Initialize()
                         .WithGeneration(GenerationBuilder.Initialize()
@@ -65,7 +66,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
             var repoModel = ModelBuilder.Initialize().AddPublication(publicationInfo).Build();
 
             var modelRepository = A.Fake<IModelRepository>();
-            A.CallTo(() => modelRepository.GetModels(A<IContext>._)).Returns(new List<Repository.Objects.Model> {repoModel});
+            A.CallTo(() => modelRepository.GetModels(A<IContext>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
             return ModelFactoryBuilder.Initialize()
                 .WithModelRepository(modelRepository)
@@ -81,7 +82,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
         [Fact]
         public void ThenItShouldGetThePublicationFromThePublicationFactory()
         {
-            A.CallTo(() => _publicationRepository.GetPublication(_publicationID)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _publicationRepository.GetPublication(_publicationID, _context)).MustHaveHappened(Repeated.Exactly.Once);
 
         }
 

@@ -17,7 +17,7 @@ namespace TME.CarConfigurator
         {
             get
             {
-                _publication = _publication ?? _publicationFactory.GetPublication(_repositoryModel);
+                _publication = _publication ?? _publicationFactory.GetPublication(_repositoryModel, Context);
                 return _publication;
             }
         }
@@ -42,11 +42,12 @@ namespace TME.CarConfigurator
 
         public IEnumerable<ICar> Cars { get { throw new NotImplementedException(); } }
 
-        public Model(Repository.Objects.Model repositoryModel, IPublicationFactory publicationFactory)
-            : base(repositoryModel)
+        public Model(Repository.Objects.Model repositoryModel, IContext context, IPublicationFactory publicationFactory)
+            : base(repositoryModel, context)
         {
             if (repositoryModel == null) throw new ArgumentNullException("repositoryModel");
             if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
+            if (context == null) throw new ArgumentNullException("context");
 
             _repositoryModel = repositoryModel;
             _publicationFactory = publicationFactory;

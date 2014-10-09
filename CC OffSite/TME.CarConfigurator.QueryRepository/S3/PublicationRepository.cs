@@ -1,4 +1,5 @@
 using System;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
@@ -14,9 +15,9 @@ namespace TME.CarConfigurator.QueryRepository.S3
             _publicationService = publicationService; // todo: local default
         }
 
-        public Publication GetPublication(Guid publicationID)
+        public Publication GetPublication(Guid publicationID, IContext context)
         {
-            return _publicationService.GetPublication(publicationID);
+            return _publicationService.GetPublication(publicationID, context);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace TME.CarConfigurator.Factories
         {
             var repositoryModels = _modelRepository.GetModels(context).Where(HasActivePublicationsThatAreCurrentlyAvailable);
 
-            var convertedModels = repositoryModels.Select(CreateModel);
+            var convertedModels = repositoryModels.Select(repositoryModel => CreateModel(repositoryModel, context));
 
             return new Models(convertedModels); 
         }
@@ -35,9 +35,9 @@ namespace TME.CarConfigurator.Factories
             return model.Publications.Any(p => p.State == PublicationState.Activated && p.LineOffFrom <= DateTime.Now && DateTime.Now <= p.LineOffTo);
         }
 
-        private IModel CreateModel(Repository.Objects.Model repositoryModel)
+        private IModel CreateModel(Repository.Objects.Model repositoryModel, IContext context)
         {
-            return new Model(repositoryModel, _publicationFactory);
+            return new Model(repositoryModel, context, _publicationFactory);
         }
     }
 }

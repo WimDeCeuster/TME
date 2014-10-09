@@ -1,4 +1,5 @@
 using System;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Service.Base;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
@@ -14,9 +15,9 @@ namespace TME.CarConfigurator.QueryRepository.Service
 
         }
 
-        public Publication GetPublication(Guid publicationId)
+        public Publication GetPublication(Guid publicationId, IContext context)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

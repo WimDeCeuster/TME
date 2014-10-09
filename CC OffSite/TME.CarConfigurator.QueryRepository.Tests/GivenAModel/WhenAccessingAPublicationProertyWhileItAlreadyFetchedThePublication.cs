@@ -21,19 +21,20 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
         private string _expectedSsn;
         private IPublicationFactory _publicationFactory;
         private IPublicationRepository _publicationRepository;
+        private IContext _context;
 
         protected override void Arrange()
         {
             _publicationID = Guid.NewGuid();
             _expectedSsn = "expected ssn";
 
+            _context = ContextBuilder.InitializeFakeContext().Build();
+
             ArrangePublicationFactory();
 
             var modelFactory = ArrangeModelFactory();
 
-            var context = ContextBuilder.InitializeFakeContext().Build();
-
-            _model = modelFactory.GetModels(context).Single();
+            _model = modelFactory.GetModels(_context).Single();
 
             var dumnmy = _model.SSN; // call publication property a first time
         }
@@ -42,7 +43,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
         {
             _publicationRepository = A.Fake<IPublicationRepository>();
 
-            A.CallTo(() => _publicationRepository.GetPublication(_publicationID))
+            A.CallTo(() => _publicationRepository.GetPublication(_publicationID, _context))
                 .Returns(
                     PublicationBuilder.Initialize()
                         .WithGeneration(GenerationBuilder.Initialize()
@@ -83,7 +84,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
         [Fact]
         public void ThenItShouldNotFetchThePublicationAgain()
         {
-            A.CallTo(() => _publicationRepository.GetPublication(_publicationID)).MustHaveHappened(Repeated.Exactly.Once); // only fetch the publication once, no matter how many times the properties are being called
+            A.CallTo(() => _publicationRepository.GetPublication(_publicationID, _context)).MustHaveHappened(Repeated.Exactly.Once); // only fetch the publication once, no matter how many times the properties are being called
         }
 
         [Fact]

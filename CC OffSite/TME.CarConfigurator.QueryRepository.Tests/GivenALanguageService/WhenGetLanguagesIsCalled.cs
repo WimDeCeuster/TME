@@ -15,20 +15,23 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
     {
         private const string Language1 = "lang 1";
         private const string Language2 = "lang 2";
-        private const string Brand = "a brand";
-        private const string Country = "a country";
 
         private ILanguageService _languageService;
         private Languages _expectedLanguages;
         private Languages _actualLanguages;
-        private string _s3Key;
         private IContext _context;
 
         protected override void Arrange()
         {
-            _context = ContextBuilder.InitializeFakeContext().WithBrand(Brand).WithCountry(Country).Build();
+            const string brand = "a brand";
+            const string country = "a country";
 
-            _s3Key = "fake s3 key";
+            _context = ContextBuilder.InitializeFakeContext()
+                .WithBrand(brand)
+                .WithCountry(country)
+                .Build();
+
+            const string s3Key = "fake s3 key";
             const string serializedObject = "this object is serialized";
 
             _expectedLanguages = LanguagesBuilder.Initialize()
@@ -41,8 +44,8 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
             var s3Service = S3ServiceBuilder.InitializeFake().Build();
 
 
-            A.CallTo(() => keyManager.GetLanguagesKey()).Returns(_s3Key);
-            A.CallTo(() => s3Service.GetObject(Brand, Country, _s3Key)).Returns(serializedObject);
+            A.CallTo(() => keyManager.GetLanguagesKey()).Returns(s3Key);
+            A.CallTo(() => s3Service.GetObject(brand, country, s3Key)).Returns(serializedObject);
             A.CallTo(() => serialiser.Deserialise<Languages>(serializedObject)).Returns(_expectedLanguages);
 
             _languageService = LanguageServiceBuilder.Initialize()

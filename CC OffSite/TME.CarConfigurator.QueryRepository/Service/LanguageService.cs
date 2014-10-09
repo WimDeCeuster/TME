@@ -1,3 +1,4 @@
+using System;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Service.Base;
 using TME.CarConfigurator.QueryRepository.Service.Interfaces;
@@ -25,6 +26,7 @@ namespace TME.CarConfigurator.QueryRepository.Service
     public interface IKeyManager
     {
         string GetLanguagesKey();
+        string GetPublicationKey(Guid publicationId);
     }
 
 }
