@@ -15,21 +15,15 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
     {
         private const string Language1 = "lang 1";
         private const string Language2 = "lang 2";
+        private const string Brand = "a brand";
+        private const string Country = "a country";
 
         private ILanguageService _languageService;
         private Languages _expectedLanguages;
         private Languages _actualLanguages;
-        private Context _context;
 
         protected override void Arrange()
         {
-            const string brand = "a brand";
-            const string country = "a country";
-
-            _context = ContextBuilder.Initialize()
-                .WithBrand(brand)
-                .WithCountry(country)
-                .Build();
 
             const string s3Key = "fake s3 key";
             const string serializedObject = "this object is serialized";
@@ -45,7 +39,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
 
 
             A.CallTo(() => keyManager.GetLanguagesKey()).Returns(s3Key);
-            A.CallTo(() => s3Service.GetObject(brand, country, s3Key)).Returns(serializedObject);
+            A.CallTo(() => s3Service.GetObject(Brand, Country, s3Key)).Returns(serializedObject);
             A.CallTo(() => serialiser.Deserialise<Languages>(serializedObject)).Returns(_expectedLanguages);
 
             _languageService = LanguageServiceBuilder.Initialize()
@@ -57,7 +51,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
 
         protected override void Act()
         {
-            _actualLanguages = _languageService.GetLanguages(_context);
+            _actualLanguages = _languageService.GetLanguages(Brand, Country);
         }
 
         [Fact]

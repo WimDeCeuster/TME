@@ -1,5 +1,6 @@
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.GetServices.Interfaces;
+using TME.CarConfigurator.S3.Shared.Exceptions;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.S3.GetServices
@@ -17,11 +18,19 @@ namespace TME.CarConfigurator.S3.GetServices
             _keyManager = keyManager;
         }
 
-        public Languages GetLanguages(Context context)
+        public Languages GetLanguages(string brand, string country)
         {
             var key = _keyManager.GetLanguagesKey();
-            var serialisedLanguages = _service.GetObject(context.Brand, context.Country, key);
-            return _serialiser.Deserialise<Languages>(serialisedLanguages);
+
+            try
+            {
+                var serialisedLanguages = _service.GetObject(brand, country, key);
+                return _serialiser.Deserialise<Languages>(serialisedLanguages);
+            }
+            catch (ObjectNotFoundException)
+            {
+                return new Languages();
+            }
         }
     }
 }

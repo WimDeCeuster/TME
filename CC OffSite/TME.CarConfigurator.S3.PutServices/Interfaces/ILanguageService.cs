@@ -7,7 +7,6 @@ namespace TME.CarConfigurator.S3.PutServices.Interfaces
 {
     public interface ILanguageService
     {
-        Languages GetModelsOverviewPerLanguage(IContext context);
         Task<Result> PutModelsOverviewPerLanguage(IContext context, Languages languages);
     }
 }

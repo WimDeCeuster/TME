@@ -16,14 +16,14 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             base.Arrange();
             var languages = new Languages();
 
-            A.CallTo(() => LanguageService.GetModelsOverviewPerLanguage(Context)).Returns(languages);
+            A.CallTo(() => GetLanguageService.GetLanguages(Context.Brand, Context.Country)).Returns(languages);
             
         }
 
         [Fact]
         public void ThenItShouldUploadCorrectDataForLanguage1()
         {
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null))
+            A.CallTo(() => PutLanguageService.PutModelsOverviewPerLanguage(null, null))
                 .WhenArgumentsMatch(args =>
                 {
                     var isContext = args[0].Equals(Context);
@@ -36,7 +36,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldUploadCorrectDataForLanguage2()
         {
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null))
+            A.CallTo(() => PutLanguageService.PutModelsOverviewPerLanguage(null, null))
                 .WhenArgumentsMatch(args =>
                 {
                     var isContext = args[0].Equals(Context);
@@ -49,7 +49,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenTheModelOverviewFileShouldOnlyBeUploadedOnce()
         {
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null))
+            A.CallTo(() => PutLanguageService.PutModelsOverviewPerLanguage(null, null))
                 .WithAnyArguments()
                 .MustHaveHappened(Repeated.Exactly.Once);
         }

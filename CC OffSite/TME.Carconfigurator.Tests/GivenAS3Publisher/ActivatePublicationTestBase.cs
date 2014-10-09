@@ -21,7 +21,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
     public abstract class ActivatePublicationTestBase : TestBase
     {
         protected IPublicationService PublicationService;
-        protected ILanguageService LanguageService;
+        protected ILanguageService PutLanguageService;
+        protected CarConfigurator.S3.GetServices.Interfaces.ILanguageService GetLanguageService;
         protected IBodyTypeService BodyTypeService;
         protected IEngineService EngineService;
         protected IPublisher Publisher;
@@ -50,7 +51,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected override void Arrange()
         {
             PublicationService = A.Fake<IPublicationService>(x => x.Strict());
-            LanguageService = A.Fake<ILanguageService>(x => x.Strict());
+            PutLanguageService = A.Fake<ILanguageService>(x => x.Strict());
+            GetLanguageService = A.Fake<CarConfigurator.S3.GetServices.Interfaces.ILanguageService>(x => x.Strict());
             BodyTypeService = A.Fake<IBodyTypeService>(x => x.Strict());
             EngineService = A.Fake<IEngineService>(x => x.Strict());
 
@@ -86,12 +88,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context.TimeFrames.Add(Language1, timeFrames);
             Context.TimeFrames.Add(Language2, timeFrames);
 
-            A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
+            A.CallTo(() => PutLanguageService.PutModelsOverviewPerLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
             A.CallTo(() => PublicationService.PutPublications(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => BodyTypeService.PutGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => EngineService.PutGenerationEngines(null)).WithAnyArguments().Returns(successFullTasks);
 
-            Publisher = new S3Publisher(PublicationService, LanguageService, BodyTypeService, EngineService);
+            Publisher = new S3Publisher(PublicationService, PutLanguageService, GetLanguageService, BodyTypeService, EngineService);
         }
 
         protected override void Act()
