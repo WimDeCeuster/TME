@@ -5,7 +5,7 @@ using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.S3.GetServices.Interfaces;
+using TME.CarConfigurator.S3.QueryServices.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;

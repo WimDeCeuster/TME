@@ -1,6 +1,6 @@
 using TME.CarConfigurator.Repository.Objects;
 
-namespace TME.CarConfigurator.S3.GetServices.Interfaces
+namespace TME.CarConfigurator.S3.QueryServices.Interfaces
 {
     public interface ILanguageService
     {

@@ -22,7 +22,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
     {
         protected IPublicationService PublicationService;
         protected ILanguageService PutLanguageService;
-        protected CarConfigurator.S3.GetServices.Interfaces.ILanguageService GetLanguageService;
+        protected CarConfigurator.S3.QueryServices.Interfaces.ILanguageService GetLanguageService;
         protected IBodyTypeService BodyTypeService;
         protected IEngineService EngineService;
         protected IPublisher Publisher;
@@ -52,7 +52,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         {
             PublicationService = A.Fake<IPublicationService>(x => x.Strict());
             PutLanguageService = A.Fake<ILanguageService>(x => x.Strict());
-            GetLanguageService = A.Fake<CarConfigurator.S3.GetServices.Interfaces.ILanguageService>(x => x.Strict());
+            GetLanguageService = A.Fake<CarConfigurator.S3.QueryServices.Interfaces.ILanguageService>(x => x.Strict());
             BodyTypeService = A.Fake<IBodyTypeService>(x => x.Strict());
             EngineService = A.Fake<IEngineService>(x => x.Strict());
 

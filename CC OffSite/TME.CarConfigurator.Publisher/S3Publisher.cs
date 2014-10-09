@@ -17,11 +17,11 @@ namespace TME.CarConfigurator.Publisher
     {
         readonly IPublicationService _publicationService;
         readonly ILanguageService _putLanguageService;
-        private readonly S3.GetServices.Interfaces.ILanguageService _getLanguageService;
+        private readonly S3.QueryServices.Interfaces.ILanguageService _getLanguageService;
         readonly IBodyTypeService _bodyTypeService;
         readonly IEngineService _engineService;
 
-        public S3Publisher(IPublicationService publicationService, ILanguageService putLanguageService, S3.GetServices.Interfaces.ILanguageService getLanguageService, IBodyTypeService bodyTypeService, IEngineService engineService)
+        public S3Publisher(IPublicationService publicationService, ILanguageService putLanguageService, S3.QueryServices.Interfaces.ILanguageService getLanguageService, IBodyTypeService bodyTypeService, IEngineService engineService)
         {
             if (publicationService == null) throw new ArgumentNullException("publicationService");
             if (putLanguageService == null) throw new ArgumentNullException("putLanguageService");
