@@ -32,8 +32,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             var models2 = GetModel(OldModelNameForLanguage2, null, null, null, null, null, 0,null);
             var languages = new Languages()
             {
-                new Language(Language1){Models = new Repository<Model>{models1}},
-                new Language(Language2){Models = new Repository<Model>{models2}}
+                new Language(Language1){Models = new List<Model>{models1}},
+                new Language(Language2){Models = new List<Model>{models2}}
             };
 
             A.CallTo(() => LanguageService.GetModelsOverviewPerLanguage(Context)).Returns(languages);

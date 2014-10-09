@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using FakeItEasy;
 using TME.CarConfigurator.Publisher;
+using TME.CarConfigurator.Publisher.Common;
+using TME.CarConfigurator.Publisher.Common.Enums;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
+using TME.CarConfigurator.S3.PutServices.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using System.Threading.Tasks;
 using TME.CarConfigurator.S3.Shared.Result;
 using TME.CarConfigurator.S3.Shared.Interfaces;
-using TME.CarConfigurator.Publisher.Enums;
-using TME.CarConfigurator.Publisher.S3;
-using Context = TME.CarConfigurator.Publisher.Context;
+using Context = TME.CarConfigurator.Publisher.Common.Context;
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
@@ -26,7 +28,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected const string Country = "BE";
         protected const string Language1 = "nl";
         protected const string Language2 = "fr";
-        protected Context Context;
+        protected IContext Context;
         protected readonly Guid GenerationID = Guid.NewGuid();
         protected readonly Guid ModelID = Guid.NewGuid();
         protected const string ModelNameForLanguage1 = "ModelNameForLanguage1";

@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using TME.CarConfigurator.Publisher.S3;
+using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.S3.Shared.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Publisher.Enums;
 
 namespace TME.CarConfigurator.Publisher
 {
     public class PublicationService : IPublicationService
     {
-        IContextFactory _contextFactory;
-        IPublisherFactory _publisherFactory;
-        IMapper _mapper;
-        ICarDbModelGenerationFinder _generationFinder;
+        readonly IContextFactory _contextFactory;
+        readonly IPublisherFactory _publisherFactory;
+        readonly IMapper _mapper;
+        readonly ICarDbModelGenerationFinder _generationFinder;
 
         public PublicationService(IContextFactory contextFactory, IPublisherFactory publisherFactory, IMapper mapper, ICarDbModelGenerationFinder generationFinder)
         {

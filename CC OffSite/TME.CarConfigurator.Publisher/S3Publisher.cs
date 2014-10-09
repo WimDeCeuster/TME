@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TME.CarConfigurator.S3.Shared.Result;
+using TME.CarConfigurator.Publisher.Common;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
-using IContext = TME.CarConfigurator.Publisher.Interfaces.IContext;
+using TME.CarConfigurator.S3.PutServices.Interfaces;
+using TME.CarConfigurator.S3.Shared.Result;
 
-namespace TME.CarConfigurator.Publisher.S3
+namespace TME.CarConfigurator.Publisher
 {
     public class S3Publisher : IPublisher
     {

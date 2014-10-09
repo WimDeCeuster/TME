@@ -1,17 +1,9 @@
-﻿using FakeItEasy;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TME.Carconfigurator.Tests.Builders;
-using TME.CarConfigurator.Administration;
-using TME.CarConfigurator.Publisher;
-using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Tests.Shared;
+using TME.CarConfigurator.Publisher.Common;
+using TME.CarConfigurator.Publisher.Common.Enums;
 using Xunit;
 using FluentAssertions;
-using TME.CarConfigurator.Publisher.Enums;
 
 namespace TME.Carconfigurator.Tests.GivenAMapper
 {

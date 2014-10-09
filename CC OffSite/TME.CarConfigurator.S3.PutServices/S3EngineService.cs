@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using TME.CarConfigurator.S3.Shared.Result;
-using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Publisher.Common;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.S3.Shared.Interfaces;
+using TME.CarConfigurator.S3.PutServices.Interfaces;
 using TME.CarConfigurator.S3.Shared;
-using IContext = TME.CarConfigurator.Publisher.Interfaces.IContext;
+using TME.CarConfigurator.S3.Shared.Interfaces;
+using TME.CarConfigurator.S3.Shared.Result;
 
-namespace TME.CarConfigurator.Publisher.S3
+namespace TME.CarConfigurator.S3.PutServices
 {
     public class S3EngineService : IS3EngineService
     {
@@ -43,14 +44,14 @@ namespace TME.CarConfigurator.Publisher.S3
             return result.SelectMany(xs => xs);
         }
 
-        async Task<IEnumerable<Result>> PutTimeFramesGenerationEngines(String brand, String country, IReadOnlyList<TimeFrame> timeFrames, ContextData data)
+        async Task<IEnumerable<Result>> PutTimeFramesGenerationEngines(String brand, String country, IEnumerable<TimeFrame> timeFrames, ContextData data)
         {
             var publication = data.Publication;
 
             var Engines = timeFrames.ToDictionary(
                                 timeFrame => data.Publication.TimeFrames.Single(publicationTimeFrame => publicationTimeFrame.ID == timeFrame.ID),
-                                timeFrame => data.GenerationEngines.Where(Engine =>
-                                                                            timeFrame.Cars.Any(car => car.Engine.ID == Engine.ID))
+                                timeFrame => data.GenerationEngines.Where(engine =>
+                                                                            timeFrame.Cars.Any(car => car.Engine.ID == engine.ID))
                                                                      .ToList());
 
             var tasks = new List<Task<Result>>();

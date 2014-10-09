@@ -34,6 +34,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.S3.Shar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.S3.GetServices", "TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.GetServices.csproj", "{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.S3.PutServices", "TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.PutServices.csproj", "{F2D02000-FCD7-4356-9356-30E98CF5B829}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Publisher.Common", "TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj", "{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +96,14 @@ Global
 		{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2D02000-FCD7-4356-9356-30E98CF5B829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2D02000-FCD7-4356-9356-30E98CF5B829}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2D02000-FCD7-4356-9356-30E98CF5B829}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2D02000-FCD7-4356-9356-30E98CF5B829}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

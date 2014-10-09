@@ -1,19 +1,13 @@
 ﻿using FakeItEasy;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
+using TME.CarConfigurator.S3.PutServices;
+using TME.CarConfigurator.S3.PutServices.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
-using TME.CarConfigurator.Publisher;
-using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
-using IContext = TME.CarConfigurator.Publisher.Interfaces.IContext;
-
 namespace TME.Carconfigurator.Tests.GivenAS3PublicationService
 {
     public class WhenPublishingAPublication : TestBase
@@ -27,7 +21,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3PublicationService
         const String _publication1Key = "publication 1 key";
         const String _publication2Key = "publication 2 key";
         IService _s3Service;
-        S3PublicationService _service;
+        IS3PublicationService _service;
         IContext _context;
 
         protected override void Arrange()

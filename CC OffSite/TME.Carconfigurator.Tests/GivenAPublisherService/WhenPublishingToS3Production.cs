@@ -1,7 +1,8 @@
 ﻿using FakeItEasy;
 using System;
 using TME.CarConfigurator.Publisher;
-using TME.CarConfigurator.Publisher.Enums;
+using TME.CarConfigurator.Publisher.Common.Enums;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;

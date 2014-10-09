@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using TME.CarConfigurator.Administration;
-using TME.CarConfigurator.Publisher.Enums;
+using TME.CarConfigurator.Publisher.Common.Enums;
 
-namespace TME.CarConfigurator.Publisher.Interfaces
+namespace TME.CarConfigurator.Publisher.Common.Interfaces
 {
     public interface IContext
     {

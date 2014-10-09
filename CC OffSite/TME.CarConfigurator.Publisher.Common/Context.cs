@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using TME.CarConfigurator.Publisher.Interfaces;
-using ModelGeneration = TME.CarConfigurator.Administration.ModelGeneration;
-using TME.CarConfigurator.Publisher.Enums;
+using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.Publisher.Common.Enums;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
 
-namespace TME.CarConfigurator.Publisher
+namespace TME.CarConfigurator.Publisher.Common
 {
     public class Context : IContext
     {

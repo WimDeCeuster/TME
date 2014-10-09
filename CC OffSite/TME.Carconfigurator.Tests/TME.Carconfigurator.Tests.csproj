@@ -114,6 +114,10 @@
       <Project>{EFDB033C-66A8-40BB-B596-561F45E6C7F7}</Project>
       <Name>TME.CarConfigurator.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj">
+      <Project>{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}</Project>
+      <Name>TME.CarConfigurator.Publisher.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Publisher\TME.CarConfigurator.Publisher.csproj">
       <Project>{90212d66-76e4-4842-8cf0-ead35988d8e2}</Project>
       <Name>TME.CarConfigurator.Publisher</Name>
@@ -121,6 +125,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
       <Project>{2154eaaa-3d11-4654-bea6-7b147451dba8}</Project>
       <Name>TME.CarConfigurator.Repository.Objects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.PutServices.csproj">
+      <Project>{F2D02000-FCD7-4356-9356-30E98CF5B829}</Project>
+      <Name>TME.CarConfigurator.S3.PutServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.S3.Shared\TME.CarConfigurator.S3.Shared.csproj">
       <Project>{07be5767-abba-4dc4-bb09-f1ce85cac7fc}</Project>

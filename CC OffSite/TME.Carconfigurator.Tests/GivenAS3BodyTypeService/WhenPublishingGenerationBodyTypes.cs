@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TME.CarConfigurator.Publisher.Common;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
+using TME.CarConfigurator.S3.PutServices;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
-using IContext = TME.CarConfigurator.Publisher.Interfaces.IContext;
 
 namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
 {

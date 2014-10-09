@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using TME.CarConfigurator.S3.Shared.Result;
-using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Publisher.Common;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.S3.Shared.Interfaces;
+using TME.CarConfigurator.S3.PutServices.Interfaces;
 using TME.CarConfigurator.S3.Shared;
-using IContext = TME.CarConfigurator.Publisher.Interfaces.IContext;
+using TME.CarConfigurator.S3.Shared.Interfaces;
+using TME.CarConfigurator.S3.Shared.Result;
 
-namespace TME.CarConfigurator.Publisher.S3
+namespace TME.CarConfigurator.S3.PutServices
 {
     public class S3BodyTypeService : IS3BodyTypeService
     {
@@ -44,7 +44,7 @@ namespace TME.CarConfigurator.Publisher.S3
             return result.SelectMany(xs => xs);
         }
 
-        async Task<IEnumerable<Result>> PutTimeFramesGenerationBodyTypes(String brand, String country, IReadOnlyList<TimeFrame> timeFrames, ContextData data)
+        async Task<IEnumerable<Result>> PutTimeFramesGenerationBodyTypes(String brand, String country, IEnumerable<TimeFrame> timeFrames, ContextData data)
         {
             var publication = data.Publication;
 

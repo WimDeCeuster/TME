@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Publisher;
-using TME.CarConfigurator.Publisher.Enums;
+using TME.CarConfigurator.Publisher.Common;
+using TME.CarConfigurator.Publisher.Common.Enums;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
-using IContext = TME.CarConfigurator.Publisher.Interfaces.IContext;
 
 namespace TME.Carconfigurator.Tests.Builders
 {

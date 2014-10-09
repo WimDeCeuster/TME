@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using FakeItEasy;
-using TME.CarConfigurator.Publisher.S3;
 
 namespace TME.Carconfigurator.Tests.GivenAMapper
 {

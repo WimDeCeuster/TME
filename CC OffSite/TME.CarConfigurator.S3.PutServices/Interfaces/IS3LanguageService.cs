@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TME.CarConfigurator.S3.Shared.Result;
+﻿using System.Threading.Tasks;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.S3.Shared.Result;
 
-namespace TME.CarConfigurator.Publisher.Interfaces
+namespace TME.CarConfigurator.S3.PutServices.Interfaces
 {
     public interface IS3LanguageService
     {

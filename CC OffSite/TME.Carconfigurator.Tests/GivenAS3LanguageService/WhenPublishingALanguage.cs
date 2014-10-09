@@ -1,17 +1,12 @@
 ﻿using FakeItEasy;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
+using TME.CarConfigurator.S3.PutServices;
 using TME.Carconfigurator.Tests.Builders;
-using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Publisher.S3;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
-using IContext = TME.CarConfigurator.Publisher.Interfaces.IContext;
 
 namespace TME.Carconfigurator.Tests.GivenAS3LanguageService
 {
@@ -20,11 +15,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3LanguageService
         const String _brand = "Toyota";
         const String _country = "DE";
         const String _serialisedLanguages = "serialised languages";
-        const string _language1 = "lang 1";
-        const string _language2 = "lang 2";
         const String _languagesKey = "languages key";
-        Guid _publicationId1 = Guid.NewGuid();
-        Guid _publicationId2 = Guid.NewGuid();
         IService _s3Service;
         S3LanguageService _service;
         IContext _context;
