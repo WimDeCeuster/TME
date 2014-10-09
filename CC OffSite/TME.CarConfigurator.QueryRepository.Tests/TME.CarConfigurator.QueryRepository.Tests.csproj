@@ -54,8 +54,6 @@
     <Compile Include="GivenALanguageService\WhenGetLanguagesIsCalled.cs" />
     <Compile Include="GivenAModel\WhenAccessingAPublicationProertyWhileItAlreadyFetchedThePublication.cs" />
     <Compile Include="GivenAModel\WhenAccessingAPublicationPropertyWhileItDidNotFetchThePublicationYet.cs" />
-    <Compile Include="GivenAnS3ModelRepository\WhenGetModelsIsCalled.cs" />
-    <Compile Include="GivenAnS3PublicationRepository\WhenGetPublicationIsCalled.cs" />
     <Compile Include="GivenAPublicationService\WhenGetPublicationIsCalled.cs" />
     <Compile Include="GivenModels\WhenRequestingTheListOfActiveModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,10 +61,9 @@
     <Compile Include="TestBuilders\ContextBuilder.cs" />
     <Compile Include="TestBuilders\LanguageServiceBuilder.cs" />
     <Compile Include="TestBuilders\ModelFactoryBuilder.cs" />
+    <Compile Include="TestBuilders\ModelServiceBuilder.cs" />
     <Compile Include="TestBuilders\PublicationFactoryBuilder.cs" />
     <Compile Include="TestBuilders\PublicationServiceBuilder.cs" />
-    <Compile Include="TestBuilders\S3ModelRepositoryBuilder.cs" />
-    <Compile Include="TestBuilders\S3PublicationRepositoryBuilder.cs" />
     <Compile Include="TestHelpers\Context.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -77,10 +74,6 @@
     <ProjectReference Include="..\TME.CarConfigurator.Publisher\TME.CarConfigurator.Publisher.csproj">
       <Project>{90212D66-76E4-4842-8CF0-EAD35988D8E2}</Project>
       <Name>TME.CarConfigurator.Publisher</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TME.CarConfigurator.QueryRepository\TME.CarConfigurator.QueryRepository.csproj">
-      <Project>{DB9741B6-62BF-4B1B-8094-E3C7CC4D5A29}</Project>
-      <Name>TME.CarConfigurator.QueryRepository</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
       <Project>{2154EAAA-3D11-4654-BEA6-7B147451DBA8}</Project>

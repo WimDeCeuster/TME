@@ -1,28 +1,27 @@
 using System;
 using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Factories.Interfaces;
-using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.S3.QueryServices.Interfaces;
 
 namespace TME.CarConfigurator.Factories
 {
     public class PublicationFactory : IPublicationFactory
     {
-        private readonly IPublicationRepository _publicationRepository;
+        private readonly IPublicationService _publicationService;
 
-        public PublicationFactory(IPublicationRepository publicationRepository)
+        public PublicationFactory(IPublicationService publicationService)
         {
-            if (publicationRepository == null) throw new ArgumentNullException("publicationRepository");
+            if (publicationService == null) throw new ArgumentNullException("publicationService");
 
-            _publicationRepository = publicationRepository;
+            _publicationService = publicationService;
         }
 
         public Publication GetPublication(Repository.Objects.Model repositoryModel, Context context)
         {
             var publicationInfo = repositoryModel.GetActivePublicationInfo();
 
-            return _publicationRepository.GetPublication(publicationInfo.ID, context);
+            return _publicationService.GetPublication(publicationInfo.ID, context);
         }
     }
 }
