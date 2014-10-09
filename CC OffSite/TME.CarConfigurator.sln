@@ -24,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Publish
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.LegacyAdapter", "TME.CarConfigurator.LegacyAdapter\TME.CarConfigurator.LegacyAdapter.csproj", "{1D44F515-45AA-428A-91B5-3E0F227CD253}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.QueryRepository.Tests", "TME.CarConfigurator.QueryRepository.Tests\TME.CarConfigurator.QueryRepository.Tests.csproj", "{B12A8825-69C1-4C60-BC64-208C202A3A78}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Query.Tests", "TME.CarConfigurator.QueryRepository.Tests\TME.CarConfigurator.Query.Tests.csproj", "{B12A8825-69C1-4C60-BC64-208C202A3A78}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Tests.Shared", "TME.CarConfigurator.Tests.Shared\TME.CarConfigurator.Tests.Shared.csproj", "{7DFDEC11-EB2D-4844-B822-C47CC899D138}"
 EndProject
