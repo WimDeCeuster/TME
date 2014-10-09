@@ -112,16 +112,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
             A.CallTo(() => keyManager.GetGenerationBodyTypesKey(publication2.ID, publicationTimeFrame4.ID)).Returns(_timeFrame4BodyTypesKey);
         }
 
-        Func<ArgumentCollection, Boolean> ArgumentMatchesList<T>(params T[] items)
-        {
-            return args => {
-                var argumentItems = (IEnumerable<T>)args[0];
-                return argumentItems.Count() == items.Length &&
-                       argumentItems.Zip(items, (item1, item2) => Object.Equals(item1, item2))
-                                    .All(x => x);
-            };
-        }
-
         protected override void Act()
         {
             var result = _service.PutGenerationBodyTypes(_context);

@@ -4,6 +4,7 @@ using System.Linq;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
+using AutoMapper;
 
 namespace TME.CarConfigurator.Publisher
 {
@@ -49,14 +50,35 @@ namespace TME.CarConfigurator.Publisher
                 .Translate(modelGeneration => modelGeneration.Name);
         }
 
+        public class CrossModelObjectTypeConverter<TSource, TCrossModelType, TDestination> : ITypeConverter<Tuple<TSource, TCrossModelType>, TDestination>
+        {
+            public TDestination Convert(AutoMapper.ResolutionContext context)
+            {
+                var values = (Tuple<TSource, TCrossModelType>)context.SourceValue;
+                var bodyType = AutoMapper.Mapper.Map(values.Item2, (TDestination)context.DestinationValue);
+                return AutoMapper.Mapper.Map(values.Item1, bodyType);
+            }
+        }
+
+        public class BodyTypeConverter : CrossModelObjectTypeConverter<Administration.ModelGenerationBodyType, Administration.BodyType, BodyType>
+        { }
+
         static void ConfigureBodyType()
         {
+            AutoMapper.Mapper.CreateMap<Tuple<Administration.ModelGenerationBodyType, Administration.BodyType>, BodyType>()
+                .ConvertUsing<CrossModelObjectTypeConverter<Administration.ModelGenerationBodyType, Administration.BodyType, BodyType>>();
+
+            AutoMapper.Mapper.CreateMap<Administration.BodyType, BodyType>()
+                .ForMember(bodyType => bodyType.InternalCode,
+                           opt => opt.MapFrom(bodyType => bodyType.BaseCode))
+                .Localize(bodyType => bodyType.Name);
+
             AutoMapper.Mapper.CreateMap<Administration.ModelGenerationBodyType, BodyType>()
                 .ForMember(bodyType => bodyType.VisibleIn,
                            opt => opt.MapFrom(bodyType => bodyType.AssetSet.GetVisibleInList()))
-                .Translate(
-                    bodyType => bodyType.Name);
-
+                .Translate(bodyType => bodyType.Name)
+                .Sort();
+            
             AutoMapper.Mapper.CreateMap<Administration.BodyTypeInfo, BodyType>();
         }
 
@@ -81,7 +103,8 @@ namespace TME.CarConfigurator.Publisher
 
         static void ConfigureCar()
         {
-            AutoMapper.Mapper.CreateMap<Administration.Car, Car>();
+            AutoMapper.Mapper.CreateMap<Administration.Car, Car>()
+                .ForMember(car => car.Transmission, opt => opt.Ignore());
         }
 
         static void ConfigureAssets()
@@ -95,6 +118,17 @@ namespace TME.CarConfigurator.Publisher
             AutoMapper.Mapper.CreateMap<Administration.Assets.LinkedAsset, Asset>();
         }
 
+        static AutoMapper.IMappingExpression<TSource, TDestination> Localize<TSource, TDestination>(
+            this AutoMapper.IMappingExpression<TSource, TDestination> mapping, Func<TSource, String> name
+            )
+            where TSource : Administration.BaseObjects.LocalizeableBusinessBase
+            where TDestination : Repository.Objects.Core.BaseObject
+        {
+            return mapping
+                .Translate(name)
+                .ForMember(destination => destination.InternalCode, opt => opt.MapFrom(source => source.BaseCode));
+        }
+
         static AutoMapper.IMappingExpression<TSource, TDestination> Translate<TSource, TDestination>(
             this AutoMapper.IMappingExpression<TSource, TDestination> mapping, Func<TSource, String> name
             )
@@ -103,14 +137,22 @@ namespace TME.CarConfigurator.Publisher
         {
             Func<TSource, String> empty = source => "";
 
-            mapping
+            return mapping
                 .ForMember(destination => destination.Name, opt => opt.MapFrom(source => source.Translation.Name.DefaultIfEmpty(name(source))))
                 .ForMember(destination => destination.Description, opt => opt.MapFrom(source => source.Translation.Description))
                 .ForMember(destination => destination.FootNote, opt => opt.MapFrom(source => source.Translation.FootNote))
                 .ForMember(destination => destination.ToolTip, opt => opt.MapFrom(source => source.Translation.ToolTip))
                 .ForMember(destination => destination.Labels, opt => opt.MapFrom(source => source.Translation.Labels));
+        }
 
-            return mapping;
+        static AutoMapper.IMappingExpression<TSource, TDestination> Sort<TSource, TDestination>(
+            this AutoMapper.IMappingExpression<TSource, TDestination> mapping
+            )
+            where TSource : Administration.BaseObjects.ISortedIndex
+            where TDestination : Repository.Objects.Core.BaseObject
+        {
+            return mapping
+                .ForMember(destination => destination.SortIndex, opt => opt.MapFrom(source => source.Index));
         }
 
         static String DefaultIfEmpty(this String str, String defaultStr)

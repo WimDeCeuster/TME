@@ -32,7 +32,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => LanguageService.PutModelsOverviewPerLanguage(null, null))
                 .WhenArgumentsMatch(args =>
                 {
-                    return true;
                     var isContext = args[0].Equals(Context);
                     var models = ((Languages)args[1]).Single(l=>l.Code.Equals(Language1)).Models;
                     return isContext && ShouldContainModelWithActivatedPublicationAndDeletedPublication(models, ModelNameForLanguage1);
