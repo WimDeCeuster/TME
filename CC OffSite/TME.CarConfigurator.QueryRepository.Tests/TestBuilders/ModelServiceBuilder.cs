@@ -1,8 +1,9 @@
 using FakeItEasy;
-using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.Base;
-using TME.CarConfigurator.S3.QueryServices.Interfaces;
+using TME.CarConfigurator.Query.Tests.TestBuilders.Base;
+using TME.CarConfigurator.QueryServices;
+using TME.CarConfigurator.S3.QueryServices;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
+namespace TME.CarConfigurator.Query.Tests.TestBuilders
 {
     internal class ModelServiceBuilder : ServiceBuilderBase<IModelService>
     {
@@ -20,9 +21,14 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
             return new ModelServiceBuilder(service);
         }
 
+        public static ModelServiceBuilder Initialize()
+        {
+            return new ModelServiceBuilder(null);
+        }
+
         public override IModelService Build()
         {
-            return _service;
+            return _service ?? new ModelService(Serialiser, Service, KeyManager);
         }
     }
 }

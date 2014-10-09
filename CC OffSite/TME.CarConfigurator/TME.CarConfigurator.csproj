@@ -69,6 +69,10 @@
       <Project>{efdb033c-66a8-40bb-b596-561f45e6c7f7}</Project>
       <Name>TME.CarConfigurator.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.QueryServices\TME.CarConfigurator.QueryServices.csproj">
+      <Project>{37F53701-A371-44CC-B2F5-886910FBA751}</Project>
+      <Name>TME.CarConfigurator.QueryServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
       <Project>{2154eaaa-3d11-4654-bea6-7b147451dba8}</Project>
       <Name>TME.CarConfigurator.Repository.Objects</Name>

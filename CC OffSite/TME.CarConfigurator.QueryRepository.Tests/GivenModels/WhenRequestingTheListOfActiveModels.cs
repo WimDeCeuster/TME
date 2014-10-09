@@ -4,15 +4,15 @@ using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
+using TME.CarConfigurator.Query.Tests.TestBuilders;
+using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
-using TME.CarConfigurator.S3.QueryServices.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
+namespace TME.CarConfigurator.Query.Tests.GivenModels
 {
     public class WhenRequestingTheListOfActiveModels : TestBase
     {

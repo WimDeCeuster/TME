@@ -2,26 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
-using TME.CarConfigurator.S3.CommandServices.Interfaces;
 using TME.CarConfigurator.S3.Shared.Result;
-using IPublicationService = TME.CarConfigurator.S3.CommandServices.Interfaces.IPublicationService;
 
 namespace TME.CarConfigurator.Publisher
 {
     public class S3Publisher : IPublisher
     {
-        readonly IPublicationService _publicationService;
+        readonly CommandServices.IPublicationService _publicationService;
         readonly ILanguageService _putLanguageService;
-        private readonly S3.QueryServices.Interfaces.IModelService _getModelService;
+        private readonly QueryServices.IModelService _getModelService;
         readonly IBodyTypeService _bodyTypeService;
         readonly IEngineService _engineService;
 
-        public S3Publisher(IPublicationService publicationService, ILanguageService putLanguageService, S3.QueryServices.Interfaces.IModelService getModelService, IBodyTypeService bodyTypeService, IEngineService engineService)
+        public S3Publisher(CommandServices.IPublicationService publicationService, ILanguageService putLanguageService, QueryServices.IModelService getModelService, IBodyTypeService bodyTypeService, IEngineService engineService)
         {
             if (publicationService == null) throw new ArgumentNullException("publicationService");
             if (putLanguageService == null) throw new ArgumentNullException("putLanguageService");

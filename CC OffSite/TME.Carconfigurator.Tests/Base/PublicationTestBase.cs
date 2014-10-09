@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Linq;
 using FakeItEasy;
+using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
-using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.S3.CommandServices.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
 using System.Threading.Tasks;
 using TME.CarConfigurator.S3.Shared.Result;
 using System.Collections.Generic;
 using TME.CarConfigurator.S3.Shared.Interfaces;
-using IPublicationService = TME.CarConfigurator.S3.CommandServices.Interfaces.IPublicationService;
 
 namespace TME.Carconfigurator.Tests.Base
 {
@@ -20,7 +18,7 @@ namespace TME.Carconfigurator.Tests.Base
     {
         protected IPublicationService PublicationService;
         protected ILanguageService PutLanguageService;
-        protected CarConfigurator.S3.QueryServices.Interfaces.IModelService GetModelService;
+        protected CarConfigurator.QueryServices.IModelService GetModelService;
         protected IBodyTypeService BodyTypeService;
         protected IEngineService EngineService;
         protected S3Publisher Publisher;
@@ -37,7 +35,7 @@ namespace TME.Carconfigurator.Tests.Base
         {
             PublicationService = A.Fake<IPublicationService>(x => x.Strict());
             PutLanguageService = A.Fake<ILanguageService>(x => x.Strict());
-            GetModelService = A.Fake<CarConfigurator.S3.QueryServices.Interfaces.IModelService>(x => x.Strict());
+            GetModelService = A.Fake<CarConfigurator.QueryServices.IModelService>(x => x.Strict());
             BodyTypeService = A.Fake<IBodyTypeService>(x => x.Strict());
             EngineService = A.Fake<IEngineService>(x => x.Strict());
 

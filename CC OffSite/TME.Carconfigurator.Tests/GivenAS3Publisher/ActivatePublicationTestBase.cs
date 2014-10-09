@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FakeItEasy;
+using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
@@ -8,13 +9,12 @@ using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
-using TME.CarConfigurator.S3.CommandServices.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using System.Threading.Tasks;
 using TME.CarConfigurator.S3.Shared.Result;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using Context = TME.CarConfigurator.Publisher.Common.Context;
-using IPublicationService = TME.CarConfigurator.S3.CommandServices.Interfaces.IPublicationService;
+using IPublicationService = TME.CarConfigurator.CommandServices.IPublicationService;
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
@@ -22,7 +22,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
     {
         protected IPublicationService PublicationService;
         protected ILanguageService PutLanguageService;
-        protected CarConfigurator.S3.QueryServices.Interfaces.IModelService GetModelService;
+        protected CarConfigurator.QueryServices.IModelService GetModelService;
         protected IBodyTypeService BodyTypeService;
         protected IEngineService EngineService;
         protected IPublisher Publisher;
@@ -52,11 +52,10 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         {
             PublicationService = A.Fake<IPublicationService>(x => x.Strict());
             PutLanguageService = A.Fake<ILanguageService>(x => x.Strict());
-            GetModelService = A.Fake<CarConfigurator.S3.QueryServices.Interfaces.IModelService>(x => x.Strict());
+            GetModelService = A.Fake<CarConfigurator.QueryServices.IModelService>(x => x.Strict());
             BodyTypeService = A.Fake<IBodyTypeService>(x => x.Strict());
             EngineService = A.Fake<IEngineService>(x => x.Strict());
 
-            var serialiser = A.Fake<ISerialiser>();
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
             var successFullTask = Task.FromResult((Result)new Successfull());
             var successFullTasks = Task.FromResult((IEnumerable<Result>)new[] { new Successfull() });

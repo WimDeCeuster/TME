@@ -1,9 +1,9 @@
 using FakeItEasy;
-using TME.CarConfigurator.QueryRepository.Tests.TestBuilders.Base;
+using TME.CarConfigurator.Query.Tests.TestBuilders.Base;
+using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.S3.QueryServices;
-using TME.CarConfigurator.S3.QueryServices.Interfaces;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
+namespace TME.CarConfigurator.Query.Tests.TestBuilders
 {
     public class PublicationServiceBuilder : ServiceBuilderBase<IPublicationService>
     {

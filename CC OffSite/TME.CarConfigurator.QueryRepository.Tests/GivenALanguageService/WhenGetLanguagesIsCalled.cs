@@ -1,15 +1,14 @@
 ﻿using FakeItEasy;
 using FluentAssertions;
-using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
+using TME.CarConfigurator.Query.Tests.TestBuilders;
+using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.S3.QueryServices.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.S3;
 using Xunit;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
+namespace TME.CarConfigurator.Query.Tests.GivenALanguageService
 {
     public class WhenGetLanguagesIsCalled : TestBase
     {
@@ -42,7 +41,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
             A.CallTo(() => s3Service.GetObject(Brand, Country, s3Key)).Returns(serializedObject);
             A.CallTo(() => serialiser.Deserialise<Languages>(serializedObject)).Returns(_expectedLanguages);
 
-            _modelService = LanguageServiceBuilder.Initialize()
+            _modelService = ModelServiceBuilder.Initialize()
                 .WithSerializer(serialiser)
                 .WithService(s3Service)
                 .WithKeyManager(keyManager)

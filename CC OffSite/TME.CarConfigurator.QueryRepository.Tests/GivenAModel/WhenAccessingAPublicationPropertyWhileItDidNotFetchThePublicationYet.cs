@@ -5,14 +5,14 @@ using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
+using TME.CarConfigurator.Query.Tests.TestBuilders;
+using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.S3.QueryServices.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
+namespace TME.CarConfigurator.Query.Tests.GivenAModel
 {
     public class WhenAccessingAPublicationPropertyWhileItDidNotFetchThePublicationYet : TestBase
     {
@@ -66,11 +66,11 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
 
             var repoModel = ModelBuilder.Initialize().AddPublication(publicationInfo).Build();
 
-            var modelRepository = A.Fake<IModelService>();
-            A.CallTo(() => modelRepository.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
+            var modelService = A.Fake<IModelService>();
+            A.CallTo(() => modelService.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
             return ModelFactoryBuilder.Initialize()
-                .WithModelService(modelRepository)
+                .WithModelService(modelService)
                 .WithPublicationFactory(_publicationFactory)
                 .Build();
         }

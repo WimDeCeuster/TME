@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.S3.Shared.Result;
 
-namespace TME.CarConfigurator.S3.CommandServices.Interfaces
+namespace TME.CarConfigurator.CommandServices
 {
-    public interface IEngineService
+    public interface IBodyTypeService
     {
-        Task<IEnumerable<Result>> PutGenerationEngines(IContext context);
+        Task<IEnumerable<Result>> PutGenerationBodyTypes(IContext context);
     }
 }

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.S3.QueryServices.Interfaces;
 using TME.CarConfigurator.S3.Shared.Exceptions;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 

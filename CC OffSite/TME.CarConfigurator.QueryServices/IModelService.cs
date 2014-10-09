@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
 
-namespace TME.CarConfigurator.S3.QueryServices.Interfaces
+namespace TME.CarConfigurator.QueryServices
 {
     public interface IModelService
     {

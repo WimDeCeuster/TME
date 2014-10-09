@@ -142,6 +142,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.CommandServices\TME.CarConfigurator.CommandServices.csproj">
+      <Project>{3DB012EE-FEB6-40F1-9C09-97212C142013}</Project>
+      <Name>TME.CarConfigurator.CommandServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj">
       <Project>{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}</Project>
       <Name>TME.CarConfigurator.Publisher.Common</Name>

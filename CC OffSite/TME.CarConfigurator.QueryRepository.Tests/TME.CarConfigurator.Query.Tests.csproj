@@ -59,7 +59,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBuilders\Base\ServiceBuilderBase.cs" />
     <Compile Include="TestBuilders\ContextBuilder.cs" />
-    <Compile Include="TestBuilders\LanguageServiceBuilder.cs" />
     <Compile Include="TestBuilders\ModelFactoryBuilder.cs" />
     <Compile Include="TestBuilders\ModelServiceBuilder.cs" />
     <Compile Include="TestBuilders\PublicationFactoryBuilder.cs" />
@@ -74,6 +73,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.Publisher\TME.CarConfigurator.Publisher.csproj">
       <Project>{90212D66-76E4-4842-8CF0-EAD35988D8E2}</Project>
       <Name>TME.CarConfigurator.Publisher</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.QueryServices\TME.CarConfigurator.QueryServices.csproj">
+      <Project>{37F53701-A371-44CC-B2F5-886910FBA751}</Project>
+      <Name>TME.CarConfigurator.QueryServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
       <Project>{2154EAAA-3D11-4654-BEA6-7B147451DBA8}</Project>

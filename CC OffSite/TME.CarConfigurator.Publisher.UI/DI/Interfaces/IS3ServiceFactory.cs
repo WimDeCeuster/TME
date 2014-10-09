@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Enums;
-using TME.CarConfigurator.S3.CommandServices.Interfaces;
+using IPublicationService = TME.CarConfigurator.Publisher.Interfaces.IPublicationService;
 
 namespace TME.CarConfigurator.Publisher.UI.DI.Interfaces
 {

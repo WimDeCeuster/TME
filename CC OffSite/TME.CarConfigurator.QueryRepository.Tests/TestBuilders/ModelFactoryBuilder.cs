@@ -1,8 +1,8 @@
 using TME.CarConfigurator.Factories;
 using TME.CarConfigurator.Factories.Interfaces;
-using TME.CarConfigurator.S3.QueryServices.Interfaces;
+using TME.CarConfigurator.QueryServices;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
+namespace TME.CarConfigurator.Query.Tests.TestBuilders
 {
     public class ModelFactoryBuilder
     {

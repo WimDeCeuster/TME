@@ -111,6 +111,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.CommandServices\TME.CarConfigurator.CommandServices.csproj">
+      <Project>{3db012ee-feb6-40f1-9c09-97212c142013}</Project>
+      <Name>TME.CarConfigurator.CommandServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
       <Project>{EFDB033C-66A8-40BB-B596-561F45E6C7F7}</Project>
       <Name>TME.CarConfigurator.Interfaces</Name>
@@ -122,6 +126,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.Publisher\TME.CarConfigurator.Publisher.csproj">
       <Project>{90212d66-76e4-4842-8cf0-ead35988d8e2}</Project>
       <Name>TME.CarConfigurator.Publisher</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.QueryServices\TME.CarConfigurator.QueryServices.csproj">
+      <Project>{37f53701-a371-44cc-b2f5-886910fba751}</Project>
+      <Name>TME.CarConfigurator.QueryServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
       <Project>{2154eaaa-3d11-4654-bea6-7b147451dba8}</Project>

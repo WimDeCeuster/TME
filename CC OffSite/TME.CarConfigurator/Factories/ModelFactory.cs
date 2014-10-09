@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
-using TME.CarConfigurator.S3.QueryServices.Interfaces;
 
 namespace TME.CarConfigurator.Factories
 {
