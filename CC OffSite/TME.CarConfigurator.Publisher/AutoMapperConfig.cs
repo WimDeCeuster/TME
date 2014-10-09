@@ -11,46 +11,87 @@ namespace TME.CarConfigurator.Publisher
     {
         public static void Configure()
         {
-            MapAssets();
+            ConfigureBase();
+            ConfigureAssets();
+            ConfigureModel();
+            ConfigureGeneration();
+            ConfigureBodyType();
+            ConfigureEngine();
+            ConfigureCar();
+        }
 
+        static void ConfigureBase()
+        {
             AutoMapper.Mapper.CreateMap<Administration.Brand, String>().ConvertUsing(brand => brand.Name);
             AutoMapper.Mapper.CreateMap<Administration.Translations.Label, Label>()
                 .ForMember(label => label.Code,
                            opt => opt.MapFrom(label => label.Definition.Code));
-            AutoMapper.Mapper.CreateMap<Administration.ModelGenerationCarConfiguratorVersion, CarConfiguratorVersion>();
+        }
+
+        static void ConfigureModel()
+        {
             AutoMapper.Mapper.CreateMap<Administration.Model, Model>()
                 .Translate(model => model.Name);
+        }
+
+        static void ConfigureGeneration()
+        {
+            AutoMapper.Mapper.CreateMap<Administration.ModelGenerationCarConfiguratorVersion, CarConfiguratorVersion>();
+
             AutoMapper.Mapper.CreateMap<Administration.ModelGeneration, Generation>()
                 .ForMember(gen => gen.Links,
                     opt => opt.Ignore())
-                .ForMember(gen => gen.Assets, 
-                           opt => opt.Ignore())  //MapFrom(modelGeneration => modelGeneration.Assets))
+                .ForMember(gen => gen.Assets,
+                           opt => opt.MapFrom(modelGeneration => modelGeneration.Assets))
                 .ForMember(generation => generation.SSN,
                            opt => opt.MapFrom(modelGeneration =>
                                               modelGeneration.FactoryGenerations.Select(factoryGeneration => factoryGeneration.SSN).First()))
                 .Translate(modelGeneration => modelGeneration.Name);
+        }
 
-
+        static void ConfigureBodyType()
+        {
             AutoMapper.Mapper.CreateMap<Administration.ModelGenerationBodyType, BodyType>()
                 .ForMember(bodyType => bodyType.VisibleIn,
-                           opt => opt.MapFrom(bodyType => bodyType.GetVisibleInList()))
+                           opt => opt.MapFrom(bodyType => bodyType.AssetSet.GetVisibleInList()))
                 .Translate(
                     bodyType => bodyType.Name);
-            
-            AutoMapper.Mapper.CreateMap<Administration.Car, Car>();
 
-            AutoMapper.Mapper.CreateMap<Administration.EngineInfo, Engine>();
-            AutoMapper.Mapper.CreateMap<Administration.EngineTypeInfo, EngineType>();
-            AutoMapper.Mapper.CreateMap<Administration.FuelTypeInfo, FuelType>();
-            //AutoMapper.Mapper.CreateMap<Administration.EngineCategory, EngineCategory>();
             AutoMapper.Mapper.CreateMap<Administration.BodyTypeInfo, BodyType>();
         }
 
-        private static void MapAssets()
+        static void ConfigureEngine()
+        {
+            AutoMapper.Mapper.CreateMap<Administration.ModelGenerationEngine, Engine>()
+                .ForMember(engine => engine.VisibleIn,
+                           opt => opt.MapFrom(engine => engine.AssetSet.GetVisibleInList()))
+                .ForMember(engine => engine.Category,
+                           opt => opt.Ignore())
+                .Translate(engine => engine.Name);
+
+            AutoMapper.Mapper.CreateMap<Administration.EngineTypeInfo, EngineType>();
+
+            AutoMapper.Mapper.CreateMap<Administration.FuelTypeInfo, FuelType>()
+                .ForMember(fuelType => fuelType.Hybrid, opt => opt.Ignore());
+
+            AutoMapper.Mapper.CreateMap<Administration.EngineInfo, Engine>();
+            
+            AutoMapper.Mapper.CreateMap<Administration.EngineCategory, EngineCategory>();   
+        }
+
+        static void ConfigureCar()
+        {
+            AutoMapper.Mapper.CreateMap<Administration.Car, Car>();
+        }
+
+        static void ConfigureAssets()
         {
             AutoMapper.Mapper.CreateMap<Administration.FileType, FileType>();
-            AutoMapper.Mapper.CreateMap<Administration.Assets.AssetType, AssetType>();
-            AutoMapper.Mapper.CreateMap<Administration.Assets.DetailedAssetInfo, Asset>();
+            AutoMapper.Mapper.CreateMap<Administration.Assets.AssetType, AssetType>()
+                .ForMember(assetType => assetType.Mode,opt => opt.MapFrom(assetType => assetType.Details.Mode))
+                .ForMember(assetType => assetType.Side,opt => opt.MapFrom(assetType => assetType.Details.Side))
+                .ForMember(assetType => assetType.View,opt => opt.MapFrom(assetType => assetType.Details.View))
+                .ForMember(assetType => assetType.Type,opt => opt.MapFrom(assetType => assetType.Details.Type));
             AutoMapper.Mapper.CreateMap<Administration.Assets.LinkedAsset, Asset>();
         }
 
@@ -77,12 +118,12 @@ namespace TME.CarConfigurator.Publisher
             return String.IsNullOrWhiteSpace(str) ? defaultStr : str; 
         }
 
-        static List<VisibleInModeAndView> GetVisibleInList(this Administration.ModelGenerationBodyType bodyType)
+        static List<VisibleInModeAndView> GetVisibleInList(this Administration.Assets.AssetSet assetSet)
         {
-            return bodyType.AssetSet.Assets.Select(asset => Tuple.Create(asset.AssetType.Details.Mode, asset.AssetType.Details.View))
-                                           .Distinct()
-                                           .Select(info => new VisibleInModeAndView { Mode = info.Item1, View = info.Item2 })
-                                           .ToList();
+            return assetSet.Assets.Select(asset => Tuple.Create(asset.AssetType.Details.Mode, asset.AssetType.Details.View))
+                                  .Distinct()
+                                  .Select(info => new VisibleInModeAndView { Mode = info.Item1, View = info.Item2 })
+                                  .ToList();
         }
     }
 }

@@ -83,19 +83,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\PublicationTestBase.cs" />
-    <Compile Include="GivenAMapper\TimeFramesTestBase.cs" />
     <Compile Include="Builders\ContextBuilder.cs" />
-    <Compile Include="GivenAMapper\WhenMappingAPreviewContext.cs" />
+    <Compile Include="GivenAMapper\MappingTestBase.cs" />
+    <Compile Include="GivenAMapper\TimeFramesTestBase.cs" />
+    <Compile Include="GivenAMapper\WhenMappingABodyType.cs" />
     <Compile Include="GivenAMapper\WhenMappingALiveContext.cs" />
+    <Compile Include="GivenAMapper\WhenMappingAPreviewContext.cs" />
     <Compile Include="GivenAMapper\WhenMappingLinks.cs" />
     <Compile Include="GivenAPublisherService\IServiceFactory.cs" />
     <Compile Include="GivenAPublisherService\WhenPublishingToS3Production.cs" />
+    <Compile Include="GivenAS3BodyTypeService\WhenPublishingGenerationBodyTypes.cs" />
+    <Compile Include="GivenAS3EngineService\WhenPublishingGenerationEngines.cs" />
+    <Compile Include="GivenAS3LanguageService\WhenPublishingALanguage.cs" />
+    <Compile Include="GivenAS3PublicationService\WhenPublishingAPublication.cs" />
     <Compile Include="GivenAS3Publisher\ActivatePublicationTestBase.cs" />
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatAlreadyHadAPublication.cs" />
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatAlreadyHadAPublicationAndTheModelPropertiesHaveChanged.cs" />
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatDoesntHaveAPublicationYet.cs" />
     <Compile Include="GivenAS3Publisher\WhenPublishingAModelGeneration.cs" />
-    <Compile Include="GivenAS3Publisher\WhenPublishingBodyTypesPerTimeFrame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

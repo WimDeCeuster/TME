@@ -10,7 +10,7 @@ namespace TME.CarConfigurator.QueryRepository.S3
     {
         private readonly IPublicationService _publicationService;
 
-        public PublicationRepository(IPublicationService publicationService = null)
+        public PublicationRepository(IPublicationService publicationService)
         {
             _publicationService = publicationService; // todo: local default
         }

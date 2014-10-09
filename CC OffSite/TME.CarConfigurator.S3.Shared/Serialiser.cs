@@ -24,6 +24,11 @@ namespace TME.CarConfigurator.S3.Shared
             return SerialiseObject(bodyTypes);
         }
 
+        public string Serialise(IEnumerable<Engine> engines)
+        {
+            return SerialiseObject(engines);
+        }
+
         public string Serialise(IEnumerable<Asset> assets)
         {
             return SerialiseObject(assets);
@@ -31,7 +36,7 @@ namespace TME.CarConfigurator.S3.Shared
 
         private String SerialiseObject(Object obj)
         {
-            return JsonConvert.SerializeObject(obj);
+            return JsonConvert.SerializeObject(obj,Formatting.Indented);
         }
 
         public T Deserialise<T>(String value)

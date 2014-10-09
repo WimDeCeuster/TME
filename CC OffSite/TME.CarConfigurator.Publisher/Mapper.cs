@@ -8,6 +8,8 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using DBCar = TME.CarConfigurator.Administration.Car;
 using TME.CarConfigurator.Publisher.Enums;
+using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 
 namespace TME.CarConfigurator.Publisher
 {
@@ -34,12 +36,36 @@ namespace TME.CarConfigurator.Publisher
 
                 FillModelLinks(model, modelGeneration, generation, brand, country, language, isPreview);
                 FillCars(modelGeneration, contextData);
+                FillGenerationAssets(modelGeneration, generation, brand, country, language);
                 FillGenerationBodyTypes(modelGeneration, contextData);
+                FillGenerationEngines(modelGeneration, contextData);
 
                 context.TimeFrames[language] = GetTimeFrames(language, context);
             }
 
             return context;
+        }
+
+        private void FillGenerationAssets(Administration.ModelGeneration modelGeneration, Generation generation, string brand, string country, string language)
+        {
+            Administration.MyContext.SetSystemContext(brand, country, language);
+            generation.Assets = FillAssetList(modelGeneration);
+        }
+
+        private List<Asset> FillAssetList(Administration.ModelGeneration modelGeneration)
+        {
+            var assetList = new List<Asset>();
+            foreach (var asset in modelGeneration.Assets)
+            {
+                var newAsset = AutoMapper.Mapper.Map<Asset>(asset);
+                newAsset.Height = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).Height;
+                newAsset.Width = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).Width;
+                newAsset.PositionX = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).PositionX;
+                newAsset.PositionY = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).PositionY;
+                
+                assetList.Add(newAsset);
+            }
+            return assetList;
         }
 
         void FillModelLinks(Administration.Model model, Administration.ModelGeneration modelGeneration, Generation generation, String brand, String country, String language, Boolean isPreview)
@@ -62,6 +88,12 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var bodyType in modelGeneration.BodyTypes)
                 contextData.GenerationBodyTypes.Add(AutoMapper.Mapper.Map<BodyType>(bodyType));
+        }
+
+        void FillGenerationEngines(Administration.ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var engine in modelGeneration.Engines)
+                contextData.GenerationEngines.Add(AutoMapper.Mapper.Map<Engine>(engine));
         }
 
         Link GetLink(Administration.Link link, String countryCode, String languageCode, Boolean isPreview)

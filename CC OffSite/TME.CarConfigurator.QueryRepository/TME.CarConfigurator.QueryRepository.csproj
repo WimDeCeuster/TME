@@ -48,7 +48,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="S3\ModelRepository.cs" />
     <Compile Include="S3\PublicationRepository.cs" />
-    <Compile Include="Service\Base\ServiceBase.cs" />
     <Compile Include="Service\Interfaces\ILanguageService.cs" />
     <Compile Include="Service\Interfaces\IPublicationService.cs" />
     <Compile Include="Service\LanguageService.cs" />

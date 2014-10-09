@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
@@ -14,7 +15,10 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
 
         public static PublicationBuilder Initialize()
         {
-            var publication = new Publication();
+            var publication = new Publication
+            {
+                TimeFrames = new List<PublicationTimeFrame>()
+            };
 
             return new PublicationBuilder(publication);
         }
@@ -29,6 +33,13 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
         public PublicationBuilder WithID(Guid publicationId)
         {
             _publication.ID = publicationId;
+
+            return this;
+        }
+
+        public PublicationBuilder WithTimeFrames(params PublicationTimeFrame[] timeFrames)
+        {
+            _publication.TimeFrames.AddRange(timeFrames);
 
             return this;
         }

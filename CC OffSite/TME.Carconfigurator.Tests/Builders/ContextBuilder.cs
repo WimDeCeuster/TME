@@ -1,8 +1,10 @@
-﻿using System;
+﻿using FakeItEasy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Enums;
+using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
@@ -11,48 +13,111 @@ namespace TME.Carconfigurator.Tests.Builders
 {
     public class ContextBuilder
     {
-        Context Context { get; set; }
+        readonly IContext _context;
+        String[] _languages;
 
-        public ContextBuilder(String brand, String country, Guid modelGenerationID, PublicationDataSubset dataSubset, IEnumerable<String> languages)
+        private ContextBuilder(IContext context)
         {
-            Context = new Context(brand, country, modelGenerationID, dataSubset);
-
-            foreach (var language in languages)
-            {
-                Context.ContextData[language] = new ContextData();
-                Context.ModelGenerations[language] = null; // A.Fake<TME.CarConfigurator.Administration.ModelGeneration>();
-            }
+            _context = context;
         }
  
+        public static ContextBuilder InitialiseFakeContext()
+        {
+            var context = A.Fake<IContext>();
+
+            A.CallTo(() => context.Brand).Returns("not initialised");
+            A.CallTo(() => context.Country).Returns("not initialized");
+            A.CallTo(() => context.ContextData).Returns(new Dictionary<String, ContextData>());
+            A.CallTo(() => context.TimeFrames).Returns(new Dictionary<String, IReadOnlyList<TimeFrame>>());
+
+            return new ContextBuilder(context);
+        }
+
+        public ContextBuilder WithBrand(String brand)
+        {
+            A.CallTo(() => _context.Brand).Returns(brand);
+            return this;
+        }
+
+        public ContextBuilder WithCountry(String country)
+        {
+            A.CallTo(() => _context.Country).Returns(country);
+            return this;
+        }
+
+        public ContextBuilder WithDataSubset(PublicationDataSubset dataSubset)
+        {
+            A.CallTo(() => _context.DataSubset).Returns(dataSubset);
+            return this;
+        }
+
+        public ContextBuilder WithLanguages(params String[] languages)
+        {
+            _languages = languages.ToArray();
+
+            foreach (var language in _languages)
+            {
+                _context.ContextData[language] = new ContextData();
+                _context.TimeFrames[language] = new TimeFrame[] { };
+                _context.ModelGenerations[language] = null;
+            }
+
+            return this;
+        }
+
+        public ContextBuilder WithPublication(String language, Publication publication)
+        {
+            _context.ContextData[language].Publication = publication;
+            return this;
+        }
+
         public ContextBuilder WithGeneration(String language, Generation generation)
         {
-            Context.ContextData[language].Generations.Add(generation);
+            _context.ContextData[language].Generations.Add(generation);
             return this;
         }
 
-        public ContextBuilder WithCars(String language, IEnumerable<Car> cars)
+        public ContextBuilder WithCars(String language, params Car[] cars)
         {
             foreach (var car in cars)
-                Context.ContextData[language].Cars.Add(car);
+                _context.ContextData[language].Cars.Add(car);
             return this;
         }
 
-        public ContextBuilder WithGenerationBodyTypes(String language, IEnumerable<BodyType> bodyTypes)
+        public ContextBuilder WithTimeFrames(String language, params TimeFrame[] timeFrames)
+        {
+            _context.TimeFrames[language] = timeFrames;
+            return this;
+        }
+
+        public ContextBuilder WithGenerationBodyTypes(String language, params BodyType[] bodyTypes)
         {
             foreach (var bodyType in bodyTypes)
-                Context.ContextData[language].GenerationBodyTypes.Add(bodyType);
+                _context.ContextData[language].GenerationBodyTypes.Add(bodyType);
+            return this;
+        }
+
+        public ContextBuilder WithGenerationEngines(String language, params Engine[] engines)
+        {
+            foreach (var engine in engines)
+                _context.ContextData[language].GenerationEngines.Add(engine);
             return this;
         }
 
         private ContextBuilder WithTimeFrames(String language, IEnumerable<TimeFrame> timeFrames)
         {
-            Context.TimeFrames[language] = timeFrames.ToList();
+            _context.TimeFrames[language] = timeFrames.ToList();
             return this;
         }
 
         private void WithModels(String language, Model model)
         {
-            Context.ContextData[language].Models.Add(model);
+            _context.ContextData[language].Models.Add(model);
+        }
+
+        public IContext Build()
+        {
+            return _context;
         }
 
         public static Generation CreateFakeGeneration(String language)
@@ -70,7 +135,6 @@ namespace TME.Carconfigurator.Tests.Builders
                     CreateFakeAsset("Asset2"),
                     CreateFakeAsset("Asset3")
                 }
-
             }, "", language);
         }
 
@@ -112,9 +176,13 @@ namespace TME.Carconfigurator.Tests.Builders
             return baseObject;
         }
 
-        public static Context GetDefaultContext(IEnumerable<String> languages)
+        public static IContext GetDefaultContext(IEnumerable<String> languages)
         {
-            var builder = new ContextBuilder("Toyota", "BE", Guid.Empty, PublicationDataSubset.Live, languages);
+            var builder = ContextBuilder.InitialiseFakeContext()
+                            .WithBrand("Toyota")
+                            .WithCountry("DE")
+                            .WithDataSubset(PublicationDataSubset.Live)
+                            .WithLanguages(languages.ToArray());
 
             foreach (var language in languages)
             {
@@ -145,7 +213,7 @@ namespace TME.Carconfigurator.Tests.Builders
                 builder.WithModels(language,new Model());
             }
 
-            return builder.Context;
+            return builder.Build();
         }
     }
 }

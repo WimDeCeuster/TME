@@ -17,7 +17,8 @@ namespace TME.Carconfigurator.Tests.Base
     {
         protected IS3PublicationService PublicationService;
         protected IS3LanguageService LanguageService;
-        protected IS3BodyTypeService BodyTypeService; 
+        protected IS3BodyTypeService BodyTypeService;
+        protected IS3EngineService EngineService; 
         protected S3Publisher Publisher;
         protected ISerialiser Serialiser;
         protected IContext Context;
@@ -33,13 +34,14 @@ namespace TME.Carconfigurator.Tests.Base
             PublicationService = A.Fake<IS3PublicationService>(x => x.Strict());
             LanguageService = A.Fake<IS3LanguageService>(x => x.Strict());
             BodyTypeService = A.Fake<IS3BodyTypeService>(x => x.Strict());
+            EngineService = A.Fake<IS3EngineService>(x => x.Strict());
 
             var successFullTask = Task.FromResult((Result)new Successfull());
             var successFullTasks = Task.FromResult((IEnumerable<Result>)new[] { new Successfull() });
 
             Serialiser = A.Fake<ISerialiser>();
 
-            Publisher = new S3Publisher(PublicationService, LanguageService, BodyTypeService);
+            Publisher = new S3Publisher(PublicationService, LanguageService, BodyTypeService, EngineService);
             Context = ContextBuilder.GetDefaultContext(Languages);
 
             A.CallTo(() => Serialiser.Serialise((Publication)null)).WithAnyArguments().ReturnsLazily(args => args.Arguments.First().GetType().Name);
@@ -47,6 +49,7 @@ namespace TME.Carconfigurator.Tests.Base
             A.CallTo(() => LanguageService.GetModelsOverviewPerLanguage(Context)).Returns(new Languages());
             A.CallTo(() => PublicationService.PutPublications(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => BodyTypeService.PutGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => EngineService.PutGenerationEngines(null)).WithAnyArguments().Returns(successFullTasks);
 
         }
 
