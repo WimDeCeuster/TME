@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Threading.Tasks;
+using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.S3.PutServices.Interfaces;
 using TME.CarConfigurator.S3.Shared;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.S3.Shared.Result;
 
-namespace TME.CarConfigurator.S3.PutServices
+namespace TME.CarConfigurator.S3.CommandServices
 {
-    public class LanguageService : ILanguageService
+    public class ModelService : IModelService
     {
         readonly IService _service;
         readonly ISerialiser _serialiser;
         readonly IKeyManager _keyManager;
 
-        public LanguageService(IService service, ISerialiser serialiser, IKeyManager keyManager)
+        public ModelService(IService service, ISerialiser serialiser, IKeyManager keyManager)
         {
             _service = service;
             _serialiser = serialiser;
             _keyManager = keyManager;
         }
 
-        public async Task<Result> PutModelsOverviewPerLanguage(IContext context, Languages languages)
+        public async Task<Result> PutModelsByLanguage(IContext context, Languages languages)
         {
             if (context == null) throw new ArgumentNullException("context");
 

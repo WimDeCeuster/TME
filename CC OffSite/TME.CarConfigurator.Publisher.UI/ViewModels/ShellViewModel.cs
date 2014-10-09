@@ -17,12 +17,12 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
         private string _country = "DE";
         private Model _selectedModel;
         private ModelGeneration _selectedGeneration;
-        private static IPublicationService _publicationService;
+        private static ICarConfiguratorPublisher _carConfiguratorPublisher;
 
-        public IPublicationService PublicationService
+        public ICarConfiguratorPublisher PublicationService
         {
-            get { return _publicationService; }
-            set { _publicationService = value; }
+            get { return _carConfiguratorPublisher; }
+            set { _carConfiguratorPublisher = value; }
         }
 
         public string Country

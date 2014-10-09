@@ -23,8 +23,8 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Facades
         {
             return (IPublisher)ContextRegistry.GetContext().CreateObject("Publisher", typeof(IPublisher), new Object[] {
                 _serviceFactory.GetPublicationService(environment, dataSubset),
-                _serviceFactory.GetPutLanguageService(environment, dataSubset),
-                _serviceFactory.GetGetLanguageService(environment, dataSubset),
+                _serviceFactory.GetPutModelService(environment, dataSubset),
+                _serviceFactory.GetGetModelService(environment, dataSubset),
                 _serviceFactory.GetBodyTypeService(environment, dataSubset),
                 _serviceFactory.GetEngineService(environment, dataSubset)
             });

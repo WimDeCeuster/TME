@@ -1,7 +1,7 @@
 using System;
 using TME.CarConfigurator.Repository.Objects;
 
-namespace TME.CarConfigurator.S3.GetServices.Interfaces
+namespace TME.CarConfigurator.QueryServices
 {
     public interface IPublicationService
     {

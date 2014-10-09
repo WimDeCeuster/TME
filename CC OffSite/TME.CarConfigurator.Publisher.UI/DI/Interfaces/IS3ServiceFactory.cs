@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Enums;
-using TME.CarConfigurator.S3.PutServices.Interfaces;
 
 namespace TME.CarConfigurator.Publisher.UI.DI.Interfaces
 {
     public interface IS3ServiceFactory
     {
-        ILanguageService GetPutLanguageService(String environment, PublicationDataSubset dataSubset);
-        S3.GetServices.Interfaces.ILanguageService GetGetLanguageService(String environment, PublicationDataSubset dataSubset);
+        IModelService GetPutModelService(String environment, PublicationDataSubset dataSubset);
+        QueryServices.IModelService GetGetModelService(String environment, PublicationDataSubset dataSubset);
         IPublicationService GetPublicationService(String environment, PublicationDataSubset dataSubset);
         IBodyTypeService GetBodyTypeService(String environment, PublicationDataSubset dataSubset);
         IEngineService GetEngineService(String environment, PublicationDataSubset dataSubset);

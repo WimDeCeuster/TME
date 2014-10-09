@@ -1,6 +1,6 @@
 using TME.CarConfigurator.Repository.Objects;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
+namespace TME.CarConfigurator.Query.Tests.TestBuilders
 {
     public class ContextBuilder
     {

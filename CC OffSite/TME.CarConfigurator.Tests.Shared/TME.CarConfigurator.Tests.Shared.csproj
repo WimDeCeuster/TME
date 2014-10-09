@@ -61,10 +61,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TME.CarConfigurator.QueryRepository\TME.CarConfigurator.QueryRepository.csproj">
-      <Project>{DB9741B6-62BF-4B1B-8094-E3C7CC4D5A29}</Project>
-      <Name>TME.CarConfigurator.QueryRepository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
       <Project>{2154EAAA-3D11-4654-BEA6-7B147451DBA8}</Project>
       <Name>TME.CarConfigurator.Repository.Objects</Name>

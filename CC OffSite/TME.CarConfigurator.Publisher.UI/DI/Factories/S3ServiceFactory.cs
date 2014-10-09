@@ -1,12 +1,8 @@
 ﻿using Spring.Context.Support;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.UI.DI.Interfaces;
-using TME.CarConfigurator.S3.PutServices.Interfaces;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.Publisher.UI.DI.Factories
@@ -28,18 +24,18 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
             return (IService)ContextRegistry.GetContext().GetObject(String.Format("{0}{1}S3Service", environment, dataSubset.ToString()));
         }
 
-        public S3.GetServices.Interfaces.ILanguageService GetGetLanguageService(String environment, PublicationDataSubset dataSubset)
+        public QueryServices.IModelService GetGetModelService(String environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
 
-            return (S3.GetServices.Interfaces.ILanguageService)ContextRegistry.GetContext().GetObject("S3GetLanguageService", new Object[] { _serialiser, service, _keyManager });
+            return (QueryServices.IModelService)ContextRegistry.GetContext().GetObject("S3GetModelService", new Object[] { _serialiser, service, _keyManager });
         }
 
-        public ILanguageService GetPutLanguageService(String environment, PublicationDataSubset dataSubset)
+        public IModelService GetPutModelService(String environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
 
-            return (ILanguageService)ContextRegistry.GetContext().GetObject("S3PutLanguageService", new Object[] { service, _serialiser, _keyManager });
+            return (IModelService)ContextRegistry.GetContext().GetObject("S3PutModelService", new Object[] { service, _serialiser, _keyManager });
         }
 
         public IPublicationService GetPublicationService(String environment, PublicationDataSubset dataSubset)

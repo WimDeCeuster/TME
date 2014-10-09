@@ -5,8 +5,6 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Repository.Objects", "TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj", "{2154EAAA-3D11-4654-BEA6-7B147451DBA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.QueryRepository", "TME.CarConfigurator.QueryRepository\TME.CarConfigurator.QueryRepository.csproj", "{DB9741B6-62BF-4B1B-8094-E3C7CC4D5A29}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator", "TME.CarConfigurator\TME.CarConfigurator.csproj", "{89489B1E-DFAA-4164-93C3-A79859368CF8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Interfaces", "TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj", "{EFDB033C-66A8-40BB-B596-561F45E6C7F7}"
@@ -26,17 +24,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Publish
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.LegacyAdapter", "TME.CarConfigurator.LegacyAdapter\TME.CarConfigurator.LegacyAdapter.csproj", "{1D44F515-45AA-428A-91B5-3E0F227CD253}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.QueryRepository.Tests", "TME.CarConfigurator.QueryRepository.Tests\TME.CarConfigurator.QueryRepository.Tests.csproj", "{B12A8825-69C1-4C60-BC64-208C202A3A78}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Query.Tests", "TME.CarConfigurator.QueryRepository.Tests\TME.CarConfigurator.Query.Tests.csproj", "{B12A8825-69C1-4C60-BC64-208C202A3A78}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Tests.Shared", "TME.CarConfigurator.Tests.Shared\TME.CarConfigurator.Tests.Shared.csproj", "{7DFDEC11-EB2D-4844-B822-C47CC899D138}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.S3.Shared", "TME.CarConfigurator.S3.Shared\TME.CarConfigurator.S3.Shared.csproj", "{07BE5767-ABBA-4DC4-BB09-F1CE85CAC7FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.S3.GetServices", "TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.GetServices.csproj", "{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.S3.QueryServices", "TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.QueryServices.csproj", "{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.S3.PutServices", "TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.PutServices.csproj", "{F2D02000-FCD7-4356-9356-30E98CF5B829}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.S3.CommandServices", "TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.CommandServices.csproj", "{F2D02000-FCD7-4356-9356-30E98CF5B829}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Publisher.Common", "TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj", "{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.QueryServices", "TME.CarConfigurator.QueryServices\TME.CarConfigurator.QueryServices.csproj", "{37F53701-A371-44CC-B2F5-886910FBA751}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.CommandServices", "TME.CarConfigurator.CommandServices\TME.CarConfigurator.CommandServices.csproj", "{3DB012EE-FEB6-40F1-9C09-97212C142013}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,10 +50,6 @@ Global
 		{2154EAAA-3D11-4654-BEA6-7B147451DBA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2154EAAA-3D11-4654-BEA6-7B147451DBA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2154EAAA-3D11-4654-BEA6-7B147451DBA8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DB9741B6-62BF-4B1B-8094-E3C7CC4D5A29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB9741B6-62BF-4B1B-8094-E3C7CC4D5A29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB9741B6-62BF-4B1B-8094-E3C7CC4D5A29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB9741B6-62BF-4B1B-8094-E3C7CC4D5A29}.Release|Any CPU.Build.0 = Release|Any CPU
 		{89489B1E-DFAA-4164-93C3-A79859368CF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{89489B1E-DFAA-4164-93C3-A79859368CF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89489B1E-DFAA-4164-93C3-A79859368CF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -104,6 +102,14 @@ Global
 		{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37F53701-A371-44CC-B2F5-886910FBA751}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37F53701-A371-44CC-B2F5-886910FBA751}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37F53701-A371-44CC-B2F5-886910FBA751}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37F53701-A371-44CC-B2F5-886910FBA751}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DB012EE-FEB6-40F1-9C09-97212C142013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DB012EE-FEB6-40F1-9C09-97212C142013}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DB012EE-FEB6-40F1-9C09-97212C142013}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DB012EE-FEB6-40F1-9C09-97212C142013}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

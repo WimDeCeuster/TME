@@ -5,14 +5,14 @@ using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.QueryRepository.Interfaces;
-using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
+using TME.CarConfigurator.Query.Tests.TestBuilders;
+using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
+namespace TME.CarConfigurator.Query.Tests.GivenAModel
 {
     public class WhenAccessingAPublicationPropertyWhileItDidNotFetchThePublicationYet : TestBase
     {
@@ -21,7 +21,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
         private string _actualSsn;
         private string _expectedSsn;
         private IPublicationFactory _publicationFactory;
-        private IPublicationRepository _publicationRepository;
+        private IPublicationService _publicationRepository;
         private Context _context;
 
         protected override void Arrange()
@@ -40,7 +40,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
 
         private void ArrangePublicationFactory()
         {
-            _publicationRepository = A.Fake<IPublicationRepository>();
+            _publicationRepository = A.Fake<IPublicationService>();
 
             A.CallTo(() => _publicationRepository.GetPublication(_publicationID, _context))
                 .Returns(
@@ -52,7 +52,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
                     .Build());
 
             _publicationFactory = PublicationFactoryBuilder.Initialize()
-                .WithPublicationRepository(_publicationRepository)
+                .WithPublicationService(_publicationRepository)
                 .Build();
         }
 
@@ -66,11 +66,11 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
 
             var repoModel = ModelBuilder.Initialize().AddPublication(publicationInfo).Build();
 
-            var modelRepository = A.Fake<IModelRepository>();
-            A.CallTo(() => modelRepository.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
+            var modelService = A.Fake<IModelService>();
+            A.CallTo(() => modelService.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
             return ModelFactoryBuilder.Initialize()
-                .WithModelRepository(modelRepository)
+                .WithModelService(modelService)
                 .WithPublicationFactory(_publicationFactory)
                 .Build();
         }

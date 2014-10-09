@@ -63,23 +63,23 @@
     <Compile Include="Model.cs" />
     <Compile Include="Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RepositoryFacades\PublicationRepositoryFacade.cs" />
-    <Compile Include="RepositoryFacades\CarRepositoryFacade.cs" />
-    <Compile Include="RepositoryFacades\PublicationTimeFrameRepositoryFacade.cs" />
-    <Compile Include="RepositoryFacades\PublicationTimeFramePartsRepositoryFacade.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
       <Project>{efdb033c-66a8-40bb-b596-561f45e6c7f7}</Project>
       <Name>TME.CarConfigurator.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TME.CarConfigurator.QueryRepository\TME.CarConfigurator.QueryRepository.csproj">
-      <Project>{DB9741B6-62BF-4B1B-8094-E3C7CC4D5A29}</Project>
-      <Name>TME.CarConfigurator.QueryRepository</Name>
+    <ProjectReference Include="..\TME.CarConfigurator.QueryServices\TME.CarConfigurator.QueryServices.csproj">
+      <Project>{37F53701-A371-44CC-B2F5-886910FBA751}</Project>
+      <Name>TME.CarConfigurator.QueryServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
       <Project>{2154eaaa-3d11-4654-bea6-7b147451dba8}</Project>
       <Name>TME.CarConfigurator.Repository.Objects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.QueryServices.csproj">
+      <Project>{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}</Project>
+      <Name>TME.CarConfigurator.S3.QueryServices</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

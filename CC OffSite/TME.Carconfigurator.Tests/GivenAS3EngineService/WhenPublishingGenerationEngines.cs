@@ -1,10 +1,10 @@
 ﻿using FakeItEasy;
 using System;
 using System.Collections.Generic;
+using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
-using TME.CarConfigurator.S3.PutServices;
-using TME.CarConfigurator.S3.PutServices.Interfaces;
+using TME.CarConfigurator.S3.CommandServices;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;

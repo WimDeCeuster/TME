@@ -1,4 +1,4 @@
-﻿namespace TME.CarConfigurator.QueryRepository.Tests.TestHelpers
+﻿namespace TME.CarConfigurator.Query.Tests.TestHelpers
 {
     public static class Context
     {
