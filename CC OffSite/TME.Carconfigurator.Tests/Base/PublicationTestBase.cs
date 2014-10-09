@@ -20,7 +20,7 @@ namespace TME.Carconfigurator.Tests.Base
     {
         protected IPublicationService PublicationService;
         protected ILanguageService PutLanguageService;
-        protected CarConfigurator.S3.QueryServices.Interfaces.ILanguageService GetLanguageService;
+        protected CarConfigurator.S3.QueryServices.Interfaces.IModelService GetModelService;
         protected IBodyTypeService BodyTypeService;
         protected IEngineService EngineService;
         protected S3Publisher Publisher;
@@ -37,7 +37,7 @@ namespace TME.Carconfigurator.Tests.Base
         {
             PublicationService = A.Fake<IPublicationService>(x => x.Strict());
             PutLanguageService = A.Fake<ILanguageService>(x => x.Strict());
-            GetLanguageService = A.Fake<CarConfigurator.S3.QueryServices.Interfaces.ILanguageService>(x => x.Strict());
+            GetModelService = A.Fake<CarConfigurator.S3.QueryServices.Interfaces.IModelService>(x => x.Strict());
             BodyTypeService = A.Fake<IBodyTypeService>(x => x.Strict());
             EngineService = A.Fake<IEngineService>(x => x.Strict());
 
@@ -46,12 +46,12 @@ namespace TME.Carconfigurator.Tests.Base
 
             Serialiser = A.Fake<ISerialiser>();
 
-            Publisher = new S3Publisher(PublicationService, PutLanguageService, GetLanguageService, BodyTypeService, EngineService);
+            Publisher = new S3Publisher(PublicationService, PutLanguageService, GetModelService, BodyTypeService, EngineService);
             Context = ContextBuilder.GetDefaultContext(Languages);
 
             A.CallTo(() => Serialiser.Serialise((Publication)null)).WithAnyArguments().ReturnsLazily(args => args.Arguments.First().GetType().Name);
             A.CallTo(() => PutLanguageService.PutModelsOverviewPerLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
-            A.CallTo(() => GetLanguageService.GetLanguages(Context.Brand, Context.Country)).Returns(new Languages());
+            A.CallTo(() => GetModelService.GetModelsByLanguage(Context.Brand, Context.Country)).Returns(new Languages());
             A.CallTo(() => PublicationService.PutPublications(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => BodyTypeService.PutGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => EngineService.PutGenerationEngines(null)).WithAnyArguments().Returns(successFullTasks);

@@ -18,7 +18,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
         private const string Brand = "a brand";
         private const string Country = "a country";
 
-        private ILanguageService _languageService;
+        private IModelService _modelService;
         private Languages _expectedLanguages;
         private Languages _actualLanguages;
 
@@ -42,7 +42,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
             A.CallTo(() => s3Service.GetObject(Brand, Country, s3Key)).Returns(serializedObject);
             A.CallTo(() => serialiser.Deserialise<Languages>(serializedObject)).Returns(_expectedLanguages);
 
-            _languageService = LanguageServiceBuilder.Initialize()
+            _modelService = LanguageServiceBuilder.Initialize()
                 .WithSerializer(serialiser)
                 .WithService(s3Service)
                 .WithKeyManager(keyManager)
@@ -51,7 +51,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
 
         protected override void Act()
         {
-            _actualLanguages = _languageService.GetLanguages(Brand, Country);
+            _actualLanguages = _modelService.GetModelsByLanguage(Brand, Country);
         }
 
         [Fact]

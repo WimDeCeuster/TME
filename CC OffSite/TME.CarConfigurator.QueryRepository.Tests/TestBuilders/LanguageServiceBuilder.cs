@@ -4,7 +4,7 @@ using TME.CarConfigurator.S3.QueryServices.Interfaces;
 
 namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
 {
-    public class LanguageServiceBuilder : ServiceBuilderBase<ILanguageService>
+    public class LanguageServiceBuilder : ServiceBuilderBase<IModelService>
     {
 
         public static LanguageServiceBuilder Initialize()
@@ -12,9 +12,9 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
             return new LanguageServiceBuilder();
         }
 
-        public override ILanguageService Build()
+        public override IModelService Build()
         {
-            return new LanguageService(Serialiser, Service, KeyManager);
+            return new ModelService(Serialiser, Service, KeyManager);
         }
     }
 }

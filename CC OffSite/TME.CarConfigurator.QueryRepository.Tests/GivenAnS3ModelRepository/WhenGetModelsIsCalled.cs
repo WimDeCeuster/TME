@@ -28,12 +28,12 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
             _modelRepository = S3ModelRepositoryBuilder.Initialize().WithLanguageService(languageService).Build();
         }
 
-        private ILanguageService ArrangeLanguageService()
+        private IModelService ArrangeLanguageService()
         {
             var languages = ArrangeLanguages();
 
-            var service = A.Fake<ILanguageService>();
-            A.CallTo(() => service.GetLanguages(_context.Brand, _context.Country)).Returns(languages);
+            var service = A.Fake<IModelService>();
+            A.CallTo(() => service.GetModelsByLanguage(_context.Brand, _context.Country)).Returns(languages);
 
             return service;
         }

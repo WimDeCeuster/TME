@@ -36,7 +36,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
                 new Language(Language2){Models = new List<Model>{models2}}
             };
 
-            A.CallTo(() => GetLanguageService.GetLanguages(Context.Brand, Context.Country)).Returns(languages);
+            A.CallTo(() => GetModelService.GetModelsByLanguage(Context.Brand, Context.Country)).Returns(languages);
         }
 
         [Fact]

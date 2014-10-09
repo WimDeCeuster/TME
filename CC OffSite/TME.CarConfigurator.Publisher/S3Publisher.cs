@@ -17,21 +17,21 @@ namespace TME.CarConfigurator.Publisher
     {
         readonly IPublicationService _publicationService;
         readonly ILanguageService _putLanguageService;
-        private readonly S3.QueryServices.Interfaces.ILanguageService _getLanguageService;
+        private readonly S3.QueryServices.Interfaces.IModelService _getModelService;
         readonly IBodyTypeService _bodyTypeService;
         readonly IEngineService _engineService;
 
-        public S3Publisher(IPublicationService publicationService, ILanguageService putLanguageService, S3.QueryServices.Interfaces.ILanguageService getLanguageService, IBodyTypeService bodyTypeService, IEngineService engineService)
+        public S3Publisher(IPublicationService publicationService, ILanguageService putLanguageService, S3.QueryServices.Interfaces.IModelService getModelService, IBodyTypeService bodyTypeService, IEngineService engineService)
         {
             if (publicationService == null) throw new ArgumentNullException("publicationService");
             if (putLanguageService == null) throw new ArgumentNullException("putLanguageService");
-            if (getLanguageService == null) throw new ArgumentNullException("getLanguageService");
+            if (getModelService == null) throw new ArgumentNullException("getModelService");
             if (bodyTypeService == null) throw new ArgumentNullException("bodyTypeService");
             if (engineService == null) throw new ArgumentNullException("engineService");
 
             _publicationService = publicationService;
             _putLanguageService = putLanguageService;
-            _getLanguageService = getLanguageService;
+            _getModelService = getModelService;
             _bodyTypeService = bodyTypeService;
             _engineService = engineService;
         }
@@ -53,7 +53,7 @@ namespace TME.CarConfigurator.Publisher
 
         private Languages ActivatePublicationForAllLanguages(IContext context, IEnumerable<String> languages)
         {
-            var s3ModelsOverview = _getLanguageService.GetLanguages(context.Brand, context.Country);
+            var s3ModelsOverview = _getModelService.GetModelsByLanguage(context.Brand, context.Country);
 
             foreach (var language in languages)
             {

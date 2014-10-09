@@ -7,7 +7,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
     internal class S3ModelRepositoryBuilder
     {
         private readonly IModelRepository _modelRepository;
-        private ILanguageService _languageService = A.Fake<ILanguageService>();
+        private IModelService _modelService = A.Fake<IModelService>();
 
         private S3ModelRepositoryBuilder()
         {
@@ -30,16 +30,16 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
             return new S3ModelRepositoryBuilder();
         }
 
-        public S3ModelRepositoryBuilder WithLanguageService(ILanguageService languageService)
+        public S3ModelRepositoryBuilder WithLanguageService(IModelService modelService)
         {
-            _languageService = languageService;
+            _modelService = modelService;
 
             return this;
         }
 
         public IModelRepository Build()
         {
-            return _modelRepository ?? new ModelRepository(_languageService);
+            return _modelRepository ?? new ModelRepository(_modelService);
         }
     }
 }
