@@ -40,11 +40,13 @@
     <Reference Include="TME.BusinessObjects">
       <HintPath>..\TME.CarConfigurator.Administration\TME.BusinessObjects.dll</HintPath>
     </Reference>
-    <Reference Include="TME.BusinessObjects.Templates">
-      <HintPath>..\TME.CarConfigurator.Administration\TME.BusinessObjects.Templates.dll</HintPath>
+    <Reference Include="TME.BusinessObjects.Templates, Version=2.2.3.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TME.BusinessObjects.Templates.dll</HintPath>
     </Reference>
-    <Reference Include="TME.CarConfigurator.Administration">
-      <HintPath>..\TME.CarConfigurator.Administration\TME.CarConfigurator.Administration.dll</HintPath>
+    <Reference Include="TME.CarConfigurator.Administration, Version=7.0.1.10, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TME.CarConfigurator.Administration.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

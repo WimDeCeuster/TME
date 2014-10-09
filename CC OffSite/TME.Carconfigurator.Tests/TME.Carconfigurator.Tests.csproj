@@ -62,7 +62,8 @@
     <Reference Include="TME.BusinessObjects.ValidationRules">
       <HintPath>..\..\Libraries\TME.BusinessObjects.ValidationRules.dll</HintPath>
     </Reference>
-    <Reference Include="TME.CarConfigurator.Administration">
+    <Reference Include="TME.CarConfigurator.Administration, Version=7.0.4.1, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Libraries\TME.CarConfigurator.Administration.dll</HintPath>
     </Reference>
     <Reference Include="TME.Common">

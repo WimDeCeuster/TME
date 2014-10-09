@@ -26,8 +26,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3PublicationService
 
         protected override void Arrange()
         {
-            var publication1 = new Publication();
-            var publication2 = new Publication();
+            var publication1 = new Publication { ID = Guid.NewGuid() };
+            var publication2 = new Publication { ID = Guid.NewGuid() };
 
             _context = ContextBuilder.InitialiseFakeContext()
                         .WithBrand(_brand)

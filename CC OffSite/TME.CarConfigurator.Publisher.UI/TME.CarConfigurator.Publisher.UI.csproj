@@ -99,6 +99,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bootstrapper\AppBootstrapper.cs" />
+    <Compile Include="DI\Facades\S3Facade.cs" />
+    <Compile Include="DI\Factories\S3ServiceFactory.cs" />
+    <Compile Include="DI\Interfaces\IS3ServiceFactory.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -146,6 +149,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.Publisher\TME.CarConfigurator.Publisher.csproj">
       <Project>{90212D66-76E4-4842-8CF0-EAD35988D8E2}</Project>
       <Name>TME.CarConfigurator.Publisher</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.PutServices.csproj">
+      <Project>{f2d02000-fcd7-4356-9356-30e98cf5b829}</Project>
+      <Name>TME.CarConfigurator.S3.PutServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.S3.Shared\TME.CarConfigurator.S3.Shared.csproj">
       <Project>{07be5767-abba-4dc4-bb09-f1ce85cac7fc}</Project>

@@ -82,12 +82,14 @@
     <Compile Include="AutoMapperConfig.cs" />
     <Compile Include="CarDbModelGenerationFinder.cs" />
     <Compile Include="Factories\ContextFactory.cs" />
+    <Compile Include="Factories\PublisherFacadeFactory.cs" />
     <Compile Include="Factories\PublisherFactory.cs" />
     <Compile Include="Interfaces\ICarDbModelGenerationFinder.cs" />
     <Compile Include="Interfaces\IContextFactory.cs" />
     <Compile Include="Interfaces\IMapper.cs" />
     <Compile Include="Interfaces\IPublicationService.cs" />
     <Compile Include="Interfaces\IPublisher.cs" />
+    <Compile Include="Interfaces\IPublisherFacade.cs" />
     <Compile Include="Interfaces\IPublisherFactory.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="PublicationService.cs" />
