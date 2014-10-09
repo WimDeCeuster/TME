@@ -4,15 +4,15 @@ using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.QueryRepository.Interfaces;
-using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
+using TME.CarConfigurator.Query.Tests.TestBuilders;
+using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
+namespace TME.CarConfigurator.Query.Tests.GivenModels
 {
     public class WhenRequestingTheListOfActiveModels : TestBase
     {
@@ -24,7 +24,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
         private Context _context;
         private IModels _models;
         private IModelFactory _modelFactory;
-        private IModelRepository _modelRepository;
+        private IModelService _modelRepository;
 
         protected override void Arrange()
         {
@@ -32,14 +32,14 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
 
             ArrangeModelsRepository();
 
-            _modelFactory = ModelFactoryBuilder.Initialize().WithModelRepository(_modelRepository).Build();
+            _modelFactory = ModelFactoryBuilder.Initialize().WithModelService(_modelRepository).Build();
         }
 
         private void ArrangeModelsRepository()
         {
             ArrangeModelsFromRepository();
 
-            _modelRepository = S3ModelRepositoryBuilder.InitializeFakeRepository().Build();
+            _modelRepository = ModelServiceBuilder.InitializeFakeService().Build();
             A.CallTo(() => _modelRepository.GetModels(null))
                 .WhenArgumentsMatch(args => TestHelpers.Context.AreEqual((Context)args[0], _context))
                 .Returns(_modelsFromRespository);

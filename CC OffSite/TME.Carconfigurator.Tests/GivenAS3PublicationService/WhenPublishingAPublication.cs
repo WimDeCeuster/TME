@@ -1,8 +1,8 @@
 ﻿using FakeItEasy;
 using System;
+using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
-using TME.CarConfigurator.S3.PutServices;
-using TME.CarConfigurator.S3.PutServices.Interfaces;
+using TME.CarConfigurator.S3.CommandServices;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;
@@ -26,8 +26,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3PublicationService
 
         protected override void Arrange()
         {
-            var publication1 = new Publication();
-            var publication2 = new Publication();
+            var publication1 = new Publication { ID = Guid.NewGuid() };
+            var publication2 = new Publication { ID = Guid.NewGuid() };
 
             _context = ContextBuilder.InitialiseFakeContext()
                         .WithBrand(_brand)

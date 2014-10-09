@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FakeItEasy;
+using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
@@ -8,21 +9,20 @@ using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
-using TME.CarConfigurator.S3.PutServices.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using System.Threading.Tasks;
 using TME.CarConfigurator.S3.Shared.Result;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using Context = TME.CarConfigurator.Publisher.Common.Context;
-using IPublicationService = TME.CarConfigurator.S3.PutServices.Interfaces.IPublicationService;
+using IPublicationService = TME.CarConfigurator.CommandServices.IPublicationService;
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
     public abstract class ActivatePublicationTestBase : TestBase
     {
         protected IPublicationService PublicationService;
-        protected ILanguageService PutLanguageService;
-        protected CarConfigurator.S3.GetServices.Interfaces.ILanguageService GetLanguageService;
+        protected IModelService PutModelService;
+        protected CarConfigurator.QueryServices.IModelService GetModelService;
         protected IBodyTypeService BodyTypeService;
         protected IEngineService EngineService;
         protected IPublisher Publisher;
@@ -51,12 +51,11 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected override void Arrange()
         {
             PublicationService = A.Fake<IPublicationService>(x => x.Strict());
-            PutLanguageService = A.Fake<ILanguageService>(x => x.Strict());
-            GetLanguageService = A.Fake<CarConfigurator.S3.GetServices.Interfaces.ILanguageService>(x => x.Strict());
+            PutModelService = A.Fake<IModelService>(x => x.Strict());
+            GetModelService = A.Fake<CarConfigurator.QueryServices.IModelService>(x => x.Strict());
             BodyTypeService = A.Fake<IBodyTypeService>(x => x.Strict());
             EngineService = A.Fake<IEngineService>(x => x.Strict());
 
-            var serialiser = A.Fake<ISerialiser>();
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
             var successFullTask = Task.FromResult((Result)new Successfull());
             var successFullTasks = Task.FromResult((IEnumerable<Result>)new[] { new Successfull() });
@@ -88,12 +87,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context.TimeFrames.Add(Language1, timeFrames);
             Context.TimeFrames.Add(Language2, timeFrames);
 
-            A.CallTo(() => PutLanguageService.PutModelsOverviewPerLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
+            A.CallTo(() => PutModelService.PutModelsByLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
             A.CallTo(() => PublicationService.PutPublications(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => BodyTypeService.PutGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => EngineService.PutGenerationEngines(null)).WithAnyArguments().Returns(successFullTasks);
 
-            Publisher = new S3Publisher(PublicationService, PutLanguageService, GetLanguageService, BodyTypeService, EngineService);
+            Publisher = new S3Publisher(PublicationService, PutModelService, GetModelService, BodyTypeService, EngineService);
         }
 
         protected override void Act()

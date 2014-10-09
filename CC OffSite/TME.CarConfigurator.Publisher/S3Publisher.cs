@@ -2,36 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
-using TME.CarConfigurator.S3.PutServices.Interfaces;
 using TME.CarConfigurator.S3.Shared.Result;
-using IPublicationService = TME.CarConfigurator.S3.PutServices.Interfaces.IPublicationService;
 
 namespace TME.CarConfigurator.Publisher
 {
     public class S3Publisher : IPublisher
     {
-        readonly IPublicationService _publicationService;
-        readonly ILanguageService _putLanguageService;
-        private readonly S3.GetServices.Interfaces.ILanguageService _getLanguageService;
+        readonly CommandServices.IPublicationService _publicationService;
+        readonly IModelService _putModelService;
+        private readonly QueryServices.IModelService _getModelService;
         readonly IBodyTypeService _bodyTypeService;
         readonly IEngineService _engineService;
 
-        public S3Publisher(IPublicationService publicationService, ILanguageService putLanguageService, S3.GetServices.Interfaces.ILanguageService getLanguageService, IBodyTypeService bodyTypeService, IEngineService engineService)
+        public S3Publisher(CommandServices.IPublicationService publicationService, IModelService putModelService, QueryServices.IModelService getModelService, IBodyTypeService bodyTypeService, IEngineService engineService)
         {
             if (publicationService == null) throw new ArgumentNullException("publicationService");
-            if (putLanguageService == null) throw new ArgumentNullException("putLanguageService");
-            if (getLanguageService == null) throw new ArgumentNullException("getLanguageService");
+            if (putModelService == null) throw new ArgumentNullException("putModelService");
+            if (getModelService == null) throw new ArgumentNullException("getModelService");
             if (bodyTypeService == null) throw new ArgumentNullException("bodyTypeService");
             if (engineService == null) throw new ArgumentNullException("engineService");
 
             _publicationService = publicationService;
-            _putLanguageService = putLanguageService;
-            _getLanguageService = getLanguageService;
+            _putModelService = putModelService;
+            _getModelService = getModelService;
             _bodyTypeService = bodyTypeService;
             _engineService = engineService;
         }
@@ -48,12 +47,12 @@ namespace TME.CarConfigurator.Publisher
                 return failure;
 
             var s3ModelsOverview = ActivatePublicationForAllLanguages(context, languages);
-            return await _putLanguageService.PutModelsOverviewPerLanguage(context, s3ModelsOverview);
+            return await _putModelService.PutModelsByLanguage(context, s3ModelsOverview);
         }
 
         private Languages ActivatePublicationForAllLanguages(IContext context, IEnumerable<String> languages)
         {
-            var s3ModelsOverview = _getLanguageService.GetLanguages(context.Brand, context.Country);
+            var s3ModelsOverview = _getModelService.GetModelsByLanguage(context.Brand, context.Country);
 
             foreach (var language in languages)
             {

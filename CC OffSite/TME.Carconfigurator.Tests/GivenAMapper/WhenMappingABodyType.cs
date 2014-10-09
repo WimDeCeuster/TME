@@ -37,8 +37,8 @@ namespace TME.Carconfigurator.Tests.GivenAMapper
 
             bodyType.Description.ShouldBeEquivalentTo(_bodyType.Translation.Description);
             bodyType.FootNote.ShouldBeEquivalentTo(_bodyType.Translation.FootNote);
-            bodyType.InternalCode.ShouldBeEquivalentTo(null);
-            bodyType.LocalCode.ShouldBeEquivalentTo(null);
+            //bodyType.InternalCode.ShouldBeEquivalentTo(null);
+            //bodyType.LocalCode.ShouldBeEquivalentTo(null);
             bodyType.Name.Should().BeOneOf(_bodyType.Translation.Name, _bodyType.Name);
             bodyType.NumberOfDoors.ShouldBeEquivalentTo(_bodyType.NumberOfDoors);
             bodyType.NumberOfSeats.ShouldBeEquivalentTo(_bodyType.NumberOfSeats);

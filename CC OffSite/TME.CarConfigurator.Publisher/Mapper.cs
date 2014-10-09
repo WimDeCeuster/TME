@@ -86,7 +86,7 @@ namespace TME.CarConfigurator.Publisher
         void FillGenerationBodyTypes(Administration.ModelGeneration modelGeneration, ContextData contextData)
         {
             foreach (var bodyType in modelGeneration.BodyTypes)
-                contextData.GenerationBodyTypes.Add(AutoMapper.Mapper.Map<BodyType>(bodyType));
+                contextData.GenerationBodyTypes.Add(AutoMapper.Mapper.Map<BodyType>(Tuple.Create(bodyType, Administration.BodyTypes.GetBodyTypes()[bodyType.ID])));
         }
 
         void FillGenerationEngines(Administration.ModelGeneration modelGeneration, ContextData contextData)

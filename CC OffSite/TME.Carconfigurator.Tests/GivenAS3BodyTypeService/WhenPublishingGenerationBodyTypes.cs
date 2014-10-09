@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
-using TME.CarConfigurator.S3.PutServices;
+using TME.CarConfigurator.S3.CommandServices;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Interfaces;
@@ -111,16 +111,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
             A.CallTo(() => keyManager.GetGenerationBodyTypesKey(publication1.ID, publicationTimeFrame2.ID)).Returns(_timeFrame2BodyTypesKey);
             A.CallTo(() => keyManager.GetGenerationBodyTypesKey(publication2.ID, publicationTimeFrame3.ID)).Returns(_timeFrame3BodyTypesKey);
             A.CallTo(() => keyManager.GetGenerationBodyTypesKey(publication2.ID, publicationTimeFrame4.ID)).Returns(_timeFrame4BodyTypesKey);
-        }
-
-        Func<ArgumentCollection, Boolean> ArgumentMatchesList<T>(params T[] items)
-        {
-            return args => {
-                var argumentItems = (IEnumerable<T>)args[0];
-                return argumentItems.Count() == items.Length &&
-                       argumentItems.Zip(items, (item1, item2) => Object.Equals(item1, item2))
-                                    .All(x => x);
-            };
         }
 
         protected override void Act()

@@ -1,16 +1,15 @@
 ﻿using System;
 using FakeItEasy;
 using FluentAssertions;
-using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
+using TME.CarConfigurator.Query.Tests.TestBuilders;
+using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.S3.GetServices.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.S3;
 using Xunit;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.GivenAPublicationService
+namespace TME.CarConfigurator.Query.Tests.GivenAPublicationService
 {
     public class WhenGetPublicationIsCalled : TestBase
     {

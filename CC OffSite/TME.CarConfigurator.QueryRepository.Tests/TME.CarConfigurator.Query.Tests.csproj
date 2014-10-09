@@ -7,8 +7,8 @@
     <ProjectGuid>{B12A8825-69C1-4C60-BC64-208C202A3A78}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TME.CarConfigurator.QueryRepository.Tests</RootNamespace>
-    <AssemblyName>TME.CarConfigurator.QueryRepository.Tests</AssemblyName>
+    <RootNamespace>TME.CarConfigurator.Query.Tests</RootNamespace>
+    <AssemblyName>TME.CarConfigurator.Query.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -54,19 +54,15 @@
     <Compile Include="GivenALanguageService\WhenGetLanguagesIsCalled.cs" />
     <Compile Include="GivenAModel\WhenAccessingAPublicationProertyWhileItAlreadyFetchedThePublication.cs" />
     <Compile Include="GivenAModel\WhenAccessingAPublicationPropertyWhileItDidNotFetchThePublicationYet.cs" />
-    <Compile Include="GivenAnS3ModelRepository\WhenGetModelsIsCalled.cs" />
-    <Compile Include="GivenAnS3PublicationRepository\WhenGetPublicationIsCalled.cs" />
     <Compile Include="GivenAPublicationService\WhenGetPublicationIsCalled.cs" />
     <Compile Include="GivenModels\WhenRequestingTheListOfActiveModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBuilders\Base\ServiceBuilderBase.cs" />
     <Compile Include="TestBuilders\ContextBuilder.cs" />
-    <Compile Include="TestBuilders\LanguageServiceBuilder.cs" />
     <Compile Include="TestBuilders\ModelFactoryBuilder.cs" />
+    <Compile Include="TestBuilders\ModelServiceBuilder.cs" />
     <Compile Include="TestBuilders\PublicationFactoryBuilder.cs" />
     <Compile Include="TestBuilders\PublicationServiceBuilder.cs" />
-    <Compile Include="TestBuilders\S3ModelRepositoryBuilder.cs" />
-    <Compile Include="TestBuilders\S3PublicationRepositoryBuilder.cs" />
     <Compile Include="TestHelpers\Context.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -78,17 +74,17 @@
       <Project>{90212D66-76E4-4842-8CF0-EAD35988D8E2}</Project>
       <Name>TME.CarConfigurator.Publisher</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TME.CarConfigurator.QueryRepository\TME.CarConfigurator.QueryRepository.csproj">
-      <Project>{DB9741B6-62BF-4B1B-8094-E3C7CC4D5A29}</Project>
-      <Name>TME.CarConfigurator.QueryRepository</Name>
+    <ProjectReference Include="..\TME.CarConfigurator.QueryServices\TME.CarConfigurator.QueryServices.csproj">
+      <Project>{37F53701-A371-44CC-B2F5-886910FBA751}</Project>
+      <Name>TME.CarConfigurator.QueryServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
       <Project>{2154EAAA-3D11-4654-BEA6-7B147451DBA8}</Project>
       <Name>TME.CarConfigurator.Repository.Objects</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.GetServices.csproj">
+    <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.QueryServices.csproj">
       <Project>{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}</Project>
-      <Name>TME.CarConfigurator.S3.GetServices</Name>
+      <Name>TME.CarConfigurator.S3.QueryServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.S3.Shared\TME.CarConfigurator.S3.Shared.csproj">
       <Project>{07BE5767-ABBA-4DC4-BB09-F1CE85CAC7FC}</Project>

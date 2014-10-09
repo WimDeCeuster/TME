@@ -1,12 +1,12 @@
 using TME.CarConfigurator.Factories;
 using TME.CarConfigurator.Factories.Interfaces;
-using TME.CarConfigurator.QueryRepository.Interfaces;
+using TME.CarConfigurator.QueryServices;
 
-namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
+namespace TME.CarConfigurator.Query.Tests.TestBuilders
 {
     public class ModelFactoryBuilder
     {
-        private IModelRepository _modelRepository = S3ModelRepositoryBuilder.InitializeFakeRepository().Build();
+        private IModelService _modelService = ModelServiceBuilder.InitializeFakeService().Build();
         private IPublicationFactory _publicationFactory = PublicationFactoryBuilder.InitializeFakeFactory().Build();
 
         public static ModelFactoryBuilder Initialize()
@@ -14,9 +14,9 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
             return new ModelFactoryBuilder();
         }
 
-        public ModelFactoryBuilder WithModelRepository(IModelRepository modelRepository)
+        public ModelFactoryBuilder WithModelService(IModelService modelService)
         {
-            _modelRepository = modelRepository;
+            _modelService = modelService;
 
             return this;
         }
@@ -30,7 +30,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
 
         public IModelFactory Build()
         {
-            return new ModelFactory(_modelRepository, _publicationFactory);
+            return new ModelFactory(_modelService, _publicationFactory);
         }
     }
 }

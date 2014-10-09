@@ -62,7 +62,8 @@
     <Reference Include="TME.BusinessObjects.ValidationRules">
       <HintPath>..\..\Libraries\TME.BusinessObjects.ValidationRules.dll</HintPath>
     </Reference>
-    <Reference Include="TME.CarConfigurator.Administration">
+    <Reference Include="TME.CarConfigurator.Administration, Version=7.0.4.1, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Libraries\TME.CarConfigurator.Administration.dll</HintPath>
     </Reference>
     <Reference Include="TME.Common">
@@ -110,6 +111,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.CommandServices\TME.CarConfigurator.CommandServices.csproj">
+      <Project>{3db012ee-feb6-40f1-9c09-97212c142013}</Project>
+      <Name>TME.CarConfigurator.CommandServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
       <Project>{EFDB033C-66A8-40BB-B596-561F45E6C7F7}</Project>
       <Name>TME.CarConfigurator.Interfaces</Name>
@@ -122,17 +127,21 @@
       <Project>{90212d66-76e4-4842-8cf0-ead35988d8e2}</Project>
       <Name>TME.CarConfigurator.Publisher</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.QueryServices\TME.CarConfigurator.QueryServices.csproj">
+      <Project>{37f53701-a371-44cc-b2f5-886910fba751}</Project>
+      <Name>TME.CarConfigurator.QueryServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
       <Project>{2154eaaa-3d11-4654-bea6-7b147451dba8}</Project>
       <Name>TME.CarConfigurator.Repository.Objects</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.GetServices.csproj">
+    <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.QueryServices.csproj">
       <Project>{5f4575a4-88db-4b32-bc1e-cd6fed06ca12}</Project>
-      <Name>TME.CarConfigurator.S3.GetServices</Name>
+      <Name>TME.CarConfigurator.S3.QueryServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.PutServices.csproj">
+    <ProjectReference Include="..\TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.CommandServices.csproj">
       <Project>{F2D02000-FCD7-4356-9356-30E98CF5B829}</Project>
-      <Name>TME.CarConfigurator.S3.PutServices</Name>
+      <Name>TME.CarConfigurator.S3.CommandServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.S3.Shared\TME.CarConfigurator.S3.Shared.csproj">
       <Project>{07be5767-abba-4dc4-bb09-f1ce85cac7fc}</Project>
