@@ -5,6 +5,6 @@ namespace TME.CarConfigurator.QueryRepository.Interfaces
 {
     public interface IBodyTypeRepository
     {
-        IEnumerable<BodyType> GetBodyTypes(Repository.Objects.Context.PublicationTimeFrame context);
+        //IEnumerable<BodyType> GetBodyTypes(Repository.Objects.IContext.PublicationTimeFrame context);
     }
 }

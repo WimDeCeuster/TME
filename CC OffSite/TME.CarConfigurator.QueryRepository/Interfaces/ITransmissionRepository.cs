@@ -5,6 +5,6 @@ namespace TME.CarConfigurator.QueryRepository.Interfaces
 {
     public interface ITransmissionRepository
     {
-        IEnumerable<Transmission> GetTransmissions(Repository.Objects.Context.PublicationTimeFrame context);
+        //IEnumerable<Transmission> GetTransmissions(Repository.Objects.IContext.PublicationTimeFrame context);
     }
 }

@@ -6,6 +6,7 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.S3.Shared;
+using IContext = TME.CarConfigurator.Publisher.Interfaces.IContext;
 
 namespace TME.CarConfigurator.Publisher.S3
 {

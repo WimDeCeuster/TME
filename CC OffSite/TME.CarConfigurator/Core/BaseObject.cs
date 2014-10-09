@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.Core
 {
     public abstract class BaseObject : IBaseObject
     {
         protected readonly Repository.Objects.Core.BaseObject RepositoryBaseObject;
-        protected readonly IContext Context;
+        protected readonly Context Context;
 
         public Guid ID
         {
@@ -55,7 +56,7 @@ namespace TME.CarConfigurator.Core
             get { throw new NotImplementedException(); }
         }
 
-        protected BaseObject(Repository.Objects.Core.BaseObject repositoryBaseObject, IContext context)
+        protected BaseObject(Repository.Objects.Core.BaseObject repositoryBaseObject, Context context)
         {
             if (repositoryBaseObject == null) throw new ArgumentNullException("repositoryBaseObject");
             if (context == null) throw new ArgumentNullException("context");

@@ -51,9 +51,7 @@
     <Compile Include="Assets\Enums\Scope.cs" />
     <Compile Include="Assets\FileType.cs" />
     <Compile Include="Assets\VisibleInModeAndView.cs" />
-    <Compile Include="Context\Base.cs" />
-    <Compile Include="Context\Publication.cs" />
-    <Compile Include="Context\PublicationTimeFrame.cs" />
+    <Compile Include="Context.cs" />
     <Compile Include="TransmissionType.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="Core\Label.cs" />

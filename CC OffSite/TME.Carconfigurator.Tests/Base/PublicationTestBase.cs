@@ -10,6 +10,7 @@ using TME.CarConfigurator.S3.Shared.Result;
 using System.Collections.Generic;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Publisher.S3;
+using IContext = TME.CarConfigurator.Publisher.Interfaces.IContext;
 
 namespace TME.Carconfigurator.Tests.Base
 {

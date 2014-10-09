@@ -7,6 +7,7 @@ using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
+using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
@@ -21,7 +22,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
         private string _expectedSsn;
         private IPublicationFactory _publicationFactory;
         private IPublicationRepository _publicationRepository;
-        private IContext _context;
+        private Context _context;
 
         protected override void Arrange()
         {
@@ -66,7 +67,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAModel
             var repoModel = ModelBuilder.Initialize().AddPublication(publicationInfo).Build();
 
             var modelRepository = A.Fake<IModelRepository>();
-            A.CallTo(() => modelRepository.GetModels(A<IContext>._)).Returns(new List<Repository.Objects.Model> { repoModel });
+            A.CallTo(() => modelRepository.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
             return ModelFactoryBuilder.Initialize()
                 .WithModelRepository(modelRepository)

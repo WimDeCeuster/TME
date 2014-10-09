@@ -18,7 +18,7 @@ namespace TME.CarConfigurator.QueryRepository.Service
             _keyManager = keyManager;
         }
 
-        public Languages GetLanguages(IContext context)
+        public Languages GetLanguages(Context context)
         {
             var key = _keyManager.GetLanguagesKey();
             var serialisedLanguages = _service.GetObject(context.Brand, context.Country, key);

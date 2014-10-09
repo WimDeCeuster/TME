@@ -6,6 +6,6 @@ namespace TME.CarConfigurator.QueryRepository.Interfaces
 {
     public interface IPublicationRepository
     {
-        Publication GetPublication(Guid publicationID, IContext context);
+        Publication GetPublication(Guid publicationID, Context context);
     }
 }

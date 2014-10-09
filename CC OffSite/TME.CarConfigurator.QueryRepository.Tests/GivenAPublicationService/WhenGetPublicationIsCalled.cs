@@ -17,7 +17,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAPublicationService
         private IPublicationService _publicationService;
         private Publication _expectedPublication;
         private Publication _actualPublication;
-        private IContext _context;
+        private Context _context;
 
         protected override void Arrange()
         {

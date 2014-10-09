@@ -1,38 +1,40 @@
 using FakeItEasy;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
 {
     public class ContextBuilder
     {
-        private readonly IContext _context;
+        private readonly Context _context;
 
-        private ContextBuilder(IContext context)
+        private ContextBuilder(Context context)
         {
             _context = context;
         }
 
         public static ContextBuilder InitializeFakeContext()
         {
-            var context = A.Fake<IContext>();
-            
-            A.CallTo(() => context.Brand).Returns("not initialized");
-            A.CallTo(() => context.Country).Returns("not initialized");
-            A.CallTo(() => context.Language).Returns("not initialized");
+            var context = new Context
+            {
+                Brand = "not initialized",
+                Country = "not initialized",
+                Language = "not initialized",
+            };
 
             return new ContextBuilder(context);
         }
 
         public ContextBuilder WithBrand(string brand)
         {
-            A.CallTo(() => _context.Brand).Returns(brand);
+            _context.Brand = brand;
 
             return this;
         }
 
         public ContextBuilder WithCountry(string country)
         {
-            A.CallTo(() => _context.Country).Returns(country);
+            _context.Country = country;
 
             return this;
 
@@ -40,12 +42,12 @@ namespace TME.CarConfigurator.QueryRepository.Tests.TestBuilders
 
         public ContextBuilder WithLanguage(string language)
         {
-            A.CallTo(() => _context.Language).Returns(language);
+            _context.Language = language;
 
             return this;
         }
 
-        public IContext Build()
+        public Context Build()
         {
             return _context;
         }

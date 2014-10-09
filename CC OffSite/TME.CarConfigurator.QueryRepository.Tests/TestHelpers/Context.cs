@@ -1,10 +1,8 @@
-﻿using TME.CarConfigurator.Interfaces;
-
-namespace TME.CarConfigurator.QueryRepository.Tests.TestHelpers
+﻿namespace TME.CarConfigurator.QueryRepository.Tests.TestHelpers
 {
     public static class Context
     {
-        public static bool AreEqual(IContext actualContext, IContext expectedContext)
+        public static bool AreEqual(Repository.Objects.Context actualContext, Repository.Objects.Context expectedContext)
         {
             var type = actualContext.GetType();
 

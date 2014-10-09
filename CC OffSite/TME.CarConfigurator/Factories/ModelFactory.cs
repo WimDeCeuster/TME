@@ -3,6 +3,7 @@ using System.Linq;
 using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
+using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
 
 namespace TME.CarConfigurator.Factories
@@ -21,7 +22,7 @@ namespace TME.CarConfigurator.Factories
             _publicationFactory = publicationFactory;
         }
 
-        public IModels GetModels(IContext context)
+        public IModels GetModels(Context context)
         {
             var repositoryModels = _modelRepository.GetModels(context).Where(HasActivePublicationsThatAreCurrentlyAvailable);
 
@@ -35,7 +36,7 @@ namespace TME.CarConfigurator.Factories
             return model.Publications.Any(p => p.State == PublicationState.Activated && p.LineOffFrom <= DateTime.Now && DateTime.Now <= p.LineOffTo);
         }
 
-        private IModel CreateModel(Repository.Objects.Model repositoryModel, IContext context)
+        private IModel CreateModel(Repository.Objects.Model repositoryModel, Context context)
         {
             return new Model(repositoryModel, context, _publicationFactory);
         }

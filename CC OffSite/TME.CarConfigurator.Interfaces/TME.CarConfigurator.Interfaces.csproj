@@ -46,7 +46,6 @@
     <Compile Include="ITransmission.cs" />
     <Compile Include="ICar.cs" />
     <Compile Include="ICarConfiguratorVersion.cs" />
-    <Compile Include="IContext.cs" />
     <Compile Include="IEngineType.cs" />
     <Compile Include="IEngine.cs" />
     <Compile Include="Core\IBaseObject.cs" />

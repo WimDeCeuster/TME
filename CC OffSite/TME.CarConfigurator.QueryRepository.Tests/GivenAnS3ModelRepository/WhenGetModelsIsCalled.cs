@@ -16,7 +16,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3ModelRepository
     {
         private IModelRepository _modelRepository;
         private IEnumerable<Repository.Objects.Model> _models;
-        private IContext _context;
+        private Context _context;
         private const string Language = "language for test";
 
         protected override void Arrange()

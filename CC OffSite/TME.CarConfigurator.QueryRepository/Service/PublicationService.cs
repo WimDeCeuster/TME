@@ -19,7 +19,7 @@ namespace TME.CarConfigurator.QueryRepository.Service
             _keyManager = keyManager;
         }
 
-        public Publication GetPublication(Guid publicationId, IContext context)
+        public Publication GetPublication(Guid publicationId, Context context)
         {
             var key = _keyManager.GetPublicationKey(publicationId);
             var serializedPublication = _service.GetObject(context.Brand, context.Country, key);

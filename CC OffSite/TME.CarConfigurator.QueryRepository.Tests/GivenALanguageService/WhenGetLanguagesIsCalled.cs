@@ -19,7 +19,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenALanguageService
         private ILanguageService _languageService;
         private Languages _expectedLanguages;
         private Languages _actualLanguages;
-        private IContext _context;
+        private Context _context;
 
         protected override void Arrange()
         {

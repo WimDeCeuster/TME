@@ -12,6 +12,7 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
+using IContext = TME.CarConfigurator.Publisher.Interfaces.IContext;
 
 namespace TME.Carconfigurator.Tests.GivenAS3PublicationService
 {

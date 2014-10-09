@@ -15,7 +15,7 @@ namespace TME.CarConfigurator.QueryRepository.S3
             _publicationService = publicationService; // todo: local default
         }
 
-        public Publication GetPublication(Guid publicationID, IContext context)
+        public Publication GetPublication(Guid publicationID, Context context)
         {
             return _publicationService.GetPublication(publicationID, context);
         }

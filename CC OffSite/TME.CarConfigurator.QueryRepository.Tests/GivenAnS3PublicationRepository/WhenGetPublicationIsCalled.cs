@@ -17,7 +17,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenAnS3PublicationReposito
         private Publication _actualPublication;
         private Publication _expectedPublication;
         private Guid _publicationId;
-        private IContext _context;
+        private Context _context;
 
         protected override void Arrange()
         {

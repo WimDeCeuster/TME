@@ -5,6 +5,6 @@ namespace TME.CarConfigurator.QueryRepository.Service.Interfaces
 {
     public interface ILanguageService
     {
-        Languages GetLanguages(IContext context);
+        Languages GetLanguages(Context context);
     }
 }

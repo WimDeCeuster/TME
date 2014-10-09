@@ -42,7 +42,7 @@ namespace TME.CarConfigurator
 
         public IEnumerable<ICar> Cars { get { throw new NotImplementedException(); } }
 
-        public Model(Repository.Objects.Model repositoryModel, IContext context, IPublicationFactory publicationFactory)
+        public Model(Repository.Objects.Model repositoryModel, Context context, IPublicationFactory publicationFactory)
             : base(repositoryModel, context)
         {
             if (repositoryModel == null) throw new ArgumentNullException("repositoryModel");

@@ -6,7 +6,7 @@ namespace TME.CarConfigurator.QueryRepository.Interfaces
 {
     public interface IAssetRepository
     {
-        IEnumerable<Asset> GetAssetsForObject(Repository.Objects.Context.Publication context, Guid objectID);
-        IEnumerable<Asset> GetAssetsForObjectAndCar(Repository.Objects.Context.Publication context, Guid objectID);
+        //IEnumerable<Asset> GetAssetsForObject(Repository.Objects.IContext.Publication context, Guid objectID);
+        //IEnumerable<Asset> GetAssetsForObjectAndCar(Repository.Objects.IContext.Publication context, Guid objectID);
     }
 }

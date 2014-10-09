@@ -10,6 +10,7 @@ using TME.CarConfigurator.S3.Shared.Exceptions;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared;
 using TME.CarConfigurator.S3.Shared.Interfaces;
+using IContext = TME.CarConfigurator.Publisher.Interfaces.IContext;
 
 namespace TME.CarConfigurator.Publisher.S3
 {

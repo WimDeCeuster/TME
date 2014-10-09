@@ -6,6 +6,7 @@ using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryRepository.Interfaces;
 using TME.CarConfigurator.QueryRepository.Tests.TestBuilders;
+using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
@@ -20,7 +21,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
         private const string ModelName3 = "ModelForContextLanguageWithAnArchivedPublication";
 
         private IEnumerable<Repository.Objects.Model> _modelsFromRespository;
-        private IContext _context;
+        private Context _context;
         private IModels _models;
         private IModelFactory _modelFactory;
         private IModelRepository _modelRepository;
@@ -40,7 +41,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
 
             _modelRepository = S3ModelRepositoryBuilder.InitializeFakeRepository().Build();
             A.CallTo(() => _modelRepository.GetModels(null))
-                .WhenArgumentsMatch(args => TestHelpers.Context.AreEqual((IContext) args[0], _context))
+                .WhenArgumentsMatch(args => TestHelpers.Context.AreEqual((Context)args[0], _context))
                 .Returns(_modelsFromRespository);
         }
 
@@ -135,7 +136,7 @@ namespace TME.CarConfigurator.QueryRepository.Tests.GivenModels
             A.CallTo(() => _modelRepository.GetModels(null))
                 .WhenArgumentsMatch(args =>
                 {
-                    var contextInArgs = (IContext) args[0];
+                    var contextInArgs = (Context)args[0];
                     return TestHelpers.Context.AreEqual(contextInArgs, _context);
                 })
                 .MustHaveHappened(Repeated.Exactly.Once);

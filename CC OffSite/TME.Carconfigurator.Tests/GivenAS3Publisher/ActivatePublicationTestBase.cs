@@ -11,6 +11,7 @@ using TME.CarConfigurator.S3.Shared.Result;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Publisher.Enums;
 using TME.CarConfigurator.Publisher.S3;
+using Context = TME.CarConfigurator.Publisher.Context;
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {

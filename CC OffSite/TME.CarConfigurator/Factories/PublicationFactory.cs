@@ -18,7 +18,7 @@ namespace TME.CarConfigurator.Factories
             _publicationRepository = publicationRepository;
         }
 
-        public Publication GetPublication(Repository.Objects.Model repositoryModel, IContext context)
+        public Publication GetPublication(Repository.Objects.Model repositoryModel, Context context)
         {
             var publicationInfo = repositoryModel.GetActivePublicationInfo();
 

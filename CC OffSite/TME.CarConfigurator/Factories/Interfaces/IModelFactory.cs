@@ -1,9 +1,10 @@
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.Factories.Interfaces
 {
     public interface IModelFactory
     {
-        IModels GetModels(IContext context);
+        IModels GetModels(Context context);
     }
 }

@@ -6,7 +6,7 @@ namespace TME.CarConfigurator.QueryRepository.Interfaces
 {
     public interface IModelRepository
     {
-        IEnumerable<Model> GetModels(IContext context);
+        IEnumerable<Model> GetModels(Context context);
     }
 }
 

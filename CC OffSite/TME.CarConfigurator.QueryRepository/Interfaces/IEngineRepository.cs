@@ -5,6 +5,6 @@ namespace TME.CarConfigurator.QueryRepository.Interfaces
 {
     public interface IEngineRepository
     {
-        IEnumerable<Engine> GetEngines(Repository.Objects.Context.PublicationTimeFrame context);
+        //IEnumerable<Engine> GetEngines(Repository.Objects.IContext.PublicationTimeFrame context);
     }
 }
