@@ -1,38 +1,33 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Repository.Objects;
 using TME.FrontEndViewer.Models;
 using TMME.CarConfigurator;
+using Model = TMME.CarConfigurator.Model;
 
 namespace TME.FrontEndViewer.Controllers
 {
     public class ModelsController : Controller
     {
-        private readonly MyContext _context;
+        private readonly MyContext _oldContext;
+        private readonly Context _newContext;
 
         public ModelsController()
         {
-            _context = MyContext.NewContext("BE", "nl");
+            _oldContext = MyContext.NewContext("DE", "DE", ReaderMode.Marketing);
+            _newContext = new Context {Brand = "Toyota", Country = "DE", Language = "DE"};
         }
 
         public ActionResult Index()
         {
-
             var model = new CompareView<IModel>
             {
-                OldReaderModel = TMME.CarConfigurator.Models.GetModels(_context)
+                OldReaderModel = TMME.CarConfigurator.Models.GetModels(_oldContext)
                                         .Cast<Model>()
-                                        .Select(x=> new CarConfigurator.LegacyAdapter.Model(x))
-                                        .Cast<IModel>()
-                                        .ToList(),
-                NewReaderModel = new List<IModel>() //TODO: provide implementation
+                                        .Select(x=> new CarConfigurator.LegacyAdapter.Model(x)),
+                NewReaderModel = CarConfigurator.Models.GetModels(_newContext)
             };
-
-
-            model.NewReaderModel.Add(model.OldReaderModel[0]);
-            model.NewReaderModel.Add(model.OldReaderModel[1]);
-            model.NewReaderModel.Add(model.OldReaderModel[3]);
 
             return View(model);
         }

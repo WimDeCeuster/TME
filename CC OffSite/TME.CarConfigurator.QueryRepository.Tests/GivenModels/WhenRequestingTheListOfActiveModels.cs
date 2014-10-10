@@ -6,6 +6,7 @@ using TME.CarConfigurator.Facades;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Facades;
 using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Query.Tests.GivenAModel;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
@@ -34,7 +35,9 @@ namespace TME.CarConfigurator.Query.Tests.GivenModels
 
             ArrangeModelsRepository();
 
-            var serviceFacade = new S3ServiceFacade()
+            var configurationManager = new ConfigurationManagerBuilder().Build();
+
+            var serviceFacade = new S3ServiceFacade(configurationManager)
                 .WithModelService(_modelService);
 
             _modelFactoryFacade = new ModelFactoryFacade()

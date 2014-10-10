@@ -34,6 +34,7 @@
       <HintPath>..\packages\Common.Logging.1.2.0\lib\1.0\Common.Logging.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -47,6 +48,7 @@
     <Compile Include="BodyType.cs" />
     <Compile Include="Car.cs" />
     <Compile Include="CarConfiguratorVersion.cs" />
+    <Compile Include="Configuration\ConfigurationManager.cs" />
     <Compile Include="Core\BaseObject.cs" />
     <Compile Include="Core\ReadOnlyList.cs" />
     <Compile Include="Engine.cs" />

@@ -4,7 +4,7 @@ namespace TME.FrontEndViewer.Models
 {
     public class CompareView<T>
     {
-        public IList<T> OldReaderModel { get; set; }
-        public IList<T> NewReaderModel { get; set; }
+        public IEnumerable<T> OldReaderModel { get; set; }
+        public IEnumerable<T> NewReaderModel { get; set; }
     }
 }
