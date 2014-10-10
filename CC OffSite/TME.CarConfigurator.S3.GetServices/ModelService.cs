@@ -25,9 +25,11 @@ namespace TME.CarConfigurator.S3.QueryServices
         {
             var languages = GetModelsByLanguage(context.Brand, context.Country);
 
-            var language = languages.Single(l => l.Code.Equals(context.Language, StringComparison.InvariantCultureIgnoreCase));
+            var language = languages.SingleOrDefault(l => l.Code.Equals(context.Language, StringComparison.InvariantCultureIgnoreCase));
 
-            return language.Models;
+            if (language !=null) return language.Models;
+
+            throw new CountryLanguageCombinationDoesNotExistException(context.Country, context.Language);
         }
 
         public Languages GetModelsByLanguage(string brand, string country)
@@ -44,5 +46,13 @@ namespace TME.CarConfigurator.S3.QueryServices
                 return new Languages();
             }
         }
+    }
+
+    public class CountryLanguageCombinationDoesNotExistException : Exception
+    {
+        public CountryLanguageCombinationDoesNotExistException(string country, string language): base(string.Format("The country/language combination {0}/{1} could not be retrieved.", country, language))
+    {
+
+    }
     }
 }
