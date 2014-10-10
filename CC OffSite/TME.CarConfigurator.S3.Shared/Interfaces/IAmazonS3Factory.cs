@@ -10,5 +10,6 @@ namespace TME.CarConfigurator.S3.Shared.Interfaces
     public interface IAmazonS3Factory
     {
         IAmazonS3 CreateInstance(String accessKey, String secretKey);
+        IAmazonS3 CreateInstance();
     }
 }

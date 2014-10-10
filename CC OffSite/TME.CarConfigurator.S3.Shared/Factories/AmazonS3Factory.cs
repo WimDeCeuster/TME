@@ -22,5 +22,11 @@ namespace TME.CarConfigurator.S3.Shared.Factories
 
             return client;
         }
+
+
+        public IAmazonS3 CreateInstance()
+        {
+            return new AmazonS3Client(Amazon.RegionEndpoint.EUWest1);
+        }
     }
 }
