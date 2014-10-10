@@ -57,12 +57,8 @@ namespace TME.CarConfigurator.Publisher
             foreach (var asset in modelGeneration.Assets)
             {
                 var newAsset = AutoMapper.Mapper.Map<Asset>(asset);
-                newAsset.Height = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).Height;
-                newAsset.Width = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).Width;
-                newAsset.PositionX = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).PositionX;
-                newAsset.PositionY = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).PositionY;
-                
-                assetList.Add(newAsset);
+                var assetDetails = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID);
+                assetList.Add(AutoMapper.Mapper.Map(assetDetails, newAsset));
             }
             return assetList;
         }
