@@ -42,11 +42,11 @@
     <Compile Include="Assets\IAsset.cs" />
     <Compile Include="Assets\IAssetType.cs" />
     <Compile Include="Assets\IFileType.cs" />
+    <Compile Include="Configuration\IConfigurationManager.cs" />
     <Compile Include="Facades\IModelFactoryFacade.cs" />
     <Compile Include="Facades\IServiceFacade.cs" />
     <Compile Include="Factories\IModelFactory.cs" />
     <Compile Include="Factories\IPublicationFactory.cs" />
-    <Compile Include="IConfigurationManager.cs" />
     <Compile Include="ITransmissionType.cs" />
     <Compile Include="ITransmission.cs" />
     <Compile Include="ICar.cs" />
@@ -75,9 +75,7 @@
       <Name>TME.CarConfigurator.Repository.Objects</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

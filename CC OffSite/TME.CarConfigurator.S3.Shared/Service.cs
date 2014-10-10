@@ -134,8 +134,9 @@ namespace TME.CarConfigurator.S3.Shared
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
 
             try
-            { 
-                var response = _client.GetObject(GetBucketName(brand, country), key);
+            {
+                var bucketName = GetBucketName(brand, country);
+                var response = _client.GetObject(bucketName, key);
 
                 using (var responseStream = response.ResponseStream)
                 using (var reader = new StreamReader(responseStream))
