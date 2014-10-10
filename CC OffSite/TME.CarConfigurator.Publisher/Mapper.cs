@@ -34,10 +34,10 @@ namespace TME.CarConfigurator.Publisher
                 contextData.Models.Add(AutoMapper.Mapper.Map<Model>(model));
 
                 FillModelLinks(model, modelGeneration, generation, brand, country, language, isPreview);
-                FillCars(modelGeneration, contextData);
                 FillGenerationAssets(modelGeneration, generation, brand, country, language);
                 FillGenerationBodyTypes(modelGeneration, contextData);
                 FillGenerationEngines(modelGeneration, contextData);
+                FillCars(modelGeneration, contextData);
 
                 context.TimeFrames[language] = GetTimeFrames(language, context);
             }
@@ -57,12 +57,8 @@ namespace TME.CarConfigurator.Publisher
             foreach (var asset in modelGeneration.Assets)
             {
                 var newAsset = AutoMapper.Mapper.Map<Asset>(asset);
-                newAsset.Height = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).Height;
-                newAsset.Width = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).Width;
-                newAsset.PositionX = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).PositionX;
-                newAsset.PositionY = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID).PositionY;
-                
-                assetList.Add(newAsset);
+                var assetDetails = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID);
+                assetList.Add(AutoMapper.Mapper.Map(assetDetails, newAsset));
             }
             return assetList;
         }
@@ -80,7 +76,11 @@ namespace TME.CarConfigurator.Publisher
         void FillCars(Administration.ModelGeneration modelGeneration, ContextData contextData)
         {
             foreach (var car in modelGeneration.Cars)
-                contextData.Cars.Add(AutoMapper.Mapper.Map<Car>(car));
+            {
+                var bodyType = contextData.GenerationBodyTypes.Single(type => type.ID == car.BodyTypeID);
+                var engine = contextData.GenerationEngines.Single(eng => eng.ID == car.EngineID);
+                contextData.Cars.Add(MapCar(car, bodyType, engine));
+            }
         }
 
         void FillGenerationBodyTypes(Administration.ModelGeneration modelGeneration, ContextData contextData)
@@ -191,6 +191,17 @@ namespace TME.CarConfigurator.Publisher
             
             return engine;
         }
+
+        Car MapCar(Administration.Car car, BodyType bodyType, Engine engine)
+        {
+            var mappedCar = AutoMapper.Mapper.Map<Car>(car);
+            mappedCar.BodyType = bodyType;
+            mappedCar.Engine = engine;
+            //mappedCar.Transmission = transmission;
+
+            return mappedCar;
+        }
+
 
         TDestination Map<TDestination>(object source1, object source2)
         {

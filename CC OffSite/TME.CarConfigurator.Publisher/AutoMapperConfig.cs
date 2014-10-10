@@ -30,6 +30,7 @@ namespace TME.CarConfigurator.Publisher
         {
             AutoMapper.Mapper.CreateMap<Administration.Brand, String>().ConvertUsing(brand => brand.Name);
             AutoMapper.Mapper.CreateMap<Administration.Translations.Label, Label>()
+
                 .ForMember(label => label.Code,
                            opt => opt.MapFrom(label => label.Definition.Code));
         }
@@ -37,7 +38,9 @@ namespace TME.CarConfigurator.Publisher
         public static void ConfigureModel()
         {
             AutoMapper.Mapper.CreateMap<Administration.Model, Model>()
-                .Translate(model => model.Name);
+                .Ignore(model => model.Publications)
+                .Localize(model => model.Name)
+                .Sort();
         }
 
         public static void ConfigureGeneration()
@@ -45,14 +48,15 @@ namespace TME.CarConfigurator.Publisher
             AutoMapper.Mapper.CreateMap<Administration.ModelGenerationCarConfiguratorVersion, CarConfiguratorVersion>();
 
             AutoMapper.Mapper.CreateMap<Administration.ModelGeneration, Generation>()
-                .ForMember(gen => gen.Links,
-                    opt => opt.Ignore())
+                .For(gen => gen.CarConfiguratorVersion, gen => gen.ActiveCarConfiguratorVersion)
+                .Ignore(gen => gen.SortIndex)
+                .Ignore(gen => gen.Links)
                 .ForMember(gen => gen.Assets,
                            opt => opt.MapFrom(modelGeneration => modelGeneration.Assets))
                 .ForMember(generation => generation.SSN,
                            opt => opt.MapFrom(modelGeneration =>
                                               modelGeneration.FactoryGenerations.Select(factoryGeneration => factoryGeneration.SSN).First()))
-                .Translate(modelGeneration => modelGeneration.Name);
+                .Localize(modelGeneration => modelGeneration.Name);
         }
 
         public static void ConfigureBodyType()
@@ -93,7 +97,8 @@ namespace TME.CarConfigurator.Publisher
 
             AutoMapper.Mapper.CreateMap<Administration.EngineCategory, EngineCategory>()
                 .Translate(engine => engine.Name)
-                .IgnoreLocalized()
+                .For(engine => engine.InternalCode, engine => engine.Code)
+                //.Ignore(engine => engine.LocalCode)
                 .Sort();
             
             AutoMapper.Mapper.CreateMap<Administration.EngineTypeInfo, EngineType>()
@@ -101,6 +106,7 @@ namespace TME.CarConfigurator.Publisher
 
             AutoMapper.Mapper.CreateMap<Administration.FuelType, FuelType>()
                 .Localize(fuelType => fuelType.Name)
+                //.ForMember(fuelType => fuelType.Hybrid, opt => opt.Ignore());
                 .Ignore(fuelType => fuelType.SortIndex);
         }
 
@@ -114,13 +120,35 @@ namespace TME.CarConfigurator.Publisher
 
         public static void ConfigureAssets()
         {
+            AutoMapper.Mapper.CreateMap<Administration.Assets.Enums.AssetScope, Repository.Objects.Assets.Enums.Scope>().ConvertUsing(source => {
+                switch(source)
+                {
+                    case Administration.Assets.Enums.AssetScope.Internal:
+                        return Repository.Objects.Assets.Enums.Scope.Internal;
+                    case Administration.Assets.Enums.AssetScope.Public:
+                        return Repository.Objects.Assets.Enums.Scope.Public;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            });
+
             AutoMapper.Mapper.CreateMap<Administration.FileType, FileType>();
+
             AutoMapper.Mapper.CreateMap<Administration.Assets.AssetType, AssetType>()
-                .ForMember(assetType => assetType.Mode,opt => opt.MapFrom(assetType => assetType.Details.Mode))
-                .ForMember(assetType => assetType.Side,opt => opt.MapFrom(assetType => assetType.Details.Side))
+                .ForMember(assetType => assetType.Scope, opt => opt.MapFrom(assetType => assetType.Group.Scope))
+                .ForMember(assetType => assetType.Mode, opt => opt.MapFrom(assetType => assetType.Details.Mode))
+                .ForMember(assetType => assetType.Side, opt => opt.MapFrom(assetType => assetType.Details.Side))
                 .ForMember(assetType => assetType.View,opt => opt.MapFrom(assetType => assetType.Details.View))
                 .ForMember(assetType => assetType.Type,opt => opt.MapFrom(assetType => assetType.Details.Type));
-            AutoMapper.Mapper.CreateMap<Administration.Assets.LinkedAsset, Asset>();
+
+            AutoMapper.Mapper.CreateMap<Administration.Assets.DetailedAssetInfo, Asset>()
+                .Ignore(asset => asset.ShortID);
+
+            AutoMapper.Mapper.CreateMap<Administration.Assets.LinkedAsset, Asset>()
+                .Ignore(asset => asset.Height)
+                .Ignore(asset => asset.Width)
+                .Ignore(asset => asset.PositionX)
+                .Ignore(asset => asset.PositionY);
         }
 
         static AutoMapper.IMappingExpression<TSource, TDestination> Localize<TSource, TDestination>(
@@ -174,6 +202,13 @@ namespace TME.CarConfigurator.Publisher
             Expression<Func<TDestination, Object>> property)
         {
             return mapping.ForMember(property, opt => opt.Ignore());
+        }
+
+        static AutoMapper.IMappingExpression<TSource, TDestination> For<TSource, TDestination>(
+            this AutoMapper.IMappingExpression<TSource, TDestination> mapping,
+            Expression<Func<TDestination, Object>> destinationProperty, Expression<Func<TSource, Object>> sourceProperty)
+        {
+            return mapping.ForMember(destinationProperty, opt => opt.MapFrom(sourceProperty));
         }
 
         static String DefaultIfEmpty(this String str, String defaultStr)
