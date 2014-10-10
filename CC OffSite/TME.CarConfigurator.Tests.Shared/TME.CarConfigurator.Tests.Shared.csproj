@@ -53,9 +53,6 @@
     <Compile Include="TestBuilders\RepositoryObjects\ModelBuilder.cs" />
     <Compile Include="TestBuilders\RepositoryObjects\PublicationBuilder.cs" />
     <Compile Include="TestBuilders\RepositoryObjects\PublicationInfoBuilder.cs" />
-    <Compile Include="TestBuilders\S3\KeyManagerBuilder.cs" />
-    <Compile Include="TestBuilders\S3\S3ServiceBuilder.cs" />
-    <Compile Include="TestBuilders\S3\SerializerBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

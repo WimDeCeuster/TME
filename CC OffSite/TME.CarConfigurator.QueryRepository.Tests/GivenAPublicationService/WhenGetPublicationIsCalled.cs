@@ -4,9 +4,9 @@ using FluentAssertions;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
-using TME.CarConfigurator.Tests.Shared.TestBuilders.S3;
 using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAPublicationService
@@ -21,8 +21,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenAPublicationService
         protected override void Arrange()
         {
             const string brand = "a brand";
-            const string country = "a country"; 
-            
+            const string country = "a country";
+
             _context = ContextBuilder.Initialize()
                  .WithBrand(brand)
                  .WithCountry(country)
@@ -30,14 +30,14 @@ namespace TME.CarConfigurator.Query.Tests.GivenAPublicationService
 
             const string s3Key = "fake s3 key";
             const string serializedObject = "this object is serialized";
-            
+
             _expectedPublication = PublicationBuilder.Initialize()
                 .WithID(Guid.NewGuid())
                 .Build();
 
-            var serialiser = SerializerBuilder.InitializeFake().Build();
-            var service = S3ServiceBuilder.InitializeFake().Build();
-            var keyManager = KeyManagerBuilder.InitializeFake().Build();
+            var serialiser = A.Fake<ISerialiser>();
+            var service = A.Fake<IService>();
+            var keyManager = A.Fake<IKeyManager>();
 
             A.CallTo(() => keyManager.GetPublicationKey(A<Guid>._)).Returns(s3Key);
             A.CallTo(() => service.GetObject(brand, country, s3Key)).Returns(serializedObject);

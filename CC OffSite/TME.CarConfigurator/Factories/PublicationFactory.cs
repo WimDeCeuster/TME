@@ -1,6 +1,6 @@
 using System;
 using TME.CarConfigurator.Extensions;
-using TME.CarConfigurator.Factories.Interfaces;
+using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 

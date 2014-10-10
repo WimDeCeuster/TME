@@ -1,7 +1,6 @@
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 
-namespace TME.CarConfigurator.Factories.Interfaces
+namespace TME.CarConfigurator.Interfaces.Factories
 {
     public interface IModelFactory
     {

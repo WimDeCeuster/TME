@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AWSSDK">
+      <HintPath>..\packages\AWSSDK.2.3.1.0\lib\net45\AWSSDK.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,6 +44,29 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
+      <Project>{EFDB033C-66A8-40BB-B596-561F45E6C7F7}</Project>
+      <Name>TME.CarConfigurator.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.QueryServices\TME.CarConfigurator.QueryServices.csproj">
+      <Project>{37F53701-A371-44CC-B2F5-886910FBA751}</Project>
+      <Name>TME.CarConfigurator.QueryServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.QueryServices.csproj">
+      <Project>{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}</Project>
+      <Name>TME.CarConfigurator.S3.QueryServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.Shared\TME.CarConfigurator.S3.Shared.csproj">
+      <Project>{07BE5767-ABBA-4DC4-BB09-F1CE85CAC7FC}</Project>
+      <Name>TME.CarConfigurator.S3.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator\TME.CarConfigurator.csproj">
+      <Project>{89489B1E-DFAA-4164-93C3-A79859368CF8}</Project>
+      <Name>TME.CarConfigurator</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,6 +1,6 @@
 using FakeItEasy;
 using TME.CarConfigurator.Factories;
-using TME.CarConfigurator.Factories.Interfaces;
+using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.QueryServices;
 
 namespace TME.CarConfigurator.Query.Tests.TestBuilders
