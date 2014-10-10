@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.S3.QueryServices.Exceptions;
 using TME.CarConfigurator.S3.Shared.Exceptions;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
@@ -46,13 +47,5 @@ namespace TME.CarConfigurator.S3.QueryServices
                 return new Languages();
             }
         }
-    }
-
-    public class CountryLanguageCombinationDoesNotExistException : Exception
-    {
-        public CountryLanguageCombinationDoesNotExistException(string country, string language): base(string.Format("The country/language combination {0}/{1} could not be retrieved.", country, language))
-    {
-
-    }
     }
 }
