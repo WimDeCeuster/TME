@@ -4,7 +4,6 @@ using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.UI.DI.Interfaces;
 using TME.CarConfigurator.S3.Shared.Interfaces;
-using IPublicationService = TME.CarConfigurator.Publisher.Interfaces.IPublicationService;
 
 namespace TME.CarConfigurator.Publisher.UI.DI.Factories
 {
@@ -25,11 +24,18 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
             return (IService)ContextRegistry.GetContext().GetObject(String.Format("{0}{1}S3Service", environment, dataSubset.ToString()));
         }
 
-        public IModelService GetLanguageService(String environment, PublicationDataSubset dataSubset)
+        public QueryServices.IModelService GetGetModelService(String environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
-        
-            return (IModelService)ContextRegistry.GetContext().GetObject("S3LanguageService", new Object[] { service, _serialiser, _keyManager });
+
+            return (QueryServices.IModelService)ContextRegistry.GetContext().GetObject("S3GetModelService", new Object[] { _serialiser, service, _keyManager });
+        }
+
+        public IModelService GetPutModelService(String environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return (IModelService)ContextRegistry.GetContext().GetObject("S3PutModelService", new Object[] { service, _serialiser, _keyManager });
         }
 
         public IPublicationService GetPublicationService(String environment, PublicationDataSubset dataSubset)

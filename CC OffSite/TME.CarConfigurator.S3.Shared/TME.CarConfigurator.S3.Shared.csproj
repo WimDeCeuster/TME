@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\ObjectNotFoundException.cs" />
     <Compile Include="Factories\AmazonS3Factory.cs" />
+    <Compile Include="Interfaces\IAmazonS3Factory.cs" />
     <Compile Include="Interfaces\IKeyManager.cs" />
     <Compile Include="Interfaces\ISerialiser.cs" />
     <Compile Include="Interfaces\IService.cs" />

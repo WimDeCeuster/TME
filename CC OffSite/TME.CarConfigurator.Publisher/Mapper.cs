@@ -85,14 +85,21 @@ namespace TME.CarConfigurator.Publisher
 
         void FillGenerationBodyTypes(Administration.ModelGeneration modelGeneration, ContextData contextData)
         {
-            foreach (var bodyType in modelGeneration.BodyTypes)
-                contextData.GenerationBodyTypes.Add(AutoMapper.Mapper.Map<BodyType>(Tuple.Create(bodyType, Administration.BodyTypes.GetBodyTypes()[bodyType.ID])));
+            foreach (var bodyType in modelGeneration.BodyTypes) { 
+                var globalBodyType = Administration.BodyTypes.GetBodyTypes()[bodyType.ID];
+                contextData.GenerationBodyTypes.Add(MapBodyType(bodyType, globalBodyType));
+            }
         }
 
         void FillGenerationEngines(Administration.ModelGeneration modelGeneration, ContextData contextData)
         {
             foreach (var engine in modelGeneration.Engines)
-                contextData.GenerationEngines.Add(AutoMapper.Mapper.Map<Engine>(engine));
+            {
+                var globalEngine = Administration.Engines.GetEngines()[engine.ID];
+                var engineCategory = Administration.EngineCategories.GetEngineCategories()[globalEngine.Category.ID];
+                var fuelType = Administration.FuelTypes.GetFuelTypes()[globalEngine.Type.FuelType.ID];
+                contextData.GenerationEngines.Add(MapEngine(engine, globalEngine, engineCategory, fuelType));
+            }
         }
 
         Link GetLink(Administration.Link link, String countryCode, String languageCode, Boolean isPreview)
@@ -167,6 +174,27 @@ namespace TME.CarConfigurator.Publisher
             }
 
             return timeFrames;
+        }
+
+        BodyType MapBodyType(Administration.ModelGenerationBodyType generationBodyType, Administration.BodyType globalBodyType)
+        {
+            return Map<BodyType>(generationBodyType, globalBodyType);
+        }
+
+        Engine MapEngine(Administration.ModelGenerationEngine generationEngine, Administration.Engine globalEngine, Administration.EngineCategory engineCategory, Administration.FuelType fuelType)
+        {
+            var engine = AutoMapper.Mapper.Map<Engine>(generationEngine);
+            AutoMapper.Mapper.Map(globalEngine, engine);
+
+            engine.Category = AutoMapper.Mapper.Map<EngineCategory>(engineCategory);
+            engine.Type.FuelType = AutoMapper.Mapper.Map<FuelType>(fuelType);
+            
+            return engine;
+        }
+
+        TDestination Map<TDestination>(object source1, object source2)
+        {
+            return (TDestination)AutoMapper.Mapper.Map(source2, AutoMapper.Mapper.Map<TDestination>(source1), source2.GetType(), typeof(TDestination));
         }
     }
 }

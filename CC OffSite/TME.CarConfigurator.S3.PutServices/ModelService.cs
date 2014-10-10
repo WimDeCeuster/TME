@@ -17,9 +17,9 @@ namespace TME.CarConfigurator.S3.CommandServices
 
         public ModelService(IService service, ISerialiser serialiser, IKeyManager keyManager)
         {
-            _service = service ?? new Service(null);
-            _serialiser = serialiser ?? new Serialiser();
-            _keyManager = keyManager ?? new KeyManager();
+            _service = service;
+            _serialiser = serialiser;
+            _keyManager = keyManager;
         }
 
         public async Task<Result> PutModelsByLanguage(IContext context, Languages languages)

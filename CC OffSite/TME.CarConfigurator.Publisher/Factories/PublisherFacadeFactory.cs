@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Spring.Context.Support;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,11 +8,11 @@ using TME.CarConfigurator.Publisher.Interfaces;
 
 namespace TME.CarConfigurator.Publisher.Factories
 {
-    public class PublisherFacadeFactory
+    public class PublisherFacadeFactory : IPublisherFacadeFactory
     {
         public IPublisherFacade GetFacade(String target)
         {
-            throw new NotImplementedException();
+            return (IPublisherFacade)ContextRegistry.GetContext().GetObject(String.Format("{0}PublisherFacade", target));
         }
     }
 }

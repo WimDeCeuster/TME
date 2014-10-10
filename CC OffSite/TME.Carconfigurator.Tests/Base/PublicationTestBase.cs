@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using FakeItEasy;
-using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
@@ -11,6 +10,8 @@ using System.Threading.Tasks;
 using TME.CarConfigurator.S3.Shared.Result;
 using System.Collections.Generic;
 using TME.CarConfigurator.S3.Shared.Interfaces;
+using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.CommandServices;
 
 namespace TME.Carconfigurator.Tests.Base
 {
@@ -21,7 +22,7 @@ namespace TME.Carconfigurator.Tests.Base
         protected CarConfigurator.QueryServices.IModelService GetModelService;
         protected IBodyTypeService BodyTypeService;
         protected IEngineService EngineService;
-        protected S3Publisher Publisher;
+        protected Publisher Publisher;
         protected ISerialiser Serialiser;
         protected IContext Context;
         protected String Brand = "Toyota";
@@ -44,7 +45,7 @@ namespace TME.Carconfigurator.Tests.Base
 
             Serialiser = A.Fake<ISerialiser>();
 
-            Publisher = new S3Publisher(PublicationService, PutModelService, GetModelService, BodyTypeService, EngineService);
+            Publisher = new Publisher(PublicationService, PutModelService, GetModelService, BodyTypeService, EngineService);
             Context = ContextBuilder.GetDefaultContext(Languages);
 
             A.CallTo(() => Serialiser.Serialise((Publication)null)).WithAnyArguments().ReturnsLazily(args => args.Arguments.First().GetType().Name);

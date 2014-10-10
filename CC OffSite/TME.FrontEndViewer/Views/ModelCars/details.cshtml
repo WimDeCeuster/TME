@@ -1,0 +1,18 @@
+﻿@model IList<TME.CarConfigurator.Interfaces.ICar>
+
+
+@foreach (var model in Model)
+{
+    <div class="clickable">
+        <table class="top">
+            <tr>
+                <td>
+                    <b>@Html.Raw(model.Name)</b>
+                </td>
+            </tr>
+        </table>
+        <div class="clickable object" data-id="@Html.Raw(model.ID)">
+            @Html.Partial("_baseObject", model)
+        </div>
+    </div>
+}

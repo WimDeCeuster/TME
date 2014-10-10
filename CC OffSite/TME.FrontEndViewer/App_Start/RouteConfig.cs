@@ -16,7 +16,7 @@ namespace TME.FrontEndViewer
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "ToyotaView", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Models", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

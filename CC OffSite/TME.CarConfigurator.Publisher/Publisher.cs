@@ -12,7 +12,7 @@ using TME.CarConfigurator.S3.Shared.Result;
 
 namespace TME.CarConfigurator.Publisher
 {
-    public class S3Publisher : IPublisher
+    public class Publisher : IPublisher
     {
         readonly CommandServices.IPublicationService _publicationService;
         readonly IModelService _putModelService;
@@ -20,14 +20,8 @@ namespace TME.CarConfigurator.Publisher
         readonly IBodyTypeService _bodyTypeService;
         readonly IEngineService _engineService;
 
-        public S3Publisher(CommandServices.IPublicationService publicationService, IModelService putModelService, QueryServices.IModelService getModelService, IBodyTypeService bodyTypeService, IEngineService engineService)
+        public Publisher(CommandServices.IPublicationService publicationService, IModelService putModelService, QueryServices.IModelService getModelService, IBodyTypeService bodyTypeService, IEngineService engineService)
         {
-            if (publicationService == null) throw new ArgumentNullException("publicationService");
-            if (putModelService == null) throw new ArgumentNullException("putModelService");
-            if (getModelService == null) throw new ArgumentNullException("getModelService");
-            if (bodyTypeService == null) throw new ArgumentNullException("bodyTypeService");
-            if (engineService == null) throw new ArgumentNullException("engineService");
-
             _publicationService = publicationService;
             _putModelService = putModelService;
             _getModelService = getModelService;

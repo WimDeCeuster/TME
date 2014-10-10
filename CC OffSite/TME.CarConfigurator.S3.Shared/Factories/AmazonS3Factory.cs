@@ -5,15 +5,19 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.S3.Shared.Factories
 {
-    public class AmazonS3Factory
+    public class AmazonS3Factory : IAmazonS3Factory
     {
-        public IAmazonS3 CreateInstance()
+        public IAmazonS3 CreateInstance(String accessKey, String secretKey)
         {
-            var accessKey = ConfigurationManager.AppSettings["AWSKey"];
-            var secretKey = ConfigurationManager.AppSettings["AWSSecretKey"];
+            if (accessKey == null) throw new ArgumentNullException("acccessKey");
+            if (secretKey == null) throw new ArgumentNullException("secretKey");
+            if (String.IsNullOrWhiteSpace(accessKey)) throw new ArgumentException("accessKey cannot be empty");
+            if (String.IsNullOrWhiteSpace(secretKey)) throw new ArgumentException("secretKey cannot be empty");
+
             var client = new AmazonS3Client(accessKey, secretKey, Amazon.RegionEndpoint.EUWest1);
 
             return client;
