@@ -4,7 +4,6 @@ using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.FrontEndViewer.Models;
 using TMME.CarConfigurator;
-using Model = TMME.CarConfigurator.Model;
 
 namespace TME.FrontEndViewer.Controllers
 {
@@ -24,7 +23,7 @@ namespace TME.FrontEndViewer.Controllers
             var model = new CompareView<IModel>
             {
                 OldReaderModel = TMME.CarConfigurator.Models.GetModels(_oldContext)
-                                        .Cast<Model>()
+                                        .Cast<TMME.CarConfigurator.Model>()
                                         .Select(x=> new CarConfigurator.LegacyAdapter.Model(x)),
                 NewReaderModel = CarConfigurator.Models.GetModels(_newContext)
             };

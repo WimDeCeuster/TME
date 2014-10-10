@@ -4,5 +4,7 @@ namespace TME.CarConfigurator.Interfaces.Configuration
     {
         string Environment { get; }
         string DataSubset { get; }
+        string AmazonAccessKeyId { get; }
+        string AmazonSecretAccessKey { get; }
     }
 }
