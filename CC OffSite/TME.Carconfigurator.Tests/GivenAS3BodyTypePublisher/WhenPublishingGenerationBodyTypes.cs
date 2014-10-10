@@ -12,6 +12,7 @@ using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.S3.Publisher;
+using TME.CarConfigurator.Publisher.Interfaces;
 
 namespace TME.Carconfigurator.Tests.GivenAS3BodyTypePublisher
 {
