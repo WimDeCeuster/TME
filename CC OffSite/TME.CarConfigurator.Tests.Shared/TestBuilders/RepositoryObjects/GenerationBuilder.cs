@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
 {
@@ -6,21 +8,29 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
     {
         private readonly Generation _generation;
 
-        private GenerationBuilder(Generation generation)
+        public GenerationBuilder()
         {
-            _generation = generation;
+            _generation = new Generation();
         }
 
         public static GenerationBuilder Initialize()
         {
-            var generation = new Generation();
-
-            return new GenerationBuilder(generation);
+            return new GenerationBuilder();
         }
 
         public GenerationBuilder WithSsn(string ssn)
         {
             _generation.SSN = ssn;
+
+            return this;
+        }
+
+        public GenerationBuilder AddAsset(Asset asset)
+        {
+            if (_generation.Assets == null) 
+                _generation.Assets = new List<Asset>();
+
+            _generation.Assets.Add(asset);
 
             return this;
         }

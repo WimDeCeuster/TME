@@ -32,7 +32,7 @@ namespace TME.CarConfigurator
 
         public IEnumerable<ILink> Links { get { throw new NotImplementedException(); } }
 
-        public IEnumerable<IAsset> Assets { get { throw new NotImplementedException(); } }
+        public IEnumerable<IAsset> Assets { get { return new List<IAsset>(); } }
 
         public IEnumerable<IBodyType> BodyTypes { get { throw new NotImplementedException(); } }
 

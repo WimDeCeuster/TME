@@ -6,21 +6,16 @@ using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator
 {
-    public class Models : List<IModel>, IModels
+    public class Models : List<IModel>
     {
-        public Models(IEnumerable<IModel> intermediateModels)
-            : base(intermediateModels)
-        {
-        }
-
-        public static IModels GetModels(Context context)
+        public static IEnumerable<IModel> GetModels(Context context)
         {
             var modelFactoryFacade = new ModelFactoryFacade();
 
             return GetModels(context, modelFactoryFacade);
         }
 
-        public static IModels GetModels(Context context, IModelFactoryFacade modelFactoryFacade)
+        public static IEnumerable<IModel> GetModels(Context context, IModelFactoryFacade modelFactoryFacade)
         {
             var modelFactory = modelFactoryFacade.Create();
 

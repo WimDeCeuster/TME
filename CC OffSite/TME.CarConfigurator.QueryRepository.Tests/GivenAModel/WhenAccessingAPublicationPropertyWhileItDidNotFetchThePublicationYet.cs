@@ -22,7 +22,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         private string _actualSsn;
         private string _expectedSsn;
         private IPublicationFactory _publicationFactory;
-        private IPublicationService _publicationRepository;
+        private IPublicationService _publicationService;
         private Context _context;
 
         protected override void Arrange()
@@ -41,9 +41,9 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
 
         private void ArrangePublicationFactory()
         {
-            _publicationRepository = A.Fake<IPublicationService>();
+            _publicationService = A.Fake<IPublicationService>();
 
-            A.CallTo(() => _publicationRepository.GetPublication(_publicationID, _context))
+            A.CallTo(() => _publicationService.GetPublication(_publicationID, _context))
                 .Returns(
                     PublicationBuilder.Initialize()
                         .WithGeneration(GenerationBuilder.Initialize()
@@ -53,7 +53,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
                     .Build());
 
             _publicationFactory = PublicationFactoryBuilder.Initialize()
-                .WithPublicationService(_publicationRepository)
+                .WithPublicationService(_publicationService)
                 .Build();
         }
 
@@ -87,7 +87,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         [Fact]
         public void ThenItShouldGetThePublicationFromThePublicationFactory()
         {
-            A.CallTo(() => _publicationRepository.GetPublication(_publicationID, _context)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _publicationService.GetPublication(_publicationID, _context)).MustHaveHappened(Repeated.Exactly.Once);
 
         }
 

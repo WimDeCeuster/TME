@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Facades;
@@ -23,13 +24,13 @@ namespace TME.CarConfigurator.Factories
             _publicationFactory = publicationFactory;
         }
 
-        public IModels GetModels(Context context)
+        public IEnumerable<IModel> GetModels(Context context)
         {
             var repositoryModels = _serviceFacade.GetModels(context).Where(HasActivePublicationsThatAreCurrentlyAvailable);
 
             var convertedModels = repositoryModels.Select(repositoryModel => CreateModel(repositoryModel, context));
 
-            return new Models(convertedModels); 
+            return convertedModels;
         }
 
         private static bool HasActivePublicationsThatAreCurrentlyAvailable(Repository.Objects.Model model)
