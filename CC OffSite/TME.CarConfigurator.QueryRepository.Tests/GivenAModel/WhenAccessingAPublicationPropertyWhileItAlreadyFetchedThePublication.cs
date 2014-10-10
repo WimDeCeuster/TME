@@ -17,7 +17,7 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAModel
 {
-    public class WhenAccessingAPublicationProertyWhileItAlreadyFetchedThePublication : TestBase
+    public class WhenAccessingAPublicationPropertyWhileItAlreadyFetchedThePublication : TestBase
     {
         private Guid _publicationID;
         private IModel _model;
@@ -113,6 +113,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
 
             A.CallTo(() => _configurationManager.DataSubset).Returns("preview");
             A.CallTo(() => _configurationManager.Environment).Returns("development");
+            A.CallTo(() => _configurationManager.AmazonAccessKeyId).Returns("access key id");
+            A.CallTo(() => _configurationManager.AmazonSecretAccessKey).Returns("secret access key");
         }
 
         public IConfigurationManager Build()

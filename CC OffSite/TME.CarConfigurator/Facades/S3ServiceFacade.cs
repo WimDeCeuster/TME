@@ -22,7 +22,7 @@ namespace TME.CarConfigurator.Facades
 
         public IService Service
         {
-            get { return _service ?? new Service(_configurationManager.Environment, _configurationManager.DataSubset, new AmazonS3Factory()); }
+            get { return _service ?? new Service(_configurationManager.Environment, _configurationManager.DataSubset, _configurationManager.AmazonAccessKeyId, _configurationManager.AmazonSecretAccessKey, new AmazonS3Factory()); }
         }
 
         public IKeyManager KeyManager
