@@ -1,9 +1,5 @@
 ﻿using Spring.Context.Support;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.UI.DI.Interfaces;
