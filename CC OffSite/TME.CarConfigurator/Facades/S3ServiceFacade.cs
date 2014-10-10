@@ -20,7 +20,7 @@ namespace TME.CarConfigurator.Facades
             var amazonS3Factory = new AmazonS3Factory();
 
 
-            _service = new Service("ffake", "fake", "fake", amazonS3Factory); // TODO: initialize with correct values, from config
+            _service = new Service("alsofake", "ffake", "fake", "fake", amazonS3Factory); // TODO: initialize with correct values, from config
             _keyManager = new KeyManager();
             _serializer = new Serialiser();
         }
