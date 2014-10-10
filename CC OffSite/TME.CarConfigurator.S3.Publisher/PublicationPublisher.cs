@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
@@ -12,7 +10,7 @@ namespace TME.CarConfigurator.S3.Publisher
 {
     public class PublicationPublisher : IPublicationPublisher
     {
-        IPublicationService _publicationService;
+        readonly IPublicationService _publicationService;
 
         public PublicationPublisher(IPublicationService publicationService)
         {

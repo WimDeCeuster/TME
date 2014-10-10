@@ -83,6 +83,7 @@
     <Compile Include="CarDbModelGenerationFinder.cs" />
     <Compile Include="Factories\ContextFactory.cs" />
     <Compile Include="Factories\PublisherFacadeFactory.cs" />
+    <Compile Include="Interfaces\IAssetPublisher.cs" />
     <Compile Include="Interfaces\IBodyTypePublisher.cs" />
     <Compile Include="Interfaces\ICarDbModelGenerationFinder.cs" />
     <Compile Include="Interfaces\IContextFactory.cs" />
