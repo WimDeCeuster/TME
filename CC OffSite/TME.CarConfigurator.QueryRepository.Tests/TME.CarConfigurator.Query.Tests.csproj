@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GivenALanguageService\WhenGetLanguagesIsCalled.cs" />
-    <Compile Include="GivenAModel\WhenAccessingAPublicationProertyWhileItAlreadyFetchedThePublication.cs" />
+    <Compile Include="GivenAModel\WhenAccessingAPublicationPropertyWhileItAlreadyFetchedThePublication.cs" />
     <Compile Include="GivenAModel\WhenAccessingAPublicationPropertyWhileItDidNotFetchThePublicationYet.cs" />
     <Compile Include="GivenAPublicationService\WhenGetPublicationIsCalled.cs" />
     <Compile Include="GivenModels\WhenRequestingTheListOfActiveModels.cs" />
