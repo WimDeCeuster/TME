@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
-using TME.CarConfigurator.Factories.Interfaces;
+using TME.CarConfigurator.Facades;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
@@ -69,10 +70,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
             var modelService = A.Fake<IModelService>();
             A.CallTo(() => modelService.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
-            return ModelFactoryBuilder.Initialize()
-                .WithModelService(modelService)
+            var serviceFacade = new S3ServiceFacade()
+                .WithModelService(modelService);
+
+            return new ModelFactoryFacade()
+                .WithServiceFacade(serviceFacade)
                 .WithPublicationFactory(_publicationFactory)
-                .Build();
+                .Create();
         }
 
         protected override void Act()

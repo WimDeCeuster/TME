@@ -53,8 +53,8 @@
     <Compile Include="EngineCategory.cs" />
     <Compile Include="EngineType.cs" />
     <Compile Include="Extensions\RepositoryModelExtensions.cs" />
-    <Compile Include="Factories\Interfaces\IModelFactory.cs" />
-    <Compile Include="Factories\Interfaces\IPublicationFactory.cs" />
+    <Compile Include="Facades\ModelFactoryFacade.cs" />
+    <Compile Include="Facades\S3ServiceFacade.cs" />
     <Compile Include="Factories\ModelFactory.cs" />
     <Compile Include="Factories\PublicationFactory.cs" />
     <Compile Include="FileType.cs" />
@@ -80,6 +80,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.QueryServices.csproj">
       <Project>{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}</Project>
       <Name>TME.CarConfigurator.S3.QueryServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.Shared\TME.CarConfigurator.S3.Shared.csproj">
+      <Project>{07BE5767-ABBA-4DC4-BB09-F1CE85CAC7FC}</Project>
+      <Name>TME.CarConfigurator.S3.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

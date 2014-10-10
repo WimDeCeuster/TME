@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using TME.CarConfigurator.Factories.Interfaces;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
+using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator

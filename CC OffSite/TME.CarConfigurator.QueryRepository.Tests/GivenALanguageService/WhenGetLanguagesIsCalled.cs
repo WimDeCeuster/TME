@@ -3,9 +3,9 @@ using FluentAssertions;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
-using TME.CarConfigurator.Tests.Shared.TestBuilders.S3;
 using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenALanguageService
@@ -32,9 +32,9 @@ namespace TME.CarConfigurator.Query.Tests.GivenALanguageService
                 .AddLanguage(Language2)
                 .Build();
 
-            var serialiser = SerializerBuilder.InitializeFake().Build();
-            var keyManager = KeyManagerBuilder.InitializeFake().Build();
-            var s3Service = S3ServiceBuilder.InitializeFake().Build();
+            var serialiser = A.Fake<ISerialiser>();
+            var keyManager = A.Fake<IKeyManager>();
+            var s3Service = A.Fake<IService>();
 
 
             A.CallTo(() => keyManager.GetLanguagesKey()).Returns(s3Key);

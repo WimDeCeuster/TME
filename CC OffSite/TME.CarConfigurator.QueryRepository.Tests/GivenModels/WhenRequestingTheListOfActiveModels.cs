@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using FakeItEasy;
 using FluentAssertions;
-using TME.CarConfigurator.Factories.Interfaces;
+using TME.CarConfigurator.Facades;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Interfaces.Facades;
+using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
@@ -23,8 +25,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenModels
         private IEnumerable<Repository.Objects.Model> _modelsFromRespository;
         private Context _context;
         private IModels _models;
-        private IModelFactory _modelFactory;
-        private IModelService _modelRepository;
+        private IModelFactoryFacade _modelFactoryFacade;
+        private IModelService _modelService;
 
         protected override void Arrange()
         {
@@ -32,15 +34,19 @@ namespace TME.CarConfigurator.Query.Tests.GivenModels
 
             ArrangeModelsRepository();
 
-            _modelFactory = ModelFactoryBuilder.Initialize().WithModelService(_modelRepository).Build();
+            var serviceFacade = new S3ServiceFacade()
+                .WithModelService(_modelService);
+
+            _modelFactoryFacade = new ModelFactoryFacade()
+                .WithServiceFacade(serviceFacade);
         }
 
         private void ArrangeModelsRepository()
         {
             ArrangeModelsFromRepository();
 
-            _modelRepository = ModelServiceBuilder.InitializeFakeService().Build();
-            A.CallTo(() => _modelRepository.GetModels(null))
+            _modelService = ModelServiceBuilder.InitializeFakeService().Build();
+            A.CallTo(() => _modelService.GetModels(null))
                 .WhenArgumentsMatch(args => TestHelpers.Context.AreEqual((Context)args[0], _context))
                 .Returns(_modelsFromRespository);
         }
@@ -127,13 +133,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenModels
 
         protected override void Act()
         {
-            _models = Models.GetModels(_context, _modelFactory);
+            _models = Models.GetModels(_context, _modelFactoryFacade);
         }
 
         [Fact]
         public void ThenTheListShouldBeFetchedFromTheRepository()
         {
-            A.CallTo(() => _modelRepository.GetModels(null))
+            A.CallTo(() => _modelService.GetModels(null))
                 .WhenArgumentsMatch(args =>
                 {
                     var contextInArgs = (Context)args[0];
