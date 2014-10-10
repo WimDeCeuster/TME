@@ -57,6 +57,7 @@ namespace TME.CarConfigurator.Publisher
             foreach (var asset in modelGeneration.Assets)
             {
                 var newAsset = AutoMapper.Mapper.Map<Asset>(asset);
+                newAsset.Hash = Administration.Assets.Asset.GetAsset(asset.ID).GetInfo().Hash;
                 var assetDetails = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID);
                 assetList.Add(AutoMapper.Mapper.Map(assetDetails, newAsset));
             }
