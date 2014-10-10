@@ -30,6 +30,7 @@ namespace TME.CarConfigurator.Publisher
         {
             AutoMapper.Mapper.CreateMap<Administration.Brand, String>().ConvertUsing(brand => brand.Name);
             AutoMapper.Mapper.CreateMap<Administration.Translations.Label, Label>()
+
                 .ForMember(label => label.Code,
                            opt => opt.MapFrom(label => label.Definition.Code));
         }
