@@ -1,16 +1,12 @@
-﻿using Amazon;
-using Amazon.Runtime;
+﻿using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
 using System.Threading.Tasks;
-using System.Configuration;
 using System.Collections.Generic;
 using System.IO;
 using System;
-using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Result;
 using TME.CarConfigurator.S3.Shared.Interfaces;
-using TME.CarConfigurator.S3.Shared.Factories;
 using TME.CarConfigurator.S3.Shared.Exceptions;
 
 namespace TME.CarConfigurator.S3.Shared

@@ -1,10 +1,5 @@
 ﻿using Amazon.S3;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.S3.Shared.Factories
@@ -13,20 +8,16 @@ namespace TME.CarConfigurator.S3.Shared.Factories
     {
         public IAmazonS3 CreateInstance(String accessKey, String secretKey)
         {
-            if (accessKey == null) throw new ArgumentNullException("acccessKey");
-            if (secretKey == null) throw new ArgumentNullException("secretKey");
-            if (String.IsNullOrWhiteSpace(accessKey)) throw new ArgumentException("accessKey cannot be empty");
-            if (String.IsNullOrWhiteSpace(secretKey)) throw new ArgumentException("secretKey cannot be empty");
+            if (String.IsNullOrWhiteSpace(accessKey)) throw new ArgumentNullException("accessKey");
+            if (String.IsNullOrWhiteSpace(secretKey)) throw new ArgumentNullException("secretKey");
 
-            var client = new AmazonS3Client(accessKey, secretKey, Amazon.RegionEndpoint.EUWest1);
-
-            return client;
+            return new AmazonS3Client(accessKey, secretKey, Amazon.RegionEndpoint.EUWest1);
         }
 
 
         public IAmazonS3 CreateInstance()
         {
-            return new AmazonS3Client(Amazon.RegionEndpoint.EUWest1);
+            return new AmazonS3Client(null, null, Amazon.RegionEndpoint.EUWest1);
         }
     }
 }

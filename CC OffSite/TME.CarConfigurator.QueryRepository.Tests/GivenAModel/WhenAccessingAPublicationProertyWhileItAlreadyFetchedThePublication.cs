@@ -5,6 +5,7 @@ using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.Facades;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Interfaces.Configuration;
 using TME.CarConfigurator.Interfaces.Facades;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
@@ -73,7 +74,9 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
             var modelService = A.Fake<IModelService>();
             A.CallTo(() => modelService.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
-            var serviceFacade = new S3ServiceFacade()
+            var configurationManager = new ConfigurationManagerBuilder().Build();
+
+            var serviceFacade = new S3ServiceFacade(configurationManager)
                 .WithModelService(modelService);
 
             return new ModelFactoryFacade()
@@ -97,6 +100,24 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         public void ThenItShouldStillGetTheCorrectValue()
         {
             _actualSsn.Should().Be(_expectedSsn);
+        }
+    }
+
+    internal class ConfigurationManagerBuilder
+    {
+        private readonly IConfigurationManager _configurationManager;
+
+        public ConfigurationManagerBuilder()
+        {
+            _configurationManager = A.Fake<IConfigurationManager>();
+
+            A.CallTo(() => _configurationManager.DataSubset).Returns("preview");
+            A.CallTo(() => _configurationManager.Environment).Returns("development");
+        }
+
+        public IConfigurationManager Build()
+        {
+            return _configurationManager;
         }
     }
 }

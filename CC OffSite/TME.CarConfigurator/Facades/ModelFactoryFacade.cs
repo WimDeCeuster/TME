@@ -33,6 +33,7 @@ namespace TME.CarConfigurator.Facades
         private void UseDefaultsWhenNoImplementationProvided()
         {
             _serviceFacade = _serviceFacade ?? new S3ServiceFacade();
+
             _publicationFactory = _publicationFactory ?? new PublicationFactory(_serviceFacade.CreatePublicationService());
         }
     }
