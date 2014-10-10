@@ -22,11 +22,13 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keyManager = keyManager;
         }
 
-        public async Task<Result> PutModelsByLanguage(IContext context, Languages languages)
+        public async Task<Result> PutModelsByLanguage(String brand, String country, Languages languages)
         {
-            if (context == null) throw new ArgumentNullException("context");
+            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand");
+            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
+            if (languages == null) throw new ArgumentNullException("languages");
 
-            return await _service.PutObjectAsync(context.Brand, context.Country, _keyManager.GetLanguagesKey(), _serialiser.Serialise(languages));
+            return await _service.PutObjectAsync(brand, country, _keyManager.GetLanguagesKey(), _serialiser.Serialise(languages));
         }
     }
 }

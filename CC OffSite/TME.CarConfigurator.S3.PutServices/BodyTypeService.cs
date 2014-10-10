@@ -25,46 +25,13 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keyManager = keyManager;
         }
 
-        public async Task<IEnumerable<Result>> PutGenerationBodyTypes(IContext context)
+        public async Task<Result> PutTimeFrameGenerationBodyTypes(String brand, String country, Guid publicationID, Guid timeFrameID, IEnumerable<BodyType> bodyTypes)
         {
-            if (context == null) throw new ArgumentNullException("context");
+            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand");
+            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
+            if (bodyTypes == null) throw new ArgumentNullException("bodyTypes");
 
-            var tasks = new List<Task<IEnumerable<Result>>>();
-
-            foreach (var entry in context.ContextData)
-            {
-                var language = entry.Key;
-                var data = entry.Value;
-                var timeFrames = context.TimeFrames[language];
-
-                tasks.Add(PutTimeFramesGenerationBodyTypes(context.Brand, context.Country, timeFrames, data));
-            }
-
-            var result = await Task.WhenAll(tasks);
-            return result.SelectMany(xs => xs);
-        }
-
-        async Task<IEnumerable<Result>> PutTimeFramesGenerationBodyTypes(String brand, String country, IEnumerable<TimeFrame> timeFrames, ContextData data)
-        {
-            var publication = data.Publication;
-
-            var bodyTypes = timeFrames.ToDictionary(
-                                timeFrame => data.Publication.TimeFrames.Single(publicationTimeFrame => publicationTimeFrame.ID == timeFrame.ID),
-                                timeFrame => data.GenerationBodyTypes.Where(bodyType =>
-                                                                            timeFrame.Cars.Any(car => car.BodyType.ID == bodyType.ID))
-                                                                     .ToList());
-
-            var tasks = new List<Task<Result>>();
-
-            foreach (var entry in bodyTypes)
-                tasks.Add(PutTimeFrameGenerationBodyTypes(brand, country, publication, entry.Key, entry.Value));
-
-            return await Task.WhenAll(tasks);
-        }
-
-        async Task<Result> PutTimeFrameGenerationBodyTypes(String brand, String country, Publication publication, PublicationTimeFrame timeFrame, IEnumerable<BodyType> bodyTypes)
-        {
-            var path = _keyManager.GetGenerationBodyTypesKey(publication.ID, timeFrame.ID);
+            var path = _keyManager.GetGenerationBodyTypesKey(publicationID, timeFrameID);
             var value = _serialiser.Serialise(bodyTypes);
 
             return await _service.PutObjectAsync(brand, country, path, value);

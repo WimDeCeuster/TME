@@ -8,7 +8,9 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
-namespace TME.Carconfigurator.Tests.GivenAS3PublicationService
+using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.S3.Publisher;
+namespace TME.Carconfigurator.Tests.GivenAS3PublicationPublisher
 {
     public class WhenPublishingAPublication : TestBase
     {
@@ -20,14 +22,17 @@ namespace TME.Carconfigurator.Tests.GivenAS3PublicationService
         const String _language2 = "lang 2";
         const String _publication1Key = "publication 1 key";
         const String _publication2Key = "publication 2 key";
+        Guid _publication1ID = Guid.NewGuid();
+        Guid _publication2ID = Guid.NewGuid();
         IService _s3Service;
         IPublicationService _service;
+        IPublicationPublisher _publisher;
         IContext _context;
 
         protected override void Arrange()
         {
-            var publication1 = new Publication { ID = Guid.NewGuid() };
-            var publication2 = new Publication { ID = Guid.NewGuid() };
+            var publication1 = new Publication { ID = _publication1ID };
+            var publication2 = new Publication { ID = _publication2ID };
 
             _context = ContextBuilder.InitialiseFakeContext()
                         .WithBrand(_brand)
@@ -43,6 +48,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3PublicationService
             var keyManager = A.Fake<IKeyManager>();
 
             _service = new PublicationService(_s3Service, serialiser, keyManager);
+            _publisher = new PublicationPublisher(_service);
 
             A.CallTo(() => serialiser.Serialise(publication1)).Returns(_serialisedPublication1);
             A.CallTo(() => serialiser.Serialise(publication2)).Returns(_serialisedPublication2);
@@ -52,7 +58,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3PublicationService
 
         protected override void Act()
         {
-            var result = _service.PutPublications(_context);
+            var result = _publisher.PublishPublications(_context);
         }
 
         [Fact]

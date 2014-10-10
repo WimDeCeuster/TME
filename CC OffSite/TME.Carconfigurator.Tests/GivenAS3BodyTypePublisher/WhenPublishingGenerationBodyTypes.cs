@@ -15,8 +15,10 @@ using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
+using TME.CarConfigurator.CommandServices;
+using TME.CarConfigurator.S3.Publisher;
 
-namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
+namespace TME.Carconfigurator.Tests.GivenAS3BodyTypePublisher
 {
     public class WhenPublishingGenerationBodyTypes : TestBase
     {
@@ -33,7 +35,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
         const String _timeFrame3BodyTypesKey = "time frame 3 body types key";
         const String _timeFrame4BodyTypesKey = "time frame 4 body types key";
         IService _s3Service;
-        BodyTypeService _service;
+        IBodyTypeService _service;
+        IBodyTypePublisher _publisher;
         IContext _context;
 
         protected override void Arrange()
@@ -93,6 +96,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
             var keyManager = A.Fake<IKeyManager>();
 
             _service = new BodyTypeService(_s3Service, serialiser, keyManager);
+            _publisher = new BodyTypePublisher(_service);
 
             A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
                 .WhenArgumentsMatch(ArgumentMatchesList(generationBodyType1))
@@ -115,7 +119,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypeService
 
         protected override void Act()
         {
-            var result = _service.PutGenerationBodyTypes(_context);
+            var result = _publisher.PublishGenerationBodyTypes(_context);
         }
 
         [Fact]

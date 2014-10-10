@@ -4,7 +4,7 @@ using TME.CarConfigurator.Publisher.Common.Enums;
 
 namespace TME.CarConfigurator.Publisher.UI.DI.Interfaces
 {
-    public interface IS3ServiceFactory
+    public interface IServiceFactory
     {
         IModelService GetPutModelService(String environment, PublicationDataSubset dataSubset);
         QueryServices.IModelService GetGetModelService(String environment, PublicationDataSubset dataSubset);

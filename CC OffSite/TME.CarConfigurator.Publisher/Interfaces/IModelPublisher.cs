@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Result;
 
-namespace TME.CarConfigurator.CommandServices
+namespace TME.CarConfigurator.Publisher.Interfaces
 {
-    public interface IPublicationService
+    public interface IModelPublisher
     {
-        Task<Result> PutPublication(String brand, String country, Publication publication);
+        Task<Result> PublishModelsByLanguage(IContext context, Languages languages);
     }
 }
