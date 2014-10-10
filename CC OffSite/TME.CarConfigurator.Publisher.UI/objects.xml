@@ -40,8 +40,8 @@
   <object name="DevelopmentLiveS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
     <constructor-arg index="0" value="development" />
     <constructor-arg index="1" value="live" />
-    <constructor-arg index="2" value="-fake-" />
-    <constructor-arg index="3" value="-fake-" />
+    <constructor-arg index="2" value="AKIAINHQY3QWZK4OZDHQ" />
+    <constructor-arg index="3" value="rlvZbZ9LQrRx4ocre7X6qfZQmOxDKOUJhQQgkudK" />
     <constructor-arg index="4" ref="AmazonS3Factory" />
   </object>
   <object name="DevelopmentPreviewS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.S3.QueryServices.Exceptions;
 using TME.CarConfigurator.S3.Shared.Exceptions;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
@@ -25,9 +26,11 @@ namespace TME.CarConfigurator.S3.QueryServices
         {
             var languages = GetModelsByLanguage(context.Brand, context.Country);
 
-            var language = languages.Single(l => l.Code.Equals(context.Language, StringComparison.InvariantCultureIgnoreCase));
+            var language = languages.SingleOrDefault(l => l.Code.Equals(context.Language, StringComparison.InvariantCultureIgnoreCase));
 
-            return language.Models;
+            if (language !=null) return language.Models;
+
+            throw new CountryLanguageCombinationDoesNotExistException(context.Country, context.Language);
         }
 
         public Languages GetModelsByLanguage(string brand, string country)
