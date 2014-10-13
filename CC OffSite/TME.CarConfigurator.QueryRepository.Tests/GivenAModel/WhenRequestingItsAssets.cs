@@ -16,13 +16,13 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAModel
 {
-    public class WhenRequestingItsAssetsForTheFirstTime : TestBase
+    public class WhenRequestingItsAssets : TestBase
     {
         private IModel _model;
         private IEnumerable<IAsset> _assets;
         private Repository.Objects.Assets.Asset _asset1;
         private Repository.Objects.Assets.Asset _asset2;
-        private IAssetService _assetService;
+        private Guid _publicationId;
 
         protected override void Arrange()
         {
@@ -33,12 +33,14 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
                 .WithId(Guid.NewGuid())
                 .Build();
 
+            _publicationId = Guid.NewGuid();
             var generation = new GenerationBuilder()
                 .AddAsset(_asset1)
                 .AddAsset(_asset2)
                 .Build();
 
             var publication = new PublicationBuilder()
+                .WithID(_publicationId)
                 .WithGeneration(generation)
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
                 .Build();
@@ -53,12 +55,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
             var modelService = A.Fake<IModelService>();
             A.CallTo(() => modelService.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
-            _assetService = A.Fake<IAssetService>();
-            A.CallTo(() => _assetService.GetAssets(repoModel.ID)).Returns(new List<Repository.Objects.Assets.Asset> { _asset1, _asset2 });
-
             var serviceFacade = new S3ServiceFacade()
-                .WithModelService(modelService)
-                .WithAssetService(_assetService);
+                .WithModelService(modelService);
 
             var modelFactory = new ModelFactoryFacade()
                 .WithServiceFacade(serviceFacade)
@@ -71,12 +69,6 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         protected override void Act()
         {
             _assets = _model.Assets;
-        }
-
-        [Fact]
-        public void ThenItShouldGetTheAssetsFromTheAssetService()
-        {
-            A.CallTo(() => _assetService.GetAssets(_model.ID)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]

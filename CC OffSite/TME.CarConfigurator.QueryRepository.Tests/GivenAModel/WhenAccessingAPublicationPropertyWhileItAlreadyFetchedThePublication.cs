@@ -5,7 +5,6 @@ using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.DI;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Configuration;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
@@ -62,7 +61,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
 
             _model = modelFactory.GetModels(_context).Single();
             
-            var dumnmy = _model.SSN; // call publication property a first time
+            var dummy = _model.SSN; // call publication property a first time
         }
 
         protected override void Act()
@@ -80,26 +79,6 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         public void ThenItShouldStillGetTheCorrectValue()
         {
             _actualSsn.Should().Be(_expectedSsn);
-        }
-    }
-
-    internal class ConfigurationManagerBuilder
-    {
-        private readonly IConfigurationManager _configurationManager;
-
-        public ConfigurationManagerBuilder()
-        {
-            _configurationManager = A.Fake<IConfigurationManager>();
-
-            A.CallTo(() => _configurationManager.DataSubset).Returns("preview");
-            A.CallTo(() => _configurationManager.Environment).Returns("development");
-            A.CallTo(() => _configurationManager.AmazonAccessKeyId).Returns("access key id");
-            A.CallTo(() => _configurationManager.AmazonSecretAccessKey).Returns("secret access key");
-        }
-
-        public IConfigurationManager Build()
-        {
-            return _configurationManager;
         }
     }
 }

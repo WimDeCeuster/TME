@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
@@ -16,6 +17,13 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
         public static GenerationBuilder Initialize()
         {
             return new GenerationBuilder();
+        }
+
+        public GenerationBuilder WithID(Guid generationID)
+        {
+            _generation.ID = generationID;
+
+            return this;
         }
 
         public GenerationBuilder WithSsn(string ssn)

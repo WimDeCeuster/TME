@@ -48,7 +48,7 @@ namespace TME.CarConfigurator.DI
             _modelService = _modelService ?? _serviceFacade.CreateModelService();
 
             _publicationFactory = _publicationFactory ?? new PublicationFactory(_serviceFacade.CreatePublicationService());
-            _assetFactory = _assetFactory ?? new AssetFactory(_serviceFacade.CreateAssetService());
+            _assetFactory = _assetFactory ?? new AssetFactory();
         }
     }
 }
