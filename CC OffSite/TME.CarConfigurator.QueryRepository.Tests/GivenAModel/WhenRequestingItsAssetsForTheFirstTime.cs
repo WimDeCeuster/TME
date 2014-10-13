@@ -13,6 +13,7 @@ using TME.CarConfigurator.Repository.Objects.Enums;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
+using Xunit.Sdk;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAModel
 {
@@ -70,13 +71,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
             _assets = _model.Assets;
         }
 
-        [Fact]
+        [Fact(Skip = "Not implemented yet")]
         public void ThenItShouldMapTheRepoAssetsToFrontendAssets()
         {
             Assert.True(false, "Test not implemented yet");
         }
 
-        [Fact]
+        [Fact(Skip = "Not implemented yet")]
         public void ThenItShouldHaveTheAssets()
         {
             _assets.Count().Should().Be(2);
