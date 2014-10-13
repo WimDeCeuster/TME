@@ -1,5 +1,4 @@
-﻿using System;
-using TME.CarConfigurator.Configuration;
+﻿using TME.CarConfigurator.Configuration;
 using TME.CarConfigurator.DI.Interfaces;
 using TME.CarConfigurator.Interfaces.Configuration;
 using TME.CarConfigurator.QueryServices;
@@ -12,7 +11,7 @@ namespace TME.CarConfigurator.DI
 {
     public class S3ServiceFacade : IServiceFacade
     {
-        private readonly IConfigurationManager _configurationManager;
+        private IConfigurationManager _configurationManager = new ConfigurationManager();
         private IService _service;
         private IKeyManager _keyManager;
         private ISerialiser _serializer;
@@ -36,16 +35,11 @@ namespace TME.CarConfigurator.DI
             get { return _serializer ?? new Serialiser(); }
         }
 
-        public S3ServiceFacade()
-            : this(new ConfigurationManager())
+        public S3ServiceFacade WithConfigurationManager(IConfigurationManager configurationManager)
         {
-
-        }
-
-        public S3ServiceFacade(IConfigurationManager configurationManager)
-        {
-            if (configurationManager == null) throw new ArgumentNullException("configurationManager");
             _configurationManager = configurationManager;
+
+            return this;
         }
 
         public S3ServiceFacade WithService(IService service)
