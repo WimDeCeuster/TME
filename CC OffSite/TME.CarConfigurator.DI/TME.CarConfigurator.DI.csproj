@@ -42,7 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IModelFactoryFacade.cs" />
+    <Compile Include="Interfaces\IServiceFacade.cs" />
+    <Compile Include="ModelFactoryFacade.cs" />
+    <Compile Include="Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="S3ServiceFacade.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
@@ -52,6 +57,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.QueryServices\TME.CarConfigurator.QueryServices.csproj">
       <Project>{37F53701-A371-44CC-B2F5-886910FBA751}</Project>
       <Name>TME.CarConfigurator.QueryServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
+      <Project>{2154EAAA-3D11-4654-BEA6-7B147451DBA8}</Project>
+      <Name>TME.CarConfigurator.Repository.Objects</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.QueryServices.csproj">
       <Project>{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}</Project>

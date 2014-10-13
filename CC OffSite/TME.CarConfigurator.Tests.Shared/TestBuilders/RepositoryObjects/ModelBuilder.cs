@@ -6,16 +6,14 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
     {
         private readonly Model _model;
 
-        private ModelBuilder(Model model)
+        public ModelBuilder()
         {
-            _model = model;
+            _model = new Model();
         }
 
         public static ModelBuilder Initialize()
         {
-            var model = new Model();
-
-            return new ModelBuilder(model);
+            return new ModelBuilder();
         }
 
         public ModelBuilder WithName(string modelName)

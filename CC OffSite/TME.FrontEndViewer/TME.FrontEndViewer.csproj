@@ -141,12 +141,15 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ModelAssetsController.cs" />
+    <Compile Include="Controllers\ModelLinksController.cs" />
     <Compile Include="Controllers\ModelCarsController.cs" />
     <Compile Include="Controllers\ModelsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CompareView.cs" />
+    <Compile Include="Models\ModelWithMetrics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +244,11 @@
     <Content Include="Views\Shared\_baseObject.cshtml" />
     <Content Include="Views\ModelCars\Index.cshtml" />
     <Content Include="Views\ModelCars\details.cshtml" />
+    <Content Include="Views\ModelLinks\details.cshtml" />
+    <Content Include="Views\ModelLinks\Index.cshtml" />
+    <Content Include="Views\ModelAssets\details.cshtml" />
+    <Content Include="Views\ModelAssets\Index.cshtml" />
+    <Content Include="Views\Shared\_asset.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -249,6 +257,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.DI\TME.CarConfigurator.DI.csproj">
+      <Project>{4d5eb607-e56d-47ba-8e67-e196ae1cb19b}</Project>
+      <Name>TME.CarConfigurator.DI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
       <Project>{EFDB033C-66A8-40BB-B596-561F45E6C7F7}</Project>
       <Name>TME.CarConfigurator.Interfaces</Name>

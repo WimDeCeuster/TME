@@ -9,16 +9,14 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
         private readonly Publication _publication;
         private PublicationState _publicationState;
 
-        private PublicationInfoBuilder(Publication publication)
+        public PublicationInfoBuilder()
         {
-            _publication = publication;
+            _publication = new Publication();
         }
 
         public static PublicationInfoBuilder Initialize()
         {
-            var publication = new Publication();
-
-            return new PublicationInfoBuilder(publication);
+            return new PublicationInfoBuilder();
         }
 
         public PublicationInfoBuilder WithGeneration(Generation generation)

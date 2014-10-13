@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TME.CarConfigurator.Interfaces.ICar>
+﻿@model IEnumerable<TME.CarConfigurator.Interfaces.Assets.IAsset>
 
 
 @foreach (var model in Model)
@@ -12,7 +12,7 @@
             </tr>
         </table>
         <div class="clickable object" data-id="@Html.Raw(model.ID)">
-            @Html.Partial("_baseObject", model)
+            @Html.Partial("_asset", model)
         </div>
     </div>
 }

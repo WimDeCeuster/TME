@@ -1,15 +1,14 @@
 ﻿using System;
 using TME.CarConfigurator.Configuration;
-using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.DI.Interfaces;
 using TME.CarConfigurator.Interfaces.Configuration;
-using TME.CarConfigurator.Interfaces.Facades;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.S3.QueryServices;
 using TME.CarConfigurator.S3.Shared;
 using TME.CarConfigurator.S3.Shared.Factories;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
-namespace TME.CarConfigurator.Facades
+namespace TME.CarConfigurator.DI
 {
     public class S3ServiceFacade : IServiceFacade
     {
@@ -19,6 +18,8 @@ namespace TME.CarConfigurator.Facades
         private ISerialiser _serializer;
 
         private IModelService _modelService;
+        private IPublicationService _publicationService;
+        private IAssetService _assetService;
 
         public IService Service
         {
@@ -75,6 +76,20 @@ namespace TME.CarConfigurator.Facades
             return this;
         }
 
+        public IServiceFacade WithPublicationService(IPublicationService publicationService)
+        {
+            _publicationService = publicationService;
+
+            return this;
+        }
+
+        public IServiceFacade WithAssetService(IAssetService assetService)
+        {
+            _assetService = assetService;
+
+            return this;
+        }
+
         public IModelService CreateModelService()
         {
             return _modelService ?? new ModelService(Serializer, Service, KeyManager);
@@ -82,7 +97,12 @@ namespace TME.CarConfigurator.Facades
 
         public IPublicationService CreatePublicationService()
         {
-            return new PublicationService(Serializer, Service, KeyManager);
+            return _publicationService ?? new PublicationService(Serializer, Service, KeyManager);
+        }
+
+        public IAssetService CreateAssetService()
+        {
+            return _assetService ?? new AssetService();
         }
     }
 }

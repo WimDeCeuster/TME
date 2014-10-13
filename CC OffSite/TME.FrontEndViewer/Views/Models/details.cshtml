@@ -19,7 +19,9 @@
             <p class="property" data-id="CarConfiguratorVersion.ID">CarConfiguratorVersion.ID : @Html.Raw(model.CarConfiguratorVersion.ID)</p>
             <p class="property" data-id="CarConfiguratorVersion.Name">CarConfiguratorVersion.Name : @Html.Raw(model.CarConfiguratorVersion.Name)</p>
             <br />
-            <a href="">Assets</a> | @Html.ActionLink("Cars", "Index", "ModelCars", new { modelID = model.ID }, new { })
+            @Html.ActionLink("Assets","Index", "ModelAssets", new { modelID = model.ID}, new { }) | 
+            @Html.ActionLink("Links","Index", "ModelLinks", new { modelID = model.ID}, new { }) | 
+            @Html.ActionLink("Cars", "Index", "ModelCars", new { modelID = model.ID}, new { })
         </div>
     </div>
 }

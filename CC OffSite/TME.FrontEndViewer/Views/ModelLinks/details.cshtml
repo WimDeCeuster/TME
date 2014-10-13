@@ -1,0 +1,21 @@
+﻿@model IEnumerable<TME.CarConfigurator.Interfaces.ILink>
+
+
+@foreach (var model in Model)
+{
+    <div class="clickable">
+        <table class="top">
+            <tr>
+                <td>
+                    <b>@Html.Raw(model.Name)</b>
+                </td>
+            </tr>
+        </table>
+        <div class="clickable object" data-id="@Html.Raw(model.ID)">
+            <p class="property" data-id="ID">ID : @Html.Raw(model.ID)</p>
+            <p class="property" data-id="Name">Name : @Html.Raw(model.Name)</p>
+            <p class="property" data-id="Label">Label : @Html.Raw(model.Label)</p>
+            <p class="property" data-id="Url">Url : @Html.Raw(model.Url)</p>
+        </div>
+    </div>
+}
