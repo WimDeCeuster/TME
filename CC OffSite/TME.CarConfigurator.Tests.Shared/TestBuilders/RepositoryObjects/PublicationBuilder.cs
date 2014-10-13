@@ -55,5 +55,15 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
         {
             return _publication;
         }
+
+        public PublicationBuilder AddTimeFrame(PublicationTimeFrame publicationTimeFrame)
+        {
+            if (_publication.TimeFrames == null)
+                _publication.TimeFrames = new List<PublicationTimeFrame>();
+
+            _publication.TimeFrames.Add(publicationTimeFrame);
+
+            return this;
+        }
     }
 }

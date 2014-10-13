@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IBodyTypeService.cs" />
     <Compile Include="IModelService.cs" />
     <Compile Include="IPublicationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

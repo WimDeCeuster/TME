@@ -19,7 +19,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
     {
         private Guid _publicationID;
         private IModel _model;
-        private string _actualSsn;
+        private string _firstSsn;
+        private string _secondSsn;
         private string _expectedSsn;
         private IPublicationService _publicationService;
         private Context _context;
@@ -61,12 +62,12 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
 
             _model = modelFactory.GetModels(_context).Single();
             
-            var dummy = _model.SSN; // call publication property a first time
+            _firstSsn = _model.SSN; // call publication property a first time
         }
 
         protected override void Act()
         {
-            _actualSsn = _model.SSN; // call publication property a second time
+            _secondSsn = _model.SSN; // call publication property a second time
         }
 
         [Fact]
@@ -78,7 +79,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         [Fact]
         public void ThenItShouldStillGetTheCorrectValue()
         {
-            _actualSsn.Should().Be(_expectedSsn);
+            _secondSsn.Should().BeSameAs(_firstSsn);
         }
     }
 }

@@ -48,7 +48,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetUpFixture.cs" />
     <Compile Include="TestBase.cs" />
+    <Compile Include="TestBuilders\BodyTypeBuilder.cs" />
     <Compile Include="TestBuilders\LinkBuilder.cs" />
+    <Compile Include="TestBuilders\PublicationTimeFrameBuilder.cs" />
     <Compile Include="TestBuilders\RepositoryObjects\AssetBuilder.cs" />
     <Compile Include="TestBuilders\RepositoryObjects\GenerationBuilder.cs" />
     <Compile Include="TestBuilders\RepositoryObjects\LanguagesBuilder.cs" />

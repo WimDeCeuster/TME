@@ -43,10 +43,9 @@
     <Compile Include="Assets\IAssetType.cs" />
     <Compile Include="Assets\IFileType.cs" />
     <Compile Include="Configuration\IConfigurationManager.cs" />
-    <Compile Include="Factories\ILinkFactory.cs" />
+    <Compile Include="Factories\IBodyTypeFactory.cs" />
     <Compile Include="Factories\IModelFactory.cs" />
     <Compile Include="Factories\IPublicationFactory.cs" />
-    <Compile Include="IAssetFactory.cs" />
     <Compile Include="ITransmissionType.cs" />
     <Compile Include="ITransmission.cs" />
     <Compile Include="ICar.cs" />
