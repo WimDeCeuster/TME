@@ -51,6 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GiveAnEngine\WhenAccessingItsLabelsForTheFirstTime.cs" />
+    <Compile Include="GiveAnEngine\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
     <Compile Include="GivenALanguageService\WhenGetLanguagesIsCalled.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssetsASecondTime.cs" />
@@ -60,6 +62,8 @@
     <Compile Include="GivenAModel\WhenAccessingItsBodyTypesForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarConfiguratorVersion.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarConfiguratorVersionASecondTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsEnginesForTheFirstTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsEnginesForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />

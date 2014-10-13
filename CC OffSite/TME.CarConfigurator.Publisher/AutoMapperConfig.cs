@@ -17,12 +17,12 @@ namespace TME.CarConfigurator.Publisher
 
             ConfigureBodyType();
             ConfigureEngine();
-            ConfigureAssets();
-            ConfigureModel();
             ConfigureGeneration();
+            ConfigureModel();
+            ConfigureAssets();
             ConfigureCar();
-
             //AutoMapper.Mapper.AssertConfigurationIsValid();
+
             AutoMapper.Mapper.Configuration.Seal();
         }
 

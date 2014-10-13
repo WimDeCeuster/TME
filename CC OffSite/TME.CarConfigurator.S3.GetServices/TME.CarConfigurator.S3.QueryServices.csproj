@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BodyTypeService.cs" />
+    <Compile Include="EngineService.cs" />
     <Compile Include="Exceptions\CountryLanguageCombinationDoesNotExistException.cs" />
     <Compile Include="ModelService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

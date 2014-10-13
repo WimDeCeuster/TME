@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IBodyTypeService.cs" />
+    <Compile Include="IEngineService.cs" />
     <Compile Include="IModelService.cs" />
     <Compile Include="IPublicationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
