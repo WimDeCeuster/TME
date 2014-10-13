@@ -109,7 +109,7 @@ namespace TME.CarConfigurator.DI
 
         public IEngineService CreateEngineService()
         {
-            return _engineService ?? new EngineService(/*Serializer, Service, KeyManager*/);
+            return _engineService ?? new EngineService(Serializer, Service, KeyManager);
         }
 
 

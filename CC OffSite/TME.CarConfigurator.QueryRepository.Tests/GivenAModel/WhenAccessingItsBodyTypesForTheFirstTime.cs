@@ -63,6 +63,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
                 .Returns(new List<Repository.Objects.BodyType> { _bodyType1, _bodyType2 });
 
             var serviceFacade = new S3ServiceFacade()
+                .WithConfigurationManager(new ConfigurationManagerBuilder().Build())
                 .WithModelService(modelService)
                 .WithPublicationService(publicationService)
                 .WithBodyTypeService(_bodyTypeService);
