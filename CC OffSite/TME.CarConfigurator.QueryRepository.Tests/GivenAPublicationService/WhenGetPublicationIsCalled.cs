@@ -1,6 +1,7 @@
 ﻿using System;
 using FakeItEasy;
 using FluentAssertions;
+using TME.CarConfigurator.DI;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
@@ -43,11 +44,12 @@ namespace TME.CarConfigurator.Query.Tests.GivenAPublicationService
             A.CallTo(() => service.GetObject(brand, country, s3Key)).Returns(serializedObject);
             A.CallTo(() => serialiser.Deserialise<Publication>(serializedObject)).Returns(_expectedPublication);
 
-            _publicationService = PublicationServiceBuilder.Initialize()
+            var serviceFacade = new S3ServiceFacade()
                 .WithSerializer(serialiser)
                 .WithService(service)
-                .WithKeyManager(keyManager)
-                .Build();
+                .WithKeyManager(keyManager);
+
+            _publicationService = serviceFacade.CreatePublicationService();
         }
 
         protected override void Act()

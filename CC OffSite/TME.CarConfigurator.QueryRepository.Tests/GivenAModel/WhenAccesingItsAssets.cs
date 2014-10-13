@@ -7,6 +7,7 @@ using TME.CarConfigurator.DI;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
@@ -55,7 +56,9 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
             var modelService = A.Fake<IModelService>();
             A.CallTo(() => modelService.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
-            var serviceFacade = new S3ServiceFacade()
+            var configurationManager = new ConfigurationManagerBuilder().Build();
+
+            var serviceFacade = new S3ServiceFacade(configurationManager)
                 .WithModelService(modelService);
 
             var modelFactory = new ModelFactoryFacade()

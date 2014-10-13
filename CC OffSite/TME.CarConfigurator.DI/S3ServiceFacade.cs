@@ -102,7 +102,7 @@ namespace TME.CarConfigurator.DI
 
         public IBodyTypeService CreateBodyTypeService()
         {
-            return _bodyTypeService ?? new BodyTypeService();
+            return _bodyTypeService ?? new BodyTypeService(Serializer, Service, KeyManager);
         }
     }
 }

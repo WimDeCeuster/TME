@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
     <Compile Include="GivenALanguageService\WhenGetLanguagesIsCalled.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssetsASecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingAPublicationPropertyWhileItAlreadyFetchedThePublication.cs" />

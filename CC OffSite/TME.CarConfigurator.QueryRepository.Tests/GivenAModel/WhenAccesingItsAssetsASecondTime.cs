@@ -10,6 +10,7 @@ using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
+using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
@@ -57,6 +58,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
             A.CallTo(() => modelService.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
             var serviceFacade = new S3ServiceFacade()
+                .WithService(A.Fake<IService>())
                 .WithModelService(modelService);
 
             var modelFactory = new ModelFactoryFacade()
