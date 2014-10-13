@@ -18,6 +18,7 @@ namespace TME.CarConfigurator
         private IEnumerable<IAsset> _assets;
         private IEnumerable<ILink> _links;
         private IEnumerable<IBodyType> _bodyTypes;
+        private CarConfiguratorVersion _carConfiguratorVersion;
 
         private Publication Publication
         {
@@ -34,7 +35,7 @@ namespace TME.CarConfigurator
 
         public string SSN { get { return Publication.Generation.SSN; } }
 
-        public ICarConfiguratorVersion CarConfiguratorVersion { get { throw new NotImplementedException(); } }
+        public ICarConfiguratorVersion CarConfiguratorVersion { get { return _carConfiguratorVersion = _carConfiguratorVersion ?? new CarConfiguratorVersion(Publication.Generation.CarConfiguratorVersion); } }
 
         public IEnumerable<ILink> Links { get { return _links = _links ?? Publication.Generation.Links.Select(l => new Link(l)); } }
 

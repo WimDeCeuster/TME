@@ -58,6 +58,8 @@
     <Compile Include="GivenAModel\WhenAccessingAPublicationPropertyWhileItDidNotFetchThePublicationYet.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsBodyTypesASecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsBodyTypesForTheFirstTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsCarConfiguratorVersion.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsCarConfiguratorVersionASecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />

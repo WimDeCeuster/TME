@@ -39,7 +39,7 @@ namespace TME.CarConfigurator.Repository.Objects.Assets
 
         public bool HasView(string view)
         {
-            return Mode.Equals(view, StringComparison.InvariantCultureIgnoreCase);
+            return View.Equals(view, StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }

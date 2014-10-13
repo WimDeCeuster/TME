@@ -25,7 +25,7 @@ namespace TME.FrontEndViewer.Controllers
             {
                 Brand = brand,
                 Country = country,
-                Language = language
+                Language = language,
             };
             Session.Add("context", context);
 

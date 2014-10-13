@@ -36,7 +36,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenModels
 
             var configurationManager = new ConfigurationManagerBuilder().Build();
 
-            var serviceFacade = new S3ServiceFacade(configurationManager)
+            var serviceFacade = new S3ServiceFacade()
+                .WithConfigurationManager(configurationManager)
                 .WithModelService(_modelService);
 
             _modelFactoryFacade = new ModelFactoryFacade()

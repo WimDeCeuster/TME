@@ -23,7 +23,6 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         private IEnumerable<IAsset> _assets;
         private Repository.Objects.Assets.Asset _asset1;
         private Repository.Objects.Assets.Asset _asset2;
-        private Guid _publicationId;
 
         protected override void Arrange()
         {
@@ -34,14 +33,14 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
                 .WithId(Guid.NewGuid())
                 .Build();
 
-            _publicationId = Guid.NewGuid();
+            var publicationId = Guid.NewGuid();
             var generation = new GenerationBuilder()
                 .AddAsset(_asset1)
                 .AddAsset(_asset2)
                 .Build();
 
             var publication = new PublicationBuilder()
-                .WithID(_publicationId)
+                .WithID(publicationId)
                 .WithGeneration(generation)
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
                 .Build();
@@ -58,7 +57,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
 
             var configurationManager = new ConfigurationManagerBuilder().Build();
 
-            var serviceFacade = new S3ServiceFacade(configurationManager)
+            var serviceFacade = new S3ServiceFacade()
+                .WithConfigurationManager(configurationManager)
                 .WithModelService(modelService);
 
             var modelFactory = new ModelFactoryFacade()
