@@ -43,6 +43,16 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
             return this;
         }
 
+        public GenerationBuilder AddLink(Link link)
+        {
+            if (_generation.Links == null) 
+                _generation.Links = new List<Link>();
+
+            _generation.Links.Add(link);
+
+            return this;
+        }
+
         public Generation Build()
         {
             return _generation;

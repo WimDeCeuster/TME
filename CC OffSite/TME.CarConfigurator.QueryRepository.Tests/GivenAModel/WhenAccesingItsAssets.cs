@@ -16,7 +16,7 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAModel
 {
-    public class WhenRequestingItsAssets : TestBase
+    public class WhenAccesingItsAssets : TestBase
     {
         private IModel _model;
         private IEnumerable<IAsset> _assets;

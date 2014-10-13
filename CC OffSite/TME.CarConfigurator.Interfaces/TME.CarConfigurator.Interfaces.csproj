@@ -43,6 +43,7 @@
     <Compile Include="Assets\IAssetType.cs" />
     <Compile Include="Assets\IFileType.cs" />
     <Compile Include="Configuration\IConfigurationManager.cs" />
+    <Compile Include="Factories\ILinkFactory.cs" />
     <Compile Include="Factories\IModelFactory.cs" />
     <Compile Include="Factories\IPublicationFactory.cs" />
     <Compile Include="IAssetFactory.cs" />

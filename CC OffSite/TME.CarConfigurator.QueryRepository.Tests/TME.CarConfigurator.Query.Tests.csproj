@@ -54,7 +54,8 @@
     <Compile Include="GivenALanguageService\WhenGetLanguagesIsCalled.cs" />
     <Compile Include="GivenAModel\WhenAccessingAPublicationPropertyWhileItAlreadyFetchedThePublication.cs" />
     <Compile Include="GivenAModel\WhenAccessingAPublicationPropertyWhileItDidNotFetchThePublicationYet.cs" />
-    <Compile Include="GivenAModel\WhenRequestingItsAssets.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
+    <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
     <Compile Include="GivenAPublicationService\WhenGetPublicationIsCalled.cs" />
     <Compile Include="GivenModels\WhenRequestingTheListOfActiveModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
