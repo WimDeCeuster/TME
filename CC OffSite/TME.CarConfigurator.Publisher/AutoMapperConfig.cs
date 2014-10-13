@@ -98,7 +98,7 @@ namespace TME.CarConfigurator.Publisher
             AutoMapper.Mapper.CreateMap<Administration.EngineCategory, EngineCategory>()
                 .Translate(engine => engine.Name)
                 .For(engine => engine.InternalCode, engine => engine.Code)
-                //.Ignore(engine => engine.LocalCode)
+                .ForMember(engine => engine.LocalCode, opt => opt.UseValue(String.Empty))
                 .Sort();
             
             AutoMapper.Mapper.CreateMap<Administration.EngineTypeInfo, EngineType>()
@@ -106,8 +106,8 @@ namespace TME.CarConfigurator.Publisher
 
             AutoMapper.Mapper.CreateMap<Administration.FuelType, FuelType>()
                 .Localize(fuelType => fuelType.Name)
-                //.ForMember(fuelType => fuelType.Hybrid, opt => opt.Ignore());
-                .Ignore(fuelType => fuelType.SortIndex);
+                .For(fuelType => fuelType.Hybrid, fuelType => fuelType.Code.ToUpper(System.Globalization.CultureInfo.InvariantCulture).StartsWith("H"))
+                .ForMember(fuelType => fuelType.SortIndex, opt => opt.UseValue(0));
         }
 
         public static void ConfigureCar()
