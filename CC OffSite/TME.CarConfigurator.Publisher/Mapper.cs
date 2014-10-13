@@ -106,7 +106,8 @@ namespace TME.CarConfigurator.Publisher
         Link GetLink(Administration.Link link, String countryCode, String languageCode, Boolean isPreview)
         {
             var baseLink = Administration.BaseLinks.GetBaseLinks(link.Type, isPreview)
-                                                   .SingleOrDefault(baseLnk => baseLnk.CountryCode == countryCode && baseLnk.LanguageCode == languageCode);
+                                                   .SingleOrDefault(baseLnk => baseLnk.CountryCode == countryCode &&
+                                                                               baseLnk.LanguageCode == languageCode);
 
             return new Link {
                 ID = link.Type.ID,
@@ -121,7 +122,7 @@ namespace TME.CarConfigurator.Publisher
                 return link.UrlPart;
             if (link.UrlPart.StartsWith("http://") || link.UrlPart.StartsWith("https://"))
                 return link.UrlPart;
-            return baseLink.Url + "/" + link.UrlPart;
+            return new Uri(new Uri(baseLink.Url), link.UrlPart).ToString(); //baseLink.Url + "/" + link.UrlPart;
         }
 
         IReadOnlyList<TimeFrame> GetTimeFrames(String language, IContext context)

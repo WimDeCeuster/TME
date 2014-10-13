@@ -222,6 +222,7 @@ namespace TME.CarConfigurator.Publisher
             return assetSet.Assets.Select(asset => Tuple.Create(asset.AssetType.Details.Mode, asset.AssetType.Details.View))
                                   .Distinct()
                                   .Select(info => new VisibleInModeAndView { Mode = info.Item1, View = info.Item2 })
+                                  .Where(info => !(String.IsNullOrWhiteSpace(info.Mode) && String.IsNullOrWhiteSpace(info.View)))
                                   .ToList();
         }
     }
