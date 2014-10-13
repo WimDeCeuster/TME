@@ -19,7 +19,6 @@ namespace TME.CarConfigurator.DI
 
         private IModelService _modelService;
         private IPublicationService _publicationService;
-        private IAssetService _assetService;
 
         public IService Service
         {
@@ -83,13 +82,6 @@ namespace TME.CarConfigurator.DI
             return this;
         }
 
-        public IServiceFacade WithAssetService(IAssetService assetService)
-        {
-            _assetService = assetService;
-
-            return this;
-        }
-
         public IModelService CreateModelService()
         {
             return _modelService ?? new ModelService(Serializer, Service, KeyManager);
@@ -98,11 +90,6 @@ namespace TME.CarConfigurator.DI
         public IPublicationService CreatePublicationService()
         {
             return _publicationService ?? new PublicationService(Serializer, Service, KeyManager);
-        }
-
-        public IAssetService CreateAssetService()
-        {
-            return _assetService ?? new AssetService();
         }
     }
 }
