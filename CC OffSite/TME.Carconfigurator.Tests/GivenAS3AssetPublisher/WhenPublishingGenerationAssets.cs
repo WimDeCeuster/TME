@@ -45,7 +45,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
             {
                 _assets.Add(new Asset()
                 {
-                    AlwaysInclude = false,
+                    AlwaysInclude = true,
                     AssetType = new AssetType(),
                     FileName = "Filename" + i,
                     FileType = new FileType(),
@@ -91,6 +91,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
         public void ThenAssetsForASpecificGenerationShouldBePut()
         {
             A.CallTo(() => _s3Service.PutObjectAsync(null,null,null,null)).WithAnyArguments().MustHaveHappened(Repeated.Exactly.Times(_assets.Count));
+        }
+        
+        [Fact]
+        public void ThenAssetsForASpecificGenerationShouldBePutWithCorrectArguments()
+        {
+            A.CallTo(() => _s3Service.PutObjectAsync(null,null,null,null)).WhenArgumentsMatch(args => ((args[0].Equals(Brand)) && (args[1].Equals(Country)) && (args[2].Equals(GENERATIONASSETKEY)) &&
+                                                                                                       (args[3].Equals(SERIALIZEDASSETS)))).MustHaveHappened(Repeated.Exactly.Times(_assets.Count));
         }
     }
 }

@@ -11,5 +11,6 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Interfaces
         IPublicationService GetPublicationService(String environment, PublicationDataSubset dataSubset);
         IBodyTypeService GetBodyTypeService(String environment, PublicationDataSubset dataSubset);
         IEngineService GetEngineService(String environment, PublicationDataSubset dataSubset);
+        IAssetService GetAssetService(String environment, PublicationDataSubset dataSubset);
     }
 }

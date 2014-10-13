@@ -28,7 +28,9 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Facades
                 _publisherFactory.GetBodyTypePublisher(
                     _serviceFactory.GetBodyTypeService(environment, dataSubset)),
                 _publisherFactory.GetEnginePublisher(
-                    _serviceFactory.GetEngineService(environment, dataSubset))
+                    _serviceFactory.GetEngineService(environment, dataSubset)),
+                _publisherFactory.GetAssetPublisher(
+                    _serviceFactory.GetAssetService(environment,dataSubset))
             });
         }
     }
