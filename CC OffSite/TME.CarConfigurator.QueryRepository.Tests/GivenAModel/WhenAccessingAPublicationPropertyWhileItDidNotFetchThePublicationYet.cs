@@ -5,7 +5,6 @@ using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.DI;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
