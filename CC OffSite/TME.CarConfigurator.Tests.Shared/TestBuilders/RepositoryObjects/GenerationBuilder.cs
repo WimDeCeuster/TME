@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
@@ -18,6 +19,13 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
             return new GenerationBuilder();
         }
 
+        public GenerationBuilder WithID(Guid generationID)
+        {
+            _generation.ID = generationID;
+
+            return this;
+        }
+
         public GenerationBuilder WithSsn(string ssn)
         {
             _generation.SSN = ssn;
@@ -31,6 +39,16 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
                 _generation.Assets = new List<Asset>();
 
             _generation.Assets.Add(asset);
+
+            return this;
+        }
+
+        public GenerationBuilder AddLink(Link link)
+        {
+            if (_generation.Links == null) 
+                _generation.Links = new List<Link>();
+
+            _generation.Links.Add(link);
 
             return this;
         }

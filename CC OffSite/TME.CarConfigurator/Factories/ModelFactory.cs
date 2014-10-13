@@ -14,16 +14,19 @@ namespace TME.CarConfigurator.Factories
         private readonly IModelService _modelService;
         private readonly IPublicationFactory _publicationFactory;
         private readonly IAssetFactory _assetFactory;
+        private readonly ILinkFactory _linkFactory;
 
-        public ModelFactory(IModelService modelService, IPublicationFactory publicationFactory, IAssetFactory assetFactory)
+        public ModelFactory(IModelService modelService, IPublicationFactory publicationFactory, IAssetFactory assetFactory, ILinkFactory linkFactory)
         {
             if (modelService == null) throw new ArgumentNullException("modelService");
             if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
+            if (linkFactory == null) throw new ArgumentNullException("linkFactory");
 
             _modelService = modelService;
             _publicationFactory = publicationFactory;
             _assetFactory = assetFactory;
+            _linkFactory = linkFactory;
         }
 
         public IEnumerable<IModel> GetModels(Context context)
@@ -42,7 +45,7 @@ namespace TME.CarConfigurator.Factories
 
         private IModel CreateModel(Repository.Objects.Model repositoryModel, Context context)
         {
-            return new Model(repositoryModel, context, _publicationFactory, _assetFactory);
+            return new Model(repositoryModel, context, _publicationFactory, _assetFactory, _linkFactory);
         }
     }
 }
