@@ -5,7 +5,14 @@ namespace TME.CarConfigurator
 {
     public class Asset : IAsset
     {
-        public Guid ID { get; private set; }
+        private readonly Repository.Objects.Assets.Asset _asset;
+
+        public Asset(Repository.Objects.Assets.Asset asset)
+        {
+            _asset = asset;
+        }
+
+        public Guid ID { get { return _asset.ID; } }
         public int ShortID { get; private set; }
         public string Name { get; private set; }
         public string FilePath { get; private set; }

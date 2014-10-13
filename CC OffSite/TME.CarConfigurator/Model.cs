@@ -11,6 +11,7 @@ namespace TME.CarConfigurator
     {
         private readonly Repository.Objects.Model _repositoryModel;
         private readonly IPublicationFactory _publicationFactory;
+        private readonly IAssetFactory _assetFactory;
         private Publication _publication;
 
         private Publication Publication
@@ -32,7 +33,7 @@ namespace TME.CarConfigurator
 
         public IEnumerable<ILink> Links { get { throw new NotImplementedException(); } }
 
-        public IEnumerable<IAsset> Assets { get { return new List<IAsset>(); } }
+        public IEnumerable<IAsset> Assets { get { return _assetFactory.GetAssets(ID); } }
 
         public IEnumerable<IBodyType> BodyTypes { get { throw new NotImplementedException(); } }
 
@@ -42,7 +43,7 @@ namespace TME.CarConfigurator
 
         public IEnumerable<ICar> Cars { get { throw new NotImplementedException(); } }
 
-        public Model(Repository.Objects.Model repositoryModel, Context context, IPublicationFactory publicationFactory)
+        public Model(Repository.Objects.Model repositoryModel, Context context, IPublicationFactory publicationFactory, IAssetFactory assetFactory)
             : base(repositoryModel, context)
         {
             if (repositoryModel == null) throw new ArgumentNullException("repositoryModel");
@@ -51,6 +52,7 @@ namespace TME.CarConfigurator
 
             _repositoryModel = repositoryModel;
             _publicationFactory = publicationFactory;
+            _assetFactory = assetFactory;
         }
     }
 }

@@ -13,7 +13,6 @@ using TME.CarConfigurator.Repository.Objects.Enums;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
-using Xunit.Sdk;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAModel
 {
@@ -23,6 +22,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         private IEnumerable<IAsset> _assets;
         private Repository.Objects.Assets.Asset _asset1;
         private Repository.Objects.Assets.Asset _asset2;
+        private IAssetService _assetService;
 
         protected override void Arrange()
         {
@@ -43,7 +43,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
                 .Build();
 
-            var publicationInfo = new PublicationInfo(publication) {State = PublicationState.Activated};
+            var publicationInfo = new PublicationInfo(publication) { State = PublicationState.Activated };
 
             var repoModel = new ModelBuilder().AddPublication(publicationInfo).Build();
 
@@ -53,15 +53,17 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
             var modelService = A.Fake<IModelService>();
             A.CallTo(() => modelService.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
+            _assetService = A.Fake<IAssetService>();
+            A.CallTo(() => _assetService.GetAssets(repoModel.ID)).Returns(new List<Repository.Objects.Assets.Asset> { _asset1, _asset2 });
+
             var serviceFacade = new S3ServiceFacade()
-                .WithModelService(modelService);
+                .WithModelService(modelService)
+                .WithAssetService(_assetService);
 
             var modelFactory = new ModelFactoryFacade()
                 .WithServiceFacade(serviceFacade)
                 .WithPublicationFactory(publicationFactory)
                 .Create();
-
-            // TODO: create assetfactory, inject assetfactory in model, use assetfactory to retrieve list of assets, return through asset property
 
             _model = modelFactory.GetModels(new Context()).Single();
         }
@@ -71,13 +73,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
             _assets = _model.Assets;
         }
 
-        [Fact(Skip = "Not implemented yet")]
-        public void ThenItShouldMapTheRepoAssetsToFrontendAssets()
+        [Fact]
+        public void ThenItShouldGetTheAssetsFromTheAssetService()
         {
-            Assert.True(false, "Test not implemented yet");
+            A.CallTo(() => _assetService.GetAssets(_model.ID)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
-        [Fact(Skip = "Not implemented yet")]
+        [Fact]
         public void ThenItShouldHaveTheAssets()
         {
             _assets.Count().Should().Be(2);
