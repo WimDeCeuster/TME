@@ -12,7 +12,7 @@
     
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/clickable")
-    @RenderSection("scripts", required: false)
+    @RenderSection("scripts", false)
     
     <script>
 
@@ -30,7 +30,7 @@
                 var propertyid = $(this).data('id');
                 var newProperty = $(".property[data-id=" + propertyid + "]", newObject);
                 
-                if (newProperty.length != 1 || $(newProperty[0]).html() != $(this).html() || propertyid == 'Name') {
+                if (newProperty.length != 1 || $(newProperty[0]).html() != $(this).html()) {
                     
                     $(newProperty).parent().parent().addClass('mismatch');
                     $(newProperty).addClass('mismatch');

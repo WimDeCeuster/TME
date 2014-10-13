@@ -29,7 +29,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldUploadCorrectDataForLanguage1()
         {
-            A.CallTo(() => PutModelService.PutModelsByLanguage(null, null))
+            A.CallTo(() => PutModelPublisher.PublishModelsByLanguage(null, null))
                 .WhenArgumentsMatch(args =>
                 {
                     var isContext = args[0].Equals(Context);
@@ -42,7 +42,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldUploadCorrectDataForLanguage2()
         {
-            A.CallTo(() => PutModelService.PutModelsByLanguage(null, null))
+            A.CallTo(() => PutModelPublisher.PublishModelsByLanguage(null, null))
                 .WhenArgumentsMatch(args =>
                 {
                     var isContext = args[0].Equals(Context);
@@ -55,7 +55,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenTheModelOverviewFileShouldOnlyBeUploadedOnce()
         {
-            A.CallTo(() => PutModelService.PutModelsByLanguage(null, null))
+            A.CallTo(() => PutModelPublisher.PublishModelsByLanguage(null, null))
                 .WithAnyArguments()
                 .MustHaveHappened(Repeated.Exactly.Once);
         }

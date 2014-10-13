@@ -21,21 +21,21 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenAPublicationShouldBePublished()
         {
-            A.CallTo(() => PublicationService.PutPublications(Context))
+            A.CallTo(() => PublicationPublisher.PublishPublications(Context))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenAPublishGenerationBodyTypesShouldHappen()
         {
-            A.CallTo(() => BodyTypeService.PutGenerationBodyTypes(Context))
+            A.CallTo(() => BodyTypePublisher.PublishGenerationBodyTypes(Context))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenAPublishGenerationEnginesShouldHappen()
         {
-            A.CallTo(() => EngineService.PutGenerationEngines(Context))
+            A.CallTo(() => EnginePublisher.PublishGenerationEngines(Context))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
     }

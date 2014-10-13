@@ -100,8 +100,10 @@
     </Compile>
     <Compile Include="Bootstrapper\AppBootstrapper.cs" />
     <Compile Include="DI\Facades\S3PublisherFacade.cs" />
+    <Compile Include="DI\Factories\S3PublisherFactory.cs" />
     <Compile Include="DI\Factories\S3ServiceFactory.cs" />
-    <Compile Include="DI\Interfaces\IS3ServiceFactory.cs" />
+    <Compile Include="DI\Interfaces\IPublisherFactory.cs" />
+    <Compile Include="DI\Interfaces\IServiceFactory.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -125,9 +127,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="AWSSettings.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -163,6 +162,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.QueryServices.csproj">
       <Project>{5f4575a4-88db-4b32-bc1e-cd6fed06ca12}</Project>
       <Name>TME.CarConfigurator.S3.QueryServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.Publisher\TME.CarConfigurator.S3.Publisher.csproj">
+      <Project>{12f8e2e0-b205-4771-8499-357ea845082f}</Project>
+      <Name>TME.CarConfigurator.S3.Publisher</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.CommandServices.csproj">
       <Project>{f2d02000-fcd7-4356-9356-30e98cf5b829}</Project>

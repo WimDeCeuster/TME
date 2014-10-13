@@ -14,19 +14,20 @@ namespace TME.CarConfigurator.Publisher
 {
     public class Publisher : IPublisher
     {
-        readonly CommandServices.IPublicationService _publicationService;
-        readonly IModelService _putModelService;
+        readonly IPublicationPublisher _publicationPublisher;
+        readonly IModelPublisher _putModelPublisher            ;
         private readonly QueryServices.IModelService _getModelService;
-        readonly IBodyTypeService _bodyTypeService;
-        readonly IEngineService _engineService;
+        readonly IBodyTypePublisher _bodyTypePublisher;
+        readonly IEnginePublisher _enginePublisher;
 
-        public Publisher(CommandServices.IPublicationService publicationService, IModelService putModelService, QueryServices.IModelService getModelService, IBodyTypeService bodyTypeService, IEngineService engineService)
+        public Publisher(IPublicationPublisher publicationPublisher, IModelPublisher putModelPublisher, QueryServices.IModelService getModelService,
+                         IBodyTypePublisher bodyTypePublisher, IEnginePublisher enginePublisher)
         {
-            _publicationService = publicationService;
-            _putModelService = putModelService;
+            _publicationPublisher = publicationPublisher;
+            _putModelPublisher = putModelPublisher;
             _getModelService = getModelService;
-            _bodyTypeService = bodyTypeService;
-            _engineService = engineService;
+            _bodyTypePublisher = bodyTypePublisher;
+            _enginePublisher = enginePublisher;
         }
 
         public async Task<Result> Publish(IContext context)
@@ -41,7 +42,7 @@ namespace TME.CarConfigurator.Publisher
                 return failure;
 
             var s3ModelsOverview = ActivatePublicationForAllLanguages(context, languages);
-            return await _putModelService.PutModelsByLanguage(context, s3ModelsOverview);
+            return await _putModelPublisher.PublishModelsByLanguage(context, s3ModelsOverview);
         }
 
         private Languages ActivatePublicationForAllLanguages(IContext context, IEnumerable<String> languages)
@@ -105,7 +106,7 @@ namespace TME.CarConfigurator.Publisher
 
         async Task<IEnumerable<Result>> PublishPublication(IContext context)
         {
-            return await _publicationService.PutPublications(context);
+            return await _publicationPublisher.PublishPublications(context);
         }
 
         private Publication CreateNewPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames)
@@ -133,12 +134,12 @@ namespace TME.CarConfigurator.Publisher
 
         Task<IEnumerable<Result>> PublishGenerationBodyTypes(IContext context)
         {
-            return _bodyTypeService.PutGenerationBodyTypes(context);
+            return _bodyTypePublisher.PublishGenerationBodyTypes(context);
         }
 
         Task<IEnumerable<Result>> PublishGenerationEngines(IContext context)
         {
-            return _engineService.PutGenerationEngines(context);
+            return _enginePublisher.PublishGenerationEngines(context);
         }
 
         private static Language GetS3Language(Languages s3ModelsOverview, String language)

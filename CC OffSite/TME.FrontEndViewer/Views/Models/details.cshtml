@@ -13,6 +13,7 @@
         </table>
         <div class="clickable object" data-id="@Html.Raw(model.ID)">
                 @Html.Partial("_baseObject", model)
+                <p class="property" data-id="SSN">SSN : @Html.Raw(model.SSN)</p>
                 <br/>
                 <a href="">Assets</a> | @Html.ActionLink("Cars", "Index", "ModelCars", new { modelID=model.ID }, new {})
         </div>
