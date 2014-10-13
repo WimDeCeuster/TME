@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Factories;
@@ -11,8 +12,12 @@ namespace TME.CarConfigurator
     {
         private readonly Repository.Objects.Model _repositoryModel;
         private readonly IPublicationFactory _publicationFactory;
-        private readonly IAssetFactory _assetFactory;
+        private readonly IBodyTypeFactory _bodyTypeFactory;
+
         private Publication _publication;
+        private IEnumerable<IAsset> _assets;
+        private IEnumerable<ILink> _links;
+        private IEnumerable<IBodyType> _bodyTypes;
 
         private Publication Publication
         {
@@ -31,11 +36,11 @@ namespace TME.CarConfigurator
 
         public ICarConfiguratorVersion CarConfiguratorVersion { get { throw new NotImplementedException(); } }
 
-        public IEnumerable<ILink> Links { get { throw new NotImplementedException(); } }
+        public IEnumerable<ILink> Links { get { return _links = _links ?? Publication.Generation.Links.Select(l => new Link(l)); } }
 
-        public IEnumerable<IAsset> Assets { get { return _assetFactory.CreateAssets(Publication.Generation.Assets); } }
+        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? Publication.Generation.Assets.Select(a => new Asset(a)); } }
 
-        public IEnumerable<IBodyType> BodyTypes { get { throw new NotImplementedException(); } }
+        public IEnumerable<IBodyType> BodyTypes { get { return _bodyTypes = _bodyTypes ?? _bodyTypeFactory.GetBodyTypes(Publication, Context); } }
 
         public IEnumerable<IEngine> Engines { get { throw new NotImplementedException(); } }
 
@@ -43,16 +48,21 @@ namespace TME.CarConfigurator
 
         public IEnumerable<ICar> Cars { get { throw new NotImplementedException(); } }
 
-        public Model(Repository.Objects.Model repositoryModel, Context context, IPublicationFactory publicationFactory, IAssetFactory assetFactory)
+        public Model(
+            Repository.Objects.Model repositoryModel,
+            Context context,
+            IPublicationFactory publicationFactory,
+            IBodyTypeFactory bodyTypeFactory)
             : base(repositoryModel, context)
         {
             if (repositoryModel == null) throw new ArgumentNullException("repositoryModel");
-            if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
             if (context == null) throw new ArgumentNullException("context");
+            if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
+            if (bodyTypeFactory == null) throw new ArgumentNullException("bodyTypeFactory");
 
             _repositoryModel = repositoryModel;
             _publicationFactory = publicationFactory;
-            _assetFactory = assetFactory;
+            _bodyTypeFactory = bodyTypeFactory;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace TME.CarConfigurator.DI
 
         private IModelService _modelService;
         private IPublicationService _publicationService;
+        private IBodyTypeService _bodyTypeService;
 
         public IService Service
         {
@@ -61,7 +62,7 @@ namespace TME.CarConfigurator.DI
             return this;
         }
 
-        public S3ServiceFacade WithKeyMangere(IKeyManager keyManager)
+        public S3ServiceFacade WithKeyManager(IKeyManager keyManager)
         {
             _keyManager = keyManager;
 
@@ -82,6 +83,13 @@ namespace TME.CarConfigurator.DI
             return this;
         }
 
+        public IServiceFacade WithBodyTypeService(IBodyTypeService bodyTypeService)
+        {
+            _bodyTypeService = bodyTypeService;
+
+            return this;
+        }
+
         public IModelService CreateModelService()
         {
             return _modelService ?? new ModelService(Serializer, Service, KeyManager);
@@ -90,6 +98,11 @@ namespace TME.CarConfigurator.DI
         public IPublicationService CreatePublicationService()
         {
             return _publicationService ?? new PublicationService(Serializer, Service, KeyManager);
+        }
+
+        public IBodyTypeService CreateBodyTypeService()
+        {
+            return _bodyTypeService ?? new BodyTypeService(Serializer, Service, KeyManager);
         }
     }
 }
