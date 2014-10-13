@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
@@ -19,15 +18,17 @@ namespace TME.CarConfigurator.Publisher
         private readonly QueryServices.IModelService _getModelService;
         readonly IBodyTypePublisher _bodyTypePublisher;
         readonly IEnginePublisher _enginePublisher;
+        readonly IAssetPublisher _assetPublisher;
 
         public Publisher(IPublicationPublisher publicationPublisher, IModelPublisher putModelPublisher, QueryServices.IModelService getModelService,
-                         IBodyTypePublisher bodyTypePublisher, IEnginePublisher enginePublisher)
+                         IBodyTypePublisher bodyTypePublisher, IEnginePublisher enginePublisher,IAssetPublisher assetPublisher)
         {
             _publicationPublisher = publicationPublisher;
             _putModelPublisher = putModelPublisher;
             _getModelService = getModelService;
             _bodyTypePublisher = bodyTypePublisher;
             _enginePublisher = enginePublisher;
+            _assetPublisher = assetPublisher;
         }
 
         public async Task<Result> Publish(IContext context)
@@ -98,6 +99,7 @@ namespace TME.CarConfigurator.Publisher
             tasks.Add(PublishPublication(context));
             tasks.Add(PublishGenerationBodyTypes(context));
             tasks.Add(PublishGenerationEngines(context));
+            tasks.Add(PublishGenerationAssets(context));
 
             var results = await Task.WhenAll(tasks);
 
@@ -140,6 +142,11 @@ namespace TME.CarConfigurator.Publisher
         Task<IEnumerable<Result>> PublishGenerationEngines(IContext context)
         {
             return _enginePublisher.PublishGenerationEngines(context);
+        }
+
+        private Task<IEnumerable<Result>> PublishGenerationAssets(IContext context)
+        {
+            return _assetPublisher.PublishAssets(context);
         }
 
         private static Language GetS3Language(Languages s3ModelsOverview, String language)

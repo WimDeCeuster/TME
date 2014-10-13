@@ -1,11 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.S3.Shared.Result;
 
 namespace TME.CarConfigurator.CommandServices
 {
     public interface IAssetService
     {
-        Task<Result> PutGenerationAsset(string brand, string country, Guid id, object o, object value);
+        Task<Result> PutGenerationsAsset(String brand, String country,Guid publicationID, IEnumerable<Asset> assetValue);
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common;
@@ -13,7 +12,7 @@ namespace TME.CarConfigurator.S3.Publisher
 {
     public class BodyTypePublisher : IBodyTypePublisher
     {
-        IBodyTypeService _bodyTypeService;
+        readonly IBodyTypeService _bodyTypeService;
 
         public BodyTypePublisher(IBodyTypeService bodyTypeService)
         {

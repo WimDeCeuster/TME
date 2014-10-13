@@ -93,6 +93,7 @@
     <Compile Include="GivenAMapper\WhenMappingLinks.cs" />
     <Compile Include="GivenAPublisherService\IServiceFactory.cs" />
     <Compile Include="GivenAPublisherService\WhenPublishingToS3ProductionLive.cs" />
+    <Compile Include="GivenAS3AssetPublisher\WhenPublishingGenerationAssets.cs" />
     <Compile Include="GivenAS3BodyTypePublisher\WhenPublishingGenerationBodyTypes.cs" />
     <Compile Include="GivenAS3EnginePublisher\WhenPublishingGenerationEngines.cs" />
     <Compile Include="GivenAS3LanguagePublisher\WhenPublishingALanguage.cs" />
