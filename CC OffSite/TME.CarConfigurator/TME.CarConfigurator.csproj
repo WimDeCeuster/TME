@@ -55,6 +55,7 @@
     <Compile Include="EngineCategory.cs" />
     <Compile Include="EngineType.cs" />
     <Compile Include="Extensions\RepositoryModelExtensions.cs" />
+    <Compile Include="Factories\AssetFactory.cs" />
     <Compile Include="Factories\ModelFactory.cs" />
     <Compile Include="Factories\PublicationFactory.cs" />
     <Compile Include="FileType.cs" />

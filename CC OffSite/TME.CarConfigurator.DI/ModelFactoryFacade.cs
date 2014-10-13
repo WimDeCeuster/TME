@@ -1,5 +1,6 @@
 using TME.CarConfigurator.DI.Interfaces;
 using TME.CarConfigurator.Factories;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.QueryServices;
 
@@ -10,6 +11,7 @@ namespace TME.CarConfigurator.DI
         private IServiceFacade _serviceFacade;
         private IModelService _modelService;
         private IPublicationFactory _publicationFactory;
+        private IAssetFactory _assetFactory;
 
         public IModelFactoryFacade WithServiceFacade(IServiceFacade serviceFacade)
         {
@@ -25,11 +27,18 @@ namespace TME.CarConfigurator.DI
             return this;
         }
 
+        public IModelFactoryFacade WithAssetFactory(IAssetFactory assetFactory)
+        {
+            _assetFactory = assetFactory;
+
+            return this;
+        }
+
         public IModelFactory Create()
         {
             UseDefaultsWhenNoImplementationProvided();
 
-            return new ModelFactory(_modelService, _publicationFactory);
+            return new ModelFactory(_modelService, _publicationFactory, _assetFactory);
         }
 
         private void UseDefaultsWhenNoImplementationProvided()
@@ -39,6 +48,7 @@ namespace TME.CarConfigurator.DI
             _modelService = _modelService ?? _serviceFacade.CreateModelService();
 
             _publicationFactory = _publicationFactory ?? new PublicationFactory(_serviceFacade.CreatePublicationService());
+            _assetFactory = _assetFactory ?? new AssetFactory(_serviceFacade.CreateAssetService());
         }
     }
 }

@@ -5,10 +5,10 @@ using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.DI;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Enums;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
@@ -21,7 +21,6 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         private IModel _model;
         private string _actualSsn;
         private string _expectedSsn;
-        private IPublicationFactory _publicationFactory;
         private IPublicationService _publicationService;
         private Context _context;
 
@@ -30,53 +29,37 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
             _publicationID = Guid.NewGuid();
             _expectedSsn = "expected ssn";
 
+            var generation = GenerationBuilder.Initialize()
+                .WithSsn(_expectedSsn)
+                .Build();
+
+            var publication = new PublicationBuilder()
+                .WithID(_publicationID)
+                .WithGeneration(generation)
+                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                .Build();
+
+            var publicationInfo = new PublicationInfo(publication) { State = PublicationState.Activated };
+
+            var repoModel = new ModelBuilder().AddPublication(publicationInfo).Build();
+
             _context = ContextBuilder.Initialize().Build();
 
-            ArrangePublicationFactory();
-
-            var modelFactory = ArrangeModelFactory();
-
-            _model = modelFactory.GetModels(_context).Single();
-        }
-
-        private void ArrangePublicationFactory()
-        {
             _publicationService = A.Fake<IPublicationService>();
-
-            A.CallTo(() => _publicationService.GetPublication(_publicationID, _context))
-                .Returns(
-                    PublicationBuilder.Initialize()
-                        .WithGeneration(GenerationBuilder.Initialize()
-                        .WithSsn(_expectedSsn)
-                        .Build()
-                    )
-                    .Build());
-
-            _publicationFactory = PublicationFactoryBuilder.Initialize()
-                .WithPublicationService(_publicationService)
-                .Build();
-        }
-
-        private IModelFactory ArrangeModelFactory()
-        {
-            var publicationInfo = PublicationInfoBuilder.Initialize()
-                .WithID(_publicationID)
-                .WithGeneration(GenerationBuilder.Initialize().Build())
-                .CurrentlyActive()
-                .Build();
-
-            var repoModel = ModelBuilder.Initialize().AddPublication(publicationInfo).Build();
+            A.CallTo(() => _publicationService.GetPublication(_publicationID, _context)).Returns(publication);
 
             var modelService = A.Fake<IModelService>();
             A.CallTo(() => modelService.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
             var serviceFacade = new S3ServiceFacade()
-                .WithModelService(modelService);
+                .WithModelService(modelService)
+                .WithPublicationService(_publicationService);
 
-            return new ModelFactoryFacade()
+            var modelFactory = new ModelFactoryFacade()
                 .WithServiceFacade(serviceFacade)
-                .WithPublicationFactory(_publicationFactory)
                 .Create();
+
+            _model = modelFactory.GetModels(_context).Single();
         }
 
         protected override void Act()
