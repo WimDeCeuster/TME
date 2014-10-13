@@ -14,6 +14,8 @@
         <div class="clickable object" data-id="@Html.Raw(model.ID)">
                 @Html.Partial("_baseObject", model)
                 <p class="property" data-id="SSN">SSN : @Html.Raw(model.SSN)</p>
+                <p class="property" data-id="Brand">Brand : @Html.Raw(model.Brand)</p>
+                <p class="property" data-id="Promoted">Promoted : @Html.Raw(model.Promoted)</p>
                 <br/>
                 <a href="">Assets</a> | @Html.ActionLink("Cars", "Index", "ModelCars", new { modelID=model.ID }, new {})
         </div>

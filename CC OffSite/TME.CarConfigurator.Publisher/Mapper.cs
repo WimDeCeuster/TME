@@ -29,7 +29,7 @@ namespace TME.CarConfigurator.Publisher
                 context.ContextData[language] = contextData;
 
                 // fill contextData
-                var generation = AutoMapper.Mapper.Map<Generation>(modelGeneration);
+                var generation = MapGeneration(model, modelGeneration);
                 contextData.Generations.Add(generation);
                 contextData.Models.Add(AutoMapper.Mapper.Map<Model>(model));
 
@@ -203,6 +203,12 @@ namespace TME.CarConfigurator.Publisher
             return mappedCar;
         }
 
+        Generation MapGeneration(Administration.Model model, Administration.ModelGeneration modelGeneration)
+        {
+            var generation = AutoMapper.Mapper.Map<Generation>(modelGeneration);
+            generation.SortIndex = model.Index;
+            return generation;
+        }
 
         TDestination Map<TDestination>(object source1, object source2)
         {

@@ -40,7 +40,7 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get
             {
-                return Legacy.Model.GetPromotedModel(Legacy.MyContext.CurrentContext).Equals(Adaptee); 
+                return Object.Equals(Legacy.Model.GetPromotedModel(Legacy.MyContext.CurrentContext), Adaptee); 
             }
         }
 

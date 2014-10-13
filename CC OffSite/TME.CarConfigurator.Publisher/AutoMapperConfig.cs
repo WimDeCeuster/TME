@@ -55,7 +55,7 @@ namespace TME.CarConfigurator.Publisher
                            opt => opt.MapFrom(modelGeneration => modelGeneration.Assets))
                 .ForMember(generation => generation.SSN,
                            opt => opt.MapFrom(modelGeneration =>
-                                              modelGeneration.FactoryGenerations.Select(factoryGeneration => factoryGeneration.SSN).First()))
+                                              modelGeneration.FactoryGenerations.First().SSN))
                 .Localize(modelGeneration => modelGeneration.Name);
         }
 
@@ -159,7 +159,8 @@ namespace TME.CarConfigurator.Publisher
         {
             return mapping
                 .Translate(name)
-                .ForMember(destination => destination.InternalCode, opt => opt.MapFrom(source => source.BaseCode));
+                .ForMember(destination => destination.InternalCode, opt => opt.MapFrom(source => source.BaseCode))
+                .ForMember(destination => destination.LocalCode, opt => opt.MapFrom(source => String.IsNullOrWhiteSpace(source.LocalCode) ? source.BaseCode : source.LocalCode));
         }
 
         static AutoMapper.IMappingExpression<TSource, TDestination> Translate<TSource, TDestination>(
