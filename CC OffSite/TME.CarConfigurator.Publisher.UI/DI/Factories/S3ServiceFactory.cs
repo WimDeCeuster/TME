@@ -7,7 +7,7 @@ using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.Publisher.UI.DI.Factories
 {
-    public class S3ServiceFactory : IS3ServiceFactory
+    public class S3ServiceFactory : IServiceFactory
     {
         ISerialiser _serialiser;
         IKeyManager _keyManager;

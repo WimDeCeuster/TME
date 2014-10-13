@@ -20,11 +20,11 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
     public abstract class ActivatePublicationTestBase : TestBase
     {
-        protected IPublicationService PublicationService;
-        protected IModelService PutModelService;
+        protected IPublicationPublisher PublicationPublisher;
+        protected IModelPublisher PutModelPublisher;
         protected CarConfigurator.QueryServices.IModelService GetModelService;
-        protected IBodyTypeService BodyTypeService;
-        protected IEngineService EngineService;
+        protected IBodyTypePublisher BodyTypePublisher;
+        protected IEnginePublisher EnginePublisher;
         protected IPublisher Publisher;
         protected const string Brand = "Toyota";
         protected const string Country = "BE";
@@ -50,11 +50,11 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 
         protected override void Arrange()
         {
-            PublicationService = A.Fake<IPublicationService>(x => x.Strict());
-            PutModelService = A.Fake<IModelService>(x => x.Strict());
+            PublicationPublisher = A.Fake<IPublicationPublisher>(x => x.Strict());
+            PutModelPublisher = A.Fake<IModelPublisher>(x => x.Strict());
             GetModelService = A.Fake<CarConfigurator.QueryServices.IModelService>(x => x.Strict());
-            BodyTypeService = A.Fake<IBodyTypeService>(x => x.Strict());
-            EngineService = A.Fake<IEngineService>(x => x.Strict());
+            BodyTypePublisher = A.Fake<IBodyTypePublisher>(x => x.Strict());
+            EnginePublisher = A.Fake<IEnginePublisher>(x => x.Strict());
 
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
             var successFullTask = Task.FromResult((Result)new Successfull());
@@ -87,12 +87,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context.TimeFrames.Add(Language1, timeFrames);
             Context.TimeFrames.Add(Language2, timeFrames);
 
-            A.CallTo(() => PutModelService.PutModelsByLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
-            A.CallTo(() => PublicationService.PutPublications(null)).WithAnyArguments().Returns(successFullTasks);
-            A.CallTo(() => BodyTypeService.PutGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
-            A.CallTo(() => EngineService.PutGenerationEngines(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => PutModelPublisher.PublishModelsByLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
+            A.CallTo(() => PublicationPublisher.PublishPublications(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => BodyTypePublisher.PublishGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => EnginePublisher.PublishGenerationEngines(null)).WithAnyArguments().Returns(successFullTasks);
 
-            Publisher = new Publisher(PublicationService, PutModelService, GetModelService, BodyTypeService, EngineService);
+            Publisher = new Publisher(PublicationPublisher, PutModelPublisher, GetModelService, BodyTypePublisher, EnginePublisher);
         }
 
         protected override void Act()

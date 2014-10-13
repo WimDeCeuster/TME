@@ -93,10 +93,10 @@
     <Compile Include="GivenAMapper\WhenMappingLinks.cs" />
     <Compile Include="GivenAPublisherService\IServiceFactory.cs" />
     <Compile Include="GivenAPublisherService\WhenPublishingToS3ProductionLive.cs" />
-    <Compile Include="GivenAS3BodyTypeService\WhenPublishingGenerationBodyTypes.cs" />
-    <Compile Include="GivenAS3EngineService\WhenPublishingGenerationEngines.cs" />
-    <Compile Include="GivenAS3LanguageService\WhenPublishingALanguage.cs" />
-    <Compile Include="GivenAS3PublicationService\WhenPublishingAPublication.cs" />
+    <Compile Include="GivenAS3BodyTypePublisher\WhenPublishingGenerationBodyTypes.cs" />
+    <Compile Include="GivenAS3EnginePublisher\WhenPublishingGenerationEngines.cs" />
+    <Compile Include="GivenAS3LanguagePublisher\WhenPublishingALanguage.cs" />
+    <Compile Include="GivenAS3PublicationPublisher\WhenPublishingAPublication.cs" />
     <Compile Include="GivenAS3Publisher\ActivatePublicationTestBase.cs" />
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatAlreadyHadAPublication.cs" />
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatAlreadyHadAPublicationAndTheModelPropertiesHaveChanged.cs" />
@@ -138,6 +138,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.QueryServices.csproj">
       <Project>{5f4575a4-88db-4b32-bc1e-cd6fed06ca12}</Project>
       <Name>TME.CarConfigurator.S3.QueryServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.Publisher\TME.CarConfigurator.S3.Publisher.csproj">
+      <Project>{12f8e2e0-b205-4771-8499-357ea845082f}</Project>
+      <Name>TME.CarConfigurator.S3.Publisher</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.CommandServices.csproj">
       <Project>{F2D02000-FCD7-4356-9356-30E98CF5B829}</Project>

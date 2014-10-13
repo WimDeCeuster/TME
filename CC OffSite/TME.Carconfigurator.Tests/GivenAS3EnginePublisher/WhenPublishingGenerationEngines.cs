@@ -11,8 +11,10 @@ using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
+using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.S3.Publisher;
 
-namespace TME.Carconfigurator.Tests.GivenAS3EngineService
+namespace TME.Carconfigurator.Tests.GivenAS3EnginePublisher
 {
     public class WhenPublishingGenerationEngines : TestBase
     {
@@ -30,6 +32,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3EngineService
         const String _timeFrame4EnginesKey = "time frame 4 engines key";
         IService _s3Service;
         IEngineService _service;
+        IEnginePublisher _publisher;
         IContext _context;
 
         protected override void Arrange()
@@ -89,6 +92,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3EngineService
             var keyManager = A.Fake<IKeyManager>();
 
             _service = new EngineService(_s3Service, serialiser, keyManager);
+            _publisher = new EnginePublisher(_service);
 
             A.CallTo(() => serialiser.Serialise((IEnumerable<Engine>)null))
                 .WhenArgumentsMatch(ArgumentMatchesList(generationEngine1))
@@ -111,7 +115,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3EngineService
 
         protected override void Act()
         {
-            var result = _service.PutGenerationEngines(_context).Result;
+            var result = _publisher.PublishGenerationEngines(_context).Result;
         }
 
         [Fact]

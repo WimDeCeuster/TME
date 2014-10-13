@@ -17,11 +17,11 @@ namespace TME.Carconfigurator.Tests.Base
 {
     public abstract class PublicationTestBase : TestBase
     {
-        protected IPublicationService PublicationService;
-        protected IModelService PutModelService;
+        protected IPublicationPublisher PublicationPublisher;
+        protected IModelPublisher PutModelPublisher;
         protected CarConfigurator.QueryServices.IModelService GetModelService;
-        protected IBodyTypeService BodyTypeService;
-        protected IEngineService EngineService;
+        protected IBodyTypePublisher BodyTypePublisher;
+        protected IEnginePublisher EnginePublisher;
         protected Publisher Publisher;
         protected ISerialiser Serialiser;
         protected IContext Context;
@@ -34,26 +34,26 @@ namespace TME.Carconfigurator.Tests.Base
 
         protected override void Arrange()
         {
-            PublicationService = A.Fake<IPublicationService>(x => x.Strict());
-            PutModelService = A.Fake<IModelService>(x => x.Strict());
+            PublicationPublisher = A.Fake<IPublicationPublisher>(x => x.Strict());
+            PutModelPublisher = A.Fake<IModelPublisher>(x => x.Strict());
             GetModelService = A.Fake<CarConfigurator.QueryServices.IModelService>(x => x.Strict());
-            BodyTypeService = A.Fake<IBodyTypeService>(x => x.Strict());
-            EngineService = A.Fake<IEngineService>(x => x.Strict());
+            BodyTypePublisher = A.Fake<IBodyTypePublisher>(x => x.Strict());
+            EnginePublisher = A.Fake<IEnginePublisher>(x => x.Strict());
 
             var successFullTask = Task.FromResult((Result)new Successfull());
             var successFullTasks = Task.FromResult((IEnumerable<Result>)new[] { new Successfull() });
 
             Serialiser = A.Fake<ISerialiser>();
 
-            Publisher = new Publisher(PublicationService, PutModelService, GetModelService, BodyTypeService, EngineService);
+            Publisher = new Publisher(PublicationPublisher, PutModelPublisher, GetModelService, BodyTypePublisher, EnginePublisher);
             Context = ContextBuilder.GetDefaultContext(Languages);
 
             A.CallTo(() => Serialiser.Serialise((Publication)null)).WithAnyArguments().ReturnsLazily(args => args.Arguments.First().GetType().Name);
-            A.CallTo(() => PutModelService.PutModelsByLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
+            A.CallTo(() => PutModelPublisher.PublishModelsByLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
             A.CallTo(() => GetModelService.GetModelsByLanguage(Context.Brand, Context.Country)).Returns(new Languages());
-            A.CallTo(() => PublicationService.PutPublications(null)).WithAnyArguments().Returns(successFullTasks);
-            A.CallTo(() => BodyTypeService.PutGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
-            A.CallTo(() => EngineService.PutGenerationEngines(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => PublicationPublisher.PublishPublications(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => BodyTypePublisher.PublishGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => EnginePublisher.PublishGenerationEngines(null)).WithAnyArguments().Returns(successFullTasks);
 
         }
 

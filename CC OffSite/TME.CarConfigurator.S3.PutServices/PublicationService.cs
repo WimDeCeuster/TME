@@ -23,25 +23,12 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keyManager = keyManager;
         }
 
-        public async Task<IEnumerable<Result>> PutPublications(IContext context)
+        public async Task<Result> PutPublication(String brand, String country, Publication publication)
         {
-            if (context == null) throw new ArgumentNullException("context");
+            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand");
+            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
+            if (publication == null) throw new ArgumentNullException("publication");
 
-            var tasks = new List<Task<Result>>();
-
-            foreach (var entry in context.ContextData)
-            {
-                var language = entry.Key;
-                var data = entry.Value;
-
-                tasks.Add(PutPublication(context.Brand, context.Country, data.Publication));
-            }
-
-            return await Task.WhenAll(tasks);
-        }
-
-        async Task<Result> PutPublication(String brand, String country, Publication publication)
-        {
             var path = _keyManager.GetPublicationKey(publication.ID);
             var value = _serialiser.Serialise(publication);
 
