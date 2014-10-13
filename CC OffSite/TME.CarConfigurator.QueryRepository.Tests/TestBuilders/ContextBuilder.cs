@@ -6,21 +6,20 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
     {
         private readonly Context _context;
 
-        private ContextBuilder(Context context)
+        public ContextBuilder()
         {
-            _context = context;
-        }
-
-        public static ContextBuilder Initialize()
-        {
-            var context = new Context
+            _context = new Context
             {
                 Brand = "not initialized",
                 Country = "not initialized",
                 Language = "not initialized",
             };
 
-            return new ContextBuilder(context);
+        }
+
+        public static ContextBuilder Initialize()
+        {
+            return new ContextBuilder();
         }
 
         public ContextBuilder WithBrand(string brand)

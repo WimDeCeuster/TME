@@ -11,6 +11,7 @@ namespace TME.CarConfigurator.DI
         private IModelService _modelService;
         private IPublicationFactory _publicationFactory;
         private IBodyTypeFactory _bodyTypeFactory;
+        private IAssetFactory _assetFactory;
 
         public IModelFactoryFacade WithServiceFacade(IServiceFacade serviceFacade)
         {
@@ -47,7 +48,8 @@ namespace TME.CarConfigurator.DI
             _modelService = _modelService ?? _serviceFacade.CreateModelService();
 
             _publicationFactory = _publicationFactory ?? new PublicationFactory(_serviceFacade.CreatePublicationService());
-            _bodyTypeFactory = _bodyTypeFactory ?? new BodyTypeFactory(_serviceFacade.CreateBodyTypeService());
+            _assetFactory = _assetFactory ?? new AssetFactory(_serviceFacade.CreateAssetService());
+            _bodyTypeFactory = _bodyTypeFactory ?? new BodyTypeFactory(_serviceFacade.CreateBodyTypeService(), _assetFactory);
         }
     }
 }

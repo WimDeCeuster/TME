@@ -11,5 +11,6 @@ namespace TME.CarConfigurator.DI.Interfaces
         IModelService CreateModelService();
         IPublicationService CreatePublicationService();
         IBodyTypeService CreateBodyTypeService();
+        IAssetService CreateAssetService();
     }
 }
