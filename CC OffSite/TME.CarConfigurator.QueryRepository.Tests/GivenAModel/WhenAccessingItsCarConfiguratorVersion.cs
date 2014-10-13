@@ -5,7 +5,6 @@ using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.DI;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
@@ -17,30 +16,20 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAModel
 {
-    public class WhenAccesingItsAssets : TestBase
+    public class WhenAccessingItsCarConfiguratorVersion : TestBase
     {
         private IModel _model;
-        private IEnumerable<IAsset> _assets;
-        private Repository.Objects.Assets.Asset _asset1;
-        private Repository.Objects.Assets.Asset _asset2;
+        private ICarConfiguratorVersion _actualVersion;
+        private const short CcVersionId = 23;
+        private const string CcVersionName = "cc version";
 
         protected override void Arrange()
         {
-            _asset1 = new AssetBuilder()
-                .WithId(Guid.NewGuid())
-                .Build();
-            _asset2 = new AssetBuilder()
-                .WithId(Guid.NewGuid())
-                .Build();
-
-            var publicationId = Guid.NewGuid();
             var generation = new GenerationBuilder()
-                .AddAsset(_asset1)
-                .AddAsset(_asset2)
+                .WithCarConfiguratorVersion(CcVersionId, CcVersionName)
                 .Build();
 
             var publication = new PublicationBuilder()
-                .WithID(publicationId)
                 .WithGeneration(generation)
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
                 .Build();
@@ -70,16 +59,14 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
 
         protected override void Act()
         {
-            _assets = _model.Assets;
+            _actualVersion = _model.CarConfiguratorVersion;
         }
 
         [Fact]
-        public void ThenItShouldHaveTheAssets()
+        public void ThenItShouldHaveTheCarConfiguratorVersion()
         {
-            _assets.Count().Should().Be(2);
-
-            _assets.Should().Contain(a => a.ID == _asset1.ID);
-            _assets.Should().Contain(a => a.ID == _asset2.ID);
+            _actualVersion.ID.Should().Be(CcVersionId);
+            _actualVersion.Name.Should().Be(CcVersionName);
         }
     }
 }
