@@ -51,11 +51,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GiveAnEngine\WhenAccessingItsLabelsForTheFirstTime.cs" />
+    <Compile Include="GiveAnEngine\WhenAccessingItsLabelsForTheSecondTime.cs" />
+    <Compile Include="GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
     <Compile Include="GivenALanguageService\WhenGetLanguagesIsCalled.cs" />
+    <Compile Include="GivenAModel\WhenAccesingItsAssetsASecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingAPublicationPropertyWhileItAlreadyFetchedThePublication.cs" />
     <Compile Include="GivenAModel\WhenAccessingAPublicationPropertyWhileItDidNotFetchThePublicationYet.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsBodyTypesASecondTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsBodyTypesForTheFirstTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsCarConfiguratorVersion.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsCarConfiguratorVersionASecondTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsEnginesForTheFirstTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsEnginesForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />
     <Compile Include="GivenAPublicationService\WhenGetPublicationIsCalled.cs" />
     <Compile Include="GivenModels\WhenRequestingTheListOfActiveModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,6 +79,10 @@
     <Compile Include="TestHelpers\Context.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.CommandServices\TME.CarConfigurator.CommandServices.csproj">
+      <Project>{3DB012EE-FEB6-40F1-9C09-97212C142013}</Project>
+      <Name>TME.CarConfigurator.CommandServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.DI\TME.CarConfigurator.DI.csproj">
       <Project>{4D5EB607-E56D-47BA-8E67-E196AE1CB19B}</Project>
       <Name>TME.CarConfigurator.DI</Name>

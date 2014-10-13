@@ -26,14 +26,12 @@ namespace TME.Carconfigurator.Tests.GivenAMapper
         }
 
         [Fact]
-        public void ThenABodyTypeShouldMatch()
+        public void ThenABodyTypeShouldMatch()  
         {
             var bodyType = Context.ContextData[Language].GenerationBodyTypes.Single(bt => bt.ID == _bodyType.ID);
 
             bodyType.Description.ShouldBeEquivalentTo(_bodyType.Translation.Description);
             bodyType.FootNote.ShouldBeEquivalentTo(_bodyType.Translation.FootNote);
-            //bodyType.InternalCode.ShouldBeEquivalentTo(null);
-            //bodyType.LocalCode.ShouldBeEquivalentTo(null);
             bodyType.Name.Should().BeOneOf(_bodyType.Translation.Name, _bodyType.Name);
             bodyType.NumberOfDoors.ShouldBeEquivalentTo(_bodyType.NumberOfDoors);
             bodyType.NumberOfSeats.ShouldBeEquivalentTo(_bodyType.NumberOfSeats);

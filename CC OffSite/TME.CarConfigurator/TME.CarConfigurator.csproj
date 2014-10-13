@@ -50,13 +50,15 @@
     <Compile Include="CarConfiguratorVersion.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
     <Compile Include="Core\BaseObject.cs" />
+    <Compile Include="Label.cs" />
     <Compile Include="Core\ReadOnlyList.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="EngineCategory.cs" />
     <Compile Include="EngineType.cs" />
     <Compile Include="Extensions\RepositoryModelExtensions.cs" />
-    <Compile Include="Factories\AssetFactory.cs" />
-    <Compile Include="Factories\LinkFactory.cs" />
+    <Compile Include="Extensions\RepositoryPublicationExtensions.cs" />
+    <Compile Include="Factories\BodyTypeFactory.cs" />
+    <Compile Include="Factories\EngineFactory.cs" />
     <Compile Include="Factories\ModelFactory.cs" />
     <Compile Include="Factories\PublicationFactory.cs" />
     <Compile Include="FileType.cs" />

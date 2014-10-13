@@ -1,5 +1,4 @@
-﻿using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Factories;
+﻿using TME.CarConfigurator.Interfaces.Factories;
 
 namespace TME.CarConfigurator.DI.Interfaces
 {
@@ -7,7 +6,8 @@ namespace TME.CarConfigurator.DI.Interfaces
     {
         IModelFactoryFacade WithServiceFacade(IServiceFacade serviceFacade);
         IModelFactoryFacade WithPublicationFactory(IPublicationFactory publicationFactory);
-        IModelFactoryFacade WithAssetFactory(IAssetFactory assetFactory);
+        IModelFactoryFacade WithBodyTypeFactory(IBodyTypeFactory bodyTypeFactory);
+        IModelFactoryFacade WithEngineFactory(IEngineFactory engineFactory);
 
         IModelFactory Create();
     }

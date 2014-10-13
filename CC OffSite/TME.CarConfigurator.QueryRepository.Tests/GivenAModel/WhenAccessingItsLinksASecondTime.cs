@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
@@ -17,11 +17,12 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAModel
 {
-    public class WhenAccessingItsLinks : TestBase
+    public class WhenAccessingItsLinksASecondTime : TestBase
     {
         private Guid _publicationId;
         private IModel _model;
-        private IEnumerable<ILink> _links;
+        private IEnumerable<ILink> _firstLinks;
+        private IEnumerable<ILink> _secondLinks;
         private Repository.Objects.Link _link1;
         private Repository.Objects.Link _link2;
 
@@ -69,20 +70,28 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
                 .Create();
 
             _model = modelFactory.GetModels(new Context()).Single();
+
+            _firstLinks = _model.Links;
         }
 
         protected override void Act()
         {
-            _links = _model.Links;
+            _secondLinks = _model.Links;
+        }
+
+        [Fact]
+        public void ThenItShouldNotRecalculateTheLinks()
+        {
+            _secondLinks.Should().BeSameAs(_firstLinks);
         }
 
         [Fact]
         public void ThenItShouldHaveTheLinks()
         {
-            _links.Count().Should().Be(2);
+            _secondLinks.Count().Should().Be(2);
 
-            _links.Should().Contain(l => l.ID == _link1.ID);
-            _links.Should().Contain(l => l.ID == _link2.ID);
+            _secondLinks.Should().Contain(l => l.ID == _link1.ID);
+            _secondLinks.Should().Contain(l => l.ID == _link2.ID);
         }
     }
 }

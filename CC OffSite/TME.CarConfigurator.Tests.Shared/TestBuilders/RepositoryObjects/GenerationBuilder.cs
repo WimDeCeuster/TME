@@ -53,6 +53,15 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
             return this;
         }
 
+        public GenerationBuilder WithCarConfiguratorVersion(short versionId, string versionName)
+        {
+            var carConfigVersion = new CarConfiguratorVersion {ID = versionId, Name = versionName};
+            
+            _generation.CarConfiguratorVersion = carConfigVersion;
+
+            return this;
+        }
+
         public Generation Build()
         {
             return _generation;

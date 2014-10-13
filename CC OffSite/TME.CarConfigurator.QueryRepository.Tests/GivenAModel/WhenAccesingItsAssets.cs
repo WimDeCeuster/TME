@@ -7,6 +7,7 @@ using TME.CarConfigurator.DI;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
@@ -22,7 +23,6 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         private IEnumerable<IAsset> _assets;
         private Repository.Objects.Assets.Asset _asset1;
         private Repository.Objects.Assets.Asset _asset2;
-        private Guid _publicationId;
 
         protected override void Arrange()
         {
@@ -33,14 +33,14 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
                 .WithId(Guid.NewGuid())
                 .Build();
 
-            _publicationId = Guid.NewGuid();
+            var publicationId = Guid.NewGuid();
             var generation = new GenerationBuilder()
                 .AddAsset(_asset1)
                 .AddAsset(_asset2)
                 .Build();
 
             var publication = new PublicationBuilder()
-                .WithID(_publicationId)
+                .WithID(publicationId)
                 .WithGeneration(generation)
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
                 .Build();
@@ -55,7 +55,10 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
             var modelService = A.Fake<IModelService>();
             A.CallTo(() => modelService.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
+            var configurationManager = new ConfigurationManagerBuilder().Build();
+
             var serviceFacade = new S3ServiceFacade()
+                .WithConfigurationManager(configurationManager)
                 .WithModelService(modelService);
 
             var modelFactory = new ModelFactoryFacade()

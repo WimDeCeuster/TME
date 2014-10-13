@@ -9,6 +9,7 @@ using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
+using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
@@ -19,7 +20,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
     {
         private Guid _publicationID;
         private IModel _model;
-        private string _actualSsn;
+        private string _firstSsn;
+        private string _secondSsn;
         private string _expectedSsn;
         private IPublicationService _publicationService;
         private Context _context;
@@ -51,7 +53,10 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
             var modelService = A.Fake<IModelService>();
             A.CallTo(() => modelService.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
+            var configurationManager = new ConfigurationManagerBuilder().Build();
+
             var serviceFacade = new S3ServiceFacade()
+                .WithConfigurationManager(configurationManager)
                 .WithModelService(modelService)
                 .WithPublicationService(_publicationService);
 
@@ -61,12 +66,12 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
 
             _model = modelFactory.GetModels(_context).Single();
             
-            var dummy = _model.SSN; // call publication property a first time
+            _firstSsn = _model.SSN; // call publication property a first time
         }
 
         protected override void Act()
         {
-            _actualSsn = _model.SSN; // call publication property a second time
+            _secondSsn = _model.SSN; // call publication property a second time
         }
 
         [Fact]
@@ -78,7 +83,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         [Fact]
         public void ThenItShouldStillGetTheCorrectValue()
         {
-            _actualSsn.Should().Be(_expectedSsn);
+            _secondSsn.Should().BeSameAs(_firstSsn);
         }
     }
 }

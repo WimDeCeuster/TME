@@ -1,5 +1,4 @@
-﻿using System;
-using TME.CarConfigurator.Configuration;
+﻿using TME.CarConfigurator.Configuration;
 using TME.CarConfigurator.DI.Interfaces;
 using TME.CarConfigurator.Interfaces.Configuration;
 using TME.CarConfigurator.QueryServices;
@@ -12,13 +11,15 @@ namespace TME.CarConfigurator.DI
 {
     public class S3ServiceFacade : IServiceFacade
     {
-        private readonly IConfigurationManager _configurationManager;
+        private IConfigurationManager _configurationManager = new ConfigurationManager();
         private IService _service;
         private IKeyManager _keyManager;
         private ISerialiser _serializer;
 
         private IModelService _modelService;
         private IPublicationService _publicationService;
+        private IBodyTypeService _bodyTypeService;
+        private IEngineService _engineService;
 
         public IService Service
         {
@@ -35,16 +36,11 @@ namespace TME.CarConfigurator.DI
             get { return _serializer ?? new Serialiser(); }
         }
 
-        public S3ServiceFacade()
-            : this(new ConfigurationManager())
+        public S3ServiceFacade WithConfigurationManager(IConfigurationManager configurationManager)
         {
-
-        }
-
-        public S3ServiceFacade(IConfigurationManager configurationManager)
-        {
-            if (configurationManager == null) throw new ArgumentNullException("configurationManager");
             _configurationManager = configurationManager;
+
+            return this;
         }
 
         public S3ServiceFacade WithService(IService service)
@@ -61,7 +57,7 @@ namespace TME.CarConfigurator.DI
             return this;
         }
 
-        public S3ServiceFacade WithKeyMangere(IKeyManager keyManager)
+        public S3ServiceFacade WithKeyManager(IKeyManager keyManager)
         {
             _keyManager = keyManager;
 
@@ -82,6 +78,20 @@ namespace TME.CarConfigurator.DI
             return this;
         }
 
+        public IServiceFacade WithEngineService(IEngineService engineService)
+        {
+            _engineService = engineService;
+
+            return this;
+        }
+
+        public IServiceFacade WithBodyTypeService(IBodyTypeService bodyTypeService)
+        {
+            _bodyTypeService = bodyTypeService;
+
+            return this;
+        }
+
         public IModelService CreateModelService()
         {
             return _modelService ?? new ModelService(Serializer, Service, KeyManager);
@@ -91,5 +101,17 @@ namespace TME.CarConfigurator.DI
         {
             return _publicationService ?? new PublicationService(Serializer, Service, KeyManager);
         }
+
+        public IBodyTypeService CreateBodyTypeService()
+        {
+            return _bodyTypeService ?? new BodyTypeService(Serializer, Service, KeyManager);
+        }
+
+        public IEngineService CreateEngineService()
+        {
+            return _engineService ?? new EngineService(/*Serializer, Service, KeyManager*/);
+        }
+
+
     }
 }

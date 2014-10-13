@@ -3,8 +3,8 @@ using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.Interfaces.Factories
 {
-    public interface ILinkFactory
+    public interface IBodyTypeFactory
     {
-        IEnumerable<ILink> CreateLinks(IEnumerable<Link> links);
+        IEnumerable<IBodyType> GetBodyTypes(Publication publication, Context context);
     }
 }

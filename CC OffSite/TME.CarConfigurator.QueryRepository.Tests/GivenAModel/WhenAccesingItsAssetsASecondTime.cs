@@ -1,44 +1,44 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.DI;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Factories;
-using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
+using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
-using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAModel
 {
-    public class WhenAccessingItsLinks : TestBase
+    public class WhenAccesingItsAssetsASecondTime : TestBase
     {
-        private Guid _publicationId;
         private IModel _model;
-        private IEnumerable<ILink> _links;
-        private Repository.Objects.Link _link1;
-        private Repository.Objects.Link _link2;
+        private IEnumerable<IAsset> _firstAssets;
+        private IEnumerable<IAsset> _secondAssets;
+        private Repository.Objects.Assets.Asset _asset1;
+        private Repository.Objects.Assets.Asset _asset2;
+        private Guid _publicationId;
 
         protected override void Arrange()
         {
-            _link1 = new LinkBuilder()
-                .WithId(12)
+            _asset1 = new AssetBuilder()
+                .WithId(Guid.NewGuid())
                 .Build();
-
-            _link2 = new LinkBuilder()
-                .WithId(45)
+            _asset2 = new AssetBuilder()
+                .WithId(Guid.NewGuid())
                 .Build();
 
             _publicationId = Guid.NewGuid();
             var generation = new GenerationBuilder()
-                .AddLink(_link1)
-                .AddLink(_link2)
+                .AddAsset(_asset1)
+                .AddAsset(_asset2)
                 .Build();
 
             var publication = new PublicationBuilder()
@@ -57,10 +57,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
             var modelService = A.Fake<IModelService>();
             A.CallTo(() => modelService.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
-            var configurationManager = new ConfigurationManagerBuilder().Build();
-
             var serviceFacade = new S3ServiceFacade()
-                .WithConfigurationManager(configurationManager)
+                .WithService(A.Fake<IService>())
                 .WithModelService(modelService);
 
             var modelFactory = new ModelFactoryFacade()
@@ -69,20 +67,28 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
                 .Create();
 
             _model = modelFactory.GetModels(new Context()).Single();
+
+            _firstAssets = _model.Assets;
         }
 
         protected override void Act()
         {
-            _links = _model.Links;
+            _secondAssets = _model.Assets;
         }
 
         [Fact]
-        public void ThenItShouldHaveTheLinks()
+        public void ThenItShouldNotRecalculateTheAssetsList()
         {
-            _links.Count().Should().Be(2);
+            _secondAssets.Should().BeSameAs(_firstAssets);
+        }
 
-            _links.Should().Contain(l => l.ID == _link1.ID);
-            _links.Should().Contain(l => l.ID == _link2.ID);
+        [Fact]
+        public void ThenItShouldHaveTheAssets()
+        {
+            _secondAssets.Count().Should().Be(2);
+
+            _secondAssets.Should().Contain(a => a.ID == _asset1.ID);
+            _secondAssets.Should().Contain(a => a.ID == _asset2.ID);
         }
     }
 }
