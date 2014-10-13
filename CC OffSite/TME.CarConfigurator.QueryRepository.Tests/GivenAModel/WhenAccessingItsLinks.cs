@@ -5,36 +5,43 @@ using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.DI;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Query.Tests.TestBuilders;
+using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
 using TME.CarConfigurator.Tests.Shared;
+using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAModel
 {
-    public class WhenAccessingAPublicationPropertyWhileItDidNotFetchThePublicationYet : TestBase
+    public class WhenAccessingItsLinks : TestBase
     {
-        private Guid _publicationID;
+        private Guid _publicationId;
         private IModel _model;
-        private string _actualSsn;
-        private string _expectedSsn;
-        private IPublicationService _publicationService;
-        private Context _context;
+        private IEnumerable<ILink> _links;
+        private Repository.Objects.Link _link1;
+        private Repository.Objects.Link _link2;
 
         protected override void Arrange()
         {
-            _publicationID = Guid.NewGuid();
-            _expectedSsn = "expected ssn";
+            _link1 = new LinkBuilder()
+                .WithId(12)
+                .Build();
 
-            var generation = GenerationBuilder.Initialize()
-                .WithSsn(_expectedSsn)
+            _link2 = new LinkBuilder()
+                .WithId(45)
+                .Build();
+
+            _publicationId = Guid.NewGuid();
+            var generation = new GenerationBuilder()
+                .AddLink(_link1)
+                .AddLink(_link2)
                 .Build();
 
             var publication = new PublicationBuilder()
-                .WithID(_publicationID)
+                .WithID(_publicationId)
                 .WithGeneration(generation)
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
                 .Build();
@@ -43,41 +50,35 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
 
             var repoModel = new ModelBuilder().AddPublication(publicationInfo).Build();
 
-            _context = ContextBuilder.Initialize().Build();
-
-            _publicationService = A.Fake<IPublicationService>();
-            A.CallTo(() => _publicationService.GetPublication(_publicationID, _context)).Returns(publication);
+            var publicationFactory = A.Fake<IPublicationFactory>();
+            A.CallTo(() => publicationFactory.GetPublication(repoModel, A<Context>._)).Returns(publication);
 
             var modelService = A.Fake<IModelService>();
             A.CallTo(() => modelService.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
             var serviceFacade = new S3ServiceFacade()
-                .WithModelService(modelService)
-                .WithPublicationService(_publicationService);
+                .WithModelService(modelService);
 
             var modelFactory = new ModelFactoryFacade()
                 .WithServiceFacade(serviceFacade)
+                .WithPublicationFactory(publicationFactory)
                 .Create();
 
-            _model = modelFactory.GetModels(_context).Single();
+            _model = modelFactory.GetModels(new Context()).Single();
         }
 
         protected override void Act()
         {
-            _actualSsn = _model.SSN;
+            _links = _model.Links;
         }
 
         [Fact]
-        public void ThenItShouldGetThePublicationFromThePublicationFactory()
+        public void ThenItShouldHaveTheLinks()
         {
-            A.CallTo(() => _publicationService.GetPublication(_publicationID, _context)).MustHaveHappened(Repeated.Exactly.Once);
+            _links.Count().Should().Be(2);
 
-        }
-
-        [Fact]
-        public void ThenItShouldHaveThePropertyFilledCorrectly()
-        {
-            _actualSsn.Should().Be(_expectedSsn);
+            _links.Should().Contain(l => l.ID == _link1.ID);
+            _links.Should().Contain(l => l.ID == _link2.ID);
         }
     }
 }

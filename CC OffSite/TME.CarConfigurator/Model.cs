@@ -11,6 +11,8 @@ namespace TME.CarConfigurator
     {
         private readonly Repository.Objects.Model _repositoryModel;
         private readonly IPublicationFactory _publicationFactory;
+        private readonly IAssetFactory _assetFactory;
+        private readonly ILinkFactory _linkFactory;
         private Publication _publication;
 
         private Publication Publication
@@ -30,9 +32,9 @@ namespace TME.CarConfigurator
 
         public ICarConfiguratorVersion CarConfiguratorVersion { get { throw new NotImplementedException(); } }
 
-        public IEnumerable<ILink> Links { get { throw new NotImplementedException(); } }
+        public IEnumerable<ILink> Links { get { return _linkFactory.CreateLinks(Publication.Generation.Links); } }
 
-        public IEnumerable<IAsset> Assets { get { throw new NotImplementedException(); } }
+        public IEnumerable<IAsset> Assets { get { return _assetFactory.CreateAssets(Publication.Generation.Assets); } }
 
         public IEnumerable<IBodyType> BodyTypes { get { throw new NotImplementedException(); } }
 
@@ -42,15 +44,23 @@ namespace TME.CarConfigurator
 
         public IEnumerable<ICar> Cars { get { throw new NotImplementedException(); } }
 
-        public Model(Repository.Objects.Model repositoryModel, Context context, IPublicationFactory publicationFactory)
+        public Model(
+            Repository.Objects.Model repositoryModel, 
+            Context context, 
+            IPublicationFactory publicationFactory, 
+            IAssetFactory assetFactory,
+            ILinkFactory linkFactory)
             : base(repositoryModel, context)
         {
             if (repositoryModel == null) throw new ArgumentNullException("repositoryModel");
-            if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
             if (context == null) throw new ArgumentNullException("context");
+            if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
+            if (linkFactory == null) throw new ArgumentNullException("linkFactory");
 
             _repositoryModel = repositoryModel;
             _publicationFactory = publicationFactory;
+            _assetFactory = assetFactory;
+            _linkFactory = linkFactory;
         }
     }
 }

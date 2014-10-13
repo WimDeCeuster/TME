@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Enums;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
 {
@@ -8,19 +9,17 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
     {
         private readonly Publication _publication;
 
-        private PublicationBuilder(Publication publication)
+        public PublicationBuilder()
         {
-            _publication = publication;
+            _publication = new Publication
+            {
+                TimeFrames = new List<PublicationTimeFrame>()
+            };
         }
 
         public static PublicationBuilder Initialize()
         {
-            var publication = new Publication
-            {
-                TimeFrames = new List<PublicationTimeFrame>()
-            };
-
-            return new PublicationBuilder(publication);
+            return new PublicationBuilder();
         }
 
         public PublicationBuilder WithGeneration(Generation generation)
@@ -33,6 +32,14 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
         public PublicationBuilder WithID(Guid publicationId)
         {
             _publication.ID = publicationId;
+
+            return this;
+        }
+
+        public PublicationBuilder WithDateRange(DateTime from, DateTime to)
+        {
+            _publication.LineOffFrom = from;
+            _publication.LineOffTo = to;
 
             return this;
         }

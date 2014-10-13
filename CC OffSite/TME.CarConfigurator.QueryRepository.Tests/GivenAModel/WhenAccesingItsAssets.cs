@@ -5,7 +5,8 @@ using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.DI;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Query.Tests.TestBuilders;
+using TME.CarConfigurator.Interfaces.Assets;
+using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
@@ -15,26 +16,31 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAModel
 {
-    public class WhenAccessingAPublicationPropertyWhileItDidNotFetchThePublicationYet : TestBase
+    public class WhenAccesingItsAssets : TestBase
     {
-        private Guid _publicationID;
         private IModel _model;
-        private string _actualSsn;
-        private string _expectedSsn;
-        private IPublicationService _publicationService;
-        private Context _context;
+        private IEnumerable<IAsset> _assets;
+        private Repository.Objects.Assets.Asset _asset1;
+        private Repository.Objects.Assets.Asset _asset2;
+        private Guid _publicationId;
 
         protected override void Arrange()
         {
-            _publicationID = Guid.NewGuid();
-            _expectedSsn = "expected ssn";
+            _asset1 = new AssetBuilder()
+                .WithId(Guid.NewGuid())
+                .Build();
+            _asset2 = new AssetBuilder()
+                .WithId(Guid.NewGuid())
+                .Build();
 
-            var generation = GenerationBuilder.Initialize()
-                .WithSsn(_expectedSsn)
+            _publicationId = Guid.NewGuid();
+            var generation = new GenerationBuilder()
+                .AddAsset(_asset1)
+                .AddAsset(_asset2)
                 .Build();
 
             var publication = new PublicationBuilder()
-                .WithID(_publicationID)
+                .WithID(_publicationId)
                 .WithGeneration(generation)
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
                 .Build();
@@ -43,41 +49,35 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
 
             var repoModel = new ModelBuilder().AddPublication(publicationInfo).Build();
 
-            _context = ContextBuilder.Initialize().Build();
-
-            _publicationService = A.Fake<IPublicationService>();
-            A.CallTo(() => _publicationService.GetPublication(_publicationID, _context)).Returns(publication);
+            var publicationFactory = A.Fake<IPublicationFactory>();
+            A.CallTo(() => publicationFactory.GetPublication(repoModel, A<Context>._)).Returns(publication);
 
             var modelService = A.Fake<IModelService>();
             A.CallTo(() => modelService.GetModels(A<Context>._)).Returns(new List<Repository.Objects.Model> { repoModel });
 
             var serviceFacade = new S3ServiceFacade()
-                .WithModelService(modelService)
-                .WithPublicationService(_publicationService);
+                .WithModelService(modelService);
 
             var modelFactory = new ModelFactoryFacade()
                 .WithServiceFacade(serviceFacade)
+                .WithPublicationFactory(publicationFactory)
                 .Create();
 
-            _model = modelFactory.GetModels(_context).Single();
+            _model = modelFactory.GetModels(new Context()).Single();
         }
 
         protected override void Act()
         {
-            _actualSsn = _model.SSN;
+            _assets = _model.Assets;
         }
 
         [Fact]
-        public void ThenItShouldGetThePublicationFromThePublicationFactory()
+        public void ThenItShouldHaveTheAssets()
         {
-            A.CallTo(() => _publicationService.GetPublication(_publicationID, _context)).MustHaveHappened(Repeated.Exactly.Once);
+            _assets.Count().Should().Be(2);
 
-        }
-
-        [Fact]
-        public void ThenItShouldHaveThePropertyFilledCorrectly()
-        {
-            _actualSsn.Should().Be(_expectedSsn);
+            _assets.Should().Contain(a => a.ID == _asset1.ID);
+            _assets.Should().Contain(a => a.ID == _asset2.ID);
         }
     }
 }

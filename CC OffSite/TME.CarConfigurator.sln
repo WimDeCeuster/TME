@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
+# Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Repository.Objects", "TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj", "{2154EAAA-3D11-4654-BEA6-7B147451DBA8}"
@@ -41,6 +41,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.CommandServices", "TME.CarConfigurator.CommandServices\TME.CarConfigurator.CommandServices.csproj", "{3DB012EE-FEB6-40F1-9C09-97212C142013}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.S3.Publisher", "TME.CarConfigurator.S3.Publisher\TME.CarConfigurator.S3.Publisher.csproj", "{12F8E2E0-B205-4771-8499-357EA845082F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.DI", "TME.CarConfigurator.DI\TME.CarConfigurator.DI.csproj", "{4D5EB607-E56D-47BA-8E67-E196AE1CB19B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -116,6 +118,10 @@ Global
 		{12F8E2E0-B205-4771-8499-357EA845082F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12F8E2E0-B205-4771-8499-357EA845082F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12F8E2E0-B205-4771-8499-357EA845082F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D5EB607-E56D-47BA-8E67-E196AE1CB19B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D5EB607-E56D-47BA-8E67-E196AE1CB19B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D5EB607-E56D-47BA-8E67-E196AE1CB19B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D5EB607-E56D-47BA-8E67-E196AE1CB19B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

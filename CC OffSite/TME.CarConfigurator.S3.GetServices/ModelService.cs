@@ -28,7 +28,7 @@ namespace TME.CarConfigurator.S3.QueryServices
 
             var language = languages.SingleOrDefault(l => l.Code.Equals(context.Language, StringComparison.InvariantCultureIgnoreCase));
 
-            if (language !=null) return language.Models;
+            if (language != null) return language.Models;
 
             throw new CountryLanguageCombinationDoesNotExistException(context.Country, context.Language);
         }

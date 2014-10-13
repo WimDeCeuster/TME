@@ -1,10 +1,11 @@
 ﻿using TME.CarConfigurator.QueryServices;
 
-namespace TME.CarConfigurator.Interfaces.Facades
+namespace TME.CarConfigurator.DI.Interfaces
 {
     public interface IServiceFacade
     {
         IServiceFacade WithModelService(IModelService modelService);
+        IServiceFacade WithPublicationService(IPublicationService publicationService);
 
         IModelService CreateModelService();
         IPublicationService CreatePublicationService();

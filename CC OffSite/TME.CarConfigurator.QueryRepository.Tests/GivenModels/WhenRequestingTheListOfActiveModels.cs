@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using FakeItEasy;
 using FluentAssertions;
-using TME.CarConfigurator.Facades;
+using TME.CarConfigurator.DI;
+using TME.CarConfigurator.DI.Interfaces;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Facades;
-using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Query.Tests.GivenAModel;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
@@ -25,7 +24,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenModels
 
         private IEnumerable<Repository.Objects.Model> _modelsFromRespository;
         private Context _context;
-        private IModels _models;
+        private IEnumerable<IModel> _models;
         private IModelFactoryFacade _modelFactoryFacade;
         private IModelService _modelService;
 
