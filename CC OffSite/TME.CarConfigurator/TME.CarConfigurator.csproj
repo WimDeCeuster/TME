@@ -55,15 +55,12 @@
     <Compile Include="EngineCategory.cs" />
     <Compile Include="EngineType.cs" />
     <Compile Include="Extensions\RepositoryModelExtensions.cs" />
-    <Compile Include="Facades\ModelFactoryFacade.cs" />
-    <Compile Include="Facades\S3ServiceFacade.cs" />
     <Compile Include="Factories\ModelFactory.cs" />
     <Compile Include="Factories\PublicationFactory.cs" />
     <Compile Include="FileType.cs" />
     <Compile Include="FuelType.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="Model.cs" />
-    <Compile Include="Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

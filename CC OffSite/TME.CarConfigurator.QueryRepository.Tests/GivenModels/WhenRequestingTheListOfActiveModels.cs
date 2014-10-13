@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using FakeItEasy;
 using FluentAssertions;
-using TME.CarConfigurator.Facades;
+using TME.CarConfigurator.DI;
+using TME.CarConfigurator.DI.Interfaces;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Facades;
 using TME.CarConfigurator.Query.Tests.GivenAModel;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;

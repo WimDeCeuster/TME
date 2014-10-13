@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
-using TME.CarConfigurator.Facades;
+using TME.CarConfigurator.DI;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Factories;
@@ -60,9 +60,9 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
                 .WithPublicationFactory(publicationFactory)
                 .Create();
 
-            _model = modelFactory.GetModels(new Context()).Single();
-
             // TODO: create assetfactory, inject assetfactory in model, use assetfactory to retrieve list of assets, return through asset property
+
+            _model = modelFactory.GetModels(new Context()).Single();
         }
 
         protected override void Act()

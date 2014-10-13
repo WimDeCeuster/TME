@@ -1,6 +1,6 @@
 ﻿using TME.CarConfigurator.Interfaces.Factories;
 
-namespace TME.CarConfigurator.Interfaces.Facades
+namespace TME.CarConfigurator.DI.Interfaces
 {
     public interface IModelFactoryFacade
     {

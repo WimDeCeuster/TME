@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using TME.CarConfigurator.Facades;
+using System.Collections.Generic;
+using TME.CarConfigurator.DI.Interfaces;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Facades;
 using TME.CarConfigurator.Repository.Objects;
 
-namespace TME.CarConfigurator
+namespace TME.CarConfigurator.DI
 {
     public class Models : List<IModel>
     {

@@ -249,6 +249,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.DI\TME.CarConfigurator.DI.csproj">
+      <Project>{4d5eb607-e56d-47ba-8e67-e196ae1cb19b}</Project>
+      <Name>TME.CarConfigurator.DI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
       <Project>{EFDB033C-66A8-40BB-B596-561F45E6C7F7}</Project>
       <Name>TME.CarConfigurator.Interfaces</Name>

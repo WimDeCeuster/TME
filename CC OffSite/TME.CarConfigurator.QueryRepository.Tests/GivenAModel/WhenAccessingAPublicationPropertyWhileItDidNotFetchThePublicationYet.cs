@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
-using TME.CarConfigurator.Facades;
+using TME.CarConfigurator.DI;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Query.Tests.TestBuilders;

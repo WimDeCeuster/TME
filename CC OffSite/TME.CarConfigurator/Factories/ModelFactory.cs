@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Facades;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
@@ -12,21 +11,21 @@ namespace TME.CarConfigurator.Factories
 {
     public class ModelFactory : IModelFactory
     {
-        private readonly IModelService _serviceFacade;
+        private readonly IModelService _modelService;
         private readonly IPublicationFactory _publicationFactory;
 
-        public ModelFactory(IServiceFacade serviceFacade, IPublicationFactory publicationFactory)
+        public ModelFactory(IModelService modelService, IPublicationFactory publicationFactory)
         {
-            if (serviceFacade == null) throw new ArgumentNullException("serviceFacade");
+            if (modelService == null) throw new ArgumentNullException("modelService");
             if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
 
-            _serviceFacade = serviceFacade.CreateModelService();
+            _modelService = modelService;
             _publicationFactory = publicationFactory;
         }
 
         public IEnumerable<IModel> GetModels(Context context)
         {
-            var repositoryModels = _serviceFacade.GetModels(context).Where(HasActivePublicationsThatAreCurrentlyAvailable);
+            var repositoryModels = _modelService.GetModels(context).Where(HasActivePublicationsThatAreCurrentlyAvailable);
 
             var convertedModels = repositoryModels.Select(repositoryModel => CreateModel(repositoryModel, context));
 

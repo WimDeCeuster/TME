@@ -1,15 +1,14 @@
 ﻿using System;
 using TME.CarConfigurator.Configuration;
-using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.DI.Interfaces;
 using TME.CarConfigurator.Interfaces.Configuration;
-using TME.CarConfigurator.Interfaces.Facades;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.S3.QueryServices;
 using TME.CarConfigurator.S3.Shared;
 using TME.CarConfigurator.S3.Shared.Factories;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
-namespace TME.CarConfigurator.Facades
+namespace TME.CarConfigurator.DI
 {
     public class S3ServiceFacade : IServiceFacade
     {

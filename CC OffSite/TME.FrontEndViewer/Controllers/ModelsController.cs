@@ -25,7 +25,7 @@ namespace TME.FrontEndViewer.Controllers
                 OldReaderModel = TMME.CarConfigurator.Models.GetModels(_oldContext)
                                         .Cast<TMME.CarConfigurator.Model>()
                                         .Select(x=> new CarConfigurator.LegacyAdapter.Model(x)),
-                NewReaderModel = CarConfigurator.Models.GetModels(_newContext)
+                NewReaderModel = CarConfigurator.DI.Models.GetModels(_newContext)
             };
 
             return View(model);

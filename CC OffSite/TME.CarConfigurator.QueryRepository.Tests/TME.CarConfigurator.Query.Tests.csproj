@@ -66,6 +66,10 @@
     <Compile Include="TestHelpers\Context.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.DI\TME.CarConfigurator.DI.csproj">
+      <Project>{4D5EB607-E56D-47BA-8E67-E196AE1CB19B}</Project>
+      <Name>TME.CarConfigurator.DI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
       <Project>{efdb033c-66a8-40bb-b596-561f45e6c7f7}</Project>
       <Name>TME.CarConfigurator.Interfaces</Name>
