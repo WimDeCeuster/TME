@@ -12,11 +12,15 @@ namespace TME.CarConfigurator.Factories
     public class BodyTypeFactory : IBodyTypeFactory
     {
         private readonly IBodyTypeService _bodyTypeService;
+        private readonly IAssetFactory _assetFactory;
 
-        public BodyTypeFactory(IBodyTypeService bodyTypeService)
+        public BodyTypeFactory(IBodyTypeService bodyTypeService, IAssetFactory assetFactory)
         {
             if (bodyTypeService == null) throw new ArgumentNullException("bodyTypeService");
+            if (assetFactory == null) throw new ArgumentNullException("assetFactory");
+
             _bodyTypeService = bodyTypeService;
+            _assetFactory = assetFactory;
         }
 
         public IEnumerable<IBodyType> GetBodyTypes(Publication publication, Context context)
@@ -25,7 +29,7 @@ namespace TME.CarConfigurator.Factories
 
             var repoBodyTypes = _bodyTypeService.GetBodyTypes(publication.ID, currentTimeFrame.ID, context);
 
-            return repoBodyTypes.Select(bt => new BodyType(bt));
+            return repoBodyTypes.Select(bt => new BodyType(bt, publication, context, _assetFactory));
         }
     }
 }

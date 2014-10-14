@@ -19,6 +19,7 @@ namespace TME.CarConfigurator.DI
         private IModelService _modelService;
         private IPublicationService _publicationService;
         private IBodyTypeService _bodyTypeService;
+        private IAssetService _assetService;
         private IEngineService _engineService;
 
         public IService Service
@@ -92,6 +93,13 @@ namespace TME.CarConfigurator.DI
             return this;
         }
 
+        public IServiceFacade WithAssetService(IAssetService assetService)
+        {
+            _assetService = assetService;
+
+            return this;
+        }
+
         public IModelService CreateModelService()
         {
             return _modelService ?? new ModelService(Serializer, Service, KeyManager);
@@ -107,9 +115,14 @@ namespace TME.CarConfigurator.DI
             return _bodyTypeService ?? new BodyTypeService(Serializer, Service, KeyManager);
         }
 
+        public IAssetService CreateAssetService()
+        {
+            return _assetService ?? new AssetService();
+        }
+
         public IEngineService CreateEngineService()
         {
-            return _engineService ?? new EngineService(/*Serializer, Service, KeyManager*/);
+            return _engineService ?? new EngineService(Serializer, Service, KeyManager);
         }
 
 

@@ -11,7 +11,7 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.GivenABodyTypeService
+namespace TME.CarConfigurator.Query.Tests.Services.GivenABodyTypeService
 {
     public class WhenGetBodyTypesIsCalled : TestBase
     {

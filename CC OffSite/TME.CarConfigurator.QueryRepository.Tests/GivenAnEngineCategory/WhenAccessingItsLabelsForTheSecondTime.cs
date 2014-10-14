@@ -9,11 +9,11 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.GiveAnEngine
+namespace TME.CarConfigurator.Query.Tests.GivenAnEngineCategory
 {
     public class WhenAccessingItsLabelsForTheSecondTime : TestBase
     {
-        IEngine _engine;
+        IEngineCategory _engineCategory;
         IEnumerable<Interfaces.Core.ILabel> _secondLabels;
         IEnumerable<Interfaces.Core.ILabel> _firstLabels;
         Repository.Objects.Core.Label _label1;
@@ -29,18 +29,18 @@ namespace TME.CarConfigurator.Query.Tests.GiveAnEngine
                 .WithCode("code 2")
                 .Build();
 
-            var repoEngine = new EngineBuilder()
+            var repoEngineCategory = new EngineCategoryBuilder()
                 .WithLabels(_label1, _label2)
                 .Build();
 
-            _engine = new Engine(repoEngine);
+            _engineCategory = new EngineCategory(repoEngineCategory);
 
-            _firstLabels = _engine.Labels;
+            _firstLabels = _engineCategory.Labels;
         }
 
         protected override void Act()
         {
-            _secondLabels = _engine.Labels;
+            _secondLabels = _engineCategory.Labels;
         }
 
         [Fact]

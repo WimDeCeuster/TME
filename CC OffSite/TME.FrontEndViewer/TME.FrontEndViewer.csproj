@@ -141,6 +141,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ModelEngineCategoryAssetsController.cs" />
+    <Compile Include="Controllers\ModelEngineAssetsController.cs" />
+    <Compile Include="Controllers\ModelEnginesController.cs" />
     <Compile Include="Controllers\ModelBodyTypeAssetsController.cs" />
     <Compile Include="Controllers\ModelBodyTypesController.cs" />
     <Compile Include="Controllers\ModelAssetsController.cs" />
@@ -151,6 +154,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CompareView.cs" />
+    <Compile Include="Models\BaseObjectWithPrefix.cs" />
     <Compile Include="Models\ModelWithMetrics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -248,13 +252,13 @@
     <Content Include="Views\ModelCars\details.cshtml" />
     <Content Include="Views\ModelLinks\details.cshtml" />
     <Content Include="Views\ModelLinks\Index.cshtml" />
-    <Content Include="Views\ModelAssets\details.cshtml" />
-    <Content Include="Views\ModelAssets\Index.cshtml" />
-    <Content Include="Views\Shared\_asset.cshtml" />
     <Content Include="Views\ModelBodyTypes\details.cshtml" />
     <Content Include="Views\ModelBodyTypes\Index.cshtml" />
-    <Content Include="Views\ModelBodyTypeAssets\details.cshtml" />
-    <Content Include="Views\ModelBodyTypeAssets\Index.cshtml" />
+    <Content Include="Views\ModelEngines\details.cshtml" />
+    <Content Include="Views\ModelEngines\Index.cshtml" />
+    <Content Include="Views\Shared\_baseObjectWithPrefix.cshtml" />
+    <Content Include="Views\Shared\Assets\details.cshtml" />
+    <Content Include="Views\Shared\Assets\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

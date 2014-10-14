@@ -45,7 +45,7 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public string FilePath
         {
-            get { return Adaptee.FilePath; }
+            get { return Adaptee.FileName; }
         }
 
         public IFileType FileType

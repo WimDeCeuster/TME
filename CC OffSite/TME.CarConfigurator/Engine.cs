@@ -11,6 +11,8 @@ namespace TME.CarConfigurator
     {
         private Repository.Objects.Engine _engine;
         private IEnumerable<Label> _labels;
+        private EngineCategory _category;
+        private EngineType _type;
 
         public Engine(Repository.Objects.Engine engine)
         {
@@ -26,8 +28,8 @@ namespace TME.CarConfigurator
         public string ToolTip { get { return _engine.ToolTip; } }
         public int SortIndex { get { return _engine.SortIndex; } }
         public IEnumerable<ILabel> Labels { get { return _labels = _labels ?? _engine.Labels.Select(label => new Label(label)); } }
-        public IEngineType Type { get { throw new NotImplementedException(); ; } }
-        public IEngineCategory Category { get { throw new NotImplementedException(); ; } }
+        public IEngineType Type { get { return _type = _type ?? new EngineType(_engine.Type); } }
+        public IEngineCategory Category { get { return _category = _category ?? new EngineCategory(_engine.Category); } }
         public bool KeyFeature { get { return _engine.KeyFeature; } }
         public bool Brochure { get { return _engine.Brochure; } }
         public bool VisibleInExteriorSpin { get { return _engine.VisibleInExteriorSpin; } }

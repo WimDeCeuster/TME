@@ -1,20 +1,31 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator
 {
     public class BodyType : IBodyType
     {
         private readonly Repository.Objects.BodyType _bodyType;
+        private readonly Publication _publication;
+        private readonly Context _context;
+        private readonly IAssetFactory _assetFactory;
 
-        public BodyType(Repository.Objects.BodyType bodyType)
+        public BodyType(Repository.Objects.BodyType bodyType, Publication publication, Context context, IAssetFactory assetFactory)
         {
             if (bodyType == null) throw new ArgumentNullException("bodyType");
+            if (publication == null) throw new ArgumentNullException("publication");
+            if (context == null) throw new ArgumentNullException("context");
+            if (assetFactory == null) throw new ArgumentNullException("assetFactory");
+
             _bodyType = bodyType;
+            _publication = publication;
+            _context = context;
+            _assetFactory = assetFactory;
         }
 
         public Guid ID { get { return _bodyType.ID; } }
@@ -33,6 +44,6 @@ namespace TME.CarConfigurator
         public bool VisibleInXRay4X4Spin { get { return _bodyType.VisibleInXRay4X4Spin; } }
         public bool VisibleInXRayHybridSpin { get { return _bodyType.VisibleInXRayHybridSpin; } }
         public bool VisibleInXRaySafetySpin { get { return _bodyType.VisibleInXRaySafetySpin; } }
-        public IEnumerable<IAsset> Assets { get { throw new NotImplementedException(); } }
+        public IEnumerable<IAsset> Assets { get { return _assetFactory.GetAssets(_publication, ID, _context); } }
     }
 }

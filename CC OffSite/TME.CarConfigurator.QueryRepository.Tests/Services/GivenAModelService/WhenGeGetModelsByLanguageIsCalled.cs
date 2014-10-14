@@ -8,9 +8,9 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.GivenALanguageService
+namespace TME.CarConfigurator.Query.Tests.Services.GivenAModelService
 {
-    public class WhenGetLanguagesIsCalled : TestBase
+    public class WhenGeGetModelsByLanguageIsCalled : TestBase
     {
         private const string Language1 = "lang 1";
         private const string Language2 = "lang 2";
