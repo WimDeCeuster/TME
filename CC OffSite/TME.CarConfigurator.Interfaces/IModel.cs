@@ -15,7 +15,9 @@ namespace TME.CarConfigurator.Interfaces
         IEnumerable<IAsset> Assets { get; }
         IEnumerable<IBodyType> BodyTypes { get; }
         IEnumerable<IEngine> Engines { get; }
+        IEnumerable<ITransmission> Transmissions { get; }
         IEnumerable<IFuelType> FuelTypes { get; }
         IEnumerable<ICar> Cars { get; }
+
     }
 }
