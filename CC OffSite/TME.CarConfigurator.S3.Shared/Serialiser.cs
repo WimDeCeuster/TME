@@ -34,7 +34,7 @@ namespace TME.CarConfigurator.S3.Shared
             return SerialiseObject(assets);
         }
 
-        public string Serialise(Dictionary<Guid, IEnumerable<Asset>> assetPerObject)
+        public string Serialise(Dictionary<Guid, IList<Asset>> assetPerObject)
         {
             return SerialiseObject(assetPerObject);
         }

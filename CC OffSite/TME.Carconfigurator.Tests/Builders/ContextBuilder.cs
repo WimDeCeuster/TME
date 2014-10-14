@@ -110,10 +110,16 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
-        public ContextBuilder WithAssets(String language, List<Asset> assets)
+        public ContextBuilder WithAssets(String language, List<Asset> assets, Guid bodyTypeID)
         {
-            foreach (var asset in assets)
-                _context.ContextData[language].BodyTypeAssets.Add(asset);    
+                _context.ContextData[language].Assets.Add(bodyTypeID,assets);    
+            return this;
+        }
+
+        public ContextBuilder WithBodyTypes(String language, List<BodyType> bodyTypes)
+        {
+            foreach (var bodyType in bodyTypes)
+                _context.ContextData[language].GenerationBodyTypes.Add(bodyType);
             return this;
         }
 

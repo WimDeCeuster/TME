@@ -22,13 +22,9 @@ namespace TME.CarConfigurator.S3.Publisher
 
         public async Task<IEnumerable<Result>> PublishAssets(IContext context)
         {
-            var tasks = new List<Task<IEnumerable<Result>>>();
-
-            foreach (var entry in context.ContextData)
-            {
-                var data = entry.Value;
-                tasks.Add(PutGenerationsAssets(context.Brand, context.Country, data));
-            }
+            var tasks = context.ContextData.Select(entry => entry.Value)
+                .Select(data => PutGenerationsAssets(context.Brand, context.Country, data))
+                .ToList();
 
             var result = await Task.WhenAll(tasks);
             return result.SelectMany(xs => xs.ToList());
@@ -36,23 +32,37 @@ namespace TME.CarConfigurator.S3.Publisher
 
         async Task<IEnumerable<Result>> PutGenerationsAssets(String brand, String country, ContextData data)
         {
-            var generationAssets = data.BodyTypeAssets;
+            var bodyTypeAssets = data.Assets;
+            
+            var groupAssetsByDefault = new Dictionary<Guid, IList<Asset>>();
+            var groupAssetsByModeView = new Dictionary<Guid, IList<Asset>>();
 
-
-            var groupAssetsPerId = new Dictionary<Guid,Dictionary<Guid,IEnumerable<Asset>>>();
-
-            Task<Result> task = null;
+            var tasks = new List<Task<Result>>();
             foreach (var bodyType in data.GenerationBodyTypes)
             {
-                var assets = generationAssets.ToDictionary(
-                key => key.ID, 
-                val => generationAssets.Where(genAsset => genAsset.ID.Equals(val.ID)));
+                var nonDefaultBodyTypeAssets = new List<Asset>();
+                var defaultBodyTypeAssets = new List<Asset>();
 
-                groupAssetsPerId.Add(bodyType.ID,assets );
-                task = _assetService.PutGenerationsAsset(brand, country, data.Publication.ID,bodyType.ID, assets);
+                foreach (var bodyTypeAsset in bodyTypeAssets.Values)
+                {
+                    foreach (var asset in bodyTypeAsset)
+                    {
+                        if (!String.IsNullOrEmpty(asset.AssetType.Mode) || !String.IsNullOrEmpty(asset.AssetType.View))
+                            nonDefaultBodyTypeAssets.Add(asset);
+                        else
+                            defaultBodyTypeAssets.Add(asset);
+                    }
+                    
+                }
+                groupAssetsByDefault.Add(bodyType.ID,defaultBodyTypeAssets);
+                groupAssetsByModeView.Add(bodyType.ID,nonDefaultBodyTypeAssets);
+
+                tasks.Add(_assetService.PutDefaultBodyTypeAssets(brand, country, data.Publication.ID, bodyType.ID,groupAssetsByDefault));
+                tasks.Add(_assetService.PutModeViewBodyTypeAssets(brand, country, data.Publication.ID, bodyType.ID, groupAssetsByModeView));
             }
 
-            return await Task.WhenAll(task);
+            var result = await Task.WhenAll(tasks);
+            return result.Select(xs => xs);
         }
     }
 }

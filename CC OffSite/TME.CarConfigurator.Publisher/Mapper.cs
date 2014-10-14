@@ -60,22 +60,24 @@ namespace TME.CarConfigurator.Publisher
         {
             Administration.MyContext.SetSystemContext(brand, country, language);
             generation.Assets = FillAssetList(modelGeneration);
-            contextData.BodyTypeAssets = FillBodyTypeAssets(modelGeneration);
-
+            contextData.Assets = FillBodyTypeAssets(modelGeneration);
         }
 
-        private IList<Asset> FillBodyTypeAssets(ModelGeneration modelGeneration)
+        private Dictionary<Guid,List<Asset>> FillBodyTypeAssets(ModelGeneration modelGeneration)
         {
             var assetList = new List<Asset>();
+            var assetDictionary = new Dictionary<Guid,List<Asset>>();
             foreach (var modelGenerationBodyType in modelGeneration.BodyTypes)
             {
+                var newModelGenerationBodyType = AutoMapper.Mapper.Map<BodyType>(modelGenerationBodyType);
                 foreach (var asset in modelGenerationBodyType.AssetSet.Assets)
                 {
                     var newAsset = AutoMapper.Mapper.Map<Asset>(asset);
                     assetList.Add(newAsset);
                 }
+                assetDictionary.Add(newModelGenerationBodyType.ID,assetList);
             }
-            return assetList;
+            return assetDictionary;
         }
 
         private List<Asset> FillAssetList(Administration.ModelGeneration modelGeneration)

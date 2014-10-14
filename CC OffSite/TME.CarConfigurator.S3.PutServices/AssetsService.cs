@@ -22,15 +22,45 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keyManager = keyManager;
         }
 
-        public async Task<Result> PutGenerationsAsset(string brand, string country,Guid publicationID,Guid objectID,Dictionary<Guid,IEnumerable<Asset>> assetPerObject)
+        public async Task<Result> PutDefaultBodyTypeAssets(string brand, string country, Guid publicationID, Guid objectID,
+            Dictionary<Guid, IList<Asset>> assetsPerObject)
+        {
+            if (brand == null) throw new ArgumentNullException("brand");
+            if (country == null) throw new ArgumentNullException("country");
+            if (publicationID == null) throw new ArgumentNullException("publicationID");
+            if (assetsPerObject == null) throw new ArgumentNullException("assetsPerObject");
+
+            var path = _keyManager.GetDefaultAssetsKey(publicationID, objectID);
+            var value = _serialiser.Serialise(assetsPerObject);
+
+            return await _service.PutObjectAsync(brand, country, path, value);
+        }
+
+        public async Task<Result> PutGenerationsAsset(string brand, string country,Guid publicationID,Guid objectID,Dictionary<Guid,IList<Asset>> assetPerObject)
         {
             if (brand == null) throw new ArgumentNullException("brand");
             if (country == null) throw new ArgumentNullException("country");
             if (publicationID == null) throw new ArgumentNullException("publicationID");
             if (assetPerObject == null) throw new ArgumentNullException("assetPerObject");
 
-            var path = _keyManager.GetDefaultAssetsKey(publicationID,objectID);
+            var path = _keyManager.GetDefaultAssetsKey(publicationID, objectID);
             var value = _serialiser.Serialise(assetPerObject);
+
+            return await _service.PutObjectAsync(brand, country, path, value);
+        }
+
+        public async Task<Result> PutModeViewBodyTypeAssets(string brand, string country, Guid publicationID, Guid objectID,
+            Dictionary<Guid, IList<Asset>> assetsPerObject)
+        {
+            if (brand == null) throw new ArgumentNullException("brand");
+            if (country == null) throw new ArgumentNullException("country");
+            if (publicationID == null) throw new ArgumentNullException("publicationID");
+            if (assetsPerObject == null) throw new ArgumentNullException("assetsPerObject");
+
+            var path = _keyManager.GetAssetsKey(publicationID, objectID,
+                assetsPerObject.First().Value.First().AssetType.View,
+                assetsPerObject.First().Value.First().AssetType.Mode);
+            var value = _serialiser.Serialise(assetsPerObject);
 
             return await _service.PutObjectAsync(brand, country, path, value);
         }

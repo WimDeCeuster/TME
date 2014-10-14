@@ -52,7 +52,7 @@ namespace TME.CarConfigurator.S3.Shared
             return string.Format("{0}/default", GetAssetsKey(publicationId, objectId));
         }
 
-        public string GetAssetsKey(Guid publicationId, Guid objectId, string view, string mode)
+        public string GetAssetsKey(Guid publicationId, Guid objectId, String view, String mode)
         {
             return string.Format("{0}/{1}/{2}", GetAssetsKey(publicationId, objectId), view, mode);
         }
