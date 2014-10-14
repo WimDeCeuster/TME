@@ -31,14 +31,15 @@ namespace TME.CarConfigurator.S3.Shared
             return String.Format(GenerationEnginesKeyTemplate, publicationIdID, timeFrameID);
         }
 
+<<<<<<< HEAD
         public string GetGenerationAssetKey(Guid publicationID)
         {
             return String.Format(GenerationAssetsKeyTemplate, publicationID);
-        }
-
+=======
         public string GetAssetsKey(Guid publicationId, Guid timeFrameId, Guid objectId)
         {
             throw new NotImplementedException();
+>>>>>>> 4d7438f0e9fb189adc284896c30f989bf5fa9739
         }
     }
 }

@@ -51,6 +51,7 @@ namespace TME.CarConfigurator.Publisher
         {
             Administration.MyContext.SetSystemContext(brand, country, language);
             generation.Assets = FillAssetList(modelGeneration);
+
         }
 
         private List<Asset> FillAssetList(Administration.ModelGeneration modelGeneration)

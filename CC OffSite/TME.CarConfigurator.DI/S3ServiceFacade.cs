@@ -117,7 +117,7 @@ namespace TME.CarConfigurator.DI
 
         public IAssetService CreateAssetService()
         {
-            return _assetService ?? new AssetService();
+            return _assetService ?? new AssetService(Serializer, Service, KeyManager);
         }
 
         public IEngineService CreateEngineService()

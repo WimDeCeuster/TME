@@ -11,7 +11,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IList<Model> Models { get; private set; }
         public IList<BodyType> GenerationBodyTypes { get; private set; }
         public IList<Engine> GenerationEngines { get; private set; }
-        public IList<Asset> GenerationAssets { get; private set; }
+        public IList<Asset> GenerationAssets { get; set; }
         public Publication Publication { get; set; }
 
         public ContextData()
