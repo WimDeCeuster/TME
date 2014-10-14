@@ -29,5 +29,10 @@ namespace TME.CarConfigurator.S3.Shared
         {
             return String.Format(GenerationEnginesKeyTemplate, publicationIdID, timeFrameID);
         }
+
+        public string GetAssetsKey(Guid publicationId, Guid timeFrameId, Guid objectId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

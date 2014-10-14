@@ -1,5 +1,4 @@
 ﻿using System;
-using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.S3.Shared.Interfaces
 {
@@ -9,5 +8,6 @@ namespace TME.CarConfigurator.S3.Shared.Interfaces
         String GetPublicationKey(Guid publicationID);
         String GetGenerationBodyTypesKey(Guid publicationId, Guid timeFrameId);
         String GetGenerationEnginesKey(Guid publicationId, Guid timeFrameId);
+        String GetAssetsKey(Guid publicationId, Guid timeFrameId, Guid objectId);
     }
 }
