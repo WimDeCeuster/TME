@@ -1,0 +1,9 @@
+﻿@model TME.FrontEndViewer.Models.BaseObjectWithPrefix
+<p class="property" data-id="@(Model.Prefix.Replace(".","")).ID">@(Model.Prefix).ID : @Html.Raw(Model.BaseObject.ID)</p>
+<p class="property" data-id="@(Model.Prefix.Replace(".","")).InternalCode">@(Model.Prefix).InternalCode : @Html.Raw(Model.BaseObject.InternalCode)</p>
+<p class="property" data-id="@(Model.Prefix.Replace(".","")).LocalCode">@(Model.Prefix).LocalCode : @Html.Raw(Model.BaseObject.LocalCode)</p>
+<p class="property" data-id="@(Model.Prefix.Replace(".","")).Name">@(Model.Prefix).Name : @Html.Raw(Model.BaseObject.Name)</p>
+<p class="property" data-id="@(Model.Prefix.Replace(".","")).Description">@(Model.Prefix).Description : @Html.Raw(Model.BaseObject.Description)</p>
+<p class="property" data-id="@(Model.Prefix.Replace(".","")).ToolTip">@(Model.Prefix).ToolTip : @Html.Raw(Model.BaseObject.ToolTip)</p>
+<p class="property" data-id="@(Model.Prefix.Replace(".","")).FootNote">@(Model.Prefix).FootNote : @Html.Raw(Model.BaseObject.FootNote)</p>
+<p class="property" data-id="@(Model.Prefix.Replace(".","")).SortIndex">@(Model.Prefix).SortIndex : @Html.Raw(Model.BaseObject.SortIndex)</p>

@@ -16,12 +16,13 @@
             <p class="property" data-id="Brand">Brand : @Html.Raw(model.Brand)</p>
             <p class="property" data-id="SSN">SSN : @Html.Raw(model.SSN)</p>
             <p class="property" data-id="Promoted">Promoted : @Html.Raw(model.Promoted)</p>
-            <p class="property" data-id="CarConfiguratorVersion.ID">CarConfiguratorVersion.ID : @Html.Raw(model.CarConfiguratorVersion.ID)</p>
-            <p class="property" data-id="CarConfiguratorVersion.Name">CarConfiguratorVersion.Name : @Html.Raw(model.CarConfiguratorVersion.Name)</p>
+            <p class="property" data-id="CarConfiguratorVersionID">CarConfiguratorVersion.ID : @Html.Raw(model.CarConfiguratorVersion.ID)</p>
+            <p class="property" data-id="CarConfiguratorVersionName">CarConfiguratorVersion.Name : @Html.Raw(model.CarConfiguratorVersion.Name)</p>
             <br />
             @Html.ActionLink("Assets","Index", "ModelAssets", new { modelID = model.ID}, new { }) | 
             @Html.ActionLink("Links","Index", "ModelLinks", new { modelID = model.ID}, new { }) | 
             @Html.ActionLink("Body Types", "Index", "ModelBodyTypes", new { modelID = model.ID}, new { }) |
+            @Html.ActionLink("Engines", "Index", "ModelEngines", new { modelID = model.ID}, new { }) |
             @Html.ActionLink("Cars", "Index", "ModelCars", new { modelID = model.ID}, new { })
         </div>
     </div>

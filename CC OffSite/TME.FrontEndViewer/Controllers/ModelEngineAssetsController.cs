@@ -11,9 +11,9 @@ using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.FrontEndViewer.Controllers
 {
-    public class ModelBodyTypeAssetsController : Controller
+    public class ModelEngineAssetsController : Controller
     {
-        public ActionResult Index(Guid modelID, Guid bodyTypeID)
+        public ActionResult Index(Guid modelID, Guid engineID)
         {
 
             var context = (Context)Session["context"];
@@ -21,18 +21,18 @@ namespace TME.FrontEndViewer.Controllers
 
             var model = new CompareView<IAsset>
             {
-                OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, bodyTypeID),
-                NewReaderModel = GetNewReaderModelWithMetrics(context, modelID, bodyTypeID)
+                OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, engineID),
+                NewReaderModel = GetNewReaderModelWithMetrics(context, modelID, engineID)
             };
 
             return View("Assets/Index",model);
         }
 
-        private static ModelWithMetrics<IAsset> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid bodyTypeID)
+        private static ModelWithMetrics<IAsset> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid engineID)
         {
             var start = DateTime.Now;
             var list = TMME.CarConfigurator.Model.GetModel(oldContext, modelID)
-                            .BodyTypes[bodyTypeID]
+                            .Engines[engineID]
                             .Assets
                             .Cast<TMME.CarConfigurator.Asset>()
                             .Select(x => new CarConfigurator.LegacyAdapter.Asset(x))
@@ -44,12 +44,12 @@ namespace TME.FrontEndViewer.Controllers
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
         }
-        private static ModelWithMetrics<IAsset> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid bodyTypeID)
+        private static ModelWithMetrics<IAsset> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid engineID)
         {
             var start = DateTime.Now;
             var list = CarConfigurator.DI.Models
                 .GetModels(context).First(x => x.ID == modelID)
-                .BodyTypes.First(x=> x.ID == bodyTypeID)
+                .Engines.First(x => x.ID == engineID)
                 .Assets;
 
             return new ModelWithMetrics<IAsset>()
