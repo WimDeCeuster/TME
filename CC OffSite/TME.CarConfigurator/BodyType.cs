@@ -15,6 +15,7 @@ namespace TME.CarConfigurator
         private readonly Context _context;
         private readonly IAssetFactory _assetFactory;
         private IEnumerable<IAsset> _assets;
+        private IEnumerable<IAsset> _3DAssets;
 
         public BodyType(Repository.Objects.BodyType bodyType, Publication publication, Context context, IAssetFactory assetFactory)
         {
@@ -48,7 +49,7 @@ namespace TME.CarConfigurator
         public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_publication, ID, _context); } }
         public IEnumerable<IAsset> Get3DAssets(string view, string mode)
         {
-            return _assetFactory.GetAssets(_publication, ID, _context, view, mode);
+            return _3DAssets = _3DAssets ?? _assetFactory.GetAssets(_publication, ID, _context, view, mode);
         }
     }
 }
