@@ -39,7 +39,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAnAssetService
             var service = A.Fake<IService>();
             var keyManager = A.Fake<IKeyManager>();
 
-            A.CallTo(() => keyManager.GetAssetsKey(A<Guid>._, A<Guid>._, A<Guid>._)).Returns(s3Key);
+            A.CallTo(() => keyManager.GetDefaultAssetsKey(A<Guid>._, A<Guid>._)).Returns(s3Key);
             A.CallTo(() => service.GetObject(_context.Brand, _context.Country, s3Key)).Returns(serializedObject);
             A.CallTo(() => serialiser.Deserialise<IEnumerable<Repository.Objects.Assets.Asset>>(serializedObject)).Returns(_expectedAssets);
 
@@ -53,7 +53,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAnAssetService
 
         protected override void Act()
         {
-            _actualAssets = _assetService.GetAssets(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), _context);
+            _actualAssets = _assetService.GetAssets(Guid.NewGuid(), Guid.NewGuid(), _context);
         }
 
         [Fact]

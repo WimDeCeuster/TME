@@ -34,6 +34,11 @@ namespace TME.CarConfigurator.S3.Shared
             return SerialiseObject(assets);
         }
 
+        public string Serialise(Dictionary<Guid, IEnumerable<Asset>> assetPerObject)
+        {
+            return SerialiseObject(assetPerObject);
+        }
+
         private String SerialiseObject(Object obj)
         {
             return JsonConvert.SerializeObject(obj,Formatting.Indented);

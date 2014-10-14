@@ -6,6 +6,7 @@ using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.S3.Shared.Result;
 
 namespace TME.CarConfigurator.S3.Publisher
@@ -35,19 +36,23 @@ namespace TME.CarConfigurator.S3.Publisher
 
         async Task<IEnumerable<Result>> PutGenerationsAssets(String brand, String country, ContextData data)
         {
-            var generationAssets = data.GenerationAssets;
+            var generationAssets = data.BodyTypeAssets;
 
-            var tasks = new List<Task<Result>>();
-            var assets = generationAssets.ToDictionary(
+
+            var groupAssetsPerId = new Dictionary<Guid,Dictionary<Guid,IEnumerable<Asset>>>();
+
+            Task<Result> task = null;
+            foreach (var bodyType in data.GenerationBodyTypes)
+            {
+                var assets = generationAssets.ToDictionary(
                 key => key.ID, 
                 val => generationAssets.Where(genAsset => genAsset.ID.Equals(val.ID)));
 
-            foreach (var asset in assets)
-            {
-                tasks.Add(_assetService.PutGenerationsAsset(brand, country,data.Publication.ID, asset.Value));
+                groupAssetsPerId.Add(bodyType.ID,assets );
+                task = _assetService.PutGenerationsAsset(brand, country, data.Publication.ID,bodyType.ID, assets);
             }
 
-            return await Task.WhenAll(tasks);
+            return await Task.WhenAll(task);
         }
     }
 }

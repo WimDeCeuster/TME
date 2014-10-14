@@ -2,13 +2,22 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.Administration.Assets;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using DBCar = TME.CarConfigurator.Administration.Car;
-using TME.CarConfigurator.Repository.Objects.Assets;
+using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
+using BodyType = TME.CarConfigurator.Repository.Objects.BodyType;
+using Car = TME.CarConfigurator.Repository.Objects.Car;
+using Engine = TME.CarConfigurator.Repository.Objects.Engine;
+using EngineCategory = TME.CarConfigurator.Repository.Objects.EngineCategory;
+using FuelType = TME.CarConfigurator.Repository.Objects.FuelType;
+using Link = TME.CarConfigurator.Repository.Objects.Link;
+using Model = TME.CarConfigurator.Repository.Objects.Model;
 
 namespace TME.CarConfigurator.Publisher
 {
@@ -36,7 +45,7 @@ namespace TME.CarConfigurator.Publisher
                 contextData.Models.Add(AutoMapper.Mapper.Map<Model>(model));
 
                 FillModelLinks(model, modelGeneration, generation, brand, country, language, isPreview);
-                FillGenerationAssets(modelGeneration, generation, brand, country, language);
+                FillGenerationAssets(modelGeneration, generation,contextData, brand, country, language);
                 FillGenerationBodyTypes(modelGeneration, contextData);
                 FillGenerationEngines(modelGeneration, contextData);
                 FillCars(modelGeneration, contextData);
@@ -47,11 +56,26 @@ namespace TME.CarConfigurator.Publisher
             return context;
         }
 
-        private void FillGenerationAssets(Administration.ModelGeneration modelGeneration, Generation generation, string brand, string country, string language)
+        private void FillGenerationAssets(Administration.ModelGeneration modelGeneration, Generation generation,ContextData contextData, string brand, string country, string language)
         {
             Administration.MyContext.SetSystemContext(brand, country, language);
             generation.Assets = FillAssetList(modelGeneration);
+            contextData.BodyTypeAssets = FillBodyTypeAssets(modelGeneration);
 
+        }
+
+        private IList<Asset> FillBodyTypeAssets(ModelGeneration modelGeneration)
+        {
+            var assetList = new List<Asset>();
+            foreach (var modelGenerationBodyType in modelGeneration.BodyTypes)
+            {
+                foreach (var asset in modelGenerationBodyType.AssetSet.Assets)
+                {
+                    var newAsset = AutoMapper.Mapper.Map<Asset>(asset);
+                    assetList.Add(newAsset);
+                }
+            }
+            return assetList;
         }
 
         private List<Asset> FillAssetList(Administration.ModelGeneration modelGeneration)

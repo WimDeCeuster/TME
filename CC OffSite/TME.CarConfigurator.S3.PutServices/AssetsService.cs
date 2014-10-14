@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Repository.Objects.Assets;
@@ -21,15 +22,15 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keyManager = keyManager;
         }
 
-        public async Task<Result> PutGenerationsAsset(string brand, string country,Guid publicationID, IEnumerable<Asset> assetvalue)
+        public async Task<Result> PutGenerationsAsset(string brand, string country,Guid publicationID,Guid objectID,Dictionary<Guid,IEnumerable<Asset>> assetPerObject)
         {
             if (brand == null) throw new ArgumentNullException("brand");
             if (country == null) throw new ArgumentNullException("country");
             if (publicationID == null) throw new ArgumentNullException("publicationID");
-            if (assetvalue == null) throw new ArgumentNullException("assetvalue");
+            if (assetPerObject == null) throw new ArgumentNullException("assetPerObject");
 
-            var path = _keyManager.GetGenerationAssetKey(publicationID);
-            var value = _serialiser.Serialise(assetvalue);
+            var path = _keyManager.GetDefaultAssetsKey(publicationID,objectID);
+            var value = _serialiser.Serialise(assetPerObject);
 
             return await _service.PutObjectAsync(brand, country, path, value);
         }

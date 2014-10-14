@@ -94,7 +94,7 @@ namespace TME.CarConfigurator.Publisher
             {
                 var data = context.ContextData[language];
                 var timeFrames = context.TimeFrames[language];
-                CreateNewPublication(data, timeFrames);
+                FillDataWithPublication(data, timeFrames);
             }
 
             var tasks = new List<Task<IEnumerable<Result>>>();
@@ -102,7 +102,7 @@ namespace TME.CarConfigurator.Publisher
             tasks.Add(PublishPublication(context));
             tasks.Add(PublishGenerationBodyTypes(context));
             tasks.Add(PublishGenerationEngines(context));
-            tasks.Add(PublishGenerationAssets(context));
+            tasks.Add(PublishBodyTypeAssets(context));
 
             var results = await Task.WhenAll(tasks);
 
@@ -114,9 +114,9 @@ namespace TME.CarConfigurator.Publisher
             return await _publicationPublisher.PublishPublications(context);
         }
 
-        private Publication CreateNewPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames)
+        private void FillDataWithPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames)
         {
-            data.Publication = new Publication
+           data.Publication = new Publication
             {
                 ID = Guid.NewGuid(),
                 Generation = data.Generations.Single(),
@@ -133,8 +133,6 @@ namespace TME.CarConfigurator.Publisher
             };
 
             data.Models.Single().Publications.Add(new PublicationInfo(data.Publication));
-
-            return data.Publication;
         }
 
         Task<IEnumerable<Result>> PublishGenerationBodyTypes(IContext context)
@@ -147,7 +145,7 @@ namespace TME.CarConfigurator.Publisher
             return _enginePublisher.PublishGenerationEngines(context);
         }
 
-        private Task<IEnumerable<Result>> PublishGenerationAssets(IContext context)
+        private Task<IEnumerable<Result>> PublishBodyTypeAssets(IContext context)
         {
             return _assetPublisher.PublishAssets(context);
         }

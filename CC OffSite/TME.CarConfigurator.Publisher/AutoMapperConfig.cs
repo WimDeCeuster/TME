@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TME.CarConfigurator.Administration.Assets;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
 using AutoMapper;
 using System.Linq.Expressions;
+using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
+using AssetType = TME.CarConfigurator.Repository.Objects.Assets.AssetType;
 
 namespace TME.CarConfigurator.Publisher
 {
@@ -143,6 +146,8 @@ namespace TME.CarConfigurator.Publisher
 
             AutoMapper.Mapper.CreateMap<Administration.Assets.DetailedAssetInfo, Asset>()
                 .Ignore(asset => asset.ShortID);
+
+            AutoMapper.Mapper.CreateMap<AssetSetAsset, Asset>();
 
             AutoMapper.Mapper.CreateMap<Administration.Assets.LinkedAsset, Asset>()
                 .Ignore(asset => asset.Height)

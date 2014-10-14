@@ -28,7 +28,7 @@ namespace TME.CarConfigurator.S3.QueryServices
 
         public IEnumerable<Engine> GetEngines(Guid publicationId, Guid publicationTimeFrameId, Context context)
         {
-            var key = _keyManager.GetGenerationEnginesKey(publicationId, publicationTimeFrameId);
+            var key = _keyManager.GetEnginesKey(publicationId, publicationTimeFrameId);
             var serializedObject = _service.GetObject(context.Brand, context.Country, key);
             return _serializer.Deserialise<IEnumerable<Engine>>(serializedObject);
         }

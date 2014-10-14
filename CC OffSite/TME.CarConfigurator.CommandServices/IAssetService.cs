@@ -8,6 +8,6 @@ namespace TME.CarConfigurator.CommandServices
 {
     public interface IAssetService
     {
-        Task<Result> PutGenerationsAsset(String brand, String country,Guid publicationID, IEnumerable<Asset> assetValue);
+        Task<Result> PutGenerationsAsset(String brand, String country,Guid publicationID,Guid objectID,Dictionary<Guid,IEnumerable<Asset>> assetsPerObject );
     }
 }

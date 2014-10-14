@@ -6,8 +6,9 @@ namespace TME.CarConfigurator.S3.Shared.Interfaces
     {
         String GetLanguagesKey();
         String GetPublicationKey(Guid publicationID);
-        String GetGenerationBodyTypesKey(Guid publicationID, Guid timeFrameID);
-        String GetGenerationEnginesKey(Guid publicationID, Guid timeFrameID);
-        String GetAssetsKey(Guid publicationId, Guid timeFrameId, Guid objectId);
+        String GetBodyTypesKey(Guid publicationId, Guid timeFrameId);
+        String GetEnginesKey(Guid publicationID, Guid timeFrameId);
+        String GetDefaultAssetsKey(Guid publicationId, Guid objectId);
+        String GetAssetsKey(Guid publicationId, Guid objectId, string view, string mode);
     }
 }

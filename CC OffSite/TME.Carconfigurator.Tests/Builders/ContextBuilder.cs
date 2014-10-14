@@ -113,7 +113,7 @@ namespace TME.Carconfigurator.Tests.Builders
         public ContextBuilder WithAssets(String language, List<Asset> assets)
         {
             foreach (var asset in assets)
-                _context.ContextData[language].GenerationAssets.Add(asset);    
+                _context.ContextData[language].BodyTypeAssets.Add(asset);    
             return this;
         }
 

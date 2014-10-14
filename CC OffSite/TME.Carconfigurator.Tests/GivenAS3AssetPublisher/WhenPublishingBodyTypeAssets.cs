@@ -20,7 +20,7 @@ using Xunit;
 
 namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
 {
-    public class WhenPublishingGenerationAssets : TestBase
+    public class WhenPublishingBodyTypeAssets : TestBase
     {
         private IAssetPublisher _publisher;
         private IService _s3Service;
@@ -79,7 +79,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
             _publisher = new AssetPublisher(_assetService);
 
             A.CallTo(() => serialiser.Serialise(A<IEnumerable<Asset>>._)).Returns(SERIALIZEDASSETS);
-            A.CallTo(() => keymanager.GetGenerationAssetKey(_publication.ID)).Returns(GENERATIONASSETKEY);
+            A.CallTo(() => keymanager.GetDefaultAssetsKey(A<Guid>._,A<Guid>._)).Returns(GENERATIONASSETKEY);
         }
 
         protected override void Act()
@@ -88,16 +88,22 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
         }
 
         [Fact]
-        public void ThenAssetsForASpecificGenerationShouldBePut()
+        public void ThenAssetsForASpecificBodyTypeShouldBePutForEachLanguage()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(null,null,null,null)).WithAnyArguments().MustHaveHappened(Repeated.Exactly.Times(_assets.Count));
+            foreach (var language in _languages)
+            {
+                A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null)).WithAnyArguments().MustHaveHappened(Repeated.Exactly.Times(_context.ContextData[language].GenerationBodyTypes.Count));
+            }
         }
         
         [Fact]
-        public void ThenAssetsForASpecificGenerationShouldBePutWithCorrectArguments()
+        public void ThenAssetsForASpecificBodyTypeShouldBePutWithCorrectArgumentsForEachLanguage()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(null,null,null,null)).WhenArgumentsMatch(args => ((args[0].Equals(Brand)) && (args[1].Equals(Country)) && (args[2].Equals(GENERATIONASSETKEY)) &&
-                                                                                                       (args[3].Equals(SERIALIZEDASSETS)))).MustHaveHappened(Repeated.Exactly.Times(_assets.Count));
+            foreach (var language in _languages)
+            {
+                A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null)).WhenArgumentsMatch(args => ((args[0].Equals(Brand)) && (args[1].Equals(Country)) && (args[2].Equals(GENERATIONASSETKEY)) &&
+                                                                                                       (args[3].Equals(SERIALIZEDASSETS)))).MustHaveHappened(Repeated.Exactly.Times(_context.ContextData[language].GenerationBodyTypes.Count));
+            }
         }
     }
 }
