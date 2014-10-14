@@ -43,7 +43,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3LanguagePublisher
             _publisher = new ModelPublisher(_service);
 
             A.CallTo(() => serialiser.Serialise(_languages)).Returns(_serialisedLanguages);
-            A.CallTo(() => keyManager.GetLanguagesKey()).Returns(_languagesKey);
+            A.CallTo(() => keyManager.GetModelsKey()).Returns(_languagesKey);
             
         }
 

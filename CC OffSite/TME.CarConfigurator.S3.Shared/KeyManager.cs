@@ -5,14 +5,13 @@ namespace TME.CarConfigurator.S3.Shared
 {
     public class KeyManager : IKeyManager
     {
-        private const string LanguagesKey = "models-per-language";
         private const string PublicationKeyTemplate = "publication/{0}";
         private const string PublicationTimeFrameKeyTemplate = "publication/{0}/time-frame/{1}";
         private const string PublicationAssetsKeyTemplate = "publication/{0}/assets";
 
-        public string GetLanguagesKey()
+        public string GetModelsKey()
         {
-            return LanguagesKey;
+            return "models-per-language";
         }
 
         public string GetPublicationKey(Guid publicationID)
@@ -27,12 +26,12 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetBodyTypesKey(Guid publicationID, Guid timeFrameID)
         {
-            return string.Format("{0}/{1}", GetTimeFrameKey(publicationID, timeFrameID), "body-types");
+            return string.Format("{0}/body-types", GetTimeFrameKey(publicationID, timeFrameID));
         }
 
         public string GetEnginesKey(Guid publicationID, Guid timeFrameID)
         {
-            return string.Format("{0}/{1}", GetTimeFrameKey(publicationID, timeFrameID), "engines");
+            return string.Format("{0}/engines", GetTimeFrameKey(publicationID, timeFrameID));
         }
 
         private static string GetAssetsKey(Guid publicationId, Guid objectId)
