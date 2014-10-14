@@ -32,7 +32,7 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IEngineCategory Category
         {
-            get { return new EngineCategory(Adaptee.Category); }
+            get { return Adaptee.Category == null ? null : new EngineCategory(Adaptee.Category); }
         }
 
         public bool KeyFeature

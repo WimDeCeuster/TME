@@ -20,7 +20,9 @@
             <p class="property" data-id="TypeName">Type.Name : @Html.Raw(model.Type.Name)</p>
             @Html.Partial("_baseObjectWithPrefix", new BaseObjectWithPrefix() {BaseObject = model.Type.FuelType,Prefix ="Type.FuelType"})
             <p class="property" data-id="TypeFuelTypeHybrid">Type.FuelType.Hybrid : @Html.Raw(model.Type.FuelType.Hybrid)</p>
-            @Html.Partial("_baseObjectWithPrefix", new BaseObjectWithPrefix() {BaseObject = model.Category,Prefix ="Category"})
+            @if (model.Category != null) { 
+                @Html.Partial("_baseObjectWithPrefix", new BaseObjectWithPrefix() {BaseObject = model.Category,Prefix ="Category"})
+            }
             <p class="property" data-id="VisibleInExteriorSpin">VisibleInExteriorSpin : @Html.Raw(model.VisibleInExteriorSpin)</p>
             <p class="property" data-id="VisibleInInteriorSpin">VisibleInInteriorSpin : @Html.Raw(model.VisibleInInteriorSpin)</p>
             <p class="property" data-id="VisibleInXRay4X4Spin">VisibleInXRay4X4Spin : @Html.Raw(model.VisibleInXRay4X4Spin)</p>
