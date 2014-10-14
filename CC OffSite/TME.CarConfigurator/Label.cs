@@ -9,7 +9,7 @@ namespace TME.CarConfigurator
 {
     public class Label : ILabel
     {
-        Repository.Objects.Core.Label _label;
+        private readonly Repository.Objects.Core.Label _label;
 
         public Label(Repository.Objects.Core.Label label)
         {

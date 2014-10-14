@@ -8,7 +8,7 @@ namespace TME.CarConfigurator
 {
     public class FuelType : IFuelType
     {
-        private Repository.Objects.FuelType _fuelType;
+        private readonly Repository.Objects.FuelType _fuelType;
         private IEnumerable<Label> _labels;
 
         public FuelType(Repository.Objects.FuelType fuelType)

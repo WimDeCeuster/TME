@@ -14,6 +14,27 @@ namespace TME.CarConfigurator.Publisher
 {
     public class Mapper : IMapper
     {
+        readonly IModelMapper _modelMapper;
+        readonly IGenerationMapper _generationMapper;
+        readonly IBodyTypeMapper _bodyTypeMapper;
+        readonly IEngineMapper _engineMapper;
+        readonly ICarMapper _carMapper;
+
+        public Mapper(IModelMapper modelMapper, IGenerationMapper generationMapper, IBodyTypeMapper bodyTypeMapper, IEngineMapper engineMapper, ICarMapper carMapper)
+        {
+            if (modelMapper == null) throw new ArgumentNullException("modelMapper");
+            if (generationMapper == null) throw new ArgumentNullException("generationMapper");
+            if (bodyTypeMapper == null) throw new ArgumentNullException("bodyTypeMapper");
+            if (engineMapper == null) throw new ArgumentNullException("engineMapper");
+            if (carMapper == null) throw new ArgumentNullException("carMapper");
+
+            _modelMapper = modelMapper;
+            _generationMapper = generationMapper;
+            _bodyTypeMapper = bodyTypeMapper;
+            _engineMapper = engineMapper;
+            _carMapper = carMapper;
+        }
+
         public IContext Map(String brand, String country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IContext context)
         {
             var data = generationFinder.GetModelGeneration(brand, country, generationID);
@@ -31,13 +52,11 @@ namespace TME.CarConfigurator.Publisher
                 context.ContextData[language] = contextData;
 
                 // fill contextData
-                var generation = MapGeneration(model, modelGeneration);
+                var generation = _generationMapper.MapGeneration(model, modelGeneration, brand, country, language, isPreview);
                 contextData.Generations.Add(generation);
-                contextData.Models.Add(AutoMapper.Mapper.Map<Model>(model));
+                contextData.Models.Add(_modelMapper.MapModel(model));
 
-                FillModelLinks(model, modelGeneration, generation, brand, country, language, isPreview);
-                FillGenerationAssets(modelGeneration, generation, brand, country, language);
-                FillGenerationBodyTypes(modelGeneration, contextData);
+                FillBodyTypes(modelGeneration, contextData);
                 FillGenerationEngines(modelGeneration, contextData);
                 FillCars(modelGeneration, contextData);
 
@@ -47,84 +66,26 @@ namespace TME.CarConfigurator.Publisher
             return context;
         }
 
-        private void FillGenerationAssets(Administration.ModelGeneration modelGeneration, Generation generation, string brand, string country, string language)
-        {
-            Administration.MyContext.SetSystemContext(brand, country, language);
-            generation.Assets = FillAssetList(modelGeneration);
-        }
-
-        private List<Asset> FillAssetList(Administration.ModelGeneration modelGeneration)
-        {
-            var assetList = new List<Asset>();
-            foreach (var asset in modelGeneration.Assets)
-            {
-                var newAsset = AutoMapper.Mapper.Map<Asset>(asset);
-                newAsset.Hash = Administration.Assets.Asset.GetAsset(asset.ID).GetInfo().Hash;
-                var assetDetails = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(asset.ID);
-                assetList.Add(AutoMapper.Mapper.Map(assetDetails, newAsset));
-            }
-            return assetList;
-        }
-
-        void FillModelLinks(Administration.Model model, Administration.ModelGeneration modelGeneration, Generation generation, String brand, String country, String language, Boolean isPreview)
-        {
-            Administration.MyContext.SetSystemContext(brand, country, language);
-            generation.Links = model.Links.Where(link => link.Type.CarConfiguratorversionID == modelGeneration.ActiveCarConfiguratorVersion.ID ||
-                                                         link.Type.CarConfiguratorversionID == 0)
-                                          .Select(link => GetLink(link, country, language, isPreview))
-                                          .Where(x => x != null)
-                                          .ToList();
-        }
-
         void FillCars(Administration.ModelGeneration modelGeneration, ContextData contextData)
         {
             foreach (var car in modelGeneration.Cars)
             {
                 var bodyType = contextData.GenerationBodyTypes.Single(type => type.ID == car.BodyTypeID);
                 var engine = contextData.GenerationEngines.Single(eng => eng.ID == car.EngineID);
-                contextData.Cars.Add(MapCar(car, bodyType, engine));
+                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine));
             }
         }
 
-        void FillGenerationBodyTypes(Administration.ModelGeneration modelGeneration, ContextData contextData)
+        void FillBodyTypes(Administration.ModelGeneration modelGeneration, ContextData contextData)
         {
-            foreach (var bodyType in modelGeneration.BodyTypes) { 
-                var globalBodyType = Administration.BodyTypes.GetBodyTypes()[bodyType.ID];
-                contextData.GenerationBodyTypes.Add(MapBodyType(bodyType, globalBodyType));
-            }
+            foreach (var bodyType in modelGeneration.BodyTypes)
+                contextData.GenerationBodyTypes.Add(_bodyTypeMapper.MapBodyType(bodyType));
         }
 
         void FillGenerationEngines(Administration.ModelGeneration modelGeneration, ContextData contextData)
         {
             foreach (var engine in modelGeneration.Engines)
-            {
-                var globalEngine = Administration.Engines.GetEngines()[engine.ID];
-                var engineCategory = Administration.EngineCategories.GetEngineCategories()[globalEngine.Category.ID];
-                var fuelType = Administration.FuelTypes.GetFuelTypes()[globalEngine.Type.FuelType.ID];
-                contextData.GenerationEngines.Add(MapEngine(engine, globalEngine, engineCategory, fuelType));
-            }
-        }
-
-        Link GetLink(Administration.Link link, String countryCode, String languageCode, Boolean isPreview)
-        {
-            var baseLink = Administration.BaseLinks.GetBaseLinks(link.Type, isPreview)
-                                                   .SingleOrDefault(baseLnk => baseLnk.CountryCode == countryCode &&
-                                                                               baseLnk.LanguageCode == languageCode);
-
-            return new Link {
-                ID = link.Type.ID,
-                Label = link.Label,
-                Name = link.Type.Name,
-                Url = GetUrl(baseLink, link)
-            };
-        }
-
-        String GetUrl(Administration.BaseLink baseLink, Administration.Link link) {
-            if (baseLink == null || String.IsNullOrWhiteSpace(baseLink.Url))
-                return link.UrlPart;
-            if (link.UrlPart.StartsWith("http://") || link.UrlPart.StartsWith("https://"))
-                return link.UrlPart;
-            return new Uri(new Uri(baseLink.Url), link.UrlPart).ToString(); //baseLink.Url + "/" + link.UrlPart;
+                contextData.GenerationEngines.Add(_engineMapper.MapEngine(engine));
         }
 
         IReadOnlyList<TimeFrame> GetTimeFrames(String language, IContext context)
@@ -178,44 +139,6 @@ namespace TME.CarConfigurator.Publisher
             }
 
             return timeFrames;
-        }
-
-        BodyType MapBodyType(Administration.ModelGenerationBodyType generationBodyType, Administration.BodyType globalBodyType)
-        {
-            return Map<BodyType>(generationBodyType, globalBodyType);
-        }
-
-        Engine MapEngine(Administration.ModelGenerationEngine generationEngine, Administration.Engine globalEngine, Administration.EngineCategory engineCategory, Administration.FuelType fuelType)
-        {
-            var engine = AutoMapper.Mapper.Map<Engine>(generationEngine);
-            AutoMapper.Mapper.Map(globalEngine, engine);
-
-            engine.Category = AutoMapper.Mapper.Map<EngineCategory>(engineCategory);
-            engine.Type.FuelType = AutoMapper.Mapper.Map<FuelType>(fuelType);
-            
-            return engine;
-        }
-
-        Car MapCar(Administration.Car car, BodyType bodyType, Engine engine)
-        {
-            var mappedCar = AutoMapper.Mapper.Map<Car>(car);
-            mappedCar.BodyType = bodyType;
-            mappedCar.Engine = engine;
-            //mappedCar.Transmission = transmission;
-
-            return mappedCar;
-        }
-
-        Generation MapGeneration(Administration.Model model, Administration.ModelGeneration modelGeneration)
-        {
-            var generation = AutoMapper.Mapper.Map<Generation>(modelGeneration);
-            generation.SortIndex = model.Index;
-            return generation;
-        }
-
-        TDestination Map<TDestination>(object source1, object source2)
-        {
-            return (TDestination)AutoMapper.Mapper.Map(source2, AutoMapper.Mapper.Map<TDestination>(source1), source2.GetType(), typeof(TDestination));
         }
     }
 }

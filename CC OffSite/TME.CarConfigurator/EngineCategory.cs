@@ -9,7 +9,7 @@ namespace TME.CarConfigurator
 {
     public class EngineCategory : IEngineCategory
     {
-        private Repository.Objects.EngineCategory _engineCategory;
+        private readonly Repository.Objects.EngineCategory _engineCategory;
         private IEnumerable<Label> _labels;
 
         public EngineCategory(Repository.Objects.EngineCategory engineCategory)
