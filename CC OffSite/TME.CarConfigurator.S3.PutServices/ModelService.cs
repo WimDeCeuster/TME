@@ -28,7 +28,7 @@ namespace TME.CarConfigurator.S3.CommandServices
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
             if (languages == null) throw new ArgumentNullException("languages");
 
-            return await _service.PutObjectAsync(brand, country, _keyManager.GetLanguagesKey(), _serialiser.Serialise(languages));
+            return await _service.PutObjectAsync(brand, country, _keyManager.GetModelsKey(), _serialiser.Serialise(languages));
         }
     }
 }
