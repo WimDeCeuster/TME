@@ -23,7 +23,7 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public string Code
         {
-            get { throw new NotImplementedException(); }
+            get { return "NA"; }
         }
 
         public string Name
