@@ -20,6 +20,7 @@ namespace TME.CarConfigurator
         private IEnumerable<ILink> _links;
         private IEnumerable<IBodyType> _bodyTypes;
         private IEnumerable<IEngine> _engines;
+
         private CarConfiguratorVersion _carConfiguratorVersion;
 
         private Publication Publication
@@ -46,6 +47,8 @@ namespace TME.CarConfigurator
         public IEnumerable<IBodyType> BodyTypes { get { return _bodyTypes = _bodyTypes ?? _bodyTypeFactory.GetBodyTypes(Publication, Context); } }
 
         public IEnumerable<IEngine> Engines { get { return _engines = _engines ?? _engineFactory.GetEngines(Publication, Context); } }
+
+        public IEnumerable<ITransmission> Transmissions { get { throw new NotImplementedException(); } }
 
         public IEnumerable<IFuelType> FuelTypes { get { throw new NotImplementedException(); } }
 

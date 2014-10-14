@@ -141,6 +141,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ModelTransmissionAssetsController.cs" />
+    <Compile Include="Controllers\ModelTransmissionsController.cs" />
     <Compile Include="Controllers\ModelEngineCategoryAssetsController.cs" />
     <Compile Include="Controllers\ModelEngineAssetsController.cs" />
     <Compile Include="Controllers\ModelEnginesController.cs" />
@@ -259,6 +261,8 @@
     <Content Include="Views\Shared\_baseObjectWithPrefix.cshtml" />
     <Content Include="Views\Shared\Assets\details.cshtml" />
     <Content Include="Views\Shared\Assets\Index.cshtml" />
+    <Content Include="Views\ModelTransmissions\details.cshtml" />
+    <Content Include="Views\ModelTransmissions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

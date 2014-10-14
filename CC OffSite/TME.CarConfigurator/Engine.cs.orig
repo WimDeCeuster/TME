@@ -12,10 +12,13 @@ namespace TME.CarConfigurator
     public class Engine : IEngine
     {
         private readonly Repository.Objects.Engine _engine;
+<<<<<<< HEAD
         private readonly IAssetFactory _assetFactory;
         private readonly Publication _publication;
         private readonly Context _context;
 
+=======
+>>>>>>> 1209521c0125cfb16eed1a7282c9de4c6e1214c3
         private IEnumerable<Label> _labels;
         private EngineCategory _category;
         private EngineType _type;
