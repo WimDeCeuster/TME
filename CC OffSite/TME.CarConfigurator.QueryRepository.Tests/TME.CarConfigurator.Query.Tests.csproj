@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GivenABodyType\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenAFuelType\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenAFuelType\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenAnEngineCategory\WhenAccessingItsLabelsForTheFirstTime.cs" />

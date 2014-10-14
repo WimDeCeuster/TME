@@ -14,6 +14,7 @@ namespace TME.CarConfigurator
         private readonly Publication _publication;
         private readonly Context _context;
         private readonly IAssetFactory _assetFactory;
+        private IEnumerable<IAsset> _assets;
 
         public BodyType(Repository.Objects.BodyType bodyType, Publication publication, Context context, IAssetFactory assetFactory)
         {
@@ -44,6 +45,6 @@ namespace TME.CarConfigurator
         public bool VisibleInXRay4X4Spin { get { return _bodyType.VisibleInXRay4X4Spin; } }
         public bool VisibleInXRayHybridSpin { get { return _bodyType.VisibleInXRayHybridSpin; } }
         public bool VisibleInXRaySafetySpin { get { return _bodyType.VisibleInXRaySafetySpin; } }
-        public IEnumerable<IAsset> Assets { get { return _assetFactory.GetAssets(_publication, ID, _context); } }
+        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_publication, ID, _context); } }
     }
 }

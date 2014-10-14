@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Repository.Objects;
 
