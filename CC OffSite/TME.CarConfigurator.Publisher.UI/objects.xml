@@ -19,7 +19,59 @@
       <null />
     </constructor-arg>
   </object>
-  <object name="Mapper" type="TME.CarConfigurator.Publisher.Mapper, TME.CarConfigurator.Publisher"></object>
+  
+  <object name="Mapper" type="TME.CarConfigurator.Publisher.Mapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="ModelMapper" />
+    <constructor-arg ref="GenerationMapper" />
+    <constructor-arg ref="BodyTypeMapper" />
+    <constructor-arg ref="EngineMapper" />
+    <constructor-arg ref="CarMapper" />
+  </object>
+  <object name="ModelMapper" type="TME.CarConfigurator.Publisher.Mappers.ModelMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="LabelMapper" />
+  </object>
+  <object name="GenerationMapper" type="TME.CarConfigurator.Publisher.Mappers.GenerationMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="AssetMapper" />
+    <constructor-arg ref="CarConfiguratorVersionMapper" />
+    <constructor-arg ref="LabelMapper" />
+    <constructor-arg ref="LinkMapper" />
+  </object>
+  <object name="BodyTypeMapper" type="TME.CarConfigurator.Publisher.Mappers.BodyTypeMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="LabelMapper" />
+    <constructor-arg ref="AssetSetMapper" />
+  </object>
+  <object name="EngineMapper" type="TME.CarConfigurator.Publisher.Mappers.EngineMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="LabelMapper" />
+    <constructor-arg ref="EngineCategoryMapper" />
+    <constructor-arg ref="EngineTypeMapper" />
+    <constructor-arg ref="AssetSetMapper" />
+  </object>
+  <object name="CarMapper" type="TME.CarConfigurator.Publisher.Mappers.CarMapper, TME.CarConfigurator.Publisher"></object>
+  <object name="LabelMapper" type="TME.CarConfigurator.Publisher.Mappers.LabelMapper, TME.CarConfigurator.Publisher"></object>
+  <object name="AssetMapper" type="TME.CarConfigurator.Publisher.Mappers.AssetMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="AssetTypeMapper" />
+    <constructor-arg ref="FileTypeMapper" />
+  </object>
+  <object name="CarConfiguratorVersionMapper" type="TME.CarConfigurator.Publisher.Mappers.CarConfiguratorVersionMapper, TME.CarConfigurator.Publisher"></object>
+  <object name="LinkMapper" type="TME.CarConfigurator.Publisher.Mappers.LinkMapper, TME.CarConfigurator.Publisher"></object>
+  <object name="AssetSetMapper" type="TME.CarConfigurator.Publisher.Mappers.AssetSetMapper, TME.CarConfigurator.Publisher"></object>
+  <object name="EngineCategoryMapper" type="TME.CarConfigurator.Publisher.Mappers.EngineCategoryMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="AssetMapper" />
+    <constructor-arg ref="LabelMapper" />
+  </object>
+  <object name="EngineTypeMapper" type="TME.CarConfigurator.Publisher.Mappers.EngineTypeMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="FuelTypeMapper" />
+  </object>
+  <object name="AssetTypeMapper" type="TME.CarConfigurator.Publisher.Mappers.AssetTypeMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="AssetScopeMapper" />
+  </object>
+  <object name="FileTypeMapper" type="TME.CarConfigurator.Publisher.Mappers.FileTypeMapper, TME.CarConfigurator.Publisher"></object>
+  <object name="FuelTypeMapper" type="TME.CarConfigurator.Publisher.Mappers.FuelTypeMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="LabelMapper" />
+  </object>
+  <object name="AssetScopeMapper" type="TME.CarConfigurator.Publisher.Mappers.AssetScopeMapper, TME.CarConfigurator.Publisher"></object>
+
+
   <object name="CarDbModelGenerationFinder" type="TME.CarConfigurator.Publisher.CarDbModelGenerationFinder, TME.CarConfigurator.Publisher"></object>
   <object name="PublicationService" type="TME.CarConfigurator.Publisher.CarConfiguratorPublisher, TME.CarConfigurator.Publisher">
     <constructor-arg value="Development" />
