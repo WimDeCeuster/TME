@@ -55,7 +55,6 @@
     <Compile Include="GivenAFuelType\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenAnEngineCategory\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenAnEngineCategory\WhenAccessingItsLabelsForTheSecondTime.cs" />
-    <Compile Include="GivenAnEngineService\WhenGetEnginesIsCalled.cs" />
     <Compile Include="GivenAnEngineType\WhenAccessingItsFuelTypeForTheFirstTime.cs" />
     <Compile Include="GivenAnEngineType\WhenAccessingItsFuelTypeForTheSecondTime.cs" />
     <Compile Include="GivenAnEngine\WhenAccessingItsEngineTypeForTheFirstTime.cs" />
@@ -64,9 +63,7 @@
     <Compile Include="GivenAnEngine\WhenAccessingItsEngineCategoryForTheFirstTime.cs" />
     <Compile Include="GivenAnEngine\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenAnEngine\WhenAccessingItsLabelsForTheSecondTime.cs" />
-    <Compile Include="GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
     <Compile Include="GivenABodyType\WhenAccessingItsAssets.cs" />
-    <Compile Include="GivenALanguageService\WhenGetLanguagesIsCalled.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssetsASecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingAPublicationPropertyWhileItAlreadyFetchedThePublication.cs" />
     <Compile Include="GivenAModel\WhenAccessingAPublicationPropertyWhileItDidNotFetchThePublicationYet.cs" />
@@ -79,9 +76,12 @@
     <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />
-    <Compile Include="GivenAPublicationService\WhenGetPublicationIsCalled.cs" />
     <Compile Include="GivenModels\WhenRequestingTheListOfActiveModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
+    <Compile Include="Services\GivenAModelService\WhenGeGetModelsByLanguageIsCalled.cs" />
+    <Compile Include="Services\GivenAnEngineService\WhenGetEnginesIsCalled.cs" />
+    <Compile Include="Services\GivenAPublicationService\WhenGetPublicationIsCalled.cs" />
     <Compile Include="TestBuilders\AssetFactoryBuilder.cs" />
     <Compile Include="TestBuilders\Base\ServiceBuilderBase.cs" />
     <Compile Include="TestBuilders\BodyTypeFactoryBuilder.cs" />

@@ -10,7 +10,7 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.GivenAPublicationService
+namespace TME.CarConfigurator.Query.Tests.Services.GivenAPublicationService
 {
     public class WhenGetPublicationIsCalled : TestBase
     {
