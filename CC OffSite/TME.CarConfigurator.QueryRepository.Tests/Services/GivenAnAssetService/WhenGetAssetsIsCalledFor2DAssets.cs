@@ -13,7 +13,7 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.Services.GivenAnAssetService
 {
-    public class WhenGetAssetsIsCalled : TestBase
+    public class WhenGetAssetsIsCalledFor2DAssets : TestBase
     {
         private IEnumerable<Repository.Objects.Assets.Asset> _actualAssets;
         private IEnumerable<Repository.Objects.Assets.Asset> _expectedAssets;
