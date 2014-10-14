@@ -10,7 +10,6 @@ namespace TME.CarConfigurator.Core
     public abstract class BaseObject : IBaseObject
     {
         protected readonly Repository.Objects.Core.BaseObject RepositoryBaseObject;
-        protected readonly Context Context;
         private IEnumerable<ILabel> _labels;
 
         public Guid ID
@@ -58,12 +57,10 @@ namespace TME.CarConfigurator.Core
             get { return _labels = _labels ?? RepositoryBaseObject.Labels.Select(label => new Label(label)); }
         }
 
-        protected BaseObject(Repository.Objects.Core.BaseObject repositoryBaseObject, Context context)
+        protected BaseObject(Repository.Objects.Core.BaseObject repositoryBaseObject)
         {
             if (repositoryBaseObject == null) throw new ArgumentNullException("repositoryBaseObject");
-            if (context == null) throw new ArgumentNullException("context");
 
-            Context = context;
             RepositoryBaseObject = repositoryBaseObject;
         }
     }

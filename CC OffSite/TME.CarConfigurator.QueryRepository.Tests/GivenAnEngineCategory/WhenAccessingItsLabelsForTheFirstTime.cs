@@ -32,7 +32,9 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnEngineCategory
                 .WithLabels(_label1, _label2)
                 .Build();
 
-            _engineCategory = new EngineCategory(repoEngineCategory);
+            _engineCategory = new TestBuilders.EngineCategoryBuilder()
+                .WithEngineCategory(repoEngineCategory)
+                .Build();
         }
 
         protected override void Act()

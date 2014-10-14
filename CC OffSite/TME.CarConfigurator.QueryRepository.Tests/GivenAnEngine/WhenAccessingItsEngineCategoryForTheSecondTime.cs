@@ -24,7 +24,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnEngine
 
         protected override void Arrange()
         {
-            _repoCategory = new EngineCategoryBuilder().Build();
+            _repoCategory = new CarConfigurator.Tests.Shared.TestBuilders.EngineCategoryBuilder().Build();
 
             var repoEngine = new EngineBuilder()
                 .WithCategory(_repoCategory)

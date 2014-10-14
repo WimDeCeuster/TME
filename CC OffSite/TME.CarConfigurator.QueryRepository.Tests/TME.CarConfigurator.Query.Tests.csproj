@@ -98,6 +98,7 @@
     <Compile Include="TestBuilders\BodyTypeFactoryBuilder.cs" />
     <Compile Include="TestBuilders\ConfigurationManagerBuilder.cs" />
     <Compile Include="TestBuilders\ContextBuilder.cs" />
+    <Compile Include="TestBuilders\EngineCategoryBuilder.cs" />
     <Compile Include="TestBuilders\EngineFactoryBuilder.cs" />
     <Compile Include="TestBuilders\ModelServiceBuilder.cs" />
     <Compile Include="TestBuilders\PublicationFactoryBuilder.cs" />

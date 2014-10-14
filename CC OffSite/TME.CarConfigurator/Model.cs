@@ -11,6 +11,7 @@ namespace TME.CarConfigurator
     public class Model : Core.BaseObject, IModel
     {
         private readonly Repository.Objects.Model _repositoryModel;
+        private readonly Repository.Objects.Context _context;
         private readonly IPublicationFactory _publicationFactory;
         private readonly IBodyTypeFactory _bodyTypeFactory;
         private readonly IEngineFactory _engineFactory;
@@ -27,7 +28,7 @@ namespace TME.CarConfigurator
         {
             get
             {
-                _publication = _publication ?? _publicationFactory.GetPublication(_repositoryModel, Context);
+                _publication = _publication ?? _publicationFactory.GetPublication(_repositoryModel, _context);
                 return _publication;
             }
         }
@@ -44,9 +45,9 @@ namespace TME.CarConfigurator
 
         public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? Publication.Generation.Assets.Select(a => new Asset(a)); } }
 
-        public IEnumerable<IBodyType> BodyTypes { get { return _bodyTypes = _bodyTypes ?? _bodyTypeFactory.GetBodyTypes(Publication, Context); } }
+        public IEnumerable<IBodyType> BodyTypes { get { return _bodyTypes = _bodyTypes ?? _bodyTypeFactory.GetBodyTypes(Publication, _context); } }
 
-        public IEnumerable<IEngine> Engines { get { return _engines = _engines ?? _engineFactory.GetEngines(Publication, Context); } }
+        public IEnumerable<IEngine> Engines { get { return _engines = _engines ?? _engineFactory.GetEngines(Publication, _context); } }
 
         public IEnumerable<ITransmission> Transmissions { get { throw new NotImplementedException(); } }
 
@@ -60,7 +61,7 @@ namespace TME.CarConfigurator
             IPublicationFactory publicationFactory,
             IBodyTypeFactory bodyTypeFactory,
             IEngineFactory engineFactory)
-            : base(repositoryModel, context)
+            : base(repositoryModel)
         {
             if (repositoryModel == null) throw new ArgumentNullException("repositoryModel");
             if (context == null) throw new ArgumentNullException("context");
@@ -69,6 +70,7 @@ namespace TME.CarConfigurator
             if (engineFactory == null) throw new ArgumentNullException("engineFactory");
 
             _repositoryModel = repositoryModel;
+            _context = context;
             _publicationFactory = publicationFactory;
             _bodyTypeFactory = bodyTypeFactory;
             _engineFactory = engineFactory;

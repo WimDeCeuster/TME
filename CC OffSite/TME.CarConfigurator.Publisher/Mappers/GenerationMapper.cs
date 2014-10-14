@@ -40,7 +40,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 InternalCode = generation.BaseCode,
                 Labels = generation.Translation.Labels.Select(_labelMapper.MapLabel).ToList(),
                 Links = model.Links.Where(link => IsApplicableLink(link, generation))
-                                   .Select(link => _linkMapper.MapLink(link, brand, country, isPreview))
+                                   .Select(link => _linkMapper.MapLink(link, country, language, isPreview))
                                    .ToList(),
                 LocalCode = generation.LocalCode.DefaultIfEmpty(generation.BaseCode), //String.IsNullOrWhiteSpace(generation.LocalCode) ? generation.BaseCode : generation.LocalCode,
                 Name = generation.Translation.Name.DefaultIfEmpty(generation.Name),
