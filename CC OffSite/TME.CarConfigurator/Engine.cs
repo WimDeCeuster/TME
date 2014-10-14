@@ -4,20 +4,32 @@ using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator
 {
     public class Engine : IEngine
     {
-        private Repository.Objects.Engine _engine;
+        private readonly Repository.Objects.Engine _engine;
+        private readonly IAssetFactory _assetFactory;
+        private readonly Publication _publication;
+        private readonly Context _context;
+
         private IEnumerable<Label> _labels;
         private EngineCategory _category;
         private EngineType _type;
 
-        public Engine(Repository.Objects.Engine engine)
+        public Engine(Repository.Objects.Engine engine, Publication publication, Context context, IAssetFactory assetFactory)
         {
             if (engine == null) throw new ArgumentNullException("engine");
+            if (publication == null) throw new ArgumentNullException("publication");
+            if (context == null) throw new ArgumentNullException("context");
+            if (assetFactory == null) throw new ArgumentNullException("assetFactory");
             _engine = engine;
+            _assetFactory = assetFactory;
+            _publication = publication;
+            _context = context;
         }
         public Guid ID { get { return _engine.ID; } }
         public string InternalCode { get { return _engine.InternalCode; } }
@@ -37,6 +49,6 @@ namespace TME.CarConfigurator
         public bool VisibleInXRay4X4Spin { get { return _engine.VisibleInXRay4X4Spin; } }
         public bool VisibleInXRayHybridSpin { get { return _engine.VisibleInXRayHybridSpin; } }
         public bool VisibleInXRaySafetySpin { get { return _engine.VisibleInXRaySafetySpin; } }
-        public IEnumerable<IAsset> Assets { get { throw new NotImplementedException(); } }
+        public IEnumerable<IAsset> Assets { get { return _assetFactory.GetAssets(_publication, ID, _context); } }
     }
 }

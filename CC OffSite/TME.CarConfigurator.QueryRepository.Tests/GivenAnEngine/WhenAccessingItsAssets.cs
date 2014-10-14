@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
-using System;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
@@ -13,20 +14,26 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAnEngine
 {
-    public class WhenAccessingItsEngineCategoryForTheFirstTime : TestBase
+    public class WhenAccessingItsAssets : TestBase
     {
-        IEngine _engine;
-        IEngineCategory _category;
-        Repository.Objects.EngineCategory _repoCategory;
+        private IEnumerable<IAsset> _assets;
+        private Repository.Objects.Assets.Asset _asset1;
+        private Repository.Objects.Assets.Asset _asset2;
+        private IAssetService _assetService;
+        private IEngine _engine;
 
         protected override void Arrange()
         {
-            _repoCategory = new EngineCategoryBuilder()
+            _asset1 = new AssetBuilder()
+                .WithId(Guid.NewGuid())
+                .Build();
+
+            _asset2 = new AssetBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
 
             var repoEngine = new EngineBuilder()
-                .WithCategory(_repoCategory)
+                .WithId(Guid.NewGuid())
                 .Build();
 
             var publicationTimeFrame = new PublicationTimeFrameBuilder()
@@ -43,8 +50,16 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnEngine
             var engineService = A.Fake<IEngineService>();
             A.CallTo(() => engineService.GetEngines(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new List<Repository.Objects.Engine> { repoEngine });
 
+            _assetService = A.Fake<IAssetService>();
+            A.CallTo(() => _assetService.GetAssets(publication.ID, repoEngine.ID, context)).Returns(new List<Repository.Objects.Assets.Asset> { _asset1, _asset2 });
+
+            var assetFactory = new AssetFactoryBuilder()
+                .WithAssetService(_assetService)
+                .Build();
+
             var engineFactory = new EngineFactoryBuilder()
                 .WithEngineService(engineService)
+                .WithAssetFactory(assetFactory)
                 .Build();
 
             _engine = engineFactory.GetEngines(publication, context).Single();
@@ -52,13 +67,22 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnEngine
 
         protected override void Act()
         {
-            _category = _engine.Category;
+            _assets = _engine.Assets;
         }
 
         [Fact]
-        public void ThenItShouldHaveTheCategory()
+        public void ThenItShouldFetchTheAssetsFromTheService()
         {
-            _category.ID.Should().Be(_repoCategory.ID);
+            A.CallTo(() => _assetService.GetAssets(A<Guid>._, A<Guid>._, A<Context>._)).MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
+        public void ThenItShouldHaveTheCorrectAssets()
+        {
+            _assets.Should().HaveCount(2);
+
+            _assets.Should().Contain(a => a.ID == _asset1.ID);
+            _assets.Should().Contain(a => a.ID == _asset2.ID);
         }
     }
 }
