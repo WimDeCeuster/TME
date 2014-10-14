@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GivenABodyType\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenABodyType\WhenAccessingIts3DAssetsASecondTime.cs" />
     <Compile Include="GivenABodyType\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenABodyType\WhenAccessingIts3DAssets.cs" />

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
@@ -15,7 +16,7 @@ namespace TME.CarConfigurator
         private readonly Context _context;
         private readonly IAssetFactory _assetFactory;
         private IEnumerable<IAsset> _assets;
-        private IEnumerable<IAsset> _3DAssets;
+        private Dictionary<string, IEnumerable<IAsset>> _3DAssets = new Dictionary<string, IEnumerable<IAsset>>();
 
         public BodyType(Repository.Objects.BodyType bodyType, Publication publication, Context context, IAssetFactory assetFactory)
         {
@@ -49,7 +50,16 @@ namespace TME.CarConfigurator
         public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_publication, ID, _context); } }
         public IEnumerable<IAsset> Get3DAssets(string view, string mode)
         {
-            return _3DAssets = _3DAssets ?? _assetFactory.GetAssets(_publication, ID, _context, view, mode);
+            var key = string.Format("{0}-{1}", view, mode);
+
+            if (_3DAssets.ContainsKey(key))
+                return _3DAssets[key];
+
+            var assets = _assetFactory.GetAssets(_publication, ID, _context, view, mode).ToList();
+
+            _3DAssets.Add(key, assets);
+
+            return assets;
         }
     }
 }
