@@ -115,7 +115,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenABodyType
         [Fact]
         public void ThenItShouldHaveTheCorrectListOfAssetsForTheSecondModeAndView()
         {
-            _fetchedAssets2.Should().HaveCount(2);
+            _fetchedAssets2.Should().HaveCount(1);
 
             _fetchedAssets2.Should().Contain(a => a.ID == _asset3.ID);
         }
