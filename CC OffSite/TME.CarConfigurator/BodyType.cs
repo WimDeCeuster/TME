@@ -46,5 +46,9 @@ namespace TME.CarConfigurator
         public bool VisibleInXRayHybridSpin { get { return _bodyType.VisibleInXRayHybridSpin; } }
         public bool VisibleInXRaySafetySpin { get { return _bodyType.VisibleInXRaySafetySpin; } }
         public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_publication, ID, _context); } }
+        public IEnumerable<IAsset> Get3DAssets(string view, string mode)
+        {
+            return _assetFactory.GetAssets(_publication, ID, _context, view, mode);
+        }
     }
 }

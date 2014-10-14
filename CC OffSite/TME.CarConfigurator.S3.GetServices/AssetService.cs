@@ -30,5 +30,10 @@ namespace TME.CarConfigurator.S3.QueryServices
             var serializedObject = _service.GetObject(context.Brand, context.Country, key);
             return _serializer.Deserialise<IEnumerable<Asset>>(serializedObject);
         }
+
+        public IEnumerable<Asset> GetAssets(Guid publicationId, Guid objectId, Context context, string view, string mode)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
