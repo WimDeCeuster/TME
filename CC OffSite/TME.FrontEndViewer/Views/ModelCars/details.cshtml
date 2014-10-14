@@ -13,6 +13,15 @@
         </table>
         <div class="clickable object" data-id="@Html.Raw(model.ID)">
             @Html.Partial("_baseObject", model)
+            <p class="property" data-id="ShortID">ShortID : @Html.Raw(model.ShortID)</p>
+            <p class="property" data-id="BrochurePromoted">Promoted : @Html.Raw(model.Promoted)</p>
+            <p class="property" data-id="ConfigVisible">ConfigVisible : @Html.Raw(model.ConfigVisible)</p>
+            <p class="property" data-id="WebVisible">WebVisible : @Html.Raw(model.WebVisible)</p>
+            <p class="property" data-id="FinanceVisible">FinanceVisible : @Html.Raw(model.FinanceVisible)</p>
+            <p class="property" data-id="BasePricePriceExVat">BasePrice.PriceExVat : @Html.Raw(model.BasePrice.PriceExVat)</p>
+            <p class="property" data-id="BasePricePriceInVat">BasePrice.PriceInVat : @Html.Raw(model.BasePrice.PriceInVat)</p>
+            <p class="property" data-id="StartingPricePriceExVat">StartingPrice.PriceExVat : @Html.Raw(model.StartingPrice.PriceExVat)</p>
+            <p class="property" data-id="StartingPricePriceInVat">StartingPrice.PriceInVat : @Html.Raw(model.StartingPrice.PriceInVat)</p>
         </div>
     </div>
 }
