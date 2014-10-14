@@ -19,6 +19,8 @@ namespace TME.CarConfigurator
         private IEnumerable<Label> _labels;
         private EngineCategory _category;
         private EngineType _type;
+        private IEnumerable<IAsset> _assets;
+        private IDictionary<string, IEnumerable<IAsset>> _3DAssets = new Dictionary<string, IEnumerable<IAsset>>();
 
         public Engine(Repository.Objects.Engine engine, Publication publication, Context context, IAssetFactory assetFactory)
         {
@@ -49,6 +51,18 @@ namespace TME.CarConfigurator
         public bool VisibleInXRay4X4Spin { get { return _engine.VisibleInXRay4X4Spin; } }
         public bool VisibleInXRayHybridSpin { get { return _engine.VisibleInXRayHybridSpin; } }
         public bool VisibleInXRaySafetySpin { get { return _engine.VisibleInXRaySafetySpin; } }
-        public IEnumerable<IAsset> Assets { get { return _assetFactory.GetAssets(_publication, ID, _context); } }
+        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_publication, ID, _context); } }
+        public IEnumerable<IAsset> GetAssets(string view, string mode)
+        {
+            var key = string.Format("{0}{1}", view, mode);
+
+            if (_3DAssets.ContainsKey(key)) return _3DAssets[key];
+
+            var assets = _assetFactory.GetAssets(_publication, ID, _context, view, mode);
+
+            _3DAssets.Add(key, assets);
+
+            return assets;
+        }
     }
 }
