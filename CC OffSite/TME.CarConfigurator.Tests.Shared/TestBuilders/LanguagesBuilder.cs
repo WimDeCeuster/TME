@@ -1,7 +1,7 @@
 using System.Linq;
 using TME.CarConfigurator.Repository.Objects;
 
-namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
+namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
     public class LanguagesBuilder
     {

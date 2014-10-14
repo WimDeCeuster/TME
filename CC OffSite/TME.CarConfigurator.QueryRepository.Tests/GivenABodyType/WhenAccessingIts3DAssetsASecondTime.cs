@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
@@ -14,16 +14,22 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenABodyType
 {
-    public class WhenAccessingItsAssets : TestBase
+    public class WhenAccessingIts3DAssetsASecondTime : TestBase
     {
+        private IEnumerable<IAsset> _firstAssets;
+        private IEnumerable<IAsset> _secondAssets;
         private IBodyType _bodyType;
-        private IEnumerable<IAsset> _assets;
+        private string _view;
+        private string _mode;
         private Repository.Objects.Assets.Asset _asset1;
         private Repository.Objects.Assets.Asset _asset2;
         private IAssetService _assetService;
 
         protected override void Arrange()
         {
+            _view = "the view";
+            _mode = "the mode";
+
             _asset1 = new AssetBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
@@ -48,10 +54,11 @@ namespace TME.CarConfigurator.Query.Tests.GivenABodyType
             var context = new ContextBuilder().Build();
 
             var bodyTypeService = A.Fake<IBodyTypeService>();
-            A.CallTo(() => bodyTypeService.GetBodyTypes(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new List<Repository.Objects.BodyType> {repoBodyType});
+            A.CallTo(() => bodyTypeService.GetBodyTypes(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new List<Repository.Objects.BodyType> { repoBodyType });
 
             _assetService = A.Fake<IAssetService>();
-            A.CallTo(() => _assetService.GetAssets(publication.ID, repoBodyType.ID, context)).Returns(new List<Repository.Objects.Assets.Asset> {_asset1, _asset2});
+            A.CallTo(() => _assetService.GetAssets(publication.ID, repoBodyType.ID, context, _view, _mode))
+                .Returns(new List<Repository.Objects.Assets.Asset> { _asset1, _asset2 });
 
             var assetFactory = new AssetFactoryBuilder()
                 .WithAssetService(_assetService)
@@ -63,26 +70,25 @@ namespace TME.CarConfigurator.Query.Tests.GivenABodyType
                 .Build();
 
             _bodyType = bodyTypeFactory.GetBodyTypes(publication, context).Single();
+
+            _firstAssets = _bodyType.Get3DAssets(_view, _mode);
         }
 
         protected override void Act()
         {
-            _assets = _bodyType.Assets;
+            _secondAssets = _bodyType.Get3DAssets(_view, _mode);
         }
 
         [Fact]
-        public void ThenItShouldFetchTheAssetsFromTheService()
+        public void ThenItShouldNotFetchTheAssetsFromTheServiceAgain()
         {
-            A.CallTo(() => _assetService.GetAssets(A<Guid>._, A<Guid>._, A<Context>._)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _assetService.GetAssets(A<Guid>._, A<Guid>._, A<Context>._, A<string>._, A<string>._)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
-        public void ThenItShouldHaveTheCorrectAssets()
+        public void ThenItShouldReferenceTheSameInstanceOfAssetsAsTheFirstTime()
         {
-            _assets.Should().HaveCount(2);
-
-            _assets.Should().Contain(a => a.ID == _asset1.ID);
-            _assets.Should().Contain(a => a.ID == _asset2.ID);
+            _secondAssets.Should().BeSameAs(_firstAssets);
         }
     }
 }

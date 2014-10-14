@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
@@ -14,6 +15,8 @@ namespace TME.CarConfigurator
         private readonly Publication _publication;
         private readonly Context _context;
         private readonly IAssetFactory _assetFactory;
+        private IEnumerable<IAsset> _assets;
+        private readonly Dictionary<string, IEnumerable<IAsset>> _3DAssets = new Dictionary<string, IEnumerable<IAsset>>();
 
         public BodyType(Repository.Objects.BodyType bodyType, Publication publication, Context context, IAssetFactory assetFactory)
         {
@@ -44,6 +47,19 @@ namespace TME.CarConfigurator
         public bool VisibleInXRay4X4Spin { get { return _bodyType.VisibleInXRay4X4Spin; } }
         public bool VisibleInXRayHybridSpin { get { return _bodyType.VisibleInXRayHybridSpin; } }
         public bool VisibleInXRaySafetySpin { get { return _bodyType.VisibleInXRaySafetySpin; } }
-        public IEnumerable<IAsset> Assets { get { return _assetFactory.GetAssets(_publication, ID, _context); } }
+        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_publication, ID, _context); } }
+        public IEnumerable<IAsset> Get3DAssets(string view, string mode)
+        {
+            var key = string.Format("{0}-{1}", view, mode);
+
+            if (_3DAssets.ContainsKey(key))
+                return _3DAssets[key];
+
+            var assets = _assetFactory.GetAssets(_publication, ID, _context, view, mode).ToList();
+
+            _3DAssets.Add(key, assets);
+
+            return assets;
+        }
     }
 }

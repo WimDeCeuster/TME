@@ -14,16 +14,21 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenABodyType
 {
-    public class WhenAccessingItsAssets : TestBase
+    public class WhenAccessingIts3DAssets : TestBase
     {
-        private IBodyType _bodyType;
         private IEnumerable<IAsset> _assets;
+        private IBodyType _bodyType;
+        private string _view;
+        private string _mode;
         private Repository.Objects.Assets.Asset _asset1;
         private Repository.Objects.Assets.Asset _asset2;
         private IAssetService _assetService;
 
         protected override void Arrange()
         {
+            _view = "the view";
+            _mode = "the mode";
+
             _asset1 = new AssetBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
@@ -48,10 +53,11 @@ namespace TME.CarConfigurator.Query.Tests.GivenABodyType
             var context = new ContextBuilder().Build();
 
             var bodyTypeService = A.Fake<IBodyTypeService>();
-            A.CallTo(() => bodyTypeService.GetBodyTypes(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new List<Repository.Objects.BodyType> {repoBodyType});
+            A.CallTo(() => bodyTypeService.GetBodyTypes(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new List<Repository.Objects.BodyType> { repoBodyType });
 
             _assetService = A.Fake<IAssetService>();
-            A.CallTo(() => _assetService.GetAssets(publication.ID, repoBodyType.ID, context)).Returns(new List<Repository.Objects.Assets.Asset> {_asset1, _asset2});
+            A.CallTo(() => _assetService.GetAssets(publication.ID, repoBodyType.ID, context, _view, _mode))
+                .Returns(new List<Repository.Objects.Assets.Asset> { _asset1, _asset2 });
 
             var assetFactory = new AssetFactoryBuilder()
                 .WithAssetService(_assetService)
@@ -67,13 +73,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenABodyType
 
         protected override void Act()
         {
-            _assets = _bodyType.Assets;
+            _assets = _bodyType.Get3DAssets(_view, _mode);
         }
 
         [Fact]
         public void ThenItShouldFetchTheAssetsFromTheService()
         {
-            A.CallTo(() => _assetService.GetAssets(A<Guid>._, A<Guid>._, A<Context>._)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _assetService.GetAssets(A<Guid>._, A<Guid>._, A<Context>._, A<string>._, A<string>._)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]

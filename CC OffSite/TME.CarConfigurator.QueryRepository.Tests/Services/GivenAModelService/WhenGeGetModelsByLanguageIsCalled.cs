@@ -5,7 +5,7 @@ using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
-using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
+using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.Services.GivenAModelService
@@ -37,7 +37,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAModelService
             var s3Service = A.Fake<IService>();
 
 
-            A.CallTo(() => keyManager.GetLanguagesKey()).Returns(s3Key);
+            A.CallTo(() => keyManager.GetModelsKey()).Returns(s3Key);
             A.CallTo(() => s3Service.GetObject(Brand, Country, s3Key)).Returns(serializedObject);
             A.CallTo(() => serialiser.Deserialise<Languages>(serializedObject)).Returns(_expectedLanguages);
 

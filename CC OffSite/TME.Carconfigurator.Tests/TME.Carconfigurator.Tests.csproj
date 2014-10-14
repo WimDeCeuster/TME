@@ -85,6 +85,12 @@
   <ItemGroup>
     <Compile Include="Base\PublicationTestBase.cs" />
     <Compile Include="Builders\ContextBuilder.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingABodyTypesKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingAModelsKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingAnAssetsKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingAnEnginesKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingAPublicationKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingTheDefaultAssetsKey.cs" />
     <Compile Include="GivenAMapper\MappingTestBase.cs" />
     <Compile Include="GivenAMapper\TimeFramesTestBase.cs" />
     <Compile Include="GivenAMapper\WhenMappingABodyType.cs" />

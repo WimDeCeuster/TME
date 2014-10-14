@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
@@ -14,10 +14,11 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenABodyType
 {
-    public class WhenAccessingItsAssets : TestBase
+    public class WhenAccessingItsAssetsASecondTime : TestBase
     {
         private IBodyType _bodyType;
-        private IEnumerable<IAsset> _assets;
+        private IEnumerable<IAsset> _firstAssets;
+        private IEnumerable<IAsset> _secondAssets;
         private Repository.Objects.Assets.Asset _asset1;
         private Repository.Objects.Assets.Asset _asset2;
         private IAssetService _assetService;
@@ -63,26 +64,34 @@ namespace TME.CarConfigurator.Query.Tests.GivenABodyType
                 .Build();
 
             _bodyType = bodyTypeFactory.GetBodyTypes(publication, context).Single();
+
+            _firstAssets = _bodyType.Assets;
         }
 
         protected override void Act()
         {
-            _assets = _bodyType.Assets;
+            _secondAssets = _bodyType.Assets;
         }
 
         [Fact]
-        public void ThenItShouldFetchTheAssetsFromTheService()
+        public void ThenItShouldNotFetchTheAssetsFromTheServiceAgain()
         {
             A.CallTo(() => _assetService.GetAssets(A<Guid>._, A<Guid>._, A<Context>._)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
+        public void ThenTheReferenceToTheListOfAssetsShouldBeTheSameAsTheFirstList()
+        {
+            _secondAssets.Should().BeSameAs(_firstAssets);
+        }
+
+        [Fact]
         public void ThenItShouldHaveTheCorrectAssets()
         {
-            _assets.Should().HaveCount(2);
+            _secondAssets.Should().HaveCount(2);
 
-            _assets.Should().Contain(a => a.ID == _asset1.ID);
-            _assets.Should().Contain(a => a.ID == _asset2.ID);
+            _secondAssets.Should().Contain(a => a.ID == _asset1.ID);
+            _secondAssets.Should().Contain(a => a.ID == _asset2.ID);
         }
     }
 }

@@ -51,6 +51,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GivenABodyType\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenABodyType\WhenAccessingIts3DAssetsASecondTime.cs" />
+    <Compile Include="GivenABodyType\WhenAccessingItsAssetsASecondTime.cs" />
+    <Compile Include="GivenABodyType\WhenAccessingIts3DAssets.cs" />
     <Compile Include="GivenAFuelType\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenAFuelType\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenAnEngineCategory\WhenAccessingItsLabelsForTheFirstTime.cs" />
@@ -80,6 +84,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
     <Compile Include="Services\GivenAModelService\WhenGeGetModelsByLanguageIsCalled.cs" />
+    <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledFor2DAssets.cs" />
+    <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenAnEngineService\WhenGetEnginesIsCalled.cs" />
     <Compile Include="Services\GivenAPublicationService\WhenGetPublicationIsCalled.cs" />
     <Compile Include="TestBuilders\AssetFactoryBuilder.cs" />

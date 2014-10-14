@@ -5,29 +5,50 @@ namespace TME.CarConfigurator.S3.Shared
 {
     public class KeyManager : IKeyManager
     {
-        const String LanguagesKey = "models-per-language";
-        const String PublicationKeyTemplate = "publication/{0}";
-        const String GenerationBodyTypesKeyTemplate = "publication/{0}/time-frame/{1}/body-types";
-        const String GenerationEnginesKeyTemplate = "publication/{0}/time-frame/{1}/engines";
+        private const string PublicationKeyTemplate = "publication/{0}";
+        private const string PublicationTimeFrameKeyTemplate = "publication/{0}/time-frame/{1}";
+        private const string PublicationAssetsKeyTemplate = "publication/{0}/assets";
 
-        public string GetLanguagesKey()
+        public string GetModelsKey()
         {
-            return LanguagesKey;
+            return "models-per-language";
         }
 
         public string GetPublicationKey(Guid publicationID)
         {
-            return String.Format(PublicationKeyTemplate, publicationID);
+            return string.Format(PublicationKeyTemplate, publicationID);
         }
 
-        public string GetGenerationBodyTypesKey(Guid publicationID, Guid timeFrameID)
+        private static string GetTimeFrameKey(Guid publicationID, Guid timeFrameID)
         {
-            return String.Format(GenerationBodyTypesKeyTemplate, publicationID, timeFrameID);
+            return string.Format(PublicationTimeFrameKeyTemplate, publicationID, timeFrameID);
         }
 
-        public string GetGenerationEnginesKey(Guid publicationIdID, Guid timeFrameID)
+        public string GetBodyTypesKey(Guid publicationID, Guid timeFrameID)
         {
-            return String.Format(GenerationEnginesKeyTemplate, publicationIdID, timeFrameID);
+            return string.Format("{0}/body-types", GetTimeFrameKey(publicationID, timeFrameID));
+        }
+
+        public string GetEnginesKey(Guid publicationID, Guid timeFrameID)
+        {
+            return string.Format("{0}/engines", GetTimeFrameKey(publicationID, timeFrameID));
+        }
+
+        private static string GetAssetsKey(Guid publicationId, Guid objectId)
+        {
+            var publicationAssetsKey = string.Format(PublicationAssetsKeyTemplate, publicationId);
+            
+            return string.Format("{0}/{1}", publicationAssetsKey, objectId);
+        }
+
+        public string GetDefaultAssetsKey(Guid publicationId, Guid objectId)
+        {
+            return string.Format("{0}/default", GetAssetsKey(publicationId, objectId));
+        }
+
+        public string GetAssetsKey(Guid publicationId, Guid objectId, string view, string mode)
+        {
+            return string.Format("{0}/{1}/{2}", GetAssetsKey(publicationId, objectId), view, mode);
         }
     }
 }

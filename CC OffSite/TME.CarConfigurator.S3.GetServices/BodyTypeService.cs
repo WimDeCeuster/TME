@@ -25,7 +25,7 @@ namespace TME.CarConfigurator.S3.QueryServices
 
         public IEnumerable<BodyType> GetBodyTypes(Guid publicationId, Guid publicationTimeFrameId, Context context)
         {
-            var key = _keyManager.GetGenerationBodyTypesKey(publicationId, publicationTimeFrameId);
+            var key = _keyManager.GetBodyTypesKey(publicationId, publicationTimeFrameId);
             var serializedObject = _service.GetObject(context.Brand, context.Country, key);
             return _serializer.Deserialise<IEnumerable<BodyType>>(serializedObject);
         }

@@ -35,7 +35,7 @@ namespace TME.CarConfigurator.S3.QueryServices
 
         public Languages GetModelsByLanguage(string brand, string country)
         {
-            var key = _keyManager.GetLanguagesKey();
+            var key = _keyManager.GetModelsKey();
 
             try
             {
