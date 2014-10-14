@@ -12,7 +12,7 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
-using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
+using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAModel

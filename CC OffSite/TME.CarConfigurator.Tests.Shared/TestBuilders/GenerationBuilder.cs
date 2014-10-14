@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 
-namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
+namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
     public class GenerationBuilder
     {

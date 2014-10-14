@@ -16,7 +16,7 @@ namespace TME.CarConfigurator
         private readonly Context _context;
         private readonly IAssetFactory _assetFactory;
         private IEnumerable<IAsset> _assets;
-        private Dictionary<string, IEnumerable<IAsset>> _3DAssets = new Dictionary<string, IEnumerable<IAsset>>();
+        private readonly Dictionary<string, IEnumerable<IAsset>> _3DAssets = new Dictionary<string, IEnumerable<IAsset>>();
 
         public BodyType(Repository.Objects.BodyType bodyType, Publication publication, Context context, IAssetFactory assetFactory)
         {
