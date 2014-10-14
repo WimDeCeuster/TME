@@ -47,6 +47,8 @@ namespace TME.CarConfigurator.S3.Publisher
                                 timeFrame => data.Publication.TimeFrames.Single(publicationTimeFrame => publicationTimeFrame.ID == timeFrame.ID),
                                 timeFrame => data.GenerationEngines.Where(engine =>
                                                                             timeFrame.Cars.Any(car => car.Engine.ID == engine.ID))
+                                                                     .OrderBy(engine => engine.SortIndex)
+                                                                     .ThenBy(engine => engine.Name)
                                                                      .ToList());
 
             var tasks = new List<Task<Result>>();

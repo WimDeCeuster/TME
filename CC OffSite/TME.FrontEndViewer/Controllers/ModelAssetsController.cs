@@ -25,7 +25,7 @@ namespace TME.FrontEndViewer.Controllers
                 NewReaderModel = GetNewReaderModelWithMetrics(context, modelID)
             };
 
-            return View(model);
+            return View("Assets/Index",model);
         }
 
         private static ModelWithMetrics<IAsset> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID)

@@ -25,6 +25,8 @@ namespace TME.CarConfigurator.Publisher
                 var model = entry.Value.Item2;
                 var language = entry.Key;
 
+                Administration.MyContext.SetSystemContext(brand, country, language);
+
                 context.ModelGenerations[language] = modelGeneration;
                 context.ContextData[language] = contextData;
 

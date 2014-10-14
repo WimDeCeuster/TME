@@ -51,6 +51,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GivenAFuelType\WhenAccessingItsLabelsForTheFirstTime.cs" />
+    <Compile Include="GivenAFuelType\WhenAccessingItsLabelsForTheSecondTime.cs" />
+    <Compile Include="GivenAnEngineCategory\WhenAccessingItsLabelsForTheFirstTime.cs" />
+    <Compile Include="GivenAnEngineCategory\WhenAccessingItsLabelsForTheSecondTime.cs" />
+    <Compile Include="GivenAnEngineService\WhenGetEnginesIsCalled.cs" />
+    <Compile Include="GivenAnEngineType\WhenAccessingItsFuelTypeForTheFirstTime.cs" />
+    <Compile Include="GivenAnEngineType\WhenAccessingItsFuelTypeForTheSecondTime.cs" />
+    <Compile Include="GivenAnEngine\WhenAccessingItsEngineTypeForTheFirstTime.cs" />
+    <Compile Include="GivenAnEngine\WhenAccessingItsEngineCategoryForTheSecondTime.cs" />
+    <Compile Include="GivenAnEngine\WhenAccessingItsEngineTypeForTheSecondTime.cs" />
+    <Compile Include="GivenAnEngine\WhenAccessingItsEngineCategoryForTheFirstTime.cs" />
+    <Compile Include="GivenAnEngine\WhenAccessingItsLabelsForTheFirstTime.cs" />
+    <Compile Include="GivenAnEngine\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
     <Compile Include="GivenABodyType\WhenAccessingItsAssets.cs" />
     <Compile Include="GivenALanguageService\WhenGetLanguagesIsCalled.cs" />
@@ -61,6 +74,8 @@
     <Compile Include="GivenAModel\WhenAccessingItsBodyTypesForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarConfiguratorVersion.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarConfiguratorVersionASecondTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsEnginesForTheFirstTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsEnginesForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />

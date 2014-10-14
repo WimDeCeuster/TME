@@ -1,0 +1,22 @@
+﻿using TME.CarConfigurator.QueryServices;
+
+namespace TME.CarConfigurator.DI.Interfaces
+{
+    public interface IServiceFacade
+    {
+        IServiceFacade WithModelService(IModelService modelService);
+        IServiceFacade WithPublicationService(IPublicationService publicationService);
+        IServiceFacade WithBodyTypeService(IBodyTypeService bodyTypeService);
+        IServiceFacade WithEngineService(IEngineService engineService);
+
+        IModelService CreateModelService();
+        IPublicationService CreatePublicationService();
+        IBodyTypeService CreateBodyTypeService();
+<<<<<<< HEAD
+        IAssetService CreateAssetService();
+=======
+        IEngineService CreateEngineService();
+
+>>>>>>> 8994df8432cef824874965085ed5ca1dd94ed299
+    }
+}

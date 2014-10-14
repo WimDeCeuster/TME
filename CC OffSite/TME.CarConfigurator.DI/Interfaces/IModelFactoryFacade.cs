@@ -7,6 +7,7 @@ namespace TME.CarConfigurator.DI.Interfaces
         IModelFactoryFacade WithServiceFacade(IServiceFacade serviceFacade);
         IModelFactoryFacade WithPublicationFactory(IPublicationFactory publicationFactory);
         IModelFactoryFacade WithBodyTypeFactory(IBodyTypeFactory bodyTypeFactory);
+        IModelFactoryFacade WithEngineFactory(IEngineFactory engineFactory);
 
         IModelFactory Create();
     }
