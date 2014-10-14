@@ -61,6 +61,11 @@
     <Compile Include="GivenAnEngineCategory\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenAnEngineType\WhenAccessingItsFuelTypeForTheFirstTime.cs" />
     <Compile Include="GivenAnEngineType\WhenAccessingItsFuelTypeForTheSecondTime.cs" />
+    <Compile Include="GivenAnEngine\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenAnEngine\WhenAccessingIts3DAssets.cs" />
+    <Compile Include="GivenAnEngine\WhenAccessingIts3DAssetsASecondTime.cs" />
+    <Compile Include="GivenAnEngine\WhenAccessingItsAssets.cs" />
+    <Compile Include="GivenAnEngine\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenAnEngine\WhenAccessingItsEngineTypeForTheFirstTime.cs" />
     <Compile Include="GivenAnEngine\WhenAccessingItsEngineCategoryForTheSecondTime.cs" />
     <Compile Include="GivenAnEngine\WhenAccessingItsEngineTypeForTheSecondTime.cs" />
@@ -93,6 +98,7 @@
     <Compile Include="TestBuilders\BodyTypeFactoryBuilder.cs" />
     <Compile Include="TestBuilders\ConfigurationManagerBuilder.cs" />
     <Compile Include="TestBuilders\ContextBuilder.cs" />
+    <Compile Include="TestBuilders\EngineFactoryBuilder.cs" />
     <Compile Include="TestBuilders\ModelServiceBuilder.cs" />
     <Compile Include="TestBuilders\PublicationFactoryBuilder.cs" />
     <Compile Include="TestBuilders\PublicationServiceBuilder.cs" />

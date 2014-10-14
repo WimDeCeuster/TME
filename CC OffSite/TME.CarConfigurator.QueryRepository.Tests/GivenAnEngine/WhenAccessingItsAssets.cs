@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
@@ -12,24 +12,18 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.GivenABodyType
+namespace TME.CarConfigurator.Query.Tests.GivenAnEngine
 {
-    public class WhenAccessingIts3DAssetsASecondTime : TestBase
+    public class WhenAccessingItsAssets : TestBase
     {
-        private IEnumerable<IAsset> _firstAssets;
-        private IEnumerable<IAsset> _secondAssets;
-        private IBodyType _bodyType;
-        private string _view;
-        private string _mode;
+        private IEnumerable<IAsset> _assets;
         private Repository.Objects.Assets.Asset _asset1;
         private Repository.Objects.Assets.Asset _asset2;
         private IAssetService _assetService;
+        private IEngine _engine;
 
         protected override void Arrange()
         {
-            _view = "the view";
-            _mode = "the mode";
-
             _asset1 = new AssetBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
@@ -38,7 +32,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenABodyType
                 .WithId(Guid.NewGuid())
                 .Build();
 
-            var repoBodyType = new BodyTypeBuilder()
+            var repoEngine = new EngineBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
 
@@ -53,42 +47,42 @@ namespace TME.CarConfigurator.Query.Tests.GivenABodyType
 
             var context = new ContextBuilder().Build();
 
-            var bodyTypeService = A.Fake<IBodyTypeService>();
-            A.CallTo(() => bodyTypeService.GetBodyTypes(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new List<Repository.Objects.BodyType> { repoBodyType });
+            var engineService = A.Fake<IEngineService>();
+            A.CallTo(() => engineService.GetEngines(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new List<Repository.Objects.Engine> { repoEngine });
 
             _assetService = A.Fake<IAssetService>();
-            A.CallTo(() => _assetService.GetAssets(publication.ID, repoBodyType.ID, context, _view, _mode))
-                .Returns(new List<Repository.Objects.Assets.Asset> { _asset1, _asset2 });
+            A.CallTo(() => _assetService.GetAssets(publication.ID, repoEngine.ID, context)).Returns(new List<Repository.Objects.Assets.Asset> { _asset1, _asset2 });
 
             var assetFactory = new AssetFactoryBuilder()
                 .WithAssetService(_assetService)
                 .Build();
 
-            var bodyTypeFactory = new BodyTypeFactoryBuilder()
-                .WithBodyTypeService(bodyTypeService)
+            var engineFactory = new EngineFactoryBuilder()
+                .WithEngineService(engineService)
                 .WithAssetFactory(assetFactory)
                 .Build();
 
-            _bodyType = bodyTypeFactory.GetBodyTypes(publication, context).Single();
-
-            _firstAssets = _bodyType.GetAssets(_view, _mode);
+            _engine = engineFactory.GetEngines(publication, context).Single();
         }
 
         protected override void Act()
         {
-            _secondAssets = _bodyType.GetAssets(_view, _mode);
+            _assets = _engine.Assets;
         }
 
         [Fact]
-        public void ThenItShouldNotFetchTheAssetsFromTheServiceAgain()
+        public void ThenItShouldFetchTheAssetsFromTheService()
         {
-            A.CallTo(() => _assetService.GetAssets(A<Guid>._, A<Guid>._, A<Context>._, A<string>._, A<string>._)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _assetService.GetAssets(A<Guid>._, A<Guid>._, A<Context>._)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
-        public void ThenItShouldReferenceTheSameInstanceOfAssetsAsTheFirstTime()
+        public void ThenItShouldHaveTheCorrectAssets()
         {
-            _secondAssets.Should().BeSameAs(_firstAssets);
+            _assets.Should().HaveCount(2);
+
+            _assets.Should().Contain(a => a.ID == _asset1.ID);
+            _assets.Should().Contain(a => a.ID == _asset2.ID);
         }
     }
 }

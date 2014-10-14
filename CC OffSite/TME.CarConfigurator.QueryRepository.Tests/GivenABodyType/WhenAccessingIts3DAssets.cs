@@ -73,7 +73,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenABodyType
 
         protected override void Act()
         {
-            _assets = _bodyType.Get3DAssets(_view, _mode);
+            _assets = _bodyType.GetAssets(_view, _mode);
         }
 
         [Fact]

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
@@ -12,28 +12,28 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.GivenABodyType
+namespace TME.CarConfigurator.Query.Tests.GivenAnEngine
 {
     public class WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode : TestBase
     {
-        private string _view1;
-        private string _mode1;
-        private string _view2;
-        private string _mode2;
+        private IEnumerable<IAsset> _fetchedAssets1;
+        private IEnumerable<IAsset> _fetchedAssets2;
         private Repository.Objects.Assets.Asset _asset1;
         private Repository.Objects.Assets.Asset _asset2;
         private Repository.Objects.Assets.Asset _asset3;
         private IAssetService _assetService;
-        private IBodyType _bodyType;
-        private IEnumerable<IAsset> _fetchedAssets1;
-        private IEnumerable<IAsset> _fetchedAssets2;
+        private IEngine _engine;
+        private string _view1;
+        private string _mode1;
+        private string _view2;
+        private string _mode2;
 
         protected override void Arrange()
         {
             _view1 = "the first view";
             _mode1 = "the first mode";
-            _view2 = "the second view";
-            _mode2 = "the second mode";
+            _view2 = "the other view";
+            _mode2 = "the other mode";
 
             _asset1 = new AssetBuilder()
                 .WithId(Guid.NewGuid())
@@ -47,7 +47,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenABodyType
                 .WithId(Guid.NewGuid())
                 .Build();
 
-            var repoBodyType = new BodyTypeBuilder()
+            var repoEngine = new EngineBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
 
@@ -62,33 +62,32 @@ namespace TME.CarConfigurator.Query.Tests.GivenABodyType
 
             var context = new ContextBuilder().Build();
 
-            var bodyTypeService = A.Fake<IBodyTypeService>();
-            A.CallTo(() => bodyTypeService.GetBodyTypes(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new List<Repository.Objects.BodyType> { repoBodyType });
+            var engineService = A.Fake<IEngineService>();
+            A.CallTo(() => engineService.GetEngines(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new List<Repository.Objects.Engine> { repoEngine });
 
             _assetService = A.Fake<IAssetService>();
-
-            A.CallTo(() => _assetService.GetAssets(publication.ID, repoBodyType.ID, context, _view1, _mode1))
+            A.CallTo(() => _assetService.GetAssets(publication.ID, repoEngine.ID, context, _view1, _mode1))
                 .Returns(new List<Repository.Objects.Assets.Asset> { _asset1, _asset2 });
-            A.CallTo(() => _assetService.GetAssets(publication.ID, repoBodyType.ID, context, _view2, _mode2))
+            A.CallTo(() => _assetService.GetAssets(publication.ID, repoEngine.ID, context, _view2, _mode2))
                 .Returns(new List<Repository.Objects.Assets.Asset> { _asset3 });
 
             var assetFactory = new AssetFactoryBuilder()
                 .WithAssetService(_assetService)
                 .Build();
 
-            var bodyTypeFactory = new BodyTypeFactoryBuilder()
-                .WithBodyTypeService(bodyTypeService)
+            var engineFactory = new EngineFactoryBuilder()
+                .WithEngineService(engineService)
                 .WithAssetFactory(assetFactory)
                 .Build();
 
-            _bodyType = bodyTypeFactory.GetBodyTypes(publication, context).Single();
+            _engine = engineFactory.GetEngines(publication, context).Single();
 
-            _fetchedAssets1 = _bodyType.GetAssets(_view1, _mode1);
+            _fetchedAssets1 = _engine.GetAssets(_view1, _mode1);
         }
 
         protected override void Act()
         {
-            _fetchedAssets2 = _bodyType.GetAssets(_view2, _mode2);
+            _fetchedAssets2 = _engine.GetAssets(_view2, _mode2);
         }
 
         [Fact]
