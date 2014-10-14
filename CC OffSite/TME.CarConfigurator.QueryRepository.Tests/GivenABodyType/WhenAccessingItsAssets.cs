@@ -51,7 +51,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenABodyType
             A.CallTo(() => bodyTypeService.GetBodyTypes(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new List<Repository.Objects.BodyType> {repoBodyType});
 
             _assetService = A.Fake<IAssetService>();
-            A.CallTo(() => _assetService.GetAssets(publication.ID, publicationTimeFrame.ID, repoBodyType.ID, context)).Returns(new List<Repository.Objects.Assets.Asset> {_asset1, _asset2});
+            A.CallTo(() => _assetService.GetAssets(publication.ID, repoBodyType.ID, context)).Returns(new List<Repository.Objects.Assets.Asset> {_asset1, _asset2});
 
             var assetFactory = new AssetFactoryBuilder()
                 .WithAssetService(_assetService)
@@ -73,7 +73,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenABodyType
         [Fact]
         public void ThenItShouldFetchTheAssetsFromTheService()
         {
-            A.CallTo(() => _assetService.GetAssets(A<Guid>._, A<Guid>._, A<Guid>._, A<Context>._)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _assetService.GetAssets(A<Guid>._, A<Guid>._, A<Context>._)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]

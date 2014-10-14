@@ -21,8 +21,7 @@ namespace TME.CarConfigurator.Factories
 
         public IEnumerable<IAsset> GetAssets(Publication publication, Guid objectId, Context context)
         {
-            var publicationTimeFrame = publication.GetCurrentTimeFrame();
-            var repoAssets = _assetService.GetAssets(publication.ID, publicationTimeFrame.ID, objectId, context);
+            var repoAssets = _assetService.GetAssets(publication.ID, objectId, context);
 
             return repoAssets.Select(a => new Asset(a));
         }
