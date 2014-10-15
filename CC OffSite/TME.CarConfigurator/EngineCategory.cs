@@ -1,26 +1,24 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
-using TME.CarConfigurator.Interfaces.Core;
 
 namespace TME.CarConfigurator
 {
     public class EngineCategory : BaseObject, IEngineCategory
     {
-        private readonly Repository.Objects.EngineCategory _engineCategory;
-        private readonly Repository.Objects.Context _context;
+        private readonly Repository.Objects.EngineCategory _repositoryEngineCategory;
+        private readonly Repository.Objects.Context _repositoryContext;
 
-        public EngineCategory(Repository.Objects.EngineCategory engineCategory, Repository.Objects.Context context)
-            : base(engineCategory)
+        public EngineCategory(Repository.Objects.EngineCategory repositoryEngineCategory, Repository.Objects.Context repositoryContext)
+            : base(repositoryEngineCategory)
         {
-            if (engineCategory == null) throw new ArgumentNullException("engineCategory");
-            if (context == null) throw new ArgumentNullException("context");
+            if (repositoryEngineCategory == null) throw new ArgumentNullException("repositoryEngineCategory");
+            if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
 
-            _engineCategory = engineCategory;
-            _context = context;
+            _repositoryEngineCategory = repositoryEngineCategory;
+            _repositoryContext = repositoryContext;
         }
 
         public IEnumerable<IAsset> Assets { get { throw new NotImplementedException(); } }

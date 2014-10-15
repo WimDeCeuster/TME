@@ -5,15 +5,15 @@ namespace TME.CarConfigurator
 {
     public class FileType : IFileType
     {
-        private readonly Repository.Objects.Assets.FileType _fileType;
+        private readonly Repository.Objects.Assets.FileType _repositoryFileType;
 
-        public FileType(Repository.Objects.Assets.FileType fileType)
+        public FileType(Repository.Objects.Assets.FileType repositoryFileType)
         {
-            if (fileType == null) throw new ArgumentNullException("fileType");
-            _fileType = fileType;
+            if (repositoryFileType == null) throw new ArgumentNullException("repositoryFileType");
+            _repositoryFileType = repositoryFileType;
         }
 
-        public string Code { get { return _fileType.Code; } }
-        public string Type { get { return _fileType.Type; } }
+        public string Code { get { return _repositoryFileType.Code; } }
+        public string Type { get { return _repositoryFileType.Type; } }
     }
 }

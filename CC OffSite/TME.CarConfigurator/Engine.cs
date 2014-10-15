@@ -6,54 +6,55 @@ using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Factories;
-using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator
 {
     public class Engine : BaseObject, IEngine
     {
-        private readonly Repository.Objects.Engine _engine;
-        private readonly Repository.Objects.Context _context;
+        private readonly Repository.Objects.Engine _repositoryEngine;
+        private readonly Repository.Objects.Publication _repositoryPublication;
+        private readonly Repository.Objects.Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
-        private readonly Publication _publication;
+        
         private IEngineCategory _category;
         private IEngineType _type;
 
         private IEnumerable<IAsset> _assets;
-        private IDictionary<string, IEnumerable<IAsset>> _3DAssets = new Dictionary<string, IEnumerable<IAsset>>();
+        private readonly IDictionary<string, IEnumerable<IAsset>> _modeAndViewAssets = new Dictionary<string, IEnumerable<IAsset>>();
 
-        public Engine(Repository.Objects.Engine engine, Publication publication, Context context, IAssetFactory assetFactory)
-            : base(engine)
+        public Engine(Repository.Objects.Engine repositoryEngine, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory)
+            : base(repositoryEngine)
         {
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (publication == null) throw new ArgumentNullException("publication");
-            if (context == null) throw new ArgumentNullException("context");
+            if (repositoryEngine == null) throw new ArgumentNullException("repositoryEngine");
+            if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
+            if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
-            _engine = engine;
+
+            _repositoryEngine = repositoryEngine;
+            _repositoryPublication = repositoryPublication;
+            _repositoryContext = repositoryContext;
             _assetFactory = assetFactory;
-            _publication = publication;
-            _context = context;
         }
 
-        public IEngineType Type { get { return _type = _type ?? new EngineType(_engine.Type); } }
-        public IEngineCategory Category { get { return _engine.Category == null ? null : _category = _category ?? new EngineCategory(_engine.Category, _context); } }
-        public bool KeyFeature { get { return _engine.KeyFeature; } }
-        public bool Brochure { get { return _engine.Brochure; } }
-        public bool VisibleInExteriorSpin { get { return _engine.VisibleInExteriorSpin; } }
-        public bool VisibleInInteriorSpin { get { return _engine.VisibleInInteriorSpin; } }
-        public bool VisibleInXRay4X4Spin { get { return _engine.VisibleInXRay4X4Spin; } }
-        public bool VisibleInXRayHybridSpin { get { return _engine.VisibleInXRayHybridSpin; } }
-        public bool VisibleInXRaySafetySpin { get { return _engine.VisibleInXRaySafetySpin; } }
-        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_publication, ID, _context); } }
+        public IEngineType Type { get { return _type = _type ?? new EngineType(_repositoryEngine.Type); } }
+        public IEngineCategory Category { get { return _repositoryEngine.Category == null ? null : _category = _category ?? new EngineCategory(_repositoryEngine.Category, _repositoryContext); } }
+        public bool KeyFeature { get { return _repositoryEngine.KeyFeature; } }
+        public bool Brochure { get { return _repositoryEngine.Brochure; } }
+        public bool VisibleInExteriorSpin { get { return _repositoryEngine.VisibleInExteriorSpin; } }
+        public bool VisibleInInteriorSpin { get { return _repositoryEngine.VisibleInInteriorSpin; } }
+        public bool VisibleInXRay4X4Spin { get { return _repositoryEngine.VisibleInXRay4X4Spin; } }
+        public bool VisibleInXRayHybridSpin { get { return _repositoryEngine.VisibleInXRayHybridSpin; } }
+        public bool VisibleInXRaySafetySpin { get { return _repositoryEngine.VisibleInXRaySafetySpin; } }
+        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
         public IEnumerable<IAsset> GetAssets(string view, string mode)
         {
             var key = string.Format("{0}{1}", view, mode);
+            
+            if (_modeAndViewAssets.ContainsKey(key)) return _modeAndViewAssets[key];
 
-            if (_3DAssets.ContainsKey(key)) return _3DAssets[key];
+            var assets = _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext, view, mode);
 
-            var assets = _assetFactory.GetAssets(_publication, ID, _context, view, mode);
-
-            _3DAssets.Add(key, assets);
+            _modeAndViewAssets.Add(key, assets);
 
             return assets;
         }
