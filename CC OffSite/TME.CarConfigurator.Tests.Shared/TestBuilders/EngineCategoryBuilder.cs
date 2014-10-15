@@ -30,6 +30,13 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public EngineCategoryBuilder WithAssets(params Repository.Objects.Assets.Asset[] assets)
+        {
+            _category.Assets = assets.ToList();
+
+            return this;
+        }
+
         public EngineCategory Build()
         {
             return _category;

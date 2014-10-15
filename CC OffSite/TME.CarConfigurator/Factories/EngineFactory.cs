@@ -24,7 +24,8 @@ namespace TME.CarConfigurator.Factories
         public IEnumerable<IEngine> GetEngines(Repository.Objects.Publication publication, Repository.Objects.Context context)
         {
             return _engineService.GetEngines(publication.ID, publication.GetCurrentTimeFrame().ID, context)
-                                 .Select(engine => new Engine(engine, publication, context, _assetFactory));
+                                 .Select(engine => new Engine(engine, publication, context, _assetFactory))
+                                 .ToArray();
         }
     }
 }

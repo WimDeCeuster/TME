@@ -36,6 +36,8 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return Adaptee.NumberOfSeats; }
         }
 
+        public IEnumerable<IVisibleInModeAndView> VisibleIn { get{throw new NotImplementedException();} }
+
         public bool VisibleInExteriorSpin
         {
             get { return Adaptee.VisibleInExteriorSpin; }
@@ -64,11 +66,6 @@ namespace TME.CarConfigurator.LegacyAdapter
         public IEnumerable<IAsset> Assets
         {
             get { return Adaptee.Assets.Cast<Legacy.Asset>().Select(x => new Asset(x)); }
-        }
-
-        public IEnumerable<IAsset> GetAssets(string view, string mode)
-        {
-            throw new NotImplementedException();
         }
     }
 }

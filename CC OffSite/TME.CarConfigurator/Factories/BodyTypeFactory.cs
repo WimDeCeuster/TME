@@ -29,7 +29,7 @@ namespace TME.CarConfigurator.Factories
 
             var repoBodyTypes = _bodyTypeService.GetBodyTypes(publication.ID, currentTimeFrame.ID, context);
 
-            return repoBodyTypes.Select(bt => new BodyType(bt, publication, context, _assetFactory));
+            return repoBodyTypes.Select(bt => new BodyType(bt, publication, context, _assetFactory)).ToArray();
         }
     }
 }

@@ -2,7 +2,8 @@
 
 namespace TME.CarConfigurator.Interfaces
 {
-    public interface ITransmissionType : IBaseObject
+    public interface IFuelType : IBaseObject
     {
+        bool Hybrid { get; }
     }
 }

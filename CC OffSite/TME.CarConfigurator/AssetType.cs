@@ -5,22 +5,22 @@ namespace TME.CarConfigurator
 {
     public class AssetType : IAssetType
     {
-        private readonly Repository.Objects.Assets.AssetType _assetType;
+        private readonly Repository.Objects.Assets.AssetType _repositoryAssetType;
 
-        public AssetType(Repository.Objects.Assets.AssetType assetType)
+        public AssetType(Repository.Objects.Assets.AssetType repositoryAssetType)
         {
-            if (assetType == null) throw new ArgumentNullException("assetType");
-            _assetType = assetType;
+            if (repositoryAssetType == null) throw new ArgumentNullException("repositoryAssetType");
+            _repositoryAssetType = repositoryAssetType;
         }
 
-        public string Code { get{ return _assetType.Code; } }
-        public string Name { get{ return _assetType.Name; } }
-        public string Mode { get{ return _assetType.Mode; } }
-        public string View { get{ return _assetType.View; } }
-        public string Side { get{ return _assetType.Side; } }
-        public string Type { get{ return _assetType.Type; } }
-        public string ExteriorColourCode { get{ return _assetType.ExteriorColourCode; } }
-        public string UpholsteryCode { get{ return _assetType.UpholsteryCode; } }
-        public string EquipmentCode { get{ return _assetType.EquipmentCode; } }
+        public string Code { get{ return _repositoryAssetType.Code; } }
+        public string Name { get{ return _repositoryAssetType.Name; } }
+        public string Mode { get{ return _repositoryAssetType.Mode; } }
+        public string View { get{ return _repositoryAssetType.View; } }
+        public string Side { get{ return _repositoryAssetType.Side; } }
+        public string Type { get{ return _repositoryAssetType.Type; } }
+        public string ExteriorColourCode { get{ return _repositoryAssetType.ExteriorColourCode; } }
+        public string UpholsteryCode { get{ return _repositoryAssetType.UpholsteryCode; } }
+        public string EquipmentCode { get{ return _repositoryAssetType.EquipmentCode; } }
     }
 }

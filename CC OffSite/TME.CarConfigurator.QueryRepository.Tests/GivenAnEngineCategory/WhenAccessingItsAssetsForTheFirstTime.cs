@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
@@ -15,26 +16,25 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAnEngineCategory
 {
-    public class WhenAccessingItsLabelsForTheSecondTime : TestBase
+    public class WhenAccessingItsAssetsForTheFirstTime : TestBase
     {
         IEngineCategory _engineCategory;
-        IEnumerable<Interfaces.Core.ILabel> _secondLabels;
-        IEnumerable<Interfaces.Core.ILabel> _firstLabels;
-        Repository.Objects.Core.Label _label1;
-        Repository.Objects.Core.Label _label2;
+        IEnumerable<IAsset> _assets;
+        Repository.Objects.Assets.Asset _asset1;
+        Repository.Objects.Assets.Asset _asset2;
 
         protected override void Arrange()
         {
-            _label1 = new LabelBuilder()
-                .WithCode("code 1")
+            _asset1 = new AssetBuilder()
+                .WithId(Guid.NewGuid())
                 .Build();
 
-            _label2 = new LabelBuilder()
-                .WithCode("code 2")
+            _asset2 = new AssetBuilder()
+                .WithId(Guid.NewGuid())
                 .Build();
 
             var repoEngineCategory = new CarConfigurator.Tests.Shared.TestBuilders.EngineCategoryBuilder()
-                .WithLabels(_label1, _label2)
+                .WithAssets(_asset1, _asset2)
                 .Build();
 
             var context = new ContextBuilder().Build();
@@ -44,28 +44,20 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnEngineCategory
             _engineCategory = new TestBuilders.EngineCategoryBuilder()
                 .WithEngineCategory(repoEngineCategory)
                 .Build();
-
-            _firstLabels = _engineCategory.Labels;
         }
 
         protected override void Act()
         {
-            _secondLabels = _engineCategory.Labels;
+            _assets = _engineCategory.Assets;
         }
 
         [Fact]
-        public void ThenItShouldNotRecalculateTheLabels()
+        public void ThenItShouldHaveTheAssets()
         {
-            _secondLabels.Should().BeSameAs(_firstLabels);
-        }
+            _assets.Count().Should().Be(2);
 
-        [Fact]
-        public void ThenItShouldHaveTheLabels()
-        {
-            _secondLabels.Count().Should().Be(2);
-
-            _secondLabels.Should().Contain(label => label.Code == _label1.Code);
-            _secondLabels.Should().Contain(label => label.Code == _label2.Code);
+            _assets.Should().Contain(asset => asset.ID == _asset1.ID);
+            _assets.Should().Contain(asset => asset.ID == _asset2.ID);
         }
     }
 }

@@ -39,6 +39,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnEngine
 
             var repoEngine = new EngineBuilder()
                 .WithId(Guid.NewGuid())
+                .AddVisibleIn(_mode, _view)
                 .Build();
 
             var publicationTimeFrame = new PublicationTimeFrameBuilder()
@@ -73,7 +74,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnEngine
 
         protected override void Act()
         {
-            _assets = _engine.GetAssets(_view, _mode);
+            _assets = _engine.VisibleIn.Single(v=> v.Mode == _mode && v.View == _view).Assets;
         }
 
         [Fact]

@@ -5,17 +5,17 @@ namespace TME.CarConfigurator
 {
     public class Link : ILink
     {
-        private readonly Repository.Objects.Link _link;
+        private readonly Repository.Objects.Link _repositoryLink;
 
-        public Link(Repository.Objects.Link link)
+        public Link(Repository.Objects.Link repositoryLink)
         {
-            if (link == null) throw new ArgumentNullException("link");
-            _link = link;
+            if (repositoryLink == null) throw new ArgumentNullException("repositoryLink");
+            _repositoryLink = repositoryLink;
         }
 
-        public short ID { get { return _link.ID; } }
-        public string Name { get { return _link.Name; } }
-        public string Label { get { return _link.Label; } }
-        public string Url { get { return _link.Url; } }
+        public short ID { get { return _repositoryLink.ID; } }
+        public string Name { get { return _repositoryLink.Name; } }
+        public string Label { get { return _repositoryLink.Label; } }
+        public string Url { get { return _repositoryLink.Url; } }
     }
 }

@@ -2,57 +2,61 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Core;
+using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
-using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Factories;
-using TME.CarConfigurator.Repository.Objects;
+
 
 namespace TME.CarConfigurator
 {
     public class BodyType : BaseObject, IBodyType
     {
-        private readonly Repository.Objects.BodyType _bodyType;
-        private readonly Publication _publication;
-        private readonly Context _context;
+        private readonly Repository.Objects.BodyType _repositoryBodyType;
+        private readonly Repository.Objects.Publication _repositoryPublication;
+        private readonly Repository.Objects.Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
         private IEnumerable<IAsset> _assets;
-        private readonly Dictionary<string, IEnumerable<IAsset>> _3DAssets = new Dictionary<string, IEnumerable<IAsset>>();
+        private IEnumerable<IVisibleInModeAndView> _visibleInModeAndViews;
 
-        public BodyType(Repository.Objects.BodyType bodyType, Publication publication, Context context, IAssetFactory assetFactory)
-            : base(bodyType)
+        public BodyType(Repository.Objects.BodyType repositoryBodyType, Repository.Objects.Publication publication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory)
+            : base(repositoryBodyType)
         {
-            if (bodyType == null) throw new ArgumentNullException("bodyType");
+            if (repositoryBodyType == null) throw new ArgumentNullException("repositoryBodyType");
             if (publication == null) throw new ArgumentNullException("publication");
-            if (context == null) throw new ArgumentNullException("context");
+            if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
-            _bodyType = bodyType;
-            _publication = publication;
-            _context = context;
+            _repositoryBodyType = repositoryBodyType;
+            _repositoryPublication = publication;
+            _repositoryContext = repositoryContext;
             _assetFactory = assetFactory;
         }
 
-        public int NumberOfDoors { get { return _bodyType.NumberOfDoors; } }
-        public int NumberOfSeats { get { return _bodyType.NumberOfSeats; } }
-        public bool VisibleInExteriorSpin { get { return _bodyType.VisibleInExteriorSpin; } }
-        public bool VisibleInInteriorSpin { get { return _bodyType.VisibleInInteriorSpin; } }
-        public bool VisibleInXRay4X4Spin { get { return _bodyType.VisibleInXRay4X4Spin; } }
-        public bool VisibleInXRayHybridSpin { get { return _bodyType.VisibleInXRayHybridSpin; } }
-        public bool VisibleInXRaySafetySpin { get { return _bodyType.VisibleInXRaySafetySpin; } }
-        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_publication, ID, _context); } }
-        public IEnumerable<IAsset> GetAssets(string view, string mode)
+        public int NumberOfDoors { get { return _repositoryBodyType.NumberOfDoors; } }
+        public int NumberOfSeats { get { return _repositoryBodyType.NumberOfSeats; } }
+
+        public IEnumerable<IVisibleInModeAndView> VisibleIn
         {
-            var key = string.Format("{0}-{1}", view, mode);
+            get
+            {
+                return
+                    _visibleInModeAndViews = _visibleInModeAndViews ?? _repositoryBodyType.VisibleIn.Select(x => new VisibleInModeAndView(_repositoryBodyType.ID, x, _repositoryPublication, _repositoryContext, _assetFactory)).ToList();
 
-            if (_3DAssets.ContainsKey(key))
-                return _3DAssets[key];
-
-            var assets = _assetFactory.GetAssets(_publication, ID, _context, view, mode).ToList();
-
-            _3DAssets.Add(key, assets);
-
-            return assets;
+            }
         }
+
+        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
+
+        [Obsolete("Use the new VisibleIn property instead")]
+        public bool VisibleInExteriorSpin { get { return VisibleIn.VisibleInExteriorSpin(); } }
+        [Obsolete("Use the new VisibleIn property instead")]
+        public bool VisibleInInteriorSpin { get { return VisibleIn.VisibleInInteriorSpin(); } }
+        [Obsolete("Use the new VisibleIn property instead")]
+        public bool VisibleInXRay4X4Spin { get { return VisibleIn.VisibleInXRay4X4Spin(); } }
+        [Obsolete("Use the new VisibleIn property instead")]
+        public bool VisibleInXRayHybridSpin { get { return VisibleIn.VisibleInXRayHybridSpin(); } }
+        [Obsolete("Use the new VisibleIn property instead")]
+        public bool VisibleInXRaySafetySpin { get { return VisibleIn.VisibleInXRaySafetySpin(); } }
     }
 }

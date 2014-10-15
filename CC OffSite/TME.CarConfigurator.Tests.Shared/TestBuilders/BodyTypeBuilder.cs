@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using TME.CarConfigurator.Repository.Objects.Assets;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
@@ -14,6 +16,16 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         public BodyTypeBuilder WithId(Guid id)
         {
             _bodyType.ID = id;
+
+            return this;
+        }
+
+        public BodyTypeBuilder AddVisibleIn(string mode, string view)
+        {
+            if (_bodyType.VisibleIn == null)
+                _bodyType.VisibleIn = new List<VisibleInModeAndView>();
+
+            _bodyType.VisibleIn.Add(new VisibleInModeAndView{Mode = mode, View = view});
 
             return this;
         }
