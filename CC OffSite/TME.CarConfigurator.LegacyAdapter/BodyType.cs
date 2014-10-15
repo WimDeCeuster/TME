@@ -67,10 +67,5 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get { return Adaptee.Assets.Cast<Legacy.Asset>().Select(x => new Asset(x)); }
         }
-
-        public IEnumerable<IAsset> GetAssets(string view, string mode)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -19,6 +19,5 @@ namespace TME.CarConfigurator.Interfaces
         [Obsolete] bool VisibleInXRaySafetySpin { get; }
 
         IEnumerable<IAsset> Assets { get; }
-        IEnumerable<IAsset> GetAssets(string view, string mode);
     }
 }

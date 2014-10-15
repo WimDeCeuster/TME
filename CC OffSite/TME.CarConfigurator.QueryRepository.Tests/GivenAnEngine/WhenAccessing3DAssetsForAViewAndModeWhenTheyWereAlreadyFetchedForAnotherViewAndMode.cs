@@ -84,12 +84,12 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnEngine
 
             _engine = engineFactory.GetEngines(publication, context).Single();
 
-            _fetchedAssets1 = _engine.VisibleIn.First(x=> x.Mode == _mode1 && x.View == _view1).Assets;
+            _fetchedAssets1 = _engine.VisibleIn.Single(x=> x.Mode == _mode1 && x.View == _view1).Assets;
         }
 
         protected override void Act()
         {
-            _fetchedAssets2 = _engine.VisibleIn.First(x => x.Mode == _mode2 && x.View == _view2).Assets;
+            _fetchedAssets2 = _engine.VisibleIn.Single(x => x.Mode == _mode2 && x.View == _view2).Assets;
         }
 
         [Fact]

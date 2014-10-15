@@ -17,7 +17,6 @@ namespace TME.CarConfigurator
         private readonly Repository.Objects.Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
         private IEnumerable<IAsset> _assets;
-        private readonly Dictionary<string, IEnumerable<IAsset>> _modeAndViewAssets = new Dictionary<string, IEnumerable<IAsset>>();
         private IEnumerable<IVisibleInModeAndView> _visibleInModeAndViews;
 
         public BodyType(Repository.Objects.BodyType repositoryBodyType, Repository.Objects.Publication publication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory)
@@ -42,25 +41,12 @@ namespace TME.CarConfigurator
             get
             {
                 return
-                    _visibleInModeAndViews = _visibleInModeAndViews ?? _repositoryBodyType.VisibleIn.Select(x => new VisibleInModeAndView(_repositoryBodyType.ID, x, _repositoryPublication, _repositoryContext, _assetFactory));
+                    _visibleInModeAndViews = _visibleInModeAndViews ?? _repositoryBodyType.VisibleIn.Select(x => new VisibleInModeAndView(_repositoryBodyType.ID, x, _repositoryPublication, _repositoryContext, _assetFactory)).ToList();
 
             }
         }
 
         public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
-        public IEnumerable<IAsset> GetAssets(string view, string mode)
-        {
-            var key = string.Format("{0}-{1}", view, mode);
-
-            if (_modeAndViewAssets.ContainsKey(key))
-                return _modeAndViewAssets[key];
-
-            var assets = _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext, view, mode).ToList();
-
-            _modeAndViewAssets.Add(key, assets);
-
-            return assets;
-        }
 
         [Obsolete("Use the new VisibleIn property instead")]
         public bool VisibleInExteriorSpin { get { return VisibleIn.VisibleInExteriorSpin(); } }

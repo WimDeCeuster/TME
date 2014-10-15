@@ -74,7 +74,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnEngine
 
         protected override void Act()
         {
-            _assets = _engine.VisibleIn.First(x=> x.Mode == _mode && x.View == _view).Assets;
+            _assets = _engine.VisibleIn.Single(v=> v.Mode == _mode && v.View == _view).Assets;
         }
 
         [Fact]
