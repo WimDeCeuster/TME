@@ -6,6 +6,7 @@ using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Extensions;
 
 namespace TME.CarConfigurator
 {
@@ -19,9 +20,9 @@ namespace TME.CarConfigurator
         private IEngineCategory _category;
         private IEngineType _type;
 
+        private IEnumerable<IVisibleInModeAndView> _visibleInModeAndViews;
         private IEnumerable<IAsset> _assets;
-        private readonly IDictionary<string, IEnumerable<IAsset>> _modeAndViewAssets = new Dictionary<string, IEnumerable<IAsset>>();
-
+        
         public Engine(Repository.Objects.Engine repositoryEngine, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory)
             : base(repositoryEngine)
         {
@@ -40,23 +41,28 @@ namespace TME.CarConfigurator
         public IEngineCategory Category { get { return _repositoryEngine.Category == null ? null : _category = _category ?? new EngineCategory(_repositoryEngine.Category, _repositoryContext); } }
         public bool KeyFeature { get { return _repositoryEngine.KeyFeature; } }
         public bool Brochure { get { return _repositoryEngine.Brochure; } }
-        public bool VisibleInExteriorSpin { get { return _repositoryEngine.VisibleInExteriorSpin; } }
-        public bool VisibleInInteriorSpin { get { return _repositoryEngine.VisibleInInteriorSpin; } }
-        public bool VisibleInXRay4X4Spin { get { return _repositoryEngine.VisibleInXRay4X4Spin; } }
-        public bool VisibleInXRayHybridSpin { get { return _repositoryEngine.VisibleInXRayHybridSpin; } }
-        public bool VisibleInXRaySafetySpin { get { return _repositoryEngine.VisibleInXRaySafetySpin; } }
-        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
-        public IEnumerable<IAsset> GetAssets(string view, string mode)
+
+        public IEnumerable<IVisibleInModeAndView> VisibleIn
         {
-            var key = string.Format("{0}{1}", view, mode);
-            
-            if (_modeAndViewAssets.ContainsKey(key)) return _modeAndViewAssets[key];
+            get
+            {
+                return
+                    _visibleInModeAndViews =_visibleInModeAndViews ??_repositoryEngine.VisibleIn.Select(x =>new VisibleInModeAndView(_repositoryEngine.ID, x, _repositoryPublication,_repositoryContext, _assetFactory));
 
-            var assets = _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext, view, mode);
-
-            _modeAndViewAssets.Add(key, assets);
-
-            return assets;
+            }
         }
+        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
+
+
+        [Obsolete("Use the new VisibleIn property instead")]
+        public bool VisibleInExteriorSpin { get { return VisibleIn.VisibleInExteriorSpin(); } }
+        [Obsolete("Use the new VisibleIn property instead")]
+        public bool VisibleInInteriorSpin { get { return VisibleIn.VisibleInInteriorSpin(); } }
+        [Obsolete("Use the new VisibleIn property instead")]
+        public bool VisibleInXRay4X4Spin { get { return VisibleIn.VisibleInXRay4X4Spin(); } }
+        [Obsolete("Use the new VisibleIn property instead")]
+        public bool VisibleInXRayHybridSpin { get { return VisibleIn.VisibleInXRayHybridSpin(); } }
+        [Obsolete("Use the new VisibleIn property instead")]
+        public bool VisibleInXRaySafetySpin { get { return VisibleIn.VisibleInXRaySafetySpin(); } }
     }
 }

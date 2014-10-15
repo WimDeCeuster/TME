@@ -42,6 +42,7 @@
     <Compile Include="Assets\IAsset.cs" />
     <Compile Include="Assets\IAssetType.cs" />
     <Compile Include="Assets\IFileType.cs" />
+    <Compile Include="Assets\IVisibleInModeAndView.cs" />
     <Compile Include="Configuration\IConfigurationManager.cs" />
     <Compile Include="Factories\IAssetFactory.cs" />
     <Compile Include="Factories\IBodyTypeFactory.cs" />

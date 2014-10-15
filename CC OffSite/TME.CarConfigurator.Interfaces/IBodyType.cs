@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
 
@@ -9,11 +10,11 @@ namespace TME.CarConfigurator.Interfaces
         int NumberOfDoors { get; }
         int NumberOfSeats { get; }
 
-        bool VisibleInExteriorSpin { get; }
-        bool VisibleInInteriorSpin { get; }
-        bool VisibleInXRay4X4Spin { get; }
-        bool VisibleInXRayHybridSpin { get; }
-        bool VisibleInXRaySafetySpin { get; }
+        [Obsolete] bool VisibleInExteriorSpin { get; }
+        [Obsolete] bool VisibleInInteriorSpin { get; }
+        [Obsolete] bool VisibleInXRay4X4Spin { get; }
+        [Obsolete] bool VisibleInXRayHybridSpin { get; }
+        [Obsolete] bool VisibleInXRaySafetySpin { get; }
 
         IEnumerable<IAsset> Assets { get; }
         IEnumerable<IAsset> GetAssets(string view, string mode);
