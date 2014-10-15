@@ -19,7 +19,11 @@
     <constructor-arg ref="EngineMapper" />
     <constructor-arg ref="TransmissionMapper" />
     <constructor-arg ref="CarMapper" />
+<<<<<<< HEAD
+    <constructor-arg ref="AssetMapper"/>
+=======
     <constructor-arg ref="AssetMapper" />
+>>>>>>> 5e6fd377fe06ef5f19431827a1a9a46474856111
   </object>
   <object name="ModelMapper" type="TME.CarConfigurator.Publisher.Mappers.ModelMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="LabelMapper" />
