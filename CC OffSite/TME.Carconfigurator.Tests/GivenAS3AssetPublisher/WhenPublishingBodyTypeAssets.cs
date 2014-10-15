@@ -86,7 +86,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
         {
             foreach (var language in _languages)
             {
-                A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null)).WithAnyArguments().MustHaveHappened(TwiceForEachBodyType(language));
+                A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null)).WithAnyArguments().MustHaveHappened(ForEachBodyType(language));
             }
         }
 
@@ -95,7 +95,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
         {
             foreach (var language in _languages)
             {
-                A.CallTo(() => _s3Service.PutObjectAsync(Brand, Country, A<String>._, A<String>._)).MustHaveHappened(TwiceForEachBodyType(language));
+                A.CallTo(() => _s3Service.PutObjectAsync(Brand, Country, A<String>._, A<String>._)).MustHaveHappened(ForEachBodyType(language));
             }
         }
 
@@ -106,9 +106,9 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
                 .WhenArgumentsMatch(args => args[2].Equals(BODYTYPE_DEFAULT_ASSETKEY)).MustHaveHappened();
         }
 
-        private Repeated TwiceForEachBodyType(string language)
+        private Repeated ForEachBodyType(string language)
         {
-            return Repeated.Exactly.Times((_context.ContextData[language].GenerationBodyTypes.Count)*2);
+            return Repeated.Exactly.Times((_context.ContextData[language].GenerationBodyTypes.Count));
         }
 
         private List<Asset> DefaultAssets(String view,String mode)

@@ -20,49 +20,55 @@ namespace TME.CarConfigurator.S3.Publisher
             _assetService = assetService;
         }
 
-        public async Task<IEnumerable<Result>> PublishAssets(IContext context)
+        public Task<IEnumerable<Result>> PublishAssets(IContext context)
         {
-            var tasks = context.ContextData.Select(entry => entry.Value)
-                .Select(data => PutGenerationsAssets(context.Brand, context.Country, data))
-                .ToList();
-
-            var result = await Task.WhenAll(tasks);
-            return result.SelectMany(xs => xs.ToList());
+            foreach (var languageCode in context.ContextData.Keys)
+            {
+                var publicationID = context.ContextData[languageCode].Publication.ID;
+                PublishAssets(context.Brand, context.Country, publicationID, context.ContextData[languageCode].Assets);
+            }
+            return null;
         }
 
-        async Task<IEnumerable<Result>> PutGenerationsAssets(String brand, String country, ContextData data)
+        private void PublishAssets(String brand, String country, Guid publicationID, Dictionary<Guid, List<Asset>> assetsPerObjectID)
         {
-            var bodyTypeAssets = data.Assets;
-            
-            var groupAssetsByDefault = new Dictionary<Guid, IList<Asset>>();
-            var groupAssetsByModeView = new Dictionary<Guid, IList<Asset>>();
-
-            var tasks = new List<Task<Result>>();
-            foreach (var bodyType in data.GenerationBodyTypes)
+            foreach (var objectID in assetsPerObjectID.Keys)
             {
-                var nonDefaultBodyTypeAssets = new List<Asset>();
-                var defaultBodyTypeAssets = new List<Asset>();
+                PublishAssets(brand, country, publicationID, objectID, assetsPerObjectID[objectID]);
+            }
+        }
 
-                foreach (var bodyTypeAsset in bodyTypeAssets.Values)
-                {
-                    foreach (var asset in bodyTypeAsset)
-                    {
-                        if (!String.IsNullOrEmpty(asset.AssetType.Mode) || !String.IsNullOrEmpty(asset.AssetType.View))
-                            nonDefaultBodyTypeAssets.Add(asset);
-                        else
-                            defaultBodyTypeAssets.Add(asset);
-                    }
-                    
-                }
-                groupAssetsByDefault.Add(bodyType.ID,defaultBodyTypeAssets);
-                groupAssetsByModeView.Add(bodyType.ID,nonDefaultBodyTypeAssets);
+        private void PublishAssets(String brand, String country, Guid publicationID, Guid objectID, IList<Asset> assets)
+        {
+            PublishAssetsByModeAndView(brand, country, publicationID, objectID, assets);
+            PublishDefaultAssets(brand, country, publicationID, objectID, assets);
+        }
 
-                tasks.Add(_assetService.PutDefaultBodyTypeAssets(brand, country, data.Publication.ID, bodyType.ID,groupAssetsByDefault));
-                tasks.Add(_assetService.PutModeViewBodyTypeAssets(brand, country, data.Publication.ID, bodyType.ID, groupAssetsByModeView));
+        private void PublishAssetsByModeAndView(String brand, String country, Guid publicationID, Guid objectID, IEnumerable<Asset> assets)
+        {
+            var assetsByModeAndView = assets.Where(
+            a => !String.IsNullOrEmpty(a.AssetType.Mode) || !String.IsNullOrEmpty(a.AssetType.View))
+            .GroupBy(a => new { a.AssetType.Mode, a.AssetType.View });
+
+            foreach (var assetList in assetsByModeAndView)
+            {
+                var mode = assetList.Key.Mode;
+                var view = assetList.Key.View;
+                PublishAssetsByModeAndView(brand, country, publicationID, objectID, mode, view, assetList);
             }
 
-            var result = await Task.WhenAll(tasks);
-            return result.Select(xs => xs);
+        }
+
+        private void PublishAssetsByModeAndView(String brand, String country, Guid publicationID, Guid objectID, String mode, String view, IEnumerable<Asset> assets)
+        {
+            _assetService.PutAssetsByModeAndView(brand, country, publicationID, objectID, mode, view, assets);
+        }
+
+        private void PublishDefaultAssets(String brand, String country, Guid publicationID, Guid objectID, IEnumerable<Asset> assets)
+        {
+            var defaultAssets =
+                assets.Where(a => String.IsNullOrEmpty(a.AssetType.Mode) || String.IsNullOrEmpty(a.AssetType.View));
+            _assetService.PutDefaultAssets(brand, country, publicationID, objectID, defaultAssets);
         }
     }
 }

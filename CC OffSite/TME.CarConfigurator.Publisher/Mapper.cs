@@ -27,16 +27,19 @@ namespace TME.CarConfigurator.Publisher
         readonly IBodyTypeMapper _bodyTypeMapper;
         readonly IEngineMapper _engineMapper;
         readonly ICarMapper _carMapper;
+        private IAssetMapper _assetMapper;
 
-        public Mapper(IModelMapper modelMapper, IGenerationMapper generationMapper, IBodyTypeMapper bodyTypeMapper, IEngineMapper engineMapper, ICarMapper carMapper)
+        public Mapper(IModelMapper modelMapper, IGenerationMapper generationMapper, IBodyTypeMapper bodyTypeMapper, IEngineMapper engineMapper, ICarMapper carMapper,IAssetMapper assetMapper)
         {
             if (modelMapper == null) throw new ArgumentNullException("modelMapper");
             if (generationMapper == null) throw new ArgumentNullException("generationMapper");
             if (bodyTypeMapper == null) throw new ArgumentNullException("bodyTypeMapper");
             if (engineMapper == null) throw new ArgumentNullException("engineMapper");
             if (carMapper == null) throw new ArgumentNullException("carMapper");
+            if (assetMapper == null) throw new ArgumentNullException("assetMapper");
 
             _modelMapper = modelMapper;
+            _assetMapper = assetMapper;
             _generationMapper = generationMapper;
             _bodyTypeMapper = bodyTypeMapper;
             _engineMapper = engineMapper;
@@ -76,10 +79,10 @@ namespace TME.CarConfigurator.Publisher
         }
 
         private void FillGenerationAssets(Administration.ModelGeneration modelGeneration, Generation generation,ContextData contextData, string brand, string country, string language){
-//            contextData.Assets = FillBodyTypeAssets(modelGeneration);
+            contextData.Assets = FillBodyTypeAssets(modelGeneration);
         }
 
-        /*private Dictionary<Guid, List<Asset>> FillBodyTypeAssets(ModelGeneration modelGeneration)
+        private Dictionary<Guid, List<Asset>> FillBodyTypeAssets(ModelGeneration modelGeneration)
         {
             var assetList = new List<Asset>();
             var assetDictionary = new Dictionary<Guid, List<Asset>>();
@@ -87,12 +90,12 @@ namespace TME.CarConfigurator.Publisher
             {
                 foreach (var asset in modelGenerationBodyType.AssetSet.Assets)
                 {
-                    assetList.Add(newAsset);
+                    assetList.Add(_assetMapper.MapAssetSetAsset(asset));
                 }
-                assetDictionary.Add(newModelGenerationBodyType.ID, assetList);
+                assetDictionary.Add(modelGenerationBodyType.ID, assetList);
             }
             return assetDictionary;
-        }*/
+        }
 
         void FillCars(Administration.ModelGeneration modelGeneration, ContextData contextData)
         {

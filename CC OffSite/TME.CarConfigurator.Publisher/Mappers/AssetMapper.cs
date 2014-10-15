@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TME.CarConfigurator.Administration.Assets;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Mappers.Exceptions;
-using TME.CarConfigurator.Repository.Objects.Assets;
+using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
@@ -47,6 +48,31 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 ShortID = linkedAsset.ShortID.Value,
                 StackingOrder = linkedAsset.StackingOrder,
                 Width = assetInfo.Width
+            };
+        }
+
+        public Asset MapAssetSetAsset(AssetSetAsset assetSetAsset)
+        {
+            if(assetSetAsset.Asset.ShortID == null)
+                throw new CorruptDataException(String.Format("Please provide a shortID for assetSetAsset {0}", assetSetAsset.ID));
+
+            return new Asset()
+            {
+                AlwaysInclude = false,
+                AssetType = _assetTypeMapper.MapGenerationAssetType(assetSetAsset.AssetType),
+                FileName = assetSetAsset.Asset.FileName,
+//                FileType = _fileTypeMapper.MapFileType(assetSetAsset.Asset.FileType),
+                Hash = assetSetAsset.Asset.Hash,
+                Height = assetSetAsset.Asset.Height,
+                ID = assetSetAsset.ID,
+                IsTransparent = assetSetAsset.Asset.IsTransparent,
+                Name = assetSetAsset.Asset.Name,
+                PositionX = assetSetAsset.Asset.PositionX,
+                PositionY = assetSetAsset.Asset.PositionY,
+                RequiresMatte = assetSetAsset.Asset.RequiresMatte,
+                ShortID = assetSetAsset.Asset.ShortID.Value,
+                StackingOrder = assetSetAsset.Asset.StackingOrder,
+                Width = assetSetAsset.Asset.Width
             };
         }
     }

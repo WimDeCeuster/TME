@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using Caliburn.Micro;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Common.Enums;
-using TME.CarConfigurator.Publisher.Factories;
 using TME.CarConfigurator.Publisher.Interfaces;
 using System.Windows;
-using TME.CarConfigurator.Publisher.UI.DI.Factories;
-using TME.CarConfigurator.Publisher.UI.DI.Interfaces;
 using TME.CarConfigurator.S3.Shared.Result;
 
 namespace TME.CarConfigurator.Publisher.UI.ViewModels
@@ -109,12 +106,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
         private async void Publish(PublicationDataSubset publicationDataSubset)
         {
-//            if (PublicationService == null)
-//            {
-//                PublicationService = new CarConfiguratorPublisher("Development",new ContextFactory(), new PublisherFacadeFactory(), new Mapper(), new CarDbModelGenerationFinder());
-//            }
             var result = await PublicationService.Publish(SelectedGeneration.ID, Target, Brand, Country, publicationDataSubset);
-
             MessageBox.Show(result is Successfull ? "Success!" : "Failure!");
         }
     }
