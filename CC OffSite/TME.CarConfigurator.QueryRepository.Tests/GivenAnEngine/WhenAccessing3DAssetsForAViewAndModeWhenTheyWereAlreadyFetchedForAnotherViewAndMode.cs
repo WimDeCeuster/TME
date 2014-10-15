@@ -49,6 +49,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnEngine
 
             var repoEngine = new EngineBuilder()
                 .WithId(Guid.NewGuid())
+                .AddVisibleIn(_mode1, _view1)
+                .AddVisibleIn(_mode2, _view2)
                 .Build();
 
             var publicationTimeFrame = new PublicationTimeFrameBuilder()
@@ -82,12 +84,12 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnEngine
 
             _engine = engineFactory.GetEngines(publication, context).Single();
 
-            _fetchedAssets1 = _engine.GetAssets(_view1, _mode1);
+            _fetchedAssets1 = _engine.VisibleIn.Single(x=> x.Mode == _mode1 && x.View == _view1).Assets;
         }
 
         protected override void Act()
         {
-            _fetchedAssets2 = _engine.GetAssets(_view2, _mode2);
+            _fetchedAssets2 = _engine.VisibleIn.Single(x => x.Mode == _mode2 && x.View == _view2).Assets;
         }
 
         [Fact]

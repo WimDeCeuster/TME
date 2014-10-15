@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
@@ -41,6 +40,16 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         {
             _engine.Type = engineType;
 
+            return this;
+        }
+
+        public EngineBuilder AddVisibleIn(string mode , string view)
+        {
+            if (_engine.VisibleIn == null) 
+                _engine.VisibleIn =  new List<VisibleInModeAndView>();
+            
+            _engine.VisibleIn.Add(new VisibleInModeAndView() { Mode = mode, View = view });
+            
             return this;
         }
 

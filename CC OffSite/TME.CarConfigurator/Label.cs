@@ -9,16 +9,16 @@ namespace TME.CarConfigurator
 {
     public class Label : ILabel
     {
-        private readonly Repository.Objects.Core.Label _label;
+        private readonly Repository.Objects.Core.Label _repositoryLabel;
 
-        public Label(Repository.Objects.Core.Label label)
+        public Label(Repository.Objects.Core.Label repositoryLabel)
         {
-            if (label == null) throw new ArgumentNullException("label");
-            _label = label;
+            if (repositoryLabel == null) throw new ArgumentNullException("repositoryLabel");
+            _repositoryLabel = repositoryLabel;
         }
 
-        public string Code { get { return _label.Code; } }
+        public string Code { get { return _repositoryLabel.Code; } }
 
-        public string Value { get { return _label.Value; } }
+        public string Value { get { return _repositoryLabel.Value; } }
     }
 }

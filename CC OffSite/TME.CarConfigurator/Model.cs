@@ -4,19 +4,19 @@ using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Factories;
-using TME.CarConfigurator.Repository.Objects;
+
 
 namespace TME.CarConfigurator
 {
     public class Model : Core.BaseObject, IModel
     {
         private readonly Repository.Objects.Model _repositoryModel;
-        private readonly Repository.Objects.Context _context;
+        private readonly Repository.Objects.Context _repositoryContext;
         private readonly IPublicationFactory _publicationFactory;
         private readonly IBodyTypeFactory _bodyTypeFactory;
         private readonly IEngineFactory _engineFactory;
 
-        private Publication _publication;
+        private Repository.Objects.Publication _repositoryPublication;        
         private IEnumerable<IAsset> _assets;
         private IEnumerable<ILink> _links;
         private IEnumerable<IBodyType> _bodyTypes;
@@ -24,12 +24,12 @@ namespace TME.CarConfigurator
 
         private CarConfiguratorVersion _carConfiguratorVersion;
 
-        private Publication Publication
+        private Repository.Objects.Publication RepositoryPublication
         {
             get
             {
-                _publication = _publication ?? _publicationFactory.GetPublication(_repositoryModel, _context);
-                return _publication;
+                _repositoryPublication = _repositoryPublication ?? _publicationFactory.GetPublication(_repositoryModel, _repositoryContext);
+                return _repositoryPublication;
             }
         }
 
@@ -37,17 +37,17 @@ namespace TME.CarConfigurator
 
         public bool Promoted { get { return _repositoryModel.Promoted; } }
 
-        public string SSN { get { return Publication.Generation.SSN; } }
+        public string SSN { get { return RepositoryPublication.Generation.SSN; } }
 
-        public ICarConfiguratorVersion CarConfiguratorVersion { get { return _carConfiguratorVersion = _carConfiguratorVersion ?? new CarConfiguratorVersion(Publication.Generation.CarConfiguratorVersion); } }
+        public ICarConfiguratorVersion CarConfiguratorVersion { get { return _carConfiguratorVersion = _carConfiguratorVersion ?? new CarConfiguratorVersion(RepositoryPublication.Generation.CarConfiguratorVersion); } }
 
-        public IEnumerable<ILink> Links { get { return _links = _links ?? Publication.Generation.Links.Select(l => new Link(l)).ToArray(); } }
+        public IEnumerable<ILink> Links { get { return _links = _links ?? RepositoryPublication.Generation.Links.Select(l => new Link(l)).ToArray(); } }
 
-        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? Publication.Generation.Assets.Select(a => new Asset(a)).ToArray(); } }
+        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? RepositoryPublication.Generation.Assets.Select(a => new Asset(a)).ToArray(); } }
 
-        public IEnumerable<IBodyType> BodyTypes { get { return _bodyTypes = _bodyTypes ?? _bodyTypeFactory.GetBodyTypes(Publication, _context); } }
+        public IEnumerable<IBodyType> BodyTypes { get { return _bodyTypes = _bodyTypes ?? _bodyTypeFactory.GetBodyTypes(RepositoryPublication, _repositoryContext); } }
 
-        public IEnumerable<IEngine> Engines { get { return _engines = _engines ?? _engineFactory.GetEngines(Publication, _context); } }
+        public IEnumerable<IEngine> Engines { get { return _engines = _engines ?? _engineFactory.GetEngines(RepositoryPublication, _repositoryContext); } }
 
         public IEnumerable<ITransmission> Transmissions { get { throw new NotImplementedException(); } }
 
@@ -57,20 +57,20 @@ namespace TME.CarConfigurator
 
         public Model(
             Repository.Objects.Model repositoryModel,
-            Context context,
+            Repository.Objects.Context repositoryContext,
             IPublicationFactory publicationFactory,
             IBodyTypeFactory bodyTypeFactory,
             IEngineFactory engineFactory)
             : base(repositoryModel)
         {
             if (repositoryModel == null) throw new ArgumentNullException("repositoryModel");
-            if (context == null) throw new ArgumentNullException("context");
+            if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
             if (bodyTypeFactory == null) throw new ArgumentNullException("bodyTypeFactory");
             if (engineFactory == null) throw new ArgumentNullException("engineFactory");
 
             _repositoryModel = repositoryModel;
-            _context = context;
+            _repositoryContext = repositoryContext;
             _publicationFactory = publicationFactory;
             _bodyTypeFactory = bodyTypeFactory;
             _engineFactory = engineFactory;

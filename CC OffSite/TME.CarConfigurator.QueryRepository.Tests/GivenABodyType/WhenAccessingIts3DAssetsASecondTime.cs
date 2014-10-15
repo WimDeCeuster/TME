@@ -40,6 +40,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenABodyType
 
             var repoBodyType = new BodyTypeBuilder()
                 .WithId(Guid.NewGuid())
+                .AddVisibleIn(_mode, _view)
                 .Build();
 
             var publicationTimeFrame = new PublicationTimeFrameBuilder()
@@ -71,12 +72,12 @@ namespace TME.CarConfigurator.Query.Tests.GivenABodyType
 
             _bodyType = bodyTypeFactory.GetBodyTypes(publication, context).Single();
 
-            _firstAssets = _bodyType.GetAssets(_view, _mode);
+            _firstAssets = _bodyType.VisibleIn.Single(v => v.Mode == _mode && v.View == _view).Assets;
         }
 
         protected override void Act()
         {
-            _secondAssets = _bodyType.GetAssets(_view, _mode);
+            _secondAssets = _bodyType.VisibleIn.Single(v => v.Mode == _mode && v.View == _view).Assets;
         }
 
         [Fact]

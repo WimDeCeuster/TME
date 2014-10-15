@@ -9,15 +9,15 @@ namespace TME.CarConfigurator
 {
     public class FuelType : BaseObject, IFuelType
     {
-        private readonly Repository.Objects.FuelType _fuelType;
+        private readonly Repository.Objects.FuelType _repositoryFuelType;
 
-        public FuelType(Repository.Objects.FuelType fuelType)
-            : base(fuelType)
+        public FuelType(Repository.Objects.FuelType repositoryFuelType)
+            : base(repositoryFuelType)
         {
-            if (fuelType == null) throw new ArgumentNullException("fuelType");
-            _fuelType = fuelType;
+            if (repositoryFuelType == null) throw new ArgumentNullException("repositoryFuelType");
+            _repositoryFuelType = repositoryFuelType;
         }
         
-        public bool Hybrid { get { return _fuelType.Hybrid; } }
+        public bool Hybrid { get { return _repositoryFuelType.Hybrid; } }
     }
 }
