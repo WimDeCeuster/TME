@@ -101,7 +101,7 @@
     <constructor-arg ref="S3EngineService" />
   </object>
   <object name="S3AssetPublisher" type="TME.CarConfigurator.S3.Publisher.AssetPublisher, TME.CarConfigurator.S3.Publisher">
-    <constructor-arg ref="S3EngineService" />
+    <constructor-arg ref="S3AssetService" />
   </object>
   <object name="S3ServiceFactory" type="TME.CarConfigurator.Publisher.UI.DI.Factories.S3ServiceFactory, TME.CarConfigurator.Publisher.UI">
     <constructor-arg ref="S3Serialiser" />

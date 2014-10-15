@@ -75,25 +75,25 @@ namespace TME.CarConfigurator.Publisher
             return context;
         }
 
-        private void FillGenerationAssets(Administration.ModelGeneration modelGeneration, Generation generation,ContextData contextData, string brand, string country, string language)
-            contextData.Assets = FillBodyTypeAssets(modelGeneration);
+        private void FillGenerationAssets(Administration.ModelGeneration modelGeneration, Generation generation,ContextData contextData, string brand, string country, string language){
+//            contextData.Assets = FillBodyTypeAssets(modelGeneration);
         }
 
-        private Dictionary<Guid,List<Asset>> FillBodyTypeAssets(ModelGeneration modelGeneration)
+        /*private Dictionary<Guid, List<Asset>> FillBodyTypeAssets(ModelGeneration modelGeneration)
         {
             var assetList = new List<Asset>();
-            var assetDictionary = new Dictionary<Guid,List<Asset>>();
+            var assetDictionary = new Dictionary<Guid, List<Asset>>();
             foreach (var modelGenerationBodyType in modelGeneration.BodyTypes)
             {
-                var newModelGenerationBodyType = AutoMapper.Mapper.Map<BodyType>(modelGenerationBodyType);
                 foreach (var asset in modelGenerationBodyType.AssetSet.Assets)
                 {
-                    var newAsset = AutoMapper.Mapper.Map<Asset>(asset);
                     assetList.Add(newAsset);
                 }
-                assetDictionary.Add(newModelGenerationBodyType.ID,assetList);
+                assetDictionary.Add(newModelGenerationBodyType.ID, assetList);
             }
             return assetDictionary;
+        }*/
+
         void FillCars(Administration.ModelGeneration modelGeneration, ContextData contextData)
         {
             foreach (var car in modelGeneration.Cars)

@@ -13,7 +13,6 @@ using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
-using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
 
 namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
