@@ -2,11 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
-using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
@@ -112,6 +110,19 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
+        public ContextBuilder WithAssets(String language, List<Asset> assets, Guid bodyTypeID)
+        {
+                _context.ContextData[language].Assets.Add(bodyTypeID,assets);    
+            return this;
+        }
+
+        public ContextBuilder WithBodyTypes(String language, List<BodyType> bodyTypes)
+        {
+            foreach (var bodyType in bodyTypes)
+                _context.ContextData[language].BodyTypes.Add(bodyType);
+            return this;
+        }
+
         private void WithModels(String language, Model model)
         {
             _context.ContextData[language].Models.Add(model);
@@ -130,13 +141,7 @@ namespace TME.Carconfigurator.Tests.Builders
                 {
                     Name = "carConfigVersion-" + language
                 },
-                SSN =  "SSN1-" + language,
-                Assets = new List<Asset>
-                {
-                    CreateFakeAsset("Asset1"),
-                    CreateFakeAsset("Asset2"),
-                    CreateFakeAsset("Asset3")
-                }
+                SSN =  "SSN1-" + language
             }, "", language);
         }
 
@@ -146,11 +151,6 @@ namespace TME.Carconfigurator.Tests.Builders
             {
                 ID = Guid.NewGuid()
             }, name, language);
-        }
-
-        private static Asset CreateFakeAsset(string name)
-        {
-            return new Asset() {ID = Guid.NewGuid(), Name = name};
         }
 
         public static T FillFakeBaseObject<T>(T baseObject, String name, String language) where T : BaseObject

@@ -9,6 +9,7 @@
     <constructor-arg index="3"><null /></constructor-arg>
     <constructor-arg index="4"><null /></constructor-arg>
     <constructor-arg index="5"><null /></constructor-arg>
+    <constructor-arg index="6"><null /></constructor-arg>
   </object>
 
   <object name="Mapper" type="TME.CarConfigurator.Publisher.Mapper, TME.CarConfigurator.Publisher">
@@ -18,6 +19,7 @@
     <constructor-arg ref="EngineMapper" />
     <constructor-arg ref="TransmissionMapper" />
     <constructor-arg ref="CarMapper" />
+    <constructor-arg ref="AssetMapper" />
   </object>
   <object name="ModelMapper" type="TME.CarConfigurator.Publisher.Mappers.ModelMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="LabelMapper" />
@@ -98,6 +100,9 @@
   <object name="S3CarPublisher" type="TME.CarConfigurator.S3.Publisher.CarPublisher, TME.CarConfigurator.S3.Publisher">
     <constructor-arg ref="S3CarService" />
   </object>
+  <object name="S3AssetPublisher" type="TME.CarConfigurator.S3.Publisher.AssetPublisher, TME.CarConfigurator.S3.Publisher">
+    <constructor-arg ref="S3AssetService" />
+  </object>
   <object name="S3ServiceFactory" type="TME.CarConfigurator.Publisher.UI.DI.Factories.S3ServiceFactory, TME.CarConfigurator.Publisher.UI">
     <constructor-arg ref="S3Serialiser" />
     <constructor-arg ref="S3KeyManager" />
@@ -140,6 +145,13 @@
     <constructor-arg ref="S3KeyManager" />
   </object>
   <object name="S3BodyTypeService" type="TME.CarConfigurator.S3.CommandServices.BodyTypeService, TME.CarConfigurator.S3.CommandServices">
+    <constructor-arg>
+      <null />
+    </constructor-arg>
+    <constructor-arg ref="S3Serialiser" />
+    <constructor-arg ref="S3KeyManager" />
+  </object>
+  <object name="S3AssetService" type="TME.CarConfigurator.S3.CommandServices.AssetsService, TME.CarConfigurator.S3.CommandServices">
     <constructor-arg>
       <null />
     </constructor-arg>

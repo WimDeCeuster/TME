@@ -18,23 +18,30 @@ namespace TME.CarConfigurator.Publisher
         private readonly QueryServices.IModelService _modelService;
         readonly IBodyTypePublisher _bodyTypePublisher;
         readonly IEnginePublisher _enginePublisher;
-        readonly ICarPublisher _carPublisher;
         readonly IAssetPublisher _assetPublisher;
 
+<<<<<<< HEAD
+        public Publisher(IPublicationPublisher publicationPublisher, IModelPublisher putModelPublisher, QueryServices.IModelService getModelService,
+                         IBodyTypePublisher bodyTypePublisher, IEnginePublisher enginePublisher,IAssetPublisher assetPublisher)
+=======
         public Publisher(IPublicationPublisher publicationPublisher, 
             IModelPublisher modelPublisher, 
             QueryServices.IModelService modelService, 
-            IBodyTypePublisher bodyTypePublisher,
-            IEnginePublisher enginePublisher,
-            ICarPublisher carPublisher,
-            IAssetPublisher assetPublisher)
+            IBodyTypePublisher bodyTypePublisher, 
+            IEnginePublisher enginePublisher)
+>>>>>>> a61003ad808ed0ba0700f53bb25ec235fcaa4912
         {
+            if (publicationPublisher == null) throw new ArgumentNullException("publicationPublisher");
+            if (modelPublisher == null) throw new ArgumentNullException("modelPublisher");
+            if (modelService == null) throw new ArgumentNullException("modelService");
+            if (bodyTypePublisher == null) throw new ArgumentNullException("bodyTypePublisher");
+            if (enginePublisher == null) throw new ArgumentNullException("enginePublisher");
+
             _publicationPublisher = publicationPublisher;
             _modelPublisher = modelPublisher;
             _modelService = modelService;
             _bodyTypePublisher = bodyTypePublisher;
             _enginePublisher = enginePublisher;
-            _carPublisher = carPublisher;
             _assetPublisher = assetPublisher;
         }
 
@@ -62,6 +69,17 @@ namespace TME.CarConfigurator.Publisher
             {
                 var data = context.ContextData[language];
                 var timeFrames = context.TimeFrames[language];
+<<<<<<< HEAD
+                FillDataWithPublication(data, timeFrames);
+            }
+
+            var tasks = new List<Task<IEnumerable<Result>>>();
+
+            tasks.Add(PublishPublication(context));
+            tasks.Add(PublishGenerationBodyTypes(context));
+            tasks.Add(PublishGenerationEngines(context));
+            tasks.Add(PublishBodyTypeAssets(context));
+=======
                 CreateAndAddPublication(data, timeFrames);
             }
 
@@ -69,17 +87,25 @@ namespace TME.CarConfigurator.Publisher
             {
                 _publicationPublisher.PublishPublications(context),
                 _bodyTypePublisher.PublishGenerationBodyTypes(context),
-                _enginePublisher.PublishGenerationEngines(context),
-                _carPublisher.PublishGenerationCars(context),
-                _assetPublisher.PublishAssets(context)
+                _enginePublisher.PublishGenerationEngines(context)
             };
+>>>>>>> a61003ad808ed0ba0700f53bb25ec235fcaa4912
 
             var results = await Task.WhenAll(tasks);
 
             return results.SelectMany(xs => xs.ToList());
         }
 
+<<<<<<< HEAD
+        async Task<IEnumerable<Result>> PublishPublication(IContext context)
+        {
+            return await _publicationPublisher.PublishPublications(context);
+        }
+
+        private void FillDataWithPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames)
+=======
         private static void CreateAndAddPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames)
+>>>>>>> a61003ad808ed0ba0700f53bb25ec235fcaa4912
         {
            data.Publication = new Publication
             {
@@ -98,10 +124,14 @@ namespace TME.CarConfigurator.Publisher
             };
 
             data.Models.Single().Publications.Add(new PublicationInfo(data.Publication));
+<<<<<<< HEAD
+=======
         }
+
         private static Result FindFirstFailure(IEnumerable<IEnumerable<Result>> results)
         {
             return results.SelectMany(xs => xs.ToList()).FirstOrDefault(result => result is Failed);
+>>>>>>> a61003ad808ed0ba0700f53bb25ec235fcaa4912
         }
 
         private Task<Result> Activate(IContext context, IEnumerable<String> languageCodes)
@@ -130,7 +160,16 @@ namespace TME.CarConfigurator.Publisher
             return language;
         }
 
+<<<<<<< HEAD
+        private Task<IEnumerable<Result>> PublishBodyTypeAssets(IContext context)
+        {
+            return _assetPublisher.PublishAssets(context);
+        }
+
+        private static Language GetS3Language(Languages s3ModelsOverview, String language)
+=======
         private static void SetPublicationAsActiveForLanguage(IContext context, Language language)
+>>>>>>> a61003ad808ed0ba0700f53bb25ec235fcaa4912
         {
             var contextModel = context.ContextData[language.Code].Models.Single();
             var s3Model = language.Models.SingleOrDefault(m => m.ID == contextModel.ID);

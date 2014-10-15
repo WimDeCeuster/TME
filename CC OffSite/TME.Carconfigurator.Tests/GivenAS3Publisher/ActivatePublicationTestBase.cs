@@ -24,6 +24,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected IBodyTypePublisher BodyTypePublisher;
         protected IEnginePublisher EnginePublisher;
         protected ICarPublisher CarPublisher;
+        protected IAssetPublisher AssetPublisher;
         protected IPublisher Publisher;
         protected const string Brand = "Toyota";
         protected const string Country = "BE";
@@ -55,6 +56,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             BodyTypePublisher = A.Fake<IBodyTypePublisher>(x => x.Strict());
             EnginePublisher = A.Fake<IEnginePublisher>(x => x.Strict());
             CarPublisher = A.Fake<ICarPublisher>(x => x.Strict());
+            AssetPublisher = A.Fake<IAssetPublisher>(x => x.Strict());
 
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
             var successFullTask = Task.FromResult((Result)new Successfull());
@@ -92,6 +94,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => BodyTypePublisher.PublishGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => EnginePublisher.PublishGenerationEngines(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => CarPublisher.PublishGenerationCars(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => AssetPublisher.PublishAssets(null)).WithAnyArguments().Returns(successFullTasks);
 
             Publisher = new PublisherBuilder()
                 .WithPublicationPublisher(PublicationPublisher)
@@ -100,6 +103,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
                 .WithBodyTypePublisher(BodyTypePublisher)
                 .WithEnginePublisher(EnginePublisher)
                 .WithCarPublisher(CarPublisher)
+                .WithAssetPublisher(AssetPublisher)
                 .Build();
         }
 

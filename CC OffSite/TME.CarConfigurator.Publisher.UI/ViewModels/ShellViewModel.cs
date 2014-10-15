@@ -107,7 +107,6 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
         private async void Publish(PublicationDataSubset publicationDataSubset)
         {
             var result = await PublicationService.Publish(SelectedGeneration.ID, Target, Brand, Country, publicationDataSubset);
-
             MessageBox.Show(result is Successfull ? "Success!" : "Failure!");
         }
     }

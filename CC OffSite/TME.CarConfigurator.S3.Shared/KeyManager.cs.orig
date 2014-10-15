@@ -5,14 +5,22 @@ namespace TME.CarConfigurator.S3.Shared
 {
     public class KeyManager : IKeyManager
     {
+<<<<<<< HEAD
+        const String LanguagesKey = "models-per-language";
+        const String PublicationKeyTemplate = "publication/{0}";
+        const String GenerationBodyTypesKeyTemplate = "publication/{0}/time-frame/{1}/body-types";
+        const String GenerationEnginesKeyTemplate = "publication/{0}/time-frame/{1}/engines";
+        const String GenerationAssetsKeyTemplate = "publication/{0}/assets/default";
+=======
+        private const string LanguagesKey = "models-per-language";
         private const string PublicationKeyTemplate = "publication/{0}";
         private const string PublicationTimeFrameKeyTemplate = "publication/{0}/time-frame/{1}";
         private const string PublicationAssetsKeyTemplate = "publication/{0}/assets";
-        const String GenerationAssetsKeyTemplate = "publication/{0}/assets/default";
+>>>>>>> 8bd322d48060662766a3b4a55973d25ee8abe875
 
-        public string GetModelsKey()
+        public string GetLanguagesKey()
         {
-            return "models-per-language";
+            return LanguagesKey;
         }
 
         public string GetPublicationKey(Guid publicationID)
@@ -27,22 +35,21 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetBodyTypesKey(Guid publicationID, Guid timeFrameID)
         {
-            return string.Format("{0}/body-types", GetTimeFrameKey(publicationID, timeFrameID));
+            return string.Format("{0}/{1}", GetTimeFrameKey(publicationID, timeFrameID), "body-types");
         }
 
+<<<<<<< HEAD
         public string GetGenerationAssetKey(Guid publicationID)
         {
             return String.Format(GenerationAssetsKeyTemplate, publicationID);
         }
 
+        public string GetAssetsKey(Guid publicationId, Guid timeFrameId, Guid objectId)
+=======
         public string GetEnginesKey(Guid publicationID, Guid timeFrameID)
+>>>>>>> 8bd322d48060662766a3b4a55973d25ee8abe875
         {
-            return string.Format("{0}/engines", GetTimeFrameKey(publicationID, timeFrameID));
-        }
-
-        public string GetCarsKey(Guid publicationID, Guid timeFrameID)
-        {
-            return string.Format("{0}/cars", GetTimeFrameKey(publicationID, timeFrameID));
+            return string.Format("{0}/{1}", GetTimeFrameKey(publicationID, timeFrameID), "engines");
         }
 
         private static string GetAssetsKey(Guid publicationId, Guid objectId)
@@ -57,7 +64,7 @@ namespace TME.CarConfigurator.S3.Shared
             return string.Format("{0}/default", GetAssetsKey(publicationId, objectId));
         }
 
-        public string GetAssetsKey(Guid publicationId, Guid objectId, String view, String mode)
+        public string GetAssetsKey(Guid publicationId, Guid objectId, string view, string mode)
         {
             return string.Format("{0}/{1}/{2}", GetAssetsKey(publicationId, objectId), view, mode);
         }

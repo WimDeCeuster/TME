@@ -27,7 +27,8 @@ namespace TME.CarConfigurator.Publisher.UI.Bootstrapper
             }
             catch (Exception)
             {
-                return base.GetInstance(service, key);
+                var x = base.GetInstance(service, key);
+                return x;
             }
 
         }

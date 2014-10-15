@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 
 namespace TME.CarConfigurator.Publisher.Common
 {
@@ -11,6 +13,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IList<BodyType> BodyTypes { get; private set; }
         public IList<Engine> Engines { get; private set; }
         public IList<Transmission> Transmissions { get; private set; }
+        public Dictionary<Guid,List<Asset>> Assets { get; set; }
         public Publication Publication { get; set; }
 
         public ContextData()
@@ -20,6 +23,7 @@ namespace TME.CarConfigurator.Publisher.Common
             Generations = new List<Generation>();
             BodyTypes = new List<BodyType>();
             Engines = new List<Engine>();
+            Assets = new Dictionary<Guid, List<Asset>>();
             Transmissions = new List<Transmission>();
         }
     }

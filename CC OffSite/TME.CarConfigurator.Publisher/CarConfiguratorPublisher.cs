@@ -18,7 +18,7 @@ namespace TME.CarConfigurator.Publisher
         {
             if (environment == null) throw new ArgumentNullException("environment");
             if (contextFactory == null) throw new ArgumentNullException("contextFactory");
-            if (publisherFacadeFactory == null) throw new ArgumentNullException("publisherFactory");
+            if (publisherFacadeFactory == null) throw new ArgumentNullException("publisherFacadeFactory");
             if (mapper == null) throw new ArgumentNullException("mapper");
             if (generationFinder == null) throw new ArgumentNullException("generationFinder");
 

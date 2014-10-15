@@ -18,6 +18,7 @@ namespace TME.Carconfigurator.Tests.Builders
         private IBodyTypePublisher _bodyTypePublisher = A.Fake<IBodyTypePublisher>();
         private IEnginePublisher _enginePublisher = A.Fake<IEnginePublisher>();
         private ICarPublisher _carPublisher = A.Fake<ICarPublisher>();
+        private IAssetPublisher _assetPublisher = A.Fake<IAssetPublisher>();
 
         public PublisherBuilder WithPublicationPublisher(IPublicationPublisher publicationPublisher)
         {
@@ -61,9 +62,16 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
+        public PublisherBuilder WithAssetPublisher(IAssetPublisher assetPublisher)
+        {
+            _assetPublisher = assetPublisher;
+
+            return this;
+        }
+
         public Publisher Build()
         {
-            return new Publisher(_publicationPublisher, _modelPublisher, _modelService, _bodyTypePublisher, _enginePublisher, _carPublisher);
+            return new Publisher(_publicationPublisher, _modelPublisher, _modelService, _bodyTypePublisher, _enginePublisher, _carPublisher, _assetPublisher);
         }
     }
 }
