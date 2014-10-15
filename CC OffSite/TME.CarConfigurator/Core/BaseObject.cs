@@ -54,7 +54,7 @@ namespace TME.CarConfigurator.Core
 
         public IEnumerable<ILabel> Labels
         {
-            get { return _labels = _labels ?? RepositoryBaseObject.Labels.Select(label => new Label(label)); }
+            get { return _labels = _labels ?? RepositoryBaseObject.Labels.Select(label => new Label(label)).ToArray(); }
         }
 
         protected BaseObject(Repository.Objects.Core.BaseObject repositoryBaseObject)

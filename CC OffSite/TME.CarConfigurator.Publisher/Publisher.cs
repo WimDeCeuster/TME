@@ -69,7 +69,8 @@ namespace TME.CarConfigurator.Publisher
             {
                 s3Models.Add(contextModel);
             }
-            else { 
+            else
+            { 
                 s3Model.Name = contextModel.Name;
                 s3Model.InternalCode = contextModel.InternalCode;
                 s3Model.LocalCode = contextModel.LocalCode;

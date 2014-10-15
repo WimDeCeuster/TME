@@ -36,7 +36,7 @@ namespace TME.CarConfigurator
         }
 
         public IEngineType Type { get { return _type = _type ?? new EngineType(_engine.Type); } }
-        public IEngineCategory Category { get { return _engine.Category == null ? null : _category = _category ?? new EngineCategory(_engine.Category, _context); } }
+        public IEngineCategory Category { get { return _engine.Category == null ? null : _category = _category ?? new EngineCategory(_engine.Category); } }
         public bool KeyFeature { get { return _engine.KeyFeature; } }
         public bool Brochure { get { return _engine.Brochure; } }
         public bool VisibleInExteriorSpin { get { return _engine.VisibleInExteriorSpin; } }

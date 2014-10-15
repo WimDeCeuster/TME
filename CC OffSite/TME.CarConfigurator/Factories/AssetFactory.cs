@@ -34,7 +34,7 @@ namespace TME.CarConfigurator.Factories
 
         private static IEnumerable<Asset> TransformIntoNonRepoAssets(IEnumerable<Repository.Objects.Assets.Asset> repoAssets)
         {
-            return repoAssets.Select(a => new Asset(a));
+            return repoAssets.Select(a => new Asset(a)).ToArray();
         }
     }
 }

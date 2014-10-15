@@ -41,9 +41,9 @@ namespace TME.CarConfigurator
 
         public ICarConfiguratorVersion CarConfiguratorVersion { get { return _carConfiguratorVersion = _carConfiguratorVersion ?? new CarConfiguratorVersion(Publication.Generation.CarConfiguratorVersion); } }
 
-        public IEnumerable<ILink> Links { get { return _links = _links ?? Publication.Generation.Links.Select(l => new Link(l)); } }
+        public IEnumerable<ILink> Links { get { return _links = _links ?? Publication.Generation.Links.Select(l => new Link(l)).ToArray(); } }
 
-        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? Publication.Generation.Assets.Select(a => new Asset(a)); } }
+        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? Publication.Generation.Assets.Select(a => new Asset(a)).ToArray(); } }
 
         public IEnumerable<IBodyType> BodyTypes { get { return _bodyTypes = _bodyTypes ?? _bodyTypeFactory.GetBodyTypes(Publication, _context); } }
 

@@ -48,7 +48,7 @@ namespace TME.CarConfigurator
             if (_3DAssets.ContainsKey(key))
                 return _3DAssets[key];
 
-            var assets = _assetFactory.GetAssets(_publication, ID, _context, view, mode).ToList();
+            var assets = _assetFactory.GetAssets(_publication, ID, _context, view, mode);
 
             _3DAssets.Add(key, assets);
 

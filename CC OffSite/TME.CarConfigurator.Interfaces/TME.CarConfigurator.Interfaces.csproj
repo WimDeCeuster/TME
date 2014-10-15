@@ -48,7 +48,7 @@
     <Compile Include="Factories\IEngineFactory.cs" />
     <Compile Include="Factories\IModelFactory.cs" />
     <Compile Include="Factories\IPublicationFactory.cs" />
-    <Compile Include="ITransmissionType.cs" />
+    <Compile Include="IFuelType.cs" />
     <Compile Include="ITransmission.cs" />
     <Compile Include="ICar.cs" />
     <Compile Include="ICarConfiguratorVersion.cs" />
@@ -60,7 +60,7 @@
     <Compile Include="Core\ILabel.cs" />
     <Compile Include="IBodyType.cs" />
     <Compile Include="IEngineCategory.cs" />
-    <Compile Include="IFuelType.cs" />
+    <Compile Include="ITransmissionType.cs" />
     <Compile Include="ILink.cs" />
     <Compile Include="IModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

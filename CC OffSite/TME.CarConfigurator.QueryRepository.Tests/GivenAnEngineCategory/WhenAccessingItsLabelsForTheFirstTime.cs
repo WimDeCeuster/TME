@@ -1,10 +1,14 @@
-﻿using FluentAssertions;
+﻿using FakeItEasy;
+using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Query.Tests.TestBuilders;
+using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
@@ -28,9 +32,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnEngineCategory
                 .WithCode("code 2")
                 .Build();
 
-            var repoEngineCategory = new EngineCategoryBuilder()
+            var repoEngineCategory = new CarConfigurator.Tests.Shared.TestBuilders.EngineCategoryBuilder()
                 .WithLabels(_label1, _label2)
                 .Build();
+
+            var context = new ContextBuilder().Build();
+
+            var publication = new PublicationBuilder().Build();
 
             _engineCategory = new TestBuilders.EngineCategoryBuilder()
                 .WithEngineCategory(repoEngineCategory)
