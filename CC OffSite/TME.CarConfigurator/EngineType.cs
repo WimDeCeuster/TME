@@ -5,8 +5,8 @@ namespace TME.CarConfigurator
 {
     public class EngineType : IEngineType
     {
-        private Repository.Objects.EngineType _engineType;
-        private CarConfigurator.FuelType _fuelType;
+        private readonly Repository.Objects.EngineType _engineType;
+        private IFuelType _fuelType;
 
         public EngineType(Repository.Objects.EngineType engineType)
         {

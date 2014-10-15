@@ -4,7 +4,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
     public class BodyTypeBuilder
     {
-        private Repository.Objects.BodyType _bodyType;
+        private readonly Repository.Objects.BodyType _bodyType;
 
         public BodyTypeBuilder()
         {

@@ -15,7 +15,6 @@ namespace TME.CarConfigurator.Publisher.UI.Bootstrapper
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-            AutoMapperConfig.Configure();
             DisplayRootViewFor<ShellViewModel>();
         }
 

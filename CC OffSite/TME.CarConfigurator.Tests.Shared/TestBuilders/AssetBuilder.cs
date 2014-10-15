@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
+namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
     public class AssetBuilder
     {

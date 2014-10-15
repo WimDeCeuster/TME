@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Enums;
 
-namespace TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects
+namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
     public class PublicationBuilder
     {

@@ -8,5 +8,6 @@ namespace TME.CarConfigurator.QueryServices
     public interface IAssetService
     {
         IEnumerable<Asset> GetAssets(Guid publicationId, Guid objectId, Context context);
+        IEnumerable<Asset> GetAssets(Guid publicationId, Guid objectId, Context context, string view, string mode);
     }
 }

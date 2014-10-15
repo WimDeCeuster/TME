@@ -32,7 +32,7 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IEngineCategory Category
         {
-            get { return new EngineCategory(Adaptee.Category); }
+            get { return Adaptee.Category == null ? null : new EngineCategory(Adaptee.Category); }
         }
 
         public bool KeyFeature
@@ -73,6 +73,11 @@ namespace TME.CarConfigurator.LegacyAdapter
         public IEnumerable<IAsset> Assets
         {
             get { return Adaptee.Assets.Cast<Legacy.Asset>().Select(x => new Asset(x)); }
+        }
+
+        public IEnumerable<IAsset> GetAssets(string view, string mode)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -33,12 +33,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper">
-      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
-    </Reference>
-    <Reference Include="AutoMapper.Net4">
-      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
-    </Reference>
     <Reference Include="AWSSDK">
       <HintPath>..\packages\AWSSDK.2.3.1.0\lib\net45\AWSSDK.dll</HintPath>
     </Reference>
@@ -79,17 +73,32 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoMapperConfig.cs" />
     <Compile Include="CarDbModelGenerationFinder.cs" />
     <Compile Include="Factories\ContextFactory.cs" />
     <Compile Include="Factories\PublisherFacadeFactory.cs" />
     <Compile Include="Interfaces\IAssetPublisher.cs" />
+    <Compile Include="Interfaces\IAssetMapper.cs" />
+    <Compile Include="Interfaces\IAssetScopeMapper.cs" />
+    <Compile Include="Interfaces\IAssetSetMapper.cs" />
+    <Compile Include="Interfaces\IAssetTypeMapper.cs" />
+    <Compile Include="Interfaces\IBodyTypeMapper.cs" />
     <Compile Include="Interfaces\IBodyTypePublisher.cs" />
+    <Compile Include="Interfaces\ICarConfiguratorVersionMapper.cs" />
     <Compile Include="Interfaces\ICarDbModelGenerationFinder.cs" />
+    <Compile Include="Interfaces\ICarMapper.cs" />
     <Compile Include="Interfaces\IContextFactory.cs" />
+    <Compile Include="Interfaces\IEngineCategoryMapper.cs" />
+    <Compile Include="Interfaces\IEngineMapper.cs" />
     <Compile Include="Interfaces\IEnginePublisher.cs" />
+    <Compile Include="Interfaces\IEngineTypeMapper.cs" />
+    <Compile Include="Interfaces\IFileTypeMapper.cs" />
+    <Compile Include="Interfaces\IFuelTypeMapper.cs" />
+    <Compile Include="Interfaces\IGenerationMapper.cs" />
+    <Compile Include="Interfaces\ILabelMapper.cs" />
+    <Compile Include="Interfaces\ILinkMapper.cs" />
     <Compile Include="Interfaces\IMapper.cs" />
     <Compile Include="Interfaces\ICarConfiguratorPublisher.cs" />
+    <Compile Include="Interfaces\IModelMapper.cs" />
     <Compile Include="Interfaces\IModelPublisher.cs" />
     <Compile Include="Interfaces\IPublicationPublisher.cs" />
     <Compile Include="Interfaces\IPublisher.cs" />
@@ -97,6 +106,25 @@
     <Compile Include="Interfaces\IPublisherFacadeFactory.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="CarConfiguratorPublisher.cs" />
+    <Compile Include="Mappers\AssetMapper.cs" />
+    <Compile Include="Mappers\AssetScopeMapper.cs" />
+    <Compile Include="Mappers\AssetSetMapper.cs" />
+    <Compile Include="Mappers\AssetTypeMapper.cs" />
+    <Compile Include="Mappers\BodyTypeMapper.cs" />
+    <Compile Include="Mappers\CarConfiguratorVersionMapper.cs" />
+    <Compile Include="Mappers\CarMapper.cs" />
+    <Compile Include="Mappers\EngineCategoryMapper.cs" />
+    <Compile Include="Mappers\EngineMapper.cs" />
+    <Compile Include="Mappers\EngineTypeMapper.cs" />
+    <Compile Include="Mappers\Exceptions\CorruptDataException.cs" />
+    <Compile Include="Mappers\Exceptions\UnknownAssetScopeException.cs" />
+    <Compile Include="Mappers\FileTypeMapper.cs" />
+    <Compile Include="Mappers\FuelTypeMapper.cs" />
+    <Compile Include="Mappers\GenerationMapper.cs" />
+    <Compile Include="Mappers\LabelMapper.cs" />
+    <Compile Include="Mappers\LinkMapper.cs" />
+    <Compile Include="Mappers\MappingExtension.cs" />
+    <Compile Include="Mappers\ModelMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publisher.cs" />
   </ItemGroup>
@@ -136,7 +164,6 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

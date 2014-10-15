@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Repository.Objects;
 
@@ -8,7 +10,7 @@ namespace TME.CarConfigurator.Core
     public abstract class BaseObject : IBaseObject
     {
         protected readonly Repository.Objects.Core.BaseObject RepositoryBaseObject;
-        protected readonly Context Context;
+        private IEnumerable<ILabel> _labels;
 
         public Guid ID
         {
@@ -52,15 +54,13 @@ namespace TME.CarConfigurator.Core
 
         public IEnumerable<ILabel> Labels
         {
-            get { throw new NotImplementedException(); }
+            get { return _labels = _labels ?? RepositoryBaseObject.Labels.Select(label => new Label(label)); }
         }
 
-        protected BaseObject(Repository.Objects.Core.BaseObject repositoryBaseObject, Context context)
+        protected BaseObject(Repository.Objects.Core.BaseObject repositoryBaseObject)
         {
             if (repositoryBaseObject == null) throw new ArgumentNullException("repositoryBaseObject");
-            if (context == null) throw new ArgumentNullException("context");
 
-            Context = context;
             RepositoryBaseObject = repositoryBaseObject;
         }
     }

@@ -12,16 +12,19 @@ namespace TME.CarConfigurator.Factories
 {
     public class EngineFactory : IEngineFactory
     {
-        private IEngineService _engineService;
+        private readonly IEngineService _engineService;
+        private readonly IAssetFactory _assetFactory;
 
-        public EngineFactory(QueryServices.IEngineService engineService)
+        public EngineFactory(IEngineService engineService, IAssetFactory assetFactory)
         {
             _engineService = engineService;
+            _assetFactory = assetFactory;
         }
+
         public IEnumerable<IEngine> GetEngines(Repository.Objects.Publication publication, Repository.Objects.Context context)
         {
             return _engineService.GetEngines(publication.ID, publication.GetCurrentTimeFrame().ID, context)
-                                 .Select(engine => new Engine(engine));
+                                 .Select(engine => new Engine(engine, publication, context, _assetFactory));
         }
     }
 }

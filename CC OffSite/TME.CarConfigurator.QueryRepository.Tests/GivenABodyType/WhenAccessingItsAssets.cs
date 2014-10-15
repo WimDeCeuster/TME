@@ -10,7 +10,6 @@ using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
-using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
 using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenABodyType
@@ -45,6 +44,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenABodyType
                 .WithID(Guid.NewGuid())
                 .AddTimeFrame(publicationTimeFrame)
                 .Build();
+
             var context = new ContextBuilder().Build();
 
             var bodyTypeService = A.Fake<IBodyTypeService>();

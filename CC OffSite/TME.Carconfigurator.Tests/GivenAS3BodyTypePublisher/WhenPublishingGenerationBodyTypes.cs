@@ -8,7 +8,7 @@ using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
-using TME.CarConfigurator.Tests.Shared.TestBuilders.RepositoryObjects;
+using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.S3.Publisher;
