@@ -19,8 +19,18 @@ namespace TME.CarConfigurator.Publisher
         readonly IBodyTypePublisher _bodyTypePublisher;
         readonly IEnginePublisher _enginePublisher;
 
-        public Publisher(IPublicationPublisher publicationPublisher, IModelPublisher modelPublisher, QueryServices.IModelService modelService, IBodyTypePublisher bodyTypePublisher, IEnginePublisher enginePublisher)
+        public Publisher(IPublicationPublisher publicationPublisher, 
+            IModelPublisher modelPublisher, 
+            QueryServices.IModelService modelService, 
+            IBodyTypePublisher bodyTypePublisher, 
+            IEnginePublisher enginePublisher)
         {
+            if (publicationPublisher == null) throw new ArgumentNullException("publicationPublisher");
+            if (modelPublisher == null) throw new ArgumentNullException("modelPublisher");
+            if (modelService == null) throw new ArgumentNullException("modelService");
+            if (bodyTypePublisher == null) throw new ArgumentNullException("bodyTypePublisher");
+            if (enginePublisher == null) throw new ArgumentNullException("enginePublisher");
+
             _publicationPublisher = publicationPublisher;
             _modelPublisher = modelPublisher;
             _modelService = modelService;
@@ -52,7 +62,7 @@ namespace TME.CarConfigurator.Publisher
             {
                 var data = context.ContextData[language];
                 var timeFrames = context.TimeFrames[language];
-                CreateNewPublication(data, timeFrames);
+                CreateAndAddPublication(data, timeFrames);
             }
 
             var tasks = new List<Task<IEnumerable<Result>>>
@@ -64,10 +74,10 @@ namespace TME.CarConfigurator.Publisher
 
             var results = await Task.WhenAll(tasks);
 
-            return results.SelectMany(xs => xs);
+            return results.SelectMany(xs => xs.ToList());
         }
 
-        private Publication CreateNewPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames)
+        private static void CreateAndAddPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames)
         {
             data.Publication = new Publication
             {
@@ -86,8 +96,6 @@ namespace TME.CarConfigurator.Publisher
             };
 
             data.Models.Single().Publications.Add(new PublicationInfo(data.Publication));
-
-            return data.Publication;
         }
 
         private static Result FindFirstFailure(IEnumerable<IEnumerable<Result>> results)
