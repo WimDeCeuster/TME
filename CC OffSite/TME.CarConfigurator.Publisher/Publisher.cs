@@ -15,62 +15,67 @@ namespace TME.CarConfigurator.Publisher
     public class Publisher : IPublisher
     {
         readonly IPublicationPublisher _publicationPublisher;
-        readonly IModelPublisher _putModelPublisher            ;
-        private readonly QueryServices.IModelService _getModelService;
+        readonly IModelPublisher _modelPublisher;
+        private readonly QueryServices.IModelService _modelService;
         readonly IBodyTypePublisher _bodyTypePublisher;
         readonly IEnginePublisher _enginePublisher;
 
-        public Publisher(IPublicationPublisher publicationPublisher, IModelPublisher putModelPublisher, QueryServices.IModelService getModelService,
+        public Publisher(IPublicationPublisher publicationPublisher, IModelPublisher modelPublisher, QueryServices.IModelService modelService,
                          IBodyTypePublisher bodyTypePublisher, IEnginePublisher enginePublisher)
         {
             _publicationPublisher = publicationPublisher;
-            _putModelPublisher = putModelPublisher;
-            _getModelService = getModelService;
+            _modelPublisher = modelPublisher;
+            _modelService = modelService;
             _bodyTypePublisher = bodyTypePublisher;
             _enginePublisher = enginePublisher;
         }
 
         public async Task<Result> Publish(IContext context)
         {
-            var languages = context.ContextData.Keys;
-            var publishTasks = PublishPublicationForAllLanguages(context, languages);
+            var languageCodes = context.ContextData.Keys;
 
-            var results = await Task.WhenAll(publishTasks);
+            var result = await PublishPublication(context, languageCodes);
 
-            var failure = results.SelectMany(xs => xs).FirstOrDefault(result => result is Failed);
-            if (failure != null)
-                return failure;
+            if (result is Failed) return result;
 
-            var s3ModelsOverview = ActivatePublicationForAllLanguages(context, languages);
-            return await _putModelPublisher.PublishModelsByLanguage(context, s3ModelsOverview);
+            return await ActivatePublication(context, languageCodes);
         }
 
-        private Languages ActivatePublicationForAllLanguages(IContext context, IEnumerable<String> languages)
+        private async Task<Result> PublishPublication(IContext context, IEnumerable<string> languageCodes )
         {
-            var s3ModelsOverview = _getModelService.GetModelsByLanguage(context.Brand, context.Country);
+            var results = await Task.WhenAll(PublishPublicationForAllLanguages(context, languageCodes));
 
-            foreach (var language in languages)
+            return FindAFailure(results) ?? new Successfull();
+        }
+
+        private static Result FindAFailure(IEnumerable<IEnumerable<Result>> results)
+        {
+            return results.SelectMany(xs => xs.ToList()).FirstOrDefault(result => result is Failed);
+        }
+
+        private Task<Result> ActivatePublication(IContext context, IEnumerable<String> languageCodes)
+        {
+            var languages = _modelService.GetModelsByLanguage(context.Brand, context.Country);
+
+            foreach (var language in languageCodes.Select(languageCode => FindOrCreateLanguage(languages, languageCode)))
             {
-                ActivatePublicationForLanguage(context, s3ModelsOverview, language);
+                SetPublicationAsActiveForLanguage(context, language);
             }
 
-            return s3ModelsOverview;
+            return _modelPublisher.PublishModelsByLanguage(context, languages);
         }
 
-        private static void ActivatePublicationForLanguage(IContext context, Languages s3ModelsOverview, String language)
+        private static void SetPublicationAsActiveForLanguage(IContext context, Language language)
         {
-            var s3Language = GetS3Language(s3ModelsOverview, language);
-
-            var s3Models = s3Language.Models;
-            var contextModel = context.ContextData[language].Models.Single();
-            var s3Model = s3Models.SingleOrDefault(m => m.ID == contextModel.ID);
+            var contextModel = context.ContextData[language.Code].Models.Single();
+            var s3Model = language.Models.SingleOrDefault(m => m.ID == contextModel.ID);
 
             if (s3Model == null)
             {
-                s3Models.Add(contextModel);
+                language.Models.Add(contextModel);
             }
             else
-            { 
+            {
                 s3Model.Name = contextModel.Name;
                 s3Model.InternalCode = contextModel.InternalCode;
                 s3Model.LocalCode = contextModel.LocalCode;
@@ -83,7 +88,7 @@ namespace TME.CarConfigurator.Publisher
                 s3Model.Publications.Add(contextModel.Publications.Single());
             }
 
-            s3Language.Models = s3Language.Models.OrderBy(model => model.SortIndex)
+            language.Models = language.Models.OrderBy(model => model.SortIndex)
                                                     .ThenBy(model => model.Name)
                                                     .ToList();
         }
@@ -97,11 +102,12 @@ namespace TME.CarConfigurator.Publisher
                 CreateNewPublication(data, timeFrames);
             }
 
-            var tasks = new List<Task<IEnumerable<Result>>>();
-
-            tasks.Add(PublishPublication(context));
-            tasks.Add(PublishGenerationBodyTypes(context));
-            tasks.Add(PublishGenerationEngines(context));
+            var tasks = new List<Task<IEnumerable<Result>>>
+            {
+                PublishPublication(context),
+                PublishGenerationBodyTypes(context),
+                PublishGenerationEngines(context)
+            };
 
             var results = await Task.WhenAll(tasks);
 
@@ -146,16 +152,18 @@ namespace TME.CarConfigurator.Publisher
             return _enginePublisher.PublishGenerationEngines(context);
         }
 
-        private static Language GetS3Language(Languages s3ModelsOverview, String language)
+        private static Language FindOrCreateLanguage(Languages languages, String languageCode)
         {
-            var s3Language = s3ModelsOverview.SingleOrDefault(l => l.Code.Equals(language, StringComparison.InvariantCultureIgnoreCase));
+            var language = languages.SingleOrDefault(l => l.Code.Equals(languageCode, StringComparison.InvariantCultureIgnoreCase));
 
-            if (s3Language != null)
-            {
-                return s3Language;
-            }
-            s3ModelsOverview.Add(new Language(language));
-            return s3ModelsOverview.Single(l => l.Code.Equals(language, StringComparison.InvariantCultureIgnoreCase));
+            if (language != null)
+                return language;
+
+            language = new Language(languageCode);
+
+            languages.Add(language);
+
+            return language;
         }
     }
 }

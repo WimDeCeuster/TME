@@ -13,7 +13,7 @@ namespace TME.CarConfigurator.S3.Publisher
 {
     public class BodyTypePublisher : IBodyTypePublisher
     {
-        IBodyTypeService _bodyTypeService;
+        readonly IBodyTypeService _bodyTypeService;
 
         public BodyTypePublisher(IBodyTypeService bodyTypeService)
         {
@@ -36,7 +36,7 @@ namespace TME.CarConfigurator.S3.Publisher
             }
 
             var result = await Task.WhenAll(tasks);
-            return result.SelectMany(xs => xs);
+            return result.SelectMany(xs => xs.ToList());
         }
 
         async Task<IEnumerable<Result>> PutTimeFramesGenerationBodyTypes(String brand, String country, IEnumerable<TimeFrame> timeFrames, ContextData data)
@@ -51,10 +51,7 @@ namespace TME.CarConfigurator.S3.Publisher
                                                                      .ThenBy(bodyType => bodyType.Name)
                                                                      .ToList());
 
-            var tasks = new List<Task<Result>>();
-
-            foreach (var entry in bodyTypes)
-                tasks.Add(_bodyTypeService.PutTimeFrameGenerationBodyTypes(brand, country, publication.ID, entry.Key.ID, entry.Value));
+            var tasks = bodyTypes.Select(entry => _bodyTypeService.PutTimeFrameGenerationBodyTypes(brand, country, publication.ID, entry.Key.ID, entry.Value)).ToList();
 
             return await Task.WhenAll(tasks);
         }
