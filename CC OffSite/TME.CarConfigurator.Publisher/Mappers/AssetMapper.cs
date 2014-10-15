@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Administration.Assets;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Mappers.Exceptions;
@@ -24,7 +25,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _fileTypeMapper = fileTypeMapper;
         }
 
-        public Asset MapLinkedAsset(Administration.Assets.LinkedAsset linkedAsset)
+        public Asset MapLinkedAsset(LinkedAsset linkedAsset)
         {
             var assetInfo = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(linkedAsset.ID);
 
@@ -37,7 +38,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 AssetType = _assetTypeMapper.MapGenerationAssetType(linkedAsset.AssetType),
                 FileName = linkedAsset.FileName,
                 FileType = _fileTypeMapper.MapFileType(linkedAsset.FileType),
-                Hash = assetInfo.Hash,
+                Hash = DetailedAssetInfo.GetDetailedAssetInfo(linkedAsset.ID).Hash,
                 Height = assetInfo.Height,
                 ID = linkedAsset.ID,
                 IsTransparent = linkedAsset.IsTransparent,
@@ -51,17 +52,17 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
         }
 
-        public Asset MapAssetSetAsset(AssetSetAsset assetSetAsset)
+        public Asset MapAssetSetAsset(AssetSetAsset assetSetAsset,ModelGeneration modelGeneration)
         {
             if(assetSetAsset.Asset.ShortID == null)
                 throw new CorruptDataException(String.Format("Please provide a shortID for assetSetAsset {0}", assetSetAsset.ID));
 
             return new Asset()
             {
-                AlwaysInclude = false,
-                AssetType = _assetTypeMapper.MapGenerationAssetType(assetSetAsset.AssetType),
+                AlwaysInclude = assetSetAsset.AlwaysInclude,
+                AssetType = _assetTypeMapper.MapObjectAssetType(assetSetAsset,modelGeneration),
                 FileName = assetSetAsset.Asset.FileName,
-//                FileType = _fileTypeMapper.MapFileType(assetSetAsset.Asset.FileType),
+                FileType = _fileTypeMapper.MapFileType(assetSetAsset.Asset.FileType),
                 Hash = assetSetAsset.Asset.Hash,
                 Height = assetSetAsset.Asset.Height,
                 ID = assetSetAsset.ID,

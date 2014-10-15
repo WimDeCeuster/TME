@@ -72,7 +72,7 @@ namespace TME.CarConfigurator.Publisher
 
                 FillBodyTypes(modelGeneration, contextData);
                 FillEngines(modelGeneration, contextData);
-                FillGenerationAssets(modelGeneration, generation,contextData, brand, country, language);
+                FillGenerationAssets(modelGeneration, generation,contextData);
                 FillTransmissions(modelGeneration, contextData);
                 FillCars(modelGeneration, contextData, isPreview);
 
@@ -82,20 +82,17 @@ namespace TME.CarConfigurator.Publisher
             return context;
         }
 
-        private void FillGenerationAssets(Administration.ModelGeneration modelGeneration, Generation generation,ContextData contextData, string brand, string country, string language){
-            contextData.Assets = FillBodyTypeAssets(modelGeneration);
+        private void FillGenerationAssets(Administration.ModelGeneration modelGeneration, Generation generation,ContextData contextData){
+            contextData.Assets = FillObjectAssets(modelGeneration);
         }
 
-        private Dictionary<Guid, List<Asset>> FillBodyTypeAssets(ModelGeneration modelGeneration)
+        private Dictionary<Guid, List<Asset>> FillObjectAssets(ModelGeneration modelGeneration)
         {
-            var assetList = new List<Asset>();
+            
             var assetDictionary = new Dictionary<Guid, List<Asset>>();
             foreach (var modelGenerationBodyType in modelGeneration.BodyTypes)
             {
-                foreach (var asset in modelGenerationBodyType.AssetSet.Assets)
-                {
-                    assetList.Add(_assetMapper.MapAssetSetAsset(asset));
-                }
+                var assetList = modelGenerationBodyType.AssetSet.Assets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
                 assetDictionary.Add(modelGenerationBodyType.ID, assetList);
             }
             return assetDictionary;
