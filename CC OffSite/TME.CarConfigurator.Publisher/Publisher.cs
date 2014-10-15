@@ -18,24 +18,21 @@ namespace TME.CarConfigurator.Publisher
         private readonly QueryServices.IModelService _modelService;
         readonly IBodyTypePublisher _bodyTypePublisher;
         readonly IEnginePublisher _enginePublisher;
+        readonly ICarPublisher _carPublisher;
 
         public Publisher(IPublicationPublisher publicationPublisher, 
             IModelPublisher modelPublisher, 
             QueryServices.IModelService modelService, 
-            IBodyTypePublisher bodyTypePublisher, 
-            IEnginePublisher enginePublisher)
+            IBodyTypePublisher bodyTypePublisher,
+            IEnginePublisher enginePublisher,
+            ICarPublisher carPublisher)
         {
-            if (publicationPublisher == null) throw new ArgumentNullException("publicationPublisher");
-            if (modelPublisher == null) throw new ArgumentNullException("modelPublisher");
-            if (modelService == null) throw new ArgumentNullException("modelService");
-            if (bodyTypePublisher == null) throw new ArgumentNullException("bodyTypePublisher");
-            if (enginePublisher == null) throw new ArgumentNullException("enginePublisher");
-
             _publicationPublisher = publicationPublisher;
             _modelPublisher = modelPublisher;
             _modelService = modelService;
             _bodyTypePublisher = bodyTypePublisher;
             _enginePublisher = enginePublisher;
+            _carPublisher = carPublisher;
         }
 
         public async Task<Result> Publish(IContext context)
@@ -69,7 +66,8 @@ namespace TME.CarConfigurator.Publisher
             {
                 _publicationPublisher.PublishPublications(context),
                 _bodyTypePublisher.PublishGenerationBodyTypes(context),
-                _enginePublisher.PublishGenerationEngines(context)
+                _enginePublisher.PublishGenerationEngines(context),
+                _carPublisher.PublishGenerationCars(context)
             };
 
             var results = await Task.WhenAll(tasks);

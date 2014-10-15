@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BodyTypePublisher.cs" />
+    <Compile Include="CarPublisher.cs" />
     <Compile Include="EnginePublisher.cs" />
     <Compile Include="PublicationPublisher.cs" />
     <Compile Include="ModelPublisher.cs" />

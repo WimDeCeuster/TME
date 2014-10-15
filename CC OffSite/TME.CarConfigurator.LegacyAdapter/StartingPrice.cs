@@ -29,7 +29,7 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public decimal PriceExVat
         {
-            get { return Adaptee.MinimumPriceInVat; }
+            get { return Adaptee.MinimumPriceExVat; }
         }
     }
 }

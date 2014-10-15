@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using FakeItEasy;
-using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
@@ -12,9 +11,8 @@ using TME.CarConfigurator.Repository.Objects.Core;
 using TME.CarConfigurator.Tests.Shared;
 using System.Threading.Tasks;
 using TME.CarConfigurator.S3.Shared.Result;
-using TME.CarConfigurator.S3.Shared.Interfaces;
 using Context = TME.CarConfigurator.Publisher.Common.Context;
-using IPublicationService = TME.CarConfigurator.CommandServices.IPublicationService;
+using TME.Carconfigurator.Tests.Builders;
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
@@ -25,6 +23,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected CarConfigurator.QueryServices.IModelService GetModelService;
         protected IBodyTypePublisher BodyTypePublisher;
         protected IEnginePublisher EnginePublisher;
+        protected ICarPublisher CarPublisher;
         protected IPublisher Publisher;
         protected const string Brand = "Toyota";
         protected const string Country = "BE";
@@ -55,6 +54,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             GetModelService = A.Fake<CarConfigurator.QueryServices.IModelService>(x => x.Strict());
             BodyTypePublisher = A.Fake<IBodyTypePublisher>(x => x.Strict());
             EnginePublisher = A.Fake<IEnginePublisher>(x => x.Strict());
+            CarPublisher = A.Fake<ICarPublisher>(x => x.Strict());
 
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
             var successFullTask = Task.FromResult((Result)new Successfull());
@@ -91,8 +91,16 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => PublicationPublisher.PublishPublications(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => BodyTypePublisher.PublishGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => EnginePublisher.PublishGenerationEngines(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => CarPublisher.PublishGenerationCars(null)).WithAnyArguments().Returns(successFullTasks);
 
-            Publisher = new Publisher(PublicationPublisher, PutModelPublisher, GetModelService, BodyTypePublisher, EnginePublisher);
+            Publisher = new PublisherBuilder()
+                .WithPublicationPublisher(PublicationPublisher)
+                .WithModelPublisher(PutModelPublisher)
+                .WithModelService(GetModelService)
+                .WithBodyTypePublisher(BodyTypePublisher)
+                .WithEnginePublisher(EnginePublisher)
+                .WithCarPublisher(CarPublisher)
+                .Build();
         }
 
         protected override void Act()

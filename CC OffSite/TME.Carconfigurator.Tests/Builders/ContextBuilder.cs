@@ -92,17 +92,17 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
-        public ContextBuilder WithGenerationBodyTypes(String language, params BodyType[] bodyTypes)
+        public ContextBuilder WithBodyTypes(String language, params BodyType[] bodyTypes)
         {
             foreach (var bodyType in bodyTypes)
-                _context.ContextData[language].GenerationBodyTypes.Add(bodyType);
+                _context.ContextData[language].BodyTypes.Add(bodyType);
             return this;
         }
 
-        public ContextBuilder WithGenerationEngines(String language, params Engine[] engines)
+        public ContextBuilder WithEngines(String language, params Engine[] engines)
         {
             foreach (var engine in engines)
-                _context.ContextData[language].GenerationEngines.Add(engine);
+                _context.ContextData[language].Engines.Add(engine);
             return this;
         }
 

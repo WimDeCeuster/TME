@@ -50,6 +50,7 @@
     <Compile Include="TestBase.cs" />
     <Compile Include="TestBuilders\AssetBuilder.cs" />
     <Compile Include="TestBuilders\BodyTypeBuilder.cs" />
+    <Compile Include="TestBuilders\CarBuilder.cs" />
     <Compile Include="TestBuilders\EngineBuilder.cs" />
     <Compile Include="TestBuilders\EngineCategoryBuilder.cs" />
     <Compile Include="TestBuilders\EngineTypeBuilder.cs" />

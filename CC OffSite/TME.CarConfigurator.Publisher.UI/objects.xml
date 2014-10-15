@@ -3,28 +3,20 @@
   <object name="ContextFactory" type="TME.CarConfigurator.Publisher.Factories.ContextFactory, TME.CarConfigurator.Publisher"></object>
   <object name="PublisherFacadeFactory" type="TME.CarConfigurator.Publisher.Factories.PublisherFacadeFactory, TME.CarConfigurator.Publisher"></object>
   <object name="Publisher" type="TME.CarConfigurator.Publisher.Publisher, TME.CarConfigurator.Publisher">
-    <constructor-arg index="0">
-      <null />
-    </constructor-arg>
-    <constructor-arg index="1">
-      <null />
-    </constructor-arg>
-    <constructor-arg index="2">
-      <null />
-    </constructor-arg>
-    <constructor-arg index="3">
-      <null />
-    </constructor-arg>
-    <constructor-arg index="4">
-      <null />
-    </constructor-arg>
+    <constructor-arg index="0"><null /></constructor-arg>
+    <constructor-arg index="1"><null /></constructor-arg>
+    <constructor-arg index="2"><null /></constructor-arg>
+    <constructor-arg index="3"><null /></constructor-arg>
+    <constructor-arg index="4"><null /></constructor-arg>
+    <constructor-arg index="5"><null /></constructor-arg>
   </object>
-  
+
   <object name="Mapper" type="TME.CarConfigurator.Publisher.Mapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="ModelMapper" />
     <constructor-arg ref="GenerationMapper" />
     <constructor-arg ref="BodyTypeMapper" />
     <constructor-arg ref="EngineMapper" />
+    <constructor-arg ref="TransmissionMapper" />
     <constructor-arg ref="CarMapper" />
   </object>
   <object name="ModelMapper" type="TME.CarConfigurator.Publisher.Mappers.ModelMapper, TME.CarConfigurator.Publisher">
@@ -46,7 +38,9 @@
     <constructor-arg ref="EngineTypeMapper" />
     <constructor-arg ref="AssetSetMapper" />
   </object>
-  <object name="CarMapper" type="TME.CarConfigurator.Publisher.Mappers.CarMapper, TME.CarConfigurator.Publisher"></object>
+  <object name="CarMapper" type="TME.CarConfigurator.Publisher.Mappers.CarMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="LabelMapper" />
+  </object>
   <object name="LabelMapper" type="TME.CarConfigurator.Publisher.Mappers.LabelMapper, TME.CarConfigurator.Publisher"></object>
   <object name="AssetMapper" type="TME.CarConfigurator.Publisher.Mappers.AssetMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="AssetTypeMapper" />
@@ -62,16 +56,20 @@
   <object name="EngineTypeMapper" type="TME.CarConfigurator.Publisher.Mappers.EngineTypeMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="FuelTypeMapper" />
   </object>
-  <object name="AssetTypeMapper" type="TME.CarConfigurator.Publisher.Mappers.AssetTypeMapper, TME.CarConfigurator.Publisher">
-    <constructor-arg ref="AssetScopeMapper" />
-  </object>
+  <object name="AssetTypeMapper" type="TME.CarConfigurator.Publisher.Mappers.AssetTypeMapper, TME.CarConfigurator.Publisher"></object>
   <object name="FileTypeMapper" type="TME.CarConfigurator.Publisher.Mappers.FileTypeMapper, TME.CarConfigurator.Publisher"></object>
   <object name="FuelTypeMapper" type="TME.CarConfigurator.Publisher.Mappers.FuelTypeMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="LabelMapper" />
   </object>
-  <object name="AssetScopeMapper" type="TME.CarConfigurator.Publisher.Mappers.AssetScopeMapper, TME.CarConfigurator.Publisher"></object>
-
-
+  <object name="TransmissionMapper" type="TME.CarConfigurator.Publisher.Mappers.TransmissionMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="LabelMapper" />
+    <constructor-arg ref="TransmissionTypeMapper" />
+    <constructor-arg ref="AssetSetMapper" />
+  </object>
+  <object name="TransmissionTypeMapper" type="TME.CarConfigurator.Publisher.Mappers.TransmissionTypeMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="LabelMapper" />
+  </object>
+  
   <object name="CarDbModelGenerationFinder" type="TME.CarConfigurator.Publisher.CarDbModelGenerationFinder, TME.CarConfigurator.Publisher"></object>
   <object name="PublicationService" type="TME.CarConfigurator.Publisher.CarConfiguratorPublisher, TME.CarConfigurator.Publisher">
     <constructor-arg value="Development" />
@@ -97,6 +95,9 @@
   <object name="S3EnginePublisher" type="TME.CarConfigurator.S3.Publisher.EnginePublisher, TME.CarConfigurator.S3.Publisher">
     <constructor-arg ref="S3EngineService" />
   </object>
+  <object name="S3CarPublisher" type="TME.CarConfigurator.S3.Publisher.CarPublisher, TME.CarConfigurator.S3.Publisher">
+    <constructor-arg ref="S3CarService" />
+  </object>
   <object name="S3ServiceFactory" type="TME.CarConfigurator.Publisher.UI.DI.Factories.S3ServiceFactory, TME.CarConfigurator.Publisher.UI">
     <constructor-arg ref="S3Serialiser" />
     <constructor-arg ref="S3KeyManager" />
@@ -106,15 +107,15 @@
   <object name="DevelopmentLiveS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
     <constructor-arg name="environment" value="development" />
     <constructor-arg name="datasubset" value="live" />
-    <constructor-arg name="accessKey" value="-fake-" />
-    <constructor-arg name="secretKey" value="-fake-" />
+    <constructor-arg name="accessKey" value="-access-" />
+    <constructor-arg name="secretKey" value="-secret-" />
     <constructor-arg ref="AmazonS3Factory" />
   </object>
   <object name="DevelopmentPreviewS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
     <constructor-arg name="environment" value="development" />
     <constructor-arg name="datasubset" value="preview" />
-    <constructor-arg name="accessKey" value="-fake-" />
-    <constructor-arg name="secretKey" value="-fake-" />
+    <constructor-arg name="accessKey" value="-access-" />
+    <constructor-arg name="secretKey" value="-secret-" />
     <constructor-arg ref="AmazonS3Factory" />
   </object>
   <object name="S3GetModelService" type="TME.CarConfigurator.S3.QueryServices.ModelService, TME.CarConfigurator.S3.QueryServices">
@@ -146,6 +147,13 @@
     <constructor-arg ref="S3KeyManager" />
   </object>
   <object name="S3EngineService" type="TME.CarConfigurator.S3.CommandServices.EngineService, TME.CarConfigurator.S3.CommandServices">
+    <constructor-arg>
+      <null />
+    </constructor-arg>
+    <constructor-arg ref="S3Serialiser" />
+    <constructor-arg ref="S3KeyManager" />
+  </object>
+  <object name="S3CarService" type="TME.CarConfigurator.S3.CommandServices.CarService, TME.CarConfigurator.S3.CommandServices">
     <constructor-arg>
       <null />
     </constructor-arg>

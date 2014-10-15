@@ -10,15 +10,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class AssetTypeMapper : IAssetTypeMapper
     {
-        readonly IAssetScopeMapper _assetScopeMapper;
-
-        public AssetTypeMapper(IAssetScopeMapper assetScopeMapper)
-        {
-            if (assetScopeMapper == null) throw new ArgumentNullException("assetScopeMapper");
-
-            _assetScopeMapper = assetScopeMapper;
-        }
-
         public AssetType MapGenerationAssetType(Administration.Assets.AssetType assetType)
         {
             return new AssetType
@@ -28,7 +19,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 ExteriorColourCode = String.Empty,
                 Mode = assetType.Details.Mode,
                 Name = assetType.Name,
-                Scope = _assetScopeMapper.MapAssetScope(assetType.Group.Scope),
                 Side = assetType.Details.Side,
                 Type = assetType.Details.Type,
                 UpholsteryCode = String.Empty,

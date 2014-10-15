@@ -58,5 +58,12 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
 
             return (IEngineService)ContextRegistry.GetContext().GetObject("S3EngineService", new Object[] { service, _serialiser, _keyManager });
         }
+
+        public ICarService GetCarService(String environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return (ICarService)ContextRegistry.GetContext().GetObject("S3CarService", new Object[] { service, _serialiser, _keyManager });
+        }
     }
 }

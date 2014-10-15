@@ -15,5 +15,6 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Interfaces
         IPublicationPublisher GetPublicationPublisher(IPublicationService service);
         IBodyTypePublisher GetBodyTypePublisher(IBodyTypeService service);
         IEnginePublisher GetEnginePublisher(IEngineService service);
+        ICarPublisher GetCarPublisher(ICarService service);
     }
 }

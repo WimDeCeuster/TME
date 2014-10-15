@@ -15,18 +15,21 @@ namespace TME.CarConfigurator.Factories
         private readonly IPublicationFactory _publicationFactory;
         private readonly IBodyTypeFactory _bodyTypeFactory;
         private readonly IEngineFactory _engineFactory;
+        private readonly ICarFactory _carFactory;
 
-        public ModelFactory(IModelService modelService, IPublicationFactory publicationFactory, IBodyTypeFactory bodyTypeFactory, IEngineFactory engineFactory)
+        public ModelFactory(IModelService modelService, IPublicationFactory publicationFactory, IBodyTypeFactory bodyTypeFactory, IEngineFactory engineFactory, ICarFactory carFactory)
         {
             if (modelService == null) throw new ArgumentNullException("modelService");
             if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
             if (bodyTypeFactory == null) throw new ArgumentNullException("bodyTypeFactory");
-            if (engineFactory == null) throw new ArgumentNullException("engineFactory ");
+            if (engineFactory == null) throw new ArgumentNullException("engineFactory");
+            if (carFactory == null) throw new ArgumentNullException("carFactory");
 
             _modelService = modelService;
             _publicationFactory = publicationFactory;
             _bodyTypeFactory = bodyTypeFactory;
             _engineFactory = engineFactory;
+            _carFactory = carFactory;
         }
 
         public IEnumerable<IModel> GetModels(Context context)
@@ -45,7 +48,7 @@ namespace TME.CarConfigurator.Factories
 
         private IModel CreateModel(Repository.Objects.Model repositoryModel, Context context)
         {
-            return new Model(repositoryModel, context, _publicationFactory, _bodyTypeFactory, _engineFactory);
+            return new Model(repositoryModel, context, _publicationFactory, _bodyTypeFactory, _engineFactory, _carFactory);
         }
     }
 }
