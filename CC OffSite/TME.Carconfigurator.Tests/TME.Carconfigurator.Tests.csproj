@@ -84,8 +84,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\PublicationTestBase.cs" />
+    <Compile Include="Builders\CarPublisherBuilder.cs" />
+    <Compile Include="Builders\CarServiceBuilder.cs" />
     <Compile Include="Builders\ContextBuilder.cs" />
+    <Compile Include="Builders\PublisherBuilder.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingABodyTypesKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingACarsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAModelsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAnAssetsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAnEnginesKey.cs" />
@@ -95,6 +99,7 @@
     <Compile Include="GivenAPublisherService\WhenPublishingToS3ProductionLive.cs" />
     <Compile Include="GivenAS3AssetPublisher\WhenPublishingBodyTypeAssets.cs" />
     <Compile Include="GivenAS3BodyTypePublisher\WhenPublishingGenerationBodyTypes.cs" />
+    <Compile Include="GivenAS3CarPublisher\WhenPublishingGenerationCars.cs" />
     <Compile Include="GivenAS3EnginePublisher\WhenPublishingGenerationEngines.cs" />
     <Compile Include="GivenAS3LanguagePublisher\WhenPublishingALanguage.cs" />
     <Compile Include="GivenAS3PublicationPublisher\WhenPublishingAPublication.cs" />

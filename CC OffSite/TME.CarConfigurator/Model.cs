@@ -15,12 +15,14 @@ namespace TME.CarConfigurator
         private readonly IPublicationFactory _publicationFactory;
         private readonly IBodyTypeFactory _bodyTypeFactory;
         private readonly IEngineFactory _engineFactory;
+        private readonly ICarFactory _carFactory;
 
         private Repository.Objects.Publication _repositoryPublication;        
         private IEnumerable<IAsset> _assets;
         private IEnumerable<ILink> _links;
         private IEnumerable<IBodyType> _bodyTypes;
         private IEnumerable<IEngine> _engines;
+        private IEnumerable<ICar> _cars;
 
         private CarConfiguratorVersion _carConfiguratorVersion;
 
@@ -53,14 +55,15 @@ namespace TME.CarConfigurator
 
         public IEnumerable<IFuelType> FuelTypes { get { throw new NotImplementedException(); } }
 
-        public IEnumerable<ICar> Cars { get { throw new NotImplementedException(); } }
+        public IEnumerable<ICar> Cars { get { return _cars = _cars ?? _carFactory.GetCars(RepositoryPublication, _repositoryContext); } }
 
         public Model(
             Repository.Objects.Model repositoryModel,
             Repository.Objects.Context repositoryContext,
             IPublicationFactory publicationFactory,
             IBodyTypeFactory bodyTypeFactory,
-            IEngineFactory engineFactory)
+            IEngineFactory engineFactory,
+            ICarFactory carFactory)
             : base(repositoryModel)
         {
             if (repositoryModel == null) throw new ArgumentNullException("repositoryModel");
@@ -68,12 +71,14 @@ namespace TME.CarConfigurator
             if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
             if (bodyTypeFactory == null) throw new ArgumentNullException("bodyTypeFactory");
             if (engineFactory == null) throw new ArgumentNullException("engineFactory");
+            if (carFactory == null) throw new ArgumentNullException("carFactory");
 
             _repositoryModel = repositoryModel;
             _repositoryContext = repositoryContext;
             _publicationFactory = publicationFactory;
             _bodyTypeFactory = bodyTypeFactory;
             _engineFactory = engineFactory;
+            _carFactory = carFactory;
         }
     }
 }

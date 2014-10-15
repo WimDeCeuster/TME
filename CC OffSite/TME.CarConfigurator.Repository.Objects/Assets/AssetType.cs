@@ -23,7 +23,5 @@ namespace TME.CarConfigurator.Repository.Objects.Assets
         public string UpholsteryCode { get; set; }
 
         public string EquipmentCode { get; set; }
-
-        public Scope Scope { get; set; }
    }
 }

@@ -57,6 +57,8 @@
     <Compile Include="GivenABodyType\WhenAccessingIts3DAssets.cs" />
     <Compile Include="GivenAFuelType\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenAFuelType\WhenAccessingItsLabelsForTheSecondTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsCarsForTheFirstTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsCarsForTheSecondTime.cs" />
     <Compile Include="GivenAnEngineCategory\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenAnEngineCategory\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenAnEngineCategory\WhenAccessingItsAssetsForTheSecondTime.cs" />

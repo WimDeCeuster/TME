@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="AssetService.cs" />
     <Compile Include="BodyTypeService.cs" />
+    <Compile Include="CarService.cs" />
     <Compile Include="EngineService.cs" />
     <Compile Include="Exceptions\CountryLanguageCombinationDoesNotExistException.cs" />
     <Compile Include="ModelService.cs" />

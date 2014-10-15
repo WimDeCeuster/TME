@@ -86,6 +86,7 @@
     <Compile Include="Interfaces\ICarConfiguratorVersionMapper.cs" />
     <Compile Include="Interfaces\ICarDbModelGenerationFinder.cs" />
     <Compile Include="Interfaces\ICarMapper.cs" />
+    <Compile Include="Interfaces\ICarPublisher.cs" />
     <Compile Include="Interfaces\IContextFactory.cs" />
     <Compile Include="Interfaces\IEngineCategoryMapper.cs" />
     <Compile Include="Interfaces\IEngineMapper.cs" />
@@ -104,10 +105,11 @@
     <Compile Include="Interfaces\IPublisher.cs" />
     <Compile Include="Interfaces\IPublisherFacade.cs" />
     <Compile Include="Interfaces\IPublisherFacadeFactory.cs" />
+    <Compile Include="Interfaces\ITransmissionMapper.cs" />
+    <Compile Include="Interfaces\ITransmissionTypeMapper.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="CarConfiguratorPublisher.cs" />
     <Compile Include="Mappers\AssetMapper.cs" />
-    <Compile Include="Mappers\AssetScopeMapper.cs" />
     <Compile Include="Mappers\AssetSetMapper.cs" />
     <Compile Include="Mappers\AssetTypeMapper.cs" />
     <Compile Include="Mappers\BodyTypeMapper.cs" />
@@ -117,7 +119,6 @@
     <Compile Include="Mappers\EngineMapper.cs" />
     <Compile Include="Mappers\EngineTypeMapper.cs" />
     <Compile Include="Mappers\Exceptions\CorruptDataException.cs" />
-    <Compile Include="Mappers\Exceptions\UnknownAssetScopeException.cs" />
     <Compile Include="Mappers\FileTypeMapper.cs" />
     <Compile Include="Mappers\FuelTypeMapper.cs" />
     <Compile Include="Mappers\GenerationMapper.cs" />
@@ -125,6 +126,8 @@
     <Compile Include="Mappers\LinkMapper.cs" />
     <Compile Include="Mappers\MappingExtension.cs" />
     <Compile Include="Mappers\ModelMapper.cs" />
+    <Compile Include="Mappers\TransmissionMapper.cs" />
+    <Compile Include="Mappers\TransmissionTypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publisher.cs" />
   </ItemGroup>

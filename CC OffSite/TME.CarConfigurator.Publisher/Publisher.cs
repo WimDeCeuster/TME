@@ -18,13 +18,15 @@ namespace TME.CarConfigurator.Publisher
         private readonly QueryServices.IModelService _modelService;
         readonly IBodyTypePublisher _bodyTypePublisher;
         readonly IEnginePublisher _enginePublisher;
+        readonly ICarPublisher _carPublisher;
         readonly IAssetPublisher _assetPublisher;
 
         public Publisher(IPublicationPublisher publicationPublisher, 
             IModelPublisher modelPublisher, 
             QueryServices.IModelService modelService, 
-            IBodyTypePublisher bodyTypePublisher, 
+            IBodyTypePublisher bodyTypePublisher,
             IEnginePublisher enginePublisher,
+            ICarPublisher carPublisher,
             IAssetPublisher assetPublisher)
         {
             _publicationPublisher = publicationPublisher;
@@ -32,6 +34,7 @@ namespace TME.CarConfigurator.Publisher
             _modelService = modelService;
             _bodyTypePublisher = bodyTypePublisher;
             _enginePublisher = enginePublisher;
+            _carPublisher = carPublisher;
             _assetPublisher = assetPublisher;
         }
 
@@ -67,6 +70,7 @@ namespace TME.CarConfigurator.Publisher
                 _publicationPublisher.PublishPublications(context),
                 _bodyTypePublisher.PublishGenerationBodyTypes(context),
                 _enginePublisher.PublishGenerationEngines(context),
+                _carPublisher.PublishGenerationCars(context),
                 _assetPublisher.PublishAssets(context)
             };
 

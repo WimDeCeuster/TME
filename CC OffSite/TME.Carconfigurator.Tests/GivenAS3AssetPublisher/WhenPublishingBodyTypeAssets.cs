@@ -108,7 +108,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
 
         private Repeated ForEachBodyType(string language)
         {
-            return Repeated.Exactly.Times((_context.ContextData[language].GenerationBodyTypes.Count));
+            return Repeated.Exactly.Times((_context.ContextData[language].BodyTypes.Count));
         }
 
         private List<Asset> DefaultAssets(String view,String mode)

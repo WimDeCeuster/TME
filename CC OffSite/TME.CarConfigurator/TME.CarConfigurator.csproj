@@ -51,6 +51,7 @@
     <Compile Include="Configuration\ConfigurationManager.cs" />
     <Compile Include="Core\BaseObject.cs" />
     <Compile Include="Extensions\VisibleInModeAndViewExtensions.cs" />
+    <Compile Include="Factories\CarFactory.cs" />
     <Compile Include="Label.cs" />
     <Compile Include="Core\ReadOnlyList.cs" />
     <Compile Include="Engine.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="FuelType.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="Model.cs" />
+    <Compile Include="Price.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VisibleInModeAndView.cs" />
   </ItemGroup>

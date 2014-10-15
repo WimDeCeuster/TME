@@ -26,15 +26,17 @@ namespace TME.CarConfigurator.Publisher
         readonly IGenerationMapper _generationMapper;
         readonly IBodyTypeMapper _bodyTypeMapper;
         readonly IEngineMapper _engineMapper;
+        readonly ITransmissionMapper _transmissionMapper;
         readonly ICarMapper _carMapper;
         private IAssetMapper _assetMapper;
 
-        public Mapper(IModelMapper modelMapper, IGenerationMapper generationMapper, IBodyTypeMapper bodyTypeMapper, IEngineMapper engineMapper, ICarMapper carMapper,IAssetMapper assetMapper)
+        public Mapper(IModelMapper modelMapper, IGenerationMapper generationMapper, IBodyTypeMapper bodyTypeMapper, IEngineMapper engineMapper, ITransmissionMapper transmissionMapper, ICarMapper carMapper, IAssetMapper assetMapper)
         {
             if (modelMapper == null) throw new ArgumentNullException("modelMapper");
             if (generationMapper == null) throw new ArgumentNullException("generationMapper");
             if (bodyTypeMapper == null) throw new ArgumentNullException("bodyTypeMapper");
             if (engineMapper == null) throw new ArgumentNullException("engineMapper");
+            if (transmissionMapper == null) throw new ArgumentNullException("transmissionMapper");
             if (carMapper == null) throw new ArgumentNullException("carMapper");
             if (assetMapper == null) throw new ArgumentNullException("assetMapper");
 
@@ -43,6 +45,7 @@ namespace TME.CarConfigurator.Publisher
             _generationMapper = generationMapper;
             _bodyTypeMapper = bodyTypeMapper;
             _engineMapper = engineMapper;
+            _transmissionMapper = transmissionMapper;
             _carMapper = carMapper;
         }
 
@@ -68,9 +71,10 @@ namespace TME.CarConfigurator.Publisher
                 contextData.Models.Add(_modelMapper.MapModel(model));
 
                 FillBodyTypes(modelGeneration, contextData);
+                FillEngines(modelGeneration, contextData);
                 FillGenerationAssets(modelGeneration, generation,contextData, brand, country, language);
-                FillGenerationEngines(modelGeneration, contextData);
-                FillCars(modelGeneration, contextData);
+                FillTransmissions(modelGeneration, contextData);
+                FillCars(modelGeneration, contextData, isPreview);
 
                 context.TimeFrames[language] = GetTimeFrames(language, context);
             }
@@ -97,26 +101,33 @@ namespace TME.CarConfigurator.Publisher
             return assetDictionary;
         }
 
-        void FillCars(Administration.ModelGeneration modelGeneration, ContextData contextData)
+        void FillCars(Administration.ModelGeneration modelGeneration, ContextData contextData, Boolean isPreview)
         {
-            foreach (var car in modelGeneration.Cars)
+            foreach (var car in modelGeneration.Cars.Where(car => isPreview || car.Approved))
             {
-                var bodyType = contextData.GenerationBodyTypes.Single(type => type.ID == car.BodyTypeID);
-                var engine = contextData.GenerationEngines.Single(eng => eng.ID == car.EngineID);
-                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine));
+                var bodyType = contextData.BodyTypes.Single(type => type.ID == car.BodyTypeID);
+                var engine = contextData.Engines.Single(eng => eng.ID == car.EngineID);
+                var transmission = contextData.Transmissions.Single(trans => trans.ID == car.TransmissionID);
+                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission));
             }
         }
 
         void FillBodyTypes(Administration.ModelGeneration modelGeneration, ContextData contextData)
         {
             foreach (var bodyType in modelGeneration.BodyTypes)
-                contextData.GenerationBodyTypes.Add(_bodyTypeMapper.MapBodyType(bodyType));
+                contextData.BodyTypes.Add(_bodyTypeMapper.MapBodyType(bodyType));
         }
 
-        void FillGenerationEngines(Administration.ModelGeneration modelGeneration, ContextData contextData)
+        void FillEngines(Administration.ModelGeneration modelGeneration, ContextData contextData)
         {
             foreach (var engine in modelGeneration.Engines)
-                contextData.GenerationEngines.Add(_engineMapper.MapEngine(engine));
+                contextData.Engines.Add(_engineMapper.MapEngine(engine));
+        }
+
+        void FillTransmissions(Administration.ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var transmission in modelGeneration.Transmissions)
+                contextData.Transmissions.Add(_transmissionMapper.MapTransmission(transmission));
         }
 
         IReadOnlyList<TimeFrame> GetTimeFrames(String language, IContext context)
@@ -130,7 +141,8 @@ namespace TME.CarConfigurator.Publisher
 
             var timeFrames = new List<TimeFrame>();
 
-            var timeProjection = generation.Cars.SelectMany(car => new[] {
+            var timeProjection = generation.Cars.Where(car => car.Approved)
+                                                .SelectMany(car => new[] {
                                                     new { Date = car.LineOffFromDate, Open = true, Car = car },
                                                     new { Date = car.LineOffToDate, Open = false, Car = car }
                                                 })

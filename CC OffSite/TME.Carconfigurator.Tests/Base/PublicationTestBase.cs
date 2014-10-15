@@ -21,6 +21,7 @@ namespace TME.Carconfigurator.Tests.Base
         protected CarConfigurator.QueryServices.IModelService GetModelService;
         protected IBodyTypePublisher BodyTypePublisher;
         protected IEnginePublisher EnginePublisher;
+        protected ICarPublisher CarPublisher;
         protected IAssetPublisher AssetPublisher;
         protected Publisher Publisher;
         protected ISerialiser Serialiser;
@@ -39,6 +40,7 @@ namespace TME.Carconfigurator.Tests.Base
             GetModelService = A.Fake<CarConfigurator.QueryServices.IModelService>(x => x.Strict());
             BodyTypePublisher = A.Fake<IBodyTypePublisher>(x => x.Strict());
             EnginePublisher = A.Fake<IEnginePublisher>(x => x.Strict());
+            CarPublisher = A.Fake<ICarPublisher>(x => x.Strict());
             AssetPublisher = A.Fake<IAssetPublisher>(x => x.Strict());
 
             var successFullTask = Task.FromResult((Result)new Successfull());
@@ -46,7 +48,16 @@ namespace TME.Carconfigurator.Tests.Base
 
             Serialiser = A.Fake<ISerialiser>();
 
-            Publisher = new Publisher(PublicationPublisher, PutModelPublisher, GetModelService, BodyTypePublisher, EnginePublisher,AssetPublisher);
+            Publisher = new PublisherBuilder()
+                .WithPublicationPublisher(PublicationPublisher)
+                .WithModelPublisher(PutModelPublisher)
+                .WithModelService(GetModelService)
+                .WithBodyTypePublisher(BodyTypePublisher)
+                .WithEnginePublisher(EnginePublisher)
+                .WithCarPublisher(CarPublisher)
+                .WithAssetPublisher(AssetPublisher)
+                .Build();
+
             Context = ContextBuilder.GetDefaultContext(Languages);
 
             A.CallTo(() => Serialiser.Serialise((Publication)null)).WithAnyArguments().ReturnsLazily(args => args.Arguments.First().GetType().Name);
@@ -55,6 +66,7 @@ namespace TME.Carconfigurator.Tests.Base
             A.CallTo(() => PublicationPublisher.PublishPublications(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => BodyTypePublisher.PublishGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => EnginePublisher.PublishGenerationEngines(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => CarPublisher.PublishGenerationCars(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => AssetPublisher.PublishAssets(null)).WithAnyArguments().Returns(successFullTasks);
 
         }
