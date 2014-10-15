@@ -60,6 +60,7 @@
     <Compile Include="TestBuilders\LanguagesBuilder.cs" />
     <Compile Include="TestBuilders\LinkBuilder.cs" />
     <Compile Include="TestBuilders\ModelBuilder.cs" />
+    <Compile Include="TestBuilders\PriceBuilder.cs" />
     <Compile Include="TestBuilders\PublicationBuilder.cs" />
     <Compile Include="TestBuilders\PublicationInfoBuilder.cs" />
     <Compile Include="TestBuilders\PublicationTimeFrameBuilder.cs" />
