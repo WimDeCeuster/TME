@@ -5,10 +5,8 @@ using TME.CarConfigurator.Repository.Objects.Core;
 
 namespace TME.CarConfigurator.Repository.Objects
 {
-   [DataContract]
     public class EngineCategory : BaseObject
     {
-       [DataMember]
        public List<Asset> Assets { get; set; }
     }
 }

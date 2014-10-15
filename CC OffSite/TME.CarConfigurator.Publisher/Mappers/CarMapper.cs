@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Publisher.Mappers.Exceptions;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
 
@@ -22,10 +23,12 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         public Car MapCar(Administration.Car car, Repository.Objects.BodyType bodyType, Repository.Objects.Engine engine, Repository.Objects.Transmission transmission)
         {
+            if (car.ShortID == null)
+                throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.ID));
+
             var cheapestColourCombination = car.ColourCombinations.OrderBy(cc => cc.ExteriorColour.Price + cc.Upholstery.Price)
                                                                   .First();
 
-            // TODO: shortid (needs to be implemented by admin library)
             return new Car
             {
                 BasePrice = new Price
@@ -45,7 +48,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 LocalCode = car.LocalCode.DefaultIfEmpty(car.BaseCode),
                 Name = car.Translation.Name.DefaultIfEmpty(car.Name),
                 Promoted = car.Promoted,
-                ShortID = 0,
+                ShortID = car.ShortID.Value,
                 SortIndex = car.Index,
                 StartingPrice = new Price
                 {

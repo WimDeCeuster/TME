@@ -11,14 +11,14 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.Services.GivenAnEngineService
+namespace TME.CarConfigurator.Query.Tests.Services.GivenACarService
 {
-    public class WhenGetEnginesIsCalled : TestBase
+    public class WhenGetCarsIsCalled : TestBase
     {
         private Context _context;
-        private IEngineService _engineService;
-        private IEnumerable<Repository.Objects.Engine> _expectedEngines;
-        private IEnumerable<Repository.Objects.Engine> _actualEngines;
+        private ICarService _carService;
+        private IEnumerable<Repository.Objects.Car> _expectedCars;
+        private IEnumerable<Repository.Objects.Car> _actualCars;
 
         protected override void Arrange()
         {
@@ -27,37 +27,37 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAnEngineService
             const string s3Key = "fake s3 key";
             const string serializedObject = "this object is serialized";
 
-            _expectedEngines = new List<Repository.Objects.Engine>
+            _expectedCars = new List<Repository.Objects.Car>
             {
-                new EngineBuilder().Build(),
-                new EngineBuilder().Build(),
+                new CarBuilder().Build(),
+                new CarBuilder().Build(),
             };
 
             var serialiser = A.Fake<ISerialiser>();
             var service = A.Fake<IService>();
             var keyManager = A.Fake<IKeyManager>();
 
-            A.CallTo(() => keyManager.GetEnginesKey(A<Guid>._, A<Guid>._)).Returns(s3Key);
+            A.CallTo(() => keyManager.GetCarsKey(A<Guid>._, A<Guid>._)).Returns(s3Key);
             A.CallTo(() => service.GetObject(_context.Brand, _context.Country, s3Key)).Returns(serializedObject);
-            A.CallTo(() => serialiser.Deserialise<IEnumerable<Repository.Objects.Engine>>(serializedObject)).Returns(_expectedEngines);
+            A.CallTo(() => serialiser.Deserialise<IEnumerable<Repository.Objects.Car>>(serializedObject)).Returns(_expectedCars);
 
             var serviceFacade = new S3ServiceFacade()
                 .WithService(service)
                 .WithSerializer(serialiser)
                 .WithKeyManager(keyManager);
 
-            _engineService = serviceFacade.CreateEngineService();
+            _carService = serviceFacade.CreateCarService();
         }
 
         protected override void Act()
         {
-            _actualEngines = _engineService.GetEngines(Guid.NewGuid(), Guid.NewGuid(), _context);
+            _actualCars = _carService.GetCars(Guid.NewGuid(), Guid.NewGuid(), _context);
         }
 
         [Fact]
-        public void ThenItShouldReturnTheCorrectListOfEngines()
+        public void ThenItShouldReturnTheCorrectListOfCars()
         {
-            _actualEngines.Should().BeSameAs(_expectedEngines);
+            _actualCars.Should().BeSameAs(_expectedCars);
         }
     }
 }

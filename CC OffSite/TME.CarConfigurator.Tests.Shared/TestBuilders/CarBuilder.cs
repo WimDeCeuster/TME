@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
+using TME.CarConfigurator.Repository.Objects.Core;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
@@ -25,7 +26,21 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         public CarBuilder WithLabels(params Repository.Objects.Core.Label[] labels)
         {
             _car.Labels = labels.ToList();
-         
+
+            return this;
+        }
+
+        public CarBuilder WithBasePrice(Price price)
+        {
+            _car.BasePrice = price;
+
+            return this;
+        }
+
+        public CarBuilder WithStartingPrice(Price price)
+        {
+            _car.StartingPrice = price;
+
             return this;
         }
 
