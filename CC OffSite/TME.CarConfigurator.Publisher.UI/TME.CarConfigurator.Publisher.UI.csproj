@@ -97,9 +97,6 @@
     <Compile Include="DI\Interfaces\IPublisherFactory.cs" />
     <Compile Include="DI\Interfaces\IServiceFactory.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
-    <Compile Include="Views\ShellView.xaml.cs">
-      <DependentUpon>ShellView.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
