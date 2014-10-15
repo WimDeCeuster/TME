@@ -18,6 +18,9 @@
     <constructor-arg index="4">
       <null />
     </constructor-arg>
+    <constructor-arg index="5">
+      <null />
+    </constructor-arg>
   </object>
   
   <object name="Mapper" type="TME.CarConfigurator.Publisher.Mapper, TME.CarConfigurator.Publisher">
@@ -97,6 +100,9 @@
   <object name="S3EnginePublisher" type="TME.CarConfigurator.S3.Publisher.EnginePublisher, TME.CarConfigurator.S3.Publisher">
     <constructor-arg ref="S3EngineService" />
   </object>
+  <object name="S3AssetPublisher" type="TME.CarConfigurator.S3.Publisher.AssetPublisher, TME.CarConfigurator.S3.Publisher">
+    <constructor-arg ref="S3AssetService" />
+  </object>
   <object name="S3ServiceFactory" type="TME.CarConfigurator.Publisher.UI.DI.Factories.S3ServiceFactory, TME.CarConfigurator.Publisher.UI">
     <constructor-arg ref="S3Serialiser" />
     <constructor-arg ref="S3KeyManager" />
@@ -106,15 +112,15 @@
   <object name="DevelopmentLiveS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
     <constructor-arg name="environment" value="development" />
     <constructor-arg name="datasubset" value="live" />
-    <constructor-arg name="accessKey" value="-fake-" />
-    <constructor-arg name="secretKey" value="-fake-" />
+    <constructor-arg name="accessKey" value="-access-" />
+    <constructor-arg name="secretKey" value="-secret-" />
     <constructor-arg ref="AmazonS3Factory" />
   </object>
   <object name="DevelopmentPreviewS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
     <constructor-arg name="environment" value="development" />
     <constructor-arg name="datasubset" value="preview" />
-    <constructor-arg name="accessKey" value="-fake-" />
-    <constructor-arg name="secretKey" value="-fake-" />
+    <constructor-arg name="accessKey" value="-access-" />
+    <constructor-arg name="secretKey" value="-secret-" />
     <constructor-arg ref="AmazonS3Factory" />
   </object>
   <object name="S3GetModelService" type="TME.CarConfigurator.S3.QueryServices.ModelService, TME.CarConfigurator.S3.QueryServices">
@@ -139,6 +145,13 @@
     <constructor-arg ref="S3KeyManager" />
   </object>
   <object name="S3BodyTypeService" type="TME.CarConfigurator.S3.CommandServices.BodyTypeService, TME.CarConfigurator.S3.CommandServices">
+    <constructor-arg>
+      <null />
+    </constructor-arg>
+    <constructor-arg ref="S3Serialiser" />
+    <constructor-arg ref="S3KeyManager" />
+  </object>
+  <object name="S3AssetService" type="TME.CarConfigurator.S3.CommandServices.AssetsService, TME.CarConfigurator.S3.CommandServices">
     <constructor-arg>
       <null />
     </constructor-arg>

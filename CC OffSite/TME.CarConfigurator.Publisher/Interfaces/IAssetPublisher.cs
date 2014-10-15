@@ -5,8 +5,8 @@ using TME.CarConfigurator.S3.Shared.Result;
 
 namespace TME.CarConfigurator.Publisher.Interfaces
 {
-    public interface IPublicationPublisher
+    public interface IAssetPublisher
     {
-        Task<IEnumerable<Result>> PublishPublications(IContext context);
+        Task<IEnumerable<Result>> PublishAssets(IContext context);
     }
 }

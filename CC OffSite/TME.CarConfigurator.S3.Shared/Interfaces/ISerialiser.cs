@@ -13,5 +13,6 @@ namespace TME.CarConfigurator.S3.Shared.Interfaces
         String Serialise(IEnumerable<BodyType> bodyType);
         String Serialise(IEnumerable<Engine> engines);
         String Serialise(IEnumerable<Asset> assets);
+        String Serialise(Dictionary<Guid, IList<Asset>> assetPerObject);
     }
 }
