@@ -9,6 +9,8 @@ namespace TME.CarConfigurator.Interfaces
     {
         int NumberOfDoors { get; }
         int NumberOfSeats { get; }
+        
+        IEnumerable<IVisibleInModeAndView> VisibleIn { get; }
 
         [Obsolete] bool VisibleInExteriorSpin { get; }
         [Obsolete] bool VisibleInInteriorSpin { get; }

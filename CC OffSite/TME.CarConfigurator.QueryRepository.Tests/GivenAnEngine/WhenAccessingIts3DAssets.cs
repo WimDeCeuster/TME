@@ -39,7 +39,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnEngine
 
             var repoEngine = new EngineBuilder()
                 .WithId(Guid.NewGuid())
-                .WithVisibleIn(_mode, _view)
+                .AddVisibleIn(_mode, _view)
                 .Build();
 
             var publicationTimeFrame = new PublicationTimeFrameBuilder()

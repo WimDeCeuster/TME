@@ -4,7 +4,6 @@ using System.Linq;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
-using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Extensions;
 
@@ -16,13 +15,13 @@ namespace TME.CarConfigurator
         private readonly Repository.Objects.Publication _repositoryPublication;
         private readonly Repository.Objects.Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
-        
+
         private IEngineCategory _category;
         private IEngineType _type;
 
         private IEnumerable<IVisibleInModeAndView> _visibleInModeAndViews;
         private IEnumerable<IAsset> _assets;
-        
+
         public Engine(Repository.Objects.Engine repositoryEngine, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory)
             : base(repositoryEngine)
         {
@@ -46,13 +45,11 @@ namespace TME.CarConfigurator
         {
             get
             {
-                return
-                    _visibleInModeAndViews =_visibleInModeAndViews ??_repositoryEngine.VisibleIn.Select(x =>new VisibleInModeAndView(_repositoryEngine.ID, x, _repositoryPublication,_repositoryContext, _assetFactory));
-
+                return _visibleInModeAndViews = _visibleInModeAndViews ?? _repositoryEngine.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(_repositoryEngine.ID, visibleInModeAndView, _repositoryPublication, _repositoryContext, _assetFactory)).ToList();
             }
         }
-        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
 
+        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
 
         [Obsolete("Use the new VisibleIn property instead")]
         public bool VisibleInExteriorSpin { get { return VisibleIn.VisibleInExteriorSpin(); } }

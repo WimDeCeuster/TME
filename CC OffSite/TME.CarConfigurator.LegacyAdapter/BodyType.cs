@@ -36,6 +36,8 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return Adaptee.NumberOfSeats; }
         }
 
+        public IEnumerable<IVisibleInModeAndView> VisibleIn { get{throw new NotImplementedException();} }
+
         public bool VisibleInExteriorSpin
         {
             get { return Adaptee.VisibleInExteriorSpin; }

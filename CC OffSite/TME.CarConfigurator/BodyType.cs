@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Core;
+using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Factories;
@@ -17,6 +18,7 @@ namespace TME.CarConfigurator
         private readonly IAssetFactory _assetFactory;
         private IEnumerable<IAsset> _assets;
         private readonly Dictionary<string, IEnumerable<IAsset>> _modeAndViewAssets = new Dictionary<string, IEnumerable<IAsset>>();
+        private IEnumerable<IVisibleInModeAndView> _visibleInModeAndViews;
 
         public BodyType(Repository.Objects.BodyType repositoryBodyType, Repository.Objects.Publication publication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory)
             : base(repositoryBodyType)
@@ -34,11 +36,17 @@ namespace TME.CarConfigurator
 
         public int NumberOfDoors { get { return _repositoryBodyType.NumberOfDoors; } }
         public int NumberOfSeats { get { return _repositoryBodyType.NumberOfSeats; } }
-        public bool VisibleInExteriorSpin { get { return _repositoryBodyType.VisibleInExteriorSpin; } }
-        public bool VisibleInInteriorSpin { get { return _repositoryBodyType.VisibleInInteriorSpin; } }
-        public bool VisibleInXRay4X4Spin { get { return _repositoryBodyType.VisibleInXRay4X4Spin; } }
-        public bool VisibleInXRayHybridSpin { get { return _repositoryBodyType.VisibleInXRayHybridSpin; } }
-        public bool VisibleInXRaySafetySpin { get { return _repositoryBodyType.VisibleInXRaySafetySpin; } }
+
+        public IEnumerable<IVisibleInModeAndView> VisibleIn
+        {
+            get
+            {
+                return
+                    _visibleInModeAndViews = _visibleInModeAndViews ?? _repositoryBodyType.VisibleIn.Select(x => new VisibleInModeAndView(_repositoryBodyType.ID, x, _repositoryPublication, _repositoryContext, _assetFactory));
+
+            }
+        }
+
         public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
         public IEnumerable<IAsset> GetAssets(string view, string mode)
         {
@@ -53,5 +61,16 @@ namespace TME.CarConfigurator
 
             return assets;
         }
+
+        [Obsolete("Use the new VisibleIn property instead")]
+        public bool VisibleInExteriorSpin { get { return VisibleIn.VisibleInExteriorSpin(); } }
+        [Obsolete("Use the new VisibleIn property instead")]
+        public bool VisibleInInteriorSpin { get { return VisibleIn.VisibleInInteriorSpin(); } }
+        [Obsolete("Use the new VisibleIn property instead")]
+        public bool VisibleInXRay4X4Spin { get { return VisibleIn.VisibleInXRay4X4Spin(); } }
+        [Obsolete("Use the new VisibleIn property instead")]
+        public bool VisibleInXRayHybridSpin { get { return VisibleIn.VisibleInXRayHybridSpin(); } }
+        [Obsolete("Use the new VisibleIn property instead")]
+        public bool VisibleInXRaySafetySpin { get { return VisibleIn.VisibleInXRaySafetySpin(); } }
     }
 }
