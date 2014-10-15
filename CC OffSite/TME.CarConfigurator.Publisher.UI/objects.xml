@@ -29,6 +29,7 @@
     <constructor-arg ref="BodyTypeMapper" />
     <constructor-arg ref="EngineMapper" />
     <constructor-arg ref="CarMapper" />
+    <constructor-arg ref="AssetMapper"/>
   </object>
   <object name="ModelMapper" type="TME.CarConfigurator.Publisher.Mappers.ModelMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="LabelMapper" />
@@ -112,15 +113,15 @@
   <object name="DevelopmentLiveS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
     <constructor-arg name="environment" value="development" />
     <constructor-arg name="datasubset" value="live" />
-    <constructor-arg name="accessKey" value="-access-" />
-    <constructor-arg name="secretKey" value="-secret-" />
+    <constructor-arg name="accessKey" value="-" />
+    <constructor-arg name="secretKey" value="-" />
     <constructor-arg ref="AmazonS3Factory" />
   </object>
   <object name="DevelopmentPreviewS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
     <constructor-arg name="environment" value="development" />
     <constructor-arg name="datasubset" value="preview" />
-    <constructor-arg name="accessKey" value="-access-" />
-    <constructor-arg name="secretKey" value="-secret-" />
+    <constructor-arg name="accessKey" value="-" />
+    <constructor-arg name="secretKey" value="-" />
     <constructor-arg ref="AmazonS3Factory" />
   </object>
   <object name="S3GetModelService" type="TME.CarConfigurator.S3.QueryServices.ModelService, TME.CarConfigurator.S3.QueryServices">

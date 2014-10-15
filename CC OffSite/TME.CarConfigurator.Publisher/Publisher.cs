@@ -27,13 +27,6 @@ namespace TME.CarConfigurator.Publisher
             IEnginePublisher enginePublisher,
             IAssetPublisher assetPublisher)
         {
-            if (publicationPublisher == null) throw new ArgumentNullException("publicationPublisher");
-            if (modelPublisher == null) throw new ArgumentNullException("modelPublisher");
-            if (modelService == null) throw new ArgumentNullException("modelService");
-            if (bodyTypePublisher == null) throw new ArgumentNullException("bodyTypePublisher");
-            if (enginePublisher == null) throw new ArgumentNullException("enginePublisher");
-            if (assetPublisher == null) throw new ArgumentNullException("assetPublisher");
-
             _publicationPublisher = publicationPublisher;
             _modelPublisher = modelPublisher;
             _modelService = modelService;
