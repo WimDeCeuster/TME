@@ -71,5 +71,15 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get { return new Transmission(Adaptee.Transmission); }
         }
+
+        public IWheelDrive WheelDrive
+        {
+            get { return new WheelDrive(Adaptee.WheelDrive); }
+        }
+
+        public ISteering Steering
+        {
+            get { return new Steering(Adaptee.Steering); }
+        }
     }
 }

@@ -52,6 +52,7 @@
     <Compile Include="Assets\FileType.cs" />
     <Compile Include="Assets\VisibleInModeAndView.cs" />
     <Compile Include="Context.cs" />
+    <Compile Include="Steering.cs" />
     <Compile Include="TransmissionType.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="Core\Label.cs" />

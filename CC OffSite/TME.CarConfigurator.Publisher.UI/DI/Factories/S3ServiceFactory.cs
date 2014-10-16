@@ -74,6 +74,13 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
             return new WheelDriveService(service, _serialiser, _keyManager);
         }
 
+        public ISteeringService GetSteeringService(String environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return new SteeringService(service, _serialiser, _keyManager);
+        }
+
         public ICarService GetCarService(String environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);

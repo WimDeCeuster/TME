@@ -17,6 +17,7 @@ namespace TME.CarConfigurator
         private readonly IEngineFactory _engineFactory;
         private readonly ITransmissionFactory _transmissionFactory;
         private readonly IWheelDriveFactory _wheelDriveFactory;
+        private readonly ISteeringFactory _steeringFactory;
         private readonly ICarFactory _carFactory;
 
         private Repository.Objects.Publication _repositoryPublication;        
@@ -26,6 +27,7 @@ namespace TME.CarConfigurator
         private IEnumerable<IEngine> _engines;
         private IEnumerable<ITransmission> _transmissions;
         private IEnumerable<IWheelDrive> _wheelDrives;
+        private IEnumerable<ISteering> _steerings;
         private IEnumerable<ICar> _cars;
 
         private CarConfiguratorVersion _carConfiguratorVersion;
@@ -59,6 +61,8 @@ namespace TME.CarConfigurator
 
         public IEnumerable<IWheelDrive> WheelDrives { get { return _wheelDrives = _wheelDrives ?? _wheelDriveFactory.GetWheelDrives(RepositoryPublication, _repositoryContext); } }
 
+        public IEnumerable<ISteering> Steerings { get { return _steerings = _steerings ?? _steeringFactory.GetSteerings(RepositoryPublication, _repositoryContext); } }
+
         public IEnumerable<IFuelType> FuelTypes { get { throw new NotImplementedException(); } }
 
         public IEnumerable<ICar> Cars { get { return _cars = _cars ?? _carFactory.GetCars(RepositoryPublication, _repositoryContext); } }
@@ -71,6 +75,7 @@ namespace TME.CarConfigurator
             IEngineFactory engineFactory,
             ITransmissionFactory transmissionFactory,
             IWheelDriveFactory wheelDriveFactory,
+            ISteeringFactory steeringFactory,
             ICarFactory carFactory)
             : base(repositoryModel)
         {
@@ -81,6 +86,7 @@ namespace TME.CarConfigurator
             if (engineFactory == null) throw new ArgumentNullException("engineFactory");
             if (transmissionFactory == null) throw new ArgumentNullException("transmissionFactory");
             if (wheelDriveFactory == null) throw new ArgumentNullException("wheelDriveFactory");
+            if (steeringFactory == null) throw new ArgumentNullException("steeringFactory");
             if (carFactory == null) throw new ArgumentNullException("carFactory");
 
             _repositoryModel = repositoryModel;
@@ -90,6 +96,7 @@ namespace TME.CarConfigurator
             _engineFactory = engineFactory;
             _transmissionFactory = transmissionFactory;
             _wheelDriveFactory = wheelDriveFactory;
+            _steeringFactory = steeringFactory;
             _carFactory = carFactory;
         }
     }

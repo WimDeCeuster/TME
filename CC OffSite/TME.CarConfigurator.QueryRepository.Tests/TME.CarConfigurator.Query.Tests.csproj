@@ -63,8 +63,10 @@
     <Compile Include="GivenAFuelType\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarsForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarsForTheSecondTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsSteeringsForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsWheelDrivesForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsTransmissionsForTheFirstTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsSteeringsForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsWheelDrivesForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsTransmissionsForTheSecondTime.cs" />
     <Compile Include="GivenAnEngineCategory\WhenAccessingItsAssetsForTheFirstTime.cs" />
@@ -103,6 +105,8 @@
     <Compile Include="GivenATransmission\WhenAccessingItsTransmissionTypeForTheSecondTime.cs" />
     <Compile Include="GivenATransmission\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenATransmission\WhenAccessingItsLabelsForTheSecondTime.cs" />
+    <Compile Include="GivenASteering\WhenAccessingItsLabelsForTheFirstTime.cs" />
+    <Compile Include="GivenASteering\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenAWheelDrive\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenAWheelDrive\WhenAccessingIts3DAssets.cs" />
     <Compile Include="GivenAWheelDrive\WhenAccessingIts3DAssetsASecondTime.cs" />
@@ -117,6 +121,8 @@
     <Compile Include="Services\GivenAModelService\WhenGeGetModelsByLanguageIsCalled.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledFor2DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledFor3DAssets.cs" />
+    <Compile Include="Services\GivenASteeringService\WhenGetSteeringsIsCalled.cs" />
+    <Compile Include="Services\GivenAWheelDriveService\WhenGetWheelDrivesIsCalled.cs" />
     <Compile Include="Services\GivenATransmissionService\WhenGetTransmissionsIsCalled.cs" />
     <Compile Include="Services\GivenAnEngineService\WhenGetEnginesIsCalled.cs" />
     <Compile Include="Services\GivenAPublicationService\WhenGetPublicationIsCalled.cs" />
@@ -127,6 +133,7 @@
     <Compile Include="TestBuilders\ConfigurationManagerBuilder.cs" />
     <Compile Include="TestBuilders\ContextBuilder.cs" />
     <Compile Include="TestBuilders\EngineCategoryBuilder.cs" />
+    <Compile Include="TestBuilders\SteeringFactoryBuilder.cs" />
     <Compile Include="TestBuilders\WheelDriveFactoryBuilder.cs" />
     <Compile Include="TestBuilders\TransmissionFactoryBuilder.cs" />
     <Compile Include="TestBuilders\EngineFactoryBuilder.cs" />

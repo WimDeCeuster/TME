@@ -143,6 +143,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ModelWheelDriveAssetsController.cs" />
     <Compile Include="Controllers\ModelTransmissionAssetsController.cs" />
+    <Compile Include="Controllers\ModelSteeringsController.cs" />
     <Compile Include="Controllers\ModelWheelDrivesController.cs" />
     <Compile Include="Controllers\ModelTransmissionsController.cs" />
     <Compile Include="Controllers\ModelEngineCategoryAssetsController.cs" />
@@ -267,6 +268,8 @@
     <Content Include="Views\ModelTransmissions\Index.cshtml" />
     <Content Include="Views\ModelWheelDrives\details.cshtml" />
     <Content Include="Views\ModelWheelDrives\Index.cshtml" />
+    <Content Include="Views\ModelSteerings\details.cshtml" />
+    <Content Include="Views\ModelSteerings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

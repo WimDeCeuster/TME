@@ -28,5 +28,7 @@ namespace TME.CarConfigurator
         public IBodyType BodyType { get { throw new NotImplementedException(); } }
         public IEngine Engine { get { throw new NotImplementedException(); } }
         public ITransmission Transmission { get { throw new NotImplementedException(); } }
+        public IWheelDrive WheelDrive { get { throw new NotImplementedException(); } }
+        public ISteering Steering { get { throw new NotImplementedException(); } }
     }
 }
