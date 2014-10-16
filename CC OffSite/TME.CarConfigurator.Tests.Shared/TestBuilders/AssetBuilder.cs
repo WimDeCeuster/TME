@@ -1,14 +1,15 @@
 ﻿using System;
+using TME.CarConfigurator.Repository.Objects.Assets;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
     public class AssetBuilder
     {
-        private readonly Repository.Objects.Assets.Asset _asset;
+        private readonly Asset _asset;
 
         public AssetBuilder()
         {
-            _asset = new Repository.Objects.Assets.Asset();
+            _asset = new Asset();
         }
 
         public AssetBuilder WithId(Guid id)
@@ -18,7 +19,13 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
-        public Repository.Objects.Assets.Asset Build()
+        public AssetBuilder WithAssetType(AssetType assetType)
+        {
+            _asset.AssetType = assetType;
+            return this;
+        }
+
+        public Asset Build()
         {
             return _asset;
         }
