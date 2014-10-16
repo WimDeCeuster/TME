@@ -11,11 +11,11 @@ namespace TME.CarConfigurator.DI
         private IModelService _modelService;
         private IPublicationFactory _publicationFactory;
         private IBodyTypeFactory _bodyTypeFactory;
-<<<<<<< HEAD
         private IAssetFactory _assetFactory;
-=======
         private IEngineFactory _engineFactory;
->>>>>>> 8994df8432cef824874965085ed5ca1dd94ed299
+        private ITransmissionFactory _transmissionFactory;
+        private IWheelDriveFactory _wheelDriveFactory;
+        private ICarFactory _carFactory;
 
         public IModelFactoryFacade WithServiceFacade(IServiceFacade serviceFacade)
         {
@@ -45,11 +45,32 @@ namespace TME.CarConfigurator.DI
             return this;
         }
 
+        public IModelFactoryFacade WithTransmissionFactory(ITransmissionFactory transmissionFactory)
+        {
+            _transmissionFactory = transmissionFactory;
+
+            return this;
+        }
+
+        public IModelFactoryFacade WithWheelDriveFactory(IWheelDriveFactory wheelDriveFactory)
+        {
+            _wheelDriveFactory = wheelDriveFactory;
+
+            return this;
+        }
+
+        public IModelFactoryFacade WithCarFactory(ICarFactory carFactory)
+        {
+            _carFactory = carFactory;
+
+            return this;
+        }
+
         public IModelFactory Create()
         {
             UseDefaultsWhenNoImplementationProvided();
 
-            return new ModelFactory(_modelService, _publicationFactory, _bodyTypeFactory, _engineFactory);
+            return new ModelFactory(_modelService, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _carFactory);
         }
 
         private void UseDefaultsWhenNoImplementationProvided()
@@ -59,13 +80,16 @@ namespace TME.CarConfigurator.DI
             _modelService = _modelService ?? _serviceFacade.CreateModelService();
 
             _publicationFactory = _publicationFactory ?? new PublicationFactory(_serviceFacade.CreatePublicationService());
-<<<<<<< HEAD
             _assetFactory = _assetFactory ?? new AssetFactory(_serviceFacade.CreateAssetService());
             _bodyTypeFactory = _bodyTypeFactory ?? new BodyTypeFactory(_serviceFacade.CreateBodyTypeService(), _assetFactory);
+            _engineFactory = _engineFactory ?? new EngineFactory(_serviceFacade.CreateEngineService(), _assetFactory);
+<<<<<<< Updated upstream
+            _transmissionFactory = _transmissionFactory ?? new TransmissionFactory(_serviceFacade.CreateTransmissionService());
+            _wheelDriveFactory = _wheelDriveFactory ?? new WheelDriveFactory(_serviceFacade.CreateWheelDriveService());
 =======
-            _bodyTypeFactory = _bodyTypeFactory ?? new BodyTypeFactory(_serviceFacade.CreateBodyTypeService());
-            _engineFactory = _engineFactory ?? new EngineFactory(_serviceFacade.CreateEngineService());
->>>>>>> 8994df8432cef824874965085ed5ca1dd94ed299
+            _transmissionFactory = _transmissionFactory ?? new TransmissionFactory(_serviceFacade.CreateTransmissionService(),_assetFactory);
+>>>>>>> Stashed changes
+            _carFactory = _carFactory ?? new CarFactory(_serviceFacade.CreateCarService());
         }
     }
 }

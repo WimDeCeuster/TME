@@ -106,10 +106,20 @@ namespace TME.CarConfigurator.Publisher
             contextData.Assets = 
                 GetBodyTypeAssets(modelGeneration)
                 .Concat(GetEngineAssets(modelGeneration))
+                .Concat(GetTransmissionAssets(modelGeneration))
                 .Concat(GetWheelDriveAssets(modelGeneration))
                 .ToDictionary(
                     entry => entry.Key,
                     entry => entry.Value);
+        }
+
+        private Dictionary<Guid,List<Asset>> GetTransmissionAssets(ModelGeneration modelGeneration)
+        {
+            return modelGeneration.Transmissions.ToDictionary(
+                transmission => transmission.ID,
+                transmission => 
+                    transmission.AssetSet.Assets.GetGenerationAssets()
+                        .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
         private Dictionary<Guid,List<Asset>> GetBodyTypeAssets(ModelGeneration modelGeneration)

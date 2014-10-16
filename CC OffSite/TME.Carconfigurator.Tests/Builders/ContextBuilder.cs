@@ -131,9 +131,9 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
-        public ContextBuilder WithAssets(String language, List<Asset> assets, Guid bodyTypeID)
+        public ContextBuilder WithAssets(String language, List<Asset> assets, Guid objectID)
         {
-                _context.ContextData[language].Assets.Add(bodyTypeID,assets);    
+                _context.ContextData[language].Assets.Add(objectID,assets);    
             return this;
         }
 
