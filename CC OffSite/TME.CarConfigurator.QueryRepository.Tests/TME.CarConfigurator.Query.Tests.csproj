@@ -95,6 +95,8 @@
     <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />
+    <Compile Include="GivenATransmissionType\WhenAccessingItsLabelsForTheFirstTime.cs" />
+    <Compile Include="GivenATransmissionType\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenATransmission\WhenAccessingItsTransmissionTypeForTheFirstTime.cs" />
     <Compile Include="GivenATransmission\WhenAccessingItsTransmissionTypeForTheSecondTime.cs" />
     <Compile Include="GivenATransmission\WhenAccessingItsLabelsForTheFirstTime.cs" />
