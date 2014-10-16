@@ -61,7 +61,7 @@ namespace TME.CarConfigurator.Publisher
                 var model = entry.Value.Item2;
                 var language = entry.Key;
 
-                Administration.MyContext.SetSystemContext(brand, country, language);
+                MyContext.SetSystemContext(brand, country, language);
 
                 context.ModelGenerations[language] = modelGeneration;
                 context.ContextData[language] = contextData;
@@ -75,7 +75,9 @@ namespace TME.CarConfigurator.Publisher
                 FillEngines(modelGeneration, contextData);
                 FillObjectAssets(modelGeneration,contextData);
                 FillTransmissions(modelGeneration, contextData);
-                FillCars(modelGeneration, contextData, isPreview);
+
+                var cars = modelGeneration.Cars.Where(car => isPreview || car.Approved).ToList();
+                FillCars(cars, contextData);
 
                 context.TimeFrames[language] = GetTimeFrames(language, context);
             }
@@ -110,9 +112,9 @@ namespace TME.CarConfigurator.Publisher
                                          .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        void FillCars(ModelGeneration modelGeneration, ContextData contextData, Boolean isPreview)
+        void FillCars(IEnumerable<Administration.Car> cars, ContextData contextData)
         {
-            foreach (var car in modelGeneration.Cars.Where(car => isPreview || car.Approved))
+            foreach (var car in cars)
             {
                 var bodyType = contextData.BodyTypes.Single(type => type.ID == car.BodyTypeID);
                 var engine = contextData.Engines.Single(eng => eng.ID == car.EngineID);
@@ -161,9 +163,9 @@ namespace TME.CarConfigurator.Publisher
 
             var openCars = new List<DBCar>();
             DateTime? openDate = null;
-            DateTime closeDate;
             foreach (var point in timeProjection)
             {
+                DateTime closeDate;
                 if (point.Open)
                 {
                     if (openDate != null)

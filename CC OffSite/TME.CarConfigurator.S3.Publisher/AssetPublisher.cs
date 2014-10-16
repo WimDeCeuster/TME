@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,7 +28,7 @@ namespace TME.CarConfigurator.S3.Publisher
                 tasks.Add(PublishAssets(context.Brand, context.Country, publicationID, context.ContextData[languageCode].Assets));
             }
             var result = await Task.WhenAll(tasks);
-            return result.SelectMany(xs => xs);
+            return result.SelectMany(xs => xs.ToList());
         }
 
         private async Task<IEnumerable<Result>> PublishAssets(String brand, String country, Guid publicationID, Dictionary<Guid, List<Asset>> assetsPerObjectID)
@@ -40,7 +39,7 @@ namespace TME.CarConfigurator.S3.Publisher
                tasks.Add(PublishAssets(brand, country, publicationID, objectID, assetsPerObjectID[objectID]));
             }
             var result = await Task.WhenAll(tasks);
-            return result.SelectMany(xs => xs);
+            return result.SelectMany(xs => xs.ToList());
         }
 
         private async Task<IEnumerable<Result>> PublishAssets(String brand, String country, Guid publicationID, Guid objectID, IList<Asset> assets)
