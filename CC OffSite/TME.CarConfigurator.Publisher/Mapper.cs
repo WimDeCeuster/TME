@@ -48,7 +48,8 @@ namespace TME.CarConfigurator.Publisher
             var data = generationFinder.GetModelGeneration(brand, country, generationID);
             var isPreview = context.DataSubset == PublicationDataSubset.Preview;
 
-            foreach (var entry in data) {
+            foreach (var entry in data)
+            {
                 var contextData = new ContextData();
                 var modelGeneration = entry.Value.Item1;
                 var model = entry.Value.Item2;
@@ -66,12 +67,12 @@ namespace TME.CarConfigurator.Publisher
 
                 FillBodyTypes(modelGeneration, contextData);
                 FillEngines(modelGeneration, contextData);
-                FillAssets(modelGeneration,contextData);
+                FillAssets(modelGeneration, contextData);
                 FillTransmissions(modelGeneration, contextData);
 
                 var cars = modelGeneration.Cars.Where(car => isPreview || car.Approved).ToList();
                 FillCars(cars, contextData);
-                FillCarAssets(cars, contextData);
+                FillCarAssets(cars, contextData, modelGeneration);
 
                 context.TimeFrames[language] = GetTimeFrames(language, context);
             }
@@ -79,34 +80,96 @@ namespace TME.CarConfigurator.Publisher
             return context;
         }
 
-        private void FillCarAssets(IEnumerable<Administration.Car> cars, ContextData contextData)
+        private void FillCarAssets(IEnumerable<Administration.Car> cars, ContextData contextData, ModelGeneration modelGeneration)
         {
             foreach (var car in cars)
             {
-                FillCarBodyTypeAssets(car, contextData.CarAssets[car.ID].ToList());
+                FillCarBodyTypeAssets(car, contextData.CarAssets[car.ID].ToList(), modelGeneration);
             }
         }
 
-        private static void FillCarBodyTypeAssets(Administration.Car car, List<Asset> carAssets)
+        private void FillCarBodyTypeAssets(Administration.Car car, List<Asset> carAssets, ModelGeneration modelgeneration)
         {
             var bodyTypeAssets = car.Generation.BodyTypes[car.BodyTypeID].AssetSet.Assets;
 
             var carBodyTypeAssets = FilterAssets(bodyTypeAssets, car);
 
-            carAssets.AddRange(carBodyTypeAssets);
+            var mappedAssets = carBodyTypeAssets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelgeneration));
+
+            carAssets.AddRange(mappedAssets);
         }
 
-        private static IEnumerable<Asset> FilterAssets(AssetSetAssets allAssets, Administration.Car car)
+        private static IEnumerable<AssetSetAsset> FilterAssets(IList<AssetSetAsset> assets, Administration.Car car)
         {
-            var carAssets = new List<Asset>();
+            var carAssets = new List<AssetSetAsset>();
+            var possibleCarAssets = new Dictionary<string, IList<AssetSetAsset>>();
 
+            foreach (var asset in assets)
+            {
+                if (!IsAssetOfCar(car, asset) || ThereIsAnotherAssetThatFitsEquallyWellButItAlsoFitsOnTheGradeOfTheCar(car, asset, assets)) continue;
 
+                if (asset.AlwaysInclude)
+                {
+                    carAssets.Add(asset);
+                    continue;
+                }
+
+                TryAddAssetToPossibleCarAssets(asset, possibleCarAssets);
+            }
+
+            AddPossibleCarAssetsThatAreBetterMatches(carAssets, possibleCarAssets);
 
             return carAssets;
         }
 
-        private void FillAssets(ModelGeneration modelGeneration,ContextData contextData){
-            contextData.Assets = 
+        private static bool IsAssetOfCar(Administration.Car car, AssetSetAsset asset)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static bool ThereIsAnotherAssetThatFitsEquallyWellButItAlsoFitsOnTheGradeOfTheCar(Administration.Car car, AssetSetAsset asset, IEnumerable<AssetSetAsset> assets)
+        {
+            if (asset.Grade.ID == car.GradeID) return false; // There is no asset that is the same with a better grade than the car, because this asset already has the same grade. There can (potentially/theoretically) be other assets with the exact same deviation properties, but those shouldn't stop this one from being added. 
+
+            return assets.Any(otherAsset => IsAssetOfCar(car, otherAsset)
+                && otherAsset.AssetType.Equals(asset.AssetType)
+                && asset.BodyType.IsEmpty() || otherAsset.BodyType.Equals(asset.BodyType) // Only check if bodytype is the same if the current asset has a bodytype, otherwise it can be ignored
+                && otherAsset.Engine.Equals(asset.Engine)
+                && otherAsset.Transmission.Equals(asset.Transmission)
+                && otherAsset.WheelDrive.Equals(asset.WheelDrive)
+                && otherAsset.Steering.Equals(asset.Steering)
+                && otherAsset.ExteriorColour.Equals(asset.ExteriorColour)
+                && otherAsset.Upholstery.Equals(asset.Upholstery)
+                && otherAsset.EquipmentItem.Equals(asset.EquipmentItem)
+                && otherAsset.Grade.Equals(car.Grade) // if it has all other properties the same, and in addition has the same grade as the car, it is the asset we are looking for
+                );
+        }
+
+        private static void TryAddAssetToPossibleCarAssets(AssetSetAsset asset, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void AddPossibleCarAssetsThatAreBetterMatches(List<AssetSetAsset> carAssets, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
+        {
+            RemovePossibleCarAssetsWhenThereIsABetterAssetInTheCarAssetsList(carAssets, possibleCarAssets);
+
+            AddRemainingPossibleCarAssets(carAssets, possibleCarAssets);
+        }
+
+        private static void RemovePossibleCarAssetsWhenThereIsABetterAssetInTheCarAssetsList(List<AssetSetAsset> carAssets, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void AddRemainingPossibleCarAssets(List<AssetSetAsset> carAssets, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void FillAssets(ModelGeneration modelGeneration, ContextData contextData)
+        {
+            contextData.Assets =
                 FillBodyTypeAssets(modelGeneration)
                 .Concat(FillEngineAssets(modelGeneration))
                 .ToDictionary(
@@ -114,7 +177,7 @@ namespace TME.CarConfigurator.Publisher
                     entry => entry.Value);
         }
 
-        private Dictionary<Guid,List<Asset>> FillBodyTypeAssets(ModelGeneration modelGeneration)
+        private Dictionary<Guid, List<Asset>> FillBodyTypeAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.BodyTypes.ToDictionary(
                 bodytype => bodytype.ID,
@@ -190,7 +253,7 @@ namespace TME.CarConfigurator.Publisher
                 if (point.Open)
                 {
                     if (openDate != null)
-                    { 
+                    {
                         closeDate = point.Date;
                         if (openDate != closeDate)
                             timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(MapCar).ToList())));
