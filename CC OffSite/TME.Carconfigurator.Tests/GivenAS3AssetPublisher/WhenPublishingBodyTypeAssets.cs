@@ -95,7 +95,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
         {
             foreach (var language in _languages)
             {
-                A.CallTo(() => _s3Service.PutObjectAsync(Brand, Country, A<String>._, A<String>._)).MustHaveHappened(ForEachBodyType(language));
+                A.CallTo(() => _s3Service.PutObjectAsync(Brand, Country, BODYTYPE_ASSETKEY, SERIALIZEDASSETS)).MustHaveHappened(Repeated.Exactly.Once);
+                A.CallTo(() => _s3Service.PutObjectAsync(Brand, Country, BODYTYPE_DEFAULT_ASSETKEY, SERIALIZEDASSETS)).MustHaveHappened(Repeated.Exactly.Once);
             }
         }
 
@@ -103,9 +104,16 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
         public void ThenDefaultAssetsShouldBePutInTheDefaultFolder()
         {
             A.CallTo(() => _s3Service.PutObjectAsync(Brand,Country,null,SERIALIZEDASSETS))
-                .WhenArgumentsMatch(args => args[2].Equals(BODYTYPE_DEFAULT_ASSETKEY)).MustHaveHappened();
+                .WhenArgumentsMatch(args => args[2].Equals(BODYTYPE_DEFAULT_ASSETKEY)).MustHaveHappened(Repeated.Exactly.Once);
         }
-
+        
+        [Fact]
+        public void ThenViewModeAssetsShouldBePutInTheViewModeFolder()
+        {
+            A.CallTo(() => _s3Service.PutObjectAsync(Brand,Country,null,SERIALIZEDASSETS))
+                .WhenArgumentsMatch(args => args[2].Equals(BODYTYPE_ASSETKEY)).MustHaveHappened(Repeated.Exactly.Once);
+        }
+        
         private Repeated ForEachBodyType(string language)
         {
             return Repeated.Exactly.Times((_context.ContextData[language].BodyTypes.Count));

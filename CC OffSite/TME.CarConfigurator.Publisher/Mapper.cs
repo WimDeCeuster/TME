@@ -28,7 +28,7 @@ namespace TME.CarConfigurator.Publisher
         readonly IEngineMapper _engineMapper;
         readonly ITransmissionMapper _transmissionMapper;
         readonly ICarMapper _carMapper;
-        private IAssetMapper _assetMapper;
+        readonly IAssetMapper _assetMapper;
 
         public Mapper(IModelMapper modelMapper, IGenerationMapper generationMapper, IBodyTypeMapper bodyTypeMapper, IEngineMapper engineMapper, ITransmissionMapper transmissionMapper, ICarMapper carMapper, IAssetMapper assetMapper)
         {
@@ -86,7 +86,7 @@ namespace TME.CarConfigurator.Publisher
             contextData.Assets = FillObjectAssets(modelGeneration);
         }
 
-        private Dictionary<Guid, List<Asset>> FillObjectAssets(ModelGeneration modelGeneration)
+        public Dictionary<Guid, List<Asset>> FillObjectAssets(ModelGeneration modelGeneration)
         {
             var assetsForObjectsDictionary = FillBodyTypeAssets(modelGeneration);
 
@@ -98,7 +98,8 @@ namespace TME.CarConfigurator.Publisher
             return modelGeneration.BodyTypes.ToDictionary(
                 bodytype => bodytype.ID,
                 bodytype =>
-                    bodytype.AssetSet.Assets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
+                    bodytype.AssetSet.Assets.Where(asset => !asset.IsDeviation() && asset.AlwaysInclude)
+                        .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
         void FillCars(ModelGeneration modelGeneration, ContextData contextData, Boolean isPreview)
