@@ -30,10 +30,14 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         public AssetType MapObjectAssetType(AssetSetAsset assetSetAsset,ModelGeneration modelGeneration)
         {
+            var equipmentCode = String.Empty;
+            if (assetSetAsset.EquipmentItem.ID != Guid.Empty)
+                equipmentCode = modelGeneration.Equipment[assetSetAsset.EquipmentItem.ID].BaseCode;
+            
             return new AssetType()
             {
                 Code = assetSetAsset.AssetType.Code,
-                EquipmentCode = modelGeneration.Equipment[assetSetAsset.EquipmentItem.ID].BaseCode,
+                EquipmentCode =  equipmentCode,
                 ExteriorColourCode = assetSetAsset.ExteriorColour.Code,
                 Mode = assetSetAsset.AssetType.Details.Mode,
                 Name = assetSetAsset.AssetType.Name,

@@ -72,7 +72,7 @@ namespace TME.CarConfigurator.Publisher
 
                 FillBodyTypes(modelGeneration, contextData);
                 FillEngines(modelGeneration, contextData);
-                FillGenerationAssets(modelGeneration, generation,contextData);
+                FillObjectAssets(modelGeneration, generation,contextData);
                 FillTransmissions(modelGeneration, contextData);
                 FillCars(modelGeneration, contextData, isPreview);
 
@@ -82,23 +82,26 @@ namespace TME.CarConfigurator.Publisher
             return context;
         }
 
-        private void FillGenerationAssets(Administration.ModelGeneration modelGeneration, Generation generation,ContextData contextData){
+        private void FillObjectAssets(ModelGeneration modelGeneration,ContextData contextData){
             contextData.Assets = FillObjectAssets(modelGeneration);
         }
 
         private Dictionary<Guid, List<Asset>> FillObjectAssets(ModelGeneration modelGeneration)
         {
-            
-            var assetDictionary = new Dictionary<Guid, List<Asset>>();
-            foreach (var modelGenerationBodyType in modelGeneration.BodyTypes)
-            {
-                var assetList = modelGenerationBodyType.AssetSet.Assets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
-                assetDictionary.Add(modelGenerationBodyType.ID, assetList);
-            }
-            return assetDictionary;
+            var assetsForObjectsDictionary = FillBodyTypeAssets(modelGeneration);
+
+            return assetsForObjectsDictionary;
         }
 
-        void FillCars(Administration.ModelGeneration modelGeneration, ContextData contextData, Boolean isPreview)
+        private Dictionary<Guid,List<Asset>> FillBodyTypeAssets(ModelGeneration modelGeneration)
+        {
+            return modelGeneration.BodyTypes.ToDictionary(
+                bodytype => bodytype.ID,
+                bodytype =>
+                    bodytype.AssetSet.Assets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
+        }
+
+        void FillCars(ModelGeneration modelGeneration, ContextData contextData, Boolean isPreview)
         {
             foreach (var car in modelGeneration.Cars.Where(car => isPreview || car.Approved))
             {
@@ -109,19 +112,19 @@ namespace TME.CarConfigurator.Publisher
             }
         }
 
-        void FillBodyTypes(Administration.ModelGeneration modelGeneration, ContextData contextData)
+        void FillBodyTypes(ModelGeneration modelGeneration, ContextData contextData)
         {
             foreach (var bodyType in modelGeneration.BodyTypes)
                 contextData.BodyTypes.Add(_bodyTypeMapper.MapBodyType(bodyType));
         }
 
-        void FillEngines(Administration.ModelGeneration modelGeneration, ContextData contextData)
+        void FillEngines(ModelGeneration modelGeneration, ContextData contextData)
         {
             foreach (var engine in modelGeneration.Engines)
                 contextData.Engines.Add(_engineMapper.MapEngine(engine));
         }
 
-        void FillTransmissions(Administration.ModelGeneration modelGeneration, ContextData contextData)
+        void FillTransmissions(ModelGeneration modelGeneration, ContextData contextData)
         {
             foreach (var transmission in modelGeneration.Transmissions)
                 contextData.Transmissions.Add(_transmissionMapper.MapTransmission(transmission));
