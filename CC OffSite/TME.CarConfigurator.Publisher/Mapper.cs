@@ -97,12 +97,21 @@ namespace TME.CarConfigurator.Publisher
         }
 
         private void FillObjectAssets(ModelGeneration modelGeneration,ContextData contextData){
-            contextData.Assets = 
-                FillBodyTypeAssets(modelGeneration)
+            contextData.Assets = FillBodyTypeAssets(modelGeneration)
                 .Concat(FillEngineAssets(modelGeneration))
+                .Concat(FillTransmissionAssets(modelGeneration))
                 .ToDictionary(
                     entry => entry.Key,
                     entry => entry.Value);
+        }
+
+        private Dictionary<Guid,List<Asset>> FillTransmissionAssets(ModelGeneration modelGeneration)
+        {
+            return modelGeneration.Transmissions.ToDictionary(
+                transmission => transmission.ID,
+                transmission => 
+                    transmission.AssetSet.Assets.GetGenerationAssets()
+                        .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
         private Dictionary<Guid,List<Asset>> FillBodyTypeAssets(ModelGeneration modelGeneration)

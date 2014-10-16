@@ -8,6 +8,7 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
     public class TransmissionFactoryBuilder
     {
         private ITransmissionService _transmissionService = A.Fake<ITransmissionService>();
+        private IAssetFactory _assetFactory = A.Fake<IAssetFactory>();
 
         public TransmissionFactoryBuilder WithTransmissionService(ITransmissionService transmissionService)
         {
@@ -15,10 +16,17 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
 
             return this;
         }
+        
+        public TransmissionFactoryBuilder WithAssetService(IAssetFactory assetFactory)
+        {
+            _assetFactory = assetFactory;
+
+            return this;
+        }
 
         public ITransmissionFactory Build()
         {
-            return new TransmissionFactory(_transmissionService);
+            return new TransmissionFactory(_transmissionService,_assetFactory);
         }
     }
 }
