@@ -124,7 +124,15 @@ namespace TME.CarConfigurator.Publisher
 
         private static bool IsAssetOfCar(Administration.Car car, AssetSetAsset asset)
         {
-            throw new NotImplementedException();
+            // TODO: check implementation against current implementation in ReaderLibrary
+
+            return (asset.IsDeviation() || !asset.AlwaysInclude)
+                   && (asset.BodyType.IsEmpty() || asset.BodyType.Equals(car.BodyType))
+                   && (asset.Engine.IsEmpty() || asset.Engine.Equals(car.Engine))
+                   && (asset.Transmission.IsEmpty() || asset.Transmission.Equals(car.Transmission))
+                   && (asset.WheelDrive.IsEmpty() || asset.WheelDrive.Equals(car.WheelDrive))
+                   && (asset.Steering.IsEmpty() || asset.Steering.Equals(car.Steering))
+                   && (asset.Grade.IsEmpty() || asset.Grade.Equals(car.Grade));
         }
 
         private static bool ThereIsAnotherAssetThatFitsEquallyWellButItAlsoFitsOnTheGradeOfTheCar(Administration.Car car, AssetSetAsset asset, IEnumerable<AssetSetAsset> assets)
@@ -133,7 +141,7 @@ namespace TME.CarConfigurator.Publisher
 
             return assets.Any(otherAsset => IsAssetOfCar(car, otherAsset)
                 && otherAsset.AssetType.Equals(asset.AssetType)
-                && asset.BodyType.IsEmpty() || otherAsset.BodyType.Equals(asset.BodyType) // Only check if bodytype is the same if the current asset has a bodytype, otherwise it can be ignored
+                && (asset.BodyType.IsEmpty() || otherAsset.BodyType.Equals(asset.BodyType)) // Only check if bodytype is the same if the current asset has a bodytype, otherwise it can be ignored
                 && otherAsset.Engine.Equals(asset.Engine)
                 && otherAsset.Transmission.Equals(asset.Transmission)
                 && otherAsset.WheelDrive.Equals(asset.WheelDrive)
