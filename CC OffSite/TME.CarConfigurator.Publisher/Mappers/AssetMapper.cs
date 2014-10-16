@@ -65,7 +65,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 FileType = _fileTypeMapper.MapFileType(assetSetAsset.Asset.FileType),
                 Hash = assetSetAsset.Asset.Hash,
                 Height = assetSetAsset.Asset.Height,
-                ID = assetSetAsset.ID,
+                ID = assetSetAsset.Asset.ID,
                 IsTransparent = assetSetAsset.Asset.IsTransparent,
                 Name = assetSetAsset.Asset.Name,
                 PositionX = assetSetAsset.Asset.PositionX,

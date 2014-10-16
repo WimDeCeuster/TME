@@ -72,7 +72,7 @@ namespace TME.CarConfigurator.Publisher
 
                 FillBodyTypes(modelGeneration, contextData);
                 FillEngines(modelGeneration, contextData);
-                FillObjectAssets(modelGeneration, generation,contextData);
+                FillObjectAssets(modelGeneration,contextData);
                 FillTransmissions(modelGeneration, contextData);
                 FillCars(modelGeneration, contextData, isPreview);
 
