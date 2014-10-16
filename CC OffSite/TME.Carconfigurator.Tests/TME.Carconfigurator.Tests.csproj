@@ -95,7 +95,6 @@
     <Compile Include="GivenAKeyManager\WhenRequestingAnEnginesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAPublicationKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingTheDefaultAssetsKey.cs" />
-    <Compile Include="GivenAMapper\WhenAddingAssetsFromAdminToPublisher.cs" />
     <Compile Include="GivenAPublisherService\IServiceFactory.cs" />
     <Compile Include="GivenAPublisherService\WhenPublishingToS3ProductionLive.cs" />
     <Compile Include="GivenAS3AssetPublisher\WhenPublishingBodyTypeAssets.cs" />
