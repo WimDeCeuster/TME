@@ -16,6 +16,8 @@ namespace TME.CarConfigurator.S3.Publisher
 
         public BodyTypePublisher(IBodyTypeService bodyTypeService)
         {
+            if (bodyTypeService == null) throw new ArgumentNullException("bodyTypeService");
+
             _bodyTypeService = bodyTypeService;
         }
 

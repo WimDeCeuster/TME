@@ -13,7 +13,7 @@ namespace TME.FrontEndViewer.Controllers
 {
     public class ModelTransmissionAssetsController : Controller
     {
-        public ActionResult Index(Guid modelID, Guid engineID)
+        public ActionResult Index(Guid modelID, Guid transmissionID)
         {
 
             var context = (Context)Session["context"];
@@ -21,8 +21,8 @@ namespace TME.FrontEndViewer.Controllers
 
             var model = new CompareView<IAsset>
             {
-                OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, engineID),
-                NewReaderModel = GetNewReaderModelWithMetrics(context, modelID, engineID)
+                OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, transmissionID),
+                NewReaderModel = GetNewReaderModelWithMetrics(context, modelID, transmissionID)
             };
 
             return View("Assets/Index",model);

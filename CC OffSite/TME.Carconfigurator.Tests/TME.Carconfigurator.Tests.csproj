@@ -93,6 +93,7 @@
     <Compile Include="GivenAKeyManager\WhenRequestingACarsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAModelsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAnAssetsKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingAWheelDrivesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingATransmissionsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAnEnginesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAPublicationKey.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="GivenAPublisherService\WhenPublishingToS3ProductionLive.cs" />
     <Compile Include="GivenAS3AssetPublisher\WhenPublishingBodyTypeAssets.cs" />
     <Compile Include="GivenAS3BodyTypePublisher\WhenPublishingGenerationBodyTypes.cs" />
+    <Compile Include="GivenAS3WheelDrivePublisher\WhenPublishingGenerationWheelDrives.cs" />
     <Compile Include="GivenAS3TransmissionPublisher\WhenPublishingGenerationTransmissions.cs" />
     <Compile Include="GivenAS3CarPublisher\WhenPublishingGenerationCars.cs" />
     <Compile Include="GivenAS3EnginePublisher\WhenPublishingGenerationEngines.cs" />

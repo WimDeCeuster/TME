@@ -7,7 +7,7 @@ using Xunit;
 
 namespace TME.Carconfigurator.Tests.GivenAKeyManager
 {
-    public class WhenRequestingAnTransmissionsKey : TestBase
+    public class WhenRequestingATransmissionsKey : TestBase
     {
         private IKeyManager _keyManager;
         private string _expectedKey;

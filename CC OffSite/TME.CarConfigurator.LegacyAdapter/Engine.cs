@@ -64,7 +64,6 @@ namespace TME.CarConfigurator.LegacyAdapter
                 return groups;
             }
         }
-
  
         public IEnumerable<IAsset> Assets
         {

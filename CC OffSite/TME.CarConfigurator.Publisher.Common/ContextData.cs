@@ -13,6 +13,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IList<BodyType> BodyTypes { get; private set; }
         public IList<Engine> Engines { get; private set; }
         public IList<Transmission> Transmissions { get; private set; }
+        public IList<WheelDrive> WheelDrives { get; private set; }
         public Dictionary<Guid,List<Asset>> Assets { get; set; }
         public Publication Publication { get; set; }
 
@@ -25,6 +26,7 @@ namespace TME.CarConfigurator.Publisher.Common
             Engines = new List<Engine>();
             Assets = new Dictionary<Guid, List<Asset>>();
             Transmissions = new List<Transmission>();
+            WheelDrives = new List<WheelDrive>();
         }
     }
 }
