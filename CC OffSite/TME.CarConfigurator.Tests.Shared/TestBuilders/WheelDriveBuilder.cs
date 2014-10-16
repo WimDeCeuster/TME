@@ -29,6 +29,16 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public WheelDriveBuilder AddVisibleIn(string mode, string view)
+        {
+            if (_wheelDrive.VisibleIn == null)
+                _wheelDrive.VisibleIn = new List<VisibleInModeAndView>();
+
+            _wheelDrive.VisibleIn.Add(new VisibleInModeAndView() { Mode = mode, View = view });
+
+            return this;
+        }
+
         public WheelDrive Build()
         {
             return _wheelDrive;

@@ -98,14 +98,15 @@ namespace TME.CarConfigurator.Publisher
 
         private void FillObjectAssets(ModelGeneration modelGeneration,ContextData contextData){
             contextData.Assets = 
-                FillBodyTypeAssets(modelGeneration)
-                .Concat(FillEngineAssets(modelGeneration))
+                GetBodyTypeAssets(modelGeneration)
+                .Concat(GetEngineAssets(modelGeneration))
+                .Concat(GetWheelDriveAssets(modelGeneration))
                 .ToDictionary(
                     entry => entry.Key,
                     entry => entry.Value);
         }
 
-        private Dictionary<Guid,List<Asset>> FillBodyTypeAssets(ModelGeneration modelGeneration)
+        private Dictionary<Guid,List<Asset>> GetBodyTypeAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.BodyTypes.ToDictionary(
                 bodytype => bodytype.ID,
@@ -114,11 +115,20 @@ namespace TME.CarConfigurator.Publisher
                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private Dictionary<Guid, List<Asset>> FillEngineAssets(ModelGeneration modelGeneration)
+        private Dictionary<Guid, List<Asset>> GetEngineAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.Engines.ToDictionary(
                 engine => engine.ID,
                 engine => engine.AssetSet.Assets
+                                         .GetGenerationAssets()
+                                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
+        }
+
+        private Dictionary<Guid, List<Asset>> GetWheelDriveAssets(ModelGeneration modelGeneration)
+        {
+            return modelGeneration.WheelDrives.ToDictionary(
+                wheelDrive => wheelDrive.ID,
+                wheelDrive => wheelDrive.AssetSet.Assets
                                          .GetGenerationAssets()
                                          .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }

@@ -103,6 +103,11 @@
     <Compile Include="GivenATransmission\WhenAccessingItsTransmissionTypeForTheSecondTime.cs" />
     <Compile Include="GivenATransmission\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenATransmission\WhenAccessingItsLabelsForTheSecondTime.cs" />
+    <Compile Include="GivenAWheelDrive\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenAWheelDrive\WhenAccessingIts3DAssets.cs" />
+    <Compile Include="GivenAWheelDrive\WhenAccessingIts3DAssetsASecondTime.cs" />
+    <Compile Include="GivenAWheelDrive\WhenAccessingItsAssets.cs" />
+    <Compile Include="GivenAWheelDrive\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenAWheelDrive\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenAWheelDrive\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenModels\WhenRequestingTheListOfActiveModels.cs" />

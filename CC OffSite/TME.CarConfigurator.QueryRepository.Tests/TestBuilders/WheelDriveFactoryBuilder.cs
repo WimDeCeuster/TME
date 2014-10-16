@@ -8,6 +8,7 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
     public class WheelDriveFactoryBuilder
     {
         private IWheelDriveService _wheelDriveService = A.Fake<IWheelDriveService>();
+        private IAssetFactory _assetFactory = A.Fake<IAssetFactory>();
 
         public WheelDriveFactoryBuilder WithWheelDriveService(IWheelDriveService wheelDriveService)
         {
@@ -16,9 +17,16 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
             return this;
         }
 
+        public WheelDriveFactoryBuilder WithAssetFactory(IAssetFactory assetFactory)
+        {
+            _assetFactory = assetFactory;
+
+            return this;
+        }
+
         public IWheelDriveFactory Build()
         {
-            return new WheelDriveFactory(_wheelDriveService);
+            return new WheelDriveFactory(_wheelDriveService, _assetFactory);
         }
     }
 }
