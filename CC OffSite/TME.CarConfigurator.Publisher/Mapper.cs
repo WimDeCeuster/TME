@@ -3,21 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.Administration.Assets;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Mappers;
-using TME.CarConfigurator.Repository.Objects;
-using DBCar = TME.CarConfigurator.Administration.Car;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
-using BodyType = TME.CarConfigurator.Repository.Objects.BodyType;
 using Car = TME.CarConfigurator.Repository.Objects.Car;
-using Engine = TME.CarConfigurator.Repository.Objects.Engine;
-using EngineCategory = TME.CarConfigurator.Repository.Objects.EngineCategory;
-using FuelType = TME.CarConfigurator.Repository.Objects.FuelType;
-using Link = TME.CarConfigurator.Repository.Objects.Link;
-using Model = TME.CarConfigurator.Repository.Objects.Model;
 
 namespace TME.CarConfigurator.Publisher
 {
@@ -73,11 +66,12 @@ namespace TME.CarConfigurator.Publisher
 
                 FillBodyTypes(modelGeneration, contextData);
                 FillEngines(modelGeneration, contextData);
-                FillObjectAssets(modelGeneration,contextData);
+                FillAssets(modelGeneration,contextData);
                 FillTransmissions(modelGeneration, contextData);
 
                 var cars = modelGeneration.Cars.Where(car => isPreview || car.Approved).ToList();
                 FillCars(cars, contextData);
+                FillCarAssets(cars, contextData);
 
                 context.TimeFrames[language] = GetTimeFrames(language, context);
             }
@@ -85,7 +79,33 @@ namespace TME.CarConfigurator.Publisher
             return context;
         }
 
-        private void FillObjectAssets(ModelGeneration modelGeneration,ContextData contextData){
+        private void FillCarAssets(IEnumerable<Administration.Car> cars, ContextData contextData)
+        {
+            foreach (var car in cars)
+            {
+                FillCarBodyTypeAssets(car, contextData.CarAssets[car.ID].ToList());
+            }
+        }
+
+        private static void FillCarBodyTypeAssets(Administration.Car car, List<Asset> carAssets)
+        {
+            var bodyTypeAssets = car.Generation.BodyTypes[car.BodyTypeID].AssetSet.Assets;
+
+            var carBodyTypeAssets = FilterAssets(bodyTypeAssets, car);
+
+            carAssets.AddRange(carBodyTypeAssets);
+        }
+
+        private static IEnumerable<Asset> FilterAssets(AssetSetAssets allAssets, Administration.Car car)
+        {
+            var carAssets = new List<Asset>();
+
+
+
+            return carAssets;
+        }
+
+        private void FillAssets(ModelGeneration modelGeneration,ContextData contextData){
             contextData.Assets = 
                 FillBodyTypeAssets(modelGeneration)
                 .Concat(FillEngineAssets(modelGeneration))
@@ -120,6 +140,7 @@ namespace TME.CarConfigurator.Publisher
                 var engine = contextData.Engines.Single(eng => eng.ID == car.EngineID);
                 var transmission = contextData.Transmissions.Single(trans => trans.ID == car.TransmissionID);
                 contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission));
+                contextData.CarAssets.Add(car.ID, new List<Asset>());
             }
         }
 
@@ -159,9 +180,9 @@ namespace TME.CarConfigurator.Publisher
                                                 })
                                                 .OrderBy(point => point.Date);
 
-            Func<DBCar, Car> MapCar = dbCar => cars.Single(car => car.ID == dbCar.ID);
+            Func<Administration.Car, Car> MapCar = dbCar => cars.Single(car => car.ID == dbCar.ID);
 
-            var openCars = new List<DBCar>();
+            var openCars = new List<Administration.Car>();
             DateTime? openDate = null;
             foreach (var point in timeProjection)
             {

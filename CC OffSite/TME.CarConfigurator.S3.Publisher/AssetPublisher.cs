@@ -31,7 +31,7 @@ namespace TME.CarConfigurator.S3.Publisher
             return result.SelectMany(xs => xs.ToList());
         }
 
-        private async Task<IEnumerable<Result>> PublishAssets(String brand, String country, Guid publicationID, Dictionary<Guid, List<Asset>> assetsPerObjectID)
+        private async Task<IEnumerable<Result>> PublishAssets(String brand, String country, Guid publicationID, IDictionary<Guid, List<Asset>> assetsPerObjectID)
         {
             var tasks = new List<Task<IEnumerable<Result>>>();
             foreach (var objectID in assetsPerObjectID.Keys)
