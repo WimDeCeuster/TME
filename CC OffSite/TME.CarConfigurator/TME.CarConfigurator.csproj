@@ -50,8 +50,11 @@
     <Compile Include="CarConfiguratorVersion.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
     <Compile Include="Core\BaseObject.cs" />
+    <Compile Include="TransmissionType.cs" />
+    <Compile Include="Transmission.cs" />
     <Compile Include="Extensions\VisibleInModeAndViewExtensions.cs" />
     <Compile Include="Factories\CarFactory.cs" />
+    <Compile Include="Factories\TransmissionFactory.cs" />
     <Compile Include="Label.cs" />
     <Compile Include="Core\ReadOnlyList.cs" />
     <Compile Include="Engine.cs" />

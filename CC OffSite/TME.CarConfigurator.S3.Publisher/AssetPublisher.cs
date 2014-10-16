@@ -32,7 +32,7 @@ namespace TME.CarConfigurator.S3.Publisher
             return result.SelectMany(xs => xs);
         }
 
-        private async Task<IEnumerable<Result>>  PublishAssets(String brand, String country, Guid publicationID, Dictionary<Guid, List<Asset>> assetsPerObjectID)
+        private async Task<IEnumerable<Result>> PublishAssets(String brand, String country, Guid publicationID, Dictionary<Guid, List<Asset>> assetsPerObjectID)
         {
             var tasks = new List<Task<IEnumerable<Result>>>();
             foreach (var objectID in assetsPerObjectID.Keys)
@@ -55,7 +55,9 @@ namespace TME.CarConfigurator.S3.Publisher
             Guid publicationID, Guid objectID, IEnumerable<Asset> assets)
         {
             var assetsByModeAndView = assets.Where(
-                a => !String.IsNullOrEmpty(a.AssetType.Mode) || !String.IsNullOrEmpty(a.AssetType.View))
+                    a => !String.IsNullOrEmpty(a.AssetType.Mode) || !String.IsNullOrEmpty(a.AssetType.View))
+                .OrderBy(asset => asset.Name)
+                .ThenBy(asset => asset.AssetType.Name)
                 .GroupBy(a => new {a.AssetType.Mode, a.AssetType.View});
 
             var tasks = new List<Task<Result>>();
@@ -77,7 +79,9 @@ namespace TME.CarConfigurator.S3.Publisher
         private async Task<Result> PublishDefaultAssets(String brand, String country, Guid publicationID, Guid objectID, IEnumerable<Asset> assets)
         {
             var defaultAssets =
-                assets.Where(a => String.IsNullOrEmpty(a.AssetType.Mode) || String.IsNullOrEmpty(a.AssetType.View));
+                assets.Where(a => String.IsNullOrEmpty(a.AssetType.Mode) || String.IsNullOrEmpty(a.AssetType.View))
+                      .OrderBy(asset => asset.Name)
+                      .ThenBy(asset => asset.AssetType.Name);
             return await _assetService.PutDefaultAssets(brand, country, publicationID, objectID, defaultAssets);
         }
     }

@@ -33,6 +33,11 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
             return (IEnginePublisher)ContextRegistry.GetContext().GetObject("S3EnginePublisher", new Object[] { service });
         }
 
+        public ITransmissionPublisher GetTransmissionPublisher(ITransmissionService service)
+        {
+            return (ITransmissionPublisher)ContextRegistry.GetContext().GetObject("S3TransmissionPublisher", new Object[] { service });
+        }
+
         public ICarPublisher GetCarPublisher(ICarService service)
         {
             return (ICarPublisher)ContextRegistry.GetContext().GetObject("S3CarPublisher", new Object[] { service });

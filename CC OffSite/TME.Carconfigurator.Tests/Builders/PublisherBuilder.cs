@@ -17,6 +17,7 @@ namespace TME.Carconfigurator.Tests.Builders
         private IModelService _modelService = A.Fake<IModelService>();
         private IBodyTypePublisher _bodyTypePublisher = A.Fake<IBodyTypePublisher>();
         private IEnginePublisher _enginePublisher = A.Fake<IEnginePublisher>();
+        private ITransmissionPublisher _transmissionPublisher = A.Fake<ITransmissionPublisher>();
         private ICarPublisher _carPublisher = A.Fake<ICarPublisher>();
         private IAssetPublisher _assetPublisher = A.Fake<IAssetPublisher>();
 
@@ -55,6 +56,13 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
+        public PublisherBuilder WithTransmissionPublisher(ITransmissionPublisher transmissionPublisher)
+        {
+            _transmissionPublisher = transmissionPublisher;
+
+            return this;
+        }
+
         public PublisherBuilder WithCarPublisher(ICarPublisher carPublisher)
         {
             _carPublisher = carPublisher;
@@ -71,7 +79,7 @@ namespace TME.Carconfigurator.Tests.Builders
 
         public Publisher Build()
         {
-            return new Publisher(_publicationPublisher, _modelPublisher, _modelService, _bodyTypePublisher, _enginePublisher, _carPublisher, _assetPublisher);
+            return new Publisher(_publicationPublisher, _modelPublisher, _modelService, _bodyTypePublisher, _enginePublisher, _transmissionPublisher, _carPublisher, _assetPublisher);
         }
     }
 }

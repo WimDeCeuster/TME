@@ -47,6 +47,7 @@
     <Compile Include="Factories\IAssetFactory.cs" />
     <Compile Include="Factories\IBodyTypeFactory.cs" />
     <Compile Include="Factories\ICarFactory.cs" />
+    <Compile Include="Factories\ITransmissionsFactory.cs" />
     <Compile Include="Factories\IEngineFactory.cs" />
     <Compile Include="Factories\IModelFactory.cs" />
     <Compile Include="Factories\IPublicationFactory.cs" />

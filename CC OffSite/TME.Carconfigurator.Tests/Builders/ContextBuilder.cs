@@ -104,6 +104,13 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
+        public ContextBuilder WithTransmissions(String language, params Transmission[] transmissions)
+        {
+            foreach (var transmission in transmissions)
+                _context.ContextData[language].Transmissions.Add(transmission);
+            return this;
+        }
+
         private ContextBuilder WithTimeFrames(String language, IEnumerable<TimeFrame> timeFrames)
         {
             _context.TimeFrames[language] = timeFrames.ToList();

@@ -7,6 +7,7 @@ using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Publisher.Mappers;
 using TME.CarConfigurator.Repository.Objects;
 using DBCar = TME.CarConfigurator.Administration.Car;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
@@ -83,14 +84,12 @@ namespace TME.CarConfigurator.Publisher
         }
 
         private void FillObjectAssets(ModelGeneration modelGeneration,ContextData contextData){
-            contextData.Assets = FillObjectAssets(modelGeneration);
-        }
-
-        public Dictionary<Guid, List<Asset>> FillObjectAssets(ModelGeneration modelGeneration)
-        {
-            var assetsForObjectsDictionary = FillBodyTypeAssets(modelGeneration);
-
-            return assetsForObjectsDictionary;
+            contextData.Assets = 
+                FillBodyTypeAssets(modelGeneration)
+                .Concat(FillEngineAssets(modelGeneration))
+                .ToDictionary(
+                    entry => entry.Key,
+                    entry => entry.Value);
         }
 
         private Dictionary<Guid,List<Asset>> FillBodyTypeAssets(ModelGeneration modelGeneration)
@@ -98,8 +97,17 @@ namespace TME.CarConfigurator.Publisher
             return modelGeneration.BodyTypes.ToDictionary(
                 bodytype => bodytype.ID,
                 bodytype =>
-                    bodytype.AssetSet.Assets.Where(asset => !asset.IsDeviation() && asset.AlwaysInclude)
+                    bodytype.AssetSet.Assets.GetGenerationAssets()
                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
+        }
+
+        private Dictionary<Guid, List<Asset>> FillEngineAssets(ModelGeneration modelGeneration)
+        {
+            return modelGeneration.Engines.ToDictionary(
+                engine => engine.ID,
+                engine => engine.AssetSet.Assets
+                                         .GetGenerationAssets()
+                                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
         void FillCars(ModelGeneration modelGeneration, ContextData contextData, Boolean isPreview)

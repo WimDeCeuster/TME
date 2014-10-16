@@ -15,20 +15,23 @@ namespace TME.CarConfigurator.Factories
         private readonly IPublicationFactory _publicationFactory;
         private readonly IBodyTypeFactory _bodyTypeFactory;
         private readonly IEngineFactory _engineFactory;
+        private readonly ITransmissionFactory _transmissionFactory;
         private readonly ICarFactory _carFactory;
 
-        public ModelFactory(IModelService modelService, IPublicationFactory publicationFactory, IBodyTypeFactory bodyTypeFactory, IEngineFactory engineFactory, ICarFactory carFactory)
+        public ModelFactory(IModelService modelService, IPublicationFactory publicationFactory, IBodyTypeFactory bodyTypeFactory, IEngineFactory engineFactory, ITransmissionFactory transmissionFactory, ICarFactory carFactory)
         {
             if (modelService == null) throw new ArgumentNullException("modelService");
             if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
             if (bodyTypeFactory == null) throw new ArgumentNullException("bodyTypeFactory");
             if (engineFactory == null) throw new ArgumentNullException("engineFactory");
+            if (transmissionFactory == null) throw new ArgumentNullException("transmissionFactory");
             if (carFactory == null) throw new ArgumentNullException("carFactory");
 
             _modelService = modelService;
             _publicationFactory = publicationFactory;
             _bodyTypeFactory = bodyTypeFactory;
             _engineFactory = engineFactory;
+            _transmissionFactory = transmissionFactory;
             _carFactory = carFactory;
         }
 
@@ -48,7 +51,7 @@ namespace TME.CarConfigurator.Factories
 
         private IModel CreateModel(Repository.Objects.Model repositoryModel, Context context)
         {
-            return new Model(repositoryModel, context, _publicationFactory, _bodyTypeFactory, _engineFactory, _carFactory);
+            return new Model(repositoryModel, context, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _carFactory);
         }
     }
 }

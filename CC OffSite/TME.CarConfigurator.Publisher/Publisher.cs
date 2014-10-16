@@ -18,6 +18,7 @@ namespace TME.CarConfigurator.Publisher
         private readonly QueryServices.IModelService _modelService;
         readonly IBodyTypePublisher _bodyTypePublisher;
         readonly IEnginePublisher _enginePublisher;
+        readonly ITransmissionPublisher _transmissionPublisher;
         readonly ICarPublisher _carPublisher;
         readonly IAssetPublisher _assetPublisher;
 
@@ -26,6 +27,7 @@ namespace TME.CarConfigurator.Publisher
             QueryServices.IModelService modelService, 
             IBodyTypePublisher bodyTypePublisher,
             IEnginePublisher enginePublisher,
+            ITransmissionPublisher transmissionPublisher,
             ICarPublisher carPublisher,
             IAssetPublisher assetPublisher)
         {
@@ -34,6 +36,7 @@ namespace TME.CarConfigurator.Publisher
             if (modelService == null) throw new ArgumentNullException("modelService");
             if (bodyTypePublisher == null) throw new ArgumentNullException("bodyTypePublisher");
             if (enginePublisher == null) throw new ArgumentNullException("enginePublisher");
+            if (transmissionPublisher == null) throw new ArgumentNullException("transmissionPublisher");
             if (carPublisher == null) throw new ArgumentNullException("carPublisher");
             if (assetPublisher == null) throw new ArgumentNullException("assetPublisher");
 
@@ -42,6 +45,7 @@ namespace TME.CarConfigurator.Publisher
             _modelService = modelService;
             _bodyTypePublisher = bodyTypePublisher;
             _enginePublisher = enginePublisher;
+            _transmissionPublisher = transmissionPublisher;
             _carPublisher = carPublisher;
             _assetPublisher = assetPublisher;
         }
@@ -78,6 +82,7 @@ namespace TME.CarConfigurator.Publisher
                 _publicationPublisher.PublishPublications(context),
                 _bodyTypePublisher.PublishGenerationBodyTypes(context),
                 _enginePublisher.PublishGenerationEngines(context),
+                _transmissionPublisher.PublishGenerationTransmissions(context),
                 _carPublisher.PublishGenerationCars(context),
                 _assetPublisher.PublishAssets(context)
             };
@@ -107,6 +112,7 @@ namespace TME.CarConfigurator.Publisher
 
             data.Models.Single().Publications.Add(new PublicationInfo(data.Publication));
         }
+
         private static Result FindFirstFailure(IEnumerable<IEnumerable<Result>> results)
         {
             return results.SelectMany(xs => xs.ToList()).FirstOrDefault(result => result is Failed);
