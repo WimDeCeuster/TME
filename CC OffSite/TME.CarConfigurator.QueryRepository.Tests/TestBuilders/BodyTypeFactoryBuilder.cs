@@ -1,3 +1,4 @@
+using FakeItEasy;
 using TME.CarConfigurator.Factories;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.QueryServices;
@@ -6,8 +7,8 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
 {
     public class BodyTypeFactoryBuilder
     {
-        private IBodyTypeService _bodyTypeService;
-        private IAssetFactory _assetFactory;
+        private IBodyTypeService _bodyTypeService = A.Fake<IBodyTypeService>();
+        private IAssetFactory _assetFactory = A.Fake<IAssetFactory>();
 
         public BodyTypeFactoryBuilder WithBodyTypeService(IBodyTypeService bodyTypeService)
         {

@@ -10,13 +10,13 @@ namespace TME.CarConfigurator.S3.CommandServices
 {
     public class AssetsService : IAssetService
     {
-        private readonly ISerialiser _serializer;
+        private readonly ISerialiser _serialiser;
         private readonly IService _service;
         private readonly IKeyManager _keyManager;
 
-        public AssetsService(IService service, ISerialiser serializer, IKeyManager keyManager)
+        public AssetsService(IService service, ISerialiser serialiser, IKeyManager keyManager)
         {
-            _serializer = serializer;
+            _serialiser = serialiser;
             _service = service;
             _keyManager = keyManager;
         }
@@ -37,7 +37,7 @@ namespace TME.CarConfigurator.S3.CommandServices
 
         private async Task<Result> PutAssetsByModeAndView(string brand, string country, string path, IEnumerable<Asset> assets)
         {
-            var value = _serializer.Serialise(assets);
+            var value = _serialiser.Serialise(assets);
             return await _service.PutObjectAsync(brand, country, path, value);
         }
 
@@ -55,8 +55,7 @@ namespace TME.CarConfigurator.S3.CommandServices
 
         private async Task<Result> PutDefaultAssets(string brand, string country, string path, IEnumerable<Asset> assets)
         {
-            var value = _serializer.Serialise(assets);
-
+            var value = _serialiser.Serialise(assets);
             return await _service.PutObjectAsync(brand, country, path, value);
         }
     }

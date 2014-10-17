@@ -21,7 +21,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _labelMapper = labelMapper;
         }
 
-        public Car MapCar(Administration.Car car, Repository.Objects.BodyType bodyType, Repository.Objects.Engine engine, Repository.Objects.Transmission transmission, Repository.Objects.WheelDrive wheelDrive)
+        public Car MapCar(Administration.Car car, Repository.Objects.BodyType bodyType, Repository.Objects.Engine engine, Repository.Objects.Transmission transmission, Repository.Objects.WheelDrive wheelDrive, Repository.Objects.Steering steering)
         {
             if (car.ShortID == null)
                 throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.ID));
@@ -55,6 +55,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                     ExcludingVat = car.Price + cheapestColourCombination.ExteriorColour.Price + cheapestColourCombination.Upholstery.Price,
                     IncludingVat = car.VatPrice + cheapestColourCombination.ExteriorColour.VatPrice + cheapestColourCombination.Upholstery.VatPrice
                 },
+                Steering = steering,
                 ToolTip = car.Translation.ToolTip,
                 Transmission = transmission,
                 WebVisible = car.WebVisible,

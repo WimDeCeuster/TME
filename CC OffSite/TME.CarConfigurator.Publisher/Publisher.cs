@@ -20,6 +20,7 @@ namespace TME.CarConfigurator.Publisher
         readonly IEnginePublisher _enginePublisher;
         readonly ITransmissionPublisher _transmissionPublisher;
         readonly IWheelDrivePublisher _wheelDrivePublisher;
+        readonly ISteeringPublisher _steeringPublisher;
         readonly ICarPublisher _carPublisher;
         readonly IAssetPublisher _assetPublisher;
 
@@ -30,6 +31,7 @@ namespace TME.CarConfigurator.Publisher
             IEnginePublisher enginePublisher,
             ITransmissionPublisher transmissionPublisher,
             IWheelDrivePublisher wheelDrivePublisher,
+            ISteeringPublisher steeringPublisher,
             ICarPublisher carPublisher,
             IAssetPublisher assetPublisher)
         {
@@ -40,6 +42,7 @@ namespace TME.CarConfigurator.Publisher
             if (enginePublisher == null) throw new ArgumentNullException("enginePublisher");
             if (transmissionPublisher == null) throw new ArgumentNullException("transmissionPublisher");
             if (wheelDrivePublisher == null) throw new ArgumentNullException("wheelDrivePublisher");
+            if (steeringPublisher == null) throw new ArgumentNullException("steeringPublisher");
             if (carPublisher == null) throw new ArgumentNullException("carPublisher");
             if (assetPublisher == null) throw new ArgumentNullException("assetPublisher");
 
@@ -50,6 +53,7 @@ namespace TME.CarConfigurator.Publisher
             _enginePublisher = enginePublisher;
             _transmissionPublisher = transmissionPublisher;
             _wheelDrivePublisher = wheelDrivePublisher;
+            _steeringPublisher = steeringPublisher;
             _carPublisher = carPublisher;
             _assetPublisher = assetPublisher;
         }
@@ -88,6 +92,7 @@ namespace TME.CarConfigurator.Publisher
                 _enginePublisher.PublishGenerationEngines(context),
                 _transmissionPublisher.PublishGenerationTransmissions(context),
                 _wheelDrivePublisher.PublishGenerationWheelDrives(context),
+                _steeringPublisher.PublishGenerationSteerings(context),
                 _carPublisher.PublishGenerationCars(context),
                 _assetPublisher.PublishAssets(context),
                 _assetPublisher.PublishCarAssets(context)

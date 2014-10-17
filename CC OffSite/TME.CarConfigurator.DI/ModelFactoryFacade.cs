@@ -15,6 +15,7 @@ namespace TME.CarConfigurator.DI
         private IEngineFactory _engineFactory;
         private ITransmissionFactory _transmissionFactory;
         private IWheelDriveFactory _wheelDriveFactory;
+        private ISteeringFactory _steeringFactory;
         private ICarFactory _carFactory;
 
         public IModelFactoryFacade WithServiceFacade(IServiceFacade serviceFacade)
@@ -59,6 +60,13 @@ namespace TME.CarConfigurator.DI
             return this;
         }
 
+        public IModelFactoryFacade WithSteeringFactory(ISteeringFactory steeringFactory)
+        {
+            _steeringFactory = steeringFactory;
+
+            return this;
+        }
+
         public IModelFactoryFacade WithCarFactory(ICarFactory carFactory)
         {
             _carFactory = carFactory;
@@ -70,7 +78,7 @@ namespace TME.CarConfigurator.DI
         {
             UseDefaultsWhenNoImplementationProvided();
 
-            return new ModelFactory(_modelService, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _carFactory);
+            return new ModelFactory(_modelService, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _steeringFactory, _carFactory);
         }
 
         private void UseDefaultsWhenNoImplementationProvided()
@@ -83,9 +91,10 @@ namespace TME.CarConfigurator.DI
             _assetFactory = _assetFactory ?? new AssetFactory(_serviceFacade.CreateAssetService());
             _bodyTypeFactory = _bodyTypeFactory ?? new BodyTypeFactory(_serviceFacade.CreateBodyTypeService(), _assetFactory);
             _engineFactory = _engineFactory ?? new EngineFactory(_serviceFacade.CreateEngineService(), _assetFactory);
-            _transmissionFactory = _transmissionFactory ?? new TransmissionFactory(_serviceFacade.CreateTransmissionService());
-            _wheelDriveFactory = _wheelDriveFactory ?? new WheelDriveFactory(_serviceFacade.CreateWheelDriveService());
-            _carFactory = _carFactory ?? new CarFactory(_serviceFacade.CreateCarService());
+            _transmissionFactory = _transmissionFactory ?? new TransmissionFactory(_serviceFacade.CreateTransmissionService(),_assetFactory);
+            _wheelDriveFactory = _wheelDriveFactory ?? new WheelDriveFactory(_serviceFacade.CreateWheelDriveService(), _assetFactory);
+            _steeringFactory = _steeringFactory ?? new SteeringFactory(_serviceFacade.CreateSteeringService());
+            _carFactory = _carFactory ?? new CarFactory(_serviceFacade.CreateCarService(), _bodyTypeFactory);
         }
     }
 }

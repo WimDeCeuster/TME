@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using TME.CarConfigurator.Administration;
-using TME.CarConfigurator.Administration.Assets;
+using TME.CarConfigurator.Administration.Interfaces;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
+using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Mappers;
+using TME.CarConfigurator.Publisher.Mappers.Exceptions;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
 using Car = TME.CarConfigurator.Repository.Objects.Car;
 
@@ -22,17 +24,20 @@ namespace TME.CarConfigurator.Publisher
         readonly IEngineMapper _engineMapper;
         readonly ITransmissionMapper _transmissionMapper;
         readonly IWheelDriveMapper _wheelDriveMapper;
+        readonly ISteeringMapper _steeringMapper;
         readonly ICarMapper _carMapper;
         readonly IAssetMapper _assetMapper;
 
-        public Mapper(IModelMapper modelMapper,
-                      IGenerationMapper generationMapper,
-                      IBodyTypeMapper bodyTypeMapper,
-                      IEngineMapper engineMapper,
-                      ITransmissionMapper transmissionMapper,
-                      IWheelDriveMapper wheelDriveMapper,
-                      ICarMapper carMapper,
-                      IAssetMapper assetMapper)
+        public Mapper(
+            IModelMapper modelMapper,
+            IGenerationMapper generationMapper,
+            IBodyTypeMapper bodyTypeMapper,
+            IEngineMapper engineMapper,
+            ITransmissionMapper transmissionMapper,
+            IWheelDriveMapper wheelDriveMapper,
+            ISteeringMapper steeringMapper,
+            ICarMapper carMapper,
+            IAssetMapper assetMapper)
         {
             if (modelMapper == null) throw new ArgumentNullException("modelMapper");
             if (generationMapper == null) throw new ArgumentNullException("generationMapper");
@@ -40,6 +45,7 @@ namespace TME.CarConfigurator.Publisher
             if (engineMapper == null) throw new ArgumentNullException("engineMapper");
             if (transmissionMapper == null) throw new ArgumentNullException("transmissionMapper");
             if (wheelDriveMapper == null) throw new ArgumentNullException("wheelDriveMapper");
+            if (steeringMapper == null) throw new ArgumentNullException("steeringMapper");
             if (carMapper == null) throw new ArgumentNullException("carMapper");
             if (assetMapper == null) throw new ArgumentNullException("assetMapper");
 
@@ -50,6 +56,7 @@ namespace TME.CarConfigurator.Publisher
             _engineMapper = engineMapper;
             _transmissionMapper = transmissionMapper;
             _wheelDriveMapper = wheelDriveMapper;
+            _steeringMapper = steeringMapper;
             _carMapper = carMapper;
         }
 
@@ -69,7 +76,7 @@ namespace TME.CarConfigurator.Publisher
 
                 context.ModelGenerations[language] = modelGeneration;
                 context.ContextData[language] = contextData;
-                
+
                 // fill contextData
                 var generation = _generationMapper.MapGeneration(model, modelGeneration, brand, country, language, isPreview);
                 contextData.Generations.Add(generation);
@@ -80,8 +87,9 @@ namespace TME.CarConfigurator.Publisher
                 FillAssets(modelGeneration, contextData);
                 FillTransmissions(modelGeneration, contextData);
                 FillWheelDrives(modelGeneration, contextData);
-
+                
                 var cars = modelGeneration.Cars.Where(car => isPreview || car.Approved).ToList();
+                FillSteerings(cars, contextData);
                 FillCars(cars, contextData);
                 FillCarAssets(cars, contextData, modelGeneration);
 
@@ -91,99 +99,25 @@ namespace TME.CarConfigurator.Publisher
             return context;
         }
 
+<<<<<<< HEAD
         private void FillCarAssets(IEnumerable<Administration.Car> cars, ContextData contextData, ModelGeneration modelGeneration)
         {
             foreach (var car in cars)
             {
-                FillCarBodyTypeAssets(car, contextData.CarAssets[car.ID].ToList(), modelGeneration);
+                var carAssets = contextData.CarAssets[car.ID];
+
+                FillCarAssets(car, carAssets, modelGeneration, car.Generation.BodyTypes[car.BodyTypeID]);
+                FillCarAssets(car, carAssets, modelGeneration, car.Generation.Engines[car.EngineID]);
             }
         }
 
-        private void FillCarBodyTypeAssets(Administration.Car car, List<Asset> carAssets, ModelGeneration modelgeneration)
+        private void FillCarAssets(Administration.Car car, IDictionary<Guid, IList<Asset>> carAssets, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
         {
-            var bodyTypeAssets = car.Generation.BodyTypes[car.BodyTypeID].AssetSet.Assets;
+            var carEngineAssets = objectWithAssetSet.AssetSet.Assets.Filter(car);
 
-            var carBodyTypeAssets = FilterAssets(bodyTypeAssets, car);
+            var mappedAssets = carEngineAssets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
 
-            var mappedAssets = carBodyTypeAssets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelgeneration));
-
-            carAssets.AddRange(mappedAssets);
-        }
-
-        private static IEnumerable<AssetSetAsset> FilterAssets(IList<AssetSetAsset> assets, Administration.Car car)
-        {
-            var carAssets = new List<AssetSetAsset>();
-            var possibleCarAssets = new Dictionary<string, IList<AssetSetAsset>>();
-
-            foreach (var asset in assets)
-            {
-                if (!IsAssetOfCar(car, asset) || ThereIsAnotherAssetThatFitsEquallyWellButItAlsoFitsOnTheGradeOfTheCar(car, asset, assets)) continue;
-
-                if (asset.AlwaysInclude)
-                {
-                    carAssets.Add(asset);
-                    continue;
-                }
-
-                TryAddAssetToPossibleCarAssets(asset, possibleCarAssets);
-            }
-
-            AddPossibleCarAssetsThatAreBetterMatches(carAssets, possibleCarAssets);
-
-            return carAssets;
-        }
-
-        private static bool IsAssetOfCar(Administration.Car car, AssetSetAsset asset)
-        {
-            // TODO: check implementation against current implementation in ReaderLibrary
-
-            return (asset.IsDeviation() || !asset.AlwaysInclude)
-                   && (asset.BodyType.IsEmpty() || asset.BodyType.Equals(car.BodyType))
-                   && (asset.Engine.IsEmpty() || asset.Engine.Equals(car.Engine))
-                   && (asset.Transmission.IsEmpty() || asset.Transmission.Equals(car.Transmission))
-                   && (asset.WheelDrive.IsEmpty() || asset.WheelDrive.Equals(car.WheelDrive))
-                   && (asset.Steering.IsEmpty() || asset.Steering.Equals(car.Steering))
-                   && (asset.Grade.IsEmpty() || asset.Grade.Equals(car.Grade));
-        }
-
-        private static bool ThereIsAnotherAssetThatFitsEquallyWellButItAlsoFitsOnTheGradeOfTheCar(Administration.Car car, AssetSetAsset asset, IEnumerable<AssetSetAsset> assets)
-        {
-            if (asset.Grade.ID == car.GradeID) return false; // There is no asset that is the same with a better grade than the car, because this asset already has the same grade. There can (potentially/theoretically) be other assets with the exact same deviation properties, but those shouldn't stop this one from being added. 
-
-            return assets.Any(otherAsset => IsAssetOfCar(car, otherAsset)
-                && otherAsset.AssetType.Equals(asset.AssetType)
-                && (asset.BodyType.IsEmpty() || otherAsset.BodyType.Equals(asset.BodyType)) // Only check if bodytype is the same if the current asset has a bodytype, otherwise it can be ignored
-                && otherAsset.Engine.Equals(asset.Engine)
-                && otherAsset.Transmission.Equals(asset.Transmission)
-                && otherAsset.WheelDrive.Equals(asset.WheelDrive)
-                && otherAsset.Steering.Equals(asset.Steering)
-                && otherAsset.ExteriorColour.Equals(asset.ExteriorColour)
-                && otherAsset.Upholstery.Equals(asset.Upholstery)
-                && otherAsset.EquipmentItem.Equals(asset.EquipmentItem)
-                && otherAsset.Grade.Equals(car.Grade) // if it has all other properties the same, and in addition has the same grade as the car, it is the asset we are looking for
-                );
-        }
-
-        private static void TryAddAssetToPossibleCarAssets(AssetSetAsset asset, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static void AddPossibleCarAssetsThatAreBetterMatches(List<AssetSetAsset> carAssets, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
-        {
-            RemovePossibleCarAssetsWhenThereIsABetterAssetInTheCarAssetsList(carAssets, possibleCarAssets);
-
-            AddRemainingPossibleCarAssets(carAssets, possibleCarAssets);
-        }
-
-        private static void RemovePossibleCarAssetsWhenThereIsABetterAssetInTheCarAssetsList(List<AssetSetAsset> carAssets, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static void AddRemainingPossibleCarAssets(List<AssetSetAsset> carAssets, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
-        {
-            throw new NotImplementedException();
+            carAssets.Add(objectWithAssetSet.GetObjectID(), mappedAssets);
         }
 
         private void FillAssets(ModelGeneration modelGeneration, ContextData contextData)
@@ -191,12 +125,33 @@ namespace TME.CarConfigurator.Publisher
             contextData.Assets =
                 FillBodyTypeAssets(modelGeneration)
                 .Concat(FillEngineAssets(modelGeneration))
+=======
+        private void FillObjectAssets(ModelGeneration modelGeneration,ContextData contextData){
+            contextData.Assets = 
+                GetBodyTypeAssets(modelGeneration)
+                .Concat(GetEngineAssets(modelGeneration))
+                .Concat(GetTransmissionAssets(modelGeneration))
+                .Concat(GetWheelDriveAssets(modelGeneration))
+>>>>>>> 4b5b26850f09d3b10d86e3a9024edb0e90bae576
                 .ToDictionary(
                     entry => entry.Key,
                     entry => entry.Value);
         }
 
+<<<<<<< HEAD
         private Dictionary<Guid, List<Asset>> FillBodyTypeAssets(ModelGeneration modelGeneration)
+=======
+        private Dictionary<Guid,List<Asset>> GetTransmissionAssets(ModelGeneration modelGeneration)
+        {
+            return modelGeneration.Transmissions.ToDictionary(
+                transmission => transmission.ID,
+                transmission => 
+                    transmission.AssetSet.Assets.GetGenerationAssets()
+                        .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
+        }
+
+        private Dictionary<Guid,List<Asset>> GetBodyTypeAssets(ModelGeneration modelGeneration)
+>>>>>>> 4b5b26850f09d3b10d86e3a9024edb0e90bae576
         {
             return modelGeneration.BodyTypes.ToDictionary(
                 bodytype => bodytype.ID,
@@ -205,11 +160,20 @@ namespace TME.CarConfigurator.Publisher
                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private Dictionary<Guid, List<Asset>> FillEngineAssets(ModelGeneration modelGeneration)
+        private Dictionary<Guid, List<Asset>> GetEngineAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.Engines.ToDictionary(
                 engine => engine.ID,
                 engine => engine.AssetSet.Assets
+                                         .GetGenerationAssets()
+                                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
+        }
+
+        private Dictionary<Guid, List<Asset>> GetWheelDriveAssets(ModelGeneration modelGeneration)
+        {
+            return modelGeneration.WheelDrives.ToDictionary(
+                wheelDrive => wheelDrive.ID,
+                wheelDrive => wheelDrive.AssetSet.Assets
                                          .GetGenerationAssets()
                                          .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
@@ -221,13 +185,14 @@ namespace TME.CarConfigurator.Publisher
                 var bodyType = contextData.BodyTypes.Single(type => type.ID == car.BodyTypeID);
                 var engine = contextData.Engines.Single(eng => eng.ID == car.EngineID);
                 var transmission = contextData.Transmissions.Single(trans => trans.ID == car.TransmissionID);
-<<<<<<< HEAD
-                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission));
-                contextData.CarAssets.Add(car.ID, new List<Asset>());
-=======
                 var wheelDrive = contextData.WheelDrives.Single(drive => drive.ID == car.WheelDriveID);
+<<<<<<< HEAD
                 contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive));
->>>>>>> b2f56ff373fd36f4975fe90fcd06977176df30e6
+                contextData.CarAssets.Add(car.ID, new Dictionary<Guid, IList<Asset>>());
+=======
+                var steering = contextData.Steerings.Single(steer => steer.ID == car.SteeringID);
+                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering));
+>>>>>>> 4b5b26850f09d3b10d86e3a9024edb0e90bae576
             }
         }
 
@@ -255,6 +220,14 @@ namespace TME.CarConfigurator.Publisher
                 contextData.WheelDrives.Add(_wheelDriveMapper.MapWheelDrive(wheelDrive));
         }
 
+        void FillSteerings(IEnumerable<Administration.Car> cars, ContextData contextData)
+        {
+            var steerings = cars.Select(car => Steerings.GetSteerings()[car.SteeringID]).Distinct();
+
+            foreach (var steering in steerings)
+                contextData.Steerings.Add(_steeringMapper.MapSteering(steering));
+        }
+
         IReadOnlyList<TimeFrame> GetTimeFrames(String language, IContext context)
         {
             var generation = context.ModelGenerations[language];
@@ -273,7 +246,7 @@ namespace TME.CarConfigurator.Publisher
                                                 })
                                                 .OrderBy(point => point.Date);
 
-            Func<Administration.Car, Car> MapCar = dbCar => cars.Single(car => car.ID == dbCar.ID);
+            Func<Administration.Car, Car> mapCar = dbCar => cars.Single(car => car.ID == dbCar.ID);
 
             var openCars = new List<Administration.Car>();
             DateTime? openDate = null;
@@ -286,7 +259,7 @@ namespace TME.CarConfigurator.Publisher
                     {
                         closeDate = point.Date;
                         if (openDate != closeDate)
-                            timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(MapCar).ToList())));
+                            timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(mapCar).ToList())));
                     }
 
                     openCars.Add(point.Car);
@@ -296,10 +269,13 @@ namespace TME.CarConfigurator.Publisher
                 {
                     closeDate = point.Date;
 
+                    if (openDate == null)
+                        throw new CorruptDataException("The open date could not be retrieved, could not create timeframe");
+
                     // time lines with identical from/until can occur when multiple line off dates fall on the same point
                     // these "empty" time lines can simply be ignored (though the openCars logic is still relevant)
                     if (openDate != closeDate)
-                        timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(MapCar).ToList())));
+                        timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(mapCar).ToList())));
 
                     openCars.Remove(point.Car);
                     openDate = openCars.Any() ? (DateTime?)point.Date : null;

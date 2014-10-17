@@ -54,6 +54,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         }
 
         [Fact]
+        public void ThenAPublishGenerationSteeringsShouldHappen()
+        {
+            A.CallTo(() => SteeringPublisher.PublishGenerationSteerings(Context))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
         public void ThenAPublishGenerationCarsShouldHappen()
         {
             A.CallTo(() => CarPublisher.PublishGenerationCars(Context))

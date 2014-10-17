@@ -32,5 +32,7 @@ namespace TME.CarConfigurator.Repository.Objects
         public Transmission Transmission { get; set; }
 
         public WheelDrive WheelDrive { get; set; }
+
+        public Steering Steering { get; set; }
   }
 }

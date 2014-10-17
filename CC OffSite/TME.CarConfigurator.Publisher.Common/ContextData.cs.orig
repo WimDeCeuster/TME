@@ -13,14 +13,15 @@ namespace TME.CarConfigurator.Publisher.Common
         public IList<BodyType> BodyTypes { get; private set; }
         public IList<Engine> Engines { get; private set; }
         public IList<Transmission> Transmissions { get; private set; }
-<<<<<<< HEAD
         public IDictionary<Guid,List<Asset>> Assets { get; set; }
-=======
         public IList<WheelDrive> WheelDrives { get; private set; }
-        public Dictionary<Guid,List<Asset>> Assets { get; set; }
->>>>>>> b2f56ff373fd36f4975fe90fcd06977176df30e6
+<<<<<<< HEAD
+=======
+        public IList<Steering> Steerings { get; private set; }
+        public Dictionary<Guid, List<Asset>> Assets { get; set; }
+>>>>>>> 4b5b26850f09d3b10d86e3a9024edb0e90bae576
         public Publication Publication { get; set; }
-        public IDictionary<Guid, IList<Asset>> CarAssets { get; set; }
+        public IDictionary<Guid, IDictionary<Guid, IList<Asset>>> CarAssets { get; set; }
 
         public ContextData()
         {
@@ -31,11 +32,9 @@ namespace TME.CarConfigurator.Publisher.Common
             Engines = new List<Engine>();
             Assets = new Dictionary<Guid, List<Asset>>();
             Transmissions = new List<Transmission>();
-<<<<<<< HEAD
-            CarAssets = new Dictionary<Guid, IList<Asset>>();
-=======
+            CarAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
             WheelDrives = new List<WheelDrive>();
->>>>>>> b2f56ff373fd36f4975fe90fcd06977176df30e6
+            Steerings = new List<Steering>();
         }
     }
 }

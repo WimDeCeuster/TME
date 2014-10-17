@@ -23,6 +23,7 @@ namespace TME.Carconfigurator.Tests.Base
         protected IEnginePublisher EnginePublisher;
         protected ITransmissionPublisher TransmissionPublisher;
         protected IWheelDrivePublisher WheelDrivePublisher;
+        protected ISteeringPublisher SteeringPublisher;
         protected ICarPublisher CarPublisher;
         protected IAssetPublisher AssetPublisher;
         protected Publisher Publisher;
@@ -44,6 +45,7 @@ namespace TME.Carconfigurator.Tests.Base
             EnginePublisher = A.Fake<IEnginePublisher>(x => x.Strict());
             TransmissionPublisher = A.Fake<ITransmissionPublisher>(x => x.Strict());
             WheelDrivePublisher = A.Fake<IWheelDrivePublisher>(x => x.Strict());
+            SteeringPublisher = A.Fake<ISteeringPublisher>(x => x.Strict());
             CarPublisher = A.Fake<ICarPublisher>(x => x.Strict());
             AssetPublisher = A.Fake<IAssetPublisher>(x => x.Strict());
 
@@ -60,6 +62,7 @@ namespace TME.Carconfigurator.Tests.Base
                 .WithEnginePublisher(EnginePublisher)
                 .WithTransmissionPublisher(TransmissionPublisher)
                 .WithWheelDrivePublisher(WheelDrivePublisher)
+                .WithSteeringPublisher(SteeringPublisher)
                 .WithCarPublisher(CarPublisher)
                 .WithAssetPublisher(AssetPublisher)
                 .Build();
@@ -74,6 +77,7 @@ namespace TME.Carconfigurator.Tests.Base
             A.CallTo(() => EnginePublisher.PublishGenerationEngines(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => TransmissionPublisher.PublishGenerationTransmissions(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => WheelDrivePublisher.PublishGenerationWheelDrives(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => SteeringPublisher.PublishGenerationSteerings(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => CarPublisher.PublishGenerationCars(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => AssetPublisher.PublishAssets(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => AssetPublisher.PublishCarAssets(null)).WithAnyArguments().Returns(successFullTasks);

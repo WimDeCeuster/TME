@@ -17,6 +17,7 @@ namespace TME.CarConfigurator.Factories
         private readonly IEngineFactory _engineFactory;
         private readonly ITransmissionFactory _transmissionFactory;
         private readonly IWheelDriveFactory _wheelDriveFactory;
+        private readonly ISteeringFactory _steeringFactory;
         private readonly ICarFactory _carFactory;
 
         public ModelFactory(
@@ -26,6 +27,7 @@ namespace TME.CarConfigurator.Factories
             IEngineFactory engineFactory,
             ITransmissionFactory transmissionFactory,
             IWheelDriveFactory wheelDriveFactory,
+            ISteeringFactory steeringFactory,
             ICarFactory carFactory)
         {
             if (modelService == null) throw new ArgumentNullException("modelService");
@@ -34,6 +36,7 @@ namespace TME.CarConfigurator.Factories
             if (engineFactory == null) throw new ArgumentNullException("engineFactory");
             if (transmissionFactory == null) throw new ArgumentNullException("transmissionFactory");
             if (wheelDriveFactory == null) throw new ArgumentNullException("wheelDriveFactory");
+            if (steeringFactory == null) throw new ArgumentNullException("steeringFactory");
             if (carFactory == null) throw new ArgumentNullException("carFactory");
 
             _modelService = modelService;
@@ -42,6 +45,7 @@ namespace TME.CarConfigurator.Factories
             _engineFactory = engineFactory;
             _transmissionFactory = transmissionFactory;
             _wheelDriveFactory = wheelDriveFactory;
+            _steeringFactory = steeringFactory;
             _carFactory = carFactory;
         }
 
@@ -61,7 +65,7 @@ namespace TME.CarConfigurator.Factories
 
         private IModel CreateModel(Repository.Objects.Model repositoryModel, Context context)
         {
-            return new Model(repositoryModel, context, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _carFactory);
+            return new Model(repositoryModel, context, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _steeringFactory, _carFactory);
         }
     }
 }

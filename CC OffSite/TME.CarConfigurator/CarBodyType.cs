@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TME.CarConfigurator.Interfaces.Assets;
+using TME.CarConfigurator.Interfaces.Factories;
+
+namespace TME.CarConfigurator
+{
+    public class CarBodyType : BodyType
+    {
+        readonly Guid _carId;
+
+        public CarBodyType(Repository.Objects.BodyType repositoryBodyType, Repository.Objects.Publication publication, Guid carId, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory)
+            : base(repositoryBodyType, publication, repositoryContext, assetFactory)
+        {
+            _carId = carId;
+        }
+
+        public override IEnumerable<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetCarAssets(RepositoryPublication, _carId, ID, RepositoryContext); } }
+
+        public override IEnumerable<IVisibleInModeAndView> VisibleIn
+        {
+            get
+            {
+                return FetchedVisibleInModeAndViews = FetchedVisibleInModeAndViews ??
+                                                      RepositoryBodyType.VisibleIn.Select(visibleIn =>
+                                                          new CarVisibleInModeAndView(_carId, RepositoryBodyType.ID, visibleIn, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
+            }
+        }
+    }
+}

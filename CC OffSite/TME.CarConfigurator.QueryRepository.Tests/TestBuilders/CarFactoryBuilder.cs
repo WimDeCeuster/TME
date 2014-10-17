@@ -11,8 +11,9 @@ using TME.CarConfigurator.QueryServices;
 namespace TME.CarConfigurator.Query.Tests.TestBuilders
 {
     public class CarFactoryBuilder
-    {    
+    {
         private ICarService _carService = A.Fake<ICarService>();
+        private IBodyTypeFactory _bodyTypeFactory = A.Fake<IBodyTypeFactory>();
 
         public CarFactoryBuilder WithCarService(ICarService carService)
         {
@@ -21,9 +22,16 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
             return this;
         }
 
+        public CarFactoryBuilder WithBodyTypeFactory(IBodyTypeFactory bodyTypeFactory)
+        {
+            _bodyTypeFactory = bodyTypeFactory;
+
+            return this;
+        }
+
         public ICarFactory Build()
         {
-            return new CarFactory(_carService);
+            return new CarFactory(_carService, _bodyTypeFactory);
         }
     }
 }

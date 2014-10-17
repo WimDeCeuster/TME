@@ -118,15 +118,22 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
+        public ContextBuilder WithSteerings(String language, params Steering[] steerings)
+        {
+            foreach (var steering in steerings)
+                _context.ContextData[language].Steerings.Add(steering);
+            return this;
+        }
+
         private ContextBuilder WithTimeFrames(String language, IEnumerable<TimeFrame> timeFrames)
         {
             _context.TimeFrames[language] = timeFrames.ToList();
             return this;
         }
 
-        public ContextBuilder WithAssets(String language, List<Asset> assets, Guid bodyTypeID)
+        public ContextBuilder WithAssets(String language, List<Asset> assets, Guid objectID)
         {
-                _context.ContextData[language].Assets.Add(bodyTypeID,assets);    
+                _context.ContextData[language].Assets.Add(objectID,assets);    
             return this;
         }
 

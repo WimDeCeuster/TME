@@ -16,5 +16,7 @@ namespace TME.CarConfigurator.Interfaces
         IBodyType BodyType { get; }
         IEngine Engine { get; }
         ITransmission Transmission { get; }
-  }
+        IWheelDrive WheelDrive { get; }
+        ISteering Steering { get; }
+    }
 }

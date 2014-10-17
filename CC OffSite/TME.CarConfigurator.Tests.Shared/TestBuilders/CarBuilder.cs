@@ -44,6 +44,13 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public CarBuilder WithBodyType(BodyType bodyType)
+        {
+            _car.BodyType = bodyType;
+
+            return this;
+        }
+
         public Car Build()
         {
             return _car;

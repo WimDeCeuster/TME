@@ -44,6 +44,11 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
             return new WheelDrivePublisher(service);
         }
 
+        public ISteeringPublisher GetSteeringPublisher(ISteeringService service)
+        {
+            return new SteeringPublisher(service);
+        }
+
         public ICarPublisher GetCarPublisher(ICarService service)
         {
             return new CarPublisher(service);

@@ -13,10 +13,10 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
         private string _expectedKey;
         private string _actualKey;
         private Guid _publicationId;
+        private Guid _carId;
         private Guid _objectId;
         private string _view;
         private string _mode;
-        private Guid _carId;
 
         protected override void Arrange()
         {
@@ -29,7 +29,7 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
             _view = "a view";
             _mode = "a mode";
 
-            _expectedKey = "publication/" + _publicationId + "/cars/" + _carId + "/assets/" + _objectId + "/" + _view + "/" + _mode;
+            _expectedKey = "publication/" + _publicationId + "/car/" + _carId + "/assets/" + _objectId + "/" + _view + "/" + _mode;
         }
 
         protected override void Act()

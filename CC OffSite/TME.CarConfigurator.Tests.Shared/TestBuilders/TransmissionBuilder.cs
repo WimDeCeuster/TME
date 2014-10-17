@@ -22,9 +22,9 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
-        public TransmissionBuilder WithType(TransmissionType type)
+        public TransmissionBuilder WithType(TransmissionType transmissionType)
         {
-            _transmission.Type = type;
+            _transmission.Type = transmissionType;
 
             return this;
         }
@@ -33,6 +33,16 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         {
             _transmission.Labels = labels.ToList();
          
+            return this;
+        }
+
+        public TransmissionBuilder AddVisibleIn(string view, string mode)
+        {
+            if (_transmission.VisibleIn == null)
+                _transmission.VisibleIn = new List<VisibleInModeAndView>();
+
+            _transmission.VisibleIn.Add(new VisibleInModeAndView(){Mode = mode,View = view});
+
             return this;
         }
 
