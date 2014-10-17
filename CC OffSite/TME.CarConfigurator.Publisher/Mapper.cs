@@ -137,8 +137,6 @@ namespace TME.CarConfigurator.Publisher
 
         private static bool IsAssetOfCar(Administration.Car car, AssetSetAsset asset)
         {
-            // TODO: check implementation against current implementation in ReaderLibrary
-
             return (asset.IsDeviation() || !asset.AlwaysInclude)
                    && (asset.BodyType.IsEmpty() || asset.BodyType.Equals(car.BodyType))
                    && (asset.Engine.IsEmpty() || asset.Engine.Equals(car.Engine))
@@ -162,8 +160,7 @@ namespace TME.CarConfigurator.Publisher
                 && otherAsset.ExteriorColour.Equals(asset.ExteriorColour)
                 && otherAsset.Upholstery.Equals(asset.Upholstery)
                 && otherAsset.EquipmentItem.Equals(asset.EquipmentItem)
-                && otherAsset.Grade.Equals(car.Grade) // if it has all other properties the same, and in addition has the same grade as the car, it is the asset we are looking for
-                );
+                && otherAsset.Grade.Equals(car.Grade)); // if it has all other properties the same, and in addition has the same grade as the car, it is the asset we are looking for
         }
 
         private static void TryAddAssetToPossibleCarAssets(AssetSetAsset asset, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
