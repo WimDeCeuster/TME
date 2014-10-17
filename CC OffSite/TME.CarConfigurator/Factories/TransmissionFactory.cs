@@ -25,11 +25,6 @@ namespace TME.CarConfigurator.Factories
 
         public IEnumerable<ITransmission> GetTransmissions(Publication publication, Context context)
         {
-
-            var repoTransmission = _transmissionService.GetTransmissions(publication.ID,
-                publication.GetCurrentTimeFrame().ID, context);
-
-            return repoTransmission.Select(tran => new Transmission(tran, publication, context, _assetFactory)).ToArray();
             return _transmissionService.GetTransmissions(publication.ID, publication.GetCurrentTimeFrame().ID, context)
                                  .Select(transmission => new Transmission(transmission,publication,context,_assetFactory))
                                  .ToArray();
