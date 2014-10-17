@@ -12,7 +12,8 @@ namespace TME.CarConfigurator.S3.Shared.Interfaces
         String GetWheelDrivesKey(Guid publicationID, Guid timeFrameID);
         String GetCarsKey(Guid publicationID, Guid timeFrameID);
         String GetDefaultAssetsKey(Guid publicationID, Guid objectID);
+        String GetDefaultAssetsKey(Guid publicationID, Guid carID, Guid objectID);
         String GetAssetsKey(Guid publicationID, Guid objectID, String view, String mode);
-
+        String GetAssetsKey(Guid publicationID, Guid carID, Guid objectID, String view, String mode);
     }
 }
