@@ -49,10 +49,7 @@ namespace TME.CarConfigurator
             }
         }
 
-        public IEnumerable<IAsset> Assets
-        {
-            get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); }
-        }
+        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
 
         [Obsolete("Use the new VisibleIn property instead")]
         public bool VisibleInExteriorSpin { get { return VisibleIn.VisibleInExteriorSpin(); } }

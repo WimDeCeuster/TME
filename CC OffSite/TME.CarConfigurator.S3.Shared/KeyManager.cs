@@ -9,7 +9,6 @@ namespace TME.CarConfigurator.S3.Shared
         private const string PublicationTimeFrameKeyTemplate = "publication/{0}/time-frame/{1}";
         private const string PublicationAssetsKeyTemplate = "publication/{0}/assets";
         private const string PublicationCarAssetsKeyTemplate = "publication/{0}/car/{1}/assets";
-        const String GenerationAssetsKeyTemplate = "publication/{0}/assets/default";
 
         public string GetModelsKey()
         {
@@ -29,11 +28,6 @@ namespace TME.CarConfigurator.S3.Shared
         public string GetBodyTypesKey(Guid publicationID, Guid timeFrameID)
         {
             return string.Format("{0}/body-types", GetTimeFrameKey(publicationID, timeFrameID));
-        }
-
-        public string GetGenerationAssetKey(Guid publicationID)
-        {
-            return String.Format(GenerationAssetsKeyTemplate, publicationID);
         }
 
         public string GetEnginesKey(Guid publicationID, Guid timeFrameID)

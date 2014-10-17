@@ -26,12 +26,16 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
         private IContext _context;
         private IService _s3Service;
         private IAssetService _assetService;
-        private readonly IEnumerable<string> _languages = new List<string> { "nl" };
+        private readonly IEnumerable<string> _languages = new List<string> { "nl", "en" };
         private Publication _publication;
         private Transmission[] _transmissions;
-        private string _assets;
         private List<Asset> _assetsForTrans1;
         private List<Asset> _assetsForTrans2;
+        private const string VALUE = "serialised data";
+        private const string ASSETS_KEY = "KeyForAssets";
+        private const string ASSETS_DEFAULT_KEY = "KeyForDefaultAssets";
+        private const string MODE = "Mode";
+        private const string VIEW = "View";
 
 
         private const string BRAND = "Toyota";
@@ -42,7 +46,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
             var generationTransmission1 = new TransmissionBuilder().WithId(Guid.NewGuid()).Build();
             var generationTransmission2 = new TransmissionBuilder().WithId(Guid.NewGuid()).Build();
 
-            _transmissions = new Transmission[] {generationTransmission1, generationTransmission2};
+            _transmissions = new[] {generationTransmission1, generationTransmission2};
 
             _assetsForTrans1 = new List<Asset>
             {
@@ -52,8 +56,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
 
             _assetsForTrans2 = new List<Asset>
             {
-                new AssetBuilder().WithId(Guid.NewGuid()).Build(),
-                new AssetBuilder().WithId(Guid.NewGuid()).Build()
+                new AssetBuilder().WithId(Guid.NewGuid()).WithAssetType(new AssetTypeBuilder().WithMode(null).WithView(null).Build()).Build(),
+                new AssetBuilder().WithId(Guid.NewGuid()).WithAssetType(new AssetTypeBuilder().WithMode(MODE).WithView(VIEW).Build()).Build()
             };
 
             _publication = PublicationBuilder.Initialize().WithID(Guid.NewGuid()).Build();
@@ -70,8 +74,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
                 .Build();
 
             _s3Service = A.Fake<IService>();
+
             var serialiser = A.Fake<ISerialiser>();
+            A.CallTo(() => serialiser.Serialise(A<Object>._)).Returns(VALUE);
             var keyManager = A.Fake<IKeyManager>();
+            A.CallTo(() => keyManager.GetAssetsKey(A<Guid>._, A<Guid>._, A<String>._, A<String>._)).Returns(ASSETS_KEY);
+            A.CallTo(() => keyManager.GetDefaultAssetsKey(A<Guid>._, A<Guid>._)).Returns(ASSETS_DEFAULT_KEY);
 
             _assetService = new AssetsService(_s3Service,serialiser,keyManager);
             _assetPublisher = new AssetPublisher(_assetService);
@@ -82,13 +90,23 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
             var result = _assetPublisher.PublishAssets(_context);
         }
 
-        /*[Fact]
+        [Fact]
         public void ThenAssetsForATransmissionShouldBePutForEachLanguageAndTimeFrames()
         {
             foreach (var language in _languages)
             {
-                A.CallTo(() => _s3Service.PutObjectAsync(BRAND,COUNTRY,_key,_value));    
+                A.CallTo(() => _s3Service.PutObjectAsync(null,null,null,null)).WithAnyArguments().MustHaveHappened(Repeated.Exactly.Twice);    
             }
-        }*/
+        }
+        
+        [Fact]
+        public void ThenAssetsForATransmissionShouldBePutForEachLanguageWithTheCorrectParameters()
+        {
+            foreach (var language in _languages)
+            {
+                A.CallTo(() => _s3Service.PutObjectAsync(BRAND,COUNTRY,ASSETS_DEFAULT_KEY,VALUE)).MustHaveHappened(Repeated.Exactly.Once);    
+                A.CallTo(() => _s3Service.PutObjectAsync(BRAND,COUNTRY,ASSETS_KEY,VALUE)).MustHaveHappened(Repeated.Exactly.Once);    
+            }
+        }
     }
 }

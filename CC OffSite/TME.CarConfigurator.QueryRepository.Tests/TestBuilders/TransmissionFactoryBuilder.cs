@@ -17,7 +17,7 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
             return this;
         }
         
-        public TransmissionFactoryBuilder WithAssetService(IAssetFactory assetFactory)
+        public TransmissionFactoryBuilder WithAssetFactory(IAssetFactory assetFactory)
         {
             _assetFactory = assetFactory;
 

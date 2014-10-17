@@ -20,7 +20,5 @@ namespace TME.CarConfigurator.LegacyAdapter
             Adaptee = adaptee;
         }
         #endregion
-
-
     }
 }

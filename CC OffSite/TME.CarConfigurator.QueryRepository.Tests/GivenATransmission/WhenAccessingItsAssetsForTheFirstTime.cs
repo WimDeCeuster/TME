@@ -56,7 +56,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenATransmission
                 .Build();
 
             var transmissionFactory = new TransmissionFactoryBuilder()
-                .WithAssetService(assetFactory)
+                .WithAssetFactory(assetFactory)
                 .WithTransmissionService(transmissionService)
                 .Build();
 

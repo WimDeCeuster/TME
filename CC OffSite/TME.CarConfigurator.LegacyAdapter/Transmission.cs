@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
@@ -55,9 +54,9 @@ namespace TME.CarConfigurator.LegacyAdapter
                     .GroupBy(a => new {a.AssetType.Details.Mode, a.AssetType.Details.View})
                     .Select(group => new VisibleInModeAndView()
                     {
-                        Mode = @group.Key.Mode,
-                        View = @group.Key.View,
-                        Assets = @group.Select(legacyAsset => new Asset(legacyAsset))
+                        Mode = group.Key.Mode,
+                        View = group.Key.View,
+                        Assets = group.Select(legacyAsset => new Asset(legacyAsset))
                     });
                 return groups;
             }
@@ -65,36 +64,37 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IEnumerable<IAsset> Assets
         {
-            get
-            {
+            get {
                 return Adaptee.Assets.Cast<Legacy.Asset>()
-                    .Select(x => new Asset(x));
-            }
+                    .Where(x => x.AssetType.Mode.Length == 0)
+                    .Select(x => new Asset(x)); }
         }
 
+
+        //TODO Wim, Put Properties In Legacy.Transmission.
         public bool VisibleInExteriorSpin
         {
-            get { throw new NotImplementedException(); }
+            get { return false; }
         }
 
         public bool VisibleInInteriorSpin
         {
-            get { throw new NotImplementedException(); }
+            get { return false; }
         }
 
         public bool VisibleInXRay4X4Spin
         {
-            get { throw new NotImplementedException(); }
+            get { return false; }
         }
 
         public bool VisibleInXRayHybridSpin
         {
-            get { throw new NotImplementedException(); }
+            get { return false; }
         }
 
         public bool VisibleInXRaySafetySpin
         {
-            get { throw new NotImplementedException(); }
+            get { return false; }
         }
     }
 }
