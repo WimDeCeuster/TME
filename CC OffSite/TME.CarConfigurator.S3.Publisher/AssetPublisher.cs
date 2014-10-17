@@ -29,16 +29,19 @@ namespace TME.CarConfigurator.S3.Publisher
 
         private async Task<IEnumerable<Result>> PublishAssets(String brand, String country, Guid publicationID, IDictionary<Guid, List<Asset>> assetsPerObjectID)
         {
-            var result = await Task.WhenAll(assetsPerObjectID.Keys.Select(objectID => PublishAssets(brand, country, publicationID, objectID, assetsPerObjectID[objectID])).ToList());
+            var result = await Task.WhenAll(assetsPerObjectID.Keys.Select(objectID => PublishAssets(assetsPerObjectID[objectID],
+                assets => PublishAssetsByModeAndView(brand, country, publicationID, objectID, assets),
+                assets => PublishDefaultAssets(brand, country, publicationID, objectID, assets)))
+                .ToList());
             return result.SelectMany(xs => xs.ToList());
         }
 
-        private async Task<IEnumerable<Result>> PublishAssets(String brand, String country, Guid publicationID, Guid objectID, IEnumerable<Asset> assets)
+        private static async Task<IEnumerable<Result>> PublishAssets(IEnumerable<Asset> assets, Func<IEnumerable<Asset>, Task<IEnumerable<Result>>> getModeAndViewTasks, Func<IEnumerable<Asset>, Task<Result>> getDefaultTask)
         {
             var orderedAssets = assets.OrderBy(asset => asset.Name).ThenBy(asset => asset.AssetType.Name).ToList();
 
-            var modeAndViewTasks = PublishAssetsByModeAndView(brand, country, publicationID, objectID, orderedAssets);
-            var defaultTask = PublishDefaultAssets(brand, country, publicationID, objectID, orderedAssets);
+            var modeAndViewTasks = getModeAndViewTasks(orderedAssets);
+            var defaultTask = getDefaultTask(orderedAssets);
 
             var modeAndViewResults = await modeAndViewTasks;
             var defaultResult = await defaultTask;
@@ -87,21 +90,11 @@ namespace TME.CarConfigurator.S3.Publisher
 
         private async Task<IEnumerable<Result>> PublishCarAssets(string brand, string country, Guid publicationID, Guid carId, IDictionary<Guid, IList<Asset>> assetsPerObjectID)
         {
-            var result = await Task.WhenAll(assetsPerObjectID.Keys.Select(objectID => PublishCarAssets(brand, country, publicationID, carId, objectID, assetsPerObjectID[objectID])).ToList());
+            var result = await Task.WhenAll(assetsPerObjectID.Keys.Select(objectID => PublishAssets(assetsPerObjectID[objectID], 
+                assets => PublishCarAssetsByModeAndView(brand, country, publicationID, carId, objectID, assets),
+                assets => PublishDefaultCarAssets(brand, country, publicationID, carId, objectID, assets)))
+                .ToList());
             return result.SelectMany(xs => xs.ToList());
-        }
-
-        private async Task<IEnumerable<Result>> PublishCarAssets(string brand, string country, Guid publicationID, Guid carId, Guid objectID, IEnumerable<Asset> assets)
-        {
-            var orderedAssets = assets.OrderBy(asset => asset.Name).ThenBy(asset => asset.AssetType.Name).ToList();
-
-            var modeAndViewTasks = PublishCarAssetsByModeAndView(brand, country, publicationID, carId, objectID, orderedAssets);
-            var defaultTask = PublishDefaultCarAssets(brand, country, publicationID, carId, objectID, orderedAssets);
-
-            var modeAndViewResults = await modeAndViewTasks;
-            var defaultResult = await defaultTask;
-
-            return modeAndViewResults.Concat(new[] { defaultResult });
         }
 
         private async Task<Result> PublishDefaultCarAssets(string brand, string country, Guid publicationID, Guid carId, Guid objectID, IEnumerable<Asset> assets)
