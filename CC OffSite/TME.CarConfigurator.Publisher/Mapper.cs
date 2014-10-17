@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using TME.CarConfigurator.Administration;
-using TME.CarConfigurator.Administration.Assets;
+using TME.CarConfigurator.Administration.Interfaces;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
+using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Mappers;
 using TME.CarConfigurator.Publisher.Mappers.Exceptions;
@@ -97,231 +97,20 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var car in cars)
             {
-                FillCarBodyTypeAssets(car, contextData.CarAssets[car.ID].ToList(), modelGeneration);
+                var carAssets = contextData.CarAssets[car.ID];
+
+                FillCarAssets(car, carAssets, modelGeneration, car.Generation.BodyTypes[car.BodyTypeID]);
+                FillCarAssets(car, carAssets, modelGeneration, car.Generation.Engines[car.EngineID]);
             }
         }
 
-        private void FillCarBodyTypeAssets(Administration.Car car, List<Asset> carAssets, ModelGeneration modelgeneration)
+        private void FillCarAssets(Administration.Car car, IDictionary<Guid, IList<Asset>> carAssets, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
         {
-            var bodyTypeAssets = car.Generation.BodyTypes[car.BodyTypeID].AssetSet.Assets;
+            var carEngineAssets = objectWithAssetSet.AssetSet.Assets.Filter(car);
 
-            var carBodyTypeAssets = FilterAssets(bodyTypeAssets, car);
+            var mappedAssets = carEngineAssets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
 
-            var mappedAssets = carBodyTypeAssets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelgeneration));
-
-            carAssets.AddRange(mappedAssets);
-        }
-
-        private static IEnumerable<AssetSetAsset> FilterAssets(IList<AssetSetAsset> assets, Administration.Car car)
-        {
-            var carAssets = new List<AssetSetAsset>();
-            var possibleCarAssets = new Dictionary<string, IList<AssetSetAsset>>();
-
-            foreach (var asset in assets)
-            {
-                if (!IsAssetOfCar(car, asset) || ThereIsAnotherAssetThatFitsEquallyWellButItAlsoFitsOnTheGradeOfTheCar(car, asset, assets)) continue;
-
-                if (asset.AlwaysInclude)
-                {
-                    carAssets.Add(asset);
-                    continue;
-                }
-
-                TryAddAssetToPossibleCarAssets(asset, possibleCarAssets);
-            }
-
-            AddPossibleCarAssetsThatAreBetterMatches(carAssets, possibleCarAssets);
-
-            return carAssets;
-        }
-
-        private static bool IsAssetOfCar(Administration.Car car, AssetSetAsset asset)
-        {
-            return (asset.IsDeviation() || !asset.AlwaysInclude)
-                   && (asset.BodyType.IsEmpty() || asset.BodyType.Equals(car.BodyType))
-                   && (asset.Engine.IsEmpty() || asset.Engine.Equals(car.Engine))
-                   && (asset.Transmission.IsEmpty() || asset.Transmission.Equals(car.Transmission))
-                   && (asset.WheelDrive.IsEmpty() || asset.WheelDrive.Equals(car.WheelDrive))
-                   && (asset.Steering.IsEmpty() || asset.Steering.Equals(car.Steering))
-                   && (asset.Grade.IsEmpty() || asset.Grade.Equals(car.Grade));
-        }
-
-        private static bool ThereIsAnotherAssetThatFitsEquallyWellButItAlsoFitsOnTheGradeOfTheCar(Administration.Car car, AssetSetAsset asset, IEnumerable<AssetSetAsset> assets)
-        {
-            if (asset.Grade.ID == car.GradeID) return false; // There is no asset that is the same with a better grade than the car, because this asset already has the same grade. There can (potentially/theoretically) be other assets with the exact same deviation properties, but those shouldn't stop this one from being added. 
-
-            return assets.Any(otherAsset => IsAssetOfCar(car, otherAsset)
-                && otherAsset.AssetType.Equals(asset.AssetType)
-                && (asset.BodyType.IsEmpty() || otherAsset.BodyType.Equals(asset.BodyType)) // Only check if bodytype is the same if the current asset has a bodytype, otherwise it can be ignored
-                && otherAsset.Engine.Equals(asset.Engine)
-                && otherAsset.Transmission.Equals(asset.Transmission)
-                && otherAsset.WheelDrive.Equals(asset.WheelDrive)
-                && otherAsset.Steering.Equals(asset.Steering)
-                && otherAsset.ExteriorColour.Equals(asset.ExteriorColour)
-                && otherAsset.Upholstery.Equals(asset.Upholstery)
-                && otherAsset.EquipmentItem.Equals(asset.EquipmentItem)
-                && otherAsset.Grade.Equals(car.Grade)); // if it has all other properties the same, and in addition has the same grade as the car, it is the asset we are looking for
-        }
-
-        private static void TryAddAssetToPossibleCarAssets(AssetSetAsset asset, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
-        {
-            var key = GetKey(asset);
-
-            if (!possibleCarAssets.ContainsKey(key))
-            {
-                possibleCarAssets.Add(key, new List<AssetSetAsset> { asset });
-                return;
-            }
-
-            var existingAssets = possibleCarAssets[key];
-
-            var existingAsset = existingAssets.First(); // all assets for this key the same number of deviation axes
-
-            var numberOfDeviationAxesOfExistingAsset = GetNumberOfDeviationAxes(existingAsset);
-            var numberOfDeviationAxesOfCurrentAsset = GetNumberOfDeviationAxes(asset);
-
-            if (numberOfDeviationAxesOfCurrentAsset < numberOfDeviationAxesOfExistingAsset)
-                return;
-
-            if (numberOfDeviationAxesOfCurrentAsset == numberOfDeviationAxesOfExistingAsset)
-            {
-                existingAssets.Add(asset);
-
-                return;
-            }
-
-            // more deviation axes than existing assets => only keep the current asset
-            possibleCarAssets[key] = new List<AssetSetAsset> { asset };
-        }
-
-        private static string GetKey(AssetSetAsset asset)
-        {
-            var assetType = asset.AssetType;
-
-            var mode = string.Empty;
-            var view = string.Empty;
-            var side = string.Empty;
-            var type = string.Empty;
-
-
-            var splitAssetTypeName = assetType.Name.Split('_');
-            var sections = splitAssetTypeName.Length;
-
-            if (!string.IsNullOrEmpty(assetType.Details.Mode))
-            {
-                const int leastExpectedNumberOfSections = 3;
-                if (sections < leastExpectedNumberOfSections)
-                    throw new CorruptDataException(string.Format("At least 4 parts should be definied in the type {0} for the {1} mode", assetType.Name, assetType.Details.Mode));
-
-                if (sections > leastExpectedNumberOfSections)
-                {
-                    mode = splitAssetTypeName[0];
-                    view = splitAssetTypeName[1];
-                    side = splitAssetTypeName[2];
-                    type = splitAssetTypeName[3];
-                }
-            }
-            else if (sections > 2)
-            {
-                view = splitAssetTypeName[0];
-                side = splitAssetTypeName[1];
-                type = splitAssetTypeName[2];
-            }
-
-            if (string.IsNullOrEmpty(view))
-                return assetType.Code;
-
-            var exteriourColourCode = asset.ExteriorColour.Code;
-            var upholsteryCode = asset.Upholstery.Code;
-            var equipmentCode = asset.EquipmentItem.ID.ToString(); // TODO: replace this by equipment item code, either by adding to equipmentinfo object or by fetching from ModelGeneration => Check with Wim
-
-            return GetKey(mode, view, side, type, exteriourColourCode, upholsteryCode, equipmentCode);
-        }
-
-        private static string GetKey(string mode, string view, string side, string type, string exteriourColourCode, string upholsteryCode, string equipmentCode)
-        {
-            var stringBuilder = new StringBuilder();
-
-            stringBuilder.Append(mode);
-
-            if (string.IsNullOrEmpty(view)) 
-                return stringBuilder.ToString();
-
-            if (stringBuilder.Length != 0)
-                stringBuilder.Append("_"); // if a mode was appended before, we need the underscore
-
-            stringBuilder.Append(view);
-
-            if (string.IsNullOrEmpty(side))
-                return stringBuilder.ToString();
-
-            stringBuilder.Append(string.Format("_{0}", side));
-
-            if (string.IsNullOrEmpty(type))
-                return stringBuilder.ToString();
-
-            stringBuilder.Append(string.Format("_{0}", type));
-
-            if (string.IsNullOrEmpty(exteriourColourCode))
-                return stringBuilder.ToString();
-
-            stringBuilder.Append(string.Format("_{0}", exteriourColourCode));
-
-            if (string.IsNullOrEmpty(upholsteryCode))
-                return stringBuilder.ToString();
-
-            stringBuilder.Append(string.Format("_{0}", upholsteryCode));
-
-            if (string.IsNullOrEmpty(equipmentCode))
-                return stringBuilder.ToString();
-
-            stringBuilder.Append(string.Format("_{0}", equipmentCode));
-
-            return stringBuilder.ToString();
-        }
-
-        private static int GetNumberOfDeviationAxes(AssetSetAsset asset)
-        {
-            var i = 0;
-
-            i += asset.BodyType.IsEmpty() ? 0 : 1;
-            i += asset.Engine.IsEmpty() ? 0 : 1;
-            i += asset.Grade.IsEmpty() ? 0 : 1;
-            i += asset.Transmission.IsEmpty() ? 0 : 1;
-            i += asset.WheelDrive.IsEmpty() ? 0 : 1;
-            i += asset.Steering.IsEmpty() ? 0 : 1;
-
-            return i;
-        }
-
-        private static void AddPossibleCarAssetsThatAreBetterMatches(List<AssetSetAsset> carAssets, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
-        {
-            RemovePossibleCarAssetsWhenThereIsABetterAssetInTheCarAssetsList(carAssets, possibleCarAssets);
-
-            var remainingPossibleCarAssets = possibleCarAssets.Values.SelectMany(v => v);
-
-            carAssets.AddRange(remainingPossibleCarAssets);
-        }
-
-        private static void RemovePossibleCarAssetsWhenThereIsABetterAssetInTheCarAssetsList(IEnumerable<AssetSetAsset> carAssets, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
-        {
-            foreach (var carAsset in carAssets)
-            {
-                var key = GetKey(carAsset);
-
-                if (!possibleCarAssets.ContainsKey(key))
-                    continue;
-
-                var existingAsset = possibleCarAssets[key].First(); // all assets for this key have the same number of deviation axes
-
-                var numberOfDeviationAxesOfPossibleAsset = GetNumberOfDeviationAxes(existingAsset);
-                var numberOfDeviationAxesOfCarAsset = GetNumberOfDeviationAxes(carAsset);
-
-                if (numberOfDeviationAxesOfPossibleAsset >= numberOfDeviationAxesOfCarAsset) // optional assets are more specific than the car asset, so we can keep them
-                    continue;
-
-                possibleCarAssets.Remove(key);
-            }
+            carAssets.Add(objectWithAssetSet.GetObjectID(), mappedAssets);
         }
 
         private void FillAssets(ModelGeneration modelGeneration, ContextData contextData)
@@ -361,7 +150,7 @@ namespace TME.CarConfigurator.Publisher
                 var transmission = contextData.Transmissions.Single(trans => trans.ID == car.TransmissionID);
                 var wheelDrive = contextData.WheelDrives.Single(drive => drive.ID == car.WheelDriveID);
                 contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive));
-                contextData.CarAssets.Add(car.ID, new List<Asset>());
+                contextData.CarAssets.Add(car.ID, new Dictionary<Guid, IList<Asset>>());
             }
         }
 
@@ -407,7 +196,7 @@ namespace TME.CarConfigurator.Publisher
                                                 })
                                                 .OrderBy(point => point.Date);
 
-            Func<Administration.Car, Car> MapCar = dbCar => cars.Single(car => car.ID == dbCar.ID);
+            Func<Administration.Car, Car> mapCar = dbCar => cars.Single(car => car.ID == dbCar.ID);
 
             var openCars = new List<Administration.Car>();
             DateTime? openDate = null;
@@ -420,7 +209,7 @@ namespace TME.CarConfigurator.Publisher
                     {
                         closeDate = point.Date;
                         if (openDate != closeDate)
-                            timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(MapCar).ToList())));
+                            timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(mapCar).ToList())));
                     }
 
                     openCars.Add(point.Car);
@@ -430,10 +219,13 @@ namespace TME.CarConfigurator.Publisher
                 {
                     closeDate = point.Date;
 
+                    if (openDate == null)
+                        throw new CorruptDataException("The open date could not be retrieved, could not create timeframe");
+
                     // time lines with identical from/until can occur when multiple line off dates fall on the same point
                     // these "empty" time lines can simply be ignored (though the openCars logic is still relevant)
                     if (openDate != closeDate)
-                        timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(MapCar).ToList())));
+                        timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(mapCar).ToList())));
 
                     openCars.Remove(point.Car);
                     openDate = openCars.Any() ? (DateTime?)point.Date : null;

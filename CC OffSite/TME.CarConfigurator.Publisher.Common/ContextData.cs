@@ -16,7 +16,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IDictionary<Guid,List<Asset>> Assets { get; set; }
         public IList<WheelDrive> WheelDrives { get; private set; }
         public Publication Publication { get; set; }
-        public IDictionary<Guid, IList<Asset>> CarAssets { get; set; }
+        public IDictionary<Guid, IDictionary<Guid, IList<Asset>>> CarAssets { get; set; }
 
         public ContextData()
         {
@@ -27,7 +27,7 @@ namespace TME.CarConfigurator.Publisher.Common
             Engines = new List<Engine>();
             Assets = new Dictionary<Guid, List<Asset>>();
             Transmissions = new List<Transmission>();
-            CarAssets = new Dictionary<Guid, IList<Asset>>();
+            CarAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
             WheelDrives = new List<WheelDrive>();
         }
     }
