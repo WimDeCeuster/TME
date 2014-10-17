@@ -22,9 +22,9 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
-        public TransmissionBuilder WithType(TransmissionType type)
+        public TransmissionBuilder WithType(TransmissionType transmissionType)
         {
-            _transmission.Type = type;
+            _transmission.Type = transmissionType;
 
             return this;
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
@@ -49,7 +48,6 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get
             {
-                
                 var groups = Adaptee.Assets.Cast<Legacy.Asset>()
                     .Where(x => x.AssetType.Mode.Length == 0)
                     .GroupBy(x => new {x.AssetType.Details.Mode, x.AssetType.Details.View})
@@ -60,7 +58,6 @@ namespace TME.CarConfigurator.LegacyAdapter
                         Assets = group.Select(legacyAsset => new Asset(legacyAsset))
 
                     });
-
                 return groups;
             }
         }

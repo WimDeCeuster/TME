@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
+using FluentAssertions;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
@@ -57,7 +58,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenATransmission
                 .Build();
 
             var transmissionFactory = new TransmissionFactoryBuilder()
-                .WithAssetService(assetFactory)
+                .WithAssetFactory(assetFactory)
                 .WithTransmissionService(transmissionService)
                 .Build();
 
@@ -73,6 +74,15 @@ namespace TME.CarConfigurator.Query.Tests.GivenATransmission
         public void ThenItShouldFetchTheAssetsFromTheService()
         {
             A.CallTo(() => _assetService.GetAssets(A<Guid>._,A<Guid>._,A<Context>._,A<string>._,A<string>._)).MustHaveHappened(Repeated.Exactly.Once);
+        }
+        
+        [Fact]
+        public void ThenItShouldHaveTheCorrectAssets()
+        {
+            _assets.Should().HaveCount(2);
+
+            _assets.Should().Contain(a => a.ID == _asset1.ID);
+            _assets.Should().Contain(a => a.ID == _asset2.ID);
         }
     }
 }

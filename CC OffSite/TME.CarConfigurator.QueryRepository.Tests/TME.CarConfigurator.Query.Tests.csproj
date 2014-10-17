@@ -101,7 +101,9 @@
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />
     <Compile Include="GivenATransmissionType\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenATransmissionType\WhenAccessingItsLabelsForTheSecondTime.cs" />
+    <Compile Include="GivenATransmission\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenATransmission\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenATransmission\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
     <Compile Include="GivenATransmission\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenATransmission\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenATransmission\WhenAccessingItsTransmissionTypeForTheFirstTime.cs" />
