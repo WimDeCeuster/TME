@@ -8,6 +8,7 @@ using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.UI.DI.Interfaces;
+using TME.CarConfigurator.S3.Publisher;
 
 namespace TME.CarConfigurator.Publisher.UI.DI.Factories
 {
@@ -15,37 +16,42 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
     {
         public IModelPublisher GetModelPublisher(IModelService service)
         {
-            return (IModelPublisher)ContextRegistry.GetContext().GetObject("S3ModelPublisher", new Object[] { service });
+            return new ModelPublisher(service);
         }
 
         public IPublicationPublisher GetPublicationPublisher(IPublicationService service)
         {
-            return (IPublicationPublisher)ContextRegistry.GetContext().GetObject("S3PublicationPublisher", new Object[] { service });
+            return new PublicationPublisher(service);
         }
 
         public IBodyTypePublisher GetBodyTypePublisher(IBodyTypeService service)
         {
-            return (IBodyTypePublisher)ContextRegistry.GetContext().GetObject("S3BodyTypePublisher", new Object[] { service });
+            return new BodyTypePublisher(service);
         }
 
         public IEnginePublisher GetEnginePublisher(IEngineService service)
         {
-            return (IEnginePublisher)ContextRegistry.GetContext().GetObject("S3EnginePublisher", new Object[] { service });
+            return new EnginePublisher(service);
         }
 
         public ITransmissionPublisher GetTransmissionPublisher(ITransmissionService service)
         {
-            return (ITransmissionPublisher)ContextRegistry.GetContext().GetObject("S3TransmissionPublisher", new Object[] { service });
+            return new TransmissionPublisher(service);
+        }
+
+        public IWheelDrivePublisher GetWheelDrivePublisher(IWheelDriveService service)
+        {
+            return new WheelDrivePublisher(service);
         }
 
         public ICarPublisher GetCarPublisher(ICarService service)
         {
-            return (ICarPublisher)ContextRegistry.GetContext().GetObject("S3CarPublisher", new Object[] { service });
+            return new CarPublisher(service);
         }
 
         public IAssetPublisher GetAssetPublisher(IAssetService service)
         {
-            return (IAssetPublisher)ContextRegistry.GetContext().GetObject("S3AssetPublisher", new object[] {service});
+            return new AssetPublisher(service);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _labelMapper = labelMapper;
         }
 
-        public Car MapCar(Administration.Car car, Repository.Objects.BodyType bodyType, Repository.Objects.Engine engine, Repository.Objects.Transmission transmission)
+        public Car MapCar(Administration.Car car, Repository.Objects.BodyType bodyType, Repository.Objects.Engine engine, Repository.Objects.Transmission transmission, Repository.Objects.WheelDrive wheelDrive)
         {
             if (car.ShortID == null)
                 throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.ID));
@@ -57,7 +57,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 },
                 ToolTip = car.Translation.ToolTip,
                 Transmission = transmission,
-                WebVisible = car.WebVisible
+                WebVisible = car.WebVisible,
+                WheelDrive = wheelDrive
             };
         }
     }

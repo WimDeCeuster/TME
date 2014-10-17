@@ -16,6 +16,8 @@ namespace TME.CarConfigurator.S3.Publisher
 
         public AssetPublisher(IAssetService assetService)
         {
+            if (assetService == null) throw new ArgumentNullException("assetService");
+
             _assetService = assetService;
         }
 

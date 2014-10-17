@@ -111,6 +111,13 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
+        public ContextBuilder WithWheelDrives(String language, params WheelDrive[] wheelDrives)
+        {
+            foreach (var wheelDrive in wheelDrives)
+                _context.ContextData[language].WheelDrives.Add(wheelDrive);
+            return this;
+        }
+
         private ContextBuilder WithTimeFrames(String language, IEnumerable<TimeFrame> timeFrames)
         {
             _context.TimeFrames[language] = timeFrames.ToList();

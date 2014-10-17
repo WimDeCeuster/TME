@@ -21,16 +21,25 @@ namespace TME.CarConfigurator.Publisher
         readonly IBodyTypeMapper _bodyTypeMapper;
         readonly IEngineMapper _engineMapper;
         readonly ITransmissionMapper _transmissionMapper;
+        readonly IWheelDriveMapper _wheelDriveMapper;
         readonly ICarMapper _carMapper;
         readonly IAssetMapper _assetMapper;
 
-        public Mapper(IModelMapper modelMapper, IGenerationMapper generationMapper, IBodyTypeMapper bodyTypeMapper, IEngineMapper engineMapper, ITransmissionMapper transmissionMapper, ICarMapper carMapper, IAssetMapper assetMapper)
+        public Mapper(IModelMapper modelMapper,
+                      IGenerationMapper generationMapper,
+                      IBodyTypeMapper bodyTypeMapper,
+                      IEngineMapper engineMapper,
+                      ITransmissionMapper transmissionMapper,
+                      IWheelDriveMapper wheelDriveMapper,
+                      ICarMapper carMapper,
+                      IAssetMapper assetMapper)
         {
             if (modelMapper == null) throw new ArgumentNullException("modelMapper");
             if (generationMapper == null) throw new ArgumentNullException("generationMapper");
             if (bodyTypeMapper == null) throw new ArgumentNullException("bodyTypeMapper");
             if (engineMapper == null) throw new ArgumentNullException("engineMapper");
             if (transmissionMapper == null) throw new ArgumentNullException("transmissionMapper");
+            if (wheelDriveMapper == null) throw new ArgumentNullException("wheelDriveMapper");
             if (carMapper == null) throw new ArgumentNullException("carMapper");
             if (assetMapper == null) throw new ArgumentNullException("assetMapper");
 
@@ -40,6 +49,7 @@ namespace TME.CarConfigurator.Publisher
             _bodyTypeMapper = bodyTypeMapper;
             _engineMapper = engineMapper;
             _transmissionMapper = transmissionMapper;
+            _wheelDriveMapper = wheelDriveMapper;
             _carMapper = carMapper;
         }
 
@@ -59,7 +69,7 @@ namespace TME.CarConfigurator.Publisher
 
                 context.ModelGenerations[language] = modelGeneration;
                 context.ContextData[language] = contextData;
-
+                
                 // fill contextData
                 var generation = _generationMapper.MapGeneration(model, modelGeneration, brand, country, language, isPreview);
                 contextData.Generations.Add(generation);
@@ -69,6 +79,7 @@ namespace TME.CarConfigurator.Publisher
                 FillEngines(modelGeneration, contextData);
                 FillAssets(modelGeneration, contextData);
                 FillTransmissions(modelGeneration, contextData);
+                FillWheelDrives(modelGeneration, contextData);
 
                 var cars = modelGeneration.Cars.Where(car => isPreview || car.Approved).ToList();
                 FillCars(cars, contextData);
@@ -210,7 +221,8 @@ namespace TME.CarConfigurator.Publisher
                 var bodyType = contextData.BodyTypes.Single(type => type.ID == car.BodyTypeID);
                 var engine = contextData.Engines.Single(eng => eng.ID == car.EngineID);
                 var transmission = contextData.Transmissions.Single(trans => trans.ID == car.TransmissionID);
-                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission));
+                var wheelDrive = contextData.WheelDrives.Single(drive => drive.ID == car.WheelDriveID);
+                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive));
                 contextData.CarAssets.Add(car.ID, new List<Asset>());
             }
         }
@@ -231,6 +243,12 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var transmission in modelGeneration.Transmissions)
                 contextData.Transmissions.Add(_transmissionMapper.MapTransmission(transmission));
+        }
+
+        void FillWheelDrives(ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var wheelDrive in modelGeneration.WheelDrives)
+                contextData.WheelDrives.Add(_wheelDriveMapper.MapWheelDrive(wheelDrive));
         }
 
         IReadOnlyList<TimeFrame> GetTimeFrames(String language, IContext context)

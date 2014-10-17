@@ -16,15 +16,24 @@ namespace TME.CarConfigurator.Factories
         private readonly IBodyTypeFactory _bodyTypeFactory;
         private readonly IEngineFactory _engineFactory;
         private readonly ITransmissionFactory _transmissionFactory;
+        private readonly IWheelDriveFactory _wheelDriveFactory;
         private readonly ICarFactory _carFactory;
 
-        public ModelFactory(IModelService modelService, IPublicationFactory publicationFactory, IBodyTypeFactory bodyTypeFactory, IEngineFactory engineFactory, ITransmissionFactory transmissionFactory, ICarFactory carFactory)
+        public ModelFactory(
+            IModelService modelService,
+            IPublicationFactory publicationFactory,
+            IBodyTypeFactory bodyTypeFactory,
+            IEngineFactory engineFactory,
+            ITransmissionFactory transmissionFactory,
+            IWheelDriveFactory wheelDriveFactory,
+            ICarFactory carFactory)
         {
             if (modelService == null) throw new ArgumentNullException("modelService");
             if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
             if (bodyTypeFactory == null) throw new ArgumentNullException("bodyTypeFactory");
             if (engineFactory == null) throw new ArgumentNullException("engineFactory");
             if (transmissionFactory == null) throw new ArgumentNullException("transmissionFactory");
+            if (wheelDriveFactory == null) throw new ArgumentNullException("wheelDriveFactory");
             if (carFactory == null) throw new ArgumentNullException("carFactory");
 
             _modelService = modelService;
@@ -32,6 +41,7 @@ namespace TME.CarConfigurator.Factories
             _bodyTypeFactory = bodyTypeFactory;
             _engineFactory = engineFactory;
             _transmissionFactory = transmissionFactory;
+            _wheelDriveFactory = wheelDriveFactory;
             _carFactory = carFactory;
         }
 
@@ -51,7 +61,7 @@ namespace TME.CarConfigurator.Factories
 
         private IModel CreateModel(Repository.Objects.Model repositoryModel, Context context)
         {
-            return new Model(repositoryModel, context, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _carFactory);
+            return new Model(repositoryModel, context, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _carFactory);
         }
     }
 }

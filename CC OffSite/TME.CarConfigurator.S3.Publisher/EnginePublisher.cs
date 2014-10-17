@@ -16,6 +16,8 @@ namespace TME.CarConfigurator.S3.Publisher
 
         public EnginePublisher(IEngineService engineService)
         {
+            if (engineService == null) throw new ArgumentNullException("engineService");
+
             _engineService = engineService;
         }
 

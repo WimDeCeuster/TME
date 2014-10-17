@@ -14,6 +14,8 @@ namespace TME.CarConfigurator.S3.Publisher
 
         public ModelPublisher(IModelService modelService)
         {
+            if (modelService == null) throw new ArgumentNullException("modelService");
+
             _modelService = modelService;
         }
 

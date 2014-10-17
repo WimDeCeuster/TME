@@ -33,6 +33,8 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Facades
                     _serviceFactory.GetEngineService(environment, dataSubset)),
                 _publisherFactory.GetTransmissionPublisher(
                     _serviceFactory.GetTransmissionService(environment, dataSubset)),
+                _publisherFactory.GetWheelDrivePublisher(
+                    _serviceFactory.GetWheelDriveService(environment, dataSubset)),
                 _publisherFactory.GetCarPublisher(
                     _serviceFactory.GetCarService(environment, dataSubset)),
                 _publisherFactory.GetAssetPublisher(
