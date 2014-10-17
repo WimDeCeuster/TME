@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Administration.Assets;
 using TME.CarConfigurator.Publisher.Common;
@@ -10,7 +9,6 @@ using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Mappers;
-using TME.CarConfigurator.Publisher.Mappers.Exceptions;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
 using Car = TME.CarConfigurator.Repository.Objects.Car;
 
@@ -71,7 +69,7 @@ namespace TME.CarConfigurator.Publisher
 
                 context.ModelGenerations[language] = modelGeneration;
                 context.ContextData[language] = contextData;
-
+                
                 // fill contextData
                 var generation = _generationMapper.MapGeneration(model, modelGeneration, brand, country, language, isPreview);
                 contextData.Generations.Add(generation);
@@ -168,163 +166,24 @@ namespace TME.CarConfigurator.Publisher
 
         private static void TryAddAssetToPossibleCarAssets(AssetSetAsset asset, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
         {
-            var key = GetKey(asset);
-
-            if (!possibleCarAssets.ContainsKey(key))
-            {
-                possibleCarAssets.Add(key, new List<AssetSetAsset> { asset });
-                return;
-            }
-
-            var existingAssets = possibleCarAssets[key];
-
-            var existingAsset = existingAssets.First(); // all assets for this key the same number of deviation axes
-
-            var numberOfDeviationAxesOfExistingAsset = GetNumberOfDeviationAxes(existingAsset);
-            var numberOfDeviationAxesOfCurrentAsset = GetNumberOfDeviationAxes(asset);
-
-            if (numberOfDeviationAxesOfCurrentAsset < numberOfDeviationAxesOfExistingAsset)
-                return;
-
-            if (numberOfDeviationAxesOfCurrentAsset == numberOfDeviationAxesOfExistingAsset)
-            {
-                existingAssets.Add(asset);
-
-                return;
-            }
-
-            // more deviation axes than existing assets => only keep the current asset
-            possibleCarAssets[key] = new List<AssetSetAsset> { asset };
-        }
-
-        private static string GetKey(AssetSetAsset asset)
-        {
-            var assetType = asset.AssetType;
-
-            var mode = string.Empty;
-            var view = string.Empty;
-            var side = string.Empty;
-            var type = string.Empty;
-
-
-            var splitAssetTypeName = assetType.Name.Split('_');
-            var sections = splitAssetTypeName.Length;
-
-            if (!string.IsNullOrEmpty(assetType.Details.Mode))
-            {
-                const int leastExpectedNumberOfSections = 3;
-                if (sections < leastExpectedNumberOfSections)
-                    throw new CorruptDataException(string.Format("At least 4 parts should be definied in the type {0} for the {1} mode", assetType.Name, assetType.Details.Mode));
-
-                if (sections > leastExpectedNumberOfSections)
-                {
-                    mode = splitAssetTypeName[0];
-                    view = splitAssetTypeName[1];
-                    side = splitAssetTypeName[2];
-                    type = splitAssetTypeName[3];
-                }
-            }
-            else if (sections > 2)
-            {
-                view = splitAssetTypeName[0];
-                side = splitAssetTypeName[1];
-                type = splitAssetTypeName[2];
-            }
-
-            if (string.IsNullOrEmpty(view))
-                return assetType.Code;
-
-            var exteriourColourCode = asset.ExteriorColour.Code;
-            var upholsteryCode = asset.Upholstery.Code;
-            var equipmentCode = asset.EquipmentItem.ID.ToString(); // TODO: replace this by equipment item code, either by adding to equipmentinfo object or by fetching from ModelGeneration => Check with Wim
-
-            return GetKey(mode, view, side, type, exteriourColourCode, upholsteryCode, equipmentCode);
-        }
-
-        private static string GetKey(string mode, string view, string side, string type, string exteriourColourCode, string upholsteryCode, string equipmentCode)
-        {
-            var stringBuilder = new StringBuilder();
-
-            stringBuilder.Append(mode);
-
-            if (string.IsNullOrEmpty(view)) 
-                return stringBuilder.ToString();
-
-            if (stringBuilder.Length != 0)
-                stringBuilder.Append("_"); // if a mode was appended before, we need the underscore
-
-            stringBuilder.Append(view);
-
-            if (string.IsNullOrEmpty(side))
-                return stringBuilder.ToString();
-
-            stringBuilder.Append(string.Format("_{0}", side));
-
-            if (string.IsNullOrEmpty(type))
-                return stringBuilder.ToString();
-
-            stringBuilder.Append(string.Format("_{0}", type));
-
-            if (string.IsNullOrEmpty(exteriourColourCode))
-                return stringBuilder.ToString();
-
-            stringBuilder.Append(string.Format("_{0}", exteriourColourCode));
-
-            if (string.IsNullOrEmpty(upholsteryCode))
-                return stringBuilder.ToString();
-
-            stringBuilder.Append(string.Format("_{0}", upholsteryCode));
-
-            if (string.IsNullOrEmpty(equipmentCode))
-                return stringBuilder.ToString();
-
-            stringBuilder.Append(string.Format("_{0}", equipmentCode));
-
-            return stringBuilder.ToString();
-        }
-
-        private static int GetNumberOfDeviationAxes(AssetSetAsset asset)
-        {
-            var i = 0;
-
-            i += asset.BodyType.IsEmpty() ? 0 : 1;
-            i += asset.Engine.IsEmpty() ? 0 : 1;
-            i += asset.Grade.IsEmpty() ? 0 : 1;
-            i += asset.Transmission.IsEmpty() ? 0 : 1;
-            i += asset.WheelDrive.IsEmpty() ? 0 : 1;
-            i += asset.Steering.IsEmpty() ? 0 : 1;
-
-            return i;
+            throw new NotImplementedException();
         }
 
         private static void AddPossibleCarAssetsThatAreBetterMatches(List<AssetSetAsset> carAssets, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
         {
             RemovePossibleCarAssetsWhenThereIsABetterAssetInTheCarAssetsList(carAssets, possibleCarAssets);
 
-            var remainingPossibleCarAssets = possibleCarAssets.Values.SelectMany(v => v);
-
-            carAssets.AddRange(remainingPossibleCarAssets);
+            AddRemainingPossibleCarAssets(carAssets, possibleCarAssets);
         }
 
-        private static void RemovePossibleCarAssetsWhenThereIsABetterAssetInTheCarAssetsList(IEnumerable<AssetSetAsset> carAssets, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
+        private static void RemovePossibleCarAssetsWhenThereIsABetterAssetInTheCarAssetsList(List<AssetSetAsset> carAssets, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
         {
-            foreach (var carAsset in carAssets)
-            {
-                var key = GetKey(carAsset);
+            throw new NotImplementedException();
+        }
 
-                if (!possibleCarAssets.ContainsKey(key))
-                    continue;
-
-                var existingAsset = possibleCarAssets[key].First(); // all assets for this key have the same number of deviation axes
-
-                var numberOfDeviationAxesOfPossibleAsset = GetNumberOfDeviationAxes(existingAsset);
-                var numberOfDeviationAxesOfCarAsset = GetNumberOfDeviationAxes(carAsset);
-
-                if (numberOfDeviationAxesOfPossibleAsset >= numberOfDeviationAxesOfCarAsset) // optional assets are more specific than the car asset, so we can keep them
-                    continue;
-
-                possibleCarAssets.Remove(key);
-            }
+        private static void AddRemainingPossibleCarAssets(List<AssetSetAsset> carAssets, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
+        {
+            throw new NotImplementedException();
         }
 
         private void FillAssets(ModelGeneration modelGeneration, ContextData contextData)
@@ -362,9 +221,13 @@ namespace TME.CarConfigurator.Publisher
                 var bodyType = contextData.BodyTypes.Single(type => type.ID == car.BodyTypeID);
                 var engine = contextData.Engines.Single(eng => eng.ID == car.EngineID);
                 var transmission = contextData.Transmissions.Single(trans => trans.ID == car.TransmissionID);
+<<<<<<< HEAD
+                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission));
+                contextData.CarAssets.Add(car.ID, new List<Asset>());
+=======
                 var wheelDrive = contextData.WheelDrives.Single(drive => drive.ID == car.WheelDriveID);
                 contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive));
-                contextData.CarAssets.Add(car.ID, new List<Asset>());
+>>>>>>> b2f56ff373fd36f4975fe90fcd06977176df30e6
             }
         }
 
