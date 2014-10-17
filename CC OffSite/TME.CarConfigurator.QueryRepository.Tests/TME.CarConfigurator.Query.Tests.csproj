@@ -55,6 +55,13 @@
     <Compile Include="GivenABodyType\WhenAccessingIts3DAssetsASecondTime.cs" />
     <Compile Include="GivenABodyType\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenABodyType\WhenAccessingIts3DAssets.cs" />
+    <Compile Include="GivenACarBodyType\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenACarBodyType\WhenAccessingIts3DAssets.cs" />
+    <Compile Include="GivenACarBodyType\WhenAccessingIts3DAssetsASecondTime.cs" />
+    <Compile Include="GivenACarBodyType\WhenAccessingItsAssets.cs" />
+    <Compile Include="GivenACarBodyType\WhenAccessingItsAssetsASecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsBodyTypeForTheFirstTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsBodyTypeForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsStartingPriceForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
@@ -122,7 +129,9 @@
     <Compile Include="Services\GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
     <Compile Include="Services\GivenACarService\WhenGetCarsIsCalled.cs" />
     <Compile Include="Services\GivenAModelService\WhenGeGetModelsByLanguageIsCalled.cs" />
+    <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledFor2DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledFor2DAssets.cs" />
+    <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenASteeringService\WhenGetSteeringsIsCalled.cs" />
     <Compile Include="Services\GivenAWheelDriveService\WhenGetWheelDrivesIsCalled.cs" />

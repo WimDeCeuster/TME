@@ -92,12 +92,14 @@
     <Compile Include="GivenAKeyManager\WhenRequestingABodyTypesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAModelsKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingACarAssetsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAnAssetsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASteeringsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAWheelDrivesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingATransmissionsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAnEnginesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAPublicationKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingADefaultCarAssetsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingTheDefaultAssetsKey.cs" />
     <Compile Include="GivenAPublisherService\IServiceFactory.cs" />
     <Compile Include="GivenAPublisherService\WhenPublishingToS3ProductionLive.cs" />

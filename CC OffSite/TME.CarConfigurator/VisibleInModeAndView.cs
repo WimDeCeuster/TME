@@ -8,12 +8,12 @@ namespace TME.CarConfigurator
     public class VisibleInModeAndView : IVisibleInModeAndView
     {
 
-        private readonly Guid _objectID;
         private readonly Repository.Objects.Assets.VisibleInModeAndView _repositoryVisibleInModeAndView;
-        private readonly Repository.Objects.Publication _repositoryPublication;
-        private readonly Repository.Objects.Context _repositoryContext;
-        private readonly IAssetFactory _assetFactory;
-        private IEnumerable<IAsset> _assets;
+        protected readonly Guid ObjectID;
+        protected readonly Repository.Objects.Publication RepositoryPublication;
+        protected readonly Repository.Objects.Context RepositoryContext;
+        protected readonly IAssetFactory AssetFactory;
+        protected IEnumerable<IAsset> FetchedAssets;
 
         public VisibleInModeAndView(
             Guid objectID,
@@ -27,11 +27,11 @@ namespace TME.CarConfigurator
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
-            _objectID = objectID;
             _repositoryVisibleInModeAndView = repositoryVisibleInModeAndView;
-            _repositoryPublication = repositoryPublication;
-            _repositoryContext = repositoryContext;
-            _assetFactory = assetFactory;
+            ObjectID = objectID;
+            RepositoryPublication = repositoryPublication;
+            RepositoryContext = repositoryContext;
+            AssetFactory = assetFactory;
         }
 
 
@@ -44,9 +44,9 @@ namespace TME.CarConfigurator
             get { return _repositoryVisibleInModeAndView.View; }
         }
 
-        public IEnumerable<IAsset> Assets
+        public virtual IEnumerable<IAsset> Assets
         {
-            get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, _objectID, _repositoryContext, View, Mode); }
+            get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetAssets(RepositoryPublication, ObjectID, RepositoryContext, View, Mode); }
         }
     }
 }

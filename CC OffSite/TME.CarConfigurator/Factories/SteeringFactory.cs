@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces;
@@ -14,6 +15,8 @@ namespace TME.CarConfigurator.Factories
 
         public SteeringFactory(ISteeringService steeringService)
         {
+            if (steeringService == null) throw new ArgumentNullException("steeringService");
+
             _steeringService = steeringService;
         }
 

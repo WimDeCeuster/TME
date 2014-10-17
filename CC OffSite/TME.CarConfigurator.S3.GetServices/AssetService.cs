@@ -38,6 +38,20 @@ namespace TME.CarConfigurator.S3.QueryServices
             return GetAssets(context, key);
         }
 
+        public IEnumerable<Asset> GetCarAssets(Guid publicationId, Guid carId, Guid objectId, Context context)
+        {
+            var key = _keyManager.GetDefaultCarAssetsKey(publicationId, carId, objectId);
+
+            return GetAssets(context, key);
+        }
+
+        public IEnumerable<Asset> GetCarAssets(Guid publicationId, Guid carId, Guid objectId, Context context, string view, string mode)
+        {
+            var key = _keyManager.GetCarAssetsKey(publicationId, carId, objectId, view, mode);
+
+            return GetAssets(context, key);
+        }
+
         private IEnumerable<Asset> GetAssets(Context context, string key)
         {
             var serializedObject = _service.GetObject(context.Brand, context.Country, key);

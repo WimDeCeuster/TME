@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces;
@@ -15,6 +16,9 @@ namespace TME.CarConfigurator.Factories
 
         public TransmissionFactory(ITransmissionService transmissionService, IAssetFactory assetFactory)
         {
+            if (transmissionService == null) throw new ArgumentNullException("transmissionService");
+            if (assetFactory == null) throw new ArgumentNullException("assetFactory");
+
             _transmissionService = transmissionService;
             _assetFactory = assetFactory;
         }

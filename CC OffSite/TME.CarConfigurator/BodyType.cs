@@ -12,12 +12,12 @@ namespace TME.CarConfigurator
 {
     public class BodyType : BaseObject, IBodyType
     {
-        private readonly Repository.Objects.BodyType _repositoryBodyType;
-        private readonly Repository.Objects.Publication _repositoryPublication;
-        private readonly Repository.Objects.Context _repositoryContext;
-        private readonly IAssetFactory _assetFactory;
-        private IEnumerable<IAsset> _assets;
-        private IEnumerable<IVisibleInModeAndView> _visibleInModeAndViews;
+        protected readonly Repository.Objects.BodyType RepositoryBodyType;
+        protected readonly Repository.Objects.Publication RepositoryPublication;
+        protected readonly Repository.Objects.Context RepositoryContext;
+        protected readonly IAssetFactory AssetFactory;
+        protected IEnumerable<IAsset> FetchedAssets;
+        protected IEnumerable<IVisibleInModeAndView> FetchedVisibleInModeAndViews;
 
         public BodyType(Repository.Objects.BodyType repositoryBodyType, Repository.Objects.Publication publication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory)
             : base(repositoryBodyType)
@@ -27,26 +27,26 @@ namespace TME.CarConfigurator
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
-            _repositoryBodyType = repositoryBodyType;
-            _repositoryPublication = publication;
-            _repositoryContext = repositoryContext;
-            _assetFactory = assetFactory;
+            RepositoryBodyType = repositoryBodyType;
+            RepositoryPublication = publication;
+            RepositoryContext = repositoryContext;
+            AssetFactory = assetFactory;
         }
 
-        public int NumberOfDoors { get { return _repositoryBodyType.NumberOfDoors; } }
-        public int NumberOfSeats { get { return _repositoryBodyType.NumberOfSeats; } }
+        public int NumberOfDoors { get { return RepositoryBodyType.NumberOfDoors; } }
+        public int NumberOfSeats { get { return RepositoryBodyType.NumberOfSeats; } }
 
-        public IEnumerable<IVisibleInModeAndView> VisibleIn
+        public virtual IEnumerable<IVisibleInModeAndView> VisibleIn
         {
             get
             {
                 return
-                    _visibleInModeAndViews = _visibleInModeAndViews ?? _repositoryBodyType.VisibleIn.Select(x => new VisibleInModeAndView(_repositoryBodyType.ID, x, _repositoryPublication, _repositoryContext, _assetFactory)).ToList();
+                    FetchedVisibleInModeAndViews = FetchedVisibleInModeAndViews ?? RepositoryBodyType.VisibleIn.Select(x => new VisibleInModeAndView(RepositoryBodyType.ID, x, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
 
             }
         }
 
-        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
+        public virtual IEnumerable<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext); } }
 
         [Obsolete("Use the new VisibleIn property instead")]
         public bool VisibleInExteriorSpin { get { return VisibleIn.VisibleInExteriorSpin(); } }

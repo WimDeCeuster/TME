@@ -93,7 +93,14 @@ table td { vertical-align: top;}
 .missing {
      background-color: orange;
 }
+
 .mismatch {
      background-color: red;
+}
+
+
+.mismatch.object.sub-item  {
+     background-color: inherit;
+     border-color: red;
 }
 

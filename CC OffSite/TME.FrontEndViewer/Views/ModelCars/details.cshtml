@@ -1,4 +1,5 @@
-﻿@model IEnumerable<TME.CarConfigurator.Interfaces.ICar>
+﻿@using TME.FrontEndViewer.Models
+@model IEnumerable<TME.CarConfigurator.Interfaces.ICar>
 
 
 @foreach (var model in Model)
@@ -22,6 +23,11 @@
             <p class="property" data-id="BasePricePriceInVat">BasePrice.PriceInVat : @Html.Raw(model.BasePrice.PriceInVat)</p>
             <p class="property" data-id="StartingPricePriceExVat">StartingPrice.PriceExVat : @Html.Raw(model.StartingPrice.PriceExVat)</p>
             <p class="property" data-id="StartingPricePriceInVat">StartingPrice.PriceInVat : @Html.Raw(model.StartingPrice.PriceInVat)</p>
+            <strong>Body Type</strong>
+            <div class="sub-item object" data-id="@Html.Raw(model.BodyType.ID)">
+                @Html.Partial("_bodyType", model.BodyType)
+            </div>
+            @Html.ActionLink("BodyType Assets", "Index", "ModelCarBodyTypeAssets", new { modelID = ViewBag.ModelID, carID = model.ID }, new { })
         </div>
     </div>
 }

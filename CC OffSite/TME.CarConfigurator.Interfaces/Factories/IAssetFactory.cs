@@ -9,5 +9,7 @@ namespace TME.CarConfigurator.Interfaces.Factories
     {
         IEnumerable<IAsset> GetAssets(Publication publication, Guid objectId, Context context);
         IEnumerable<IAsset> GetAssets(Publication publication, Guid objectId, Context context, string view, string mode);
+        IEnumerable<IAsset> GetCarAssets(Publication publication, Guid carId, Guid objectId, Context context);
+        IEnumerable<IAsset> GetCarAssets(Publication publication, Guid carId, Guid objectId, Context context, string view, string mode);
     }
 }

@@ -31,5 +31,10 @@ namespace TME.CarConfigurator.Factories
 
             return repoBodyTypes.Select(bt => new BodyType(bt, publication, context, _assetFactory)).ToArray();
         }
+
+        public IBodyType GetCarBodyType(Repository.Objects.BodyType bodyType, Guid carId, Publication publication, Context context)
+        {
+            return new CarBodyType(bodyType, publication, carId, context, _assetFactory);
+        }
     }
 }

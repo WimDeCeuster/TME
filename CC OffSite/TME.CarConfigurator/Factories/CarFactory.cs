@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces;
@@ -11,16 +12,21 @@ namespace TME.CarConfigurator.Factories
     public class CarFactory : ICarFactory
     {
         private readonly ICarService _carService;
+        private readonly IBodyTypeFactory _bodyTypeFactory;
 
-        public CarFactory(ICarService carService)
+        public CarFactory(ICarService carService, IBodyTypeFactory bodyTypeFactory)
         {
+            if (carService == null) throw new ArgumentNullException("carService");
+            if (bodyTypeFactory == null) throw new ArgumentNullException("bodyTypeFactory");
+
             _carService = carService;
+            _bodyTypeFactory = bodyTypeFactory;
         }
 
         public IEnumerable<ICar> GetCars(Publication publication, Context context)
         {
             return _carService.GetCars(publication.ID, publication.GetCurrentTimeFrame().ID, context)
-                                 .Select(car => new Car(car))
+                                 .Select(car => new Car(car, publication, context, _bodyTypeFactory))
                                  .ToArray();
         }
     }

@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<TME.CarConfigurator.Interfaces.IBodyType>
 
-
 @foreach (var model in Model)
 {
     <div class="clickable">
@@ -12,14 +11,7 @@
             </tr>
         </table>
         <div class="clickable object" data-id="@Html.Raw(model.ID)">
-            @Html.Partial("_baseObject", model)
-            <p class="property" data-id="NumberOfDoors">NumberOfDoors : @Html.Raw(model.NumberOfDoors)</p>
-            <p class="property" data-id="NumberOfSeats">NumberOfSeats : @Html.Raw(model.NumberOfSeats)</p>
-            <p class="property" data-id="VisibleInExteriorSpin">VisibleInExteriorSpin : @Html.Raw(model.VisibleInExteriorSpin)</p>
-            <p class="property" data-id="VisibleInInteriorSpin">VisibleInInteriorSpin : @Html.Raw(model.VisibleInInteriorSpin)</p>
-            <p class="property" data-id="VisibleInXRay4X4Spin">VisibleInXRay4X4Spin : @Html.Raw(model.VisibleInXRay4X4Spin)</p>
-            <p class="property" data-id="VisibleInXRayHybridSpin">VisibleInXRayHybridSpin : @Html.Raw(model.VisibleInXRayHybridSpin)</p>
-            <p class="property" data-id="VisibleInXRaySafetySpin">VisibleInXRaySafetySpin : @Html.Raw(model.VisibleInXRaySafetySpin)</p>
+            @Html.Partial("_bodyType", model)
             <br />
             @Html.ActionLink("Assets","Index", "ModelBodyTypeAssets", new { modelID = ViewBag.ModelID, bodyTypeID = model.ID}, new { }) 
         </div>

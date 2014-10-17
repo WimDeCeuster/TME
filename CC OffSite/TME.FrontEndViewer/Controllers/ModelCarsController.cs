@@ -20,6 +20,8 @@ namespace TME.FrontEndViewer.Controllers
             var context = (Context)Session["context"];
             var oldContext = MyContext.NewContext(context.Brand, context.Country, context.Language);
 
+            ViewBag.ModelID = modelID;
+
             var model = new CompareView<ICar>
             {
                 OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID),

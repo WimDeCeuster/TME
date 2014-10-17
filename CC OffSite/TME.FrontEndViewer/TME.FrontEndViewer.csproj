@@ -141,6 +141,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ModelCarBodyTypeAssetsController.cs" />
     <Compile Include="Controllers\ModelWheelDriveAssetsController.cs" />
     <Compile Include="Controllers\ModelTransmissionAssetsController.cs" />
     <Compile Include="Controllers\ModelSteeringsController.cs" />
@@ -270,6 +271,7 @@
     <Content Include="Views\ModelWheelDrives\Index.cshtml" />
     <Content Include="Views\ModelSteerings\details.cshtml" />
     <Content Include="Views\ModelSteerings\Index.cshtml" />
+    <Content Include="Views\Shared\_bodyType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
