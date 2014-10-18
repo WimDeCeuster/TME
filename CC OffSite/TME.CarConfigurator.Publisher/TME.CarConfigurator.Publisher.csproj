@@ -91,10 +91,12 @@
     <Compile Include="Interfaces\IEngineCategoryMapper.cs" />
     <Compile Include="Interfaces\IEngineMapper.cs" />
     <Compile Include="Interfaces\ISteeringMapper.cs" />
+    <Compile Include="Interfaces\ISubModelMapper.cs" />
+    <Compile Include="Interfaces\ISubModelPublisher.cs" />
     <Compile Include="Interfaces\IWheelDriveMapper.cs" />
     <Compile Include="Interfaces\ISteeringPublisher.cs" />
     <Compile Include="Interfaces\IWheelDrivePublisher.cs" />
-    <Compile Include="Interfaces\ITransmissionPublishe.cs" />
+    <Compile Include="Interfaces\ITransmissionPublisher.cs" />
     <Compile Include="Interfaces\IEnginePublisher.cs" />
     <Compile Include="Interfaces\IEngineTypeMapper.cs" />
     <Compile Include="Interfaces\IFileTypeMapper.cs" />
@@ -132,6 +134,7 @@
     <Compile Include="Mappers\MappingExtension.cs" />
     <Compile Include="Mappers\ModelMapper.cs" />
     <Compile Include="Mappers\SteeringMapper.cs" />
+    <Compile Include="Mappers\SubModelMapper.cs" />
     <Compile Include="Mappers\WheelDriveMapper.cs" />
     <Compile Include="Mappers\TransmissionMapper.cs" />
     <Compile Include="Mappers\TransmissionTypeMapper.cs" />

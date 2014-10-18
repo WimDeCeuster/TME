@@ -8,16 +8,9 @@ using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Mappers;
-using TME.CarConfigurator.Repository.Objects;
 using DBCar = TME.CarConfigurator.Administration.Car;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
-using BodyType = TME.CarConfigurator.Repository.Objects.BodyType;
 using Car = TME.CarConfigurator.Repository.Objects.Car;
-using Engine = TME.CarConfigurator.Repository.Objects.Engine;
-using EngineCategory = TME.CarConfigurator.Repository.Objects.EngineCategory;
-using FuelType = TME.CarConfigurator.Repository.Objects.FuelType;
-using Link = TME.CarConfigurator.Repository.Objects.Link;
-using Model = TME.CarConfigurator.Repository.Objects.Model;
 
 namespace TME.CarConfigurator.Publisher
 {
@@ -32,38 +25,7 @@ namespace TME.CarConfigurator.Publisher
         readonly ISteeringMapper _steeringMapper;
         readonly ICarMapper _carMapper;
         readonly IAssetMapper _assetMapper;
-
-        public Mapper(
-            IModelMapper modelMapper,
-            IGenerationMapper generationMapper,
-            IBodyTypeMapper bodyTypeMapper,
-            IEngineMapper engineMapper,
-            ITransmissionMapper transmissionMapper,
-            IWheelDriveMapper wheelDriveMapper,
-            ISteeringMapper steeringMapper,
-            ICarMapper carMapper,
-            IAssetMapper assetMapper)
-        {
-            if (modelMapper == null) throw new ArgumentNullException("modelMapper");
-            if (generationMapper == null) throw new ArgumentNullException("generationMapper");
-            if (bodyTypeMapper == null) throw new ArgumentNullException("bodyTypeMapper");
-            if (engineMapper == null) throw new ArgumentNullException("engineMapper");
-            if (transmissionMapper == null) throw new ArgumentNullException("transmissionMapper");
-            if (wheelDriveMapper == null) throw new ArgumentNullException("wheelDriveMapper");
-            if (steeringMapper == null) throw new ArgumentNullException("steeringMapper");
-            if (carMapper == null) throw new ArgumentNullException("carMapper");
-            if (assetMapper == null) throw new ArgumentNullException("assetMapper");
-
-            _modelMapper = modelMapper;
-            _assetMapper = assetMapper;
-            _generationMapper = generationMapper;
-            _bodyTypeMapper = bodyTypeMapper;
-            _engineMapper = engineMapper;
-            _transmissionMapper = transmissionMapper;
-            _wheelDriveMapper = wheelDriveMapper;
-            _steeringMapper = steeringMapper;
-            _carMapper = carMapper;
-        }
+        readonly ISubModelMapper _subModelMapper;
 
         public IContext Map(String brand, String country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IContext context)
         {
@@ -91,6 +53,7 @@ namespace TME.CarConfigurator.Publisher
                 FillObjectAssets(modelGeneration,contextData);
                 FillTransmissions(modelGeneration, contextData);
                 FillWheelDrives(modelGeneration, contextData);
+                FillSubModels(modelGeneration, contextData);
                 
                 var cars = modelGeneration.Cars.Where(car => isPreview || car.Approved).ToList();
                 FillSteerings(cars, contextData);
@@ -100,6 +63,41 @@ namespace TME.CarConfigurator.Publisher
             }
 
             return context;
+        }
+
+        public Mapper(
+            IModelMapper modelMapper,
+            IGenerationMapper generationMapper,
+            IBodyTypeMapper bodyTypeMapper,
+            IEngineMapper engineMapper,
+            ITransmissionMapper transmissionMapper,
+            IWheelDriveMapper wheelDriveMapper,
+            ISteeringMapper steeringMapper,
+            ICarMapper carMapper,
+            IAssetMapper assetMapper,
+            ISubModelMapper subModelMapper)
+        {
+            if (modelMapper == null) throw new ArgumentNullException("modelMapper");
+            if (generationMapper == null) throw new ArgumentNullException("generationMapper");
+            if (bodyTypeMapper == null) throw new ArgumentNullException("bodyTypeMapper");
+            if (engineMapper == null) throw new ArgumentNullException("engineMapper");
+            if (transmissionMapper == null) throw new ArgumentNullException("transmissionMapper");
+            if (wheelDriveMapper == null) throw new ArgumentNullException("wheelDriveMapper");
+            if (steeringMapper == null) throw new ArgumentNullException("steeringMapper");
+            if (carMapper == null) throw new ArgumentNullException("carMapper");
+            if (assetMapper == null) throw new ArgumentNullException("assetMapper");
+            if (subModelMapper == null) throw new ArgumentNullException("subModelMapper");
+
+            _modelMapper = modelMapper;
+            _assetMapper = assetMapper;
+            _subModelMapper = subModelMapper;
+            _generationMapper = generationMapper;
+            _bodyTypeMapper = bodyTypeMapper;
+            _engineMapper = engineMapper;
+            _transmissionMapper = transmissionMapper;
+            _wheelDriveMapper = wheelDriveMapper;
+            _steeringMapper = steeringMapper;
+            _carMapper = carMapper;
         }
 
         private void FillObjectAssets(ModelGeneration modelGeneration,ContextData contextData){
@@ -166,6 +164,12 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var bodyType in modelGeneration.BodyTypes)
                 contextData.BodyTypes.Add(_bodyTypeMapper.MapBodyType(bodyType));
+        }
+
+        private void FillSubModels(ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var modelGenerationSubModel in modelGeneration.SubModels)
+                contextData.SubModels.Add(_subModelMapper.MapSubModel(modelGenerationSubModel));
         }
 
         void FillEngines(ModelGeneration modelGeneration, ContextData contextData)

@@ -45,6 +45,7 @@
     <Compile Include="CarService.cs" />
     <Compile Include="AssetsService.cs" />
     <Compile Include="SteeringService.cs" />
+    <Compile Include="SubModelService.cs" />
     <Compile Include="WheelDriveService.cs" />
     <Compile Include="TransmissionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

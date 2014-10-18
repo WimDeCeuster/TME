@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Reflection;
 using FakeItEasy;
+using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
+using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.S3.CommandServices;
 using TME.CarConfigurator.S3.Shared;
 using TME.CarConfigurator.S3.Shared.Interfaces;
-using TME.CarConfigurator.S3.Shared.Result;
+using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
+using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
 namespace TME.Carconfigurator.Tests.GivenAS3SubModelPublisher
@@ -16,9 +22,25 @@ namespace TME.Carconfigurator.Tests.GivenAS3SubModelPublisher
         private ISubModelPublisher _subModelPublisher;
         private IContext _context;
         private IService _s3Service;
+        private const String LANGUAGE2 = "nl";
+        private const String LANGUAGE1 = "nl";
 
         protected override void Arrange()
         {
+            var submodels = new List<SubModel>()
+            {
+               new SubModelBuilder().WithID(Guid.NewGuid()).Build(), 
+               new SubModelBuilder().WithID(Guid.NewGuid()).Build(), 
+               new SubModelBuilder().WithID(Guid.NewGuid()).Build(), 
+            };
+                
+            _context = ContextBuilder
+                .InitialiseFakeContext()
+                .WithLanguages(LANGUAGE1,LANGUAGE2)
+                .WithSubModels(LANGUAGE1,submodels)
+                .WithSubModels(LANGUAGE2,submodels)
+                .Build();
+
             _s3Service = A.Fake<IService>();
 
             var serialiser = A.Fake<ISerialiser>();
@@ -31,7 +53,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3SubModelPublisher
 
         protected override void Act()
         {
-            var result = _subModelPublisher.PublishGenerationSubModels(_context).Result;
+            var result = _subModelPublisher.PublishGenerationSubModelsAsync(_context).Result;
         }
 
         [Fact]
@@ -41,65 +63,5 @@ namespace TME.Carconfigurator.Tests.GivenAS3SubModelPublisher
                 .WithAnyArguments()
                 .MustHaveHappened();
         }
-    }
-
-    public class SubModelService : ISubModelService
-    {
-        private readonly IService _s3Service;
-        private readonly ISerialiser _serialiser;
-        private readonly IKeyManager _keyManager;
-
-        public SubModelService(IService s3Service, ISerialiser serialiser, IKeyManager keyManager)
-        {
-            if (s3Service == null) throw new ArgumentNullException("s3Service");
-            if (serialiser == null) throw new ArgumentNullException("serialiser");
-            if (keyManager == null) throw new ArgumentNullException("keyManager");
-
-            _s3Service = s3Service;
-            _serialiser = serialiser;
-            _keyManager = keyManager;
-        }
-    }
-
-    public class SubModelPublisherBuilder
-    {
-        private ISubModelService _subModelService = A.Fake<ISubModelService>();
-
-        public SubModelPublisherBuilder WithService(ISubModelService subModelService)
-        {
-            _subModelService = subModelService;
-            return this;
-        }
-
-        public ISubModelPublisher Build()
-        {
-            return new SubModelPublisher(_subModelService);
-        }
-    }
-
-    public class SubModelPublisher : ISubModelPublisher
-    {
-        private readonly ISubModelService _subModelService;
-
-        public SubModelPublisher(ISubModelService subModelService)
-        {
-            if (subModelService == null) throw new ArgumentNullException("subModelService");
-
-            _subModelService = subModelService;
-        }
-
-        public Task<IEnumerable<Result>> PublishGenerationSubModels(IContext context)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
-
-    public interface ISubModelService
-    {
-    }
-
-    public interface ISubModelPublisher
-    {
-        Task<IEnumerable<Result>> PublishGenerationSubModels(IContext context);
     }
 }

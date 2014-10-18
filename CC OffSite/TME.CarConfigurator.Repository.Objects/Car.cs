@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
-using TME.CarConfigurator.Repository.Objects.Core;
+﻿using TME.CarConfigurator.Repository.Objects.Core;
 
 namespace TME.CarConfigurator.Repository.Objects
 {
@@ -34,5 +32,7 @@ namespace TME.CarConfigurator.Repository.Objects
         public WheelDrive WheelDrive { get; set; }
 
         public Steering Steering { get; set; }
-  }
+        
+        public SubModel SubModel { get; set; }
+    }
 }

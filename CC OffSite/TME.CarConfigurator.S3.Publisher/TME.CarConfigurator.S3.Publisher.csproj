@@ -43,6 +43,7 @@
     <Compile Include="BodyTypePublisher.cs" />
     <Compile Include="CarPublisher.cs" />
     <Compile Include="SteeringPublisher.cs" />
+    <Compile Include="SubModelPublisher.cs" />
     <Compile Include="WheelDrivePublisher.cs" />
     <Compile Include="TransmissionPublisher.cs" />
     <Compile Include="EnginePublisher.cs" />

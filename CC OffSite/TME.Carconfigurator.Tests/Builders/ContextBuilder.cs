@@ -144,6 +144,13 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
+        public ContextBuilder WithSubModels(String language, List<SubModel> subModels)
+        {
+            foreach (var subModel in subModels)
+                _context.ContextData[language].SubModels.Add(subModel);
+            return this;
+        }
+
         private void WithModels(String language, Model model)
         {
             _context.ContextData[language].Models.Add(model);
