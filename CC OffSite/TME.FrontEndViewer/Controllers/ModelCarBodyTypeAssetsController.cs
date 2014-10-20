@@ -31,12 +31,12 @@ namespace TME.FrontEndViewer.Controllers
         private static ModelWithMetrics<IAsset> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid carID)
         {
             var start = DateTime.Now;
-            var list =
-                new CarConfigurator.LegacyAdapter.BodyType(
-                    TMME.CarConfigurator.Model.GetModel(oldContext, modelID)
-                     .Cars[carID]
-                    .BodyType
-                   ).Assets.ToList();
+            var model = new CarConfigurator.LegacyAdapter.Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID));
+            var list = model
+                .Cars.First(x => x.ID == carID)
+                .BodyType
+                .Assets
+                .ToList();
 
             return new ModelWithMetrics<IAsset>()
             {

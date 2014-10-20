@@ -141,6 +141,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ModelWheelDriveVisibleInAssetsController.cs" />
+    <Compile Include="Controllers\ModelTransmissionVisibleInAssetsController.cs" />
     <Compile Include="Controllers\ModelEngineVisibleInAssetsController.cs" />
     <Compile Include="Controllers\ModelBodyTypeVisibleInAssetsController.cs" />
     <Compile Include="Controllers\ModelCarBodyTypeAssetsController.cs" />
