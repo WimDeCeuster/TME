@@ -104,6 +104,8 @@ namespace TME.CarConfigurator.Publisher
             _carMapper = carMapper;
         }
 
+        public void FillAssets(ModelGeneration modelGeneration, ContextData contextData)
+        {
             contextData.Assets =
                 GetBodyTypeAssets(modelGeneration)
                 .Concat(GetEngineAssets(modelGeneration))
@@ -112,6 +114,23 @@ namespace TME.CarConfigurator.Publisher
                 .ToDictionary(
                     entry => entry.Key,
                     entry => entry.Value);
+        }
+
+        private void FillCarAssets(IEnumerable<Administration.Car> cars, ContextData contextData, ModelGeneration modelGeneration)
+        {
+            foreach (var car in cars)
+            {
+                var carAssets = contextData.CarAssets[car.ID];
+                FillCarAssets(car, carAssets, modelGeneration, car.Generation.BodyTypes[car.BodyTypeID]);
+                FillCarAssets(car, carAssets, modelGeneration, car.Generation.Engines[car.EngineID]);
+            }
+        }
+
+        private void FillCarAssets(Administration.Car car, IDictionary<Guid, IList<Asset>> carAssets, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
+        {
+            var carEngineAssets = objectWithAssetSet.AssetSet.Assets.Filter(car);
+            var mappedAssets = carEngineAssets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
+            carAssets.Add(objectWithAssetSet.GetObjectID(), mappedAssets);
         }
 
         private Dictionary<Guid, List<Asset>> GetTransmissionAssets(ModelGeneration modelGeneration)

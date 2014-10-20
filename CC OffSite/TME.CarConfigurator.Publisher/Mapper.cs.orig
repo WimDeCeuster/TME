@@ -27,38 +27,7 @@ namespace TME.CarConfigurator.Publisher
         readonly ISteeringMapper _steeringMapper;
         readonly ICarMapper _carMapper;
         readonly IAssetMapper _assetMapper;
-
-        public Mapper(
-            IModelMapper modelMapper,
-            IGenerationMapper generationMapper,
-            IBodyTypeMapper bodyTypeMapper,
-            IEngineMapper engineMapper,
-            ITransmissionMapper transmissionMapper,
-            IWheelDriveMapper wheelDriveMapper,
-            ISteeringMapper steeringMapper,
-            ICarMapper carMapper,
-            IAssetMapper assetMapper)
-        {
-            if (modelMapper == null) throw new ArgumentNullException("modelMapper");
-            if (generationMapper == null) throw new ArgumentNullException("generationMapper");
-            if (bodyTypeMapper == null) throw new ArgumentNullException("bodyTypeMapper");
-            if (engineMapper == null) throw new ArgumentNullException("engineMapper");
-            if (transmissionMapper == null) throw new ArgumentNullException("transmissionMapper");
-            if (wheelDriveMapper == null) throw new ArgumentNullException("wheelDriveMapper");
-            if (steeringMapper == null) throw new ArgumentNullException("steeringMapper");
-            if (carMapper == null) throw new ArgumentNullException("carMapper");
-            if (assetMapper == null) throw new ArgumentNullException("assetMapper");
-
-            _modelMapper = modelMapper;
-            _assetMapper = assetMapper;
-            _generationMapper = generationMapper;
-            _bodyTypeMapper = bodyTypeMapper;
-            _engineMapper = engineMapper;
-            _transmissionMapper = transmissionMapper;
-            _wheelDriveMapper = wheelDriveMapper;
-            _steeringMapper = steeringMapper;
-            _carMapper = carMapper;
-        }
+        readonly ISubModelMapper _subModelMapper;
 
         public IContext Map(String brand, String country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IContext context)
         {
@@ -87,7 +56,12 @@ namespace TME.CarConfigurator.Publisher
                 FillAssets(modelGeneration, contextData);
                 FillTransmissions(modelGeneration, contextData);
                 FillWheelDrives(modelGeneration, contextData);
+<<<<<<< HEAD
+                FillSubModels(modelGeneration, contextData);
                 
+=======
+
+>>>>>>> 8165c77919fe309cd739dd81092fbdb1acc1436c
                 var cars = modelGeneration.Cars.Where(car => isPreview || car.Approved).ToList();
                 FillSteerings(cars, contextData);
                 FillCars(cars, contextData);
@@ -100,6 +74,44 @@ namespace TME.CarConfigurator.Publisher
         }
 
 <<<<<<< HEAD
+        public Mapper(
+            IModelMapper modelMapper,
+            IGenerationMapper generationMapper,
+            IBodyTypeMapper bodyTypeMapper,
+            IEngineMapper engineMapper,
+            ITransmissionMapper transmissionMapper,
+            IWheelDriveMapper wheelDriveMapper,
+            ISteeringMapper steeringMapper,
+            ICarMapper carMapper,
+            IAssetMapper assetMapper,
+            ISubModelMapper subModelMapper)
+        {
+            if (modelMapper == null) throw new ArgumentNullException("modelMapper");
+            if (generationMapper == null) throw new ArgumentNullException("generationMapper");
+            if (bodyTypeMapper == null) throw new ArgumentNullException("bodyTypeMapper");
+            if (engineMapper == null) throw new ArgumentNullException("engineMapper");
+            if (transmissionMapper == null) throw new ArgumentNullException("transmissionMapper");
+            if (wheelDriveMapper == null) throw new ArgumentNullException("wheelDriveMapper");
+            if (steeringMapper == null) throw new ArgumentNullException("steeringMapper");
+            if (carMapper == null) throw new ArgumentNullException("carMapper");
+            if (assetMapper == null) throw new ArgumentNullException("assetMapper");
+            if (subModelMapper == null) throw new ArgumentNullException("subModelMapper");
+
+            _modelMapper = modelMapper;
+            _assetMapper = assetMapper;
+            _subModelMapper = subModelMapper;
+            _generationMapper = generationMapper;
+            _bodyTypeMapper = bodyTypeMapper;
+            _engineMapper = engineMapper;
+            _transmissionMapper = transmissionMapper;
+            _wheelDriveMapper = wheelDriveMapper;
+            _steeringMapper = steeringMapper;
+            _carMapper = carMapper;
+        }
+
+        private void FillObjectAssets(ModelGeneration modelGeneration,ContextData contextData){
+            contextData.Assets = 
+=======
         private void FillCarAssets(IEnumerable<Administration.Car> cars, ContextData contextData, ModelGeneration modelGeneration)
         {
             foreach (var car in cars)
@@ -123,35 +135,26 @@ namespace TME.CarConfigurator.Publisher
         private void FillAssets(ModelGeneration modelGeneration, ContextData contextData)
         {
             contextData.Assets =
-                FillBodyTypeAssets(modelGeneration)
-                .Concat(FillEngineAssets(modelGeneration))
-=======
-        private void FillObjectAssets(ModelGeneration modelGeneration,ContextData contextData){
-            contextData.Assets = 
+>>>>>>> 8165c77919fe309cd739dd81092fbdb1acc1436c
                 GetBodyTypeAssets(modelGeneration)
                 .Concat(GetEngineAssets(modelGeneration))
                 .Concat(GetTransmissionAssets(modelGeneration))
                 .Concat(GetWheelDriveAssets(modelGeneration))
->>>>>>> 4b5b26850f09d3b10d86e3a9024edb0e90bae576
                 .ToDictionary(
                     entry => entry.Key,
                     entry => entry.Value);
         }
 
-<<<<<<< HEAD
-        private Dictionary<Guid, List<Asset>> FillBodyTypeAssets(ModelGeneration modelGeneration)
-=======
-        private Dictionary<Guid,List<Asset>> GetTransmissionAssets(ModelGeneration modelGeneration)
+        private Dictionary<Guid, List<Asset>> GetTransmissionAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.Transmissions.ToDictionary(
                 transmission => transmission.ID,
-                transmission => 
+                transmission =>
                     transmission.AssetSet.Assets.GetGenerationAssets()
                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private Dictionary<Guid,List<Asset>> GetBodyTypeAssets(ModelGeneration modelGeneration)
->>>>>>> 4b5b26850f09d3b10d86e3a9024edb0e90bae576
+        private Dictionary<Guid, List<Asset>> GetBodyTypeAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.BodyTypes.ToDictionary(
                 bodytype => bodytype.ID,
@@ -186,13 +189,9 @@ namespace TME.CarConfigurator.Publisher
                 var engine = contextData.Engines.Single(eng => eng.ID == car.EngineID);
                 var transmission = contextData.Transmissions.Single(trans => trans.ID == car.TransmissionID);
                 var wheelDrive = contextData.WheelDrives.Single(drive => drive.ID == car.WheelDriveID);
-<<<<<<< HEAD
-                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive));
-                contextData.CarAssets.Add(car.ID, new Dictionary<Guid, IList<Asset>>());
-=======
                 var steering = contextData.Steerings.Single(steer => steer.ID == car.SteeringID);
                 contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering));
->>>>>>> 4b5b26850f09d3b10d86e3a9024edb0e90bae576
+                contextData.CarAssets.Add(car.ID, new Dictionary<Guid, IList<Asset>>());
             }
         }
 
@@ -200,6 +199,12 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var bodyType in modelGeneration.BodyTypes)
                 contextData.BodyTypes.Add(_bodyTypeMapper.MapBodyType(bodyType));
+        }
+
+        private void FillSubModels(ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var modelGenerationSubModel in modelGeneration.SubModels)
+                contextData.SubModels.Add(_subModelMapper.MapSubModel(modelGenerationSubModel));
         }
 
         void FillEngines(ModelGeneration modelGeneration, ContextData contextData)
@@ -228,9 +233,8 @@ namespace TME.CarConfigurator.Publisher
                 contextData.Steerings.Add(_steeringMapper.MapSteering(steering));
         }
 
-        IReadOnlyList<TimeFrame> GetTimeFrames(String language, IContext context)
+        static IReadOnlyList<TimeFrame> GetTimeFrames(String language, IContext context)
         {
-            var generation = context.ModelGenerations[language];
             var cars = context.ContextData[language].Cars;
 
             //For preview, return only 1 Min/Max TimeFrame with all cars
@@ -239,7 +243,7 @@ namespace TME.CarConfigurator.Publisher
 
             var timeFrames = new List<TimeFrame>();
 
-            var timeProjection = generation.Cars.Where(car => car.Approved)
+            var timeProjection = context.ModelGenerations[language].Cars.Where(car => car.Approved)
                                                 .SelectMany(car => new[] {
                                                     new { Date = car.LineOffFromDate, Open = true, Car = car },
                                                     new { Date = car.LineOffToDate, Open = false, Car = car }
@@ -248,7 +252,12 @@ namespace TME.CarConfigurator.Publisher
 
             Func<Administration.Car, Car> mapCar = dbCar => cars.Single(car => car.ID == dbCar.ID);
 
+<<<<<<< HEAD
+            var openCars = new List<DBCar>();
+
+=======
             var openCars = new List<Administration.Car>();
+>>>>>>> 8165c77919fe309cd739dd81092fbdb1acc1436c
             DateTime? openDate = null;
             foreach (var point in timeProjection)
             {
@@ -258,31 +267,37 @@ namespace TME.CarConfigurator.Publisher
                     if (openDate != null)
                     {
                         closeDate = point.Date;
-                        if (openDate != closeDate)
-                            timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(mapCar).ToList())));
+                        AddTimeFrameIfRelevant(openDate, closeDate, timeFrames, openCars, mapCar);
                     }
 
                     openCars.Add(point.Car);
                     openDate = point.Date;
+
+                    continue;
                 }
-                else
-                {
-                    closeDate = point.Date;
 
-                    if (openDate == null)
-                        throw new CorruptDataException("The open date could not be retrieved, could not create timeframe");
+                closeDate = point.Date;
 
-                    // time lines with identical from/until can occur when multiple line off dates fall on the same point
-                    // these "empty" time lines can simply be ignored (though the openCars logic is still relevant)
-                    if (openDate != closeDate)
-                        timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(mapCar).ToList())));
+                AddTimeFrameIfRelevant(openDate, closeDate, timeFrames, openCars, mapCar);
 
-                    openCars.Remove(point.Car);
-                    openDate = openCars.Any() ? (DateTime?)point.Date : null;
-                }
+                openCars.Remove(point.Car);
+                openDate = openCars.Any() ? (DateTime?)point.Date : null;
             }
 
             return timeFrames;
+        }
+
+        private static void AddTimeFrameIfRelevant(DateTime? openDate, DateTime closeDate, ICollection<TimeFrame> timeFrames, IEnumerable<Administration.Car> openCars, Func<Administration.Car, Car> mapCar)
+        {
+            // time lines with identical from/until can occur when multiple line off dates fall on the same point
+            // these "empty" time lines can simply be ignored (though the openCars logic is still relevant)
+            if (openDate == closeDate) return;
+
+            if (openDate == null)
+                throw new CorruptDataException("The open date could not be retrieved, could not create timeframe");
+
+            timeFrames.Add(new TimeFrame(openDate.Value, closeDate,
+                new ReadOnlyCollection<Car>(openCars.Select(mapCar).ToList())));
         }
     }
 }
