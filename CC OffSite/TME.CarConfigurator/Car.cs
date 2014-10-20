@@ -44,5 +44,5 @@ namespace TME.CarConfigurator
         public ITransmission Transmission { get { throw new NotImplementedException(); } }
         public IWheelDrive WheelDrive { get { throw new NotImplementedException(); } }
         public ISteering Steering { get { throw new NotImplementedException(); } }
-    }
+        public IGrade Grade { get { throw new NotImplementedException(); }}}
 }
