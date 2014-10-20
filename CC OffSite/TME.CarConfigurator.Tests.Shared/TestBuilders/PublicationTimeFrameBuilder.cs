@@ -12,6 +12,12 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             _timeFrame = new PublicationTimeFrame();
         }
 
+        public PublicationTimeFrameBuilder WithID(Guid publicationTimeFrameID)
+        {
+            _timeFrame.ID = publicationTimeFrameID;
+            return this;
+        }
+
         public PublicationTimeFrameBuilder WithDateRange(DateTime from, DateTime to)
         {
             _timeFrame.LineOffFrom = from;

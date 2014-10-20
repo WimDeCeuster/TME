@@ -36,6 +36,13 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 
             return this;
         }
+        
+        public CarBuilder WithSubModel(SubModel subModel)
+        {
+            _car.SubModel = subModel;
+
+            return this;
+        }
 
         public CarBuilder WithStartingPrice(Price price)
         {

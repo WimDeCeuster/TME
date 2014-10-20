@@ -8,6 +8,7 @@ using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Mappers;
+using TME.CarConfigurator.Repository.Objects;
 using DBCar = TME.CarConfigurator.Administration.Car;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
 using Car = TME.CarConfigurator.Repository.Objects.Car;
@@ -219,6 +220,7 @@ namespace TME.CarConfigurator.Publisher
             Func<DBCar, Car> MapCar = dbCar => cars.Single(car => car.ID == dbCar.ID);
 
             var openCars = new List<DBCar>();
+
             DateTime? openDate = null;
             foreach (var point in timeProjection)
             {
