@@ -81,5 +81,10 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get { return new Steering(Adaptee.Steering); }
         }
+
+        public IGrade Grade
+        {
+            get { return new Grade(Adaptee.Grade); }
+        }
     }
 }

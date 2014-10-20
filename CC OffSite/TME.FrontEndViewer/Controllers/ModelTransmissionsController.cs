@@ -35,6 +35,7 @@ namespace TME.FrontEndViewer.Controllers
                             .Transmissions
                             .Cast<TMME.CarConfigurator.Transmission>()
                             .Select(x => new CarConfigurator.LegacyAdapter.Transmission(x))
+                            .Cast<ITransmission>()
                             .ToList();
 
             return new ModelWithMetrics<ITransmission>()
@@ -46,7 +47,7 @@ namespace TME.FrontEndViewer.Controllers
         private static ModelWithMetrics<ITransmission> GetNewReaderModelWithMetrics(Context context, Guid modelID)
         {
             var start = DateTime.Now;
-            var list = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID).Transmissions;
+            var list = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID).Transmissions.ToList();
 
             return new ModelWithMetrics<ITransmission>()
             {

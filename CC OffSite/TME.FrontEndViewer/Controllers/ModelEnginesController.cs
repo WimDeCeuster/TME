@@ -35,6 +35,7 @@ namespace TME.FrontEndViewer.Controllers
                             .Engines
                             .Cast<TMME.CarConfigurator.Engine>()
                             .Select(x => new CarConfigurator.LegacyAdapter.Engine(x))
+                            .Cast<IEngine>()
                             .ToList();
 
             return new ModelWithMetrics<IEngine>()
@@ -46,7 +47,7 @@ namespace TME.FrontEndViewer.Controllers
         private static ModelWithMetrics<IEngine> GetNewReaderModelWithMetrics(Context context, Guid modelID)
         {
             var start = DateTime.Now;
-            var list = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID).Engines;
+            var list = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID).Engines.ToList();
 
             return new ModelWithMetrics<IEngine>()
             {

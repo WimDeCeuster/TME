@@ -18,5 +18,6 @@ namespace TME.CarConfigurator.Interfaces
         ITransmission Transmission { get; }
         IWheelDrive WheelDrive { get; }
         ISteering Steering { get; }
+        IGrade Grade { get; }
     }
 }

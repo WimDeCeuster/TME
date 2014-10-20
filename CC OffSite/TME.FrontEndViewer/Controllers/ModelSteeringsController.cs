@@ -36,6 +36,7 @@ namespace TME.FrontEndViewer.Controllers
                             .Select(car => car.Steering)
                             .Distinct()
                             .Select(x => new CarConfigurator.LegacyAdapter.Steering(x))
+                            .Cast<ISteering>()
                             .ToList();
 
             return new ModelWithMetrics<ISteering>()
@@ -47,7 +48,7 @@ namespace TME.FrontEndViewer.Controllers
         private static ModelWithMetrics<ISteering> GetNewReaderModelWithMetrics(Context context, Guid modelID)
         {
             var start = DateTime.Now;
-            var list = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID).Steerings;
+            var list = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID).Steerings.ToList();
 
             return new ModelWithMetrics<ISteering>()
             {

@@ -31,12 +31,12 @@ namespace TME.FrontEndViewer.Controllers
         private static ModelWithMetrics<IAsset> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid wheelDriveID)
         {
             var start = DateTime.Now;
-            var list = TMME.CarConfigurator.Model.GetModel(oldContext, modelID)
-                            .WheelDrives[wheelDriveID]
-                            .Assets
-                            .Cast<TMME.CarConfigurator.Asset>()
-                            .Select(x => new CarConfigurator.LegacyAdapter.Asset(x))
-                            .ToList();
+            var list =
+                new CarConfigurator.LegacyAdapter.WheelDrive(
+                    TMME.CarConfigurator.Model.GetModel(oldContext, modelID)
+                    .WheelDrives.Cast<TMME.CarConfigurator.WheelDrive>()
+                    .First(x => x.ID == wheelDriveID)
+                ).Assets.ToList();
 
             return new ModelWithMetrics<IAsset>()
             {
@@ -50,7 +50,8 @@ namespace TME.FrontEndViewer.Controllers
             var list = CarConfigurator.DI.Models
                 .GetModels(context).First(x => x.ID == modelID)
                 .WheelDrives.First(x => x.ID == wheelDriveID)
-                .Assets;
+                .Assets
+                .ToList();
 
             return new ModelWithMetrics<IAsset>()
             {

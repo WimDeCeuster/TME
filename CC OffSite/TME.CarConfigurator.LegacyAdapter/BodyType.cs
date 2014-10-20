@@ -4,6 +4,7 @@ using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.LegacyAdapter.Extensions;
 using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter
@@ -36,7 +37,10 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return Adaptee.NumberOfSeats; }
         }
 
-        public IEnumerable<IVisibleInModeAndView> VisibleIn { get{throw new NotImplementedException();} }
+        public IEnumerable<IVisibleInModeAndView> VisibleIn
+        {
+            get { return Adaptee.Assets.GetVisibleInModeAndViews(); }
+        }
 
         public bool VisibleInExteriorSpin
         {
@@ -65,7 +69,7 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IEnumerable<IAsset> Assets
         {
-            get { return Adaptee.Assets.Cast<Legacy.Asset>().Select(x => new Asset(x)); }
+            get { return Adaptee.Assets.GetPlainAssets(); }
         }
     }
 }
