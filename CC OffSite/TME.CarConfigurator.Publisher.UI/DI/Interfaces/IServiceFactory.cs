@@ -14,6 +14,7 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Interfaces
         ITransmissionService GetTransmissionService(String environment, PublicationDataSubset dataSubset);
         IWheelDriveService GetWheelDriveService(String environment, PublicationDataSubset dataSubset);
         ISteeringService GetSteeringService(String environment, PublicationDataSubset dataSubset);
+        IGradeService GetGradeService(String environment, PublicationDataSubset dataSubset);
         ICarService GetCarService(String environment, PublicationDataSubset dataSubset);
         IAssetService GetAssetService(String environment, PublicationDataSubset dataSubset);
     }

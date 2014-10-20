@@ -34,7 +34,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3PublicationPublisher
             var publication1 = new Publication { ID = _publication1ID };
             var publication2 = new Publication { ID = _publication2ID };
 
-            _context = ContextBuilder.InitialiseFakeContext()
+            _context = new ContextBuilder()
                         .WithBrand(_brand)
                         .WithCountry(_country)
                         .WithLanguages(_language1, _language2)

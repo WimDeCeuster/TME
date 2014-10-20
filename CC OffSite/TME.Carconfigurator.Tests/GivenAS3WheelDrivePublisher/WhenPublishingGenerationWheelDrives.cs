@@ -72,7 +72,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3WheelDrivePublisher
             var generationWheelDrive3 = new WheelDrive { ID = wheelDriveId3 };
             var generationWheelDrive4 = new WheelDrive { ID = wheelDriveId4 };
 
-            _context = ContextBuilder.InitialiseFakeContext()
+            _context = new ContextBuilder()
                         .WithBrand(_brand)
                         .WithCountry(_country)
                         .WithLanguages(_language1, _language2)

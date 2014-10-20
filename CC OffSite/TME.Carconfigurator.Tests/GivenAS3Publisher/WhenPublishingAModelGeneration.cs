@@ -61,6 +61,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         }
 
         [Fact]
+        public void ThenAPublishGenerationGradesShouldHappen()
+        {
+            A.CallTo(() => GradePublisher.PublishGenerationGrades(Context))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
         public void ThenAPublishGenerationCarsShouldHappen()
         {
             A.CallTo(() => CarPublisher.PublishGenerationCars(Context))

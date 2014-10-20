@@ -18,6 +18,7 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Interfaces
         ITransmissionPublisher GetTransmissionPublisher(ITransmissionService service);
         IWheelDrivePublisher GetWheelDrivePublisher(IWheelDriveService service);
         ISteeringPublisher GetSteeringPublisher(ISteeringService service);
+        IGradePublisher GetGradePublisher(IGradeService service);
         ICarPublisher GetCarPublisher(ICarService service);
         IAssetPublisher GetAssetPublisher(IAssetService service);
     }

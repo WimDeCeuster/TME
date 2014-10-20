@@ -21,6 +21,7 @@ namespace TME.CarConfigurator.Publisher
         readonly ITransmissionPublisher _transmissionPublisher;
         readonly IWheelDrivePublisher _wheelDrivePublisher;
         readonly ISteeringPublisher _steeringPublisher;
+        readonly IGradePublisher _gradePublisher;
         readonly ICarPublisher _carPublisher;
         readonly IAssetPublisher _assetPublisher;
 
@@ -32,6 +33,7 @@ namespace TME.CarConfigurator.Publisher
             ITransmissionPublisher transmissionPublisher,
             IWheelDrivePublisher wheelDrivePublisher,
             ISteeringPublisher steeringPublisher,
+            IGradePublisher gradePublisher,
             ICarPublisher carPublisher,
             IAssetPublisher assetPublisher)
         {
@@ -43,6 +45,7 @@ namespace TME.CarConfigurator.Publisher
             if (transmissionPublisher == null) throw new ArgumentNullException("transmissionPublisher");
             if (wheelDrivePublisher == null) throw new ArgumentNullException("wheelDrivePublisher");
             if (steeringPublisher == null) throw new ArgumentNullException("steeringPublisher");
+            if (gradePublisher == null) throw new ArgumentNullException("gradePublisher");
             if (carPublisher == null) throw new ArgumentNullException("carPublisher");
             if (assetPublisher == null) throw new ArgumentNullException("assetPublisher");
 
@@ -54,6 +57,7 @@ namespace TME.CarConfigurator.Publisher
             _transmissionPublisher = transmissionPublisher;
             _wheelDrivePublisher = wheelDrivePublisher;
             _steeringPublisher = steeringPublisher;
+            _gradePublisher = gradePublisher;
             _carPublisher = carPublisher;
             _assetPublisher = assetPublisher;
         }
@@ -93,6 +97,7 @@ namespace TME.CarConfigurator.Publisher
                 _transmissionPublisher.PublishGenerationTransmissions(context),
                 _wheelDrivePublisher.PublishGenerationWheelDrives(context),
                 _steeringPublisher.PublishGenerationSteerings(context),
+                _gradePublisher.PublishGenerationGrades(context),
                 _carPublisher.PublishGenerationCars(context),
                 _assetPublisher.PublishAssets(context)
             };

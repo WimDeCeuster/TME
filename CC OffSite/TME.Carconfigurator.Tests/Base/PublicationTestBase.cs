@@ -11,6 +11,8 @@ using TME.CarConfigurator.S3.Shared.Result;
 using System.Collections.Generic;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Publisher.Common.Enums;
+using TME.CarConfigurator.Tests.Shared.TestBuilders;
 
 namespace TME.Carconfigurator.Tests.Base
 {
@@ -24,6 +26,7 @@ namespace TME.Carconfigurator.Tests.Base
         protected ITransmissionPublisher TransmissionPublisher;
         protected IWheelDrivePublisher WheelDrivePublisher;
         protected ISteeringPublisher SteeringPublisher;
+        protected IGradePublisher GradePublisher;
         protected ICarPublisher CarPublisher;
         protected IAssetPublisher AssetPublisher;
         protected Publisher Publisher;
@@ -46,6 +49,7 @@ namespace TME.Carconfigurator.Tests.Base
             TransmissionPublisher = A.Fake<ITransmissionPublisher>(x => x.Strict());
             WheelDrivePublisher = A.Fake<IWheelDrivePublisher>(x => x.Strict());
             SteeringPublisher = A.Fake<ISteeringPublisher>(x => x.Strict());
+            GradePublisher = A.Fake<IGradePublisher>(x => x.Strict());
             CarPublisher = A.Fake<ICarPublisher>(x => x.Strict());
             AssetPublisher = A.Fake<IAssetPublisher>(x => x.Strict());
 
@@ -63,11 +67,53 @@ namespace TME.Carconfigurator.Tests.Base
                 .WithTransmissionPublisher(TransmissionPublisher)
                 .WithWheelDrivePublisher(WheelDrivePublisher)
                 .WithSteeringPublisher(SteeringPublisher)
+                .WithGradePublisher(GradePublisher)
                 .WithCarPublisher(CarPublisher)
                 .WithAssetPublisher(AssetPublisher)
                 .Build();
 
-            Context = ContextBuilder.GetDefaultContext(Languages);
+             var contextBuilder = new ContextBuilder()
+                        .WithBrand("Toyota")
+                        .WithCountry("DE")
+                        .WithDataSubset(PublicationDataSubset.Live)
+                        .WithLanguages(Languages);
+
+            foreach (var language in Languages)
+            {
+                contextBuilder.WithGeneration(language, new GenerationBuilder().Build());
+                var cars = new[] {
+                    new CarBuilder().Build(),
+                    new CarBuilder().Build(),
+                    new CarBuilder().Build()
+                };
+
+                contextBuilder.WithCars(language, cars);
+
+                var timeFrames = new[] {
+                    new TimeFrameBuilder()
+                        .WithDateRange(new DateTime(2014, 1, 1), 
+                                       new DateTime(2014, 4, 4))
+                        .WithCars(cars.Take(1))
+                        .Build(),
+            
+                    new TimeFrameBuilder()
+                        .WithDateRange(new DateTime(2014, 4, 4), 
+                                       new DateTime(2014, 8, 8))
+                        .WithCars(cars.Take(2))
+                        .Build(),
+            
+                    new TimeFrameBuilder()
+                        .WithDateRange(new DateTime(2014, 8, 8), 
+                                       new DateTime(2014, 12, 12))
+                        .WithCars(cars.Skip(1).Take(2))
+                        .Build()
+                };
+
+                contextBuilder.WithTimeFrames(language, timeFrames);
+                contextBuilder.WithModel(language, new Model());
+            }
+
+            Context = contextBuilder.Build();
 
             A.CallTo(() => Serialiser.Serialise((Publication)null)).WithAnyArguments().ReturnsLazily(args => args.Arguments.First().GetType().Name);
             A.CallTo(() => PutModelPublisher.PublishModelsByLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
@@ -78,6 +124,7 @@ namespace TME.Carconfigurator.Tests.Base
             A.CallTo(() => TransmissionPublisher.PublishGenerationTransmissions(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => WheelDrivePublisher.PublishGenerationWheelDrives(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => SteeringPublisher.PublishGenerationSteerings(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => GradePublisher.PublishGenerationGrades(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => CarPublisher.PublishGenerationCars(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => AssetPublisher.PublishAssets(null)).WithAnyArguments().Returns(successFullTasks);
 

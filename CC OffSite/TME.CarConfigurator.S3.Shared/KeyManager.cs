@@ -50,6 +50,11 @@ namespace TME.CarConfigurator.S3.Shared
             return string.Format("{0}/steerings", GetTimeFrameKey(publicationID, timeFrameID));
         }
 
+        public string GetGradesKey(Guid publicationID, Guid timeFrameID)
+        {
+            return string.Format("{0}/grades", GetTimeFrameKey(publicationID, timeFrameID));
+        }
+
         public string GetCarsKey(Guid publicationID, Guid timeFrameID)
         {
             return string.Format("{0}/cars", GetTimeFrameKey(publicationID, timeFrameID));

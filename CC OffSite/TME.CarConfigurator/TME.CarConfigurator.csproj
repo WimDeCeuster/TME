@@ -51,8 +51,10 @@
     <Compile Include="CarConfiguratorVersion.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
     <Compile Include="Core\BaseObject.cs" />
+    <Compile Include="Factories\GradeFactory.cs" />
     <Compile Include="Factories\SteeringFactory.cs" />
     <Compile Include="Factories\WheelDriveFactory.cs" />
+    <Compile Include="Grade.cs" />
     <Compile Include="TransmissionType.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="Extensions\VisibleInModeAndViewExtensions.cs" />

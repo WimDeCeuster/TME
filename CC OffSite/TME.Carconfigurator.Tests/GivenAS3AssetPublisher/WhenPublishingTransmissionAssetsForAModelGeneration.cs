@@ -63,7 +63,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
             _publication = PublicationBuilder.Initialize().WithID(Guid.NewGuid()).Build();
 
             _context =
-                ContextBuilder.InitialiseFakeContext()
+                new ContextBuilder()
                 .WithBrand(BRAND)
                 .WithCountry(COUNTRY)
                 .WithLanguages(_languages.ToArray())

@@ -8,6 +8,8 @@ using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
+using Context = TME.CarConfigurator.Repository.Objects.Context;
+
 
 namespace TME.Carconfigurator.Tests.Builders
 {
@@ -15,22 +17,14 @@ namespace TME.Carconfigurator.Tests.Builders
     {
         readonly IContext _context;
         String[] _languages;
-
-        private ContextBuilder(IContext context)
-        {
-            _context = context;
-        }
  
-        public static ContextBuilder InitialiseFakeContext()
+        public ContextBuilder()
         {
-            var context = A.Fake<IContext>();
-
-            A.CallTo(() => context.Brand).Returns("not initialised");
-            A.CallTo(() => context.Country).Returns("not initialized");
-            A.CallTo(() => context.ContextData).Returns(new Dictionary<String, ContextData>());
-            A.CallTo(() => context.TimeFrames).Returns(new Dictionary<String, IReadOnlyList<TimeFrame>>());
-
-            return new ContextBuilder(context);
+            _context = A.Fake<IContext>();
+            A.CallTo(() => _context.Brand).Returns("not initialised");
+            A.CallTo(() => _context.Country).Returns("not initialized");
+            A.CallTo(() => _context.ContextData).Returns(new Dictionary<String, ContextData>());
+            A.CallTo(() => _context.TimeFrames).Returns(new Dictionary<String, IReadOnlyList<TimeFrame>>());
         }
 
         public ContextBuilder WithBrand(String brand)
@@ -125,6 +119,13 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
+        public ContextBuilder WithGrades(String language, params Grade[] grades)
+        {
+            foreach (var grade in grades)
+                _context.ContextData[language].Grades.Add(grade);
+            return this;
+        }
+
         private ContextBuilder WithTimeFrames(String language, IEnumerable<TimeFrame> timeFrames)
         {
             _context.TimeFrames[language] = timeFrames.ToList();
@@ -144,99 +145,16 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
-        private void WithModels(String language, Model model)
+        public ContextBuilder WithModel(String language, Model model)
         {
             _context.ContextData[language].Models.Add(model);
+
+            return this;
         }
 
         public IContext Build()
         {
             return _context;
-        }
-
-        public static Generation CreateFakeGeneration(String language)
-        {
-            return FillFakeBaseObject(new Generation
-            {
-                CarConfiguratorVersion = new CarConfiguratorVersion
-                {
-                    Name = "carConfigVersion-" + language
-                },
-                SSN =  "SSN1-" + language
-            }, "", language);
-        }
-
-        public static Car CreateFakeCar(String language, String name)
-        {
-            return FillFakeBaseObject(new Car
-            {
-                ID = Guid.NewGuid()
-            }, name, language);
-        }
-
-        public static T FillFakeBaseObject<T>(T baseObject, String name, String language) where T : BaseObject
-        {
-            var objectName = baseObject.GetType().Name;
-
-            baseObject.Description = name + objectName + "Description-" + language;
-            baseObject.FootNote = name + objectName + "generationFootNote-" + language;
-            baseObject.InternalCode = name + objectName + "generationInternalCode-" + language;
-            baseObject.LocalCode = name + objectName + "generationLocalCode-" + language;
-            baseObject.Name = name + objectName + "generationName-" + language;
-            baseObject.ToolTip = name + objectName + "generationToolTip-" + language;
-            baseObject.Labels = new List<Label>
-            {
-                new Label {
-                    Code = objectName + "Label1Code-" + language,
-                    Value = objectName + "Label1Value-" + language
-                },
-                new Label {
-                    Code = objectName + "Label2Code-" + language,
-                    Value = objectName + "Label2Value-" + language
-                }
-            };
-
-            return baseObject;
-        }
-
-        public static IContext GetDefaultContext(IEnumerable<String> languages)
-        {
-            var builder = ContextBuilder.InitialiseFakeContext()
-                            .WithBrand("Toyota")
-                            .WithCountry("DE")
-                            .WithDataSubset(PublicationDataSubset.Live)
-                            .WithLanguages(languages.ToArray());
-
-            foreach (var language in languages)
-            {
-                builder.WithGeneration(language, CreateFakeGeneration(language));
-                var cars = new [] {
-                    CreateFakeCar(language, "Car1"),
-                    CreateFakeCar(language, "Car2"),
-                    CreateFakeCar(language, "Car3")
-                };
-
-                builder.WithCars(language, cars);
-
-                var timeFrames = new[] {
-                    new TimeFrame(new DateTime(2014, 1, 1), 
-                                    new DateTime(2014, 4, 4),
-                                    cars.Take(1).ToList()),
-
-                    new TimeFrame(new DateTime(2014, 4, 4), 
-                                    new DateTime(2014, 8, 8),
-                                    cars.Take(2).ToList()),
-
-                    new TimeFrame(new DateTime(2014, 8, 8), 
-                                    new DateTime(2014, 12, 12),
-                                    cars.Skip(1).Take(2).ToList())
-                };
-
-                builder.WithTimeFrames(language, timeFrames);
-                builder.WithModels(language,new Model());
-            }
-
-            return builder.Build();
         }
     }
 }

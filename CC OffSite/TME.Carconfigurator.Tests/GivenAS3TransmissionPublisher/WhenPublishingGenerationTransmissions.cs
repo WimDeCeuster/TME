@@ -72,7 +72,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3TransmissionPublisher
             var generationTransmission3 = new Transmission { ID = transmissionId3 };
             var generationTransmission4 = new Transmission { ID = transmissionId4 };
 
-            _context = ContextBuilder.InitialiseFakeContext()
+            _context = new ContextBuilder()
                         .WithBrand(_brand)
                         .WithCountry(_country)
                         .WithLanguages(_language1, _language2)

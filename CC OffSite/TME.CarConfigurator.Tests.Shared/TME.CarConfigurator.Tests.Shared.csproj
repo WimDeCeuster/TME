@@ -52,6 +52,7 @@
     <Compile Include="TestBuilders\BodyTypeBuilder.cs" />
     <Compile Include="TestBuilders\CarBuilder.cs" />
     <Compile Include="TestBuilders\SteeringBuilder.cs" />
+    <Compile Include="TestBuilders\GradeBuilder.cs" />
     <Compile Include="TestBuilders\WheelDriveBuilder.cs" />
     <Compile Include="TestBuilders\TransmissionTypeBuilder.cs" />
     <Compile Include="TestBuilders\TransmissionBuilder.cs" />

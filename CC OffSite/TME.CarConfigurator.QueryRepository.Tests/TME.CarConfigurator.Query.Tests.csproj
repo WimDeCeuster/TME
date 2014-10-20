@@ -71,6 +71,8 @@
     <Compile Include="GivenAModel\WhenAccessingItsCarsForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarsForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsSteeringsForTheFirstTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsGradesForTheFirstTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsGradesForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsWheelDrivesForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsTransmissionsForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsSteeringsForTheSecondTime.cs" />

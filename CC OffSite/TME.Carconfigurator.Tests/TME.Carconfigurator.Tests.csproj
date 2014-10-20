@@ -89,12 +89,14 @@
     <Compile Include="Builders\CarServiceBuilder.cs" />
     <Compile Include="Builders\ContextBuilder.cs" />
     <Compile Include="Builders\PublisherBuilder.cs" />
+    <Compile Include="Builders\TimeFrameBuilder.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingABodyTypesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAModelsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarAssetsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAnAssetsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASteeringsKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingAGradesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAWheelDrivesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingATransmissionsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAnEnginesKey.cs" />
@@ -107,6 +109,7 @@
     <Compile Include="GivenAS3AssetPublisher\WhenPublishingTransmissionAssetsForAModelGeneration.cs" />
     <Compile Include="GivenAS3BodyTypePublisher\WhenPublishingGenerationBodyTypes.cs" />
     <Compile Include="GivenAS3SteeringPublisher\WhenPublishingGenerationWheelDrives.cs" />
+    <Compile Include="GivenAS3GradePublisher\WhenPublishingGenerationGrades.cs" />
     <Compile Include="GivenAS3WheelDrivePublisher\WhenPublishingGenerationWheelDrives.cs" />
     <Compile Include="GivenAS3TransmissionPublisher\WhenPublishingGenerationTransmissions.cs" />
     <Compile Include="GivenAS3CarPublisher\WhenPublishingGenerationCars.cs" />

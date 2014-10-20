@@ -18,6 +18,7 @@ namespace TME.CarConfigurator.Interfaces
         IEnumerable<ITransmission> Transmissions { get; }
         IEnumerable<IWheelDrive> WheelDrives { get; }
         IEnumerable<ISteering> Steerings { get; }
+        IEnumerable<IGrade> Grades { get; }
         IEnumerable<IFuelType> FuelTypes { get; }
         IEnumerable<ICar> Cars { get; }
 

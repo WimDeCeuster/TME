@@ -72,7 +72,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3EnginePublisher
             var generationEngine3 = new Engine { ID = engineId3 };
             var generationEngine4 = new Engine { ID = engineId4 };
 
-            _context = ContextBuilder.InitialiseFakeContext()
+            _context = new ContextBuilder()
                         .WithBrand(_brand)
                         .WithCountry(_country)
                         .WithLanguages(_language1, _language2)

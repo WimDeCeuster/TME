@@ -27,7 +27,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3LanguagePublisher
 
         protected override void Arrange()
         {
-            _context = ContextBuilder.InitialiseFakeContext()
+            _context = new ContextBuilder()
                         .WithBrand(_brand)
                         .WithCountry(_country)
                         .Build();

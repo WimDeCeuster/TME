@@ -49,6 +49,11 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
             return new SteeringPublisher(service);
         }
 
+        public IGradePublisher GetGradePublisher(IGradeService service)
+        {
+            return new GradePublisher(service);
+        }
+
         public ICarPublisher GetCarPublisher(ICarService service)
         {
             return new CarPublisher(service);

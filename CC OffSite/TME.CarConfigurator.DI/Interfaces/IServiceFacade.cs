@@ -11,6 +11,7 @@ namespace TME.CarConfigurator.DI.Interfaces
         IServiceFacade WithTransmissionService(ITransmissionService transmissionService);
         IServiceFacade WithWheelDriveService(IWheelDriveService wheelDriveService);
         IServiceFacade WithSteeringService(ISteeringService steeringService);
+        IServiceFacade WithGradeService(IGradeService gradeService);
         IServiceFacade WithCarService(ICarService carService);
 
         IModelService CreateModelService();
@@ -21,6 +22,7 @@ namespace TME.CarConfigurator.DI.Interfaces
         ITransmissionService CreateTransmissionService();
         IWheelDriveService CreateWheelDriveService();
         ISteeringService CreateSteeringService();
+        IGradeService CreateGradeService();
         ICarService CreateCarService();
 
     }

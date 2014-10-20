@@ -65,7 +65,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3CarPublisher
                                                                  publicationTimeFrame4)
                                                  .Build();
 
-            _context = ContextBuilder.InitialiseFakeContext()
+            _context = new ContextBuilder()
                         .WithBrand(_brand)
                         .WithCountry(_country)
                         .WithLanguages(_language1, _language2)

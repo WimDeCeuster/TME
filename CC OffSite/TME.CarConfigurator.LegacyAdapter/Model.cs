@@ -84,6 +84,11 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return Adaptee.Cars.Cast<Legacy.Car>().Select(car => car.Steering).Distinct().Select(x => new Steering(x)); }
         }
 
+        public IEnumerable<IGrade> Grades
+        {
+            get { return Adaptee.Grades.Cast<Legacy.Grade>().Select(x => new Grade(x)); }
+        }
+
         public IEnumerable<IFuelType> FuelTypes
         {
             get { return Adaptee.FuelTypes.Cast<Legacy.FuelType>().Select(x => new FuelType(x)); }

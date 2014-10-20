@@ -11,6 +11,7 @@ namespace TME.CarConfigurator.DI.Interfaces
         IModelFactoryFacade WithTransmissionFactory(ITransmissionFactory transmissionFactory);
         IModelFactoryFacade WithWheelDriveFactory(IWheelDriveFactory wheelDriveFactory);
         IModelFactoryFacade WithSteeringFactory(ISteeringFactory steeringFactory);
+        IModelFactoryFacade WithGradeFactory(IGradeFactory gradeFactory);
         IModelFactoryFacade WithCarFactory(ICarFactory carFactory);
 
         IModelFactory Create();

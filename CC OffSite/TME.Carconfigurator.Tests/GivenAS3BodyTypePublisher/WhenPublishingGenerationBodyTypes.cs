@@ -72,7 +72,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypePublisher
             var generationBodyType3 = new BodyType { ID = bodyTypeId3 };
             var generationBodyType4 = new BodyType { ID = bodyTypeId4 };
 
-            _context = ContextBuilder.InitialiseFakeContext()
+            _context = new ContextBuilder()
                         .WithBrand(_brand)
                         .WithCountry(_country)
                         .WithLanguages(_language1, _language2)

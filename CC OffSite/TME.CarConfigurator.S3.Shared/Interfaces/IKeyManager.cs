@@ -11,10 +11,12 @@ namespace TME.CarConfigurator.S3.Shared.Interfaces
         String GetTransmissionsKey(Guid publicationID, Guid timeFrameID);
         String GetWheelDrivesKey(Guid publicationID, Guid timeFrameID);
         String GetSteeringsKey(Guid publicationID, Guid timeFrameID);
+        String GetGradesKey(Guid publicationID, Guid timeFrameID);
         String GetCarsKey(Guid publicationID, Guid timeFrameID);
         String GetDefaultAssetsKey(Guid publicationID, Guid objectID);
         String GetAssetsKey(Guid publicationID, Guid objectID, String view, String mode);
         String GetDefaultCarAssetsKey(Guid publicationID, Guid carID, Guid objectID);
         String GetCarAssetsKey(Guid publicationID, Guid carID, Guid objectID, String view, String mode);
+
     }
 }

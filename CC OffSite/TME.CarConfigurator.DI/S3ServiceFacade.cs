@@ -24,6 +24,7 @@ namespace TME.CarConfigurator.DI
         private ITransmissionService _transmissionService;
         private IWheelDriveService _wheelDriveService;
         private ISteeringService _steeringService;
+        private IGradeService _gradeService;
         private ICarService _carService;
 
         public IService Service
@@ -111,6 +112,13 @@ namespace TME.CarConfigurator.DI
             return this;
         }
 
+        public IServiceFacade WithGradeService(IGradeService gradeService)
+        {
+            _gradeService = gradeService;
+
+            return this;
+        }
+
         public IServiceFacade WithCarService(ICarService carService)
         {
             _carService = carService;
@@ -170,6 +178,11 @@ namespace TME.CarConfigurator.DI
         public ISteeringService CreateSteeringService()
         {
             return _steeringService ?? new SteeringService(Serializer, Service, KeyManager);
+        }
+
+        public IGradeService CreateGradeService()
+        {
+            return _gradeService ?? new GradeService(Serializer, Service, KeyManager);
         }
 
         public ICarService CreateCarService()

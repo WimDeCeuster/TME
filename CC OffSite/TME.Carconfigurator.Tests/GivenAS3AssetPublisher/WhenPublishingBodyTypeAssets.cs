@@ -51,14 +51,14 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
                 new AssetBuilder().WithId(Guid.NewGuid()).WithAssetType(new AssetTypeBuilder().WithMode(MODE).WithView(VIEW).Build()).Build()
             };
 
-            _context = ContextBuilder.InitialiseFakeContext()
-                                     .WithBrand(Brand)
-                                     .WithCountry(Country)
-                                     .WithLanguages(_languages.ToArray())
-                                     .WithPublication(_languages.First(), _publication)
-                                     .WithBodyTypes(_languages.First(),_bodyTypes)
-                                     .WithAssets(_languages.First(), _assets, _bodyTypes[0].ID)
-                                     .Build();
+            _context = new ContextBuilder()
+                        .WithBrand(Brand)
+                        .WithCountry(Country)
+                        .WithLanguages(_languages.ToArray())
+                        .WithPublication(_languages.First(), _publication)
+                        .WithBodyTypes(_languages.First(),_bodyTypes)
+                        .WithAssets(_languages.First(), _assets, _bodyTypes[0].ID)
+                        .Build();
 
             _s3Service = A.Fake<IService>();
 

@@ -16,6 +16,7 @@ namespace TME.CarConfigurator.DI
         private ITransmissionFactory _transmissionFactory;
         private IWheelDriveFactory _wheelDriveFactory;
         private ISteeringFactory _steeringFactory;
+        private IGradeFactory _gradeFactory;
         private ICarFactory _carFactory;
 
         public IModelFactoryFacade WithServiceFacade(IServiceFacade serviceFacade)
@@ -67,6 +68,13 @@ namespace TME.CarConfigurator.DI
             return this;
         }
 
+        public IModelFactoryFacade WithGradeFactory(IGradeFactory gradeFactory)
+        {
+            _gradeFactory = gradeFactory;
+
+            return this;
+        }
+
         public IModelFactoryFacade WithCarFactory(ICarFactory carFactory)
         {
             _carFactory = carFactory;
@@ -78,7 +86,7 @@ namespace TME.CarConfigurator.DI
         {
             UseDefaultsWhenNoImplementationProvided();
 
-            return new ModelFactory(_modelService, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _steeringFactory, _carFactory);
+            return new ModelFactory(_modelService, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _steeringFactory, _gradeFactory, _carFactory);
         }
 
         private void UseDefaultsWhenNoImplementationProvided()
@@ -94,6 +102,7 @@ namespace TME.CarConfigurator.DI
             _transmissionFactory = _transmissionFactory ?? new TransmissionFactory(_serviceFacade.CreateTransmissionService(),_assetFactory);
             _wheelDriveFactory = _wheelDriveFactory ?? new WheelDriveFactory(_serviceFacade.CreateWheelDriveService(), _assetFactory);
             _steeringFactory = _steeringFactory ?? new SteeringFactory(_serviceFacade.CreateSteeringService());
+            _gradeFactory = _gradeFactory ?? new GradeFactory(_serviceFacade.CreateGradeService());
             _carFactory = _carFactory ?? new CarFactory(_serviceFacade.CreateCarService(), _bodyTypeFactory);
         }
     }

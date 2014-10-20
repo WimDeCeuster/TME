@@ -72,7 +72,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3SteeringPublisher
             var generationSteering3 = new Steering { ID = steeringId3 };
             var generationSteering4 = new Steering { ID = steeringId4 };
 
-            _context = ContextBuilder.InitialiseFakeContext()
+            _context = new ContextBuilder()
                         .WithBrand(_brand)
                         .WithCountry(_country)
                         .WithLanguages(_language1, _language2)

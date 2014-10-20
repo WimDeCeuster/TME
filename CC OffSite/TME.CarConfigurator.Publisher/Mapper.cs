@@ -29,6 +29,7 @@ namespace TME.CarConfigurator.Publisher
         readonly IEngineMapper _engineMapper;
         readonly ITransmissionMapper _transmissionMapper;
         readonly IWheelDriveMapper _wheelDriveMapper;
+        readonly IGradeMapper _gradeMapper;
         readonly ISteeringMapper _steeringMapper;
         readonly ICarMapper _carMapper;
         readonly IAssetMapper _assetMapper;
@@ -40,6 +41,7 @@ namespace TME.CarConfigurator.Publisher
             IEngineMapper engineMapper,
             ITransmissionMapper transmissionMapper,
             IWheelDriveMapper wheelDriveMapper,
+            IGradeMapper gradeMapper,
             ISteeringMapper steeringMapper,
             ICarMapper carMapper,
             IAssetMapper assetMapper)
@@ -50,6 +52,7 @@ namespace TME.CarConfigurator.Publisher
             if (engineMapper == null) throw new ArgumentNullException("engineMapper");
             if (transmissionMapper == null) throw new ArgumentNullException("transmissionMapper");
             if (wheelDriveMapper == null) throw new ArgumentNullException("wheelDriveMapper");
+            if (gradeMapper == null) throw new ArgumentNullException("gradeMapper");
             if (steeringMapper == null) throw new ArgumentNullException("steeringMapper");
             if (carMapper == null) throw new ArgumentNullException("carMapper");
             if (assetMapper == null) throw new ArgumentNullException("assetMapper");
@@ -61,6 +64,7 @@ namespace TME.CarConfigurator.Publisher
             _engineMapper = engineMapper;
             _transmissionMapper = transmissionMapper;
             _wheelDriveMapper = wheelDriveMapper;
+            _gradeMapper = gradeMapper;
             _steeringMapper = steeringMapper;
             _carMapper = carMapper;
         }
@@ -91,6 +95,7 @@ namespace TME.CarConfigurator.Publisher
                 FillObjectAssets(modelGeneration,contextData);
                 FillTransmissions(modelGeneration, contextData);
                 FillWheelDrives(modelGeneration, contextData);
+                FillGrades(modelGeneration, contextData);
                 
                 var cars = modelGeneration.Cars.Where(car => isPreview || car.Approved).ToList();
                 FillSteerings(cars, contextData);
@@ -158,7 +163,9 @@ namespace TME.CarConfigurator.Publisher
                 var transmission = contextData.Transmissions.Single(trans => trans.ID == car.TransmissionID);
                 var wheelDrive = contextData.WheelDrives.Single(drive => drive.ID == car.WheelDriveID);
                 var steering = contextData.Steerings.Single(steer => steer.ID == car.SteeringID);
-                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering));
+                var grade = contextData.Grades.Single(grad => grad.ID == car.GradeID);
+
+                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering, grade));
             }
         }
 
@@ -184,6 +191,18 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var wheelDrive in modelGeneration.WheelDrives)
                 contextData.WheelDrives.Add(_wheelDriveMapper.MapWheelDrive(wheelDrive));
+        }
+
+        void FillGrades(ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var grade in modelGeneration.Grades)
+                contextData.Grades.Add(_gradeMapper.MapGrade(grade));
+
+            foreach (var grade in modelGeneration.Grades.Where(grade => grade.BasedUpon != null && grade.BasedUpon.ID != Guid.Empty))
+            {
+                var mappedGrade = contextData.Grades.Single(contextGrade => grade.ID == contextGrade.ID);
+                mappedGrade.BasedUpon = contextData.Grades.Single(contextGrade => grade.BasedUpon.ID == contextGrade.ID);
+            }
         }
 
         void FillSteerings(IEnumerable<Administration.Car> cars, ContextData contextData)

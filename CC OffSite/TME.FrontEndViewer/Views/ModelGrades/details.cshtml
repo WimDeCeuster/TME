@@ -1,0 +1,21 @@
+﻿@using TME.FrontEndViewer.Models
+@model IEnumerable<TME.CarConfigurator.Interfaces.IGrade>
+
+
+@foreach (var model in Model)
+{
+    <div class="clickable">
+        <table class="top">
+            <tr>
+                <td>
+                    <b>@Html.Raw(model.Name)</b>
+                </td>
+            </tr>
+        </table>
+        <div class="clickable object" data-id="@Html.Raw(model.ID)">
+            @Html.Partial("_baseObject", model)
+            <br />
+            @Html.ActionLink("Assets","Index", "ModelGradeAssets", new { modelID = ViewBag.ModelID, gradeID = model.ID}, new { }) 
+        </div>
+    </div>
+}
