@@ -26,7 +26,7 @@ namespace TME.CarConfigurator
 
         public bool Special { get { return _repositoryGrade.Special; } }
 
-        public IGrade BasedUpon { get { throw new NotImplementedException(); } }
+        public IGrade BasedUpon { get { return null; } }
 
         public IPrice StartingPrice { get { return _price = _price ?? new Price(_repositoryGrade.StartingPrice); } }
 

@@ -27,8 +27,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             Repository.Objects.Engine engine,
             Repository.Objects.Transmission transmission,
             Repository.Objects.WheelDrive wheelDrive,
-            Repository.Objects.Steering steering,
-            Repository.Objects.Grade grade)
+            Repository.Objects.Steering steering)
         {
             if (car == null) throw new ArgumentNullException("car");
             if (bodyType == null) throw new ArgumentNullException("bodyType");
@@ -36,7 +35,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
             if (transmission == null) throw new ArgumentNullException("transmission");
             if (wheelDrive == null) throw new ArgumentNullException("wheelDrive");
             if (steering == null) throw new ArgumentNullException("steering");
-            if (grade == null) throw new ArgumentNullException("grade");
 
             if (car.ShortID == null)
                 throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.ID));
@@ -55,7 +53,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 ConfigVisible = car.ConfigVisible,
                 Engine = engine,
                 FinanceVisible = car.FinanceVisible,
-                Grade = grade,
                 Promoted = car.Promoted,
                 ShortID = car.ShortID.Value,
                 SortIndex = car.Index,

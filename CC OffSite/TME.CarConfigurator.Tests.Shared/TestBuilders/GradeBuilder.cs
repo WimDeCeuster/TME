@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
+using TME.CarConfigurator.Repository.Objects.Core;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
@@ -26,6 +27,13 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         {
             _grade.Labels = labels.ToList();
          
+            return this;
+        }
+
+        public GradeBuilder WithStartingPrice(Price price)
+        {
+            _grade.StartingPrice = price;
+
             return this;
         }
 
