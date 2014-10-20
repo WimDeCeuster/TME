@@ -28,41 +28,7 @@ namespace TME.CarConfigurator.Publisher
         readonly ISteeringMapper _steeringMapper;
         readonly ICarMapper _carMapper;
         readonly IAssetMapper _assetMapper;
-
-        public Mapper(
-            IModelMapper modelMapper,
-            IGenerationMapper generationMapper,
-            IBodyTypeMapper bodyTypeMapper,
-            IEngineMapper engineMapper,
-            ITransmissionMapper transmissionMapper,
-            IWheelDriveMapper wheelDriveMapper,
-            IGradeMapper gradeMapper,
-            ISteeringMapper steeringMapper,
-            ICarMapper carMapper,
-            IAssetMapper assetMapper)
-        {
-            if (modelMapper == null) throw new ArgumentNullException("modelMapper");
-            if (generationMapper == null) throw new ArgumentNullException("generationMapper");
-            if (bodyTypeMapper == null) throw new ArgumentNullException("bodyTypeMapper");
-            if (engineMapper == null) throw new ArgumentNullException("engineMapper");
-            if (transmissionMapper == null) throw new ArgumentNullException("transmissionMapper");
-            if (wheelDriveMapper == null) throw new ArgumentNullException("wheelDriveMapper");
-            if (gradeMapper == null) throw new ArgumentNullException("gradeMapper");
-            if (steeringMapper == null) throw new ArgumentNullException("steeringMapper");
-            if (carMapper == null) throw new ArgumentNullException("carMapper");
-            if (assetMapper == null) throw new ArgumentNullException("assetMapper");
-
-            _modelMapper = modelMapper;
-            _assetMapper = assetMapper;
-            _generationMapper = generationMapper;
-            _bodyTypeMapper = bodyTypeMapper;
-            _engineMapper = engineMapper;
-            _transmissionMapper = transmissionMapper;
-            _wheelDriveMapper = wheelDriveMapper;
-            _gradeMapper = gradeMapper;
-            _steeringMapper = steeringMapper;
-            _carMapper = carMapper;
-        }
+        readonly ISubModelMapper _subModelMapper;
 
         public IContext Map(String brand, String country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IContext context)
         {
@@ -94,6 +60,7 @@ namespace TME.CarConfigurator.Publisher
                 FillTransmissions(cars, modelGeneration, contextData);
                 FillWheelDrives(cars, modelGeneration, contextData);
                 FillSteerings(cars, contextData);
+                FillSubModels(cars, modelGeneration, contextData);
                 FillCars(cars, contextData);
                 FillCarAssets(cars, contextData, modelGeneration);
                 FillGrades(cars, modelGeneration, contextData);
@@ -104,27 +71,45 @@ namespace TME.CarConfigurator.Publisher
             return context;
         }
 
-        private void FillCarAssets(IEnumerable<Administration.Car> cars, ContextData contextData, ModelGeneration modelGeneration)
+        public Mapper(
+            IModelMapper modelMapper,
+            IGenerationMapper generationMapper,
+            IBodyTypeMapper bodyTypeMapper,
+            IEngineMapper engineMapper,
+            ITransmissionMapper transmissionMapper,
+            IWheelDriveMapper wheelDriveMapper,
+            ISteeringMapper steeringMapper,
+            IGradeMapper gradeMapper,
+            ICarMapper carMapper,
+            IAssetMapper assetMapper,
+            ISubModelMapper subModelMapper)
         {
-            foreach (var car in cars)
-            {
-                var carAssets = contextData.CarAssets[car.ID];
+            if (modelMapper == null) throw new ArgumentNullException("modelMapper");
+            if (generationMapper == null) throw new ArgumentNullException("generationMapper");
+            if (bodyTypeMapper == null) throw new ArgumentNullException("bodyTypeMapper");
+            if (engineMapper == null) throw new ArgumentNullException("engineMapper");
+            if (transmissionMapper == null) throw new ArgumentNullException("transmissionMapper");
+            if (wheelDriveMapper == null) throw new ArgumentNullException("wheelDriveMapper");
+            if (steeringMapper == null) throw new ArgumentNullException("steeringMapper");
+            if (gradeMapper == null) throw new ArgumentNullException("gradeMapper");
+            if (carMapper == null) throw new ArgumentNullException("carMapper");
+            if (assetMapper == null) throw new ArgumentNullException("assetMapper");
+            if (subModelMapper == null) throw new ArgumentNullException("subModelMapper");
 
-                FillCarAssets(car, carAssets, modelGeneration, car.Generation.BodyTypes[car.BodyTypeID]);
-                FillCarAssets(car, carAssets, modelGeneration, car.Generation.Engines[car.EngineID]);
-            }
+            _modelMapper = modelMapper;
+            _assetMapper = assetMapper;
+            _subModelMapper = subModelMapper;
+            _generationMapper = generationMapper;
+            _bodyTypeMapper = bodyTypeMapper;
+            _engineMapper = engineMapper;
+            _transmissionMapper = transmissionMapper;
+            _wheelDriveMapper = wheelDriveMapper;
+            _steeringMapper = steeringMapper;
+            _gradeMapper = gradeMapper;
+            _carMapper = carMapper;
         }
 
-        private void FillCarAssets(Administration.Car car, IDictionary<Guid, IList<Asset>> carAssets, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
-        {
-            var carEngineAssets = objectWithAssetSet.AssetSet.Assets.Filter(car);
-
-            var mappedAssets = carEngineAssets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
-
-            carAssets.Add(objectWithAssetSet.GetObjectID(), mappedAssets);
-        }
-
-        private void FillAssets(ModelGeneration modelGeneration, ContextData contextData)
+        public void FillAssets(ModelGeneration modelGeneration, ContextData contextData)
         {
             contextData.Assets =
                 GetBodyTypeAssets(modelGeneration)
@@ -134,6 +119,23 @@ namespace TME.CarConfigurator.Publisher
                 .ToDictionary(
                     entry => entry.Key,
                     entry => entry.Value);
+        }
+
+        private void FillCarAssets(IEnumerable<Administration.Car> cars, ContextData contextData, ModelGeneration modelGeneration)
+        {
+            foreach (var car in cars)
+            {
+                var carAssets = contextData.CarAssets[car.ID];
+                FillCarAssets(car, carAssets, modelGeneration, car.Generation.BodyTypes[car.BodyTypeID]);
+                FillCarAssets(car, carAssets, modelGeneration, car.Generation.Engines[car.EngineID]);
+            }
+        }
+
+        private void FillCarAssets(Administration.Car car, IDictionary<Guid, IList<Asset>> carAssets, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
+        {
+            var carEngineAssets = objectWithAssetSet.AssetSet.Assets.Filter(car);
+            var mappedAssets = carEngineAssets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
+            carAssets.Add(objectWithAssetSet.GetObjectID(), mappedAssets);
         }
 
         private Dictionary<Guid, List<Asset>> GetTransmissionAssets(ModelGeneration modelGeneration)
@@ -190,6 +192,12 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var bodyType in modelGeneration.BodyTypes.Where(bodyType => cars.Any(car => car.BodyTypeID == bodyType.ID)))
                 contextData.BodyTypes.Add(_bodyTypeMapper.MapBodyType(bodyType));
+        }
+
+        private void FillSubModels(IEnumerable<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var modelGenerationSubModel in modelGeneration.SubModels.Where(subModel => cars.Any(car => car.SubModelID == subModel.ID)))
+                contextData.SubModels.Add(_subModelMapper.MapSubModel(modelGenerationSubModel));
         }
 
         void FillEngines(IEnumerable<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData)
@@ -258,6 +266,7 @@ namespace TME.CarConfigurator.Publisher
             Func<Administration.Car, Car> mapCar = dbCar => cars.Single(car => car.ID == dbCar.ID);
 
             var openCars = new List<Administration.Car>();
+
             DateTime? openDate = null;
             foreach (var point in timeProjection)
             {

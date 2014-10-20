@@ -65,6 +65,7 @@
     <Compile Include="Equipment\Option.cs" />
     <Compile Include="CarInfo.cs" />
     <Compile Include="Steering.cs" />
+    <Compile Include="SubModel.cs" />
     <Compile Include="TransmissionType.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="Core\Label.cs" />

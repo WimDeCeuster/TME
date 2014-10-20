@@ -17,6 +17,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IList<WheelDrive> WheelDrives { get; private set; }
         public IList<Steering> Steerings { get; private set; }
         public IList<Grade> Grades { get; private set; }
+        public IList<SubModel> SubModels { get; private set; }
         public Publication Publication { get; set; }
         public IDictionary<Guid, IDictionary<Guid, IList<Asset>>> CarAssets { get; set; }
 
@@ -33,6 +34,7 @@ namespace TME.CarConfigurator.Publisher.Common
             WheelDrives = new List<WheelDrive>();
             Steerings = new List<Steering>();
             Grades = new List<Grade>();
+            SubModels = new List<SubModel>();
         }
     }
 }

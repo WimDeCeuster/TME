@@ -116,6 +116,8 @@
     <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />
+    <Compile Include="GivenASubModel\WhenAccessingItsLabelsForTheFirstTime.cs" />
+    <Compile Include="GivenASubModel\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenATransmissionType\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenATransmissionType\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenATransmission\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
@@ -160,6 +162,7 @@
     <Compile Include="TestBuilders\EngineCategoryBuilder.cs" />
     <Compile Include="TestBuilders\GradeFactoryBuilder.cs" />
     <Compile Include="TestBuilders\SteeringFactoryBuilder.cs" />
+    <Compile Include="TestBuilders\SubModelFactoryBuilder.cs" />
     <Compile Include="TestBuilders\WheelDriveFactoryBuilder.cs" />
     <Compile Include="TestBuilders\TransmissionFactoryBuilder.cs" />
     <Compile Include="TestBuilders\EngineFactoryBuilder.cs" />

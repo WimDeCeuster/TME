@@ -10,6 +10,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public readonly DateTime Until;
 
         public readonly IReadOnlyList<Car> Cars;
+
         public readonly Guid ID;
 
         public TimeFrame(DateTime from, DateTime until, IReadOnlyList<Car> cars)
