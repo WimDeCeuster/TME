@@ -15,11 +15,5 @@ namespace TME.CarConfigurator.Interfaces
 
         IEnumerable<IVisibleInModeAndView> VisibleIn { get; }
         IEnumerable<IAsset> Assets { get; }
-
-        [Obsolete]bool VisibleInExteriorSpin { get; }
-        [Obsolete]bool VisibleInInteriorSpin { get; }
-        [Obsolete]bool VisibleInXRay4X4Spin { get; }
-        [Obsolete]bool VisibleInXRayHybridSpin { get; }
-        [Obsolete]bool VisibleInXRaySafetySpin { get; }
     }            
 }

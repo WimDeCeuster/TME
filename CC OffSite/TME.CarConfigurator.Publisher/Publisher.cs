@@ -99,7 +99,8 @@ namespace TME.CarConfigurator.Publisher
                 _steeringPublisher.PublishGenerationSteerings(context),
                 _gradePublisher.PublishGenerationGrades(context),
                 _carPublisher.PublishGenerationCars(context),
-                _assetPublisher.PublishAssets(context)
+                _assetPublisher.PublishAssets(context),
+                _assetPublisher.PublishCarAssets(context)
             };
 
             var results = await Task.WhenAll(tasks);

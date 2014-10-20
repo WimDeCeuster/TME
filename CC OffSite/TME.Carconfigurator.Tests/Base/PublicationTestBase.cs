@@ -127,6 +127,7 @@ namespace TME.Carconfigurator.Tests.Base
             A.CallTo(() => GradePublisher.PublishGenerationGrades(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => CarPublisher.PublishGenerationCars(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => AssetPublisher.PublishAssets(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => AssetPublisher.PublishCarAssets(null)).WithAnyArguments().Returns(successFullTasks);
 
         }
 

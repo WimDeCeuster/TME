@@ -35,6 +35,7 @@ namespace TME.FrontEndViewer.Controllers
                             .Grades
                             .Cast<TMME.CarConfigurator.Grade>()
                             .Select(x => new CarConfigurator.LegacyAdapter.Grade(x))
+                            .Cast<IGrade>()
                             .ToList();
 
             return new ModelWithMetrics<IGrade>()
@@ -50,7 +51,7 @@ namespace TME.FrontEndViewer.Controllers
 
             return new ModelWithMetrics<IGrade>()
             {
-                Model = list,
+                Model = list.Cast<IGrade>().ToList(),
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
         }

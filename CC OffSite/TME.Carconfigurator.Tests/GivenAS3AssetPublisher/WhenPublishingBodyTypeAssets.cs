@@ -23,7 +23,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
         private IService _s3Service;
         private IContext _context;
         private IAssetService _assetService;
-        private Generation _generation;
         private Publication _publication;
         private readonly IEnumerable<string> _languages = new List<string>{"nl"};
         private List<Asset> _assets;

@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Interfaces.Equipment;
 
 namespace TME.CarConfigurator.Interfaces
 {
     public interface IGrade : IBaseObject
     {
-        String FeatureText { get; }
-        String LongDescription { get; }
-        Boolean Special { get; }
-
-        IGrade BasedUpon { get; }
+        bool Special { get; }
         IPrice StartingPrice { get; }
+        IGrade BasedUpon { get; }
 
+        IEnumerable<IVisibleInModeAndView> VisibleIn { get; }
         IEnumerable<IAsset> Assets { get; }
+        
+        IEnumerable<IGradeEquipmentItem> Equipment { get; }
+        
     }
 }

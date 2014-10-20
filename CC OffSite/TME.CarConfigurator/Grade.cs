@@ -24,10 +24,6 @@ namespace TME.CarConfigurator
             _repositoryGrade = repositoryGrade;
         }
 
-        public string FeatureText { get { return _repositoryGrade.FeatureText; } }
-
-        public string LongDescription { get { return _repositoryGrade.LongDescription; } }
-
         public bool Special { get { return _repositoryGrade.Special; } }
 
         public IGrade BasedUpon { get { throw new NotImplementedException(); } }
@@ -35,5 +31,15 @@ namespace TME.CarConfigurator
         public IPrice StartingPrice { get { return _price = _price ?? new Price(_repositoryGrade.StartingPrice); } }
 
         public IEnumerable<IAsset> Assets { get { throw new NotImplementedException(); } }
+
+        public IEnumerable<IVisibleInModeAndView> VisibleIn
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IEnumerable<Interfaces.Equipment.IGradeEquipmentItem> Equipment
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

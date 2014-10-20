@@ -141,6 +141,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ModelEngineVisibleInAssetsController.cs" />
+    <Compile Include="Controllers\ModelBodyTypeVisibleInAssetsController.cs" />
     <Compile Include="Controllers\ModelCarBodyTypeAssetsController.cs" />
     <Compile Include="Controllers\ModelGradesController.cs" />
     <Compile Include="Controllers\ModelWheelDriveAssetsController.cs" />
@@ -268,6 +270,9 @@
     <Content Include="Views\Shared\Assets\Index.cshtml" />
     <Content Include="Views\ModelTransmissions\details.cshtml" />
     <Content Include="Views\ModelTransmissions\Index.cshtml" />
+    <Content Include="Views\Shared\VisibleInModeAndView\details.cshtml" />
+    <Content Include="Views\Shared\VisibleInModeAndView\Index.cshtml" />
+    <Content Include="Views\Shared\_asset.cshtml" />
     <Content Include="Views\ModelWheelDrives\details.cshtml" />
     <Content Include="Views\ModelWheelDrives\Index.cshtml" />
     <Content Include="Views\ModelSteerings\details.cshtml" />

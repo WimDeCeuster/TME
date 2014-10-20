@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
+using TME.CarConfigurator.LegacyAdapter.Extensions;
 using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter
@@ -39,19 +40,7 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get
             {
-
-                var groups = Adaptee.Assets.Cast<Legacy.Asset>()
-                    .Where(x => x.AssetType.Mode.Length == 0)
-                    .GroupBy(x => new { x.AssetType.Details.Mode, x.AssetType.Details.View })
-                    .Select(group => new VisibleInModeAndView()
-                    {
-                        Mode = group.Key.Mode,
-                        View = group.Key.View,
-                        Assets = group.Select(legacyAsset => new Asset(legacyAsset))
-
-                    });
-
-                return groups;
+                return Adaptee.Assets.GetVisibleInModeAndViews();
             }
         }
 
@@ -59,9 +48,7 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get
             {
-                return Adaptee.Assets.Cast<Legacy.Asset>()
-                    .Where(x => x.AssetType.Mode.Length == 0)
-                    .Select(x => new Asset(x));
+                return Adaptee.Assets.GetPlainAssets();
             }
         }
 

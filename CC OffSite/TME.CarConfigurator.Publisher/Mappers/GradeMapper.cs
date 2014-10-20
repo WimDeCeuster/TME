@@ -23,8 +23,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
             var mappedGrade = new Grade
             {
-                FeatureText = null, //?
-                LongDescription = null, //?
                 Special = generationGrade.Special,
                 StartingPrice = null, //?
             };

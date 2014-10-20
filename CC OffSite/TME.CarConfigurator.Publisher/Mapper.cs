@@ -3,21 +3,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.Administration.Interfaces;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
+using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Mappers;
-using TME.CarConfigurator.Repository.Objects;
-using DBCar = TME.CarConfigurator.Administration.Car;
+using TME.CarConfigurator.Publisher.Mappers.Exceptions;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
-using BodyType = TME.CarConfigurator.Repository.Objects.BodyType;
 using Car = TME.CarConfigurator.Repository.Objects.Car;
-using Engine = TME.CarConfigurator.Repository.Objects.Engine;
-using EngineCategory = TME.CarConfigurator.Repository.Objects.EngineCategory;
-using FuelType = TME.CarConfigurator.Repository.Objects.FuelType;
-using Link = TME.CarConfigurator.Repository.Objects.Link;
-using Model = TME.CarConfigurator.Repository.Objects.Model;
 
 namespace TME.CarConfigurator.Publisher
 {
@@ -74,7 +69,8 @@ namespace TME.CarConfigurator.Publisher
             var data = generationFinder.GetModelGeneration(brand, country, generationID);
             var isPreview = context.DataSubset == PublicationDataSubset.Preview;
 
-            foreach (var entry in data) {
+            foreach (var entry in data)
+            {
                 var contextData = new ContextData();
                 var modelGeneration = entry.Value.Item1;
                 var model = entry.Value.Item2;
@@ -92,14 +88,15 @@ namespace TME.CarConfigurator.Publisher
 
                 FillBodyTypes(modelGeneration, contextData);
                 FillEngines(modelGeneration, contextData);
-                FillObjectAssets(modelGeneration,contextData);
+                FillAssets(modelGeneration, contextData);
                 FillTransmissions(modelGeneration, contextData);
                 FillWheelDrives(modelGeneration, contextData);
                 FillGrades(modelGeneration, contextData);
-                
+
                 var cars = modelGeneration.Cars.Where(car => isPreview || car.Approved).ToList();
                 FillSteerings(cars, contextData);
                 FillCars(cars, contextData);
+                FillCarAssets(cars, contextData, modelGeneration);
 
                 context.TimeFrames[language] = GetTimeFrames(language, context);
             }
@@ -107,8 +104,29 @@ namespace TME.CarConfigurator.Publisher
             return context;
         }
 
-        private void FillObjectAssets(ModelGeneration modelGeneration,ContextData contextData){
-            contextData.Assets = 
+        private void FillCarAssets(IEnumerable<Administration.Car> cars, ContextData contextData, ModelGeneration modelGeneration)
+        {
+            foreach (var car in cars)
+            {
+                var carAssets = contextData.CarAssets[car.ID];
+
+                FillCarAssets(car, carAssets, modelGeneration, car.Generation.BodyTypes[car.BodyTypeID]);
+                FillCarAssets(car, carAssets, modelGeneration, car.Generation.Engines[car.EngineID]);
+            }
+        }
+
+        private void FillCarAssets(Administration.Car car, IDictionary<Guid, IList<Asset>> carAssets, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
+        {
+            var carEngineAssets = objectWithAssetSet.AssetSet.Assets.Filter(car);
+
+            var mappedAssets = carEngineAssets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
+
+            carAssets.Add(objectWithAssetSet.GetObjectID(), mappedAssets);
+        }
+
+        private void FillAssets(ModelGeneration modelGeneration, ContextData contextData)
+        {
+            contextData.Assets =
                 GetBodyTypeAssets(modelGeneration)
                 .Concat(GetEngineAssets(modelGeneration))
                 .Concat(GetTransmissionAssets(modelGeneration))
@@ -118,16 +136,16 @@ namespace TME.CarConfigurator.Publisher
                     entry => entry.Value);
         }
 
-        private Dictionary<Guid,List<Asset>> GetTransmissionAssets(ModelGeneration modelGeneration)
+        private Dictionary<Guid, List<Asset>> GetTransmissionAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.Transmissions.ToDictionary(
                 transmission => transmission.ID,
-                transmission => 
+                transmission =>
                     transmission.AssetSet.Assets.GetGenerationAssets()
                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private Dictionary<Guid,List<Asset>> GetBodyTypeAssets(ModelGeneration modelGeneration)
+        private Dictionary<Guid, List<Asset>> GetBodyTypeAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.BodyTypes.ToDictionary(
                 bodytype => bodytype.ID,
@@ -164,7 +182,7 @@ namespace TME.CarConfigurator.Publisher
                 var wheelDrive = contextData.WheelDrives.Single(drive => drive.ID == car.WheelDriveID);
                 var steering = contextData.Steerings.Single(steer => steer.ID == car.SteeringID);
                 var grade = contextData.Grades.Single(grad => grad.ID == car.GradeID);
-
+                contextData.CarAssets.Add(car.ID, new Dictionary<Guid, IList<Asset>>());
                 contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering, grade));
             }
         }
@@ -213,9 +231,8 @@ namespace TME.CarConfigurator.Publisher
                 contextData.Steerings.Add(_steeringMapper.MapSteering(steering));
         }
 
-        IReadOnlyList<TimeFrame> GetTimeFrames(String language, IContext context)
+        static IReadOnlyList<TimeFrame> GetTimeFrames(String language, IContext context)
         {
-            var generation = context.ModelGenerations[language];
             var cars = context.ContextData[language].Cars;
 
             //For preview, return only 1 Min/Max TimeFrame with all cars
@@ -224,16 +241,16 @@ namespace TME.CarConfigurator.Publisher
 
             var timeFrames = new List<TimeFrame>();
 
-            var timeProjection = generation.Cars.Where(car => car.Approved)
+            var timeProjection = context.ModelGenerations[language].Cars.Where(car => car.Approved)
                                                 .SelectMany(car => new[] {
                                                     new { Date = car.LineOffFromDate, Open = true, Car = car },
                                                     new { Date = car.LineOffToDate, Open = false, Car = car }
                                                 })
                                                 .OrderBy(point => point.Date);
 
-            Func<DBCar, Car> MapCar = dbCar => cars.Single(car => car.ID == dbCar.ID);
+            Func<Administration.Car, Car> mapCar = dbCar => cars.Single(car => car.ID == dbCar.ID);
 
-            var openCars = new List<DBCar>();
+            var openCars = new List<Administration.Car>();
             DateTime? openDate = null;
             foreach (var point in timeProjection)
             {
@@ -241,30 +258,39 @@ namespace TME.CarConfigurator.Publisher
                 if (point.Open)
                 {
                     if (openDate != null)
-                    { 
+                    {
                         closeDate = point.Date;
-                        if (openDate != closeDate)
-                            timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(MapCar).ToList())));
+                        AddTimeFrameIfRelevant(openDate, closeDate, timeFrames, openCars, mapCar);
                     }
 
                     openCars.Add(point.Car);
                     openDate = point.Date;
-                }
-                else
-                {
-                    closeDate = point.Date;
 
-                    // time lines with identical from/until can occur when multiple line off dates fall on the same point
-                    // these "empty" time lines can simply be ignored (though the openCars logic is still relevant)
-                    if (openDate != closeDate)
-                        timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(MapCar).ToList())));
-
-                    openCars.Remove(point.Car);
-                    openDate = openCars.Any() ? (DateTime?)point.Date : null;
+                    continue;
                 }
+
+                closeDate = point.Date;
+
+                AddTimeFrameIfRelevant(openDate, closeDate, timeFrames, openCars, mapCar);
+
+                openCars.Remove(point.Car);
+                openDate = openCars.Any() ? (DateTime?)point.Date : null;
             }
 
             return timeFrames;
+        }
+
+        private static void AddTimeFrameIfRelevant(DateTime? openDate, DateTime closeDate, ICollection<TimeFrame> timeFrames, IEnumerable<Administration.Car> openCars, Func<Administration.Car, Car> mapCar)
+        {
+            // time lines with identical from/until can occur when multiple line off dates fall on the same point
+            // these "empty" time lines can simply be ignored (though the openCars logic is still relevant)
+            if (openDate == closeDate) return;
+
+            if (openDate == null)
+                throw new CorruptDataException("The open date could not be retrieved, could not create timeframe");
+
+            timeFrames.Add(new TimeFrame(openDate.Value, closeDate,
+                new ReadOnlyCollection<Car>(openCars.Select(mapCar).ToList())));
         }
     }
 }

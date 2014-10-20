@@ -1,5 +1,7 @@
+using System;
 using System.Linq;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
@@ -7,18 +9,14 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
     {
         private readonly Languages _languages;
 
-        private LanguagesBuilder(Languages languages)
+        public LanguagesBuilder()
         {
-            _languages = languages;
+            _languages = new Languages();
         }
 
         public static LanguagesBuilder Initialize()
         {
-            var languages = new Languages();
-
-            var builder = new LanguagesBuilder(languages);
-
-            return builder;
+            return new LanguagesBuilder();
         }
 
         public LanguagesBuilder AddLanguage(string language)

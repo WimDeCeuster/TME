@@ -3,12 +3,16 @@ using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.LegacyAdapter.Extensions;
 using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter
 {
     public class Grade : BaseObject, IGrade
     {
+
+
         #region Dependencies (Adaptee)
         private Legacy.Grade Adaptee
         {
@@ -18,15 +22,16 @@ namespace TME.CarConfigurator.LegacyAdapter
         #endregion
 
         #region Constructor
-        public Grade(Legacy.Grade adaptee) : base(adaptee)
+        public Grade(Legacy.Grade adaptee)
+            : base(adaptee)
         {
             Adaptee = adaptee;
         }
         #endregion
 
-        public IGrade BasedUpon
+        public bool Special
         {
-            get { return Adaptee.BasedUpon == null ? null : new Grade(Adaptee.BasedUpon); }
+            get { return Adaptee.Special; }
         }
 
         public IPrice StartingPrice
@@ -34,27 +39,37 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return new StartingPrice(Adaptee); }
         }
 
-        public string FeatureText
+        public IGrade BasedUpon
         {
-            get { return Adaptee.FeatureText; }
+            get
+            {
+                return Adaptee.BasedUpon==null ? null : new Grade(Adaptee.BasedUpon);
+            }
         }
 
-        public string LongDescription
+        public IEnumerable<IVisibleInModeAndView> VisibleIn
         {
-            get { return Adaptee.LongDescription; }
+            get { return Adaptee.Assets.GetVisibleInModeAndViews(); }
         }
 
-        public bool Special
-        {
-            get { return Adaptee.Special; }
-        }
- 
         public IEnumerable<IAsset> Assets
         {
-            get { 
-                return Adaptee.Assets.Cast<Legacy.Asset>()
-                    .Where(x=>x.AssetType.Mode.Length == 0)
-                    .Select(x => new Asset(x)); }
+            get { return Adaptee.Assets.GetPlainAssets(); }
+        }
+
+        public IEnumerable<IGradeEquipmentItem> Equipment
+        {
+            get
+            {
+                return Adaptee.Equipment
+                        .Cast<Legacy.EquipmentCompareItem>()
+                        .Select(x => 
+                            (   x.Type == Legacy.EquipmentType.Accessory 
+                                    ?  (IGradeEquipmentItem)new GradeAccesory((Legacy.EquipmentCompareAccessory)x)
+                                    : (IGradeEquipmentItem)new GradeOption((Legacy.EquipmentCompareOption)x)
+                            )
+                          );
+            }
         }
     }
 }
