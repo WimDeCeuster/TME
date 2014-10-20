@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using FluentAssertions;
 using TME.CarConfigurator.S3.Shared;
 using TME.CarConfigurator.S3.Shared.Interfaces;
@@ -7,16 +7,14 @@ using Xunit;
 
 namespace TME.Carconfigurator.Tests.GivenAKeyManager
 {
-    public class WhenRequestingACarAssetsKey : TestBase
+    public class WhenRequestingTheDefaultCarAssetsKey : TestBase
     {
         private IKeyManager _keyManager;
         private string _expectedKey;
         private string _actualKey;
         private Guid _publicationId;
-        private Guid _carId;
         private Guid _objectId;
-        private string _view;
-        private string _mode;
+        private Guid _carId;
 
         protected override void Arrange()
         {
@@ -26,15 +24,12 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
             _carId = Guid.NewGuid();
             _objectId = Guid.NewGuid();
 
-            _view = "a view";
-            _mode = "a mode";
-
-            _expectedKey = "publication/" + _publicationId + "/car/" + _carId + "/assets/" + _objectId + "/" + _view + "/" + _mode;
+            _expectedKey = "publication/" + _publicationId + "/car/" + _carId + "/assets/" + _objectId + "/default";
         }
 
         protected override void Act()
         {
-            _actualKey = _keyManager.GetAssetsKey(_publicationId, _carId, _objectId, _view, _mode);
+            _actualKey = _keyManager.GetDefaultAssetsKey(_publicationId, _carId, _objectId);
         }
 
         [Fact]

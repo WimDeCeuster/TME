@@ -13,10 +13,17 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
         private string _expectedKey;
         private string _actualKey;
         private Guid _publicationId;
+<<<<<<< HEAD
+        private Guid _objectId;
+        private string _view;
+        private string _mode;
+        private Guid _carId;
+=======
         private Guid _carId;
         private Guid _objectId;
         private string _view;
         private string _mode;
+>>>>>>> 4b5b26850f09d3b10d86e3a9024edb0e90bae576
 
         protected override void Arrange()
         {
@@ -29,12 +36,20 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
             _view = "a view";
             _mode = "a mode";
 
+<<<<<<< HEAD
+            _expectedKey = "publication/" + _publicationId + "/cars/" + _carId + "/assets/" + _objectId + "/" + _view + "/" + _mode;
+=======
             _expectedKey = "publication/" + _publicationId + "/car/" + _carId + "/assets/" + _objectId + "/" + _view + "/" + _mode;
+>>>>>>> 4b5b26850f09d3b10d86e3a9024edb0e90bae576
         }
 
         protected override void Act()
         {
+<<<<<<< HEAD
             _actualKey = _keyManager.GetAssetsKey(_publicationId, _carId, _objectId, _view, _mode);
+=======
+            _actualKey = _keyManager.GetCarAssetsKey(_publicationId, _carId, _objectId, _view, _mode);
+>>>>>>> 4b5b26850f09d3b10d86e3a9024edb0e90bae576
         }
 
         [Fact]
