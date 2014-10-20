@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using TME.CarConfigurator.CommandServices;
+using TME.CarConfigurator.Repository.Objects.Assets;
+using TME.CarConfigurator.S3.Shared.Interfaces;
+using TME.CarConfigurator.S3.Shared.Result;
+
+namespace TME.CarConfigurator.S3.CommandServices
+{
+    public class AssetsService : IAssetService
+    {
+        private readonly ISerialiser _serialiser;
+        private readonly IService _service;
+        private readonly IKeyManager _keyManager;
+
+        public AssetsService(IService service, ISerialiser serialiser, IKeyManager keyManager)
+        {
+            _serialiser = serialiser;
+            _service = service;
+            _keyManager = keyManager;
+        }
+
+        public async Task<Result> PutAssetsByModeAndView(string brand, string country, Guid publicationID, Guid objectID, string mode, string view, IEnumerable<Asset> assets)
+        {
+            var path = _keyManager.GetAssetsKey(publicationID, objectID, view, mode);
+<<<<<<< HEAD
+=======
+            var value = _serialiser.Serialise(assets);
+>>>>>>> 4b5b26850f09d3b10d86e3a9024edb0e90bae576
+
+            return await PutAssetsByModeAndView(brand, country, path, assets);
+        }
+
+        public async Task<Result> PutAssetsByModeAndView(string brand, string country, Guid publicationID, Guid carID, Guid objectID, string mode, string view, IEnumerable<Asset> assets)
+        {
+            var path = _keyManager.GetAssetsKey(publicationID, carID, objectID, view, mode);
+
+            return await PutAssetsByModeAndView(brand, country, path, assets);
+        }
+
+        private async Task<Result> PutAssetsByModeAndView(string brand, string country, string path, IEnumerable<Asset> assets)
+        {
+            var value = _serializer.Serialise(assets);
+            return await _service.PutObjectAsync(brand, country, path, value);
+        }
+
+        public async Task<Result> PutDefaultAssets(string brand, string country, Guid publicationID, Guid objectID, IEnumerable<Asset> assets)
+        {
+            var path = _keyManager.GetDefaultAssetsKey(publicationID, objectID);
+<<<<<<< HEAD
+            return await PutDefaultAssets(brand, country, path, assets);
+        }
+
+        public async Task<Result> PutDefaultAssets(string brand, string country, Guid publicationID, Guid carID, Guid objectID, IEnumerable<Asset> assets)
+        {
+            var path = _keyManager.GetDefaultAssetsKey(publicationID, objectID, carID);
+            return await PutDefaultAssets(brand, country, path, assets);
+        }
+
+        private async Task<Result> PutDefaultAssets(string brand, string country, string path, IEnumerable<Asset> assets)
+        {
+            var value = _serializer.Serialise(assets);
+=======
+            var value = _serialiser.Serialise(assets);
+>>>>>>> 4b5b26850f09d3b10d86e3a9024edb0e90bae576
+
+            return await _service.PutObjectAsync(brand, country, path, value);
+        }
+    }
+}

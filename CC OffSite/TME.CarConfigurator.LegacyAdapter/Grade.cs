@@ -1,8 +1,9 @@
-﻿using System.CodeDom;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
 using Legacy = TMME.CarConfigurator;
 
@@ -54,6 +55,21 @@ namespace TME.CarConfigurator.LegacyAdapter
         public IEnumerable<IAsset> Assets
         {
             get { return Adaptee.Assets.GetPlainAssets(); }
+        }
+
+        public IEnumerable<IGradeEquipmentItem> Equipment
+        {
+            get
+            {
+                return Adaptee.Equipment
+                        .Cast<Legacy.EquipmentCompareItem>()
+                        .Select(x => 
+                            (   x.Type == Legacy.EquipmentType.Accessory 
+                                    ?  (IGradeEquipmentItem)new GradeAccesory((Legacy.EquipmentCompareAccessory)x)
+                                    : (IGradeEquipmentItem)new GradeOption((Legacy.EquipmentCompareOption)x)
+                            )
+                          );
+            }
         }
     }
 }

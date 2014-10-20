@@ -5,22 +5,14 @@ namespace TME.CarConfigurator.S3.Shared
 {
     public class KeyManager : IKeyManager
     {
-<<<<<<< HEAD
-        const String LanguagesKey = "models-per-language";
-        const String PublicationKeyTemplate = "publication/{0}";
-        const String GenerationBodyTypesKeyTemplate = "publication/{0}/time-frame/{1}/body-types";
-        const String GenerationEnginesKeyTemplate = "publication/{0}/time-frame/{1}/engines";
-        const String GenerationAssetsKeyTemplate = "publication/{0}/assets/default";
-=======
-        private const string LanguagesKey = "models-per-language";
         private const string PublicationKeyTemplate = "publication/{0}";
         private const string PublicationTimeFrameKeyTemplate = "publication/{0}/time-frame/{1}";
         private const string PublicationAssetsKeyTemplate = "publication/{0}/assets";
->>>>>>> 8bd322d48060662766a3b4a55973d25ee8abe875
+        private const string PublicationCarAssetsKeyTemplate = "publication/{0}/car/{1}/assets";
 
-        public string GetLanguagesKey()
+        public string GetModelsKey()
         {
-            return LanguagesKey;
+            return "models-per-language";
         }
 
         public string GetPublicationKey(Guid publicationID)
@@ -35,38 +27,96 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetBodyTypesKey(Guid publicationID, Guid timeFrameID)
         {
-            return string.Format("{0}/{1}", GetTimeFrameKey(publicationID, timeFrameID), "body-types");
+            return string.Format("{0}/body-types", GetTimeFrameKey(publicationID, timeFrameID));
         }
 
-<<<<<<< HEAD
-        public string GetGenerationAssetKey(Guid publicationID)
-        {
-            return String.Format(GenerationAssetsKeyTemplate, publicationID);
-        }
-
-        public string GetAssetsKey(Guid publicationId, Guid timeFrameId, Guid objectId)
-=======
         public string GetEnginesKey(Guid publicationID, Guid timeFrameID)
->>>>>>> 8bd322d48060662766a3b4a55973d25ee8abe875
         {
-            return string.Format("{0}/{1}", GetTimeFrameKey(publicationID, timeFrameID), "engines");
+            return string.Format("{0}/engines", GetTimeFrameKey(publicationID, timeFrameID));
+        }
+
+        public string GetTransmissionsKey(Guid publicationID, Guid timeFrameID)
+        {
+            return string.Format("{0}/transmissions", GetTimeFrameKey(publicationID, timeFrameID));
+        }
+
+        public string GetWheelDrivesKey(Guid publicationID, Guid timeFrameID)
+        {
+            return string.Format("{0}/wheel-drives", GetTimeFrameKey(publicationID, timeFrameID));
+        }
+
+        public string GetSteeringsKey(Guid publicationID, Guid timeFrameID)
+        {
+            return string.Format("{0}/steerings", GetTimeFrameKey(publicationID, timeFrameID));
+        }
+
+        public string GetCarsKey(Guid publicationID, Guid timeFrameID)
+        {
+            return string.Format("{0}/cars", GetTimeFrameKey(publicationID, timeFrameID));
+        }
+
+        public string GetCarKey(Guid publicationID, Guid carID)
+        {
+            return string.Format("{0}/cars/{1}", GetPublicationKey(publicationID), carID);
         }
 
         private static string GetAssetsKey(Guid publicationId, Guid objectId)
         {
             var publicationAssetsKey = string.Format(PublicationAssetsKeyTemplate, publicationId);
-            
+
             return string.Format("{0}/{1}", publicationAssetsKey, objectId);
+        }
+
+        private string GetAssetsKey(Guid publicationId, Guid carId, Guid objectId)
+        {
+            return string.Format("{0}/assets/{1}", GetCarKey(publicationId, carId), objectId);
         }
 
         public string GetDefaultAssetsKey(Guid publicationId, Guid objectId)
         {
-            return string.Format("{0}/default", GetAssetsKey(publicationId, objectId));
+            var assetsKey = GetAssetsKey(publicationId, objectId);
+
+            return GetDefaultAssetsKey(assetsKey);
         }
 
-        public string GetAssetsKey(Guid publicationId, Guid objectId, string view, string mode)
+        public string GetDefaultAssetsKey(Guid publicationID, Guid carID, Guid objectID)
+        {
+            var assetsKey = GetAssetsKey(publicationID, carID, objectID);
+
+            return GetDefaultAssetsKey(assetsKey);
+        }
+
+        private static string GetDefaultAssetsKey(string assetsKey)
+        {
+            return string.Format("{0}/default", assetsKey);
+        }
+
+        public string GetAssetsKey(Guid publicationId, Guid objectId, String view, String mode)
         {
             return string.Format("{0}/{1}/{2}", GetAssetsKey(publicationId, objectId), view, mode);
+        }
+
+<<<<<<< HEAD
+        public string GetAssetsKey(Guid publicationID, Guid carID, Guid objectID, string view, string mode)
+        {
+            return string.Format("{0}/{1}/{2}", GetAssetsKey(publicationID, carID, objectID), view, mode);
+=======
+        private static string GetCarAssetsKey(Guid publicationId, Guid carId, Guid objectId)
+        {
+            var publicationCarAssetsKey = string.Format(PublicationCarAssetsKeyTemplate, publicationId, carId);
+
+            return string.Format("{0}/{1}", publicationCarAssetsKey, objectId);
+        }
+
+        public string GetDefaultCarAssetsKey(Guid publicationId, Guid carId, Guid objectId)
+        {
+            return string.Format("{0}/default", GetCarAssetsKey(publicationId, carId, objectId));
+        }
+
+        public string GetCarAssetsKey(Guid publicationId, Guid carId, Guid objectId, String view, String mode)
+        {
+            return string.Format("{0}/{1}/{2}", GetCarAssetsKey(publicationId, carId, objectId), view, mode);
+>>>>>>> 4b5b26850f09d3b10d86e3a9024edb0e90bae576
         }
     }
 }

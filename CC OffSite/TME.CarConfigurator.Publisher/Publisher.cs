@@ -94,7 +94,8 @@ namespace TME.CarConfigurator.Publisher
                 _wheelDrivePublisher.PublishGenerationWheelDrives(context),
                 _steeringPublisher.PublishGenerationSteerings(context),
                 _carPublisher.PublishGenerationCars(context),
-                _assetPublisher.PublishAssets(context)
+                _assetPublisher.PublishAssets(context),
+                _assetPublisher.PublishCarAssets(context)
             };
 
             var results = await Task.WhenAll(tasks);
