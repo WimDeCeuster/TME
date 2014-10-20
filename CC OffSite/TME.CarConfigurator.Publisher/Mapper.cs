@@ -213,9 +213,8 @@ namespace TME.CarConfigurator.Publisher
                 contextData.Steerings.Add(_steeringMapper.MapSteering(steering));
         }
 
-        IReadOnlyList<TimeFrame> GetTimeFrames(String language, IContext context)
+        static IReadOnlyList<TimeFrame> GetTimeFrames(String language, IContext context)
         {
-            var generation = context.ModelGenerations[language];
             var cars = context.ContextData[language].Cars;
 
             //For preview, return only 1 Min/Max TimeFrame with all cars
@@ -224,7 +223,7 @@ namespace TME.CarConfigurator.Publisher
 
             var timeFrames = new List<TimeFrame>();
 
-            var timeProjection = generation.Cars.Where(car => car.Approved)
+            var timeProjection = context.ModelGenerations[language].Cars.Where(car => car.Approved)
                                                 .SelectMany(car => new[] {
                                                     new { Date = car.LineOffFromDate, Open = true, Car = car },
                                                     new { Date = car.LineOffToDate, Open = false, Car = car }
