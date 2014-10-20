@@ -29,6 +29,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             var mappedGrade = new Grade
             {
+                BasedUponGradeID = generationGrade.BasedUpon.ID,
                 Special = generationGrade.Special,
                 StartingPrice = new Price
                 {

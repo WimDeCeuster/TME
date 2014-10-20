@@ -15,21 +15,17 @@ using TME.CarConfigurator.Repository.Objects.Core;
 
 namespace TME.GradeConfigurator.Query.Tests.GivenAGrade
 {
-    public class WhenAccessingItsStartingPriceForTheFirstTime : TestBase
+    public class WhenAccessingItsNonExistentBasedUponGrade : TestBase
     {
         IGrade _grade;
-        IPrice _price;
-        Price _repoPrice;
-
+        IGrade _basedUponGrade;
+        IGradeService _gradeService;
+        
         protected override void Arrange()
         {
-            _repoPrice = new PriceBuilder()
-                .WithPriceExVat(5)
-                .WithPriceExVat(10)
-                .Build();
-
             var repoGrade = new GradeBuilder()
-                .WithStartingPrice(_repoPrice)
+                .WithId(Guid.NewGuid())
+                .WithBasedUponGradeID(Guid.Empty)
                 .Build();
 
             var publicationTimeFrame = new PublicationTimeFrameBuilder()
@@ -43,26 +39,25 @@ namespace TME.GradeConfigurator.Query.Tests.GivenAGrade
 
             var context = new ContextBuilder().Build();
 
-            var gradeService = A.Fake<IGradeService>();
-            A.CallTo(() => gradeService.GetGrades(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new [] { repoGrade });
+            _gradeService = A.Fake<IGradeService>();
+            A.CallTo(() => _gradeService.GetGrades(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new [] { repoGrade });
 
             var gradeFactory = new GradeFactoryBuilder()
-                .WithGradeService(gradeService)
+                .WithGradeService(_gradeService)
                 .Build();
 
-            _grade = gradeFactory.GetGrades(publication, context).Single();
+            _grade = gradeFactory.GetGrade(publication, context, repoGrade.ID);
         }
 
         protected override void Act()
         {
-            _price = _grade.StartingPrice;
+            _basedUponGrade = _grade.BasedUpon;
         }
 
         [Fact]
-        public void ThenThePriceShouldBeCorrect()
+        public void ThenTheBasedUponGradeShouldBeCorrect()
         {
-            _price.PriceExVat.Should().Be(_repoPrice.ExcludingVat);
-            _price.PriceInVat.Should().Be(_repoPrice.IncludingVat);
+            _basedUponGrade.Should().BeNull();
         }
     }
 }

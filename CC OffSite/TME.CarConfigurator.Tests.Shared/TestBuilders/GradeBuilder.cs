@@ -37,6 +37,13 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public GradeBuilder WithBasedUponGradeID(Guid guid)
+        {
+            _grade.BasedUponGradeID = guid;
+
+            return this;
+        }
+
         public Grade Build()
         {
             return _grade;

@@ -228,9 +228,7 @@ namespace TME.CarConfigurator.Publisher
             foreach (var grade in applicableGrades)
             {
                 var mappedGrade = contextData.Grades.Single(contextGrade => grade.ID == contextGrade.ID);
-                if (grade.BasedUpon != null && grade.BasedUpon.ID != Guid.Empty)
-                    mappedGrade.BasedUpon = contextData.Grades.Single(contextGrade => grade.BasedUpon.ID == contextGrade.ID);
-
+                
                 var applicableCars = cars.Where(car => car.GradeID == grade.ID)
                                          .Select(car => contextData.Cars.Single(contextCar => contextCar.ID == car.ID));
                 foreach (var applicableCar in applicableCars)

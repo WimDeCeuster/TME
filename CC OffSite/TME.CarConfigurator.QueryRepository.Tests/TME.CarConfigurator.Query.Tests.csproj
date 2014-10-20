@@ -68,11 +68,14 @@
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheSecondTime.cs" />
     <Compile Include="GivenAFuelType\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenAFuelType\WhenAccessingItsLabelsForTheSecondTime.cs" />
+    <Compile Include="GivenAGrade\WhenAccessingItsNonExistentBasedUponGrade.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsLabelsForTheSecondTime.cs" />
+    <Compile Include="GivenAGrade\WhenAccessingItsBasedUponGradeForTheFirstTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheFirstTime.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GivenAGrade\WhenAccessingItsBasedUponGradeForTheSecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheSecondTime.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -86,6 +89,7 @@
     <Compile Include="GivenAModel\WhenAccessingItsSteeringsForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsWheelDrivesForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsTransmissionsForTheSecondTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingTopLevelAndBasedUponGrades.cs" />
     <Compile Include="GivenAnEngineCategory\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenAnEngineCategory\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenAnEngineCategory\WhenAccessingItsAssetsForTheSecondTime.cs" />

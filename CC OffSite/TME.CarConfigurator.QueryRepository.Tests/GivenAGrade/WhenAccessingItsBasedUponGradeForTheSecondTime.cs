@@ -17,22 +17,22 @@ using Xunit;
 
 namespace TME.GradeConfigurator.Query.Tests.GivenAGrade
 {
-    public class WhenAccessingItsBasedUponGradeForTheSecondTime : TestBase
+    public class WhenAccessingItsStartingPriceForTheSecondTime : TestBase
     {
-        IGrade _car;
-        IPrice _firstPrice;
-        IPrice _secondPrice;
-        Price _repoPrice;
+        IGrade _grade;
+        IGrade _firstGrade;
+        IGrade _secondGrade;
+        Grade _repoBasedUponGrade;
 
         protected override void Arrange()
         {
-            _repoPrice = new PriceBuilder()
-                .WithPriceExVat(5)
-                .WithPriceExVat(10)
-                .Build();
+            _repoBasedUponGrade = new GradeBuilder()
+                            .WithId(Guid.NewGuid())
+                            .Build();
 
             var repoGrade = new GradeBuilder()
-                .WithStartingPrice(_repoPrice)
+                .WithId(Guid.NewGuid())
+                .WithBasedUponGradeID(_repoBasedUponGrade.ID)
                 .Build();
 
             var publicationTimeFrame = new PublicationTimeFrameBuilder()
@@ -46,34 +46,33 @@ namespace TME.GradeConfigurator.Query.Tests.GivenAGrade
 
             var context = new ContextBuilder().Build();
 
-            var carService = A.Fake<IGradeService>();
-            A.CallTo(() => carService.GetGrades(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new[] { repoGrade });
+            var gradeService = A.Fake<IGradeService>();
+            A.CallTo(() => gradeService.GetGrades(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new[] { repoGrade, _repoBasedUponGrade });
 
-            var carFactory = new GradeFactoryBuilder()
-                .WithGradeService(carService)
+            var gradeFactory = new GradeFactoryBuilder()
+                .WithGradeService(gradeService)
                 .Build();
 
-            _car = carFactory.GetGrades(publication, context).Single();
-
-            _firstPrice = _car.StartingPrice;
+            _grade = gradeFactory.GetGrade(publication, context, repoGrade.ID); 
+            
+            _firstGrade = _grade.BasedUpon;
         }
 
         protected override void Act()
         {
-            _secondPrice = _car.StartingPrice;
+            _secondGrade = _grade.BasedUpon;
         }
 
         [Fact]
-        public void ThenItShouldNotRecalculateThePrice()
+        public void ThenItShouldNotRecalculateTheGrade()
         {
-            _secondPrice.Should().Be(_firstPrice);
+            _secondGrade.Should().Be(_firstGrade);
         }
 
         [Fact]
-        public void ThenThePriceShouldBeCorrect()
+        public void ThenTheGradeShouldBeCorrect()
         {
-            _secondPrice.PriceExVat.Should().Be(_repoPrice.ExcludingVat);
-            _secondPrice.PriceInVat.Should().Be(_repoPrice.IncludingVat);
+            _secondGrade.ID.Should().Be(_repoBasedUponGrade.ID);
         }
 
 

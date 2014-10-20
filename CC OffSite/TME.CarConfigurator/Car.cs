@@ -17,8 +17,13 @@ namespace TME.CarConfigurator
         IPrice _basePrice;
         IPrice _startingPrice;
         IBodyType _bodyType;
+        IGrade _grade;
 
-        public Car(Repository.Objects.Car repositoryCar, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IBodyTypeFactory bodyTypeFactory)
+        public Car(
+            Repository.Objects.Car repositoryCar,
+            Repository.Objects.Publication repositoryPublication,
+            Repository.Objects.Context repositoryContext,
+            IBodyTypeFactory bodyTypeFactory)
             : base(repositoryCar)
         {
             if (repositoryCar == null) throw new ArgumentNullException("repositoryCar");
@@ -44,5 +49,6 @@ namespace TME.CarConfigurator
         public ITransmission Transmission { get { throw new NotImplementedException(); } }
         public IWheelDrive WheelDrive { get { throw new NotImplementedException(); } }
         public ISteering Steering { get { throw new NotImplementedException(); } }
-        public IGrade Grade { get { throw new NotImplementedException(); }}}
+        public IGrade Grade { get { throw new NotImplementedException(); } }
+    }
 }

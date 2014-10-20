@@ -8,29 +8,20 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class SubModelMapper : ISubModelMapper
     {
-        private readonly ILabelMapper _labelMapper;
+        private readonly IBaseMapper _baseMapper;
 
-        public SubModelMapper(ILabelMapper labelMapper)
+        public SubModelMapper(IBaseMapper baseMapper)
         {
-            if (labelMapper == null) throw new ArgumentNullException("labelMapper");
+            if (baseMapper == null) throw new ArgumentNullException("baseMapper");
 
-            _labelMapper = labelMapper;
+            _baseMapper = baseMapper;
         }
 
         public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel)
         {
-            return new SubModel()
-            {
-                Description = modelGenerationSubModel.Translation.Description,
-                FootNote = modelGenerationSubModel.Translation.FootNote,
-                ID = modelGenerationSubModel.ID,
-                InternalCode = modelGenerationSubModel.BaseCode,
-                Labels = modelGenerationSubModel.Translation.Labels.Select(_labelMapper.MapLabel).ToList(),
-                LocalCode = modelGenerationSubModel.LocalCode.DefaultIfEmpty(modelGenerationSubModel.BaseCode),
-                Name = modelGenerationSubModel.Translation.Name.DefaultIfEmpty(modelGenerationSubModel.Name),
-                SortIndex = modelGenerationSubModel.Index,
-                ToolTip = modelGenerationSubModel.Translation.ToolTip
-            };
+            var mappedSubModel = new SubModel();
+
+            return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel, modelGenerationSubModel, modelGenerationSubModel.Name);
         }
     }
 }

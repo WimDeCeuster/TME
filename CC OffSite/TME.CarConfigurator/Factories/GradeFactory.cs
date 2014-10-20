@@ -12,6 +12,7 @@ namespace TME.CarConfigurator.Factories
     public class GradeFactory : IGradeFactory
     {
         private readonly IGradeService _gradeService;
+        private Dictionary<Tuple<Guid, Context>, List<IGrade>> _grades = new Dictionary<Tuple<Guid,Context>,List<IGrade>>();
 
         public GradeFactory(IGradeService gradeService)
         {
@@ -22,9 +23,20 @@ namespace TME.CarConfigurator.Factories
 
         public IEnumerable<IGrade> GetGrades(Publication publication, Context context)
         {
-            return _gradeService.GetGrades(publication.ID, publication.GetCurrentTimeFrame().ID, context)
-                                 .Select(grade => new Grade(grade))
-                                 .ToArray();
+            var key = Tuple.Create(publication.ID, context);
+            if (!_grades.ContainsKey(key))
+                _grades.Add(key, _gradeService.GetGrades(publication.ID, publication.GetCurrentTimeFrame().ID, context)
+                                                .Select(grade => (IGrade)new Grade(grade, publication, context, this))
+                                                .ToList());
+
+            return _grades[key];
+        }
+
+        public IGrade GetGrade(Publication publication, Context context, Guid id)
+        {
+            if (id == Guid.Empty)
+                return null;
+            return GetGrades(publication, context).Single(grade => grade.ID == id);
         }
     }
 }
