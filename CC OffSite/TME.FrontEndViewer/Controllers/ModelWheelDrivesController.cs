@@ -35,6 +35,7 @@ namespace TME.FrontEndViewer.Controllers
                             .WheelDrives
                             .Cast<TMME.CarConfigurator.WheelDrive>()
                             .Select(x => new CarConfigurator.LegacyAdapter.WheelDrive(x))
+                            .Cast<IWheelDrive>()
                             .ToList();
 
             return new ModelWithMetrics<IWheelDrive>()
@@ -46,7 +47,7 @@ namespace TME.FrontEndViewer.Controllers
         private static ModelWithMetrics<IWheelDrive> GetNewReaderModelWithMetrics(Context context, Guid modelID)
         {
             var start = DateTime.Now;
-            var list = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID).WheelDrives;
+            var list = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID).WheelDrives.ToList();
 
             return new ModelWithMetrics<IWheelDrive>()
             {

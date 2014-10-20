@@ -27,9 +27,16 @@
             <p class="property" data-id="VisibleInXRay4X4Spin">VisibleInXRay4X4Spin : @Html.Raw(model.VisibleInXRay4X4Spin)</p>
             <p class="property" data-id="VisibleInXRayHybridSpin">VisibleInXRayHybridSpin : @Html.Raw(model.VisibleInXRayHybridSpin)</p>
             <p class="property" data-id="VisibleInXRaySafetySpin">VisibleInXRaySafetySpin : @Html.Raw(model.VisibleInXRaySafetySpin)</p>
-            <br />
-            @Html.ActionLink("Assets","Index", "ModelEngineAssets", new { modelID = ViewBag.ModelID, engineID = model.ID}, new { }) | 
-            @Html.ActionLink("Category Assets","Index", "ModelEngineCategoryAssets", new { modelID = ViewBag.ModelID, engineID = model.ID}, new { }) 
+
+            <p class="property" data-id="actionlinks">
+                @Html.ActionLink("Assets","Index", "ModelEngineAssets", new { modelID = ViewBag.ModelID, engineID = model.ID}, new { })
+                @foreach (var visibleInModeAndView in model.VisibleIn)
+                {
+                    @Html.Raw(" | ")
+                    @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View),"Index", "ModelEngineVisibleInAssets", new { modelID = ViewBag.ModelID, engineID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View}, new { })         
+                } |
+                @Html.ActionLink("Category Assets","Index", "ModelEngineCategoryAssets", new { modelID = ViewBag.ModelID, engineID = model.ID}, new { }) 
+            </p>
         </div>
     </div>
 }

@@ -5,15 +5,14 @@ using TME.CarConfigurator.Interfaces.Core;
 
 namespace TME.CarConfigurator.Interfaces
 {
-    public interface ITransmission : IBaseObject
+    public interface IGrade : IBaseObject
     {
-        ITransmissionType Type { get; }
-
-        bool KeyFeature { get; }
-        bool Brochure { get; }
-        int NumberOfGears { get; }
+        bool Special { get; }
+        IPrice StartingPrice { get; }
+        IGrade BasedUpon { get; }
 
         IEnumerable<IVisibleInModeAndView> VisibleIn { get; }
         IEnumerable<IAsset> Assets { get; }
-    }            
+        
+    }
 }

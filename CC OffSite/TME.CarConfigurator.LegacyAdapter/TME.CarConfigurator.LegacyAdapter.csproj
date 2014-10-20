@@ -68,6 +68,8 @@
     <Compile Include="BodyType.cs" />
     <Compile Include="Car.cs" />
     <Compile Include="CarConfiguratorVersion.cs" />
+    <Compile Include="Extensions\AssetExtensions.cs" />
+    <Compile Include="Grade.cs" />
     <Compile Include="Steering.cs" />
     <Compile Include="WheelDrive.cs" />
     <Compile Include="Transmission.cs" />

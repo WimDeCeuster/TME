@@ -54,6 +54,7 @@
     <Compile Include="Factories\IModelFactory.cs" />
     <Compile Include="Factories\IPublicationFactory.cs" />
     <Compile Include="IFuelType.cs" />
+    <Compile Include="IGrade.cs" />
     <Compile Include="ITransmission.cs" />
     <Compile Include="ICar.cs" />
     <Compile Include="ICarConfiguratorVersion.cs" />

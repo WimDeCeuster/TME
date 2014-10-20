@@ -35,6 +35,7 @@ namespace TME.FrontEndViewer.Controllers
                             .BodyTypes
                             .Cast<TMME.CarConfigurator.BodyType>()
                             .Select(x => new CarConfigurator.LegacyAdapter.BodyType(x))
+                            .Cast<IBodyType>()
                             .ToList();
 
             return new ModelWithMetrics<IBodyType>()
@@ -46,7 +47,7 @@ namespace TME.FrontEndViewer.Controllers
         private static ModelWithMetrics<IBodyType> GetNewReaderModelWithMetrics(Context context, Guid modelID)
         {
             var start = DateTime.Now;
-            var list = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID).BodyTypes;
+            var list = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID).BodyTypes.ToList();
 
             return new ModelWithMetrics<IBodyType>()
             {
