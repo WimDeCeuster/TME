@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TME.CarConfigurator.Repository.Objects.Assets;
+﻿using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.Administration.Assets;
+using AssetType = TME.CarConfigurator.Repository.Objects.Assets.AssetType;
 
 namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface IAssetTypeMapper
     {
         AssetType MapGenerationAssetType(Administration.Assets.AssetType assetType);
+
+        AssetType MapObjectAssetType(AssetSetAsset assetSetAsset, ModelGeneration modelGeneration);
     }
 }

@@ -8,7 +8,7 @@ namespace TME.CarConfigurator.CommandServices
 {
     public interface IAssetService
     {
-        void PutAssetsByModeAndView(string brand, string country, Guid publicationID, Guid objectID, string mode, string view, IEnumerable<Asset> assets);
-        void PutDefaultAssets(string brand, string country, Guid publicationID, Guid objectID, IEnumerable<Asset> defaultAssets);
+        Task<Result> PutAssetsByModeAndView(string brand, string country, Guid publicationID, Guid objectID, string mode, string view, IEnumerable<Asset> assets);
+        Task<Result> PutDefaultAssets(string brand, string country, Guid publicationID, Guid objectID, IEnumerable<Asset> defaultAssets);
     }
 }

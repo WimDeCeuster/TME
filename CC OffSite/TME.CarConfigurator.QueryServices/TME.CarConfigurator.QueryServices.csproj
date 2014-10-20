@@ -41,6 +41,10 @@
   <ItemGroup>
     <Compile Include="IAssetService.cs" />
     <Compile Include="IBodyTypeService.cs" />
+    <Compile Include="ICarService.cs" />
+    <Compile Include="ISteeringService.cs" />
+    <Compile Include="IWheelDriveService.cs" />
+    <Compile Include="ITransmissionService.cs" />
     <Compile Include="IEngineService.cs" />
     <Compile Include="IModelService.cs" />
     <Compile Include="IPublicationService.cs" />

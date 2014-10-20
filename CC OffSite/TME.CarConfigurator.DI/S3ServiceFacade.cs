@@ -21,6 +21,10 @@ namespace TME.CarConfigurator.DI
         private IBodyTypeService _bodyTypeService;
         private IAssetService _assetService;
         private IEngineService _engineService;
+        private ITransmissionService _transmissionService;
+        private IWheelDriveService _wheelDriveService;
+        private ISteeringService _steeringService;
+        private ICarService _carService;
 
         public IService Service
         {
@@ -86,6 +90,34 @@ namespace TME.CarConfigurator.DI
             return this;
         }
 
+        public IServiceFacade WithTransmissionService(ITransmissionService transmissionService)
+        {
+            _transmissionService = transmissionService;
+
+            return this;
+        }
+
+        public IServiceFacade WithWheelDriveService(IWheelDriveService wheelDriveService)
+        {
+            _wheelDriveService = wheelDriveService;
+
+            return this;
+        }
+
+        public IServiceFacade WithSteeringService(ISteeringService steeringService)
+        {
+            _steeringService = steeringService;
+
+            return this;
+        }
+
+        public IServiceFacade WithCarService(ICarService carService)
+        {
+            _carService = carService;
+
+            return this;
+        }
+
         public IServiceFacade WithBodyTypeService(IBodyTypeService bodyTypeService)
         {
             _bodyTypeService = bodyTypeService;
@@ -125,6 +157,24 @@ namespace TME.CarConfigurator.DI
             return _engineService ?? new EngineService(Serializer, Service, KeyManager);
         }
 
+        public ITransmissionService CreateTransmissionService()
+        {
+            return _transmissionService ?? new TransmissionService(Serializer, Service, KeyManager);
+        }
 
+        public IWheelDriveService CreateWheelDriveService()
+        {
+            return _wheelDriveService ?? new WheelDriveService(Serializer, Service, KeyManager);
+        }
+
+        public ISteeringService CreateSteeringService()
+        {
+            return _steeringService ?? new SteeringService(Serializer, Service, KeyManager);
+        }
+
+        public ICarService CreateCarService()
+        {
+            return _carService ?? new CarService(Serializer, Service, KeyManager);
+        }
     }
 }

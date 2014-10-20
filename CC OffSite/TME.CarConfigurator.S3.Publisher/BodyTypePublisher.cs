@@ -16,6 +16,8 @@ namespace TME.CarConfigurator.S3.Publisher
 
         public BodyTypePublisher(IBodyTypeService bodyTypeService)
         {
+            if (bodyTypeService == null) throw new ArgumentNullException("bodyTypeService");
+
             _bodyTypeService = bodyTypeService;
         }
 
@@ -44,7 +46,7 @@ namespace TME.CarConfigurator.S3.Publisher
 
             var bodyTypes = timeFrames.ToDictionary(
                                 timeFrame => data.Publication.TimeFrames.Single(publicationTimeFrame => publicationTimeFrame.ID == timeFrame.ID),
-                                timeFrame => data.GenerationBodyTypes.Where(bodyType =>
+                                timeFrame => data.BodyTypes.Where(bodyType =>
                                                                             timeFrame.Cars.Any(car => car.BodyType.ID == bodyType.ID))
                                                                      .OrderBy(bodyType => bodyType.SortIndex)
                                                                      .ThenBy(bodyType => bodyType.Name)

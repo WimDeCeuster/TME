@@ -8,6 +8,10 @@ namespace TME.CarConfigurator.DI.Interfaces
         IModelFactoryFacade WithPublicationFactory(IPublicationFactory publicationFactory);
         IModelFactoryFacade WithBodyTypeFactory(IBodyTypeFactory bodyTypeFactory);
         IModelFactoryFacade WithEngineFactory(IEngineFactory engineFactory);
+        IModelFactoryFacade WithTransmissionFactory(ITransmissionFactory transmissionFactory);
+        IModelFactoryFacade WithWheelDriveFactory(IWheelDriveFactory wheelDriveFactory);
+        IModelFactoryFacade WithSteeringFactory(ISteeringFactory steeringFactory);
+        IModelFactoryFacade WithCarFactory(ICarFactory carFactory);
 
         IModelFactory Create();
     }

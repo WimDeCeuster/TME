@@ -16,32 +16,114 @@
     
     <script>
 
-        $("#oldarea .object").each(function() {
-            var id = $(this).data('id');
-            var newObject = $("#newarea .object[data-id=" + id + "]");
+        Array.prototype.like = function (array2, comparer) {
+            var array1 = this
 
-     
-            if (newObject.length == 0) {
-                $(this).parent().addClass('missing');
-                return;
+            comparer = comparer || function (x1, x2) { return x1 === x2 }
+
+            return array2 && (array1.length === array2.length) && array1.every(function (x1, i) {
+                return comparer(x1, array2[i])
+            })
+        }
+
+        $('#oldarea .object').each(function () {
+            var oldObject = $(this)
+            var oldParents = oldObject.parents('.object')
+
+            var newObject = findMatchingNewObject(oldObject)
+
+            var topOldObject = oldObject.parents('.object').last()
+            if (!topOldObject.length)
+                topOldObject = oldObject
+
+            var topNewObject = newObject.parents('.object').last()
+            if (!topNewObject.length)
+                topNewObject = newObject
+
+            if (!newObject.length) {
+                if (topOldObject.is(oldObject))
+                    oldObject.parent('.clickable').addClass('missing')
+                else {
+                    topOldObject.parent('.clickable').addClass('mismatch')
+                    oldObject.addClass('missing')
+                }
+                return
             }
 
-            $('.property', this).each(function() {
-                var propertyid = $(this).data('id');
-                var newProperty = $(".property[data-id=" + propertyid + "]", newObject);
-                
-                if (newProperty.length != 1 || $(newProperty[0]).html() != $(this).html()) {
-                    
-                    $(newProperty).parent().parent().addClass('mismatch');
-                    $(newProperty).addClass('mismatch');
-                    $(this).parent().parent().addClass('mismatch');
-                    $(this).addClass('mismatch');
+            oldObject.find('.property').filter(isClosestTo(oldObject))
+                                       .each(function () {
+                var oldProperty = $(this)
+                var newProperty = newObject.find('.property[data-id=' + oldProperty.data('id') + ']')
+                                           .filter(isClosestTo(newObject))
+
+                if (newProperty.length !== 1 || newProperty.html() !== oldProperty.html()) {
+                    topNewObject.parent('.clickable').addClass('mismatch')
+                    newProperty.addClass('mismatch')
+                    if (!topNewObject.is(newObject))
+                        newObject.addClass('mismatch')
+
+                    topOldObject.parent('.clickable').addClass('mismatch')
+                    oldProperty.addClass('mismatch')
+                    if (!topOldObject.is(oldObject))
+                        oldObject.addClass('mismatch')
                 }
+            })
+        })
 
-                
-            });
+        function findMatchingNewObject(oldObject) {
+            var oldParentsIds = oldObject.parents('.object')
+                                         .toArray()
+                                         .map(getDataId)
 
-        } );
+            return $('#newarea .object[data-id=' + oldObject.data('id') + ']').filter(function () {
+                var candidateParentsIds = $(this).parents('.object')
+                                                 .toArray()
+                                                 .map(getDataId)
+
+                return oldParentsIds.like(candidateParentsIds)
+            })
+        }
+
+        function isClosestTo(parent) {
+            return function () {
+                return $(this).closest('.object').is(parent)
+            }
+        }
+
+        function getDataId(element) {
+            return $(element).data('id')
+        }
+
+
+        //$("#oldarea .object").each(function () {
+        //    var id = $(this).data('id');
+        //    var newObject = $("#newarea .object[data-id=" + id + "]");
+
+
+        //    if (newObject.length == 0) {
+        //        $(this).parent().addClass('missing');
+        //        return;
+        //    }
+
+        //    $('.property', this).each(function () {
+        //        var propertyid = $(this).data('id');
+        //        var newProperty = $(".property[data-id=" + propertyid + "]", newObject);
+
+        //        if (newProperty.length != 1 || $(newProperty[0]).html() != $(this).html()) {
+
+        //            $(newProperty).parent().parent().addClass('mismatch');
+        //            $(newProperty).addClass('mismatch');
+        //            $(this).parent().parent().addClass('mismatch');
+        //            $(this).addClass('mismatch');
+        //        }
+
+
+        //    });
+
+        //});
+
+
+
 
     </script>    
 </body>

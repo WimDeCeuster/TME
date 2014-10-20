@@ -15,12 +15,20 @@ namespace TME.CarConfigurator
         private readonly IPublicationFactory _publicationFactory;
         private readonly IBodyTypeFactory _bodyTypeFactory;
         private readonly IEngineFactory _engineFactory;
+        private readonly ITransmissionFactory _transmissionFactory;
+        private readonly IWheelDriveFactory _wheelDriveFactory;
+        private readonly ISteeringFactory _steeringFactory;
+        private readonly ICarFactory _carFactory;
 
         private Repository.Objects.Publication _repositoryPublication;        
         private IEnumerable<IAsset> _assets;
         private IEnumerable<ILink> _links;
         private IEnumerable<IBodyType> _bodyTypes;
         private IEnumerable<IEngine> _engines;
+        private IEnumerable<ITransmission> _transmissions;
+        private IEnumerable<IWheelDrive> _wheelDrives;
+        private IEnumerable<ISteering> _steerings;
+        private IEnumerable<ICar> _cars;
 
         private CarConfiguratorVersion _carConfiguratorVersion;
 
@@ -49,18 +57,26 @@ namespace TME.CarConfigurator
 
         public IEnumerable<IEngine> Engines { get { return _engines = _engines ?? _engineFactory.GetEngines(RepositoryPublication, _repositoryContext); } }
 
-        public IEnumerable<ITransmission> Transmissions { get { throw new NotImplementedException(); } }
+        public IEnumerable<ITransmission> Transmissions { get { return _transmissions = _transmissions ?? _transmissionFactory.GetTransmissions(RepositoryPublication, _repositoryContext); } }
+
+        public IEnumerable<IWheelDrive> WheelDrives { get { return _wheelDrives = _wheelDrives ?? _wheelDriveFactory.GetWheelDrives(RepositoryPublication, _repositoryContext); } }
+
+        public IEnumerable<ISteering> Steerings { get { return _steerings = _steerings ?? _steeringFactory.GetSteerings(RepositoryPublication, _repositoryContext); } }
 
         public IEnumerable<IFuelType> FuelTypes { get { throw new NotImplementedException(); } }
 
-        public IEnumerable<ICar> Cars { get { throw new NotImplementedException(); } }
+        public IEnumerable<ICar> Cars { get { return _cars = _cars ?? _carFactory.GetCars(RepositoryPublication, _repositoryContext); } }
 
         public Model(
             Repository.Objects.Model repositoryModel,
             Repository.Objects.Context repositoryContext,
             IPublicationFactory publicationFactory,
             IBodyTypeFactory bodyTypeFactory,
-            IEngineFactory engineFactory)
+            IEngineFactory engineFactory,
+            ITransmissionFactory transmissionFactory,
+            IWheelDriveFactory wheelDriveFactory,
+            ISteeringFactory steeringFactory,
+            ICarFactory carFactory)
             : base(repositoryModel)
         {
             if (repositoryModel == null) throw new ArgumentNullException("repositoryModel");
@@ -68,12 +84,20 @@ namespace TME.CarConfigurator
             if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
             if (bodyTypeFactory == null) throw new ArgumentNullException("bodyTypeFactory");
             if (engineFactory == null) throw new ArgumentNullException("engineFactory");
+            if (transmissionFactory == null) throw new ArgumentNullException("transmissionFactory");
+            if (wheelDriveFactory == null) throw new ArgumentNullException("wheelDriveFactory");
+            if (steeringFactory == null) throw new ArgumentNullException("steeringFactory");
+            if (carFactory == null) throw new ArgumentNullException("carFactory");
 
             _repositoryModel = repositoryModel;
             _repositoryContext = repositoryContext;
             _publicationFactory = publicationFactory;
             _bodyTypeFactory = bodyTypeFactory;
             _engineFactory = engineFactory;
+            _transmissionFactory = transmissionFactory;
+            _wheelDriveFactory = wheelDriveFactory;
+            _steeringFactory = steeringFactory;
+            _carFactory = carFactory;
         }
     }
 }

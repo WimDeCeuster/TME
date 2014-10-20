@@ -9,37 +9,7 @@ namespace TME.CarConfigurator.S3.Shared
 {
     public class Serialiser : ISerialiser
     {
-        public String Serialise(Publication publication)
-        {
-            return SerialiseObject(publication);
-        }
-        
-        public String Serialise(Languages languages)
-        {
-            return SerialiseObject(languages);
-        }
-
-        public string Serialise(IEnumerable<BodyType> bodyTypes)
-        {
-            return SerialiseObject(bodyTypes);
-        }
-
-        public string Serialise(IEnumerable<Engine> engines)
-        {
-            return SerialiseObject(engines);
-        }
-
-        public string Serialise(IEnumerable<Asset> assets)
-        {
-            return SerialiseObject(assets);
-        }
-
-        public string Serialise(Dictionary<Guid, IList<Asset>> assetPerObject)
-        {
-            return SerialiseObject(assetPerObject);
-        }
-
-        private String SerialiseObject(Object obj)
+        public String Serialise(Object obj)
         {
             return JsonConvert.SerializeObject(obj,Formatting.Indented);
         }

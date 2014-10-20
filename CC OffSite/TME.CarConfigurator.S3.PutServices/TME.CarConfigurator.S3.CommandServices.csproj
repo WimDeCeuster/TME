@@ -42,7 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CarService.cs" />
     <Compile Include="AssetsService.cs" />
+    <Compile Include="SteeringService.cs" />
+    <Compile Include="WheelDriveService.cs" />
+    <Compile Include="TransmissionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BodyTypeService.cs" />
     <Compile Include="EngineService.cs" />

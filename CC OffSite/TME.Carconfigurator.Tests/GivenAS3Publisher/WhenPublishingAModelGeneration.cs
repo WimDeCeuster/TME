@@ -38,5 +38,33 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => EnginePublisher.PublishGenerationEngines(Context))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
+
+        [Fact]
+        public void ThenAPublishGenerationTransmissionsShouldHappen()
+        {
+            A.CallTo(() => TransmissionPublisher.PublishGenerationTransmissions(Context))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
+        public void ThenAPublishGenerationWheelDrivesShouldHappen()
+        {
+            A.CallTo(() => WheelDrivePublisher.PublishGenerationWheelDrives(Context))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
+        public void ThenAPublishGenerationSteeringsShouldHappen()
+        {
+            A.CallTo(() => SteeringPublisher.PublishGenerationSteerings(Context))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
+        public void ThenAPublishGenerationCarsShouldHappen()
+        {
+            A.CallTo(() => CarPublisher.PublishGenerationCars(Context))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
     }
 }

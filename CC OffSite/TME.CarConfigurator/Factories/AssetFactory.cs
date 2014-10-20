@@ -15,6 +15,7 @@ namespace TME.CarConfigurator.Factories
         public AssetFactory(IAssetService assetService)
         {
             if (assetService == null) throw new ArgumentNullException("assetService");
+
             _assetService = assetService;
         }
 
@@ -28,6 +29,20 @@ namespace TME.CarConfigurator.Factories
         public IEnumerable<IAsset> GetAssets(Publication publication, Guid objectId, Context context, string view, string mode)
         {
             var repoAssets = _assetService.GetAssets(publication.ID, objectId, context, view, mode);
+
+            return TransformIntoNonRepoAssets(repoAssets);
+        }
+
+        public IEnumerable<IAsset> GetCarAssets(Publication publication, Guid carId, Guid objectId, Context context)
+        {
+            var repoAssets = _assetService.GetCarAssets(publication.ID, carId, objectId, context);
+
+            return TransformIntoNonRepoAssets(repoAssets);
+        }
+
+        public IEnumerable<IAsset> GetCarAssets(Publication publication, Guid carId, Guid objectId, Context context, string view, string mode)
+        {
+            var repoAssets = _assetService.GetCarAssets(publication.ID, carId, objectId, context, view, mode);
 
             return TransformIntoNonRepoAssets(repoAssets);
         }

@@ -13,6 +13,10 @@ namespace TME.CarConfigurator.S3.QueryServices
 
         public PublicationService(ISerialiser serialiser, IService service, IKeyManager keyManager)
         {
+            if (serialiser == null) throw new ArgumentNullException("serialiser");
+            if (service == null) throw new ArgumentNullException("service");
+            if (keyManager == null) throw new ArgumentNullException("keyManager");
+
             _serialiser = serialiser;
             _service = service;
             _keyManager = keyManager;

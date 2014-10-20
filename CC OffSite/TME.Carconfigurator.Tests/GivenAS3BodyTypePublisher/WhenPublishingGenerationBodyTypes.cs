@@ -82,8 +82,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypePublisher
                         .WithCars(_language2, car3, car4)
                         .WithTimeFrames(_language1, timeFrame1, timeFrame2)
                         .WithTimeFrames(_language2, timeFrame3, timeFrame4)
-                        .WithGenerationBodyTypes(_language1, generationBodyType1, generationBodyType2)
-                        .WithGenerationBodyTypes(_language2, generationBodyType3, generationBodyType4)
+                        .WithBodyTypes(_language1, generationBodyType1, generationBodyType2)
+                        .WithBodyTypes(_language2, generationBodyType3, generationBodyType4)
                         .Build();
 
             _s3Service = A.Fake<IService>();

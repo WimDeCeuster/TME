@@ -3,6 +3,7 @@ using System;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.UI.DI.Interfaces;
+using TME.CarConfigurator.S3.CommandServices;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.Publisher.UI.DI.Factories
@@ -28,45 +29,70 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
         {
             var service = GetService(environment, dataSubset);
 
-            return (QueryServices.IModelService)ContextRegistry.GetContext().GetObject("S3GetModelService", new Object[] { _serialiser, service, _keyManager });
+            return new S3.QueryServices.ModelService(_serialiser, service, _keyManager);
         }
 
         public IModelService GetPutModelService(String environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
 
-            return (IModelService)ContextRegistry.GetContext().GetObject("S3PutModelService", new Object[] { service, _serialiser, _keyManager });
+            return new ModelService(service, _serialiser, _keyManager);
         }
 
         public IPublicationService GetPublicationService(String environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
 
-            return (IPublicationService)ContextRegistry.GetContext().GetObject("S3PublicationService", new Object[] { service, _serialiser, _keyManager });
+            return new PublicationService(service, _serialiser, _keyManager);
         }
 
         public IBodyTypeService GetBodyTypeService(String environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
 
-            return (IBodyTypeService)ContextRegistry.GetContext().GetObject("S3BodyTypeService", new Object[] { service, _serialiser, _keyManager });
+            return new BodyTypeService(service, _serialiser, _keyManager);
         }
 
         public IEngineService GetEngineService(String environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
 
-            return (IEngineService)ContextRegistry.GetContext().GetObject("S3EngineService", new Object[] { service, _serialiser, _keyManager });
+            return new EngineService(service, _serialiser, _keyManager);
+        }
+
+        public ITransmissionService GetTransmissionService(String environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return new TransmissionService(service, _serialiser, _keyManager);
+        }
+
+        public IWheelDriveService GetWheelDriveService(String environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return new WheelDriveService(service, _serialiser, _keyManager);
+        }
+
+        public ISteeringService GetSteeringService(String environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return new SteeringService(service, _serialiser, _keyManager);
+        }
+
+        public ICarService GetCarService(String environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return new CarService(service, _serialiser, _keyManager);
         }
 
         public IAssetService GetAssetService(string environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
 
-            return
-                (IAssetService)
-                    ContextRegistry.GetContext()
-                        .GetObject("S3AssetService", new object[] {service, _serialiser, _keyManager});
+            return new AssetsService(service, _serialiser, _keyManager);
         }
     }
 }

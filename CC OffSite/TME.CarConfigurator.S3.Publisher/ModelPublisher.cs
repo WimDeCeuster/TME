@@ -4,6 +4,7 @@ using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.S3.Shared.Result;
 
 namespace TME.CarConfigurator.S3.Publisher
 {
@@ -13,16 +14,17 @@ namespace TME.CarConfigurator.S3.Publisher
 
         public ModelPublisher(IModelService modelService)
         {
+            if (modelService == null) throw new ArgumentNullException("modelService");
+
             _modelService = modelService;
         }
 
 
-        public async Task<Shared.Result.Result> PublishModelsByLanguage(IContext context, Languages languages)
+        public async Task<Result> PublishModelsByLanguage(IContext context, Languages languages)
         {
             if (context == null) throw new ArgumentNullException("context");
 
             return await _modelService.PutModelsByLanguage(context.Brand, context.Country, languages);
-
         }
     }
 }

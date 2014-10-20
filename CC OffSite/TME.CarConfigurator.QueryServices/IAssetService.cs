@@ -9,5 +9,7 @@ namespace TME.CarConfigurator.QueryServices
     {
         IEnumerable<Asset> GetAssets(Guid publicationId, Guid objectId, Context context);
         IEnumerable<Asset> GetAssets(Guid publicationId, Guid objectId, Context context, string view, string mode);
+        IEnumerable<Asset> GetCarAssets(Guid publicationId, Guid carId, Guid objectId, Context context, string view, string mode);
+        IEnumerable<Asset> GetCarAssets(Guid publicationId, Guid carId, Guid objectId, Context context);
     }
 }

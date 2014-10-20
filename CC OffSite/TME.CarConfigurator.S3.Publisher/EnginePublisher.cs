@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common;
@@ -17,6 +16,8 @@ namespace TME.CarConfigurator.S3.Publisher
 
         public EnginePublisher(IEngineService engineService)
         {
+            if (engineService == null) throw new ArgumentNullException("engineService");
+
             _engineService = engineService;
         }
 
@@ -43,17 +44,16 @@ namespace TME.CarConfigurator.S3.Publisher
         {
             var publication = data.Publication;
 
-            var Engines = timeFrames.ToDictionary(
+            var engines = timeFrames.ToDictionary(
                                 timeFrame => data.Publication.TimeFrames.Single(publicationTimeFrame => publicationTimeFrame.ID == timeFrame.ID),
-                                timeFrame => data.GenerationEngines.Where(engine =>
-                                                                            timeFrame.Cars.Any(car => car.Engine.ID == engine.ID))
-                                                                     .OrderBy(engine => engine.SortIndex)
-                                                                     .ThenBy(engine => engine.Name)
-                                                                     .ToList());
+                                timeFrame => data.Engines.Where(engine => timeFrame.Cars.Any(car => car.Engine.ID == engine.ID))
+                                                         .OrderBy(engine => engine.SortIndex)
+                                                         .ThenBy(engine => engine.Name)
+                                                         .ToList());
 
             var tasks = new List<Task<Result>>();
 
-            foreach (var entry in Engines)
+            foreach (var entry in engines)
                 tasks.Add(_engineService.PutTimeFrameGenerationEngines(brand, country, publication.ID, entry.Key.ID, entry.Value));
 
             return await Task.WhenAll(tasks);

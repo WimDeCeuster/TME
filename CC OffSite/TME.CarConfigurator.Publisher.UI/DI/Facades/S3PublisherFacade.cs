@@ -1,5 +1,4 @@
-﻿using Spring.Context.Support;
-using System;
+﻿using System;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.UI.DI.Interfaces;
@@ -8,18 +7,21 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Facades
 {
     public class S3PublisherFacade : IPublisherFacade
     {
-        IPublisherFactory _publisherFactory;
-        IServiceFactory _serviceFactory;
+        readonly IPublisherFactory _publisherFactory;
+        readonly IServiceFactory _serviceFactory;
 
         public S3PublisherFacade(IPublisherFactory publisherFactory, IServiceFactory serviceFactory)
         {
+            if (publisherFactory == null) throw new ArgumentNullException("publisherFactory");
+            if (serviceFactory == null) throw new ArgumentNullException("serviceFactory");
+
             _publisherFactory = publisherFactory;
             _serviceFactory = serviceFactory;
         }
 
         public IPublisher GetPublisher(String environment, PublicationDataSubset dataSubset)
         {
-            return (IPublisher)ContextRegistry.GetContext().CreateObject("Publisher", typeof(IPublisher), new Object[] {
+            return new Publisher(
                 _publisherFactory.GetPublicationPublisher(
                     _serviceFactory.GetPublicationService(environment, dataSubset)),
                 _publisherFactory.GetModelPublisher(
@@ -29,9 +31,17 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Facades
                     _serviceFactory.GetBodyTypeService(environment, dataSubset)),
                 _publisherFactory.GetEnginePublisher(
                     _serviceFactory.GetEngineService(environment, dataSubset)),
+                _publisherFactory.GetTransmissionPublisher(
+                    _serviceFactory.GetTransmissionService(environment, dataSubset)),
+                _publisherFactory.GetWheelDrivePublisher(
+                    _serviceFactory.GetWheelDriveService(environment, dataSubset)),
+                _publisherFactory.GetSteeringPublisher(
+                    _serviceFactory.GetSteeringService(environment, dataSubset)),
+                _publisherFactory.GetCarPublisher(
+                    _serviceFactory.GetCarService(environment, dataSubset)),
                 _publisherFactory.GetAssetPublisher(
                     _serviceFactory.GetAssetService(environment,dataSubset))
-            });
+            );
         }
     }
 }

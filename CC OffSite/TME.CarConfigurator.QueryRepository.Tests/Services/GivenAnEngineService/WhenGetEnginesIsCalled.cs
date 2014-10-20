@@ -55,7 +55,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAnEngineService
         }
 
         [Fact]
-        public void ThenItShouldReturnTheCorrectListOfBodyTypes()
+        public void ThenItShouldReturnTheCorrectListOfEngines()
         {
             _actualEngines.Should().BeSameAs(_expectedEngines);
         }

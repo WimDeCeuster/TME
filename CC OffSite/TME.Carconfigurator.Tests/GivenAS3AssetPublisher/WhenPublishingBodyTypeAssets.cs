@@ -24,8 +24,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
         private IContext _context;
         private IAssetService _assetService;
         private Generation _generation;
-        private List<Asset> _otherAssets = new List<Asset>();
-        private List<Asset> _defaultAssets = new List<Asset>();
         private Publication _publication;
         private readonly IEnumerable<string> _languages = new List<string>{"nl"};
         private List<Asset> _assets;
@@ -47,9 +45,11 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
             };
 
             //SetupForAssets
-            _defaultAssets = DefaultAssets(null,null);
-            _otherAssets = DefaultAssets(VIEW,MODE);
-            _assets = _defaultAssets.Concat(_otherAssets).ToList();
+            _assets = new List<Asset>()
+            {
+                new AssetBuilder().WithId(Guid.NewGuid()).WithAssetType(new AssetTypeBuilder().WithMode(null).WithView(null).Build()).Build(),
+                new AssetBuilder().WithId(Guid.NewGuid()).WithAssetType(new AssetTypeBuilder().WithMode(MODE).WithView(VIEW).Build()).Build()
+            };
 
             _context = ContextBuilder.InitialiseFakeContext()
                                      .WithBrand(Brand)
@@ -61,19 +61,17 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
                                      .Build();
 
             _s3Service = A.Fake<IService>();
+
             var serialiser = A.Fake<ISerialiser>();
+            A.CallTo<string>(() => serialiser.Serialise(A<IEnumerable<Asset>>._)).Returns(SERIALIZEDASSETS);
             var keymanager = A.Fake<IKeyManager>();
+            A.CallTo(() => keymanager.GetDefaultAssetsKey(A<Guid>._,A<Guid>._))
+                .Returns(BODYTYPE_DEFAULT_ASSETKEY);
+            A.CallTo(() => keymanager.GetAssetsKey(A<Guid>._,A<Guid>._,VIEW,MODE))
+                .Returns(BODYTYPE_ASSETKEY);
 
             _assetService = new AssetsService(_s3Service, serialiser, keymanager);
             _publisher = new AssetPublisher(_assetService);
-
-            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Asset>>._)).Returns(SERIALIZEDASSETS);
-
-            A.CallTo(() => keymanager.GetDefaultAssetsKey(A<Guid>._,A<Guid>._))
-                .Returns(BODYTYPE_DEFAULT_ASSETKEY);
-            
-            A.CallTo(() => keymanager.GetAssetsKey(A<Guid>._,A<Guid>._,VIEW,MODE))
-                .Returns(BODYTYPE_ASSETKEY);
         }
 
         protected override void Act()
@@ -86,7 +84,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
         {
             foreach (var language in _languages)
             {
-                A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null)).WithAnyArguments().MustHaveHappened(ForEachBodyType(language));
+                A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null)).WithAnyArguments().MustHaveHappened(Repeated.Exactly.Twice);
             }
         }
 
@@ -95,47 +93,9 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
         {
             foreach (var language in _languages)
             {
-                A.CallTo(() => _s3Service.PutObjectAsync(Brand, Country, A<String>._, A<String>._)).MustHaveHappened(ForEachBodyType(language));
+                A.CallTo(() => _s3Service.PutObjectAsync(Brand, Country, BODYTYPE_ASSETKEY, SERIALIZEDASSETS)).MustHaveHappened(Repeated.Exactly.Once);
+                A.CallTo(() => _s3Service.PutObjectAsync(Brand, Country, BODYTYPE_DEFAULT_ASSETKEY, SERIALIZEDASSETS)).MustHaveHappened(Repeated.Exactly.Once);
             }
-        }
-
-        [Fact]
-        public void ThenDefaultAssetsShouldBePutInTheDefaultFolder()
-        {
-            A.CallTo(() => _s3Service.PutObjectAsync(Brand,Country,null,SERIALIZEDASSETS))
-                .WhenArgumentsMatch(args => args[2].Equals(BODYTYPE_DEFAULT_ASSETKEY)).MustHaveHappened();
-        }
-
-        private Repeated ForEachBodyType(string language)
-        {
-            return Repeated.Exactly.Times((_context.ContextData[language].GenerationBodyTypes.Count));
-        }
-
-        private List<Asset> DefaultAssets(String view,String mode)
-        {
-            var assets = new List<Asset>();
-            for (int i = 0; i < 3; i++)
-            {
-                assets.Add(new Asset()
-                {
-                    AlwaysInclude = true,
-                    AssetType = new AssetType{View = view,Mode = mode},
-                    FileName = "Filename" + i,
-                    FileType = new FileType(),
-                    Hash = "Hash" + i,
-                    Height = short.Parse(i.ToString()),
-                    Width = short.Parse(i.ToString()),
-                    PositionX = short.Parse(i.ToString()),
-                    PositionY = short.Parse(i.ToString()),
-                    ID = Guid.NewGuid(),
-                    IsTransparent = true,
-                    Name = "Name" + i,
-                    RequiresMatte = true,
-                    ShortID = i,
-                    StackingOrder = i
-                });
-            }
-            return assets;
         }
     }
 }

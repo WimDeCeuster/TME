@@ -50,6 +50,11 @@
     <Compile Include="TestBase.cs" />
     <Compile Include="TestBuilders\AssetBuilder.cs" />
     <Compile Include="TestBuilders\BodyTypeBuilder.cs" />
+    <Compile Include="TestBuilders\CarBuilder.cs" />
+    <Compile Include="TestBuilders\SteeringBuilder.cs" />
+    <Compile Include="TestBuilders\WheelDriveBuilder.cs" />
+    <Compile Include="TestBuilders\TransmissionTypeBuilder.cs" />
+    <Compile Include="TestBuilders\TransmissionBuilder.cs" />
     <Compile Include="TestBuilders\EngineBuilder.cs" />
     <Compile Include="TestBuilders\EngineCategoryBuilder.cs" />
     <Compile Include="TestBuilders\EngineTypeBuilder.cs" />
@@ -59,6 +64,7 @@
     <Compile Include="TestBuilders\LanguagesBuilder.cs" />
     <Compile Include="TestBuilders\LinkBuilder.cs" />
     <Compile Include="TestBuilders\ModelBuilder.cs" />
+    <Compile Include="TestBuilders\PriceBuilder.cs" />
     <Compile Include="TestBuilders\PublicationBuilder.cs" />
     <Compile Include="TestBuilders\PublicationInfoBuilder.cs" />
     <Compile Include="TestBuilders\PublicationTimeFrameBuilder.cs" />
