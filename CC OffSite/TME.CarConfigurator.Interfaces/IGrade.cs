@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Interfaces.Equipment;
 
 namespace TME.CarConfigurator.Interfaces
 {
@@ -13,6 +13,8 @@ namespace TME.CarConfigurator.Interfaces
 
         IEnumerable<IVisibleInModeAndView> VisibleIn { get; }
         IEnumerable<IAsset> Assets { get; }
+        
+        IEnumerable<IGradeEquipmentItem> Equipment { get; }
         
     }
 }

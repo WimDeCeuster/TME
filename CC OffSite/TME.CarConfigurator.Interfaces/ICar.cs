@@ -21,3 +21,4 @@ namespace TME.CarConfigurator.Interfaces
         IGrade Grade { get; }
     }
 }
+

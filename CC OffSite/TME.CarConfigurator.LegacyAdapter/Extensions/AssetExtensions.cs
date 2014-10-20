@@ -7,7 +7,7 @@ using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter.Extensions
 {
-    public static class AssetExtensions
+    internal static class AssetExtensions
     {
         public static IEnumerable<IVisibleInModeAndView> GetVisibleInModeAndViews(this Legacy.Assets assets)
         {
