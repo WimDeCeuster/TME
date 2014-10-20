@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
@@ -86,8 +87,7 @@ namespace TME.CarConfigurator.S3.Publisher
         {
             var result = await Task.WhenAll(carAssets.Keys.Select(carId => PublishAssets(brand, country, publicationID, carId, carAssets[carId])).ToList());
             return result.SelectMany(xs => xs.ToList());
-        }
-
+       }
         private async Task<IEnumerable<Result>> PublishAssets(string brand, string country, Guid publicationID, Guid carId, IDictionary<Guid, IList<Asset>> assetsPerObjectID)
         {
             var result = await Task.WhenAll(assetsPerObjectID.Keys.Select(objectID => PublishAssets(assetsPerObjectID[objectID], 
@@ -106,14 +106,21 @@ namespace TME.CarConfigurator.S3.Publisher
 
         private async Task<IEnumerable<Result>> PublishAssetsByModeAndView(string brand, string country, Guid publicationID, Guid carId, Guid objectID, IEnumerable<Asset> assets)
         {
-            var assetsByModeAndView = GetAssetsGroupedByModeAndView(assets);
+            var assetsByModeAndView = GetAssetsGroupedByModeAndView(assets).ToList();
 
-            var tasks = assetsByModeAndView.Select(grouping => _assetService.PutAssetsByModeAndView(brand, country, publicationID, carId, objectID, grouping.Key.Mode, grouping.Key.View, grouping)).ToList();
+            var tasks = new List<Task<Result>>();
+
+            foreach (var grouping in assetsByModeAndView)
+            {
+                tasks.Add(_assetService.PutAssetsByModeAndView(brand, country, publicationID, carId, objectID, grouping.Key.Mode, grouping.Key.View, grouping));
+            }
+
+            //var tasks = assetsByModeAndView.Select(grouping => _assetService.PutAssetsByModeAndView(brand, country, publicationID, carId, objectID, grouping.Key.Mode, grouping.Key.View, grouping)).ToList();
 
             return await Task.WhenAll(tasks);
         }
 
-        private class AssetTypeKey
+        private class AssetTypeKey : IEquatable<AssetTypeKey>
         {
             public string Mode { get; private set; }
             public string View { get; private set; }
@@ -122,6 +129,16 @@ namespace TME.CarConfigurator.S3.Publisher
             {
                 Mode = assetType.Mode;
                 View = assetType.View;
+            }
+
+            public bool Equals(AssetTypeKey other)
+            {
+                return Mode.Equals(other.Mode) && View.Equals(other.View);
+            }
+
+            public override int GetHashCode()
+            {
+                return string.Format("{0}{1}", Mode, View).GetHashCode();
             }
         }
     }

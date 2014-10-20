@@ -49,7 +49,7 @@ namespace TME.CarConfigurator.S3.CommandServices
 
         public async Task<Result> PutDefaultAssets(string brand, string country, Guid publicationID, Guid carID, Guid objectID, IEnumerable<Asset> assets)
         {
-            var path = _keyManager.GetDefaultAssetsKey(publicationID, objectID, carID);
+            var path = _keyManager.GetDefaultAssetsKey(publicationID, carID, objectID);
             return await PutDefaultAssets(brand, country, path, assets);
         }
 
