@@ -87,7 +87,7 @@ namespace TME.CarConfigurator.Publisher
                 FillAssets(modelGeneration, contextData);
                 FillTransmissions(modelGeneration, contextData);
                 FillWheelDrives(modelGeneration, contextData);
-                
+
                 var cars = modelGeneration.Cars.Where(car => isPreview || car.Approved).ToList();
                 FillSteerings(cars, contextData);
                 FillCars(cars, contextData);
@@ -131,16 +131,16 @@ namespace TME.CarConfigurator.Publisher
                     entry => entry.Value);
         }
 
-        private Dictionary<Guid,List<Asset>> GetTransmissionAssets(ModelGeneration modelGeneration)
+        private Dictionary<Guid, List<Asset>> GetTransmissionAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.Transmissions.ToDictionary(
                 transmission => transmission.ID,
-                transmission => 
+                transmission =>
                     transmission.AssetSet.Assets.GetGenerationAssets()
                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private Dictionary<Guid,List<Asset>> GetBodyTypeAssets(ModelGeneration modelGeneration)
+        private Dictionary<Guid, List<Asset>> GetBodyTypeAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.BodyTypes.ToDictionary(
                 bodytype => bodytype.ID,
@@ -242,31 +242,37 @@ namespace TME.CarConfigurator.Publisher
                     if (openDate != null)
                     {
                         closeDate = point.Date;
-                        if (openDate != closeDate)
-                            timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(mapCar).ToList())));
+                        AddTimeFrameIfRelevant(openDate, closeDate, timeFrames, openCars, mapCar);
                     }
 
                     openCars.Add(point.Car);
                     openDate = point.Date;
+
+                    continue;
                 }
-                else
-                {
-                    closeDate = point.Date;
 
-                    if (openDate == null)
-                        throw new CorruptDataException("The open date could not be retrieved, could not create timeframe");
+                closeDate = point.Date;
 
-                    // time lines with identical from/until can occur when multiple line off dates fall on the same point
-                    // these "empty" time lines can simply be ignored (though the openCars logic is still relevant)
-                    if (openDate != closeDate)
-                        timeFrames.Add(new TimeFrame(openDate.Value, closeDate, new ReadOnlyCollection<Car>(openCars.Select(mapCar).ToList())));
+                AddTimeFrameIfRelevant(openDate, closeDate, timeFrames, openCars, mapCar);
 
-                    openCars.Remove(point.Car);
-                    openDate = openCars.Any() ? (DateTime?)point.Date : null;
-                }
+                openCars.Remove(point.Car);
+                openDate = openCars.Any() ? (DateTime?)point.Date : null;
             }
 
             return timeFrames;
+        }
+
+        private static void AddTimeFrameIfRelevant(DateTime? openDate, DateTime closeDate, ICollection<TimeFrame> timeFrames, IEnumerable<Administration.Car> openCars, Func<Administration.Car, Car> mapCar)
+        {
+            // time lines with identical from/until can occur when multiple line off dates fall on the same point
+            // these "empty" time lines can simply be ignored (though the openCars logic is still relevant)
+            if (openDate == closeDate) return;
+
+            if (openDate == null)
+                throw new CorruptDataException("The open date could not be retrieved, could not create timeframe");
+
+            timeFrames.Add(new TimeFrame(openDate.Value, closeDate,
+                new ReadOnlyCollection<Car>(openCars.Select(mapCar).ToList())));
         }
     }
 }
