@@ -6,6 +6,7 @@ using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Enums;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
+using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter
 {
@@ -13,7 +14,7 @@ namespace TME.CarConfigurator.LegacyAdapter
     {
 
         #region Dependencies (Adaptee)
-        private TMME.CarConfigurator.EquipmentCompareItem Adaptee
+        private Legacy.EquipmentCompareItem Adaptee
         {
             get;
             set;
@@ -21,20 +22,20 @@ namespace TME.CarConfigurator.LegacyAdapter
         #endregion
 
         #region Constructor
-        protected GradeEquipmentItem(TMME.CarConfigurator.EquipmentCompareItem adaptee)
+        protected GradeEquipmentItem(Legacy.EquipmentCompareItem adaptee)
             : base(adaptee)
         {
             Adaptee = adaptee;
         }
         #endregion
 
-        protected TMME.CarConfigurator.Car GetCar()
+        protected Legacy.Car GetCar()
         {
             if (Adaptee.StandardOn.Count > 0) return Adaptee.StandardOn[0];
             if (Adaptee.OptionalOn.Count > 0) return Adaptee.OptionalOn[0];
             return Adaptee.NotAvailableOn[0];
         }
-        protected TMME.CarConfigurator.CarEquipmentItem GetCarEquipmentItem()
+        protected Legacy.CarEquipmentItem GetCarEquipmentItem()
         {
             return GetCar().Equipment[Adaptee.ID];
         }

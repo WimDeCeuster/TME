@@ -19,13 +19,14 @@
             <p class="property" data-id="NumberOfGears">NumberOfGears : @Html.Raw(model.NumberOfGears)</p>
             @Html.Partial("_baseObjectWithPrefix", new BaseObjectWithPrefix() {BaseObject = model.Type,Prefix ="Type"})
 
-            <p class="property" data-id="VisibleInExteriorSpin">VisibleInExteriorSpin : @Html.Raw(model.VisibleInExteriorSpin)</p>
-            <p class="property" data-id="VisibleInInteriorSpin">VisibleInInteriorSpin : @Html.Raw(model.VisibleInInteriorSpin)</p>
-            <p class="property" data-id="VisibleInXRay4X4Spin">VisibleInXRay4X4Spin : @Html.Raw(model.VisibleInXRay4X4Spin)</p>
-            <p class="property" data-id="VisibleInXRayHybridSpin">VisibleInXRayHybridSpin : @Html.Raw(model.VisibleInXRayHybridSpin)</p>
-            <p class="property" data-id="VisibleInXRaySafetySpin">VisibleInXRaySafetySpin : @Html.Raw(model.VisibleInXRaySafetySpin)</p>
-            <br />
-            @Html.ActionLink("Assets","Index", "ModelTransmissionAssets", new { modelID = ViewBag.ModelID, transmissionID = model.ID}, new { }) 
+            <p class="property" data-id="actionlinks">
+                @Html.ActionLink("Assets","Index", "ModelTransmissionAssets", new { modelID = ViewBag.ModelID, transmissionID = model.ID}, new { })
+                @foreach (var visibleInModeAndView in model.VisibleIn)
+                {
+                    @Html.Raw(" | ")
+                    @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View),"Index", "ModelTransmissionVisibleInAssets", new { modelID = ViewBag.ModelID, transmissionID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View}, new { })         
+                }
+            </p>
         </div>
     </div>
 }

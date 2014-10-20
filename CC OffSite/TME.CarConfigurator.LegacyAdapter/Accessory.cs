@@ -1,13 +1,14 @@
 ﻿using TME.CarConfigurator.Interfaces.Equipment;
 using Legacy = TMME.CarConfigurator;
 
+
+
 namespace TME.CarConfigurator.LegacyAdapter
 {
-    public class GradeAccesory : GradeEquipmentItem, IGradeAccessory
+    public class Accessory : EquipmentItem, IAccessory
     {
-        
         #region Dependencies (Adaptee)
-        private Legacy.EquipmentCompareAccessory Adaptee
+        private Legacy.CarAccessory Adaptee
         {
             get;
             set;
@@ -15,8 +16,8 @@ namespace TME.CarConfigurator.LegacyAdapter
         #endregion
 
         #region Constructor
-        public GradeAccesory(Legacy.EquipmentCompareAccessory adaptee)
-            : base(adaptee)
+        public Accessory(Legacy.CarAccessory adaptee, Legacy.Generation generationOfAdaptee)
+            : base(adaptee, generationOfAdaptee)
         {
             Adaptee = adaptee;
         }
@@ -24,3 +25,4 @@ namespace TME.CarConfigurator.LegacyAdapter
 
     }
 }
+

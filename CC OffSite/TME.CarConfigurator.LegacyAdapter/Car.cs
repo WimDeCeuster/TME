@@ -86,5 +86,14 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get { return new Grade(Adaptee.Grade); }
         }
+        public ISubModel SubModel
+        {
+            get
+            {
+                return Adaptee.SubModel != null
+                    ? new SubModel(Adaptee.SubModel)
+                    : null;
+            }
+        }
     }
 }

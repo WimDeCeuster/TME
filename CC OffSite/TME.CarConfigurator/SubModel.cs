@@ -5,6 +5,8 @@ using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
+using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Repository.Objects;
 
@@ -18,7 +20,6 @@ namespace TME.CarConfigurator
         private readonly IAssetFactory _assetFactory;
 
         private IEnumerable<IAsset> _assets;
-        private IEnumerable<IVisibleInModeAndView> _visibleInModeAndViews;
 
         public SubModel(Repository.Objects.SubModel repositorySubModel,Publication repositoryPublication,Context repositoryContext,IAssetFactory assetFactory) 
             : base(repositorySubModel)
@@ -34,33 +35,31 @@ namespace TME.CarConfigurator
             _assetFactory = assetFactory;
         }
 
-        public IGeneration Generation { get; set; }
 
-        public IEnumerable<IVisibleInModeAndView> VisibleIn
+
+
+        public IPrice StartingPrice
         {
-            get
-            {
-                return
-                    _visibleInModeAndViews =
-                        _visibleInModeAndViews ??
-                        _repositorySubModel.VisibleIn.Select(
-                            visibleInModeAndView =>
-                                new VisibleInModeAndView(_repositorySubModel.ID, visibleInModeAndView,
-                                    _repositoryPublication, _repositoryContext, _assetFactory)).ToList();
-            }
+            get { throw new NotImplementedException(); }
+        }
+
+        public IEnumerable<IEquipmentItem> Equipment
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IEnumerable<IGrade> Grades
+        {
+            get { throw new NotImplementedException(); }
         }
 
         public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
 
-        [Obsolete("Use the new VisibleIn property instead")]
-        public bool VisibleInExteriorSpin { get { return VisibleIn.VisibleInExteriorSpin(); } }
-        [Obsolete("Use the new VisibleIn property instead")]
-        public bool VisibleInInteriorSpin { get { return VisibleIn.VisibleInInteriorSpin(); } }
-        [Obsolete("Use the new VisibleIn property instead")]
-        public bool VisibleInXRay4X4Spin { get { return VisibleIn.VisibleInXRay4X4Spin(); } }
-        [Obsolete("Use the new VisibleIn property instead")]
-        public bool VisibleInXRayHybridSpin { get { return VisibleIn.VisibleInXRayHybridSpin(); } }
-        [Obsolete("Use the new VisibleIn property instead")]
-        public bool VisibleInXRaySafetySpin { get { return VisibleIn.VisibleInXRaySafetySpin(); } }
+        public IEnumerable<ILink> Links
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+ 
     }
 }
