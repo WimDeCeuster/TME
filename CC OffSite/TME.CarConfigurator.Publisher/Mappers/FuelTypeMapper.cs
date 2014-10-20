@@ -10,30 +10,24 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class FuelTypeMapper : IFuelTypeMapper
     {
-        readonly ILabelMapper _labelMapper;
+        readonly IBaseMapper _baseMapper;
 
-        public FuelTypeMapper(ILabelMapper labelMapper)
+        public FuelTypeMapper(IBaseMapper baseMapper)
         {
-            if (labelMapper == null) throw new ArgumentNullException("labelMapper");
+            if (baseMapper == null) throw new ArgumentNullException("baseMapper");
 
-            _labelMapper = labelMapper;
+            _baseMapper = baseMapper;
         }
 
         public FuelType MapFuelType(Administration.FuelType fuelType)
         {
-            return new FuelType
+            var mappedFuelType = new FuelType
             {
-                Description = fuelType.Translation.Description,
-                FootNote = fuelType.Translation.FootNote,
                 Hybrid = fuelType.Code.ToUpper(System.Globalization.CultureInfo.InvariantCulture).StartsWith("H"),
-                ID = fuelType.ID,
-                InternalCode = fuelType.BaseCode,
-                Labels = fuelType.Translation.Labels.Select(_labelMapper.MapLabel).ToList(),
-                LocalCode = fuelType.LocalCode.DefaultIfEmpty(fuelType.BaseCode),
-                Name = fuelType.Translation.Name.DefaultIfEmpty(fuelType.Name),
-                SortIndex = 0,
-                ToolTip = fuelType.Translation.ToolTip
+                SortIndex = 0
             };
+
+            return _baseMapper.MapDefaults(mappedFuelType, fuelType, fuelType, fuelType.Name);
         }
     }
 }

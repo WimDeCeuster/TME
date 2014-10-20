@@ -10,15 +10,15 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class WheelDriveMapper : IWheelDriveMapper
     {
-        ILabelMapper _labelMapper;
+        IBaseMapper _baseMapper;
         IAssetSetMapper _assetSetMapper;
 
-        public WheelDriveMapper(ILabelMapper labelMapper, IAssetSetMapper assetSetMapper)
+        public WheelDriveMapper(IBaseMapper baseMapper, IAssetSetMapper assetSetMapper)
         {
-            if (labelMapper == null) throw new ArgumentNullException("labelMapper");
+            if (baseMapper == null) throw new ArgumentNullException("baseMapper");
             if (assetSetMapper == null) throw new ArgumentNullException("assetSetMapper");
 
-            _labelMapper = labelMapper;
+            _baseMapper = baseMapper;
             _assetSetMapper = assetSetMapper;
         }
 
@@ -26,21 +26,14 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
             var crossModelWheelDrive = Administration.WheelDrives.GetWheelDrives()[generationWheelDrive.ID];
 
-            return new WheelDrive
+            var mappedWheelDrive = new WheelDrive
             {
                 Brochure = generationWheelDrive.Brochure,
-                Description = generationWheelDrive.Translation.Description,
-                FootNote = generationWheelDrive.Translation.FootNote,
-                ID = generationWheelDrive.ID,
-                InternalCode = crossModelWheelDrive.BaseCode,
                 KeyFeature = generationWheelDrive.KeyFeature,
-                Labels = generationWheelDrive.Translation.Labels.Select(_labelMapper.MapLabel).ToList(),
-                LocalCode = crossModelWheelDrive.LocalCode.DefaultIfEmpty(crossModelWheelDrive.BaseCode),
-                Name = generationWheelDrive.Translation.Name.DefaultIfEmpty(generationWheelDrive.Name),
-                SortIndex = generationWheelDrive.Index,
-                ToolTip = generationWheelDrive.Translation.ToolTip,
                 VisibleIn = _assetSetMapper.GetVisibility(generationWheelDrive.AssetSet).ToList()
             };
+
+            return _baseMapper.MapDefaultsWithSort(mappedWheelDrive, crossModelWheelDrive, generationWheelDrive, generationWheelDrive.Name);
         }
     }
 }

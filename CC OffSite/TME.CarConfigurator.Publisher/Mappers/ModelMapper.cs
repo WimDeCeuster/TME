@@ -10,32 +10,25 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class ModelMapper : IModelMapper
     {
-        readonly ILabelMapper _labelMapper;
+        readonly IBaseMapper _baseMapper;
 
-        public ModelMapper(ILabelMapper labelMapper)
+        public ModelMapper(IBaseMapper baseMapper)
         {
-            if (labelMapper == null) throw new ArgumentNullException("labelMapper");
+            if (baseMapper == null) throw new ArgumentNullException("baseMapper");
 
-            _labelMapper = labelMapper;
+            _baseMapper = baseMapper;
         }
 
         public Model MapModel(Administration.Model model)
         {
-            return new Model
+            var mappedModel = new Model
             {
                 Brand = model.Brand.Name,
-                Description = model.Translation.Description,
-                FootNote = model.Translation.FootNote,
-                ID = model.ID,
-                InternalCode = model.BaseCode,
-                Labels = model.Translation.Labels.Select(_labelMapper.MapLabel).ToList(),
-                LocalCode = model.LocalCode.DefaultIfEmpty(model.BaseCode),
-                Name = model.Translation.Name.DefaultIfEmpty(model.Name),
                 Promoted = model.Promoted,
-                Publications = new List<PublicationInfo>(),
-                SortIndex = model.Index,
-                ToolTip = model.Translation.ToolTip
+                Publications = new List<PublicationInfo>()
             };
+
+            return _baseMapper.MapDefaultsWithSort(mappedModel, model, model, model.Name);
         }
     }
 }

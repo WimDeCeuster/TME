@@ -10,29 +10,23 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class TransmissionTypeMapper : ITransmissionTypeMapper
     {
-        ILabelMapper _labelMapper;
+        IBaseMapper _baseMapper;
 
-        public TransmissionTypeMapper(ILabelMapper labelMapper)
+        public TransmissionTypeMapper(IBaseMapper baseMapper)
         {
-            if (labelMapper == null) throw new ArgumentNullException("labelMapper");
+            if (baseMapper == null) throw new ArgumentNullException("baseMapper");
 
-            _labelMapper = labelMapper;
+            _baseMapper = baseMapper;
         }
 
         public TransmissionType MapTransmissionType(Administration.TransmissionType transmissionType)
         {
-            return new TransmissionType
+            var mappedTransmissionType = new TransmissionType
             {
-                Description = transmissionType.Translation.Description,
-                FootNote = transmissionType.Translation.FootNote,
-                ID = transmissionType.ID,
-                InternalCode = transmissionType.BaseCode,
-                Labels = transmissionType.Translation.Labels.Select(_labelMapper.MapLabel).ToList(),
-                LocalCode = transmissionType.LocalCode.DefaultIfEmpty(transmissionType.BaseCode),
-                Name = transmissionType.Translation.Name.DefaultIfEmpty(transmissionType.Name),
                 SortIndex = 0,
-                ToolTip = transmissionType.Translation.ToolTip
             };
+
+            return _baseMapper.MapDefaults(mappedTransmissionType, transmissionType, transmissionType, transmissionType.Name);
         }
     }
 }

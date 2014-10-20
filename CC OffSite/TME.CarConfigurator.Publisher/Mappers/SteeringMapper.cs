@@ -10,29 +10,23 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class SteeringMapper : ISteeringMapper
     {
-        ILabelMapper _labelMapper;
+        IBaseMapper _baseMapper;
 
-        public SteeringMapper(ILabelMapper labelMapper)
+        public SteeringMapper(IBaseMapper baseMapper)
         {
-            if (labelMapper == null) throw new ArgumentNullException("labelMapper");
+            if (baseMapper == null) throw new ArgumentNullException("baseMapper");
 
-            _labelMapper = labelMapper;
+            _baseMapper = baseMapper;
         }
 
         public Steering MapSteering(Administration.Steering steering)
         {
-            return new Steering
+            var mappedSteering = new Steering
             {
-                Description = steering.Translation.Description,
-                FootNote = steering.Translation.FootNote,
-                ID = steering.ID,
-                InternalCode = steering.BaseCode,
-                Labels = steering.Translation.Labels.Select(_labelMapper.MapLabel).ToList(),
-                LocalCode = steering.LocalCode.DefaultIfEmpty(steering.BaseCode),
-                Name = steering.Translation.Name.DefaultIfEmpty(steering.Name),
-                SortIndex = 0,
-                ToolTip = steering.Translation.ToolTip
+                SortIndex = 0
             };
+
+            return _baseMapper.MapDefaults(mappedSteering, steering, steering, steering.Name);
         }
     }
 }

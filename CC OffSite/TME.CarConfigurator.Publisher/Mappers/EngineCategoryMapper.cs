@@ -11,32 +11,30 @@ namespace TME.CarConfigurator.Publisher.Mappers
     public class EngineCategoryMapper : IEngineCategoryMapper
     {
         readonly IAssetMapper _assetMapper;
-        readonly ILabelMapper _labelMapper;
+        readonly IBaseMapper _baseMapper;
 
-        public EngineCategoryMapper(IAssetMapper assetMapper, ILabelMapper labelMapper)
+        public EngineCategoryMapper(IAssetMapper assetMapper, IBaseMapper baseMapper)
         {
             if (assetMapper == null) throw new ArgumentNullException("assetMapper");
-            if (labelMapper == null) throw new ArgumentNullException("labelMapper");
+            if (baseMapper == null) throw new ArgumentNullException("baseMapper");
 
             _assetMapper = assetMapper;
-            _labelMapper = labelMapper;
+            _baseMapper = baseMapper;
         }
 
         public EngineCategory MapEngineCategory(Administration.EngineCategory engineCategory)
         {
-            return new EngineCategory
+            var mappedEngineCategory = new EngineCategory
             {
                 Assets = engineCategory.Assets.Select(_assetMapper.MapLinkedAsset).ToList(),
-                Description = engineCategory.Translation.Description,
-                FootNote = engineCategory.Translation.FootNote,
-                ID = engineCategory.ID,
                 InternalCode = engineCategory.Code,
-                Labels = engineCategory.Translation.Labels.Select(_labelMapper.MapLabel).ToList(), 
-                LocalCode = String.Empty,
-                Name = engineCategory.Translation.Name.DefaultIfEmpty(engineCategory.Name),
-                SortIndex = engineCategory.Index,
-                ToolTip = engineCategory.Translation.ToolTip
+                LocalCode = String.Empty
             };
+
+            return _baseMapper.MapTranslateableDefaults(
+                _baseMapper.MapSortDefaults(mappedEngineCategory, engineCategory),
+                engineCategory,
+                engineCategory.Name);
         }
     }
 }

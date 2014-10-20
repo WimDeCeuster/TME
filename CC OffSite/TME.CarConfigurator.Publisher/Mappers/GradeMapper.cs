@@ -10,33 +10,26 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class GradeMapper : IGradeMapper
     {
-        ILabelMapper _labelMapper;
+        IBaseMapper _baseMapper;
 
-        public GradeMapper(ILabelMapper labelMapper)
+        public GradeMapper(IBaseMapper baseMapper)
         {
-            if (labelMapper == null) throw new ArgumentNullException("labelMapper");
+            if (baseMapper == null) throw new ArgumentNullException("baseMapper");
 
-            _labelMapper = labelMapper;
+            _baseMapper = baseMapper;
         }
 
         public Grade MapGrade(Administration.ModelGenerationGrade generationGrade)
         {
-            return new Grade
+            var mappedGrade = new Grade
             {
-                Description = generationGrade.Translation.Description,
                 FeatureText = null, //?
-                FootNote = generationGrade.Translation.FootNote,
-                ID = generationGrade.ID,
-                InternalCode = generationGrade.BaseCode,
-                Labels = generationGrade.Translation.Labels.Select(_labelMapper.MapLabel).ToList(),
-                LocalCode = generationGrade.LocalCode.DefaultIfEmpty(generationGrade.BaseCode),
                 LongDescription = null, //?
-                Name = generationGrade.Translation.Name.DefaultIfEmpty(generationGrade.Name),
-                SortIndex = generationGrade.Index,
                 Special = generationGrade.Special,
                 StartingPrice = null, //?
-                ToolTip = generationGrade.Translation.ToolTip
             };
+
+            return _baseMapper.MapDefaultsWithSort(mappedGrade, generationGrade, generationGrade, generationGrade.Name);
         }
     }
 }

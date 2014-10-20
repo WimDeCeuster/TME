@@ -12,24 +12,39 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class CarMapper : ICarMapper
     {
-        ILabelMapper _labelMapper;
+        IBaseMapper _baseMapper;
 
-        public CarMapper(ILabelMapper labelMapper)
+        public CarMapper(IBaseMapper baseMapper)
         {
-            if (labelMapper == null) throw new ArgumentNullException("labelMapper");
+            if (baseMapper == null) throw new ArgumentNullException("baseMapper");
 
-            _labelMapper = labelMapper;
+            _baseMapper = baseMapper;
         }
 
-        public Car MapCar(Administration.Car car, Repository.Objects.BodyType bodyType, Repository.Objects.Engine engine, Repository.Objects.Transmission transmission, Repository.Objects.WheelDrive wheelDrive, Repository.Objects.Steering steering)
+        public Car MapCar(
+            Administration.Car car,
+            Repository.Objects.BodyType bodyType,
+            Repository.Objects.Engine engine,
+            Repository.Objects.Transmission transmission,
+            Repository.Objects.WheelDrive wheelDrive,
+            Repository.Objects.Steering steering,
+            Repository.Objects.Grade grade)
         {
+            if (car == null) throw new ArgumentNullException("car");
+            if (bodyType == null) throw new ArgumentNullException("bodyType");
+            if (engine == null) throw new ArgumentNullException("engine");
+            if (transmission == null) throw new ArgumentNullException("transmission");
+            if (wheelDrive == null) throw new ArgumentNullException("wheelDrive");
+            if (steering == null) throw new ArgumentNullException("steering");
+            if (grade == null) throw new ArgumentNullException("grade");
+
             if (car.ShortID == null)
                 throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.ID));
 
             var cheapestColourCombination = car.ColourCombinations.OrderBy(cc => cc.ExteriorColour.Price + cc.Upholstery.Price)
                                                                   .First();
 
-            return new Car
+            var mappedCar = new Car
             {
                 BasePrice = new Price
                 {
@@ -38,15 +53,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 },
                 BodyType = bodyType,
                 ConfigVisible = car.ConfigVisible,
-                Description = car.Translation.Description,
                 Engine = engine,
                 FinanceVisible = car.FinanceVisible,
-                FootNote = car.Translation.FootNote,
-                ID = car.ID,
-                InternalCode = car.BaseCode,
-                Labels = car.Translation.Labels.Select(_labelMapper.MapLabel).ToList(),
-                LocalCode = car.LocalCode.DefaultIfEmpty(car.BaseCode),
-                Name = car.Translation.Name.DefaultIfEmpty(car.Name),
+                Grade = grade,
                 Promoted = car.Promoted,
                 ShortID = car.ShortID.Value,
                 SortIndex = car.Index,
@@ -56,11 +65,13 @@ namespace TME.CarConfigurator.Publisher.Mappers
                     IncludingVat = car.VatPrice + cheapestColourCombination.ExteriorColour.VatPrice + cheapestColourCombination.Upholstery.VatPrice
                 },
                 Steering = steering,
-                ToolTip = car.Translation.ToolTip,
                 Transmission = transmission,
                 WebVisible = car.WebVisible,
                 WheelDrive = wheelDrive
             };
+
+
+            return _baseMapper.MapDefaults(mappedCar, car, car, car.Name);
         }
     }
 }

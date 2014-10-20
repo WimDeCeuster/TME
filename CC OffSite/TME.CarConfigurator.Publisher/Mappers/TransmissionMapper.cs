@@ -10,18 +10,18 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class TransmissionMapper : ITransmissionMapper
     {
-        ILabelMapper _labelMapper;
+        IBaseMapper _baseMapper;
         ITransmissionTypeMapper _transmissionTypeMapper;
         IAssetSetMapper _assetSetMapper;
 
-        public TransmissionMapper(ILabelMapper labelMapper, ITransmissionTypeMapper transmissionTypeMapper, IAssetSetMapper assetSetMapper)
+        public TransmissionMapper(IBaseMapper baseMapper, ITransmissionTypeMapper transmissionTypeMapper, IAssetSetMapper assetSetMapper)
         {
-            if (labelMapper == null) throw new ArgumentNullException("labelMapper");
+            if (baseMapper == null) throw new ArgumentNullException("baseMapper");
             if (transmissionTypeMapper == null) throw new ArgumentNullException("transmissionTypeMapper");
             if (assetSetMapper == null) throw new ArgumentNullException("assetSetMapper");
 
 
-            _labelMapper = labelMapper;
+            _baseMapper = baseMapper;
             _transmissionTypeMapper = transmissionTypeMapper;
             _assetSetMapper = assetSetMapper;
         }
@@ -31,23 +31,16 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var crossModelTransmission = Administration.Transmissions.GetTransmissions()[generationTransmission.ID];
             var transmissionType = Administration.TransmissionTypes.GetTransmissionTypes()[generationTransmission.Type.ID];
 
-            return new Transmission
+            var mappedTransmission = new Transmission
             {
                 Brochure = generationTransmission.Brochure,
-                Description = generationTransmission.Translation.Description,
-                FootNote = generationTransmission.Translation.FootNote,
-                ID = generationTransmission.ID,
-                InternalCode = crossModelTransmission.BaseCode,
                 KeyFeature = generationTransmission.KeyFeature,
-                Labels = generationTransmission.Translation.Labels.Select(_labelMapper.MapLabel).ToList(),
-                LocalCode = crossModelTransmission.LocalCode.DefaultIfEmpty(crossModelTransmission.BaseCode),
-                Name = generationTransmission.Translation.Name.DefaultIfEmpty(generationTransmission.Name),
                 NumberOfGears = generationTransmission.NumberOfGears,
-                SortIndex = generationTransmission.Index,
-                ToolTip = generationTransmission.Translation.ToolTip,
                 Type = _transmissionTypeMapper.MapTransmissionType(transmissionType),
                 VisibleIn = _assetSetMapper.GetVisibility(generationTransmission.AssetSet).ToList()
             };
+
+            return _baseMapper.MapDefaultsWithSort(mappedTransmission, crossModelTransmission, generationTransmission, generationTransmission.Name);
         }
     }
 }

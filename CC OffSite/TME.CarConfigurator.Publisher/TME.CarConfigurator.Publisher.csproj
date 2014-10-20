@@ -123,7 +123,7 @@
     <Compile Include="Mappers\BodyTypeMapper.cs" />
     <Compile Include="Mappers\CarConfiguratorVersionMapper.cs" />
     <Compile Include="Mappers\CarMapper.cs" />
-    <Compile Include="Mappers\DefaultBaseMapper.cs" />
+    <Compile Include="Mappers\BaseMapper.cs" />
     <Compile Include="Mappers\EngineCategoryMapper.cs" />
     <Compile Include="Mappers\EngineMapper.cs" />
     <Compile Include="Mappers\EngineTypeMapper.cs" />

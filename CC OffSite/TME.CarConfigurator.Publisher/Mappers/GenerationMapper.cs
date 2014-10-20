@@ -12,43 +12,36 @@ namespace TME.CarConfigurator.Publisher.Mappers
     {
         readonly IAssetMapper _assetMapper;
         readonly ICarConfiguratorVersionMapper _carConfiguratorVersionMapper;
-        readonly ILabelMapper _labelMapper;
+        readonly IBaseMapper _baseMapper;
         readonly ILinkMapper _linkMapper;
 
-        public GenerationMapper(IAssetMapper assetMapper, ICarConfiguratorVersionMapper carConfiguratorVersionMapper, ILabelMapper labelMapper, ILinkMapper linkMapper)
+        public GenerationMapper(IAssetMapper assetMapper, ICarConfiguratorVersionMapper carConfiguratorVersionMapper, IBaseMapper baseMapper, ILinkMapper linkMapper)
         {
             if (assetMapper == null) throw new ArgumentNullException("assetMapper");
             if (carConfiguratorVersionMapper == null) throw new ArgumentNullException("carConfiguratorVersionMapper");
-            if (labelMapper == null) throw new ArgumentNullException("labelMapper");
+            if (baseMapper == null) throw new ArgumentNullException("baseMapper");
             if (linkMapper == null) throw new ArgumentNullException("linkMapper");
 
             _assetMapper = assetMapper;
             _carConfiguratorVersionMapper = carConfiguratorVersionMapper;
-            _labelMapper = labelMapper;
+            _baseMapper = baseMapper;
             _linkMapper = linkMapper;
         }
 
         public Generation MapGeneration(Administration.Model model, Administration.ModelGeneration generation, String brand, String country, String language, Boolean isPreview)
         {
-            return new Generation
+            var mappedGeneration = new Generation
             {
                 Assets = generation.Assets.Select(_assetMapper.MapLinkedAsset).ToList(),
                 CarConfiguratorVersion = _carConfiguratorVersionMapper.MapCarConfiguratorVersion(generation.ActiveCarConfiguratorVersion),
-                Description = generation.Translation.Description,
-                FootNote = generation.Translation.FootNote,
-                ID = generation.ID,
-                InternalCode = generation.BaseCode,
-                Labels = generation.Translation.Labels.Select(_labelMapper.MapLabel).ToList(),
                 Links = model.Links.Where(link => IsApplicableLink(link, generation))
                                    .Select(link => _linkMapper.MapLink(link, country, language, isPreview))
                                    .ToList(),
-                LocalCode = generation.LocalCode.DefaultIfEmpty(generation.BaseCode), //String.IsNullOrWhiteSpace(generation.LocalCode) ? generation.BaseCode : generation.LocalCode,
-                Name = generation.Translation.Name.DefaultIfEmpty(generation.Name),
                 SortIndex = model.Index,
-                SSN = generation.FactoryGenerations.First().SSN,
-                ToolTip = generation.Translation.ToolTip,
-                
+                SSN = generation.FactoryGenerations.First().SSN                
             };
+
+            return _baseMapper.MapDefaults(mappedGeneration, generation, generation, generation.Name);
         }
 
         private static Boolean IsApplicableLink(Administration.Link link, Administration.ModelGeneration generation)
