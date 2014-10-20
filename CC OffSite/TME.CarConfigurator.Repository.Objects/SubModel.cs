@@ -6,9 +6,9 @@ namespace TME.CarConfigurator.Repository.Objects
 {
     public class SubModel : BaseObject
     {
-        public Generation Generation { get; set; }
 
-        public List<VisibleInModeAndView> VisibleIn { get; set; }
+        public Price StartingPrice { get; set; }
+        public List<Link> Links { get; set; }
         public List<Asset> Assets { set; get; }
     }
 }

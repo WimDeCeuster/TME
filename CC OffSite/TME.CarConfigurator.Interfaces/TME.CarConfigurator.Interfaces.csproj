@@ -72,7 +72,6 @@
     <Compile Include="Factories\IModelFactory.cs" />
     <Compile Include="Factories\IPublicationFactory.cs" />
     <Compile Include="IFuelType.cs" />
-    <Compile Include="IGeneration.cs" />
     <Compile Include="IGrade.cs" />
     <Compile Include="ISubModel.cs" />
     <Compile Include="ITransmission.cs" />

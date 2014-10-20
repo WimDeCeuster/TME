@@ -3,11 +3,10 @@ using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter
 {
-    public class GradeOption : GradeEquipmentItem, IGradeOption
+    public class Option : EquipmentItem, IOption
     {
-
         #region Dependencies (Adaptee)
-        private Legacy.EquipmentCompareOption Adaptee
+        private Legacy.CarOption Adaptee
         {
             get;
             set;
@@ -15,8 +14,8 @@ namespace TME.CarConfigurator.LegacyAdapter
         #endregion
 
         #region Constructor
-        public GradeOption(Legacy.EquipmentCompareOption adaptee)
-            : base(adaptee)
+        public Option(Legacy.CarOption adaptee, Legacy.Generation generationOfAdaptee)
+            : base(adaptee, generationOfAdaptee)
         {
             Adaptee = adaptee;
         }
@@ -24,14 +23,14 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public bool TechnologyItem
         {
-            get { return ((Legacy.CarOption)GetCarEquipmentItem()).TechnologyItem; }
+            get { return Adaptee.TechnologyItem; }
         }
 
         public IOptionInfo ParentOption
         {
             get
             {
-                var parentOption = ((Legacy.CarOption)GetCarEquipmentItem()).ParentOption;
+                var parentOption = Adaptee.ParentOption;
                 if (parentOption == null) return null;
                 return new OptionInfo(parentOption);
             }

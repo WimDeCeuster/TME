@@ -33,11 +33,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
-        public SubModelBuilder WithGeneration(Generation generation)
-        {
-            _subModel.Generation = generation;
-            return this;
-        }
+
 
         public SubModel Build()
         {

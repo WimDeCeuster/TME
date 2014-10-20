@@ -54,7 +54,6 @@
     <Compile Include="Factories\SteeringFactory.cs" />
     <Compile Include="Factories\SubModelFactory.cs" />
     <Compile Include="Factories\WheelDriveFactory.cs" />
-    <Compile Include="Generation.cs" />
     <Compile Include="SubModel.cs" />
     <Compile Include="TransmissionType.cs" />
     <Compile Include="Transmission.cs" />
