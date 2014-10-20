@@ -11,31 +11,6 @@
                 </td>
             </tr>
         </table>
-        <div class="clickable object" data-id="@(String.Format("{0}-{1}-{2}-{3}-{4}",model.ID, model.AssetType.Code,model.AssetType.ExteriorColourCode,model.AssetType.UpholsteryCode,model.AssetType.EquipmentCode))">
-            <p class="property" data-id="ID">ID : @Html.Raw(model.ID)</p>
-            <p class="property" data-id="ShortID">ShortID : @Html.Raw(model.ShortID)</p>
-            <p class="property" data-id="Name">Name : @Html.Raw(model.Name)</p>
-            <p class="property" data-id="AlwaysInclude">AlwaysInclude : @Html.Raw(model.AlwaysInclude)</p>
-            <p class="property" data-id="AssetTypeCode">AssetType.Code : @Html.Raw(model.AssetType.Code)</p>
-            <p class="property" data-id="AssetTypeName">AssetType.Name : @Html.Raw(model.AssetType.Name)</p>
-            <p class="property" data-id="AssetTypeType">AssetType.Type : @Html.Raw(model.AssetType.Type)</p>
-            <p class="property" data-id="AssetTypeMode">AssetType.Mode : @Html.Raw(model.AssetType.Mode)</p>
-            <p class="property" data-id="AssetTypeView">AssetType.View : @Html.Raw(model.AssetType.View)</p>
-            <p class="property" data-id="AssetTypeSide">AssetType.Side : @Html.Raw(model.AssetType.Side)</p>
-            <p class="property" data-id="AssetTypeExteriorColourCode">AssetType.ExteriorColourCode : @Html.Raw(model.AssetType.ExteriorColourCode)</p>
-            <p class="property" data-id="AssetTypeUpholsteryCode">AssetType.UpholsteryCode : @Html.Raw(model.AssetType.UpholsteryCode)</p>
-            <p class="property" data-id="AssetTypeEquipmentCode">AssetType.EquipmentCode : @Html.Raw(model.AssetType.EquipmentCode)</p>
-            <p class="property" data-id="FilePath">FilePath : @Html.Raw(model.FilePath)</p>
-            <p class="property" data-id="FileTypeCode">FileType.Code : @Html.Raw(model.FileType.Code)</p>
-            <p class="property" data-id="FileTypeType">FileType.Type : @Html.Raw(model.FileType.Type)</p>
-            <p class="property" data-id="Hash">Hash : @Html.Raw(model.Hash)</p>
-            <p class="property" data-id="SortIndex">Width : @Html.Raw(model.Width)</p>
-            <p class="property" data-id="Height">Height : @Html.Raw(model.Height)</p>
-            <p class="property" data-id="PositionX">PositionX : @Html.Raw(model.PositionX)</p>
-            <p class="property" data-id="PositionY">PositionY : @Html.Raw(model.PositionY)</p>
-            <p class="property" data-id="IsTransparent">IsTransparent : @Html.Raw(model.IsTransparent)</p>
-            <p class="property" data-id="RequiresMatte">RequiresMatte : @Html.Raw(model.RequiresMatte)</p>
-            <p class="property" data-id="StackingOrder">StackingOrder : @Html.Raw(model.StackingOrder)</p>
-        </div>
+        @Html.Partial("_asset", model)
     </div>
 }

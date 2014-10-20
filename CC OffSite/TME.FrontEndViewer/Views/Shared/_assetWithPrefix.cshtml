@@ -1,0 +1,27 @@
+﻿@model TME.FrontEndViewer.Models.AssetWithPrefix
+<div class="clickable object" data-id="@(String.Format("{0}-{1}-{2}-{3}-{4}-{5}",Model.Prefix, Model.Asset.ID, Model.Asset.AssetType.Code,Model.Asset.AssetType.ExteriorColourCode,Model.Asset.AssetType.UpholsteryCode,Model.Asset.AssetType.EquipmentCode))">
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))ID">@(Model.Prefix).ID : @Html.Raw(Model.Asset.ID)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))ShortID">@(Model.Prefix).ShortID : @Html.Raw(Model.Asset.ShortID)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))Name">@(Model.Prefix).Name : @Html.Raw(Model.Asset.Name)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))AlwaysInclude">@(Model.Prefix).AlwaysInclude : @Html.Raw(Model.Asset.AlwaysInclude)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))AssetTypeCode">@(Model.Prefix).AssetType.Code : @Html.Raw(Model.Asset.AssetType.Code)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))AssetTypeName">@(Model.Prefix).AssetType.Name : @Html.Raw(Model.Asset.AssetType.Name)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))AssetTypeType">@(Model.Prefix).AssetType.Type : @Html.Raw(Model.Asset.AssetType.Type)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))AssetTypeMode">@(Model.Prefix).AssetType.Mode : @Html.Raw(Model.Asset.AssetType.Mode)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))AssetTypeView">@(Model.Prefix).AssetType.View : @Html.Raw(Model.Asset.AssetType.View)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))AssetTypeSide">@(Model.Prefix).AssetType.Side : @Html.Raw(Model.Asset.AssetType.Side)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))AssetTypeExteriorColourCode">@(Model.Prefix).AssetType.ExteriorColourCode : @Html.Raw(Model.Asset.AssetType.ExteriorColourCode)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))AssetTypeUpholsteryCode">@(Model.Prefix).AssetType.UpholsteryCode : @Html.Raw(Model.Asset.AssetType.UpholsteryCode)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))AssetTypeEquipmentCode">@(Model.Prefix).AssetType.EquipmentCode : @Html.Raw(Model.Asset.AssetType.EquipmentCode)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))FilePath">@(Model.Prefix).FilePath : @Html.Raw(Model.Asset.FilePath)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))FileTypeCode">@(Model.Prefix).FileType.Code : @Html.Raw(Model.Asset.FileType.Code)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))FileTypeType">@(Model.Prefix).FileType.Type : @Html.Raw(Model.Asset.FileType.Type)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))Hash">@(Model.Prefix).Hash : @Html.Raw(Model.Asset.Hash)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))SortIndex">@(Model.Prefix).Width : @Html.Raw(Model.Asset.Width)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))Height">@(Model.Prefix).Height : @Html.Raw(Model.Asset.Height)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))PositionX">@(Model.Prefix).PositionX : @Html.Raw(Model.Asset.PositionX)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))PositionY">@(Model.Prefix).PositionY : @Html.Raw(Model.Asset.PositionY)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))IsTransparent">@(Model.Prefix).IsTransparent : @Html.Raw(Model.Asset.IsTransparent)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))RequiresMatte">@(Model.Prefix).RequiresMatte : @Html.Raw(Model.Asset.RequiresMatte)</p>
+    <p class="property" data-id="@(Model.Prefix.Replace(".",""))StackingOrder">@(Model.Prefix).StackingOrder : @Html.Raw(Model.Asset.StackingOrder)</p>
+</div>

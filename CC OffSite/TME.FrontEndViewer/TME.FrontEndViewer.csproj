@@ -155,6 +155,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AssetWithPrefix.cs" />
     <Compile Include="Models\CompareView.cs" />
     <Compile Include="Models\BaseObjectWithPrefix.cs" />
     <Compile Include="Models\ModelWithMetrics.cs" />
@@ -263,6 +264,10 @@
     <Content Include="Views\Shared\Assets\Index.cshtml" />
     <Content Include="Views\ModelTransmissions\details.cshtml" />
     <Content Include="Views\ModelTransmissions\Index.cshtml" />
+    <Content Include="Views\Shared\VisibleInModeAndView\details.cshtml" />
+    <Content Include="Views\Shared\VisibleInModeAndView\Index.cshtml" />
+    <Content Include="Views\Shared\_asset.cshtml" />
+    <Content Include="Views\Shared\_assetWithPrefix.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
