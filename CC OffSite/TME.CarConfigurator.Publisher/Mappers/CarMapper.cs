@@ -9,7 +9,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class CarMapper : ICarMapper
     {
-        IBaseMapper _baseMapper;
+        readonly IBaseMapper _baseMapper;
 
         public CarMapper(IBaseMapper baseMapper)
         {
