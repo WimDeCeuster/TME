@@ -21,7 +21,7 @@ namespace TME.CarConfigurator.Factories
             _gradeService = gradeService;
         }
 
-        public IEnumerable<IGrade> GetGrades(Publication publication, Context context)
+        public IReadOnlyList<IGrade> GetGrades(Publication publication, Context context)
         {
             var repoGrades = _gradeService.GetGrades(publication.ID, publication.GetCurrentTimeFrame().ID, context).ToList();
             var grades = new List<IGrade>();

@@ -53,13 +53,13 @@ namespace TME.CarConfigurator.Factories
             _carFactory = carFactory;
         }
 
-        public IEnumerable<IModel> GetModels(Context context)
+        public IReadOnlyList<IModel> GetModels(Context context)
         {
             var repositoryModels = _modelService.GetModels(context).Where(HasActivePublicationsThatAreCurrentlyAvailable);
 
             var convertedModels = repositoryModels.Select(repositoryModel => CreateModel(repositoryModel, context));
 
-            return convertedModels;
+            return convertedModels.ToArray();
         }
 
         private static bool HasActivePublicationsThatAreCurrentlyAvailable(Repository.Objects.Model model)

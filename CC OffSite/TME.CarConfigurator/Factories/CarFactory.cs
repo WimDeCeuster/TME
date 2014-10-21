@@ -23,7 +23,7 @@ namespace TME.CarConfigurator.Factories
             _bodyTypeFactory = bodyTypeFactory;
         }
 
-        public IEnumerable<ICar> GetCars(Publication publication, Context context)
+        public IReadOnlyList<ICar> GetCars(Publication publication, Context context)
         {
             return _carService.GetCars(publication.ID, publication.GetCurrentTimeFrame().ID, context)
                                  .Select(car => new Car(car, publication, context, _bodyTypeFactory))

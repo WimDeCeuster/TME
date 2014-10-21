@@ -6,6 +6,6 @@ namespace TME.CarConfigurator.Interfaces.Factories
 {
     public interface IGradeFactory
     {
-        IEnumerable<IGrade> GetGrades(Publication publication, Context context);
+        IReadOnlyList<IGrade> GetGrades(Publication publication, Context context);
     }
 }

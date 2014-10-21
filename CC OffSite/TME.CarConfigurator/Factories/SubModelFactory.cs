@@ -22,7 +22,7 @@ namespace TME.CarConfigurator.Factories
             _assetFactory = assetFactory;
         }
 
-        public IEnumerable<ISubModel> GetSubModels(Publication publication, Context context)
+        public IReadOnlyList<ISubModel> GetSubModels(Publication publication, Context context)
         {
             return _subModelService.GetSubModels(publication.ID, publication.GetCurrentTimeFrame().ID, context)
                 .Select(subModel => new SubModel(subModel, publication, context, _assetFactory))
