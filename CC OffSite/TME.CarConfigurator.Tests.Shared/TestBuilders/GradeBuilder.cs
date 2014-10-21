@@ -44,6 +44,16 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public GradeBuilder AddVisibleIn(string mode, string view)
+        {
+            if (_grade.VisibleIn == null)
+                _grade.VisibleIn = new List<VisibleInModeAndView>();
+
+            _grade.VisibleIn.Add(new VisibleInModeAndView() { Mode = mode, View = view });
+
+            return this;
+        }
+
         public Grade Build()
         {
             return _grade;
