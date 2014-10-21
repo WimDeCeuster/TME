@@ -71,6 +71,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         }
 
         [Fact]
+        public void ThenItShouldPublishGenerationAssets()
+        {
+            A.CallTo(() => AssetPublisher.PublishAssets(Context))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
         public void ThenItShouldPublishCarAssets()
         {
             A.CallTo(() => AssetPublisher.PublishCarAssets(Context))
