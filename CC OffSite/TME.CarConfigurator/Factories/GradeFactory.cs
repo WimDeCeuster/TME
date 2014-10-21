@@ -13,12 +13,15 @@ namespace TME.CarConfigurator.Factories
     public class GradeFactory : IGradeFactory
     {
         private readonly IGradeService _gradeService;
+        private readonly IAssetFactory _assetFactory;
         
-        public GradeFactory(IGradeService gradeService)
+        public GradeFactory(IGradeService gradeService, IAssetFactory assetFactory)
         {
             if (gradeService == null) throw new ArgumentNullException("gradeService");
+            if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
             _gradeService = gradeService;
+            _assetFactory = assetFactory;
         }
 
         public IReadOnlyList<IGrade> GetGrades(Publication publication, Context context)
@@ -38,7 +41,7 @@ namespace TME.CarConfigurator.Factories
             var parentGrade = repoGrade.BasedUponGradeID == Guid.Empty ? null :
                               GetGrade(repoGrades.Single(grd => grd.ID == repoGrade.BasedUponGradeID), repoGrades, grades, publication, context);
 
-            var grade = new Grade(repoGrade, publication, context, parentGrade);
+            var grade = new Grade(repoGrade, publication, context, parentGrade, _assetFactory);
             grades.Add(grade);
 
             return grade;

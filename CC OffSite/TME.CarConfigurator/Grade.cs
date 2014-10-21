@@ -13,38 +13,46 @@ namespace TME.CarConfigurator
 {
     public class Grade : BaseObject, IGrade
     {
-        readonly Repository.Objects.Grade _repositoryGrade;
-        readonly Repository.Objects.Publication _repositoryPublication;
-        readonly Repository.Objects.Context _repositoryContext;
+        protected readonly Repository.Objects.Grade RepositoryGrade;
+        protected readonly Repository.Objects.Publication RepositoryPublication;
+        protected readonly Repository.Objects.Context RepositoryContext;
+        protected readonly IAssetFactory AssetFactory;
+        protected IEnumerable<IAsset> FetchedAssets;
+        protected IEnumerable<IVisibleInModeAndView> FetchedVisibleInModeAndViews;
 
         Price _price;
         IGrade _basedUponGrade;
 
-        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IGrade basedUponGrade)
+        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IGrade basedUponGrade, IAssetFactory assetFactory)
             : base(repositoryGrade)
         {
             if (repositoryGrade == null) throw new ArgumentNullException("repositoryGrade");
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
+            if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
-            _repositoryGrade = repositoryGrade;
-            _repositoryPublication = repositoryPublication;
-            _repositoryContext = repositoryContext;
+            RepositoryGrade = repositoryGrade;
+            RepositoryPublication = repositoryPublication;
+            RepositoryContext = repositoryContext;
             _basedUponGrade = basedUponGrade;
+            AssetFactory = assetFactory;
         }
 
-        public bool Special { get { return _repositoryGrade.Special; } }
+        public bool Special { get { return RepositoryGrade.Special; } }
 
         public IGrade BasedUpon { get { return _basedUponGrade; } }
 
-        public IPrice StartingPrice { get { return _price = _price ?? new Price(_repositoryGrade.StartingPrice); } }
+        public IPrice StartingPrice { get { return _price = _price ?? new Price(RepositoryGrade.StartingPrice); } }
 
-        public IEnumerable<IAsset> Assets { get { throw new NotImplementedException(); } }
-
-        public IEnumerable<IVisibleInModeAndView> VisibleIn
+        public virtual IEnumerable<IVisibleInModeAndView> VisibleIn
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return FetchedVisibleInModeAndViews = FetchedVisibleInModeAndViews ?? RepositoryGrade.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryGrade.ID, visibleInModeAndView, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
+            }
         }
+
+        public virtual IEnumerable<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext); } }
 
         public IEnumerable<Interfaces.Equipment.IGradeEquipmentItem> Equipment
         {
