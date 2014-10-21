@@ -84,7 +84,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         }
 
         [Fact]
-        public void ThenItShouldFetchTheWheelDrivesFromTheService()
+        public void ThenItShouldFetchNotTheWheelDrivesFromTheServiceAgain()
         {
             A.CallTo(() => _wheelDriveService.GetWheelDrives(A<Guid>._, A<Guid>._, A<Context>._)).MustHaveHappened(Repeated.Exactly.Once);
         }

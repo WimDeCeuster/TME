@@ -84,7 +84,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         }
 
         [Fact]
-        public void ThenItShouldFetchTheSteeringsFromTheService()
+        public void ThenItShouldFetchNotTheSteeringsFromTheServiceAgain()
         {
             A.CallTo(() => _steeringService.GetSteerings(A<Guid>._, A<Guid>._, A<Context>._)).MustHaveHappened(Repeated.Exactly.Once);
         }

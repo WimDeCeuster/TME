@@ -84,7 +84,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         }
 
         [Fact]
-        public void ThenItShouldFetchTheTransmissionsFromTheService()
+        public void ThenItShouldNotFetchTheTransmissionsFromTheServiceAgain()
         {
             A.CallTo(() => _transmissionService.GetTransmissions(A<Guid>._, A<Guid>._, A<Context>._)).MustHaveHappened(Repeated.Exactly.Once);
         }
