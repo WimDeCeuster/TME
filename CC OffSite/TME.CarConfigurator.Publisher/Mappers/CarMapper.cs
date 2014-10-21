@@ -21,13 +21,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _baseMapper = baseMapper;
         }
 
-        public Car MapCar(
-            Administration.Car car,
-            Repository.Objects.BodyType bodyType,
-            Repository.Objects.Engine engine,
-            Repository.Objects.Transmission transmission,
-            Repository.Objects.WheelDrive wheelDrive,
-            Repository.Objects.Steering steering)
+        public Car MapCar(Administration.Car car, BodyType bodyType, Engine engine, Transmission transmission, WheelDrive wheelDrive, Steering steering, SubModel subModel)
         {
             if (car == null) throw new ArgumentNullException("car");
             if (bodyType == null) throw new ArgumentNullException("bodyType");
@@ -35,6 +29,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             if (transmission == null) throw new ArgumentNullException("transmission");
             if (wheelDrive == null) throw new ArgumentNullException("wheelDrive");
             if (steering == null) throw new ArgumentNullException("steering");
+            if (subModel == null) throw new ArgumentNullException("subModel");
 
             if (car.ShortID == null)
                 throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.ID));
@@ -50,6 +45,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                     IncludingVat = car.VatPrice
                 },
                 BodyType = bodyType,
+                SubModel = subModel,
                 ConfigVisible = car.ConfigVisible,
                 Engine = engine,
                 FinanceVisible = car.FinanceVisible,

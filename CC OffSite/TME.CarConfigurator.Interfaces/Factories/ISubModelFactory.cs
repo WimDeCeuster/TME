@@ -5,6 +5,6 @@ namespace TME.CarConfigurator.Interfaces.Factories
 {
     public interface ISubModelFactory
     {
-        IEnumerable<ISubModel> GetSubModels(Publication publication, Context context); 
+        IEnumerable<ISubModel> GetSubModels(Publication publication, Context context);
     }
 }

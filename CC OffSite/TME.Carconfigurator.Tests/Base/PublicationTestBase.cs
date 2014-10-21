@@ -28,6 +28,7 @@ namespace TME.Carconfigurator.Tests.Base
         protected ISteeringPublisher SteeringPublisher;
         protected IGradePublisher GradePublisher;
         protected ICarPublisher CarPublisher;
+        protected ISubModelPublisher SubModelPublisher;
         protected IAssetPublisher AssetPublisher;
         protected Publisher Publisher;
         protected ISerialiser Serialiser;
@@ -52,6 +53,7 @@ namespace TME.Carconfigurator.Tests.Base
             GradePublisher = A.Fake<IGradePublisher>(x => x.Strict());
             CarPublisher = A.Fake<ICarPublisher>(x => x.Strict());
             AssetPublisher = A.Fake<IAssetPublisher>(x => x.Strict());
+            SubModelPublisher = A.Fake<ISubModelPublisher>(x => x.Strict());
 
             var successFullTask = Task.FromResult((Result)new Successfull());
             var successFullTasks = Task.FromResult((IEnumerable<Result>)new[] { new Successfull() });
@@ -70,6 +72,7 @@ namespace TME.Carconfigurator.Tests.Base
                 .WithGradePublisher(GradePublisher)
                 .WithCarPublisher(CarPublisher)
                 .WithAssetPublisher(AssetPublisher)
+                .WithSubModelPublisher(SubModelPublisher)
                 .Build();
 
              var contextBuilder = new ContextBuilder()
@@ -128,6 +131,7 @@ namespace TME.Carconfigurator.Tests.Base
             A.CallTo(() => CarPublisher.PublishGenerationCars(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => AssetPublisher.PublishAssets(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => AssetPublisher.PublishCarAssets(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => SubModelPublisher.PublishGenerationSubModelsAsync(null)).WithAnyArguments().Returns(successFullTasks);
 
         }
 

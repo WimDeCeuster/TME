@@ -20,6 +20,7 @@ namespace TME.CarConfigurator.Factories
         private readonly ISteeringFactory _steeringFactory;
         private readonly IGradeFactory _gradeFactory;
         private readonly ICarFactory _carFactory;
+        private readonly ISubModelFactory _subModelFactory;
 
         public ModelFactory(
             IModelService modelService,
@@ -30,7 +31,8 @@ namespace TME.CarConfigurator.Factories
             IWheelDriveFactory wheelDriveFactory,
             ISteeringFactory steeringFactory,
             IGradeFactory gradeFactory,
-            ICarFactory carFactory)
+            ICarFactory carFactory,
+            ISubModelFactory subModelFactory)
         {
             if (modelService == null) throw new ArgumentNullException("modelService");
             if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
@@ -41,6 +43,7 @@ namespace TME.CarConfigurator.Factories
             if (steeringFactory == null) throw new ArgumentNullException("steeringFactory");
             if (gradeFactory == null) throw new ArgumentNullException("gradeFactory");
             if (carFactory == null) throw new ArgumentNullException("carFactory");
+            if (subModelFactory == null) throw new ArgumentNullException("subModelFactory");
 
             _modelService = modelService;
             _publicationFactory = publicationFactory;
@@ -51,6 +54,7 @@ namespace TME.CarConfigurator.Factories
             _steeringFactory = steeringFactory;
             _gradeFactory = gradeFactory;
             _carFactory = carFactory;
+            _subModelFactory = subModelFactory;
         }
 
         public IEnumerable<IModel> GetModels(Context context)
@@ -69,7 +73,7 @@ namespace TME.CarConfigurator.Factories
 
         private IModel CreateModel(Repository.Objects.Model repositoryModel, Context context)
         {
-            return new Model(repositoryModel, context, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _steeringFactory, _gradeFactory, _carFactory);
+            return new Model(repositoryModel, context, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _steeringFactory, _gradeFactory, _carFactory,_subModelFactory);
         }
     }
 }

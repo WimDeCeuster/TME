@@ -63,5 +63,10 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
         {
             return new AssetPublisher(service);
         }
+
+        public ISubModelPublisher GetSubModelPublisher(ISubModelService service)
+        {
+            return new SubModelPublisher(service);
+        }
     }
 }

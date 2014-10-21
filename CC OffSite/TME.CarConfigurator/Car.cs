@@ -12,6 +12,7 @@ namespace TME.CarConfigurator
         readonly Repository.Objects.Car _repositoryCar;
         readonly Repository.Objects.Publication _repositoryPublication;
         readonly Repository.Objects.Context _repositoryContext;
+        readonly Repository.Objects.SubModel _submodel;
         readonly IBodyTypeFactory _bodyTypeFactory;
 
         IPrice _basePrice;

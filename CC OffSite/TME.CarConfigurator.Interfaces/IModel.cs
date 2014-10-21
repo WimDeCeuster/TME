@@ -21,6 +21,7 @@ namespace TME.CarConfigurator.Interfaces
         IEnumerable<IGrade> Grades { get; }
         IEnumerable<IFuelType> FuelTypes { get; }
         IEnumerable<ICar> Cars { get; }
+        IEnumerable<ISubModel> SubModels { get; }
 
     }
 }

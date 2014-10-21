@@ -14,25 +14,27 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenASubModel
 {
-    public class WhenAccessingItsLabelsForTheSecondTime : TestBase
+    public class WhenAccessingItsStartingPriceForTheFirstTime : TestBase
     {
         private ISubModel _subModel;
-        private IEnumerable<ILabel> _secondLabels;
-        private Repository.Objects.Core.Label _label1;
-        private Repository.Objects.Core.Label _label2;
-        private IEnumerable<ILabel> _firstLabels;
+        private IPrice _startingPrice;
+        private Repository.Objects.Core.Price _repoPrice;
 
         protected override void Arrange()
         {
-            _label1 = new LabelBuilder().WithCode("code for label 1").Build();
-            _label2 = new LabelBuilder().WithCode("code for label 2").Build();
+            _repoPrice = new PriceBuilder()
+                .WithPriceExVat(24)
+                .WithPriceInVat(36)
+                .Build();
 
             var repositorySubModel = new SubModelBuilder()
                 .WithID(Guid.NewGuid())
-                .WithLabels(_label1, _label2)
+                .WithStartingPrice(_repoPrice)
                 .Build();
 
-            var publicationTimeFrame = new PublicationTimeFrameBuilder()
+            var publicationTimeFrame =
+                new PublicationTimeFrameBuilder()
+                .WithID(Guid.NewGuid())
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
                 .Build();
 
@@ -44,36 +46,25 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
             var context = new ContextBuilder().Build();
 
             var subModelService = A.Fake<ISubModelService>();
-            A.CallTo(() => subModelService.GetSubModels(A<Guid>._, A<Guid>._, A<Context>._))
-                .Returns(new List<Repository.Objects.SubModel> { repositorySubModel });
+            A.CallTo(() => subModelService.GetSubModels(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new List<Repository.Objects.SubModel>() { repositorySubModel });
 
             var subModelFactory = new SubModelFactoryBuilder()
                 .WithSubModelService(subModelService)
                 .Build();
 
             _subModel = subModelFactory.GetSubModels(publication, context).Single();
-
-            _firstLabels = _subModel.Labels;
         }
 
         protected override void Act()
         {
-            _secondLabels = _subModel.Labels;
+            _startingPrice = _subModel.StartingPrice;
         }
 
         [Fact]
-        public void ThenItShouldNotRecalculateTheLabels()
+        public void ThenTheStartingPriceShouldBeCorrect()
         {
-            _secondLabels.Should().BeSameAs(_firstLabels);
+            _startingPrice.PriceExVat.Should().Be(_repoPrice.ExcludingVat);
+            _startingPrice.PriceInVat.Should().Be(_repoPrice.IncludingVat);
         }
-
-        [Fact]
-        public void ThenItShouldHaveTheLabels()
-        {
-            _secondLabels.Count().Should().Be(2);
-
-            _secondLabels.Should().Contain(label => label.Code == _label1.Code);
-            _secondLabels.Should().Contain(label => label.Code == _label2.Code);
-        } 
     }
 }

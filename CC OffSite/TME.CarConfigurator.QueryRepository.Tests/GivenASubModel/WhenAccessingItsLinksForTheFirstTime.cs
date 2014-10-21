@@ -4,35 +4,36 @@ using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.S3.QueryServices;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenASubModel
 {
-    public class WhenAccessingItsLabelsForTheSecondTime : TestBase
+    public class WhenAccessingItsLinksForTheFirstTime : TestBase
     {
         private ISubModel _subModel;
-        private IEnumerable<ILabel> _secondLabels;
-        private Repository.Objects.Core.Label _label1;
-        private Repository.Objects.Core.Label _label2;
-        private IEnumerable<ILabel> _firstLabels;
+        private IEnumerable<ILink> _links;
+        private Repository.Objects.Link _link1;
+        private Repository.Objects.Link _link2;
 
         protected override void Arrange()
         {
-            _label1 = new LabelBuilder().WithCode("code for label 1").Build();
-            _label2 = new LabelBuilder().WithCode("code for label 2").Build();
+            _link1 = new LinkBuilder().WithId(10).Build();
+            _link2 = new LinkBuilder().WithId(35).Build();
 
             var repositorySubModel = new SubModelBuilder()
                 .WithID(Guid.NewGuid())
-                .WithLabels(_label1, _label2)
+                .WithLinks(_link1,_link2)
                 .Build();
 
-            var publicationTimeFrame = new PublicationTimeFrameBuilder()
+            var publicationTimeFrame =
+                new PublicationTimeFrameBuilder()
+                .WithID(Guid.NewGuid())
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
                 .Build();
 
@@ -44,36 +45,27 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
             var context = new ContextBuilder().Build();
 
             var subModelService = A.Fake<ISubModelService>();
-            A.CallTo(() => subModelService.GetSubModels(A<Guid>._, A<Guid>._, A<Context>._))
-                .Returns(new List<Repository.Objects.SubModel> { repositorySubModel });
+            A.CallTo(() => subModelService.GetSubModels(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new List<Repository.Objects.SubModel>() {repositorySubModel});
 
             var subModelFactory = new SubModelFactoryBuilder()
                 .WithSubModelService(subModelService)
                 .Build();
 
             _subModel = subModelFactory.GetSubModels(publication, context).Single();
-
-            _firstLabels = _subModel.Labels;
         }
 
         protected override void Act()
         {
-            _secondLabels = _subModel.Labels;
-        }
-
-        [Fact]
-        public void ThenItShouldNotRecalculateTheLabels()
-        {
-            _secondLabels.Should().BeSameAs(_firstLabels);
+            _links = _subModel.Links;
         }
 
         [Fact]
         public void ThenItShouldHaveTheLabels()
         {
-            _secondLabels.Count().Should().Be(2);
+            _links.Count().Should().Be(2);
 
-            _secondLabels.Should().Contain(label => label.Code == _label1.Code);
-            _secondLabels.Should().Contain(label => label.Code == _label2.Code);
-        } 
+            _links.Should().Contain(l => l.ID == _link1.ID);
+            _links.Should().Contain(l => l.ID == _link2.ID);
+        }
     }
 }

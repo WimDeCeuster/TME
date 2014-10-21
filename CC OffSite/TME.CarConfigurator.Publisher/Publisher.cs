@@ -24,6 +24,7 @@ namespace TME.CarConfigurator.Publisher
         readonly IGradePublisher _gradePublisher;
         readonly ICarPublisher _carPublisher;
         readonly IAssetPublisher _assetPublisher;
+        private ISubModelPublisher _subModelPublisher;
 
         public Publisher(IPublicationPublisher publicationPublisher, 
             IModelPublisher modelPublisher, 
@@ -35,7 +36,8 @@ namespace TME.CarConfigurator.Publisher
             ISteeringPublisher steeringPublisher,
             IGradePublisher gradePublisher,
             ICarPublisher carPublisher,
-            IAssetPublisher assetPublisher)
+            IAssetPublisher assetPublisher,
+            ISubModelPublisher subModelPublisher)
         {
             if (publicationPublisher == null) throw new ArgumentNullException("publicationPublisher");
             if (modelPublisher == null) throw new ArgumentNullException("modelPublisher");
@@ -48,6 +50,7 @@ namespace TME.CarConfigurator.Publisher
             if (gradePublisher == null) throw new ArgumentNullException("gradePublisher");
             if (carPublisher == null) throw new ArgumentNullException("carPublisher");
             if (assetPublisher == null) throw new ArgumentNullException("assetPublisher");
+            if (subModelPublisher == null) throw new ArgumentNullException("subModelPublisher");
 
             _publicationPublisher = publicationPublisher;
             _modelPublisher = modelPublisher;
@@ -60,6 +63,7 @@ namespace TME.CarConfigurator.Publisher
             _gradePublisher = gradePublisher;
             _carPublisher = carPublisher;
             _assetPublisher = assetPublisher;
+            _subModelPublisher = subModelPublisher;
         }
 
         public async Task<Result> Publish(IContext context)
@@ -97,6 +101,7 @@ namespace TME.CarConfigurator.Publisher
                 _transmissionPublisher.PublishGenerationTransmissions(context),
                 _wheelDrivePublisher.PublishGenerationWheelDrives(context),
                 _steeringPublisher.PublishGenerationSteerings(context),
+                _subModelPublisher.PublishGenerationSubModelsAsync(context),
                 _gradePublisher.PublishGenerationGrades(context),
                 _carPublisher.PublishGenerationCars(context),
                 _assetPublisher.PublishAssets(context),

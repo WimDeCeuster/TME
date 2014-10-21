@@ -61,7 +61,7 @@ namespace TME.CarConfigurator.Publisher
                 FillWheelDrives(cars, modelGeneration, contextData);
                 FillSteerings(cars, contextData);
                 FillSubModels(cars, modelGeneration, contextData);
-                FillCars(cars, contextData);
+                FillCars(cars,contextData);
                 FillCarAssets(cars, contextData, modelGeneration);
                 FillGrades(cars, modelGeneration, contextData);
 
@@ -183,8 +183,9 @@ namespace TME.CarConfigurator.Publisher
                 var transmission = contextData.Transmissions.Single(trans => trans.ID == car.TransmissionID);
                 var wheelDrive = contextData.WheelDrives.Single(drive => drive.ID == car.WheelDriveID);
                 var steering = contextData.Steerings.Single(steer => steer.ID == car.SteeringID);
+                var subModel = contextData.SubModels.Single(sub => sub.ID == car.SubModelID);
                 contextData.CarAssets.Add(car.ID, new Dictionary<Guid, IList<Asset>>());
-                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering));
+                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering,subModel));
             }
         }
 
@@ -192,12 +193,6 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var bodyType in modelGeneration.BodyTypes.Where(bodyType => cars.Any(car => car.BodyTypeID == bodyType.ID)))
                 contextData.BodyTypes.Add(_bodyTypeMapper.MapBodyType(bodyType));
-        }
-
-        private void FillSubModels(IEnumerable<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData)
-        {
-            foreach (var modelGenerationSubModel in modelGeneration.SubModels.Where(subModel => cars.Any(car => car.SubModelID == subModel.ID)))
-                contextData.SubModels.Add(_subModelMapper.MapSubModel(modelGenerationSubModel));
         }
 
         void FillEngines(IEnumerable<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData)
@@ -216,6 +211,12 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var wheelDrive in modelGeneration.WheelDrives.Where(wheelDrive => cars.Any(car => car.WheelDriveID == wheelDrive.ID)))
                 contextData.WheelDrives.Add(_wheelDriveMapper.MapWheelDrive(wheelDrive));
+        }
+
+        private void FillSubModels(IEnumerable<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var modelGenerationSubModel in modelGeneration.SubModels.Where(submodel => cars.Any(car => car.SubModelID == submodel.ID)))
+                contextData.SubModels.Add(_subModelMapper.MapSubModel(modelGenerationSubModel,cars));
         }
 
         void FillGrades(IEnumerable<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData)
