@@ -42,7 +42,7 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
             A.CallTo(() => _publisherFacade.GetPublisher(Environment, DataSubset)).Returns(_publisher);
             A.CallTo(() => _contextFactory.Get(Brand, Country, Guid.Empty, DataSubset)).Returns(_context);
             
-            _publicationService = new CarConfiguratorPublisher(Environment, _contextFactory, _publisherFacadeFactory, _mapper, _generationFinder);
+            _publicationService = new CarConfiguratorPublisher(_contextFactory, _publisherFacadeFactory, _mapper, _generationFinder);
         }
 
         protected override void Act()
