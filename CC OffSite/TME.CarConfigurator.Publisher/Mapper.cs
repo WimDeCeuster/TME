@@ -133,8 +133,8 @@ namespace TME.CarConfigurator.Publisher
 
         private void FillCarAssets(Administration.Car car, IDictionary<Guid, IList<Asset>> carAssets, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
         {
-            var carEngineAssets = objectWithAssetSet.AssetSet.Assets.Filter(car);
-            var mappedAssets = carEngineAssets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
+            var objectAssets = objectWithAssetSet.AssetSet.Assets.Filter(car);
+            var mappedAssets = objectAssets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
             carAssets.Add(objectWithAssetSet.GetObjectID(), mappedAssets);
         }
 

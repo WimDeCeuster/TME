@@ -1,6 +1,5 @@
 ﻿using FakeItEasy;
 using System;
-using System.Collections.Generic;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
@@ -94,16 +93,16 @@ namespace TME.Carconfigurator.Tests.GivenAS3EnginePublisher
             _service = new EngineService(_s3Service, serialiser, keyManager);
             _publisher = new EnginePublisher(_service);
 
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Engine>)null))
+            A.CallTo(() => serialiser.Serialise(null))
                 .WhenArgumentsMatch(ArgumentMatchesList(generationEngine1))
                 .Returns(_serialisedEngine1);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Engine>)null))
+            A.CallTo(() => serialiser.Serialise(null))
                 .WhenArgumentsMatch(ArgumentMatchesList(generationEngine1, generationEngine2))
                 .Returns(_serialisedEngine12);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Engine>)null))
+            A.CallTo(() => serialiser.Serialise(null))
                 .WhenArgumentsMatch(ArgumentMatchesList(generationEngine3, generationEngine4))
                 .Returns(_serialisedEngine34);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Engine>)null))
+            A.CallTo(() => serialiser.Serialise(null))
                 .WhenArgumentsMatch(ArgumentMatchesList(generationEngine4))
                 .Returns(_serialisedEngine4);
 
