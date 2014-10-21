@@ -16,38 +16,26 @@ namespace TME.CarConfigurator
         readonly Repository.Objects.Grade _repositoryGrade;
         readonly Repository.Objects.Publication _repositoryPublication;
         readonly Repository.Objects.Context _repositoryContext;
-        readonly IGradeFactory _gradeFactory;
 
         Price _price;
-        Boolean _fetchedBasedUponGrade = false;
         IGrade _basedUponGrade;
 
-        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IGradeFactory gradeFactory)
+        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IGrade basedUponGrade)
             : base(repositoryGrade)
         {
             if (repositoryGrade == null) throw new ArgumentNullException("repositoryGrade");
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
-            if (gradeFactory == null) throw new ArgumentNullException("gradeFactory");
 
             _repositoryGrade = repositoryGrade;
             _repositoryPublication = repositoryPublication;
             _repositoryContext = repositoryContext;
-            _gradeFactory = gradeFactory;
+            _basedUponGrade = basedUponGrade;
         }
 
         public bool Special { get { return _repositoryGrade.Special; } }
 
-        public IGrade BasedUpon
-        {
-            get
-            {
-                if (!_fetchedBasedUponGrade)
-                    _basedUponGrade = _gradeFactory.GetGrade(_repositoryPublication, _repositoryContext, _repositoryGrade.BasedUponGradeID);
-
-                return _basedUponGrade;
-            }
-        }
+        public IGrade BasedUpon { get { return _basedUponGrade; } }
 
         public IPrice StartingPrice { get { return _price = _price ?? new Price(_repositoryGrade.StartingPrice); } }
 

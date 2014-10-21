@@ -46,7 +46,7 @@ namespace TME.GradeConfigurator.Query.Tests.GivenAGrade
                 .WithGradeService(_gradeService)
                 .Build();
 
-            _grade = gradeFactory.GetGrade(publication, context, repoGrade.ID);
+            _grade = gradeFactory.GetGrades(publication, context).Single();
         }
 
         protected override void Act()

@@ -17,7 +17,6 @@ namespace TME.CarConfigurator
         IPrice _basePrice;
         IPrice _startingPrice;
         IBodyType _bodyType;
-        IGrade _grade;
 
         public Car(
             Repository.Objects.Car repositoryCar,

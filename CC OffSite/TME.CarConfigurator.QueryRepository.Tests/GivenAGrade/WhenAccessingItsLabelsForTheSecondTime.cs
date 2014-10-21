@@ -56,7 +56,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
                 .WithGradeService(gradeService)
                 .Build();
 
-            _grade = gradeFactory.GetGrade(publication, context, repoGrade.ID);
+            _grade = gradeFactory.GetGrades(publication, context).Single();
             
             _firstLabels = _grade.Labels;
         }
