@@ -72,13 +72,9 @@
     <Compile Include="GivenAGrade\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsBasedUponGradeForTheFirstTime.cs" />
-    <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheFirstTime.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheFirstTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsBasedUponGradeForTheSecondTime.cs" />
-    <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheSecondTime.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarsForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarsForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsSteeringsForTheFirstTime.cs" />

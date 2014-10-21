@@ -13,39 +13,27 @@ namespace TME.CarConfigurator.S3.Shared
 {
     public class Service : IService
     {
-        const String BucketNameTemplate = "{environment}-{datasubset}-cardb-{brand}-{country}";
         IAmazonS3 _client;
-        String _environment;
-        String _dataSubset;
+        readonly String _bucketNameTemplate;
 
-        public Service(String environment, String dataSubset, String accessKey, String secretKey, IAmazonS3Factory clientFactory)
+        public Service(String bucketNameTemplate, String accessKey, String secretKey, IAmazonS3Factory clientFactory)
         {
-            if (environment == null) throw new ArgumentNullException("environment");
-            if (dataSubset == null) throw new ArgumentNullException("dataSubset");
-            if (accessKey == null) throw new ArgumentNullException("acccessKey");
-            if (secretKey == null) throw new ArgumentNullException("secretKey");
             if (clientFactory == null) throw new ArgumentNullException("clientFactory");
-            if (String.IsNullOrWhiteSpace(environment)) throw new ArgumentException("environment  cannot be empty");
-            if (String.IsNullOrWhiteSpace(dataSubset)) throw new ArgumentException("dataSubset cannot be empty");
-            if (String.IsNullOrWhiteSpace(accessKey)) throw new ArgumentException("accessKey cannot be empty");
-            if (String.IsNullOrWhiteSpace(secretKey)) throw new ArgumentException("secretKey cannot be empty");
+            if (String.IsNullOrWhiteSpace(accessKey)) throw new ArgumentNullException("accessKey");
+            if (String.IsNullOrWhiteSpace(secretKey)) throw new ArgumentNullException("secretKey");
+            if (String.IsNullOrWhiteSpace(secretKey)) throw new ArgumentNullException("bucketNameTemplate");
 
             _client = clientFactory.CreateInstance(accessKey, secretKey);
-            _environment = environment;
-            _dataSubset = dataSubset;
+            _bucketNameTemplate = bucketNameTemplate;
         }
 
-        public Service(String environment, String dataSubset, IAmazonS3Factory clientFactory)
+        public Service(String bucketNameTemplate, String dataSubset, IAmazonS3Factory clientFactory)
         {
-            if (environment == null) throw new ArgumentNullException("environment");
-            if (dataSubset == null) throw new ArgumentNullException("dataSubset");
             if (clientFactory == null) throw new ArgumentNullException("clientFactory");
-            if (String.IsNullOrWhiteSpace(environment)) throw new ArgumentException("environment  cannot be empty");
-            if (String.IsNullOrWhiteSpace(dataSubset)) throw new ArgumentException("dataSubset cannot be empty");
+            if (String.IsNullOrWhiteSpace(bucketNameTemplate)) throw new ArgumentNullException("bucketNameTemplate");
             
             _client = clientFactory.CreateInstance();
-            _environment = environment;
-            _dataSubset = dataSubset;
+            _bucketNameTemplate = bucketNameTemplate;
         }
 
         public async Task<Result.Result> PutObjectAsync(String brand, String country, String key, String item)
@@ -80,10 +68,9 @@ namespace TME.CarConfigurator.S3.Shared
 
         private string GetBucketName(String brand, String country)
         {
-            return BucketNameTemplate.Replace("{environment}", _environment.ToLowerInvariant())
-                                     .Replace("{datasubset}", _dataSubset.ToLowerInvariant())
-                                     .Replace("{brand}", brand.ToLowerInvariant())
-                                     .Replace("{country}", country.ToLowerInvariant());
+            return _bucketNameTemplate.ToLowerInvariant()
+                                      .Replace("{brand}", brand.ToLowerInvariant())
+                                      .Replace("{country}", country.ToLowerInvariant());
         }
 
         Boolean DoesBucketExist(String brand, String country)

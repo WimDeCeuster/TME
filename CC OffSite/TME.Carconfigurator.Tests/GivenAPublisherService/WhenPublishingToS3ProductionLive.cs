@@ -47,7 +47,7 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
 
         protected override void Act()
         {
-            _publicationService.Publish(Guid.Empty, Target, Brand, Country, DataSubset);
+            _publicationService.Publish(Guid.Empty, Environment, Target, Brand, Country, DataSubset);
         }
 
         [Fact]

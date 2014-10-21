@@ -13,6 +13,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
     {
         private const string Brand = "Toyota";
         private const string Target = "S3";
+        private const string Environment = "Development";
 
         private string _country = "DE";
         private Model _selectedModel;
@@ -106,7 +107,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
         private async void Publish(PublicationDataSubset publicationDataSubset)
         {
-            var result = await PublicationService.Publish(SelectedGeneration.ID, Target, Brand, Country, publicationDataSubset);
+            var result = await PublicationService.Publish(SelectedGeneration.ID, Environment, Target, Brand, Country, publicationDataSubset);
             MessageBox.Show(result is Successfull ? "Success!" : "Failure!");
         }
     }
