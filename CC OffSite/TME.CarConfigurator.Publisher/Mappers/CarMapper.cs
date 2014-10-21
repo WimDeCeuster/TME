@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Mappers.Exceptions;
 using TME.CarConfigurator.Repository.Objects;
@@ -23,11 +20,11 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         public Car MapCar(
             Administration.Car car,
-            Repository.Objects.BodyType bodyType,
-            Repository.Objects.Engine engine,
-            Repository.Objects.Transmission transmission,
-            Repository.Objects.WheelDrive wheelDrive,
-            Repository.Objects.Steering steering)
+            BodyType bodyType,
+            Engine engine,
+            Transmission transmission,
+            WheelDrive wheelDrive,
+            Steering steering)
         {
             if (car == null) throw new ArgumentNullException("car");
             if (bodyType == null) throw new ArgumentNullException("bodyType");
