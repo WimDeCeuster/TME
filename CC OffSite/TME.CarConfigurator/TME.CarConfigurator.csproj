@@ -51,6 +51,7 @@
     <Compile Include="CarConfiguratorVersion.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
     <Compile Include="Core\BaseObject.cs" />
+    <Compile Include="CarEngine.cs" />
     <Compile Include="Factories\GradeFactory.cs" />
     <Compile Include="Factories\SteeringFactory.cs" />
     <Compile Include="Factories\SubModelFactory.cs" />

@@ -27,7 +27,12 @@
             <div class="sub-item object" data-id="@Html.Raw(model.BodyType.ID)">
                 @Html.Partial("_bodyType", model.BodyType)
             </div>
-            @Html.ActionLink("BodyType Assets", "Index", "ModelCarBodyTypeAssets", new { modelID = ViewBag.ModelID, carID = model.ID }, new { })
+            <strong>Engine</strong>
+            <div class="sub-item object" data-id="@Html.Raw(model.Engine.ID)">
+                @Html.Partial("_engine", model.Engine)
+            </div>
+            @Html.ActionLink("Body Type Assets", "Index", "ModelCarBodyTypeAssets", new { modelID = ViewBag.ModelID, carID = model.ID }, new { })
+            @Html.ActionLink("Engine Assets", "Index", "ModelCarEngineAssets", new { modelID = ViewBag.ModelID, carID = model.ID }, new { })
         </div>
     </div>
 }

@@ -58,6 +58,13 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public CarBuilder WithEngine(Engine engine)
+        {
+            _car.Engine = engine;
+
+            return this;
+        }
+
         public CarBuilder WithGrade(Grade grade)
         {
             _car.Grade = grade;

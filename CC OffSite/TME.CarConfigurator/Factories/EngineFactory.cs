@@ -29,5 +29,10 @@ namespace TME.CarConfigurator.Factories
                                  .Select(engine => new Engine(engine, publication, context, _assetFactory))
                                  .ToArray();
         }
+
+        public IEngine GetCarEngine(Repository.Objects.Engine engine, Guid carId, Publication publication, Context context)
+        {
+            return new CarEngine(engine, publication, carId, context, _assetFactory);
+        }
     }
 }

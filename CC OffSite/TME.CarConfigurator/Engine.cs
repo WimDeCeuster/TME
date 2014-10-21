@@ -11,16 +11,15 @@ namespace TME.CarConfigurator
 {
     public class Engine : BaseObject, IEngine
     {
-        private readonly Repository.Objects.Engine _repositoryEngine;
-        private readonly Repository.Objects.Publication _repositoryPublication;
-        private readonly Repository.Objects.Context _repositoryContext;
-        private readonly IAssetFactory _assetFactory;
+        protected readonly Repository.Objects.Engine RepositoryEngine;
+        protected readonly Repository.Objects.Publication RepositoryPublication;
+        protected readonly Repository.Objects.Context RepositoryContext;
+        protected readonly IAssetFactory AssetFactory;
+        protected IEnumerable<IAsset> FetchedAssets;
+        protected IEnumerable<IVisibleInModeAndView> FetchedVisibleInModeAndViews;
 
         private IEngineCategory _category;
         private IEngineType _type;
-
-        private IEnumerable<IVisibleInModeAndView> _visibleInModeAndViews;
-        private IEnumerable<IAsset> _assets;
 
         public Engine(Repository.Objects.Engine repositoryEngine, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory)
             : base(repositoryEngine)
@@ -30,26 +29,26 @@ namespace TME.CarConfigurator
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
-            _repositoryEngine = repositoryEngine;
-            _repositoryPublication = repositoryPublication;
-            _repositoryContext = repositoryContext;
-            _assetFactory = assetFactory;
+            RepositoryEngine = repositoryEngine;
+            RepositoryPublication = repositoryPublication;
+            RepositoryContext = repositoryContext;
+            AssetFactory = assetFactory;
         }
 
-        public IEngineType Type { get { return _type = _type ?? new EngineType(_repositoryEngine.Type); } }
-        public IEngineCategory Category { get { return _repositoryEngine.Category == null ? null : _category = _category ?? new EngineCategory(_repositoryEngine.Category); } }
-        public bool KeyFeature { get { return _repositoryEngine.KeyFeature; } }
-        public bool Brochure { get { return _repositoryEngine.Brochure; } }
+        public IEngineType Type { get { return _type = _type ?? new EngineType(RepositoryEngine.Type); } }
+        public IEngineCategory Category { get { return RepositoryEngine.Category == null ? null : _category = _category ?? new EngineCategory(RepositoryEngine.Category); } }
+        public bool KeyFeature { get { return RepositoryEngine.KeyFeature; } }
+        public bool Brochure { get { return RepositoryEngine.Brochure; } }
 
-        public IEnumerable<IVisibleInModeAndView> VisibleIn
+        public virtual IEnumerable<IVisibleInModeAndView> VisibleIn
         {
             get
             {
-                return _visibleInModeAndViews = _visibleInModeAndViews ?? _repositoryEngine.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(_repositoryEngine.ID, visibleInModeAndView, _repositoryPublication, _repositoryContext, _assetFactory)).ToList();
+                return FetchedVisibleInModeAndViews = FetchedVisibleInModeAndViews ?? RepositoryEngine.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryEngine.ID, visibleInModeAndView, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
             }
         }
 
-        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
+        public virtual IEnumerable<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext); } }
 
         [Obsolete("Use the new VisibleIn property instead")]
         public bool VisibleInExteriorSpin { get { return VisibleIn.VisibleInExteriorSpin(); } }

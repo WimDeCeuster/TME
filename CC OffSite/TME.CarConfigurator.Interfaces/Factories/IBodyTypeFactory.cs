@@ -7,7 +7,6 @@ namespace TME.CarConfigurator.Interfaces.Factories
     public interface IBodyTypeFactory
     {
         IReadOnlyList<IBodyType> GetBodyTypes(Publication publication, Context context);
-
         IBodyType GetCarBodyType(BodyType bodyType, Guid carID, Publication publication, Context context);
     }
 }
