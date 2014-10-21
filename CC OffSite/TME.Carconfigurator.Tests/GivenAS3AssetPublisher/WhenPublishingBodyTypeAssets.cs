@@ -46,7 +46,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
             //SetupForAssets
             _assets = new List<Asset>()
             {
-                new AssetBuilder().WithId(Guid.NewGuid()).WithAssetType(new AssetTypeBuilder().WithMode(null).WithView(null).Build()).Build(),
+                new AssetBuilder().WithId(Guid.NewGuid()).WithAssetType(new AssetTypeBuilder().Build()).Build(),
                 new AssetBuilder().WithId(Guid.NewGuid()).WithAssetType(new AssetTypeBuilder().WithMode(MODE).WithView(VIEW).Build()).Build()
             };
 
@@ -62,7 +62,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
             _s3Service = A.Fake<IService>();
 
             var serialiser = A.Fake<ISerialiser>();
-            A.CallTo<string>(() => serialiser.Serialise(A<IEnumerable<Asset>>._)).Returns(SERIALIZEDASSETS);
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Asset>>._)).Returns(SERIALIZEDASSETS);
             var keymanager = A.Fake<IKeyManager>();
             A.CallTo(() => keymanager.GetDefaultAssetsKey(A<Guid>._, A<Guid>._))
                 .Returns(BODYTYPE_DEFAULT_ASSETKEY);
