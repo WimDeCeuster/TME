@@ -136,7 +136,7 @@
     <Compile Include="Mappers\GenerationMapper.cs" />
     <Compile Include="Mappers\LabelMapper.cs" />
     <Compile Include="Mappers\LinkMapper.cs" />
-    <Compile Include="Mappers\MappingExtension.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Mappers\ModelMapper.cs" />
     <Compile Include="Mappers\SteeringMapper.cs" />
     <Compile Include="Mappers\GradeMapper.cs" />

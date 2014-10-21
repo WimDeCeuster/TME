@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AWSSDK, Version=2.3.1.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AWSSDK.2.3.1.0\lib\net45\AWSSDK.dll</HintPath>
+    </Reference>
     <Reference Include="FakeItEasy">
       <HintPath>..\packages\FakeItEasy.1.24.0\lib\net40\FakeItEasy.dll</HintPath>
     </Reference>
@@ -144,8 +148,12 @@
     <Compile Include="Services\GivenACarService\WhenGetCarsIsCalled.cs" />
     <Compile Include="Services\GivenAGradeService\WhenGetGradesIsCalled.cs" />
     <Compile Include="Services\GivenAModelService\WhenGeGetModelsByLanguageIsCalled.cs" />
+    <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledForNonExistent3DAssets.cs" />
+    <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledForNonExistent2DAssets.cs" />
+    <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledForNonExistent2DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledFor2DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledFor2DAssets.cs" />
+    <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledForNonExistent3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenASteeringService\WhenGetSteeringsIsCalled.cs" />

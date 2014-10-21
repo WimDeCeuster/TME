@@ -8,6 +8,11 @@ namespace TME.CarConfigurator.Publisher.Extensions
 {
     public static class AssetSetAssetExtensions
     {
+        public static IEnumerable<AssetSetAsset> GetGenerationAssets(this IEnumerable<AssetSetAsset> assets)
+        {
+            return assets.Where(asset => !asset.IsDeviation() && asset.AlwaysInclude);
+        }
+
         public static IEnumerable<AssetSetAsset> Filter(this IList<AssetSetAsset> assets, Administration.Car car)
         {
             var carAssets = new List<AssetSetAsset>();

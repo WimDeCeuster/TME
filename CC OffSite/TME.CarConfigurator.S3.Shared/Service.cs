@@ -134,7 +134,7 @@ namespace TME.CarConfigurator.S3.Shared
             catch (Amazon.S3.AmazonS3Exception ex)
             {
                 if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-                    throw new ObjectNotFoundException(ex);
+                    throw new ObjectNotFoundException(ex, key);
                 throw;
             }
         }

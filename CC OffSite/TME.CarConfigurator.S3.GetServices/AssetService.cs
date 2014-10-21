@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
+using TME.CarConfigurator.S3.Shared.Exceptions;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.S3.QueryServices
@@ -45,17 +46,26 @@ namespace TME.CarConfigurator.S3.QueryServices
             return GetAssets(context, key);
         }
 
-        public IEnumerable<Asset> GetCarAssets(Guid publicationId, Guid carId, Guid objectId, Context context, string view, string mode)
+        public IEnumerable<Asset> GetCarAssets(Guid publicationId, Guid carId, Guid objectId, Context context, String view, string mode)
         {
             var key = _keyManager.GetAssetsKey(publicationId, carId, objectId, view, mode);
 
             return GetAssets(context, key);
         }
 
-        private IEnumerable<Asset> GetAssets(Context context, string key)
+        private IEnumerable<Asset> GetAssets(Context context, String key)
         {
-            var serializedObject = _service.GetObject(context.Brand, context.Country, key);
-            return _serialiser.Deserialise<IEnumerable<Asset>>(serializedObject);
+            try { 
+                var serializedObject = _service.GetObject(context.Brand, context.Country, key);
+                return _serialiser.Deserialise<IEnumerable<Asset>>(serializedObject);
+            }
+            catch (ObjectNotFoundException ex)
+            {
+                if (!String.Equals(ex.Path, key, StringComparison.InvariantCultureIgnoreCase))
+                    throw;
+
+                return new Asset[] { };
+            }
         }
     }
 }
