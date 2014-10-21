@@ -61,5 +61,11 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
         {
             A.CallTo(() => _publisher.Publish(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
+
+        [Fact]
+        public void ThenACallToMapperHappens()
+        {
+            A.CallTo(() => _mapper.Map(Brand, Country, Guid.Empty, _generationFinder, _context)).MustHaveHappened(Repeated.Exactly.Once);
+        }
     }
 }
