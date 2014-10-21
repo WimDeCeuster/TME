@@ -115,7 +115,7 @@ namespace TME.Carconfigurator.Tests.Base
 
             Context = contextBuilder.Build();
 
-            A.CallTo(() => Serialiser.Serialise((Publication)null)).WithAnyArguments().ReturnsLazily(args => args.Arguments.First().GetType().Name);
+            A.CallTo(() => Serialiser.Serialise(null)).WithAnyArguments().ReturnsLazily(args => args.Arguments.First().GetType().Name);
             A.CallTo(() => PutModelPublisher.PublishModelsByLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
             A.CallTo(() => GetModelService.GetModelsByLanguage(Context.Brand, Context.Country)).Returns(new Languages());
             A.CallTo(() => PublicationPublisher.PublishPublications(null)).WithAnyArguments().Returns(successFullTasks);

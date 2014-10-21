@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using FakeItEasy;
+﻿using FakeItEasy;
 using TME.CarConfigurator.Repository.Objects;
 using Xunit;
 
@@ -12,7 +11,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected override void Arrange()
         {
             base.Arrange();
-            A.CallTo(() => Serialiser.Serialise((Publication)null))
+            A.CallTo(() => Serialiser.Serialise(null))
                 .WhenArgumentsMatch(args =>
                     args[0] is Publication)
                 .ReturnsLazily(args => SerialisedData);
@@ -71,6 +70,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         public void ThenAPublishGenerationCarsShouldHappen()
         {
             A.CallTo(() => CarPublisher.PublishGenerationCars(Context))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
+        public void ThenItShouldPublishCarAssets()
+        {
+            A.CallTo(() => AssetPublisher.PublishCarAssets(Context))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
     }

@@ -24,7 +24,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
         private IContext _context;
         private IAssetService _assetService;
         private Publication _publication;
-        private readonly IEnumerable<string> _languages = new List<string>{"nl"};
+        private readonly IEnumerable<string> _languages = new List<string> { "nl" };
         private List<Asset> _assets;
         private List<BodyType> _bodyTypes;
         private const string VIEW = "view";
@@ -46,7 +46,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
             //SetupForAssets
             _assets = new List<Asset>()
             {
-                new AssetBuilder().WithId(Guid.NewGuid()).WithAssetType(new AssetTypeBuilder().WithMode(null).WithView(null).Build()).Build(),
+                new AssetBuilder().WithId(Guid.NewGuid()).WithAssetType(new AssetTypeBuilder().Build()).Build(),
                 new AssetBuilder().WithId(Guid.NewGuid()).WithAssetType(new AssetTypeBuilder().WithMode(MODE).WithView(VIEW).Build()).Build()
             };
 
@@ -55,18 +55,18 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
                         .WithCountry(Country)
                         .WithLanguages(_languages.ToArray())
                         .WithPublication(_languages.First(), _publication)
-                        .WithBodyTypes(_languages.First(),_bodyTypes)
+                        .WithBodyTypes(_languages.First(), _bodyTypes)
                         .WithAssets(_languages.First(), _assets, _bodyTypes[0].ID)
                         .Build();
 
             _s3Service = A.Fake<IService>();
 
             var serialiser = A.Fake<ISerialiser>();
-            A.CallTo<string>(() => serialiser.Serialise(A<IEnumerable<Asset>>._)).Returns(SERIALIZEDASSETS);
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Asset>>._)).Returns(SERIALIZEDASSETS);
             var keymanager = A.Fake<IKeyManager>();
-            A.CallTo(() => keymanager.GetDefaultAssetsKey(A<Guid>._,A<Guid>._))
+            A.CallTo(() => keymanager.GetDefaultAssetsKey(A<Guid>._, A<Guid>._))
                 .Returns(BODYTYPE_DEFAULT_ASSETKEY);
-            A.CallTo(() => keymanager.GetAssetsKey(A<Guid>._,A<Guid>._,VIEW,MODE))
+            A.CallTo(() => keymanager.GetAssetsKey(A<Guid>._, A<Guid>._, VIEW, MODE))
                 .Returns(BODYTYPE_ASSETKEY);
 
             _assetService = new AssetsService(_s3Service, serialiser, keymanager);
@@ -81,20 +81,14 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
         [Fact]
         public void ThenAssetsForASpecificBodyTypeShouldBePutForEachLanguageAndBodyType()
         {
-            foreach (var language in _languages)
-            {
-                A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null)).WithAnyArguments().MustHaveHappened(Repeated.Exactly.Twice);
-            }
+            A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._)).MustHaveHappened(Repeated.Exactly.Twice);
         }
 
         [Fact]
         public void ThenAssetsForASpecificBodyTypeShouldBePutWithCorrectArgumentsForEachLanguageAndBodyType()
         {
-            foreach (var language in _languages)
-            {
-                A.CallTo(() => _s3Service.PutObjectAsync(Brand, Country, BODYTYPE_ASSETKEY, SERIALIZEDASSETS)).MustHaveHappened(Repeated.Exactly.Once);
-                A.CallTo(() => _s3Service.PutObjectAsync(Brand, Country, BODYTYPE_DEFAULT_ASSETKEY, SERIALIZEDASSETS)).MustHaveHappened(Repeated.Exactly.Once);
-            }
+            A.CallTo(() => _s3Service.PutObjectAsync(Brand, Country, BODYTYPE_ASSETKEY, SERIALIZEDASSETS)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _s3Service.PutObjectAsync(Brand, Country, BODYTYPE_DEFAULT_ASSETKEY, SERIALIZEDASSETS)).MustHaveHappened(Repeated.Exactly.Once);
         }
     }
 }
