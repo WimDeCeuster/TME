@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Caliburn.Micro;
+using Spring.Context;
 using Spring.Context.Support;
 using TME.CarConfigurator.Publisher.UI.ViewModels;
 
@@ -8,6 +9,8 @@ namespace TME.CarConfigurator.Publisher.UI.Bootstrapper
 {
     public class AppBootstrapper : BootstrapperBase
     {
+        private IApplicationContext _springContext = ContextRegistry.GetContext();
+
         public AppBootstrapper()
         {
             Initialize();
@@ -22,14 +25,21 @@ namespace TME.CarConfigurator.Publisher.UI.Bootstrapper
         {
             try
             {
-                var springContext = ContextRegistry.GetContext();
-                return springContext.GetObject(service.ToString());
+                return _springContext.GetObject(service.ToString());
             }
             catch (Exception)
             {
                 return base.GetInstance(service, key);
             }
+        }
 
+        ~AppBootstrapper()
+        {
+            if (_springContext == null) return;
+
+            _springContext.Dispose();
+
+            _springContext = null;
         }
     }
 }
