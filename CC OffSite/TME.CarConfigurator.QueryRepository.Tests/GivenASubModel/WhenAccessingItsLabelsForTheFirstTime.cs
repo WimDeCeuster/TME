@@ -64,6 +64,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
         public void ThenItShouldHaveTheLabels()
         {
             _labels.Count().Should().Be(2);
+
             _labels.Should().Contain(label => label.Code == _label1.Code);
             _labels.Should().Contain(label => label.Code == _label2.Code);
         }

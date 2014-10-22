@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Caliburn.Micro;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Common.Enums;
+using TME.CarConfigurator.Publisher.Common.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
 using System.Windows;
-using TME.CarConfigurator.S3.Shared.Result;
 
 namespace TME.CarConfigurator.Publisher.UI.ViewModels
 {
@@ -75,7 +75,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
         public IEnumerable<ModelGeneration> Generations
         {
-            get { return SelectedModel == null ? new List<ModelGeneration>() : (IEnumerable<ModelGeneration>)SelectedModel.Generations; }
+            get { return SelectedModel == null ? new List<ModelGeneration>() : (IList<ModelGeneration>)SelectedModel.Generations; }
         }
 
         public ModelGeneration SelectedGeneration

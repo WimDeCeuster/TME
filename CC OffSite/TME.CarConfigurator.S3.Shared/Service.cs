@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.IO;
 using System;
-using TME.CarConfigurator.S3.Shared.Result;
+using TME.CarConfigurator.Publisher.Common.Result;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.S3.Shared.Exceptions;
 
@@ -27,16 +27,7 @@ namespace TME.CarConfigurator.S3.Shared
             _bucketNameTemplate = bucketNameTemplate;
         }
 
-        public Service(String bucketNameTemplate, String dataSubset, IAmazonS3Factory clientFactory)
-        {
-            if (clientFactory == null) throw new ArgumentNullException("clientFactory");
-            if (String.IsNullOrWhiteSpace(bucketNameTemplate)) throw new ArgumentNullException("bucketNameTemplate");
-            
-            _client = clientFactory.CreateInstance();
-            _bucketNameTemplate = bucketNameTemplate;
-        }
-
-        public async Task<Result.Result> PutObjectAsync(String brand, String country, String key, String item)
+        public async Task<Result> PutObjectAsync(String brand, String country, String key, String item)
         {
             if (brand == null) throw new ArgumentNullException("brand");
             if (country == null) throw new ArgumentNullException("country");
@@ -62,8 +53,8 @@ namespace TME.CarConfigurator.S3.Shared
 
             if (result.HttpStatusCode == System.Net.HttpStatusCode.OK)
                 return new Successfull();
-            else
-                return new Failed();
+
+            return new Failed();
         }
 
         private string GetBucketName(String brand, String country)
@@ -79,7 +70,7 @@ namespace TME.CarConfigurator.S3.Shared
             if (country == null) throw new ArgumentNullException("country");
             if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
-            
+
             try
             {
                 _client.ListObjects(new ListObjectsRequest
@@ -131,63 +122,12 @@ namespace TME.CarConfigurator.S3.Shared
                     return reader.ReadToEnd();
                 }
             }
-            catch (Amazon.S3.AmazonS3Exception ex)
+            catch (AmazonS3Exception ex)
             {
                 if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
                     throw new ObjectNotFoundException(ex, key);
                 throw;
             }
-        }
-
-        public void DeleteObject(String brand, String country, String key)
-        {
-            if (brand == null) throw new ArgumentNullException("brand");
-            if (country == null) throw new ArgumentNullException("country");
-            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
-            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
-
-            _client.DeleteObject(GetBucketName(brand, country), key);
-        }
-
-        internal List<S3Bucket> GetBuckets()
-        {
-            return _client.ListBuckets().Buckets;
-        }
-
-        internal List<S3Object> GetObjects(String brand, String country)
-        {
-            if (brand == null) throw new ArgumentNullException("brand");
-            if (country == null) throw new ArgumentNullException("country");
-            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
-            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
-
-            return _client.ListObjects(GetBucketName(brand, country)).S3Objects;
-        }
-
-        internal void DeleteAll(String brand, String country)
-        {
-            if (brand == null) throw new ArgumentNullException("brand");
-            if (country == null) throw new ArgumentNullException("country");
-            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
-            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
-
-            var request = new DeleteObjectsRequest { BucketName = GetBucketName(brand, country) };
-            foreach (var x in GetObjects(brand, country))
-                request.AddKey(x.Key);
-
-            _client.DeleteObjects(request);
-        }
-
-        internal async Task<Int32> GetObjectsAsync(String brand, String country)
-        {
-            if (brand == null) throw new ArgumentNullException("brand");
-            if (country == null) throw new ArgumentNullException("country");
-            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
-            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
-
-            var result = await _client.ListObjectsAsync(new ListObjectsRequest { BucketName = GetBucketName(brand, country) });
-
-            return result.S3Objects.Count;
         }
 
         public void Dispose()
@@ -203,14 +143,10 @@ namespace TME.CarConfigurator.S3.Shared
 
         protected virtual void Dispose(Boolean disposing)
         {
-            if (disposing)
-            {
-                if (_client != null)
-                {
-                    _client.Dispose();
-                    _client = null;
-                }
-            }
+            if (!disposing || _client == null) return;
+
+            _client.Dispose();
+            _client = null;
         }
     }
 }

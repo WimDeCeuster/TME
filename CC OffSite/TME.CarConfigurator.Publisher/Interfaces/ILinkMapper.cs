@@ -9,6 +9,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface ILinkMapper
     {
-        Link MapLink(Administration.Link link, String countryCode, String languageCode, Boolean isPreview);
+        Link MapLink(Administration.Link link, Boolean isPreview);
     }
 }

@@ -9,6 +9,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface IGenerationMapper
     {
-        Generation MapGeneration(Administration.Model model, Administration.ModelGeneration generation, String brand, String country, String language, Boolean isPreview);
+        Generation MapGeneration(Administration.Model model, Administration.ModelGeneration generation, Boolean isPreview);
     }
 }

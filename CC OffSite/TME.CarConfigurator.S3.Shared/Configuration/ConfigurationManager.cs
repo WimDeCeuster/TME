@@ -1,7 +1,6 @@
 using System;
-using TME.CarConfigurator.Interfaces.Configuration;
 
-namespace TME.CarConfigurator.Configuration
+namespace TME.CarConfigurator.S3.Shared.Configuration
 {
     public class ConfigurationManager : IConfigurationManager
     {

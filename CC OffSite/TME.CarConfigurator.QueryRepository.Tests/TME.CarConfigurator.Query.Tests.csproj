@@ -132,8 +132,14 @@
     <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />
+    <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsLabelsForTheSecondTime.cs" />
+    <Compile Include="GivenASubModel\WhenAccessingItsLinksForTheFirstTime.cs" />
+    <Compile Include="GivenASubModel\WhenAccessingItsLinksForTheSecondTime.cs" />
+    <Compile Include="GivenASubModel\WhenAccessingItsStartingPriceForTheFirstTime.cs" />
+    <Compile Include="GivenASubModel\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
     <Compile Include="GivenATransmissionType\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenATransmissionType\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenATransmission\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
@@ -169,6 +175,7 @@
     <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenASteeringService\WhenGetSteeringsIsCalled.cs" />
+    <Compile Include="Services\GivenASubModelService\WhenGetSubModelIsCalled.cs" />
     <Compile Include="Services\GivenAWheelDriveService\WhenGetWheelDrivesIsCalled.cs" />
     <Compile Include="Services\GivenATransmissionService\WhenGetTransmissionsIsCalled.cs" />
     <Compile Include="Services\GivenAnEngineService\WhenGetEnginesIsCalled.cs" />

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using FakeItEasy;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common;
@@ -26,13 +27,18 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
         private IContext _context;
         private IService _s3Service;
         private IAssetService _assetService;
-        private readonly IEnumerable<string> _languages = new List<string> { "nl", "en" };
+
         private Publication _publication;
+
         private Transmission[] _transmissions;
-        private List<Asset> _assetsForTrans1;
-        private List<Asset> _assetsForTrans2;
+
+        private List<Asset> _assetsForTransmission1;
+        private List<Asset> _assetsForTransmission2;
+
         private const string VALUE = "serialised data";
         private const string ASSETS_KEY = "KeyForAssets";
+        private const string LANGUAGE1 = "nl";
+        private const string LANGUAGE2 = "en";
         private const string ASSETS_DEFAULT_KEY = "KeyForDefaultAssets";
         private const string MODE = "Mode";
         private const string VIEW = "View";
@@ -48,13 +54,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
 
             _transmissions = new[] {generationTransmission1, generationTransmission2};
 
-            _assetsForTrans1 = new List<Asset>
+            _assetsForTransmission1 = new List<Asset>
             {
-                new AssetBuilder().WithId(Guid.NewGuid()).Build(),
-                new AssetBuilder().WithId(Guid.NewGuid()).Build()
+                new AssetBuilder().WithId(Guid.NewGuid()).WithAssetType(new AssetTypeBuilder().Build()).Build(),
+                new AssetBuilder().WithId(Guid.NewGuid()).WithAssetType(new AssetTypeBuilder().WithMode(MODE).WithView(VIEW).Build()).Build()
             };
 
-            _assetsForTrans2 = new List<Asset>
+            _assetsForTransmission2 = new List<Asset>
             {
                 new AssetBuilder().WithId(Guid.NewGuid()).WithAssetType(new AssetTypeBuilder().WithMode(null).WithView(null).Build()).Build(),
                 new AssetBuilder().WithId(Guid.NewGuid()).WithAssetType(new AssetTypeBuilder().WithMode(MODE).WithView(VIEW).Build()).Build()
@@ -66,11 +72,15 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
                 new ContextBuilder()
                 .WithBrand(BRAND)
                 .WithCountry(COUNTRY)
-                .WithLanguages(_languages.ToArray())
-                .WithPublication(_languages.First(), _publication)
-                .WithTransmissions(_languages.First(),_transmissions)
-                .WithAssets(_languages.First(), _assetsForTrans1,generationTransmission1.ID)
-                .WithAssets(_languages.First(), _assetsForTrans2,generationTransmission2.ID)
+                .WithLanguages(LANGUAGE1,LANGUAGE2)
+                .WithPublication(LANGUAGE1, _publication)
+                .WithPublication(LANGUAGE2, _publication)
+                .WithTransmissions(LANGUAGE1,_transmissions)
+                .WithTransmissions(LANGUAGE2,_transmissions)
+                .WithAssets(LANGUAGE1, _assetsForTransmission1,generationTransmission1.ID)
+                .WithAssets(LANGUAGE2, _assetsForTransmission1,generationTransmission1.ID)
+                .WithAssets(LANGUAGE1, _assetsForTransmission2,generationTransmission2.ID)
+                .WithAssets(LANGUAGE2, _assetsForTransmission2,generationTransmission2.ID)
                 .Build();
 
             _s3Service = A.Fake<IService>();
@@ -87,26 +97,22 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
 
         protected override void Act()
         {
-            var result = _assetPublisher.PublishAssets(_context);
+            var result = _assetPublisher.PublishAssets(_context).Result;
         }
 
         [Fact]
         public void ThenAssetsForATransmissionShouldBePutForEachLanguageAndTimeFrames()
         {
-            foreach (var language in _languages)
-            {
-                A.CallTo(() => _s3Service.PutObjectAsync(null,null,null,null)).WithAnyArguments().MustHaveHappened(Repeated.Exactly.Twice);    
-            }
+            // 2 transmissions * 2 Assetputs (with modeview/without modeview) * 2 languages
+            A.CallTo(() => _s3Service.PutObjectAsync(A<String>._,A<String>._,A<String>._,A<String>._)).WithAnyArguments().MustHaveHappened(Repeated.Exactly.Times(8)); 
         }
         
         [Fact]
         public void ThenAssetsForATransmissionShouldBePutForEachLanguageWithTheCorrectParameters()
         {
-            foreach (var language in _languages)
-            {
-                A.CallTo(() => _s3Service.PutObjectAsync(BRAND,COUNTRY,ASSETS_DEFAULT_KEY,VALUE)).MustHaveHappened(Repeated.Exactly.Once);    
-                A.CallTo(() => _s3Service.PutObjectAsync(BRAND,COUNTRY,ASSETS_KEY,VALUE)).MustHaveHappened(Repeated.Exactly.Once);    
-            }
+            // 2 transmissions * 2 languages
+            A.CallTo(() => _s3Service.PutObjectAsync(BRAND, COUNTRY, ASSETS_DEFAULT_KEY, VALUE)).MustHaveHappened(Repeated.Exactly.Times(4));
+            A.CallTo(() => _s3Service.PutObjectAsync(BRAND, COUNTRY, ASSETS_KEY, VALUE)).MustHaveHappened(Repeated.Exactly.Times(4));
         }
     }
 }

@@ -23,6 +23,7 @@ namespace TME.Carconfigurator.Tests.Builders
         private IGradePublisher _gradePublisher = A.Fake<IGradePublisher>();
         private ICarPublisher _carPublisher = A.Fake<ICarPublisher>();
         private IAssetPublisher _assetPublisher = A.Fake<IAssetPublisher>();
+        private ISubModelPublisher _subModelPublisher = A.Fake<ISubModelPublisher>();
 
         public PublisherBuilder WithPublicationPublisher(IPublicationPublisher publicationPublisher)
         {
@@ -34,6 +35,13 @@ namespace TME.Carconfigurator.Tests.Builders
         public PublisherBuilder WithModelPublisher(IModelPublisher modelPublisher)
         {
             _modelPublisher = modelPublisher;
+
+            return this;
+        }
+        
+        public PublisherBuilder WithSubModelPublisher(ISubModelPublisher subModelPublisher)
+        {
+            _subModelPublisher = subModelPublisher;
 
             return this;
         }
@@ -114,7 +122,8 @@ namespace TME.Carconfigurator.Tests.Builders
                 _steeringPublisher,
                 _gradePublisher,
                 _carPublisher,
-                _assetPublisher);
+                _assetPublisher,
+                _subModelPublisher);
         }
     }
 }

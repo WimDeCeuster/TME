@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Mappers.Exceptions;
 using TME.CarConfigurator.Repository.Objects;
@@ -12,7 +9,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class CarMapper : ICarMapper
     {
-        IBaseMapper _baseMapper;
+        readonly IBaseMapper _baseMapper;
 
         public CarMapper(IBaseMapper baseMapper)
         {
@@ -21,13 +18,13 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _baseMapper = baseMapper;
         }
 
-        public Car MapCar(
-            Administration.Car car,
-            Repository.Objects.BodyType bodyType,
-            Repository.Objects.Engine engine,
-            Repository.Objects.Transmission transmission,
-            Repository.Objects.WheelDrive wheelDrive,
-            Repository.Objects.Steering steering)
+        public Car MapCar(Administration.Car car,
+            BodyType bodyType,
+            Engine engine,
+            Transmission transmission,
+            WheelDrive wheelDrive,
+            Steering steering,
+            SubModel subModel)
         {
             if (car == null) throw new ArgumentNullException("car");
             if (bodyType == null) throw new ArgumentNullException("bodyType");
@@ -38,6 +35,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             if (car.ShortID == null)
                 throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.ID));
+
+            if (subModel == null)
+                subModel = new SubModel();
+            
 
             var cheapestColourCombination = car.ColourCombinations.OrderBy(cc => cc.ExteriorColour.Price + cc.Upholstery.Price)
                                                                   .First();
@@ -50,6 +51,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                     IncludingVat = car.VatPrice
                 },
                 BodyType = bodyType,
+                SubModel = subModel,
                 ConfigVisible = car.ConfigVisible,
                 Engine = engine,
                 FinanceVisible = car.FinanceVisible,

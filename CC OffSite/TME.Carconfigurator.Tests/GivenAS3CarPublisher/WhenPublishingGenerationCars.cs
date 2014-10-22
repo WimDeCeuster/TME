@@ -35,21 +35,28 @@ namespace TME.Carconfigurator.Tests.GivenAS3CarPublisher
 
         protected override void Arrange()
         {
-            var carId1 = Guid.NewGuid();
-            var carId2 = Guid.NewGuid();
-            var carId3 = Guid.NewGuid();
-            var carId4 = Guid.NewGuid();
+            var car1 = new Car { ID = Guid.NewGuid() };
+            var car2 = new Car { ID = Guid.NewGuid() };
+            var car3 = new Car { ID = Guid.NewGuid() };
+            var car4 = new Car { ID = Guid.NewGuid() };
 
-            var car1 = new Car { ID = carId1 };
-            var car2 = new Car { ID = carId2 };
-            var car3 = new Car { ID = carId3 };
-            var car4 = new Car { ID = carId4 };
-
-            var timeFrame1 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1 });
-            var timeFrame2 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1, car2 });
-            var timeFrame3 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car3, car4 });
-            var timeFrame4 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car4 });
-
+            var timeFrame1 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithCars(new[] { car1 })
+                                .Build();
+            var timeFrame2 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithCars(new[] { car1, car2 })
+                                .Build();
+            var timeFrame3 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithCars(new[] { car3, car4 })
+                                .Build();
+            var timeFrame4 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithCars(new[] { car4 })
+                                .Build();
+            
             var publicationTimeFrame1 = new PublicationTimeFrame { ID = timeFrame1.ID };
             var publicationTimeFrame2 = new PublicationTimeFrame { ID = timeFrame2.ID };
             var publicationTimeFrame3 = new PublicationTimeFrame { ID = timeFrame3.ID };
@@ -71,8 +78,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3CarPublisher
                         .WithLanguages(_language1, _language2)
                         .WithPublication(_language1, publication1)
                         .WithPublication(_language2, publication2)
-                        .WithCars(_language1, car1, car2)
-                        .WithCars(_language2, car3, car4)
                         .WithTimeFrames(_language1, timeFrame1, timeFrame2)
                         .WithTimeFrames(_language2, timeFrame3, timeFrame4)
                         .Build();

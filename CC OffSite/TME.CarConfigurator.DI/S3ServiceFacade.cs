@@ -1,9 +1,8 @@
-﻿using TME.CarConfigurator.Configuration;
-using TME.CarConfigurator.DI.Interfaces;
-using TME.CarConfigurator.Interfaces.Configuration;
+﻿using TME.CarConfigurator.DI.Interfaces;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.S3.QueryServices;
 using TME.CarConfigurator.S3.Shared;
+using TME.CarConfigurator.S3.Shared.Configuration;
 using TME.CarConfigurator.S3.Shared.Factories;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
@@ -26,6 +25,7 @@ namespace TME.CarConfigurator.DI
         private ISteeringService _steeringService;
         private IGradeService _gradeService;
         private ICarService _carService;
+        private ISubModelService _subModelService;
 
         public IService Service
         {
@@ -126,6 +126,13 @@ namespace TME.CarConfigurator.DI
             return this;
         }
 
+        public IServiceFacade WithSubModelService(ISubModelService subModelService)
+        {
+            _subModelService = subModelService;
+
+            return this;
+        }
+
         public IServiceFacade WithBodyTypeService(IBodyTypeService bodyTypeService)
         {
             _bodyTypeService = bodyTypeService;
@@ -188,6 +195,11 @@ namespace TME.CarConfigurator.DI
         public ICarService CreateCarService()
         {
             return _carService ?? new CarService(Serializer, Service, KeyManager);
+        }
+
+        public ISubModelService CreateSubModelService()
+        {
+            return _subModelService ?? new SubModelService(Serializer, Service, KeyManager);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Common.Enums;
-using TME.CarConfigurator.S3.Shared.Result;
+using TME.CarConfigurator.Publisher.Common.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
 
 namespace TME.CarConfigurator.Publisher

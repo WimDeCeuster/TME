@@ -141,6 +141,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ModelSubModelAssetsController.cs" />
+    <Compile Include="Controllers\ModelSubModelLinksController.cs" />
+    <Compile Include="Controllers\ModelSubModelsController.cs" />
     <Compile Include="Controllers\ModelCarEngineAssetsController.cs" />
     <Compile Include="Controllers\ModelWheelDriveVisibleInAssetsController.cs" />
     <Compile Include="Controllers\ModelTransmissionVisibleInAssetsController.cs" />
@@ -283,7 +286,12 @@
     <Content Include="Views\Shared\_bodyType.cshtml" />
     <Content Include="Views\ModelGrades\details.cshtml" />
     <Content Include="Views\ModelGrades\Index.cshtml" />
+    <Content Include="Views\ModelSubModels\Index.cshtml" />
+    <Content Include="Views\ModelSubModels\details.cshtml" />
     <Content Include="Views\Shared\_engine.cshtml" />
+    <Content Include="Views\Shared\Links\Index.cshtml" />
+    <Content Include="Views\Shared\Links\details.cshtml" />
+    <Content Include="Views\Shared\_link.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

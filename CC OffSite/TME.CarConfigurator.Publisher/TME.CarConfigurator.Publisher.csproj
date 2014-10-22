@@ -88,14 +88,17 @@
     <Compile Include="Interfaces\ICarDbModelGenerationFinder.cs" />
     <Compile Include="Interfaces\ICarMapper.cs" />
     <Compile Include="Interfaces\ICarPublisher.cs" />
+    <Compile Include="Interfaces\ICategoryInfoMapper.cs" />
     <Compile Include="Interfaces\IContextFactory.cs" />
     <Compile Include="Interfaces\IDefaultBaseMapper.cs" />
     <Compile Include="Interfaces\IEngineCategoryMapper.cs" />
     <Compile Include="Interfaces\IEngineMapper.cs" />
+    <Compile Include="Interfaces\IEquipmentMapper.cs" />
     <Compile Include="Interfaces\ISteeringMapper.cs" />
     <Compile Include="Interfaces\IGradeMapper.cs" />
     <Compile Include="Interfaces\ISubModelMapper.cs" />
     <Compile Include="Interfaces\ISubModelPublisher.cs" />
+    <Compile Include="Interfaces\IVisibilityMapper.cs" />
     <Compile Include="Interfaces\IWheelDriveMapper.cs" />
     <Compile Include="Interfaces\ISteeringPublisher.cs" />
     <Compile Include="Interfaces\IGradePublisher.cs" />
@@ -130,6 +133,7 @@
     <Compile Include="Mappers\EngineCategoryMapper.cs" />
     <Compile Include="Mappers\EngineMapper.cs" />
     <Compile Include="Mappers\EngineTypeMapper.cs" />
+    <Compile Include="Mappers\EquipmentMapper.cs" />
     <Compile Include="Mappers\Exceptions\CorruptDataException.cs" />
     <Compile Include="Mappers\FileTypeMapper.cs" />
     <Compile Include="Mappers\FuelTypeMapper.cs" />

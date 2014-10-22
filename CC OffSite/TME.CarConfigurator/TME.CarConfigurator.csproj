@@ -57,6 +57,7 @@
     <Compile Include="Factories\SubModelFactory.cs" />
     <Compile Include="Factories\WheelDriveFactory.cs" />
     <Compile Include="Grade.cs" />
+    <Compile Include="GradeEquipmentItem.cs" />
     <Compile Include="SubModel.cs" />
     <Compile Include="TransmissionType.cs" />
     <Compile Include="Transmission.cs" />

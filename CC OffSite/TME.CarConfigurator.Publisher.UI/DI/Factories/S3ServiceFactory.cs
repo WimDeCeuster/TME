@@ -101,5 +101,12 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
 
             return new AssetsService(service, _serialiser, _keyManager);
         }
+
+        public ISubModelService GetSubModelService(string environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return new SubModelService(service,_serialiser,_keyManager);
+        }
     }
 }

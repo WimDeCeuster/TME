@@ -37,21 +37,28 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePublisher
 
         protected override void Arrange()
         {
-            var gradeId1 = Guid.NewGuid();
-            var gradeId2 = Guid.NewGuid();
-            var gradeId3 = Guid.NewGuid();
-            var gradeId4 = Guid.NewGuid();
+            var grade1 = new Grade { ID = Guid.NewGuid() };
+            var grade2 = new Grade { ID = Guid.NewGuid() };
+            var grade3 = new Grade { ID = Guid.NewGuid() };
+            var grade4 = new Grade { ID = Guid.NewGuid() };
 
-            var car1 = new Car { Grade = new Grade { ID = gradeId1 } };
-            var car2 = new Car { Grade = new Grade { ID = gradeId2 } };
-            var car3 = new Car { Grade = new Grade { ID = gradeId3 } };
-            var car4 = new Car { Grade = new Grade { ID = gradeId4 } };
-
-            var timeFrame1 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1 });
-            var timeFrame2 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1, car2 });
-            var timeFrame3 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car3, car4 });
-            var timeFrame4 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car4 });
-
+            var timeFrame1 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithGrades(new[] { grade1 })
+                                .Build();
+            var timeFrame2 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithGrades(new[] { grade1, grade2 })
+                                .Build();
+            var timeFrame3 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithGrades(new[] { grade3, grade4 })
+                                .Build();
+            var timeFrame4 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithGrades(new[] { grade4 })
+                                .Build();
+            
             var publicationTimeFrame1 = new PublicationTimeFrame { ID = timeFrame1.ID };
             var publicationTimeFrame2 = new PublicationTimeFrame { ID = timeFrame2.ID };
             var publicationTimeFrame3 = new PublicationTimeFrame { ID = timeFrame3.ID };
@@ -67,23 +74,14 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePublisher
                                                                  publicationTimeFrame4)
                                                  .Build();
 
-            var generationGrade1 = new Grade { ID = gradeId1 };
-            var generationGrade2 = new Grade { ID = gradeId2 };
-            var generationGrade3 = new Grade { ID = gradeId3 };
-            var generationGrade4 = new Grade { ID = gradeId4 };
-
             _context = new ContextBuilder()
                         .WithBrand(_brand)
                         .WithCountry(_country)
                         .WithLanguages(_language1, _language2)
                         .WithPublication(_language1, publication1)
                         .WithPublication(_language2, publication2)
-                        .WithCars(_language1, car1, car2)
-                        .WithCars(_language2, car3, car4)
                         .WithTimeFrames(_language1, timeFrame1, timeFrame2)
                         .WithTimeFrames(_language2, timeFrame3, timeFrame4)
-                        .WithGrades(_language1, generationGrade1, generationGrade2)
-                        .WithGrades(_language2, generationGrade3, generationGrade4)
                         .Build();
 
             _s3Service = A.Fake<IService>();
@@ -92,19 +90,19 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePublisher
             var keyManager = A.Fake<IKeyManager>();
 
             _service = new GradeService(_s3Service, serialiser, keyManager);
-            _publisher = new GradePublisher(_service);
+            _publisher = new GradePublisherBuilder().WithService(_service).Build();
 
             A.CallTo(() => serialiser.Serialise((IEnumerable<Grade>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationGrade1))
+                .WhenArgumentsMatch(ArgumentMatchesList(grade1))
                 .Returns(_serialisedGrade1);
             A.CallTo(() => serialiser.Serialise((IEnumerable<Grade>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationGrade1, generationGrade2))
+                .WhenArgumentsMatch(ArgumentMatchesList(grade1, grade2))
                 .Returns(_serialisedGrade12);
             A.CallTo(() => serialiser.Serialise((IEnumerable<Grade>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationGrade3, generationGrade4))
+                .WhenArgumentsMatch(ArgumentMatchesList(grade3, grade4))
                 .Returns(_serialisedGrade34);
             A.CallTo(() => serialiser.Serialise((IEnumerable<Grade>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationGrade4))
+                .WhenArgumentsMatch(ArgumentMatchesList(grade4))
                 .Returns(_serialisedGrade4);
 
             A.CallTo(() => keyManager.GetGradesKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1GradesKey);

@@ -37,21 +37,28 @@ namespace TME.Carconfigurator.Tests.GivenAS3SteeringPublisher
 
         protected override void Arrange()
         {
-            var steeringId1 = Guid.NewGuid();
-            var steeringId2 = Guid.NewGuid();
-            var steeringId3 = Guid.NewGuid();
-            var steeringId4 = Guid.NewGuid();
+            var steering1 = new Steering { ID = Guid.NewGuid() };
+            var steering2 = new Steering { ID = Guid.NewGuid() };
+            var steering3 = new Steering { ID = Guid.NewGuid() };
+            var steering4 = new Steering { ID = Guid.NewGuid() };
 
-            var car1 = new Car { Steering = new Steering { ID = steeringId1 } };
-            var car2 = new Car { Steering = new Steering { ID = steeringId2 } };
-            var car3 = new Car { Steering = new Steering { ID = steeringId3 } };
-            var car4 = new Car { Steering = new Steering { ID = steeringId4 } };
-
-            var timeFrame1 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1 });
-            var timeFrame2 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1, car2 });
-            var timeFrame3 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car3, car4 });
-            var timeFrame4 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car4 });
-
+            var timeFrame1 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithSteerings(new[] { steering1 })
+                                .Build();
+            var timeFrame2 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithSteerings(new[] { steering1, steering2 })
+                                .Build();
+            var timeFrame3 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithSteerings(new[] { steering3, steering4 })
+                                .Build();
+            var timeFrame4 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithSteerings(new[] { steering4 })
+                                .Build();
+            
             var publicationTimeFrame1 = new PublicationTimeFrame { ID = timeFrame1.ID };
             var publicationTimeFrame2 = new PublicationTimeFrame { ID = timeFrame2.ID };
             var publicationTimeFrame3 = new PublicationTimeFrame { ID = timeFrame3.ID };
@@ -67,23 +74,14 @@ namespace TME.Carconfigurator.Tests.GivenAS3SteeringPublisher
                                                                  publicationTimeFrame4)
                                                  .Build();
 
-            var generationSteering1 = new Steering { ID = steeringId1 };
-            var generationSteering2 = new Steering { ID = steeringId2 };
-            var generationSteering3 = new Steering { ID = steeringId3 };
-            var generationSteering4 = new Steering { ID = steeringId4 };
-
             _context = new ContextBuilder()
                         .WithBrand(_brand)
                         .WithCountry(_country)
                         .WithLanguages(_language1, _language2)
                         .WithPublication(_language1, publication1)
                         .WithPublication(_language2, publication2)
-                        .WithCars(_language1, car1, car2)
-                        .WithCars(_language2, car3, car4)
                         .WithTimeFrames(_language1, timeFrame1, timeFrame2)
                         .WithTimeFrames(_language2, timeFrame3, timeFrame4)
-                        .WithSteerings(_language1, generationSteering1, generationSteering2)
-                        .WithSteerings(_language2, generationSteering3, generationSteering4)
                         .Build();
 
             _s3Service = A.Fake<IService>();
@@ -92,19 +90,19 @@ namespace TME.Carconfigurator.Tests.GivenAS3SteeringPublisher
             var keyManager = A.Fake<IKeyManager>();
 
             _service = new SteeringService(_s3Service, serialiser, keyManager);
-            _publisher = new SteeringPublisher(_service);
+            _publisher = new SteeringPublisherBuilder().WithService(_service).Build();
 
             A.CallTo(() => serialiser.Serialise((IEnumerable<Steering>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationSteering1))
+                .WhenArgumentsMatch(ArgumentMatchesList(steering1))
                 .Returns(_serialisedSteering1);
             A.CallTo(() => serialiser.Serialise((IEnumerable<Steering>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationSteering1, generationSteering2))
+                .WhenArgumentsMatch(ArgumentMatchesList(steering1, steering2))
                 .Returns(_serialisedSteering12);
             A.CallTo(() => serialiser.Serialise((IEnumerable<Steering>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationSteering3, generationSteering4))
+                .WhenArgumentsMatch(ArgumentMatchesList(steering3, steering4))
                 .Returns(_serialisedSteering34);
             A.CallTo(() => serialiser.Serialise((IEnumerable<Steering>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationSteering4))
+                .WhenArgumentsMatch(ArgumentMatchesList(steering4))
                 .Returns(_serialisedSteering4);
 
             A.CallTo(() => keyManager.GetSteeringsKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1SteeringsKey);

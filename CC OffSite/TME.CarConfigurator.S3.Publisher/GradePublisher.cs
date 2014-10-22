@@ -6,57 +6,30 @@ using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.S3.Publisher.Interfaces;
 using TME.CarConfigurator.S3.Shared.Result;
 
 namespace TME.CarConfigurator.S3.Publisher
 {
     public class GradePublisher : IGradePublisher
     {
-        IGradeService _gradeService;
+        readonly IGradeService _gradeService;
+        readonly ITimeFramePublishHelper _timeFramePublishHelper;
 
-        public GradePublisher(IGradeService gradeService)
+        public GradePublisher(IGradeService gradeService, ITimeFramePublishHelper timeFramePublishHelper)
         {
             if (gradeService == null) throw new ArgumentNullException("gradeService");
+            if (timeFramePublishHelper == null) throw new ArgumentNullException("timeFramePublishHelper");
 
             _gradeService = gradeService;
+            _timeFramePublishHelper = timeFramePublishHelper;
         }
 
         public async Task<IEnumerable<Result>> PublishGenerationGrades(IContext context)
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            var tasks = new List<Task<IEnumerable<Result>>>();
-
-            foreach (var entry in context.ContextData)
-            {
-                var language = entry.Key;
-                var data = entry.Value;
-                var timeFrames = context.TimeFrames[language];
-
-                tasks.Add(PutTimeFramesGenerationGrades(context.Brand, context.Country, timeFrames, data));
-            }
-
-            var result = await Task.WhenAll(tasks);
-            return result.SelectMany(xs => xs);
-        }
-
-        async Task<IEnumerable<Result>> PutTimeFramesGenerationGrades(String brand, String country, IEnumerable<TimeFrame> timeFrames, ContextData data)
-        {
-            var publication = data.Publication;
-            
-            var grades = timeFrames.ToDictionary(
-                                timeFrame => data.Publication.TimeFrames.Single(publicationTimeFrame => publicationTimeFrame.ID == timeFrame.ID),
-                                timeFrame => data.Grades.Where(grade => timeFrame.Cars.Any(car => car.Grade.ID == grade.ID))
-                                                         .OrderBy(grade => grade.SortIndex)
-                                                         .ThenBy(grade => grade.Name)
-                                                         .ToList());
-
-            var tasks = new List<Task<Result>>();
-
-            foreach (var entry in grades)
-                tasks.Add(_gradeService.PutTimeFrameGenerationGrades(brand, country, publication.ID, entry.Key.ID, entry.Value));
-
-            return await Task.WhenAll(tasks);
+            return await _timeFramePublishHelper.PublishTimeFrameObjects(context, timeFrame => timeFrame.Grades, _gradeService.PutTimeFrameGenerationGrades);
         }
     }
 }

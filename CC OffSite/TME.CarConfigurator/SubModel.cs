@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Core;
-using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
@@ -20,6 +19,8 @@ namespace TME.CarConfigurator
         private readonly IAssetFactory _assetFactory;
 
         private IEnumerable<IAsset> _assets;
+        private IEnumerable<ILink> _links;
+        private IPrice _startingPrice;
 
         public SubModel(Repository.Objects.SubModel repositorySubModel,Publication repositoryPublication,Context repositoryContext,IAssetFactory assetFactory) 
             : base(repositorySubModel)
@@ -38,10 +39,7 @@ namespace TME.CarConfigurator
 
 
 
-        public IPrice StartingPrice
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public IPrice StartingPrice { get { return _startingPrice = _startingPrice ?? new Price(_repositorySubModel.StartingPrice); } }
 
         public IEnumerable<IEquipmentItem> Equipment
         {
@@ -57,7 +55,7 @@ namespace TME.CarConfigurator
 
         public IEnumerable<ILink> Links
         {
-            get { throw new NotImplementedException(); }
+            get { return _links = _links ?? _repositorySubModel.Links.Select(l => new Link(l)).ToArray(); }
         }
 
  

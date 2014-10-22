@@ -88,6 +88,12 @@
   <ItemGroup>
     <Compile Include="Base\PublicationTestBase.cs" />
     <Compile Include="Builders\AssetTypeBuilder.cs" />
+    <Compile Include="Builders\GradePublisherBuilder.cs" />
+    <Compile Include="Builders\TransmissionPublisherBuilder.cs" />
+    <Compile Include="Builders\WheelDrivePublisherBuilder.cs" />
+    <Compile Include="Builders\SteeringPublisherBuilder.cs" />
+    <Compile Include="Builders\EnginePublisherBuilder.cs" />
+    <Compile Include="Builders\BodyTypePublisherBuilder.cs" />
     <Compile Include="Builders\CarPublisherBuilder.cs" />
     <Compile Include="Builders\CarServiceBuilder.cs" />
     <Compile Include="Builders\ContextBuilder.cs" />

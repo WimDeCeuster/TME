@@ -36,21 +36,28 @@ namespace TME.Carconfigurator.Tests.GivenAS3EnginePublisher
 
         protected override void Arrange()
         {
-            var engineId1 = Guid.NewGuid();
-            var engineId2 = Guid.NewGuid();
-            var engineId3 = Guid.NewGuid();
-            var engineId4 = Guid.NewGuid();
+            var engine1 = new Engine { ID = Guid.NewGuid() };
+            var engine2 = new Engine { ID = Guid.NewGuid() };
+            var engine3 = new Engine { ID = Guid.NewGuid() };
+            var engine4 = new Engine { ID = Guid.NewGuid() };
 
-            var car1 = new Car { Engine = new Engine { ID = engineId1 } };
-            var car2 = new Car { Engine = new Engine { ID = engineId2 } };
-            var car3 = new Car { Engine = new Engine { ID = engineId3 } };
-            var car4 = new Car { Engine = new Engine { ID = engineId4 } };
-
-            var timeFrame1 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1 });
-            var timeFrame2 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1, car2 });
-            var timeFrame3 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car3, car4 });
-            var timeFrame4 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car4 });
-
+            var timeFrame1 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithEngines(new[] { engine1 })
+                                .Build();
+            var timeFrame2 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithEngines(new[] { engine1, engine2 })
+                                .Build();
+            var timeFrame3 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithEngines(new[] { engine3, engine4 })
+                                .Build();
+            var timeFrame4 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithEngines(new[] { engine4 })
+                                .Build();
+            
             var publicationTimeFrame1 = new PublicationTimeFrame { ID = timeFrame1.ID };
             var publicationTimeFrame2 = new PublicationTimeFrame { ID = timeFrame2.ID };
             var publicationTimeFrame3 = new PublicationTimeFrame { ID = timeFrame3.ID };
@@ -66,23 +73,14 @@ namespace TME.Carconfigurator.Tests.GivenAS3EnginePublisher
                                                                  publicationTimeFrame4)
                                                  .Build();
 
-            var generationEngine1 = new Engine { ID = engineId1 };
-            var generationEngine2 = new Engine { ID = engineId2 };
-            var generationEngine3 = new Engine { ID = engineId3 };
-            var generationEngine4 = new Engine { ID = engineId4 };
-
             _context = new ContextBuilder()
                         .WithBrand(_brand)
                         .WithCountry(_country)
                         .WithLanguages(_language1, _language2)
                         .WithPublication(_language1, publication1)
                         .WithPublication(_language2, publication2)
-                        .WithCars(_language1, car1, car2)
-                        .WithCars(_language2, car3, car4)
                         .WithTimeFrames(_language1, timeFrame1, timeFrame2)
                         .WithTimeFrames(_language2, timeFrame3, timeFrame4)
-                        .WithEngines(_language1, generationEngine1, generationEngine2)
-                        .WithEngines(_language2, generationEngine3, generationEngine4)
                         .Build();
 
             _s3Service = A.Fake<IService>();
@@ -91,19 +89,19 @@ namespace TME.Carconfigurator.Tests.GivenAS3EnginePublisher
             var keyManager = A.Fake<IKeyManager>();
 
             _service = new EngineService(_s3Service, serialiser, keyManager);
-            _publisher = new EnginePublisher(_service);
+            _publisher = new EnginePublisherBuilder().WithService(_service).Build();
 
             A.CallTo(() => serialiser.Serialise(null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationEngine1))
+                .WhenArgumentsMatch(ArgumentMatchesList(engine1))
                 .Returns(_serialisedEngine1);
             A.CallTo(() => serialiser.Serialise(null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationEngine1, generationEngine2))
+                .WhenArgumentsMatch(ArgumentMatchesList(engine1, engine2))
                 .Returns(_serialisedEngine12);
             A.CallTo(() => serialiser.Serialise(null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationEngine3, generationEngine4))
+                .WhenArgumentsMatch(ArgumentMatchesList(engine3, engine4))
                 .Returns(_serialisedEngine34);
             A.CallTo(() => serialiser.Serialise(null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationEngine4))
+                .WhenArgumentsMatch(ArgumentMatchesList(engine4))
                 .Returns(_serialisedEngine4);
 
             A.CallTo(() => keyManager.GetEnginesKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1EnginesKey);

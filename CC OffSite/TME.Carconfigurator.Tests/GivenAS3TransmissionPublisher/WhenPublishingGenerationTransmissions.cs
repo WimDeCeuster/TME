@@ -37,21 +37,51 @@ namespace TME.Carconfigurator.Tests.GivenAS3TransmissionPublisher
 
         protected override void Arrange()
         {
+<<<<<<< HEAD
+            var transmission1 = new Transmission { ID = Guid.NewGuid() };
+            var transmission2 = new Transmission { ID = Guid.NewGuid() };
+            var transmission3 = new Transmission { ID = Guid.NewGuid() };
+            var transmission4 = new Transmission { ID = Guid.NewGuid() };
+
+            var timeFrame1 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithTransmissions(new[] { transmission1 })
+                                .Build();
+            var timeFrame2 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithTransmissions(new[] { transmission1, transmission2 })
+                                .Build();
+            var timeFrame3 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithTransmissions(new[] { transmission3, transmission4 })
+                                .Build();
+            var timeFrame4 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithTransmissions(new[] { transmission4 })
+                                .Build();
+            
+=======
             var transmissionId1 = Guid.NewGuid();
             var transmissionId2 = Guid.NewGuid();
             var transmissionId3 = Guid.NewGuid();
             var transmissionId4 = Guid.NewGuid();
 
-            var car1 = new Car { Transmission = new Transmission { ID = transmissionId1 } };
-            var car2 = new Car { Transmission = new Transmission { ID = transmissionId2 } };
-            var car3 = new Car { Transmission = new Transmission { ID = transmissionId3 } };
-            var car4 = new Car { Transmission = new Transmission { ID = transmissionId4 } };
+            var transmission1 = new TransmissionBuilder().WithId(transmissionId1).Build();
+            var transmission2 = new TransmissionBuilder().WithId(transmissionId2).Build();
+            var transmission3 = new TransmissionBuilder().WithId(transmissionId3).Build();
+            var transmission4 = new TransmissionBuilder().WithId(transmissionId4).Build();
+
+            var car1 = new Car { Transmission = transmission1 };
+            var car2 = new Car { Transmission = transmission2 };
+            var car3 = new Car { Transmission = transmission3 };
+            var car4 = new Car { Transmission = transmission4 };
 
             var timeFrame1 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1 });
             var timeFrame2 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1, car2 });
             var timeFrame3 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car3, car4 });
             var timeFrame4 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car4 });
 
+>>>>>>> 51e8091afd224ff3bfcce481d284e2642a76ed29
             var publicationTimeFrame1 = new PublicationTimeFrame { ID = timeFrame1.ID };
             var publicationTimeFrame2 = new PublicationTimeFrame { ID = timeFrame2.ID };
             var publicationTimeFrame3 = new PublicationTimeFrame { ID = timeFrame3.ID };
@@ -67,23 +97,19 @@ namespace TME.Carconfigurator.Tests.GivenAS3TransmissionPublisher
                                                                  publicationTimeFrame4)
                                                  .Build();
 
-            var generationTransmission1 = new Transmission { ID = transmissionId1 };
-            var generationTransmission2 = new Transmission { ID = transmissionId2 };
-            var generationTransmission3 = new Transmission { ID = transmissionId3 };
-            var generationTransmission4 = new Transmission { ID = transmissionId4 };
-
             _context = new ContextBuilder()
                         .WithBrand(_brand)
                         .WithCountry(_country)
                         .WithLanguages(_language1, _language2)
                         .WithPublication(_language1, publication1)
                         .WithPublication(_language2, publication2)
-                        .WithCars(_language1, car1, car2)
-                        .WithCars(_language2, car3, car4)
                         .WithTimeFrames(_language1, timeFrame1, timeFrame2)
                         .WithTimeFrames(_language2, timeFrame3, timeFrame4)
-                        .WithTransmissions(_language1, generationTransmission1, generationTransmission2)
-                        .WithTransmissions(_language2, generationTransmission3, generationTransmission4)
+<<<<<<< HEAD
+=======
+                        .WithTransmissions(_language1, transmission1, transmission2)
+                        .WithTransmissions(_language2, transmission3, transmission4)
+>>>>>>> 51e8091afd224ff3bfcce481d284e2642a76ed29
                         .Build();
 
             _s3Service = A.Fake<IService>();
@@ -92,19 +118,29 @@ namespace TME.Carconfigurator.Tests.GivenAS3TransmissionPublisher
             var keyManager = A.Fake<IKeyManager>();
 
             _service = new TransmissionService(_s3Service, serialiser, keyManager);
-            _publisher = new TransmissionPublisher(_service);
+            _publisher = new TransmissionPublisherBuilder().WithService(_service).Build();
 
+<<<<<<< HEAD
             A.CallTo(() => serialiser.Serialise((IEnumerable<Transmission>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationTransmission1))
+                .WhenArgumentsMatch(ArgumentMatchesList(transmission1))
                 .Returns(_serialisedTransmission1);
             A.CallTo(() => serialiser.Serialise((IEnumerable<Transmission>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationTransmission1, generationTransmission2))
+                .WhenArgumentsMatch(ArgumentMatchesList(transmission1, transmission2))
                 .Returns(_serialisedTransmission12);
             A.CallTo(() => serialiser.Serialise((IEnumerable<Transmission>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationTransmission3, generationTransmission4))
+                .WhenArgumentsMatch(ArgumentMatchesList(transmission3, transmission4))
                 .Returns(_serialisedTransmission34);
             A.CallTo(() => serialiser.Serialise((IEnumerable<Transmission>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationTransmission4))
+                .WhenArgumentsMatch(ArgumentMatchesList(transmission4))
+=======
+            A.CallTo(() => serialiser.Serialise(A<List<Transmission>>.That.IsSameSequenceAs(new List<Transmission>{transmission1})))
+                .Returns(_serialisedTransmission1);
+            A.CallTo(() => serialiser.Serialise(A<List<Transmission>>.That.IsSameSequenceAs(new List<Transmission> { transmission1,transmission2 })))
+                .Returns(_serialisedTransmission12);
+            A.CallTo(() => serialiser.Serialise(A<List<Transmission>>.That.IsSameSequenceAs(new List<Transmission> { transmission3,transmission4 })))
+                .Returns(_serialisedTransmission34);
+            A.CallTo(() => serialiser.Serialise(A<List<Transmission>>.That.IsSameSequenceAs(new List<Transmission> { transmission4 })))
+>>>>>>> 51e8091afd224ff3bfcce481d284e2642a76ed29
                 .Returns(_serialisedTransmission4);
 
             A.CallTo(() => keyManager.GetTransmissionsKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1TransmissionsKey);
@@ -121,8 +157,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3TransmissionPublisher
         [Fact]
         public void ThenGenerationTransmissionsShouldBePutForAllLanguagesAndTimeFrames()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null))
-                .WithAnyArguments()
+            A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
                 .MustHaveHappened(Repeated.Exactly.Times(4));
         }
 

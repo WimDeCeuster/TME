@@ -28,14 +28,14 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _linkMapper = linkMapper;
         }
 
-        public Generation MapGeneration(Administration.Model model, Administration.ModelGeneration generation, String brand, String country, String language, Boolean isPreview)
+        public Generation MapGeneration(Administration.Model model, Administration.ModelGeneration generation, Boolean isPreview)
         {
             var mappedGeneration = new Generation
             {
                 Assets = generation.Assets.Select(_assetMapper.MapLinkedAsset).ToList(),
                 CarConfiguratorVersion = _carConfiguratorVersionMapper.MapCarConfiguratorVersion(generation.ActiveCarConfiguratorVersion),
                 Links = model.Links.Where(link => IsApplicableLink(link, generation))
-                                   .Select(link => _linkMapper.MapLink(link, country, language, isPreview))
+                                   .Select(link => _linkMapper.MapLink(link, isPreview))
                                    .ToList(),
                 SortIndex = model.Index,
                 SSN = generation.FactoryGenerations.First().SSN                

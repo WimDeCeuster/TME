@@ -37,21 +37,28 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypePublisher
 
         protected override void Arrange()
         {
-            var bodyTypeId1 = Guid.NewGuid();
-            var bodyTypeId2 = Guid.NewGuid();
-            var bodyTypeId3 = Guid.NewGuid();
-            var bodyTypeId4 = Guid.NewGuid();
+            var bodyType1 = new BodyType { ID = Guid.NewGuid() };
+            var bodyType2 = new BodyType { ID = Guid.NewGuid() };
+            var bodyType3 = new BodyType { ID = Guid.NewGuid() };
+            var bodyType4 = new BodyType { ID = Guid.NewGuid() };
 
-            var car1 = new Car { BodyType = new BodyType { ID = bodyTypeId1 } };
-            var car2 = new Car { BodyType = new BodyType { ID = bodyTypeId2 } };
-            var car3 = new Car { BodyType = new BodyType { ID = bodyTypeId3 } };
-            var car4 = new Car { BodyType = new BodyType { ID = bodyTypeId4 } };
-
-            var timeFrame1 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1 });
-            var timeFrame2 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1, car2 });
-            var timeFrame3 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car3, car4 });
-            var timeFrame4 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car4 });
-
+            var timeFrame1 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithBodyTypes(new[] { bodyType1 })
+                                .Build();
+            var timeFrame2 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithBodyTypes(new[] { bodyType1, bodyType2 })
+                                .Build();
+            var timeFrame3 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithBodyTypes(new[] { bodyType3, bodyType4 })
+                                .Build();
+            var timeFrame4 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithBodyTypes(new[] { bodyType4 })
+                                .Build();
+            
             var publicationTimeFrame1 = new PublicationTimeFrame { ID = timeFrame1.ID };
             var publicationTimeFrame2 = new PublicationTimeFrame { ID = timeFrame2.ID };
             var publicationTimeFrame3 = new PublicationTimeFrame { ID = timeFrame3.ID };
@@ -67,23 +74,14 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypePublisher
                                                                  publicationTimeFrame4)
                                                  .Build();
 
-            var generationBodyType1 = new BodyType { ID = bodyTypeId1 };
-            var generationBodyType2 = new BodyType { ID = bodyTypeId2 };
-            var generationBodyType3 = new BodyType { ID = bodyTypeId3 };
-            var generationBodyType4 = new BodyType { ID = bodyTypeId4 };
-
             _context = new ContextBuilder()
                         .WithBrand(_brand)
                         .WithCountry(_country)
                         .WithLanguages(_language1, _language2)
                         .WithPublication(_language1, publication1)
                         .WithPublication(_language2, publication2)
-                        .WithCars(_language1, car1, car2)
-                        .WithCars(_language2, car3, car4)
                         .WithTimeFrames(_language1, timeFrame1, timeFrame2)
                         .WithTimeFrames(_language2, timeFrame3, timeFrame4)
-                        .WithBodyTypes(_language1, generationBodyType1, generationBodyType2)
-                        .WithBodyTypes(_language2, generationBodyType3, generationBodyType4)
                         .Build();
 
             _s3Service = A.Fake<IService>();
@@ -92,19 +90,19 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypePublisher
             var keyManager = A.Fake<IKeyManager>();
 
             _service = new BodyTypeService(_s3Service, serialiser, keyManager);
-            _publisher = new BodyTypePublisher(_service);
+            _publisher = new BodyTypePublisherBuilder().WithService(_service).Build();
 
             A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationBodyType1))
+                .WhenArgumentsMatch(ArgumentMatchesList(bodyType1))
                 .Returns(_serialisedBodyType1);
             A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationBodyType1, generationBodyType2))
+                .WhenArgumentsMatch(ArgumentMatchesList(bodyType1, bodyType2))
                 .Returns(_serialisedBodyType12);
             A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationBodyType3, generationBodyType4))
+                .WhenArgumentsMatch(ArgumentMatchesList(bodyType3, bodyType4))
                 .Returns(_serialisedBodyType34);
             A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationBodyType4))
+                .WhenArgumentsMatch(ArgumentMatchesList(bodyType4))
                 .Returns(_serialisedBodyType4);
 
             A.CallTo(() => keyManager.GetBodyTypesKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1BodyTypesKey);

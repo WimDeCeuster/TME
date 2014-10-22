@@ -8,6 +8,9 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface IBaseMapper
     {
+        TBase MapLocalizableDefaults<TBase>(TBase baseObject, Administration.BaseObjects.LocalizeableBusinessBase localizableObject)
+            where TBase : Repository.Objects.Core.BaseObject;
+        
         TBase MapTranslateableDefaults<TBase, TTranslateable>(
             TBase baseObject,
             TTranslateable translateableObject,

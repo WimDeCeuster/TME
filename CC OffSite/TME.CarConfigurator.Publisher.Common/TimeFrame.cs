@@ -1,25 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Equipment;
 
 namespace TME.CarConfigurator.Publisher.Common
 {
     public class TimeFrame
     {
-        public readonly DateTime From;
-        public readonly DateTime Until;
+        public DateTime From { get; private set; }
+        public DateTime Until;
 
-        public readonly IReadOnlyList<Car> Cars;
+        public IReadOnlyList<Car> Cars { get; private set; }
+        public IReadOnlyList<BodyType> BodyTypes { get; private set; }
+        public IReadOnlyList<Engine> Engines { get; private set; }
+        public IReadOnlyList<WheelDrive> WheelDrives { get; private set; }
+        public IReadOnlyList<Transmission> Transmissions { get; private set; }
+        public IReadOnlyList<Steering> Steerings { get; private set; }
+        public IReadOnlyList<GradeEquipmentItem> GradeEquipmentItems { get; private set; }
+        public IReadOnlyList<Grade> Grades { get; private set; }
 
         public readonly Guid ID;
 
-        public TimeFrame(DateTime from, DateTime until, IReadOnlyList<Car> cars)
+        public TimeFrame(
+            DateTime from,
+            DateTime until,
+            IReadOnlyList<Car> cars,
+            IReadOnlyList<BodyType> bodyTypes,
+            IReadOnlyList<Engine> engines,
+            IReadOnlyList<WheelDrive> wheelDrives,
+            IReadOnlyList<Transmission> transmissions,
+            IReadOnlyList<Steering> steerings,
+            IReadOnlyList<Grade> grades,
+            IReadOnlyList<GradeEquipmentItem> gradeEquipmentItems)
         {
             if (cars == null) throw new ArgumentNullException("cars");
+            if (bodyTypes == null) throw new ArgumentNullException("bodyTypes");
+            if (engines == null) throw new ArgumentNullException("engines");
+            if (wheelDrives == null) throw new ArgumentNullException("wheelDrives");
+            if (transmissions == null) throw new ArgumentNullException("transmissions");
+            if (steerings == null) throw new ArgumentNullException("steerings");
+            if (gradeEquipmentItems == null) throw new ArgumentNullException("gradeEquipmentItems");
+            if (grades == null) throw new ArgumentNullException("grades");
 
             From = from;
             Until = until;
             Cars = cars;
+            BodyTypes = bodyTypes;
+            Engines = engines;
+            WheelDrives = wheelDrives;
+            Transmissions = transmissions;
+            Steerings = steerings;
+            Grades = grades;
+            GradeEquipmentItems = gradeEquipmentItems;
 
             ID = Guid.NewGuid();
         }

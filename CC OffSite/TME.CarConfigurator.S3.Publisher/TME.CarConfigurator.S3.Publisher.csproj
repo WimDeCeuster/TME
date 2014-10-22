@@ -42,6 +42,9 @@
     <Compile Include="AssetPublisher.cs" />
     <Compile Include="BodyTypePublisher.cs" />
     <Compile Include="CarPublisher.cs" />
+    <Compile Include="Extensions\BaseObjectExtensions.cs" />
+    <Compile Include="Helpers\TimeFramePublishHelper.cs" />
+    <Compile Include="Interfaces\ITimeFramePublishHelper.cs" />
     <Compile Include="SteeringPublisher.cs" />
     <Compile Include="GradePublisher.cs" />
     <Compile Include="SubModelPublisher.cs" />
@@ -74,6 +77,7 @@
       <Name>TME.CarConfigurator.S3.Shared</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

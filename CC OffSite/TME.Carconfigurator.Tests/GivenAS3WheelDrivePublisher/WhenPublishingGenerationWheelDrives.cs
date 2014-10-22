@@ -37,21 +37,28 @@ namespace TME.Carconfigurator.Tests.GivenAS3WheelDrivePublisher
 
         protected override void Arrange()
         {
-            var wheelDriveId1 = Guid.NewGuid();
-            var wheelDriveId2 = Guid.NewGuid();
-            var wheelDriveId3 = Guid.NewGuid();
-            var wheelDriveId4 = Guid.NewGuid();
+            var wheelDrive1 = new WheelDrive { ID = Guid.NewGuid() };
+            var wheelDrive2 = new WheelDrive { ID = Guid.NewGuid() };
+            var wheelDrive3 = new WheelDrive { ID = Guid.NewGuid() };
+            var wheelDrive4 = new WheelDrive { ID = Guid.NewGuid() };
 
-            var car1 = new Car { WheelDrive = new WheelDrive { ID = wheelDriveId1 } };
-            var car2 = new Car { WheelDrive = new WheelDrive { ID = wheelDriveId2 } };
-            var car3 = new Car { WheelDrive = new WheelDrive { ID = wheelDriveId3 } };
-            var car4 = new Car { WheelDrive = new WheelDrive { ID = wheelDriveId4 } };
-
-            var timeFrame1 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1 });
-            var timeFrame2 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1, car2 });
-            var timeFrame3 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car3, car4 });
-            var timeFrame4 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car4 });
-
+            var timeFrame1 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithWheelDrives(new[] { wheelDrive1 })
+                                .Build();
+            var timeFrame2 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithWheelDrives(new[] { wheelDrive1, wheelDrive2 })
+                                .Build();
+            var timeFrame3 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithWheelDrives(new[] { wheelDrive3, wheelDrive4 })
+                                .Build();
+            var timeFrame4 = new TimeFrameBuilder()
+                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+                                .WithWheelDrives(new[] { wheelDrive4 })
+                                .Build();
+            
             var publicationTimeFrame1 = new PublicationTimeFrame { ID = timeFrame1.ID };
             var publicationTimeFrame2 = new PublicationTimeFrame { ID = timeFrame2.ID };
             var publicationTimeFrame3 = new PublicationTimeFrame { ID = timeFrame3.ID };
@@ -67,23 +74,14 @@ namespace TME.Carconfigurator.Tests.GivenAS3WheelDrivePublisher
                                                                  publicationTimeFrame4)
                                                  .Build();
 
-            var generationWheelDrive1 = new WheelDrive { ID = wheelDriveId1 };
-            var generationWheelDrive2 = new WheelDrive { ID = wheelDriveId2 };
-            var generationWheelDrive3 = new WheelDrive { ID = wheelDriveId3 };
-            var generationWheelDrive4 = new WheelDrive { ID = wheelDriveId4 };
-
             _context = new ContextBuilder()
                         .WithBrand(_brand)
                         .WithCountry(_country)
                         .WithLanguages(_language1, _language2)
                         .WithPublication(_language1, publication1)
                         .WithPublication(_language2, publication2)
-                        .WithCars(_language1, car1, car2)
-                        .WithCars(_language2, car3, car4)
                         .WithTimeFrames(_language1, timeFrame1, timeFrame2)
                         .WithTimeFrames(_language2, timeFrame3, timeFrame4)
-                        .WithWheelDrives(_language1, generationWheelDrive1, generationWheelDrive2)
-                        .WithWheelDrives(_language2, generationWheelDrive3, generationWheelDrive4)
                         .Build();
 
             _s3Service = A.Fake<IService>();
@@ -92,19 +90,29 @@ namespace TME.Carconfigurator.Tests.GivenAS3WheelDrivePublisher
             var keyManager = A.Fake<IKeyManager>();
 
             _service = new WheelDriveService(_s3Service, serialiser, keyManager);
-            _publisher = new WheelDrivePublisher(_service);
+            _publisher = new WheelDrivePublisherBuilder().WithService(_service).Build();
 
+<<<<<<< HEAD
             A.CallTo(() => serialiser.Serialise((IEnumerable<WheelDrive>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationWheelDrive1))
+                .WhenArgumentsMatch(ArgumentMatchesList(wheelDrive1))
                 .Returns(_serialisedWheelDrive1);
             A.CallTo(() => serialiser.Serialise((IEnumerable<WheelDrive>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationWheelDrive1, generationWheelDrive2))
+                .WhenArgumentsMatch(ArgumentMatchesList(wheelDrive1, wheelDrive2))
                 .Returns(_serialisedWheelDrive12);
             A.CallTo(() => serialiser.Serialise((IEnumerable<WheelDrive>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationWheelDrive3, generationWheelDrive4))
+                .WhenArgumentsMatch(ArgumentMatchesList(wheelDrive3, wheelDrive4))
                 .Returns(_serialisedWheelDrive34);
             A.CallTo(() => serialiser.Serialise((IEnumerable<WheelDrive>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationWheelDrive4))
+                .WhenArgumentsMatch(ArgumentMatchesList(wheelDrive4))
+=======
+            A.CallTo(() => serialiser.Serialise((A<List<WheelDrive>>.That.IsSameSequenceAs(new List<WheelDrive> {generationWheelDrive1}))))
+                .Returns(_serialisedWheelDrive1);
+            A.CallTo(() => serialiser.Serialise((A<List<WheelDrive>>.That.IsSameSequenceAs(new List<WheelDrive> {generationWheelDrive1,generationWheelDrive2}))))
+                .Returns(_serialisedWheelDrive12);
+            A.CallTo(() => serialiser.Serialise((A<List<WheelDrive>>.That.IsSameSequenceAs(new List<WheelDrive> {generationWheelDrive3,generationWheelDrive4}))))
+                .Returns(_serialisedWheelDrive34);
+            A.CallTo(() => serialiser.Serialise((A<List<WheelDrive>>.That.IsSameSequenceAs(new List<WheelDrive> {generationWheelDrive4}))))
+>>>>>>> 51e8091afd224ff3bfcce481d284e2642a76ed29
                 .Returns(_serialisedWheelDrive4);
 
             A.CallTo(() => keyManager.GetWheelDrivesKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1WheelDrivesKey);
@@ -121,8 +129,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3WheelDrivePublisher
         [Fact]
         public void ThenGenerationWheelDrivesShouldBePutForAllLanguagesAndTimeFrames()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null))
-                .WithAnyArguments()
+            A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
                 .MustHaveHappened(Repeated.Exactly.Times(4));
         }
 

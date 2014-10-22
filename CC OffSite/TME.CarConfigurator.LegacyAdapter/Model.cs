@@ -98,5 +98,10 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get { return Adaptee.Cars.Cast<Legacy.Car>().Select(x => new Car(x)); }
         }
+
+        public IEnumerable<ISubModel> SubModels
+        {
+            get { return Adaptee.SubModels.Cast<Legacy.SubModel>().Select(x => new SubModel(x)); }
+        }
     }
 }

@@ -10,8 +10,12 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class LinkMapper : ILinkMapper
     {
-        public Link MapLink(Administration.Link link, String countryCode, String languageCode, Boolean isPreview)
+        public Link MapLink(Administration.Link link, Boolean isPreview)
         {
+            var currentContext = Administration.MyContext.GetContext();
+            var countryCode = currentContext.CountryCode;
+            var languageCode = currentContext.LanguageCode;
+
             var baseLink = Administration.BaseLinks.GetBaseLinks(link.Type, isPreview)
                                                    .SingleOrDefault(baseLnk => baseLnk.CountryCode == countryCode &&
                                                                                baseLnk.LanguageCode == languageCode);

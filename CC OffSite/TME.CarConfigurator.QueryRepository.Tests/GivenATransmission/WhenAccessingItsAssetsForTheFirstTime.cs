@@ -27,7 +27,9 @@ namespace TME.CarConfigurator.Query.Tests.GivenATransmission
             _asset1 = new AssetBuilder().WithId(Guid.NewGuid()).Build();
             _asset2 = new AssetBuilder().WithId(Guid.NewGuid()).Build();
 
-            var repoTransmission = new TransmissionBuilder().WithId(Guid.NewGuid()).Build();
+            var repoTransmission = new TransmissionBuilder()
+                .WithId(Guid.NewGuid())
+                .Build();
 
             var publicationTimeFrame =
                 new PublicationTimeFrameBuilder()

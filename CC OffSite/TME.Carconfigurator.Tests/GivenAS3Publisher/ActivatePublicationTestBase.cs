@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using TME.CarConfigurator.S3.Shared.Result;
 using Context = TME.CarConfigurator.Publisher.Common.Context;
 using TME.Carconfigurator.Tests.Builders;
+using TME.CarConfigurator.Tests.Shared.TestBuilders;
 
 namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 {
@@ -84,7 +85,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context.ContextData.Add(Language1, contextDataForLanguage1);
             Context.ContextData.Add(Language2, contextDataForLanguage2);
 
-            var timeFrames = new List<TimeFrame> { new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new List<Car>()) };
+            var timeFrames = new List<TimeFrame> { new TimeFrameBuilder().WithDateRange(DateTime.MinValue, DateTime.MaxValue).Build() };
 
             Context.TimeFrames.Add(Language1, timeFrames);
             Context.TimeFrames.Add(Language2, timeFrames);

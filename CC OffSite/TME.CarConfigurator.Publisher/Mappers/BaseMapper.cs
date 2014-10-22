@@ -19,7 +19,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _labelMapper = labelMapper;
         }
 
-        TBase MapLocalizableDefaults<TBase>(TBase baseObject, Administration.BaseObjects.LocalizeableBusinessBase localizableObject)
+        public TBase MapLocalizableDefaults<TBase>(TBase baseObject, Administration.BaseObjects.LocalizeableBusinessBase localizableObject)
             where TBase : Repository.Objects.Core.BaseObject
         {
             baseObject.InternalCode = localizableObject.BaseCode;
