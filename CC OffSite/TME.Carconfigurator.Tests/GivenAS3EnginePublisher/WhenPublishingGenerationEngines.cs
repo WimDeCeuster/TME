@@ -1,4 +1,5 @@
-﻿using FakeItEasy;
+﻿using System.Collections.Generic;
+using FakeItEasy;
 using System;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common;
@@ -91,17 +92,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3EnginePublisher
             _service = new EngineService(_s3Service, serialiser, keyManager);
             _publisher = new EnginePublisherBuilder().WithService(_service).Build();
 
-            A.CallTo(() => serialiser.Serialise(null))
-                .WhenArgumentsMatch(ArgumentMatchesList(engine1))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Engine>>.That.IsSameSequenceAs(new[] { engine1 })))
                 .Returns(_serialisedEngine1);
-            A.CallTo(() => serialiser.Serialise(null))
-                .WhenArgumentsMatch(ArgumentMatchesList(engine1, engine2))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Engine>>.That.IsSameSequenceAs(new[] { engine1, engine2 })))
                 .Returns(_serialisedEngine12);
-            A.CallTo(() => serialiser.Serialise(null))
-                .WhenArgumentsMatch(ArgumentMatchesList(engine3, engine4))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Engine>>.That.IsSameSequenceAs(new[] { engine3, engine4 })))
                 .Returns(_serialisedEngine34);
-            A.CallTo(() => serialiser.Serialise(null))
-                .WhenArgumentsMatch(ArgumentMatchesList(engine4))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Engine>>.That.IsSameSequenceAs(new[] { engine4 })))
                 .Returns(_serialisedEngine4);
 
             A.CallTo(() => keyManager.GetEnginesKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1EnginesKey);
@@ -118,8 +115,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3EnginePublisher
         [Fact]
         public void ThenGenerationEnginesShouldBePutForAllLanguagesAndTimeFrames()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null))
-                .WithAnyArguments()
+            A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
                 .MustHaveHappened(Repeated.Exactly.Times(4));
         }
 

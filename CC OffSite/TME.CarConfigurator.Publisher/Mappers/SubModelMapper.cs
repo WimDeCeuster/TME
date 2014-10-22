@@ -26,7 +26,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _linkMapper = linkMapper;
         }
 
-        public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, IEnumerable<Car> cars, string country, string language, bool isPreview)
+        public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, IEnumerable<Car> cars, bool isPreview)
         {
             var subModelCars =
                 modelGenerationSubModel.Generation.Cars.ToArray().Where(car => car.SubModelID == modelGenerationSubModel.ID);
@@ -44,7 +44,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 },
                 Assets = modelGenerationSubModel.AssetSet.Assets.Select(asset => _assetMapper.MapAssetSetAsset(asset,modelGenerationSubModel.Generation)).ToList(),
                 Links = modelGenerationSubModel.Links.Where(link => IsApplicableLink(link,modelGenerationSubModel.Generation))
-                .Select(link => _linkMapper.MapLink(link,country,language,isPreview)).ToList()
+                .Select(link => _linkMapper.MapLink(link ,isPreview)).ToList()
             };
 
             return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel, modelGenerationSubModel, modelGenerationSubModel.Name);

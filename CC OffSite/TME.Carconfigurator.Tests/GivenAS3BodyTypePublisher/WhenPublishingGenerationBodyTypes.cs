@@ -92,17 +92,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypePublisher
             _service = new BodyTypeService(_s3Service, serialiser, keyManager);
             _publisher = new BodyTypePublisherBuilder().WithService(_service).Build();
 
-            A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(bodyType1))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<BodyType>>.That.IsSameSequenceAs(new [] { bodyType1 })))
                 .Returns(_serialisedBodyType1);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(bodyType1, bodyType2))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<BodyType>>.That.IsSameSequenceAs(new [] { bodyType1, bodyType2 })))
                 .Returns(_serialisedBodyType12);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(bodyType3, bodyType4))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<BodyType>>.That.IsSameSequenceAs(new [] { bodyType3, bodyType4 })))
                 .Returns(_serialisedBodyType34);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(bodyType4))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<BodyType>>.That.IsSameSequenceAs(new [] { bodyType4 })))
                 .Returns(_serialisedBodyType4);
 
             A.CallTo(() => keyManager.GetBodyTypesKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1BodyTypesKey);
@@ -119,8 +115,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypePublisher
         [Fact]
         public void ThenGenerationBodyTypesShouldBePutForAllLanguagesAndTimeFrames()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null))
-                .WithAnyArguments()
+            A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
                 .MustHaveHappened(Repeated.Exactly.Times(4));
         }
 

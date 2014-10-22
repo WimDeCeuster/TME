@@ -92,27 +92,14 @@ namespace TME.Carconfigurator.Tests.GivenAS3WheelDrivePublisher
             _service = new WheelDriveService(_s3Service, serialiser, keyManager);
             _publisher = new WheelDrivePublisherBuilder().WithService(_service).Build();
 
-<<<<<<< HEAD
-            A.CallTo(() => serialiser.Serialise((IEnumerable<WheelDrive>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(wheelDrive1))
+
+            A.CallTo(() => serialiser.Serialise((A<IEnumerable<WheelDrive>>.That.IsSameSequenceAs(new[] { wheelDrive1 }))))
                 .Returns(_serialisedWheelDrive1);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<WheelDrive>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(wheelDrive1, wheelDrive2))
+            A.CallTo(() => serialiser.Serialise((A<IEnumerable<WheelDrive>>.That.IsSameSequenceAs(new[] { wheelDrive1, wheelDrive2 }))))
                 .Returns(_serialisedWheelDrive12);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<WheelDrive>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(wheelDrive3, wheelDrive4))
+            A.CallTo(() => serialiser.Serialise((A<IEnumerable<WheelDrive>>.That.IsSameSequenceAs(new[] { wheelDrive3, wheelDrive4 }))))
                 .Returns(_serialisedWheelDrive34);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<WheelDrive>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(wheelDrive4))
-=======
-            A.CallTo(() => serialiser.Serialise((A<List<WheelDrive>>.That.IsSameSequenceAs(new List<WheelDrive> {generationWheelDrive1}))))
-                .Returns(_serialisedWheelDrive1);
-            A.CallTo(() => serialiser.Serialise((A<List<WheelDrive>>.That.IsSameSequenceAs(new List<WheelDrive> {generationWheelDrive1,generationWheelDrive2}))))
-                .Returns(_serialisedWheelDrive12);
-            A.CallTo(() => serialiser.Serialise((A<List<WheelDrive>>.That.IsSameSequenceAs(new List<WheelDrive> {generationWheelDrive3,generationWheelDrive4}))))
-                .Returns(_serialisedWheelDrive34);
-            A.CallTo(() => serialiser.Serialise((A<List<WheelDrive>>.That.IsSameSequenceAs(new List<WheelDrive> {generationWheelDrive4}))))
->>>>>>> 51e8091afd224ff3bfcce481d284e2642a76ed29
+            A.CallTo(() => serialiser.Serialise((A<IEnumerable<WheelDrive>>.That.IsSameSequenceAs(new[] { wheelDrive4 }))))
                 .Returns(_serialisedWheelDrive4);
 
             A.CallTo(() => keyManager.GetWheelDrivesKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1WheelDrivesKey);

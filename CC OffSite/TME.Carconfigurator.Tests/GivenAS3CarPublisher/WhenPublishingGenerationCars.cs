@@ -97,17 +97,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3CarPublisher
                 .WithService(_service)
                 .Build();
 
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Car>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(car1))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Car>>.That.IsSameSequenceAs(new List<Car> { car1 })))
                 .Returns(_serialisedCar1);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Engine>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(car1, car2))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Car>>.That.IsSameSequenceAs(new List<Car> { car1, car2 })))
                 .Returns(_serialisedCar12);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Engine>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(car3, car4))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Car>>.That.IsSameSequenceAs(new List<Car> { car3, car4 })))
                 .Returns(_serialisedCar34);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Engine>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(car4))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Car>>.That.IsSameSequenceAs(new List<Car> { car4 })))
                 .Returns(_serialisedCar4);
 
             A.CallTo(() => keyManager.GetCarsKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1CarsKey);
@@ -124,8 +120,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3CarPublisher
         [Fact]
         public void ThenGenerationCarsShouldBePutForAllLanguagesAndTimeFrames()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null))
-                .WithAnyArguments()
+            A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
                 .MustHaveHappened(Repeated.Exactly.Times(4));
         }
 

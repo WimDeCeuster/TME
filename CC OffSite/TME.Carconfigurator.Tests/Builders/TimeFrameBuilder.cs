@@ -19,6 +19,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         private List<Grade> _grades = new List<Grade>();
         private List<GradeEquipmentItem> _gradeEquipmentItems = new List<GradeEquipmentItem>();
         private List<Transmission> _transmissions = new List<Transmission>();
+        private List<SubModel> _subModels = new List<SubModel>();
 
         public TimeFrameBuilder WithDateRange(DateTime from, DateTime until)
         {
@@ -76,9 +77,26 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public TimeFrameBuilder WithSubModels(IEnumerable<SubModel> subModels)
+        {
+            _subModels = subModels.ToList();
+            return this;
+        }
+
         public TimeFrame Build()
         {
-            return new TimeFrame(_from, _until, _cars, _bodyTypes, _engines, _wheelDrives, _transmissions, _steerings, _grades, _gradeEquipmentItems);
+            return new TimeFrame(
+                _from,
+                _until,
+                _cars,
+                _bodyTypes,
+                _engines,
+                _wheelDrives,
+                _transmissions,
+                _steerings,
+                _grades,
+                _gradeEquipmentItems,
+                _subModels);
         }
     }
 }

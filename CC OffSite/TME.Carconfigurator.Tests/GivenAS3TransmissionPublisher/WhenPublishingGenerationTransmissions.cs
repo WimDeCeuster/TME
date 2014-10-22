@@ -37,7 +37,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3TransmissionPublisher
 
         protected override void Arrange()
         {
-<<<<<<< HEAD
             var transmission1 = new Transmission { ID = Guid.NewGuid() };
             var transmission2 = new Transmission { ID = Guid.NewGuid() };
             var transmission3 = new Transmission { ID = Guid.NewGuid() };
@@ -60,28 +59,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3TransmissionPublisher
                                 .WithTransmissions(new[] { transmission4 })
                                 .Build();
             
-=======
-            var transmissionId1 = Guid.NewGuid();
-            var transmissionId2 = Guid.NewGuid();
-            var transmissionId3 = Guid.NewGuid();
-            var transmissionId4 = Guid.NewGuid();
-
-            var transmission1 = new TransmissionBuilder().WithId(transmissionId1).Build();
-            var transmission2 = new TransmissionBuilder().WithId(transmissionId2).Build();
-            var transmission3 = new TransmissionBuilder().WithId(transmissionId3).Build();
-            var transmission4 = new TransmissionBuilder().WithId(transmissionId4).Build();
-
-            var car1 = new Car { Transmission = transmission1 };
-            var car2 = new Car { Transmission = transmission2 };
-            var car3 = new Car { Transmission = transmission3 };
-            var car4 = new Car { Transmission = transmission4 };
-
-            var timeFrame1 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1 });
-            var timeFrame2 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car1, car2 });
-            var timeFrame3 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car3, car4 });
-            var timeFrame4 = new TimeFrame(DateTime.MinValue, DateTime.MaxValue, new[] { car4 });
-
->>>>>>> 51e8091afd224ff3bfcce481d284e2642a76ed29
             var publicationTimeFrame1 = new PublicationTimeFrame { ID = timeFrame1.ID };
             var publicationTimeFrame2 = new PublicationTimeFrame { ID = timeFrame2.ID };
             var publicationTimeFrame3 = new PublicationTimeFrame { ID = timeFrame3.ID };
@@ -105,11 +82,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3TransmissionPublisher
                         .WithPublication(_language2, publication2)
                         .WithTimeFrames(_language1, timeFrame1, timeFrame2)
                         .WithTimeFrames(_language2, timeFrame3, timeFrame4)
-<<<<<<< HEAD
-=======
-                        .WithTransmissions(_language1, transmission1, transmission2)
-                        .WithTransmissions(_language2, transmission3, transmission4)
->>>>>>> 51e8091afd224ff3bfcce481d284e2642a76ed29
                         .Build();
 
             _s3Service = A.Fake<IService>();
@@ -120,27 +92,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3TransmissionPublisher
             _service = new TransmissionService(_s3Service, serialiser, keyManager);
             _publisher = new TransmissionPublisherBuilder().WithService(_service).Build();
 
-<<<<<<< HEAD
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Transmission>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(transmission1))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Transmission>>.That.IsSameSequenceAs(new[] { transmission1 })))
                 .Returns(_serialisedTransmission1);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Transmission>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(transmission1, transmission2))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Transmission>>.That.IsSameSequenceAs(new[] { transmission1, transmission2 })))
                 .Returns(_serialisedTransmission12);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Transmission>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(transmission3, transmission4))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Transmission>>.That.IsSameSequenceAs(new[] { transmission3, transmission4 })))
                 .Returns(_serialisedTransmission34);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Transmission>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(transmission4))
-=======
-            A.CallTo(() => serialiser.Serialise(A<List<Transmission>>.That.IsSameSequenceAs(new List<Transmission>{transmission1})))
-                .Returns(_serialisedTransmission1);
-            A.CallTo(() => serialiser.Serialise(A<List<Transmission>>.That.IsSameSequenceAs(new List<Transmission> { transmission1,transmission2 })))
-                .Returns(_serialisedTransmission12);
-            A.CallTo(() => serialiser.Serialise(A<List<Transmission>>.That.IsSameSequenceAs(new List<Transmission> { transmission3,transmission4 })))
-                .Returns(_serialisedTransmission34);
-            A.CallTo(() => serialiser.Serialise(A<List<Transmission>>.That.IsSameSequenceAs(new List<Transmission> { transmission4 })))
->>>>>>> 51e8091afd224ff3bfcce481d284e2642a76ed29
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Transmission>>.That.IsSameSequenceAs(new[] { transmission4 })))
                 .Returns(_serialisedTransmission4);
 
             A.CallTo(() => keyManager.GetTransmissionsKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1TransmissionsKey);

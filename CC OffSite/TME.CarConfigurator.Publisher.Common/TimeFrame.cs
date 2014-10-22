@@ -16,8 +16,9 @@ namespace TME.CarConfigurator.Publisher.Common
         public IReadOnlyList<WheelDrive> WheelDrives { get; private set; }
         public IReadOnlyList<Transmission> Transmissions { get; private set; }
         public IReadOnlyList<Steering> Steerings { get; private set; }
-        public IReadOnlyList<GradeEquipmentItem> GradeEquipmentItems { get; private set; }
         public IReadOnlyList<Grade> Grades { get; private set; }
+        public IReadOnlyList<GradeEquipmentItem> GradeEquipmentItems { get; private set; }
+        public IReadOnlyList<SubModel> SubModels { get; private set; }
 
         public readonly Guid ID;
 
@@ -31,7 +32,8 @@ namespace TME.CarConfigurator.Publisher.Common
             IReadOnlyList<Transmission> transmissions,
             IReadOnlyList<Steering> steerings,
             IReadOnlyList<Grade> grades,
-            IReadOnlyList<GradeEquipmentItem> gradeEquipmentItems)
+            IReadOnlyList<GradeEquipmentItem> gradeEquipmentItems,
+            IReadOnlyList<SubModel> subModels)
         {
             if (cars == null) throw new ArgumentNullException("cars");
             if (bodyTypes == null) throw new ArgumentNullException("bodyTypes");
@@ -39,8 +41,9 @@ namespace TME.CarConfigurator.Publisher.Common
             if (wheelDrives == null) throw new ArgumentNullException("wheelDrives");
             if (transmissions == null) throw new ArgumentNullException("transmissions");
             if (steerings == null) throw new ArgumentNullException("steerings");
-            if (gradeEquipmentItems == null) throw new ArgumentNullException("gradeEquipmentItems");
             if (grades == null) throw new ArgumentNullException("grades");
+            if (gradeEquipmentItems == null) throw new ArgumentNullException("gradeEquipmentItems");
+            if (subModels == null) throw new ArgumentNullException("subModels");
 
             From = from;
             Until = until;
@@ -52,6 +55,7 @@ namespace TME.CarConfigurator.Publisher.Common
             Steerings = steerings;
             Grades = grades;
             GradeEquipmentItems = gradeEquipmentItems;
+            SubModels = subModels;
 
             ID = Guid.NewGuid();
         }

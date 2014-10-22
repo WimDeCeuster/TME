@@ -49,7 +49,6 @@
     <Compile Include="Car.cs" />
     <Compile Include="CarBodyType.cs" />
     <Compile Include="CarConfiguratorVersion.cs" />
-    <Compile Include="Configuration\ConfigurationManager.cs" />
     <Compile Include="Core\BaseObject.cs" />
     <Compile Include="CarEngine.cs" />
     <Compile Include="Factories\GradeFactory.cs" />

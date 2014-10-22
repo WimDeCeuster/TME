@@ -9,7 +9,6 @@ using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Publisher.Mappers;
 using TME.CarConfigurator.Publisher.Mappers.Exceptions;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
@@ -62,8 +61,8 @@ namespace TME.CarConfigurator.Publisher
                 FillTransmissions(cars, modelGeneration, contextData);
                 FillWheelDrives(cars, modelGeneration, contextData);
                 FillSteerings(cars, contextData);
-                FillSubModels(cars, modelGeneration, contextData);
-                FillCars(cars, contextData);
+                FillSubModels(cars, modelGeneration, contextData,country,language,isPreview);
+                FillCars(cars,contextData);
                 FillGrades(cars, modelGeneration, contextData);
                 FillCarAssets(cars, contextData, modelGeneration);
                 
@@ -122,6 +121,7 @@ namespace TME.CarConfigurator.Publisher
                 .Concat(GetEngineAssets(modelGeneration))
                 .Concat(GetTransmissionAssets(modelGeneration))
                 .Concat(GetWheelDriveAssets(modelGeneration))
+                .Concat(GetSubModelAssets(modelGeneration))
                 .ToDictionary(
                     entry => entry.Key,
                     entry => entry.Value);
@@ -143,6 +143,14 @@ namespace TME.CarConfigurator.Publisher
             var objectAssets = objectWithAssetSet.AssetSet.Assets.Filter(car);
             var mappedAssets = objectAssets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
             carAssets.Add(objectWithAssetSet.GetObjectID(), mappedAssets);
+        }
+
+        private Dictionary<Guid, List<Asset>> GetSubModelAssets(ModelGeneration modelGeneration)
+        {
+            return modelGeneration.SubModels.ToDictionary(
+                subModel => subModel.ID,
+                subModel => subModel.AssetSet.Assets.GetGenerationAssets()
+                    .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
         private Dictionary<Guid, List<Asset>> GetTransmissionAssets(ModelGeneration modelGeneration)
@@ -190,8 +198,9 @@ namespace TME.CarConfigurator.Publisher
                 var transmission = contextData.Transmissions.Single(trans => trans.ID == car.TransmissionID);
                 var wheelDrive = contextData.WheelDrives.Single(drive => drive.ID == car.WheelDriveID);
                 var steering = contextData.Steerings.Single(steer => steer.ID == car.SteeringID);
+                var subModel = contextData.SubModels.SingleOrDefault(sub => sub.ID == car.SubModelID);
                 contextData.CarAssets.Add(car.ID, new Dictionary<Guid, IList<Asset>>());
-                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering));
+                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering,subModel));
             }
         }
 
@@ -199,12 +208,6 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var bodyType in modelGeneration.BodyTypes.Where(bodyType => cars.Any(car => car.BodyTypeID == bodyType.ID)))
                 contextData.BodyTypes.Add(_bodyTypeMapper.MapBodyType(bodyType));
-        }
-
-        private void FillSubModels(IEnumerable<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData)
-        {
-            foreach (var modelGenerationSubModel in modelGeneration.SubModels.Where(subModel => cars.Any(car => car.SubModelID == subModel.ID)))
-                contextData.SubModels.Add(_subModelMapper.MapSubModel(modelGenerationSubModel));
         }
 
         void FillEngines(IEnumerable<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData)
@@ -223,6 +226,12 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var wheelDrive in modelGeneration.WheelDrives.Where(wheelDrive => cars.Any(car => car.WheelDriveID == wheelDrive.ID)))
                 contextData.WheelDrives.Add(_wheelDriveMapper.MapWheelDrive(wheelDrive));
+        }
+
+        private void FillSubModels(IEnumerable<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData, string country, string language, bool isPreview)
+        {
+            foreach (var modelGenerationSubModel in modelGeneration.SubModels.Where(submodel => cars.Any(car => car.SubModelID == submodel.ID)))
+                contextData.SubModels.Add(_subModelMapper.MapSubModel(modelGenerationSubModel, cars, isPreview));
         }
 
         void FillGrades(IEnumerable<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData)
@@ -269,7 +278,8 @@ namespace TME.CarConfigurator.Publisher
                         contextData.Transmissions.ToList(),
                         contextData.Steerings.ToList(),
                         contextData.Grades.ToList(),
-                        contextData.GradeEquipmentItems.ToList())
+                        contextData.GradeEquipmentItems.ToList(),
+                        contextData.SubModels.ToList())
                 };
 
             var timeFrames = new List<TimeFrame>();
@@ -330,6 +340,7 @@ namespace TME.CarConfigurator.Publisher
             Func<Administration.Car, Repository.Objects.Steering> getSteering = dbCar => contextData.Steerings.Single(steering => steering.ID == dbCar.SteeringID);
             Func<Administration.Car, Repository.Objects.Grade> getGrade = dbCar => contextData.Grades.Single(grade => grade.ID == dbCar.GradeID);
             Func<Administration.Car, GradeEquipmentItem> getGradeEquipmentItem = dbCar => contextData.GradeEquipmentItems.Single(gradeEquipmentItem => dbCar.Equipment.Any(equipment => gradeEquipmentItem.ID == equipment.ID));
+            Func<Administration.Car, Repository.Objects.SubModel> getSubModel = dbCar => contextData.SubModels.Single(subModel => subModel.ID == dbCar.SubModelID);
 
             var cars = openCars.Select(getCar).ToList();
             var bodyTypes = openCars.Select(getBodyType).ToList();
@@ -339,8 +350,20 @@ namespace TME.CarConfigurator.Publisher
             var steerings = openCars.Select(getSteering).ToList();
             var grades = openCars.Select(getGrade).ToList();
             var gradeEquipmentItems = openCars.Select(getGradeEquipmentItem).ToList();
+            var subModels = openCars.Select(getSubModel).ToList();
 
-            timeFrames.Add(new TimeFrame(openDate.Value, closeDate, cars, bodyTypes, engines, wheelDrives, transmissions, steerings, grades, gradeEquipmentItems));
+            timeFrames.Add(new TimeFrame(
+                openDate.Value,
+                closeDate,
+                cars,
+                bodyTypes,
+                engines,
+                wheelDrives,
+                transmissions,
+                steerings,
+                grades,
+                gradeEquipmentItems,
+                subModels));
         }
     }
 }

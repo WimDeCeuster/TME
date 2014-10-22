@@ -8,6 +8,6 @@ namespace TME.CarConfigurator.CommandServices
 {
     public interface ISubModelService
     {
-        Task<Result> PutTimeFrameGenerationSubModelsAsync(String brand, String country, Guid publicationID, Guid timeFrameID, List<SubModel> subModels);
+        Task<Result> PutTimeFrameGenerationSubModelsAsync(String brand, String country, Guid publicationID, Guid timeFrameID, IEnumerable<SubModel> subModels);
     }
 }

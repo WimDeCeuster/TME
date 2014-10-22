@@ -92,17 +92,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePublisher
             _service = new GradeService(_s3Service, serialiser, keyManager);
             _publisher = new GradePublisherBuilder().WithService(_service).Build();
 
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Grade>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(grade1))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Grade>>.That.IsSameSequenceAs(new[] { grade1 })))
                 .Returns(_serialisedGrade1);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Grade>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(grade1, grade2))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Grade>>.That.IsSameSequenceAs(new[] { grade1, grade2 })))
                 .Returns(_serialisedGrade12);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Grade>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(grade3, grade4))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Grade>>.That.IsSameSequenceAs(new[] { grade3, grade4 })))
                 .Returns(_serialisedGrade34);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Grade>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(grade4))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<Grade>>.That.IsSameSequenceAs(new[] { grade4 })))
                 .Returns(_serialisedGrade4);
 
             A.CallTo(() => keyManager.GetGradesKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1GradesKey);
@@ -119,8 +115,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePublisher
         [Fact]
         public void ThenGenerationGradesShouldBePutForAllLanguagesAndTimeFrames()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null))
-                .WithAnyArguments()
+            A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
                 .MustHaveHappened(Repeated.Exactly.Times(4));
         }
 

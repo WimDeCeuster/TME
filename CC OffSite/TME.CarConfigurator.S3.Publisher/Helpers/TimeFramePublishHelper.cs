@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Repository.Objects.Core;
-using TME.CarConfigurator.S3.Shared.Result;
 using TME.CarConfigurator.S3.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.S3.Publisher.Interfaces;
+using TME.CarConfigurator.Publisher.Common.Result;
 
 namespace TME.CarConfigurator.S3.Publisher.Helpers
 {
