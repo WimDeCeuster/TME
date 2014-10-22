@@ -52,15 +52,15 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
         }
 
-        public Asset MapAssetSetAsset(AssetSetAsset assetSetAsset,ModelGeneration modelGeneration)
+        public Asset MapAssetSetAsset(AssetSetAsset assetSetAsset, ModelGeneration modelGeneration)
         {
-            if(assetSetAsset.Asset.ShortID == null)
+            if (assetSetAsset.Asset.ShortID == null)
                 throw new CorruptDataException(String.Format("Please provide a shortID for assetSetAsset {0}", assetSetAsset.ID));
 
             return new Asset()
             {
                 AlwaysInclude = assetSetAsset.AlwaysInclude,
-                AssetType = _assetTypeMapper.MapObjectAssetType(assetSetAsset,modelGeneration),
+                AssetType = _assetTypeMapper.MapObjectAssetType(assetSetAsset, modelGeneration),
                 FileName = assetSetAsset.Asset.FileName,
                 FileType = _fileTypeMapper.MapFileType(assetSetAsset.Asset.FileType),
                 Hash = assetSetAsset.Asset.Hash,

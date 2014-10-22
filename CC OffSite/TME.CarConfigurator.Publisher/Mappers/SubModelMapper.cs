@@ -30,7 +30,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
             var subModelCars =
                 modelGenerationSubModel.Generation.Cars.ToArray().Where(car => car.SubModelID == modelGenerationSubModel.ID);
-
+             
             var cheapestCar = cars.Where(car => subModelCars.Any(subModelCar => subModelCar.ID == car.ID))
                 .OrderBy(car => car.Price)
                 .First();
