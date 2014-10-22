@@ -112,7 +112,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3SubModelPublisher
         public void ThenGenerationSubModelsShouldBePutForEveryLanguageAndTimeFrames()
         {
             A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
-                .WithAnyArguments()
                 .MustHaveHappened(Repeated.Exactly.Times(4));
         }
 

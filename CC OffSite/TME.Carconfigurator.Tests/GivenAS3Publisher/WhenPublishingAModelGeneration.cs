@@ -83,5 +83,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => AssetPublisher.PublishCarAssets(Context))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
+
+        [Fact]
+        public void ThenItShouldPublishGenerationSubModels()
+        {
+            A.CallTo(() => SubModelPublisher.PublishGenerationSubModelsAsync(Context))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
     }
 }
