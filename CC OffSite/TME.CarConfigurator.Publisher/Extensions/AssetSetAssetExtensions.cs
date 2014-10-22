@@ -111,39 +111,46 @@ namespace TME.CarConfigurator.Publisher.Extensions
             var side = string.Empty;
             var type = string.Empty;
 
-
             var splitAssetTypeName = assetType.Name.Split('_');
-            var sections = splitAssetTypeName.Length;
 
-            if (!string.IsNullOrEmpty(assetType.Details.Mode))
-            {
-                const int leastExpectedNumberOfSections = 3;
-                if (sections < leastExpectedNumberOfSections)
-                    throw new CorruptDataException(string.Format("At least 4 parts should be definied in the type {0} for the {1} mode", assetType.Name, assetType.Details.Mode));
-
-                if (sections > leastExpectedNumberOfSections)
-                {
-                    mode = splitAssetTypeName[0];
-                    view = splitAssetTypeName[1];
-                    side = splitAssetTypeName[2];
-                    type = splitAssetTypeName[3];
-                }
-            }
-            else if (sections > 2)
-            {
-                view = splitAssetTypeName[0];
-                side = splitAssetTypeName[1];
-                type = splitAssetTypeName[2];
-            }
+            FillModeViewSideAndType(assetType, splitAssetTypeName, ref mode, ref view, ref side, ref type);
 
             if (string.IsNullOrEmpty(view))
                 return assetType.Code;
 
             var exteriourColourCode = asset.ExteriorColour.Code;
             var upholsteryCode = asset.Upholstery.Code;
-            var equipmentCode = asset.EquipmentItem.ID.ToString(); // TODO: replace this by equipment item code, either by adding to equipmentinfo object or by fetching from ModelGeneration => Check with Wim
+            var equipmentCode = asset.EquipmentItem.ID.ToString(); // TODO: replace this by equipment item code, either by adding to equipmentinfo object or by fetching from ModelGeneration => Check with Wim || Actually, there is no need, as the ID is just as unique as the code...
 
             return GetKey(mode, view, side, type, exteriourColourCode, upholsteryCode, equipmentCode);
+        }
+
+        private static void FillModeViewSideAndType(AssetType assetType, string[] splitAssetTypeName, ref string mode, ref string view, ref string side, ref string type)
+        {
+            var sections = splitAssetTypeName.Length;
+
+            if (!string.IsNullOrEmpty(assetType.Details.Mode))
+            {
+                const int leastAmountOfDefinedSections = 3;
+
+                if (sections < leastAmountOfDefinedSections)
+                    throw new CorruptDataException(string.Format("At least {0} parts should be definied in the type {1} for the {2} mode", leastAmountOfDefinedSections, assetType.Name, assetType.Details.Mode));
+
+                if (sections == leastAmountOfDefinedSections) return; // even if there are only leastAmountOfDefinedSections, it is still not enough, but there should not be an exception (code copied from old reader library, where it is the same)
+
+                mode = splitAssetTypeName[0];
+                view = splitAssetTypeName[1];
+                side = splitAssetTypeName[2];
+                type = splitAssetTypeName[3];
+
+                return;
+            }
+
+            if (sections <= 2) return;
+
+            view = splitAssetTypeName[0];
+            side = splitAssetTypeName[1];
+            type = splitAssetTypeName[2];
         }
 
         private static string GetKey(string mode, string view, string side, string type, string exteriourColourCode, string upholsteryCode, string equipmentCode)
