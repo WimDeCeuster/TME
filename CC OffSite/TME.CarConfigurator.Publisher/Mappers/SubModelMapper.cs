@@ -29,7 +29,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, IEnumerable<Car> cars, string country, string language, bool isPreview)
         {
             var subModelCars =
-                modelGenerationSubModel.Generation.Cars.ToArray().Where(car => car.SubModelID == modelGenerationSubModel.ID);
+                modelGenerationSubModel.Cars();
 
             var cheapestCar = cars.Where(car => subModelCars.Any(subModelCar => subModelCar.ID == car.ID))
                 .OrderBy(car => car.Price)
