@@ -32,14 +32,16 @@ namespace TME.CarConfigurator.Factories
             return repoGrades.Select(repoGrade => GetGrade(repoGrade, repoGrades, grades, publication, context)).ToArray();
         }
 
-        IGrade GetGrade(RepoGrade repoGrade, IList<RepoGrade> repoGrades, IList<IGrade> grades, Publication publication, Context context)
+        // ReSharper disable once ParameterTypeCanBeEnumerable.Local => no, because that would cause a multiple enumeration for repoGrades...
+        IGrade GetGrade(RepoGrade repoGrade, IList<RepoGrade> repoGrades, ICollection<IGrade> grades, Publication publication, Context context)
         {
             var foundGrade = grades.SingleOrDefault(grd => grd.ID == repoGrade.ID);
             if (foundGrade != null)
                 return foundGrade;
 
-            var parentGrade = repoGrade.BasedUponGradeID == Guid.Empty ? null :
-                              GetGrade(repoGrades.Single(grd => grd.ID == repoGrade.BasedUponGradeID), repoGrades, grades, publication, context);
+            var parentGrade = repoGrade.BasedUponGradeID == Guid.Empty 
+                ? null 
+                : GetGrade(repoGrades.Single(grd => grd.ID == repoGrade.BasedUponGradeID), repoGrades, grades, publication, context);
 
             var grade = new Grade(repoGrade, publication, context, parentGrade, _assetFactory);
             grades.Add(grade);

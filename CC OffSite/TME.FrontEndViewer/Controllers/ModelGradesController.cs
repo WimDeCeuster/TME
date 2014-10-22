@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
@@ -51,7 +49,7 @@ namespace TME.FrontEndViewer.Controllers
 
             return new ModelWithMetrics<IGrade>()
             {
-                Model = list.Cast<IGrade>().ToList(),
+                Model = list.ToList(),
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
         }
