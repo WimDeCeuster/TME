@@ -83,7 +83,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         }
 
         [Fact]
-        public void ThenItShouldFetchTheBodyTypesFromTheService()
+        public void ThenItShouldNotFetchTheBodyTypesFromTheServiceAgain()
         {
             A.CallTo(() => _bodyTypeService.GetBodyTypes(A<Guid>._, A<Guid>._, A<Context>._)).MustHaveHappened(Repeated.Exactly.Once);
         }

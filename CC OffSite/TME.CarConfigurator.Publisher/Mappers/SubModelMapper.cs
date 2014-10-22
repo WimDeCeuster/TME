@@ -22,7 +22,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, IEnumerable<Administration.Car> cars)
         {
             var subModelCars =
-                modelGenerationSubModel.Generation.Cars.ToArray();
+                modelGenerationSubModel.Generation.Cars.ToArray().Where(car => car.SubModelID == modelGenerationSubModel.ID);
 
             var cheapestCar = cars.Where(car => subModelCars.Any(subModelCar => subModelCar.ID == car.ID))
                 .OrderBy(car => car.Price)

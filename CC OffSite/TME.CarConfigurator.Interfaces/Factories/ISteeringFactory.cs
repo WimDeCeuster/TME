@@ -5,6 +5,6 @@ namespace TME.CarConfigurator.Interfaces.Factories
 {
     public interface ISteeringFactory
     {
-        IEnumerable<ISteering> GetSteerings(Publication publication, Context context);
+        IReadOnlyList<ISteering> GetSteerings(Publication publication, Context context);
     }
 }

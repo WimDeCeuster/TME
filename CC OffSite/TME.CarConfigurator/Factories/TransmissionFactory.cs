@@ -23,7 +23,7 @@ namespace TME.CarConfigurator.Factories
             _assetFactory = assetFactory;
         }
 
-        public IEnumerable<ITransmission> GetTransmissions(Publication publication, Context context)
+        public IReadOnlyList<ITransmission> GetTransmissions(Publication publication, Context context)
         {
             return _transmissionService.GetTransmissions(publication.ID, publication.GetCurrentTimeFrame().ID, context)
                                  .Select(transmission => new Transmission(transmission,publication,context,_assetFactory))

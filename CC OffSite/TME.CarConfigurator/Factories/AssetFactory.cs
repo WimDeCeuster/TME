@@ -19,35 +19,35 @@ namespace TME.CarConfigurator.Factories
             _assetService = assetService;
         }
 
-        public IEnumerable<IAsset> GetAssets(Publication publication, Guid objectId, Context context)
+        public IReadOnlyList<IAsset> GetAssets(Publication publication, Guid objectId, Context context)
         {
             var repoAssets = _assetService.GetAssets(publication.ID, objectId, context);
 
             return TransformIntoNonRepoAssets(repoAssets);
         }
 
-        public IEnumerable<IAsset> GetAssets(Publication publication, Guid objectId, Context context, string view, string mode)
+        public IReadOnlyList<IAsset> GetAssets(Publication publication, Guid objectId, Context context, string view, string mode)
         {
             var repoAssets = _assetService.GetAssets(publication.ID, objectId, context, view, mode);
 
             return TransformIntoNonRepoAssets(repoAssets);
         }
 
-        public IEnumerable<IAsset> GetCarAssets(Publication publication, Guid carId, Guid objectId, Context context)
+        public IReadOnlyList<IAsset> GetCarAssets(Publication publication, Guid carId, Guid objectId, Context context)
         {
             var repoAssets = _assetService.GetCarAssets(publication.ID, carId, objectId, context);
 
             return TransformIntoNonRepoAssets(repoAssets);
         }
 
-        public IEnumerable<IAsset> GetCarAssets(Publication publication, Guid carId, Guid objectId, Context context, string view, string mode)
+        public IReadOnlyList<IAsset> GetCarAssets(Publication publication, Guid carId, Guid objectId, Context context, string view, string mode)
         {
             var repoAssets = _assetService.GetCarAssets(publication.ID, carId, objectId, context, view, mode);
 
             return TransformIntoNonRepoAssets(repoAssets);
         }
 
-        private static IEnumerable<Asset> TransformIntoNonRepoAssets(IEnumerable<Repository.Objects.Assets.Asset> repoAssets)
+        private static IReadOnlyList<Asset> TransformIntoNonRepoAssets(IEnumerable<Repository.Objects.Assets.Asset> repoAssets)
         {
             return repoAssets.Select(a => new Asset(a)).ToArray();
         }

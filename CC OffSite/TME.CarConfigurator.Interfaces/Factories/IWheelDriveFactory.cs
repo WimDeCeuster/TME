@@ -5,6 +5,6 @@ namespace TME.CarConfigurator.Interfaces.Factories
 {
     public interface IWheelDriveFactory
     {
-        IEnumerable<IWheelDrive> GetWheelDrives(Publication publication, Context context);
+        IReadOnlyList<IWheelDrive> GetWheelDrives(Publication publication, Context context);
     }
 }

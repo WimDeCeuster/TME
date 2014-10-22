@@ -7,8 +7,6 @@ using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
-using TME.CarConfigurator.Repository.Objects.Core;
-using Context = TME.CarConfigurator.Repository.Objects.Context;
 
 
 namespace TME.Carconfigurator.Tests.Builders
@@ -159,11 +157,6 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
-        public IContext Build()
-        {
-            return _context;
-        }
-
         public ContextBuilder AddCarAsset(string language, Guid carId, Guid objectId, Asset asset)
         {
             var data = _context.ContextData[language];
@@ -186,6 +179,11 @@ namespace TME.Carconfigurator.Tests.Builders
             assets.Add(asset);
 
             return this;
+        }
+
+        public IContext Build()
+        {
+            return _context;
         }
     }
 }

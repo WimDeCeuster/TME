@@ -7,9 +7,9 @@ namespace TME.CarConfigurator.Interfaces.Factories
 {
     public interface IAssetFactory
     {
-        IEnumerable<IAsset> GetAssets(Publication publication, Guid objectId, Context context);
-        IEnumerable<IAsset> GetAssets(Publication publication, Guid objectId, Context context, string view, string mode);
-        IEnumerable<IAsset> GetCarAssets(Publication publication, Guid carId, Guid objectId, Context context);
-        IEnumerable<IAsset> GetCarAssets(Publication publication, Guid carId, Guid objectId, Context context, string view, string mode);
+        IReadOnlyList<IAsset> GetAssets(Publication publication, Guid objectId, Context context);
+        IReadOnlyList<IAsset> GetAssets(Publication publication, Guid objectId, Context context, string view, string mode);
+        IReadOnlyList<IAsset> GetCarAssets(Publication publication, Guid carId, Guid objectId, Context context);
+        IReadOnlyList<IAsset> GetCarAssets(Publication publication, Guid carId, Guid objectId, Context context, string view, string mode);
     }
 }

@@ -5,13 +5,11 @@ namespace TME.CarConfigurator.Configuration
 {
     public class ConfigurationManager : IConfigurationManager
     {
-        public string Environment { get { return GetSection<string>("Environment"); } }
-
-        public string DataSubset { get { return GetSection<string>("DataSubset"); } }
-
         public string AmazonAccessKeyId { get { return GetSection<string>("AmazonAccessKeyId"); } }
 
         public string AmazonSecretAccessKey { get { return GetSection<string>("AmazonSecretAccessKey"); } }
+
+        public string BucketNameTemplate { get { return GetSection<string>("BucketNameTemplate"); } }
 
         private static T GetSection<T>(string sectionName) where T : class
         {

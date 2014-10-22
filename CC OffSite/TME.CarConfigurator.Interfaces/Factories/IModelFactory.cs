@@ -5,6 +5,6 @@ namespace TME.CarConfigurator.Interfaces.Factories
 {
     public interface IModelFactory
     {
-        IEnumerable<IModel> GetModels(Context context);
+        IReadOnlyList<IModel> GetModels(Context context);
     }
 }

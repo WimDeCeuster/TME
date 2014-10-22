@@ -62,8 +62,8 @@ namespace TME.CarConfigurator.Publisher
                 FillSteerings(cars, contextData);
                 FillSubModels(cars, modelGeneration, contextData);
                 FillCars(cars,contextData);
-                FillCarAssets(cars, contextData, modelGeneration);
                 FillGrades(cars, modelGeneration, contextData);
+                FillCarAssets(cars, contextData, modelGeneration);
 
                 context.TimeFrames[language] = GetTimeFrames(language, context);
             }
@@ -128,13 +128,14 @@ namespace TME.CarConfigurator.Publisher
                 var carAssets = contextData.CarAssets[car.ID];
                 FillCarAssets(car, carAssets, modelGeneration, car.Generation.BodyTypes[car.BodyTypeID]);
                 FillCarAssets(car, carAssets, modelGeneration, car.Generation.Engines[car.EngineID]);
+                FillCarAssets(car, carAssets, modelGeneration, car.Generation.Grades[car.GradeID]);
             }
         }
 
         private void FillCarAssets(Administration.Car car, IDictionary<Guid, IList<Asset>> carAssets, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
         {
-            var carEngineAssets = objectWithAssetSet.AssetSet.Assets.Filter(car);
-            var mappedAssets = carEngineAssets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
+            var objectAssets = objectWithAssetSet.AssetSet.Assets.Filter(car);
+            var mappedAssets = objectAssets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
             carAssets.Add(objectWithAssetSet.GetObjectID(), mappedAssets);
         }
 

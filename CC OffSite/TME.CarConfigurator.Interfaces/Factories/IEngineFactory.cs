@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.Interfaces.Factories
 {
     public interface IEngineFactory
     {
-        IEnumerable<IEngine> GetEngines(Publication publication, Context context);
+        IReadOnlyList<IEngine> GetEngines(Publication publication, Context context);
+        IEngine GetCarEngine(Engine repoEngine, Guid carId, Publication publication, Context context);
     }
 }

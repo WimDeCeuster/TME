@@ -15,7 +15,10 @@ namespace TME.CarConfigurator.DI
         private IEngineFactory _engineFactory;
         private ITransmissionFactory _transmissionFactory;
         private IWheelDriveFactory _wheelDriveFactory;
+        private ISteeringFactory _steeringFactory;
+        private IGradeFactory _gradeFactory;
         private ICarFactory _carFactory;
+        private ISubModelFactory _subModelFactory;
 
         public IModelFactoryFacade WithServiceFacade(IServiceFacade serviceFacade)
         {
@@ -51,10 +54,31 @@ namespace TME.CarConfigurator.DI
 
             return this;
         }
+        
+        public IModelFactoryFacade WithSubModelFactory(ISubModelFactory subModelFactory)
+        {
+            _subModelFactory = subModelFactory;
+
+            return this;
+        }
 
         public IModelFactoryFacade WithWheelDriveFactory(IWheelDriveFactory wheelDriveFactory)
         {
             _wheelDriveFactory = wheelDriveFactory;
+
+            return this;
+        }
+
+        public IModelFactoryFacade WithSteeringFactory(ISteeringFactory steeringFactory)
+        {
+            _steeringFactory = steeringFactory;
+
+            return this;
+        }
+
+        public IModelFactoryFacade WithGradeFactory(IGradeFactory gradeFactory)
+        {
+            _gradeFactory = gradeFactory;
 
             return this;
         }
@@ -70,7 +94,7 @@ namespace TME.CarConfigurator.DI
         {
             UseDefaultsWhenNoImplementationProvided();
 
-            return new ModelFactory(_modelService, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _carFactory);
+            return new ModelFactory(_modelService, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _steeringFactory, _gradeFactory, _carFactory,_subModelFactory);
         }
 
         private void UseDefaultsWhenNoImplementationProvided()
@@ -83,13 +107,17 @@ namespace TME.CarConfigurator.DI
             _assetFactory = _assetFactory ?? new AssetFactory(_serviceFacade.CreateAssetService());
             _bodyTypeFactory = _bodyTypeFactory ?? new BodyTypeFactory(_serviceFacade.CreateBodyTypeService(), _assetFactory);
             _engineFactory = _engineFactory ?? new EngineFactory(_serviceFacade.CreateEngineService(), _assetFactory);
-<<<<<<< Updated upstream
-            _transmissionFactory = _transmissionFactory ?? new TransmissionFactory(_serviceFacade.CreateTransmissionService());
-            _wheelDriveFactory = _wheelDriveFactory ?? new WheelDriveFactory(_serviceFacade.CreateWheelDriveService());
-=======
             _transmissionFactory = _transmissionFactory ?? new TransmissionFactory(_serviceFacade.CreateTransmissionService(),_assetFactory);
->>>>>>> Stashed changes
-            _carFactory = _carFactory ?? new CarFactory(_serviceFacade.CreateCarService());
+            _wheelDriveFactory = _wheelDriveFactory ?? new WheelDriveFactory(_serviceFacade.CreateWheelDriveService(), _assetFactory);
+            _steeringFactory = _steeringFactory ?? new SteeringFactory(_serviceFacade.CreateSteeringService());
+<<<<<<< HEAD
+            _gradeFactory = _gradeFactory ?? new GradeFactory(_serviceFacade.CreateGradeService());
+            _carFactory = _carFactory ?? new CarFactory(_serviceFacade.CreateCarService(), _bodyTypeFactory);
+            _subModelFactory = _subModelFactory ?? new SubModelFactory(_serviceFacade.CreateSubModelService(), _assetFactory);
+=======
+            _gradeFactory = _gradeFactory ?? new GradeFactory(_serviceFacade.CreateGradeService(), _assetFactory);
+            _carFactory = _carFactory ?? new CarFactory(_serviceFacade.CreateCarService(), _bodyTypeFactory, _engineFactory);
+>>>>>>> 70ff20f7fc50ba7b96ce7ba86161fa896e094929
         }
     }
 }

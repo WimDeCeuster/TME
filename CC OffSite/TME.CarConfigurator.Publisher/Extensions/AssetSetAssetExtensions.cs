@@ -8,6 +8,11 @@ namespace TME.CarConfigurator.Publisher.Extensions
 {
     public static class AssetSetAssetExtensions
     {
+        public static IEnumerable<AssetSetAsset> GetGenerationAssets(this IEnumerable<AssetSetAsset> assets)
+        {
+            return assets.Where(asset => !asset.IsDeviation() && asset.AlwaysInclude);
+        }
+
         public static IEnumerable<AssetSetAsset> Filter(this IList<AssetSetAsset> assets, Administration.Car car)
         {
             var carAssets = new List<AssetSetAsset>();
@@ -15,7 +20,7 @@ namespace TME.CarConfigurator.Publisher.Extensions
 
             foreach (var asset in assets)
             {
-                if (!IsAssetOfCar(car, asset) || ThereIsAnotherAssetThatFitsEquallyWellButItAlsoFitsOnTheGradeOfTheCar(car, asset, assets)) continue;
+                if (!IsAssetOfCar(car, asset) || HasGradeException(car, asset, assets)) continue;
 
                 if (asset.AlwaysInclude)
                 {
@@ -42,7 +47,14 @@ namespace TME.CarConfigurator.Publisher.Extensions
                    && (asset.Grade.IsEmpty() || asset.Grade.Equals(car.Grade));
         }
 
-        private static bool ThereIsAnotherAssetThatFitsEquallyWellButItAlsoFitsOnTheGradeOfTheCar(Administration.Car car, AssetSetAsset asset, IEnumerable<AssetSetAsset> assets)
+        /// <summary>
+        /// Try to find another asset that fits equally well, but that also fits on the grade of the car
+        /// </summary>
+        /// <param name="car">The car on which the asset should match</param>
+        /// <param name="asset">The current asset</param>
+        /// <param name="assets">The list of assets in which to look for a better fitting asset</param>
+        /// <returns></returns>
+        private static bool HasGradeException(Administration.Car car, AssetSetAsset asset, IEnumerable<AssetSetAsset> assets)
         {
             if (asset.Grade.ID == car.GradeID) return false; // There is no asset that is the same with a better grade than the car, because this asset already has the same grade. There can (potentially/theoretically) be other assets with the exact same deviation properties, but those shouldn't stop this one from being added. 
 
@@ -59,7 +71,7 @@ namespace TME.CarConfigurator.Publisher.Extensions
                                             && otherAsset.Grade.Equals(car.Grade)); // if it has all other properties the same, and in addition has the same grade as the car, it is the asset we are looking for
         }
 
-        private static void TryAddAssetToPossibleCarAssets(AssetSetAsset asset, Dictionary<string, IList<AssetSetAsset>> possibleCarAssets)
+        private static void TryAddAssetToPossibleCarAssets(AssetSetAsset asset, IDictionary<string, IList<AssetSetAsset>> possibleCarAssets)
         {
             var key = GetKey(asset);
 

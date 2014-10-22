@@ -23,7 +23,7 @@ namespace TME.CarConfigurator.Factories
             _assetFactory = assetFactory;
         }
 
-        public IEnumerable<IBodyType> GetBodyTypes(Publication publication, Context context)
+        public IReadOnlyList<IBodyType> GetBodyTypes(Publication publication, Context context)
         {
             var currentTimeFrame = publication.GetCurrentTimeFrame();
 

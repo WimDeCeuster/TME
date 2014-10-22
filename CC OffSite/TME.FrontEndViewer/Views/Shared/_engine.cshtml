@@ -1,0 +1,19 @@
+﻿@using TME.FrontEndViewer.Models
+@model TME.CarConfigurator.Interfaces.IEngine
+
+@Html.Partial("_baseObject", Model)
+<p class="property" data-id="Brochure">Brochure : @Html.Raw(Model.Brochure)</p>
+<p class="property" data-id="KeyFeature">KeyFeature : @Html.Raw(Model.KeyFeature)</p>
+<p class="property" data-id="TypeCode">Type.Code : @Html.Raw(Model.Type.Code)</p>
+<p class="property" data-id="TypeName">Type.Name : @Html.Raw(Model.Type.Name)</p>
+@Html.Partial("_baseObjectWithPrefix", new BaseObjectWithPrefix() { BaseObject = Model.Type.FuelType, Prefix = "Type.FuelType" })
+<p class="property" data-id="TypeFuelTypeHybrid">Type.FuelType.Hybrid : @Html.Raw(Model.Type.FuelType.Hybrid)</p>
+@if (Model.Category != null)
+{
+    @Html.Partial("_baseObjectWithPrefix", new BaseObjectWithPrefix() { BaseObject = Model.Category, Prefix = "Category" })
+}
+<p class="property" data-id="VisibleInExteriorSpin">VisibleInExteriorSpin : @Html.Raw(Model.VisibleInExteriorSpin)</p>
+<p class="property" data-id="VisibleInInteriorSpin">VisibleInInteriorSpin : @Html.Raw(Model.VisibleInInteriorSpin)</p>
+<p class="property" data-id="VisibleInXRay4X4Spin">VisibleInXRay4X4Spin : @Html.Raw(Model.VisibleInXRay4X4Spin)</p>
+<p class="property" data-id="VisibleInXRayHybridSpin">VisibleInXRayHybridSpin : @Html.Raw(Model.VisibleInXRayHybridSpin)</p>
+<p class="property" data-id="VisibleInXRaySafetySpin">VisibleInXRaySafetySpin : @Html.Raw(Model.VisibleInXRaySafetySpin)</p>

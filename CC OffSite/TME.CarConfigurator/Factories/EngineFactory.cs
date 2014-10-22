@@ -23,11 +23,16 @@ namespace TME.CarConfigurator.Factories
             _assetFactory = assetFactory;
         }
 
-        public IEnumerable<IEngine> GetEngines(Publication publication, Context context)
+        public IReadOnlyList<IEngine> GetEngines(Publication publication, Context context)
         {
             return _engineService.GetEngines(publication.ID, publication.GetCurrentTimeFrame().ID, context)
                                  .Select(engine => new Engine(engine, publication, context, _assetFactory))
                                  .ToArray();
+        }
+
+        public IEngine GetCarEngine(Repository.Objects.Engine engine, Guid carId, Publication publication, Context context)
+        {
+            return new CarEngine(engine, publication, carId, context, _assetFactory);
         }
     }
 }

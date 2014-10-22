@@ -23,7 +23,7 @@ namespace TME.CarConfigurator.Factories
             _assetFactory = assetFactory;
         }
 
-        public IEnumerable<IWheelDrive> GetWheelDrives(Publication publication, Context context)
+        public IReadOnlyList<IWheelDrive> GetWheelDrives(Publication publication, Context context)
         {
             return _wheelDriveService.GetWheelDrives(publication.ID, publication.GetCurrentTimeFrame().ID, context)
                                  .Select(wheelDrive => new WheelDrive(wheelDrive, publication, context, _assetFactory))
