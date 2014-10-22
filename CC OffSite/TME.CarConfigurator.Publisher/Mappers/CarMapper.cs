@@ -18,7 +18,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _baseMapper = baseMapper;
         }
 
-        public Car MapCar(Administration.Car car, BodyType bodyType, Engine engine, Transmission transmission, WheelDrive wheelDrive, Steering steering, SubModel subModel)
+        public Car MapCar(Administration.Car car,
             BodyType bodyType,
             Engine engine,
             Transmission transmission,
