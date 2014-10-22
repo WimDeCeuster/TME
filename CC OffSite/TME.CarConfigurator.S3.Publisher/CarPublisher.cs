@@ -12,7 +12,7 @@ namespace TME.CarConfigurator.S3.Publisher
 {
     public class CarPublisher : ICarPublisher
     {
-        ICarService _carService;
+        readonly ICarService _carService;
 
         public CarPublisher(ICarService carService)
         {
@@ -37,7 +37,7 @@ namespace TME.CarConfigurator.S3.Publisher
             }
 
             var result = await Task.WhenAll(tasks);
-            return result.SelectMany(xs => xs);
+            return result.SelectMany(xs => xs.ToList());
         }
 
         async Task<IEnumerable<Result>> PutTimeFramesGenerationCars(String brand, String country, IEnumerable<TimeFrame> timeFrames, ContextData data)
@@ -50,10 +50,7 @@ namespace TME.CarConfigurator.S3.Publisher
                                                            .ThenBy(car => car.Name)
                                                            .ToList());
 
-            var tasks = new List<Task<Result>>();
-
-            foreach (var entry in cars)
-                tasks.Add(_carService.PutTimeFrameGenerationCars(brand, country, publication.ID, entry.Key.ID, entry.Value));
+            var tasks = cars.Select(entry => _carService.PutTimeFrameGenerationCars(brand, country, publication.ID, entry.Key.ID, entry.Value)).ToList();
 
             return await Task.WhenAll(tasks);
         }

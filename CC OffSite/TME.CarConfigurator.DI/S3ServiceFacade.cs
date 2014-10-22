@@ -1,9 +1,8 @@
-﻿using TME.CarConfigurator.Configuration;
-using TME.CarConfigurator.DI.Interfaces;
-using TME.CarConfigurator.Interfaces.Configuration;
+﻿using TME.CarConfigurator.DI.Interfaces;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.S3.QueryServices;
 using TME.CarConfigurator.S3.Shared;
+using TME.CarConfigurator.S3.Shared.Configuration;
 using TME.CarConfigurator.S3.Shared.Factories;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 

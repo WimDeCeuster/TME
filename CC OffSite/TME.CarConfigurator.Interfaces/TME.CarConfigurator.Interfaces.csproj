@@ -45,7 +45,6 @@
     <Compile Include="Assets\IVisibleInModeAndView.cs" />
     <Compile Include="Colours\IColourTransformation.cs" />
     <Compile Include="Colours\IExteriorColour.cs" />
-    <Compile Include="Configuration\IConfigurationManager.cs" />
     <Compile Include="Equipment\IGradeAccessory.cs" />
     <Compile Include="Equipment\IGradeOption.cs" />
     <Compile Include="Equipment\IOptionInfo.cs" />
