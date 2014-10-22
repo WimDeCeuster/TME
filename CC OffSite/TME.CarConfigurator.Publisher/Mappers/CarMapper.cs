@@ -32,10 +32,13 @@ namespace TME.CarConfigurator.Publisher.Mappers
             if (transmission == null) throw new ArgumentNullException("transmission");
             if (wheelDrive == null) throw new ArgumentNullException("wheelDrive");
             if (steering == null) throw new ArgumentNullException("steering");
-            if (subModel == null) throw new ArgumentNullException("subModel");
 
             if (car.ShortID == null)
                 throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.ID));
+
+            if (subModel == null)
+                subModel = new SubModel();
+            
 
             var cheapestColourCombination = car.ColourCombinations.OrderBy(cc => cc.ExteriorColour.Price + cc.Upholstery.Price)
                                                                   .First();

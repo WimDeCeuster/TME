@@ -192,7 +192,7 @@ namespace TME.CarConfigurator.Publisher
                 var transmission = contextData.Transmissions.Single(trans => trans.ID == car.TransmissionID);
                 var wheelDrive = contextData.WheelDrives.Single(drive => drive.ID == car.WheelDriveID);
                 var steering = contextData.Steerings.Single(steer => steer.ID == car.SteeringID);
-                var subModel = contextData.SubModels.Single(sub => sub.ID == car.SubModelID);
+                var subModel = contextData.SubModels.SingleOrDefault(sub => sub.ID == car.SubModelID);
                 contextData.CarAssets.Add(car.ID, new Dictionary<Guid, IList<Asset>>());
                 contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering,subModel));
             }
