@@ -28,8 +28,14 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, IEnumerable<Car> cars, string country, string language, bool isPreview)
         {
-            var subModelCars = modelGenerationSubModel.Cars();
+            var subModelCars =
+<<<<<<< HEAD
+                modelGenerationSubModel.Generation.Cars.ToArray().Where(car => car.SubModelID == modelGenerationSubModel.ID);
+             
+=======
+                modelGenerationSubModel.Cars();
 
+>>>>>>> 9b7d66fe1db28a47929c8c15f01e6556d3753e65
             var cheapestCar = cars.Where(car => subModelCars.Any(subModelCar => subModelCar.ID == car.ID))
                 .OrderBy(car => car.Price)
                 .First();
@@ -41,9 +47,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
                     ExcludingVat = cheapestCar.Price,
                     IncludingVat = cheapestCar.VatPrice,
                 },
-                Assets = modelGenerationSubModel.AssetSet.Assets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGenerationSubModel.Generation)).ToList(),
-                Links = modelGenerationSubModel.Links.Where(link => IsApplicableLink(link, modelGenerationSubModel.Generation))
-                .Select(link => _linkMapper.MapLink(link, country, language, isPreview)).ToList()
+                Assets = modelGenerationSubModel.AssetSet.Assets.Select(asset => _assetMapper.MapAssetSetAsset(asset,modelGenerationSubModel.Generation)).ToList(),
+                Links = modelGenerationSubModel.Links.Where(link => IsApplicableLink(link,modelGenerationSubModel.Generation))
+                .Select(link => _linkMapper.MapLink(link,country,language,isPreview)).ToList()
             };
 
             return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel, modelGenerationSubModel, modelGenerationSubModel.Name);
