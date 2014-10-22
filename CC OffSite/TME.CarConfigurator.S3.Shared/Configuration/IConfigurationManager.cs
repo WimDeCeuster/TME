@@ -1,4 +1,4 @@
-namespace TME.CarConfigurator.Interfaces.Configuration
+namespace TME.CarConfigurator.S3.Shared.Configuration
 {
     public interface IConfigurationManager
     {
