@@ -55,6 +55,9 @@
     <Compile Include="Enums\PublicationDataSubset.cs" />
     <Compile Include="Interfaces\IContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Result\Failed.cs" />
+    <Compile Include="Result\Result.cs" />
+    <Compile Include="Result\Successfull.cs" />
     <Compile Include="TimeFrame.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TME.CarConfigurator.S3.Shared.Result
+namespace TME.CarConfigurator.Publisher.Common.Result
 {
     public class Failed : Result
     {
