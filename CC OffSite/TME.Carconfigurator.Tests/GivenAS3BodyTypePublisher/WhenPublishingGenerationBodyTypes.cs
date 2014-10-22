@@ -94,17 +94,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypePublisher
             _service = new BodyTypeService(_s3Service, serialiser, keyManager);
             _publisher = new BodyTypePublisher(_service);
 
-            A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationBodyType1))
+            A.CallTo(() => serialiser.Serialise(A<List<BodyType>>.That.IsSameSequenceAs(new List<BodyType> { generationBodyType1 })))
                 .Returns(_serialisedBodyType1);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationBodyType1, generationBodyType2))
+            A.CallTo(() => serialiser.Serialise(A<List<BodyType>>.That.IsSameSequenceAs(new List<BodyType> { generationBodyType1,generationBodyType2})))
                 .Returns(_serialisedBodyType12);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationBodyType3, generationBodyType4))
+            A.CallTo(() => serialiser.Serialise(A<List<BodyType>>.That.IsSameSequenceAs(new List<BodyType> { generationBodyType3, generationBodyType4 })))
                 .Returns(_serialisedBodyType34);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<BodyType>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationBodyType4))
+            A.CallTo(() => serialiser.Serialise(A<List<BodyType>>.That.IsSameSequenceAs(new List<BodyType> { generationBodyType4 })))
                 .Returns(_serialisedBodyType4);
 
             A.CallTo(() => keyManager.GetBodyTypesKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1BodyTypesKey);
@@ -121,8 +117,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypePublisher
         [Fact]
         public void ThenGenerationBodyTypesShouldBePutForAllLanguagesAndTimeFrames()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null))
-                .WithAnyArguments()
+            A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
                 .MustHaveHappened(Repeated.Exactly.Times(4));
         }
 
