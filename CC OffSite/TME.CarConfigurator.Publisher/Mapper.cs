@@ -9,7 +9,6 @@ using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Publisher.Mappers;
 using TME.CarConfigurator.Publisher.Mappers.Exceptions;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
 using Car = TME.CarConfigurator.Repository.Objects.Car;
@@ -116,6 +115,7 @@ namespace TME.CarConfigurator.Publisher
                 .Concat(GetEngineAssets(modelGeneration))
                 .Concat(GetTransmissionAssets(modelGeneration))
                 .Concat(GetWheelDriveAssets(modelGeneration))
+                .Concat(GetSubModelAssets(modelGeneration))
                 .ToDictionary(
                     entry => entry.Key,
                     entry => entry.Value);
@@ -137,6 +137,14 @@ namespace TME.CarConfigurator.Publisher
             var objectAssets = objectWithAssetSet.AssetSet.Assets.Filter(car);
             var mappedAssets = objectAssets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
             carAssets.Add(objectWithAssetSet.GetObjectID(), mappedAssets);
+        }
+
+        private Dictionary<Guid, List<Asset>> GetSubModelAssets(ModelGeneration modelGeneration)
+        {
+            return modelGeneration.SubModels.ToDictionary(
+                subModel => subModel.ID,
+                subModel => subModel.AssetSet.Assets.GetGenerationAssets()
+                    .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
         private Dictionary<Guid, List<Asset>> GetTransmissionAssets(ModelGeneration modelGeneration)

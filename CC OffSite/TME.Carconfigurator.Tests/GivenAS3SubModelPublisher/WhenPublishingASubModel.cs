@@ -81,17 +81,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3SubModelPublisher
 
             var serialiser = A.Fake<ISerialiser>();
 
-            A.CallTo(() => serialiser.Serialise(null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationSubModel1))
+            A.CallTo(() => serialiser.Serialise(A<List<SubModel>>.That.IsSameSequenceAs(new List<SubModel> {generationSubModel1})))
                 .Returns(TIME_FRAME1_SUB_MODEL_VALUE);
-            A.CallTo(() => serialiser.Serialise(null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationSubModel1,generationSubModel2))
+            A.CallTo(() => serialiser.Serialise(A<List<SubModel>>.That.IsSameSequenceAs(new List<SubModel> {generationSubModel1,generationSubModel2})))
                 .Returns(TIME_FRAME2_SUB_MODEL_VALUE);
-            A.CallTo(() => serialiser.Serialise(null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationSubModel3, generationSubModel4))
+            A.CallTo(() => serialiser.Serialise(A<List<SubModel>>.That.IsSameSequenceAs(new List<SubModel> {generationSubModel3,generationSubModel4})))
                 .Returns(TIME_FRAME3_SUB_MODEL_VALUE);
-            A.CallTo(() => serialiser.Serialise(null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationSubModel4))
+            A.CallTo(() => serialiser.Serialise(A<List<SubModel>>.That.IsSameSequenceAs(new List<SubModel> {generationSubModel4})))
                 .Returns(TIME_FRAME4_SUB_MODEL_VALUE);
 
             var keyManager = A.Fake<IKeyManager>();
@@ -117,7 +113,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3SubModelPublisher
         [Fact]
         public void ThenGenerationSubModelsShouldBePutForEveryLanguageAndTimeFrames()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(null,null,null,null))
+            A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
                 .WithAnyArguments()
                 .MustHaveHappened(Repeated.Exactly.Times(4));
         }

@@ -94,17 +94,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3SteeringPublisher
             _service = new SteeringService(_s3Service, serialiser, keyManager);
             _publisher = new SteeringPublisher(_service);
 
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Steering>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationSteering1))
+            A.CallTo(() => serialiser.Serialise(A<List<Steering>>.That.IsSameSequenceAs(new List<Steering> {generationSteering1})))
                 .Returns(_serialisedSteering1);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Steering>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationSteering1, generationSteering2))
+            A.CallTo(() => serialiser.Serialise(A<List<Steering>>.That.IsSameSequenceAs(new List<Steering> {generationSteering1,generationSteering2})))
                 .Returns(_serialisedSteering12);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Steering>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationSteering3, generationSteering4))
+            A.CallTo(() => serialiser.Serialise(A<List<Steering>>.That.IsSameSequenceAs(new List<Steering> {generationSteering3,generationSteering4})))
                 .Returns(_serialisedSteering34);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Steering>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationSteering4))
+            A.CallTo(() => serialiser.Serialise(A<List<Steering>>.That.IsSameSequenceAs(new List<Steering> {generationSteering4})))
                 .Returns(_serialisedSteering4);
 
             A.CallTo(() => keyManager.GetSteeringsKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1SteeringsKey);
@@ -121,8 +117,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3SteeringPublisher
         [Fact]
         public void ThenGenerationSteeringsShouldBePutForAllLanguagesAndTimeFrames()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null))
-                .WithAnyArguments()
+            A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
                 .MustHaveHappened(Repeated.Exactly.Times(4));
         }
 

@@ -64,8 +64,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3PublicationPublisher
         [Fact]
         public void ThenAPublicationShouldBePutForAllLanguages()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null))
-                .WithAnyArguments()
+            A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
                 .MustHaveHappened(Repeated.Exactly.Twice);
         }
 

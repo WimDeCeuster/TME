@@ -94,17 +94,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePublisher
             _service = new GradeService(_s3Service, serialiser, keyManager);
             _publisher = new GradePublisher(_service);
 
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Grade>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationGrade1))
+            A.CallTo(() => serialiser.Serialise(A<List<Grade>>.That.IsSameSequenceAs(new List<Grade>{generationGrade1})))
                 .Returns(_serialisedGrade1);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Grade>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationGrade1, generationGrade2))
+            A.CallTo(() => serialiser.Serialise(A<List<Grade>>.That.IsSameSequenceAs(new List<Grade>{generationGrade1, generationGrade2})))
                 .Returns(_serialisedGrade12);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Grade>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationGrade3, generationGrade4))
+            A.CallTo(() => serialiser.Serialise(A<List<Grade>>.That.IsSameSequenceAs(new List<Grade>{generationGrade3,generationGrade4})))
                 .Returns(_serialisedGrade34);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<Grade>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationGrade4))
+            A.CallTo(() => serialiser.Serialise(A<List<Grade>>.That.IsSameSequenceAs(new List<Grade>{generationGrade4})))
                 .Returns(_serialisedGrade4);
 
             A.CallTo(() => keyManager.GetGradesKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1GradesKey);
@@ -121,8 +117,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePublisher
         [Fact]
         public void ThenGenerationGradesShouldBePutForAllLanguagesAndTimeFrames()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null))
-                .WithAnyArguments()
+            A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
                 .MustHaveHappened(Repeated.Exactly.Times(4));
         }
 

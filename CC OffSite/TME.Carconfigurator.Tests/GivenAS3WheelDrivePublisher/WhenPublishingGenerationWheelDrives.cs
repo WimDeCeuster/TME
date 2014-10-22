@@ -94,17 +94,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3WheelDrivePublisher
             _service = new WheelDriveService(_s3Service, serialiser, keyManager);
             _publisher = new WheelDrivePublisher(_service);
 
-            A.CallTo(() => serialiser.Serialise((IEnumerable<WheelDrive>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationWheelDrive1))
+            A.CallTo(() => serialiser.Serialise((A<List<WheelDrive>>.That.IsSameSequenceAs(new List<WheelDrive> {generationWheelDrive1}))))
                 .Returns(_serialisedWheelDrive1);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<WheelDrive>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationWheelDrive1, generationWheelDrive2))
+            A.CallTo(() => serialiser.Serialise((A<List<WheelDrive>>.That.IsSameSequenceAs(new List<WheelDrive> {generationWheelDrive1,generationWheelDrive2}))))
                 .Returns(_serialisedWheelDrive12);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<WheelDrive>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationWheelDrive3, generationWheelDrive4))
+            A.CallTo(() => serialiser.Serialise((A<List<WheelDrive>>.That.IsSameSequenceAs(new List<WheelDrive> {generationWheelDrive3,generationWheelDrive4}))))
                 .Returns(_serialisedWheelDrive34);
-            A.CallTo(() => serialiser.Serialise((IEnumerable<WheelDrive>)null))
-                .WhenArgumentsMatch(ArgumentMatchesList(generationWheelDrive4))
+            A.CallTo(() => serialiser.Serialise((A<List<WheelDrive>>.That.IsSameSequenceAs(new List<WheelDrive> {generationWheelDrive4}))))
                 .Returns(_serialisedWheelDrive4);
 
             A.CallTo(() => keyManager.GetWheelDrivesKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1WheelDrivesKey);
@@ -121,8 +117,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3WheelDrivePublisher
         [Fact]
         public void ThenGenerationWheelDrivesShouldBePutForAllLanguagesAndTimeFrames()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(null, null, null, null))
-                .WithAnyArguments()
+            A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
                 .MustHaveHappened(Repeated.Exactly.Times(4));
         }
 
