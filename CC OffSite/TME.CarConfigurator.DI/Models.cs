@@ -5,7 +5,7 @@ using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.DI
 {
-    public class Models : List<IModel>
+    public class Models
     {
         public static IEnumerable<IModel> GetModels(Context context)
         {
