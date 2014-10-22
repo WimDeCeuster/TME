@@ -29,7 +29,7 @@ namespace TME.CarConfigurator.Publisher
         readonly ICarMapper _carMapper;
         readonly IAssetMapper _assetMapper;
         readonly ISubModelMapper _subModelMapper;
-        readonly IEquipmentMapper _equipmentMapper;
+        //readonly IEquipmentMapper _equipmentMapper;
 
         public IContext Map(String brand, String country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IContext context)
         {
@@ -84,8 +84,7 @@ namespace TME.CarConfigurator.Publisher
             IGradeMapper gradeMapper,
             ICarMapper carMapper,
             IAssetMapper assetMapper,
-            ISubModelMapper subModelMapper,
-            IEquipmentMapper equipmentMapper)
+            ISubModelMapper subModelMapper)
         {
             if (modelMapper == null) throw new ArgumentNullException("modelMapper");
             if (generationMapper == null) throw new ArgumentNullException("generationMapper");
@@ -98,7 +97,7 @@ namespace TME.CarConfigurator.Publisher
             if (carMapper == null) throw new ArgumentNullException("carMapper");
             if (assetMapper == null) throw new ArgumentNullException("assetMapper");
             if (subModelMapper == null) throw new ArgumentNullException("subModelMapper");
-            if (equipmentMapper == null) throw new ArgumentNullException("equipmentMapper");
+            //if (equipmentMapper == null) throw new ArgumentNullException("equipmentMapper");
 
             _modelMapper = modelMapper;
             _assetMapper = assetMapper;
@@ -111,7 +110,7 @@ namespace TME.CarConfigurator.Publisher
             _steeringMapper = steeringMapper;
             _gradeMapper = gradeMapper;
             _carMapper = carMapper;
-            _equipmentMapper = equipmentMapper;
+            //_equipmentMapper = equipmentMapper;
         }
 
         public void FillAssets(ModelGeneration modelGeneration, ContextData contextData)
@@ -340,17 +339,17 @@ namespace TME.CarConfigurator.Publisher
             Func<Administration.Car, Repository.Objects.Steering> getSteering = dbCar => contextData.Steerings.Single(steering => steering.ID == dbCar.SteeringID);
             Func<Administration.Car, Repository.Objects.Grade> getGrade = dbCar => contextData.Grades.Single(grade => grade.ID == dbCar.GradeID);
             Func<Administration.Car, GradeEquipmentItem> getGradeEquipmentItem = dbCar => contextData.GradeEquipmentItems.Single(gradeEquipmentItem => dbCar.Equipment.Any(equipment => gradeEquipmentItem.ID == equipment.ID));
-            Func<Administration.Car, Repository.Objects.SubModel> getSubModel = dbCar => contextData.SubModels.Single(subModel => subModel.ID == dbCar.SubModelID);
+            Func<Administration.Car, Repository.Objects.SubModel> getSubModel = dbCar => contextData.SubModels.SingleOrDefault(subModel => subModel.ID == dbCar.SubModelID);
 
             var cars = openCars.Select(getCar).ToList();
-            var bodyTypes = openCars.Select(getBodyType).ToList();
-            var engines = openCars.Select(getEngine).ToList();
-            var wheelDrives = openCars.Select(getWheelDrive).ToList();
-            var transmissions = openCars.Select(getTransmission).ToList();
-            var steerings = openCars.Select(getSteering).ToList();
-            var grades = openCars.Select(getGrade).ToList();
-            var gradeEquipmentItems = openCars.Select(getGradeEquipmentItem).ToList();
-            var subModels = openCars.Select(getSubModel).ToList();
+            var bodyTypes = openCars.Select(getBodyType).Distinct().ToList();
+            var engines = openCars.Select(getEngine).Distinct().ToList();
+            var wheelDrives = openCars.Select(getWheelDrive).Distinct().ToList();
+            var transmissions = openCars.Select(getTransmission).Distinct().ToList();
+            var steerings = openCars.Select(getSteering).Distinct().ToList();
+            var grades = openCars.Select(getGrade).Distinct().ToList();
+            var gradeEquipmentItems = openCars.Select(getGradeEquipmentItem).Distinct().ToList();
+            var subModels = openCars.Select(getSubModel).Distinct().Where(subModel => subModel != null).ToList();
 
             timeFrames.Add(new TimeFrame(
                 openDate.Value,
