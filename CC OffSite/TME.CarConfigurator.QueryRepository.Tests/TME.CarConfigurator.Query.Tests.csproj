@@ -175,6 +175,7 @@
     <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenASteeringService\WhenGetSteeringsIsCalled.cs" />
+    <Compile Include="Services\GivenASubModelService\WhenGetSubModelIsCalled.cs" />
     <Compile Include="Services\GivenAWheelDriveService\WhenGetWheelDrivesIsCalled.cs" />
     <Compile Include="Services\GivenATransmissionService\WhenGetTransmissionsIsCalled.cs" />
     <Compile Include="Services\GivenAnEngineService\WhenGetEnginesIsCalled.cs" />

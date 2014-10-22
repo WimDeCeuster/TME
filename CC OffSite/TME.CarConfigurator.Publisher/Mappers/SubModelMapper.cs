@@ -5,21 +5,28 @@ using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
+using Car = TME.CarConfigurator.Administration.Car;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class SubModelMapper : ISubModelMapper
     {
         private readonly IBaseMapper _baseMapper;
+        private readonly IAssetMapper _assetMapper;
+        private readonly ILinkMapper _linkMapper;
 
-        public SubModelMapper(IBaseMapper baseMapper)
+        public SubModelMapper(IBaseMapper baseMapper, IAssetMapper assetMapper, ILinkMapper linkMapper)
         {
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
+            if (assetMapper == null) throw new ArgumentNullException("assetMapper");
+            if (linkMapper == null) throw new ArgumentNullException("linkMapper");
 
             _baseMapper = baseMapper;
+            _assetMapper = assetMapper;
+            _linkMapper = linkMapper;
         }
 
-        public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, IEnumerable<Administration.Car> cars)
+        public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, IEnumerable<Car> cars, string country, string language, bool isPreview)
         {
             var subModelCars =
                 modelGenerationSubModel.Generation.Cars.ToArray().Where(car => car.SubModelID == modelGenerationSubModel.ID);
@@ -34,10 +41,19 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 {
                     ExcludingVat = cheapestCar.Price,
                     IncludingVat = cheapestCar.VatPrice,
-                }
+                },
+                Assets = modelGenerationSubModel.AssetSet.Assets.Select(asset => _assetMapper.MapAssetSetAsset(asset,modelGenerationSubModel.Generation)).ToList(),
+                Links = modelGenerationSubModel.Links.Where(link => IsApplicableLink(link,modelGenerationSubModel.Generation))
+                .Select(link => _linkMapper.MapLink(link,country,language,isPreview)).ToList()
             };
 
             return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel, modelGenerationSubModel, modelGenerationSubModel.Name);
+        }
+
+        private static Boolean IsApplicableLink(Administration.Link link, Administration.ModelGeneration generation)
+        {
+            return link.Type.CarConfiguratorversionID == generation.ActiveCarConfiguratorVersion.ID ||
+                   link.Type.CarConfiguratorversionID == 0;
         }
     }
 }

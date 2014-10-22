@@ -7,6 +7,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface ISubModelMapper
     {
-        SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, IEnumerable<Administration.Car> cars);
+        SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, IEnumerable<Administration.Car> cars, string country,string language, bool isPreview);
     }
 }

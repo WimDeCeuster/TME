@@ -59,7 +59,7 @@ namespace TME.CarConfigurator.Publisher
                 FillTransmissions(cars, modelGeneration, contextData);
                 FillWheelDrives(cars, modelGeneration, contextData);
                 FillSteerings(cars, contextData);
-                FillSubModels(cars, modelGeneration, contextData);
+                FillSubModels(cars, modelGeneration, contextData,country,language,isPreview);
                 FillCars(cars,contextData);
                 FillGrades(cars, modelGeneration, contextData);
                 FillCarAssets(cars, contextData, modelGeneration);
@@ -222,10 +222,10 @@ namespace TME.CarConfigurator.Publisher
                 contextData.WheelDrives.Add(_wheelDriveMapper.MapWheelDrive(wheelDrive));
         }
 
-        private void FillSubModels(IEnumerable<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData)
+        private void FillSubModels(IEnumerable<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData, string country, string language, bool isPreview)
         {
             foreach (var modelGenerationSubModel in modelGeneration.SubModels.Where(submodel => cars.Any(car => car.SubModelID == submodel.ID)))
-                contextData.SubModels.Add(_subModelMapper.MapSubModel(modelGenerationSubModel,cars));
+                contextData.SubModels.Add(_subModelMapper.MapSubModel(modelGenerationSubModel,cars, country,language,isPreview));
         }
 
         void FillGrades(IEnumerable<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData)
