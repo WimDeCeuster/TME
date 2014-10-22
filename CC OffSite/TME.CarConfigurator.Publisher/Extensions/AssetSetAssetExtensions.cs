@@ -105,13 +105,12 @@ namespace TME.CarConfigurator.Publisher.Extensions
         private static string GetKey(AssetSetAsset asset)
         {
             var assetType = asset.AssetType;
+            var splitAssetTypeName = assetType.Name.Split('_');
 
             var mode = string.Empty;
             var view = string.Empty;
             var side = string.Empty;
             var type = string.Empty;
-
-            var splitAssetTypeName = assetType.Name.Split('_');
 
             FillModeViewSideAndType(assetType, splitAssetTypeName, ref mode, ref view, ref side, ref type);
 
@@ -125,9 +124,9 @@ namespace TME.CarConfigurator.Publisher.Extensions
             return GetKey(mode, view, side, type, exteriourColourCode, upholsteryCode, equipmentCode);
         }
 
-        private static void FillModeViewSideAndType(AssetType assetType, string[] splitAssetTypeName, ref string mode, ref string view, ref string side, ref string type)
+        private static void FillModeViewSideAndType(AssetType assetType, IList<string> splitAssetTypeName, ref string mode, ref string view, ref string side, ref string type)
         {
-            var sections = splitAssetTypeName.Length;
+            var sections = splitAssetTypeName.Count;
 
             if (!string.IsNullOrEmpty(assetType.Details.Mode))
             {
