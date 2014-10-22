@@ -132,6 +132,8 @@
     <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />
+    <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsLinksForTheFirstTime.cs" />
