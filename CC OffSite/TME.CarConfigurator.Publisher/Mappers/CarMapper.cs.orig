@@ -18,13 +18,17 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _baseMapper = baseMapper;
         }
 
+<<<<<<< HEAD
         public Car MapCar(Administration.Car car, BodyType bodyType, Engine engine, Transmission transmission, WheelDrive wheelDrive, Steering steering, SubModel subModel)
+=======
+        public Car MapCar(
+            Administration.Car car,
             BodyType bodyType,
             Engine engine,
             Transmission transmission,
             WheelDrive wheelDrive,
-            Steering steering,
-            SubModel subModel)
+            Steering steering)
+>>>>>>> ad72f43a289bead0c7ab14b2257aeb2e711cc595
         {
             if (car == null) throw new ArgumentNullException("car");
             if (bodyType == null) throw new ArgumentNullException("bodyType");

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
+using TME.CarConfigurator.Publisher.Common.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.S3.Shared.Result;
 
 namespace TME.CarConfigurator.S3.Publisher
 {

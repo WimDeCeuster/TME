@@ -5,12 +5,12 @@ using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
+using TME.CarConfigurator.Publisher.Common.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
 using TME.CarConfigurator.Tests.Shared;
 using System.Threading.Tasks;
-using TME.CarConfigurator.S3.Shared.Result;
 using Context = TME.CarConfigurator.Publisher.Common.Context;
 using TME.Carconfigurator.Tests.Builders;
 
