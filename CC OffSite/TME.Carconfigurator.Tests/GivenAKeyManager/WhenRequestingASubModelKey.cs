@@ -27,7 +27,7 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
 
         protected override void Act()
         {
-            _actualKey = _keyManager.GetSubModelKey(_publicationId, _timeFrameId);
+            _actualKey = _keyManager.GetSubModelsKey(_publicationId, _timeFrameId);
         }
 
         [Fact]

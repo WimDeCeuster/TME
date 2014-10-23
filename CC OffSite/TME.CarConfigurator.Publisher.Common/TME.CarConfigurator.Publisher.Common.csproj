@@ -54,6 +54,7 @@
     <Compile Include="ContextData.cs" />
     <Compile Include="Enums\PublicationDataSubset.cs" />
     <Compile Include="Interfaces\IContext.cs" />
+    <Compile Include="Interfaces\ITimeFrameMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result\Failed.cs" />
     <Compile Include="Result\Result.cs" />

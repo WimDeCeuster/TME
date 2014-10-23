@@ -95,18 +95,32 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
             return new CarService(service, _serialiser, _keyManager);
         }
 
-        public IAssetService GetAssetService(string environment, PublicationDataSubset dataSubset)
+        public IAssetService GetAssetService(String environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
 
             return new AssetsService(service, _serialiser, _keyManager);
         }
 
-        public ISubModelService GetSubModelService(string environment, PublicationDataSubset dataSubset)
+        public ISubModelService GetSubModelService(String environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
 
-            return new SubModelService(service,_serialiser,_keyManager);
+            return new SubModelService(service, _serialiser, _keyManager);
+        }
+
+        public IGradeAccessoryService GetGradeAccessoryService(String environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return new GradeAccessoryService(service, _serialiser, _keyManager);
+        }
+
+        public IGradeOptionService GetGradeOptionService(String environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return new GradeOptionService(service, _serialiser, _keyManager);
         }
     }
 }

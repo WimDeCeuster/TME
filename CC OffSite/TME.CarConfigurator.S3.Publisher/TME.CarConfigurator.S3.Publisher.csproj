@@ -42,9 +42,13 @@
     <Compile Include="AssetPublisher.cs" />
     <Compile Include="BodyTypePublisher.cs" />
     <Compile Include="CarPublisher.cs" />
+    <Compile Include="GradeOptionPublisher.cs" />
+    <Compile Include="GradeAccessoryPublisher.cs" />
     <Compile Include="Extensions\BaseObjectExtensions.cs" />
     <Compile Include="Helpers\TimeFramePublishHelper.cs" />
+    <Compile Include="Helpers\TimeFrameSubObjectPublishHelper.cs" />
     <Compile Include="Interfaces\ITimeFramePublishHelper.cs" />
+    <Compile Include="Interfaces\ITimeFrameSubObjectPublishHelper.cs" />
     <Compile Include="SteeringPublisher.cs" />
     <Compile Include="GradePublisher.cs" />
     <Compile Include="SubModelPublisher.cs" />

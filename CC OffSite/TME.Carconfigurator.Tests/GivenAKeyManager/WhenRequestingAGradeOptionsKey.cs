@@ -7,34 +7,29 @@ using Xunit;
 
 namespace TME.Carconfigurator.Tests.GivenAKeyManager
 {
-    public class WhenRequestingACarAssetsKey : TestBase
+    public class WhenRequestingAGradeOptionsKey : TestBase
     {
         private IKeyManager _keyManager;
         private string _expectedKey;
         private string _actualKey;
         private Guid _publicationId;
-        private Guid _carId;
-        private Guid _objectId;
-        private string _view;
-        private string _mode;
+        private Guid _timeFrameId;
+        private Guid _gradeId;
 
         protected override void Arrange()
         {
             _keyManager = new KeyManager();
 
             _publicationId = Guid.NewGuid();
-            _carId = Guid.NewGuid();
-            _objectId = Guid.NewGuid();
+            _timeFrameId = Guid.NewGuid();
+            _gradeId = Guid.NewGuid();
 
-            _view = "a view";
-            _mode = "a mode";
-
-            _expectedKey = "publication/" + _publicationId + "/car/" + _carId + "/assets/" + _objectId + "/" + _view + "/" + _mode;
+            _expectedKey = "publication/" + _publicationId + "/time-frame/" + _timeFrameId + "/grade/" + _gradeId + "/grade-options";
         }
 
         protected override void Act()
         {
-            _actualKey = _keyManager.GetAssetsKey(_publicationId, _carId, _objectId, _view, _mode);
+            _actualKey = _keyManager.GetGradeOptionsKey(_publicationId, _timeFrameId, _gradeId);
         }
 
         [Fact]

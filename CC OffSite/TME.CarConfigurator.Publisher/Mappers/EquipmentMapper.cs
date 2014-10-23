@@ -32,22 +32,18 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _categoryInfoMapper = categoryInfoMapper;
         }
 
-        public GradeAccessory MapGradeAccessory(Administration.ModelGenerationGradeAccessory generationGradeAccessory, Administration.ModelGenerationAccessory generationAccessory, Boolean isPreview)
+        public GradeAccessory MapGradeAccessory(Administration.ModelGenerationGradeAccessory generationGradeAccessory, Administration.ModelGenerationAccessory generationAccessory, Administration.Accessory crossModelAccessory, Boolean isPreview)
         {
-            var crossModelAccessory = (Administration.Accessory)Administration.EquipmentItems.GetEquipmentItems(Administration.Enums.EquipmentType.Accessory)[generationGradeAccessory.ID];
-
             var mappedGradeEquipmentItem = new GradeAccessory
             {
-
+                
             };
 
             return MapGradeEquipmentItem(mappedGradeEquipmentItem, generationGradeAccessory, generationAccessory, crossModelAccessory, isPreview);
         }
 
-        public GradeOption MapGradeOption(Administration.ModelGenerationGradeOption generationGradeOption, Administration.ModelGenerationOption generationOption, Boolean isPreview)
+        public GradeOption MapGradeOption(Administration.ModelGenerationGradeOption generationGradeOption, Administration.ModelGenerationOption generationOption, Administration.Option crossModelOption, Boolean isPreview)
         {
-            var crossModelOption = (Administration.Option)Administration.EquipmentItems.GetEquipmentItems(Administration.Enums.EquipmentType.Option)[generationGradeOption.ID];
-
             var mappedGradeEquipmentItem = new GradeOption
             {
                 TechnologyItem = generationOption.TechnologyItem,
@@ -62,8 +58,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
             //var colour = Administration.ExteriorColours.GetExteriorColours()[generationEquipmentItem.Colour.ID];
             
-            mappedEquipmentItem.Brochure = false; // ??
-            mappedEquipmentItem.Category = _categoryInfoMapper.MapEquipmentCategoryInfo(generationGradeEquipmentItem.Category);
+            //mappedEquipmentItem.Category = _categoryInfoMapper.MapEquipmentCategoryInfo(generationGradeEquipmentItem.Category); // ??
             mappedEquipmentItem.Description = generationGradeEquipmentItem.Translation.Description;
             mappedEquipmentItem.ExteriorColour = null; // ?? (transformation?)
             mappedEquipmentItem.FootNote = generationGradeEquipmentItem.Translation.FootNote;

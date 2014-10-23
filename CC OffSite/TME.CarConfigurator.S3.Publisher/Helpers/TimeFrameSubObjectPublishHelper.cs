@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Common;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
+using TME.CarConfigurator.Publisher.Common.Result;
 using TME.CarConfigurator.Repository.Objects.Core;
 using TME.CarConfigurator.S3.Publisher.Extensions;
-using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.S3.Publisher.Interfaces;
-using TME.CarConfigurator.Publisher.Common.Result;
 
 namespace TME.CarConfigurator.S3.Publisher.Helpers
 {
-    public class TimeFramePublishHelper : ITimeFramePublishHelper
+    public class TimeFrameSubObjectPublishHelper : ITimeFrameSubObjectPublishHelper
     {
         public async Task<IEnumerable<Result>> Publish<T>(IContext context,
-            Func<TimeFrame, IEnumerable<T>> objectsGetter,
-            Func<String, String, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
+            Func<TimeFrame, IReadOnlyDictionary<Guid, IReadOnlyList<T>>> objectsGetter,
+            Func<String, String, Guid, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
             where T : BaseObject
         {
             if (context == null) throw new ArgumentNullException("context");
@@ -41,11 +41,15 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
             String country,
             IEnumerable<TimeFrame> timeFrames,
             Guid publicationID,
-            Func<TimeFrame, IEnumerable<T>> objectsGetter,
-            Func<String, String, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
+            Func<TimeFrame, IReadOnlyDictionary<Guid, IReadOnlyList<T>>> objectsGetter,
+            Func<String, String, Guid, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
             where T : BaseObject
         {
-            var tasks = timeFrames.Select(timeFrame => publish(brand, country, publicationID, timeFrame.ID, objectsGetter(timeFrame).Order()));
+            var tasks = timeFrames.SelectMany(timeFrame =>
+            {
+                var items = objectsGetter(timeFrame);
+                return items.Select(entry => publish(brand, country, publicationID, timeFrame.ID, entry.Key, entry.Value.Order()));
+            });
 
             return await Task.WhenAll(tasks);
         }

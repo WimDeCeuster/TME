@@ -15,7 +15,13 @@ namespace TME.CarConfigurator.Repository.Objects.Equipment
         public bool KeyFeature { get; set; }
         public bool GradeFeature { get; set; }
         public bool OptionalGradeFeature { get; set; }
-        public bool Brochure { get; set; }
+        public bool Brochure
+        {
+            get
+            {
+                return Visibility.HasFlag(Enums.Visibility.Brochure);
+            }
+        }
 
         public Visibility Visibility { get; set; }
 

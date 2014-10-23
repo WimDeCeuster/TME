@@ -90,5 +90,19 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => SubModelPublisher.PublishGenerationSubModelsAsync(Context))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
+
+        [Fact]
+        public void ThenItShouldPublishGenerationGradeAccessories()
+        {
+            A.CallTo(() => GradeAccessoryPublisher.Publish(Context))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
+        public void ThenItShouldPublishGenerationGradeOptions()
+        {
+            A.CallTo(() => GradeOptionPublisher.Publish(Context))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
     }
 }

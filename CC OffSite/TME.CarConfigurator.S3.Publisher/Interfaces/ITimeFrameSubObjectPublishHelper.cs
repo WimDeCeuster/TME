@@ -10,11 +10,11 @@ using TME.CarConfigurator.Repository.Objects.Core;
 
 namespace TME.CarConfigurator.S3.Publisher.Interfaces
 {
-    public interface ITimeFramePublishHelper
+    public interface ITimeFrameSubObjectPublishHelper
     {
         Task<IEnumerable<Result>> Publish<T>(IContext context,
-            Func<TimeFrame, IEnumerable<T>> objectsGetter,
-            Func<String, String, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
+            Func<TimeFrame, IReadOnlyDictionary<Guid, IReadOnlyList<T>>> objectsGetter,
+            Func<String, String, Guid, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
             where T : BaseObject;
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Administration.Assets;
 using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Publisher.Mappers.Exceptions;
+using TME.CarConfigurator.Publisher.Exceptions;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
 
 namespace TME.CarConfigurator.Publisher.Mappers

@@ -31,7 +31,7 @@ namespace TME.CarConfigurator.S3.CommandServices
             if (country == null) throw new ArgumentNullException("country");
             if (subModels == null) throw new ArgumentNullException("subModels");
 
-            var path = _keyManager.GetSubModelKey(publicationID, timeFrameID);
+            var path = _keyManager.GetSubModelsKey(publicationID, timeFrameID);
             var value = _serialiser.Serialise(subModels);
 
             return await _service.PutObjectAsync(brand, country, path, value);

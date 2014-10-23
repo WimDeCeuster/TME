@@ -74,7 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CarDbModelGenerationFinder.cs" />
+    <Compile Include="Exceptions\UnrecognisedItemVisibilityException.cs" />
     <Compile Include="Extensions\AssetSetAssetExtensions.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Factories\ContextFactory.cs" />
     <Compile Include="Factories\PublisherFacadeFactory.cs" />
     <Compile Include="Interfaces\IAssetPublisher.cs" />
@@ -93,6 +95,8 @@
     <Compile Include="Interfaces\IDefaultBaseMapper.cs" />
     <Compile Include="Interfaces\IEngineCategoryMapper.cs" />
     <Compile Include="Interfaces\IEngineMapper.cs" />
+    <Compile Include="Interfaces\IGradeOptionPublisher.cs" />
+    <Compile Include="Interfaces\IGradeAccessoryPublisher.cs" />
     <Compile Include="Interfaces\IEquipmentMapper.cs" />
     <Compile Include="Interfaces\ISteeringMapper.cs" />
     <Compile Include="Interfaces\IGradeMapper.cs" />
@@ -130,11 +134,12 @@
     <Compile Include="Mappers\CarConfiguratorVersionMapper.cs" />
     <Compile Include="Mappers\CarMapper.cs" />
     <Compile Include="Mappers\BaseMapper.cs" />
+    <Compile Include="Mappers\CategoryInfoMapper.cs" />
     <Compile Include="Mappers\EngineCategoryMapper.cs" />
     <Compile Include="Mappers\EngineMapper.cs" />
     <Compile Include="Mappers\EngineTypeMapper.cs" />
     <Compile Include="Mappers\EquipmentMapper.cs" />
-    <Compile Include="Mappers\Exceptions\CorruptDataException.cs" />
+    <Compile Include="Exceptions\CorruptDataException.cs" />
     <Compile Include="Mappers\FileTypeMapper.cs" />
     <Compile Include="Mappers\FuelTypeMapper.cs" />
     <Compile Include="Mappers\GenerationMapper.cs" />
@@ -145,6 +150,8 @@
     <Compile Include="Mappers\SteeringMapper.cs" />
     <Compile Include="Mappers\GradeMapper.cs" />
     <Compile Include="Mappers\SubModelMapper.cs" />
+    <Compile Include="Mappers\TimeFrameMapper.cs" />
+    <Compile Include="Mappers\VisibilityMapper.cs" />
     <Compile Include="Mappers\WheelDriveMapper.cs" />
     <Compile Include="Mappers\TransmissionMapper.cs" />
     <Compile Include="Mappers\TransmissionTypeMapper.cs" />
