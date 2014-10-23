@@ -25,8 +25,8 @@ namespace TME.CarConfigurator
             get
             {
                 return FetchedVisibleInModeAndViews = FetchedVisibleInModeAndViews ??
-                                                      RepositoryBodyType.VisibleIn.Select(visibleIn =>
-                                                          new CarVisibleInModeAndView(_carId, RepositoryBodyType.ID, visibleIn, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
+                                                      RepositoryObject.VisibleIn.Select(visibleIn =>
+                                                          new CarVisibleInModeAndView(_carId, RepositoryObject.ID, visibleIn, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
             }
         }
     }

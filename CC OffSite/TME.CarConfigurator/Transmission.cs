@@ -10,9 +10,8 @@ using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator
 {
-    public class Transmission : BaseObject, ITransmission
+    public class Transmission : BaseObject<Repository.Objects.Transmission>, ITransmission
     {
-        private readonly Repository.Objects.Transmission _repositoryTransmission;
         private readonly Publication _repositoryPublication;
         private readonly Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
@@ -25,27 +24,25 @@ namespace TME.CarConfigurator
         public Transmission(Repository.Objects.Transmission transmission, Publication repositoryPublication, Context repositoryContext, IAssetFactory assetFactory)
             : base(transmission)
         {
-            if (transmission == null) throw new ArgumentNullException("transmission");
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
-            _repositoryTransmission = transmission;
             _repositoryPublication = repositoryPublication;
             _repositoryContext = repositoryContext;
             _assetFactory = assetFactory;
         }
 
-        public ITransmissionType Type { get { return _type = _type ?? new TransmissionType(_repositoryTransmission.Type); } }
-        public Boolean KeyFeature { get { return _repositoryTransmission.KeyFeature; } }
-        public Boolean Brochure { get { return _repositoryTransmission.Brochure; } }
-        public Int32 NumberOfGears { get { return _repositoryTransmission.NumberOfGears; } }
+        public ITransmissionType Type { get { return _type = _type ?? new TransmissionType(RepositoryObject.Type); } }
+        public Boolean KeyFeature { get { return RepositoryObject.KeyFeature; } }
+        public Boolean Brochure { get { return RepositoryObject.Brochure; } }
+        public Int32 NumberOfGears { get { return RepositoryObject.NumberOfGears; } }
 
         public IEnumerable<IVisibleInModeAndView> VisibleIn
         {
             get
             {
-                return _visibleInModeAndViews = _visibleInModeAndViews ?? _repositoryTransmission.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(_repositoryTransmission.ID, visibleInModeAndView, _repositoryPublication, _repositoryContext, _assetFactory)).ToList();
+                return _visibleInModeAndViews = _visibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, _repositoryPublication, _repositoryContext, _assetFactory)).ToList();
             }
         }
 

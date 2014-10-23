@@ -64,7 +64,6 @@
     <Compile Include="Factories\CarFactory.cs" />
     <Compile Include="Factories\TransmissionFactory.cs" />
     <Compile Include="Label.cs" />
-    <Compile Include="Core\ReadOnlyList.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="EngineCategory.cs" />
     <Compile Include="EngineType.cs" />

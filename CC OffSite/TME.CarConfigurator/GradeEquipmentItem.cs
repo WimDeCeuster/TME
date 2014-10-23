@@ -1,46 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
 
 namespace TME.CarConfigurator
 {
-    public class GradeEquipmentItem : BaseObject, IGradeEquipmentItem
+    public class GradeEquipmentItem : BaseObject<Repository.Objects.Equipment.GradeEquipmentItem>, IGradeEquipmentItem
     {
-        Repository.Objects.Equipment.GradeEquipmentItem _repositoryEquipmentItem;
-
         public GradeEquipmentItem(Repository.Objects.Equipment.GradeEquipmentItem repoEquipmentItem)
             : base(repoEquipmentItem)
         {
-            if (repoEquipmentItem == null) throw new ArgumentNullException("repoEquipmentItem");
-
-            _repositoryEquipmentItem = repoEquipmentItem;
         }
 
-        public int ShortID { get { return _repositoryEquipmentItem.ShortID; } }
+        public int ShortID { get { return RepositoryObject.ShortID; } }
 
-        public string InternalName { get { return _repositoryEquipmentItem.InternalName; } }
+        public string InternalName { get { return RepositoryObject.InternalName; } }
 
-        public string PartNumber { get { return _repositoryEquipmentItem.PartNumber; } }
+        public string PartNumber { get { return RepositoryObject.PartNumber; } }
 
-        public string Path { get { return _repositoryEquipmentItem.Path; } }
+        public string Path { get { return RepositoryObject.Path; } }
 
-        public bool KeyFeature { get { return _repositoryEquipmentItem.KeyFeature; } }
+        public bool KeyFeature { get { return RepositoryObject.KeyFeature; } }
 
-        public bool GradeFeature { get { return _repositoryEquipmentItem.GradeFeature; } }
+        public bool GradeFeature { get { return RepositoryObject.GradeFeature; } }
 
-        public bool OptionalGradeFeature { get { return _repositoryEquipmentItem.OptionalGradeFeature; } }
+        public bool OptionalGradeFeature { get { return RepositoryObject.OptionalGradeFeature; } }
 
-        public bool Brochure { get { return _repositoryEquipmentItem.Brochure; } }
+        public bool Brochure { get { return RepositoryObject.Brochure; } }
 
-        public bool Standard { get { return _repositoryEquipmentItem.Standard; } }
+        public bool Standard { get { return RepositoryObject.Standard; } }
 
-        public bool Optional { get { return _repositoryEquipmentItem.Optional; } }
+        public bool Optional { get { return RepositoryObject.Optional; } }
 
-        public bool NotAvailable { get { return _repositoryEquipmentItem.NotAvailable; } }
+        public bool NotAvailable { get { return RepositoryObject.NotAvailable; } }
 
         public Interfaces.Enums.Visibility Visibility { get { throw new NotImplementedException(); } }
 
