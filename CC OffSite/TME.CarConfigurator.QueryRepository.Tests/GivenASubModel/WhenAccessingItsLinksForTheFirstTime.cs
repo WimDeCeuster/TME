@@ -60,7 +60,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
         }
 
         [Fact]
-        public void ThenItShouldHaveTheLabels()
+        public void ThenItShouldHaveTheLinks()
         {
             _links.Count().Should().Be(2);
 
