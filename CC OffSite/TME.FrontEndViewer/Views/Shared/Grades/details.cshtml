@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TME.CarConfigurator.Interfaces.ILink>
+﻿@model IEnumerable<TME.CarConfigurator.Interfaces.IGrade>
 
 
 @foreach (var model in Model)
@@ -11,6 +11,6 @@
                 </td>
             </tr>
         </table>
-        @Html.Partial("_link", model)
+        @Html.Partial("_grade", model)
     </div>
 }

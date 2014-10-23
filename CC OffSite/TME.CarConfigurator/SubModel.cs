@@ -16,21 +16,25 @@ namespace TME.CarConfigurator
         private readonly Publication _repositoryPublication;
         private readonly Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
+        private readonly IGradeFactory _gradeFactory;
 
         private IEnumerable<IAsset> _assets;
+        private IEnumerable<IGrade> _grades; 
         private IEnumerable<ILink> _links;
         private IPrice _startingPrice;
 
-        public SubModel(Repository.Objects.SubModel repositorySubModel,Publication repositoryPublication,Context repositoryContext,IAssetFactory assetFactory) 
+        public SubModel(Repository.Objects.SubModel repositorySubModel,Publication repositoryPublication,Context repositoryContext,IAssetFactory assetFactory,IGradeFactory gradeFactory) 
             : base(repositorySubModel)
         {
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
+            if (gradeFactory == null) throw new ArgumentNullException("gradeFactory");
 
             _repositoryPublication = repositoryPublication;
             _repositoryContext = repositoryContext;
             _assetFactory = assetFactory;
+            _gradeFactory = gradeFactory;
         }
 
         public IPrice StartingPrice { get { return _startingPrice = _startingPrice ?? new Price(RepositoryObject.StartingPrice); } }
@@ -42,7 +46,7 @@ namespace TME.CarConfigurator
 
         public IEnumerable<IGrade> Grades
         {
-            get { throw new NotImplementedException(); }
+            get { return _grades = _grades ?? _gradeFactory.GetGrades(_repositoryPublication, _repositoryContext).Where(adminGrade => RepositoryObject.Grades.Any(repoGrade => repoGrade.ID == adminGrade.ID)).ToList(); }
         }
 
         public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }

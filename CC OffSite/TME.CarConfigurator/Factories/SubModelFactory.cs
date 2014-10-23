@@ -13,19 +13,23 @@ namespace TME.CarConfigurator.Factories
     {
         private readonly ISubModelService _subModelService;
         private readonly IAssetFactory _assetFactory;
+        private readonly IGradeFactory _gradeFactory;
 
-        public SubModelFactory(ISubModelService subModelService,IAssetFactory assetFactory)
+        public SubModelFactory(ISubModelService subModelService,IAssetFactory assetFactory,IGradeFactory gradeFactory)
         {
             if (subModelService == null) throw new ArgumentNullException("subModelService");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
+            if (gradeFactory == null) throw new ArgumentNullException("gradeFactory");
+
             _subModelService = subModelService;
             _assetFactory = assetFactory;
+            _gradeFactory = gradeFactory;
         }
 
         public IReadOnlyList<ISubModel> GetSubModels(Publication publication, Context context)
         {
             return _subModelService.GetSubModels(publication.ID, publication.GetCurrentTimeFrame().ID, context)
-                .Select(subModel => new SubModel(subModel, publication, context, _assetFactory))
+                .Select(subModel => new SubModel(subModel, publication, context, _assetFactory,_gradeFactory))
                 .ToArray();
         }
     }
