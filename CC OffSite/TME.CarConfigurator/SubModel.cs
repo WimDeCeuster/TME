@@ -36,9 +36,6 @@ namespace TME.CarConfigurator
             _assetFactory = assetFactory;
         }
 
-
-
-
         public IPrice StartingPrice { get { return _startingPrice = _startingPrice ?? new Price(_repositorySubModel.StartingPrice); } }
 
         public IEnumerable<IEquipmentItem> Equipment
