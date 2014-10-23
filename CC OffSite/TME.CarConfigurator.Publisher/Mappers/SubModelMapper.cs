@@ -43,7 +43,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                     IncludingVat = cheapestCar.VatPrice,
                 },
                 Assets = modelGenerationSubModel.AssetSet.Assets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGenerationSubModel.Generation)).ToList(),
-                Links = modelGenerationSubModel.Links.Where(link => link.IsApplicableLink(modelGenerationSubModel.Generation))
+                Links = modelGenerationSubModel.Links.Where(link => link.IsApplicableFor(modelGenerationSubModel.Generation))
                 .Select(link => _linkMapper.MapLink(link ,isPreview)).ToList()
             };
 
