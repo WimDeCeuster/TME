@@ -92,8 +92,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                         contextData.Transmissions.ToList(),
                         contextData.Steerings.ToList(),
                         contextData.Grades.ToList(),
-                        contextData.GradeAccessories.ToDictionary(entry => entry.Key, entry => (IReadOnlyList<GradeAccessory>)entry.Value),
-                        contextData.GradeOptions.ToDictionary(entry => entry.Key, entry => (IReadOnlyList<GradeOption>)entry.Value),
+                        contextData.GradeEquipments.ToDictionary(),
                         contextData.SubModels.ToList());
         }
 
@@ -107,8 +106,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var steerings = contextData.Steerings.Where(SteeringIsPresentOn(timeFrameCars)).ToList();
             var grades = contextData.Grades.Where(GradeIsPresentOn(timeFrameCars)).ToList();
             var subModels = contextData.SubModels.Where(SubModelIsPresentOn(timeFrameCars)).ToList();
-            var gradeAccessories = FilterGradeEquipmentItems(contextData.GradeAccessories, timeFrameCars);
-            var gradeOptions = FilterGradeEquipmentItems(contextData.GradeOptions, timeFrameCars);
+            var gradeEquipments = FilterGradeEquipments(contextData.GradeEquipments, timeFrameCars);
 
             return new TimeFrame(
                 openDate,
@@ -120,35 +118,41 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 transmissions,
                 steerings,
                 grades,
-                gradeAccessories,
-                gradeOptions,
+                gradeEquipments,
                 subModels);
         }
 
-        static IReadOnlyDictionary<Guid, IReadOnlyList<T>> FilterGradeEquipmentItems<T>(IDictionary<Guid, IList<T>> gradeEquipmentItems, IEnumerable<Administration.Car> cars)
+        static IReadOnlyList<T> FilterGradeEquipmentItems<T>(IEnumerable<T> gradeEquipmentItems, IEnumerable<Administration.Car> cars)
             where T : EquipmentItem
         {
-            return gradeEquipmentItems.Where(entry => cars.Any(dbCar => dbCar.GradeID == entry.Key))
-                                      .ToDictionary(
-                                          entry => entry.Key,
-                                          entry => (IReadOnlyList<T>)entry.Value.Where(ItemIsPresentOnA(cars)).Cast<T>().ToList())
-                                      .Where(entry => entry.Value.Any())
-                                      .ToDictionary();
+            return gradeEquipmentItems.Where(ItemIsPresentOnA(cars)).Cast<T>().ToList();
+        }
+
+        static GradeEquipment GetFilteredGradeEquipment(GradeEquipment gradeEquipment, IReadOnlyList<Administration.Car> cars)
+        {
+            return new GradeEquipment
+            {
+                Accessories = FilterGradeEquipmentItems(gradeEquipment.Accessories, cars),
+                Options = FilterGradeEquipmentItems(gradeEquipment.Options, cars)
+            };
+        }
+
+        static IReadOnlyDictionary<Guid, GradeEquipment> FilterGradeEquipments(IDictionary<Guid, GradeEquipment> gradeEquipments, IReadOnlyList<Administration.Car> cars)
+        {
+            return gradeEquipments.Where(entry => cars.Any(dbCar => dbCar.GradeID == entry.Key))
+                                  .ToDictionary(
+                                      entry => entry.Key,
+                                      entry => GetFilteredGradeEquipment(entry.Value, cars));
         }
 
         static Func<EquipmentItem, Boolean> ItemIsPresentOnA(IEnumerable<Administration.Car> cars)
         {
-            return item => cars.Any(car => car.Equipment.Any(HasId(item.ID)));
-        }
-
-        static Func<UniqueGuidBusinessBase, Boolean> HasId(Guid id)
-        {
-            return baseObject => baseObject.ID == id;
+            return item => cars.Any(car => car.Equipment.Any(equipment => equipment.ID == item.ID && equipment.Availability != Administration.Enums.Availability.NotAvailable));
         }
 
         static Func<Car, Boolean> CarMatches(IReadOnlyList<Administration.Car> timeFrameCars)
         {
-            return car => timeFrameCars.Any(HasId(car.ID));
+            return car => timeFrameCars.Any(timeFrameCar => timeFrameCar.ID == car.ID);
         }
 
         static Func<BodyType, Boolean> BodyTypeIsPresentOn(IEnumerable<Administration.Car> cars)

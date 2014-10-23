@@ -12,7 +12,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
     {
         public CategoryInfo MapEquipmentCategoryInfo(Administration.EquipmentCategoryInfo categoryInfo)
         {
-            var category = Administration.EquipmentCategories.GetEquipmentCategories()[categoryInfo.ID];
+            var category = Administration.EquipmentCategories.GetEquipmentCategories().Find(categoryInfo.ID);
 
             return new CategoryInfo
             {

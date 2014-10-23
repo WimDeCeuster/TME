@@ -272,8 +272,6 @@ namespace TME.CarConfigurator.Publisher
                                                         (Administration.Accessory)crossModelAccessories[accessory.ID],
                                                         isPreview));
 
-                data.GradeAccessories.Add(grade.ID, accessories.ToList());
-
                 var options = grade.Equipment.OfType<Administration.ModelGenerationGradeOption>()
                                                                  .Select(option =>
                                                                      _equipmentMapper.MapGradeOption(
@@ -282,7 +280,11 @@ namespace TME.CarConfigurator.Publisher
                                                                         (Administration.Option)crossModelOptions[option.ID],
                                                                         isPreview));
 
-                data.GradeOptions.Add(grade.ID, options.ToList());
+                data.GradeEquipments.Add(grade.ID, new GradeEquipment
+                {
+                    Accessories = accessories.ToList(),
+                    Options = options.ToList()
+                });
             }
         }
 

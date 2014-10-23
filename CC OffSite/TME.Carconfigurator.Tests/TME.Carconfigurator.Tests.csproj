@@ -89,7 +89,6 @@
     <Compile Include="Base\PublicationTestBase.cs" />
     <Compile Include="Builders\AssetTypeBuilder.cs" />
     <Compile Include="Builders\GradeOptionPublisherBuilder.cs" />
-    <Compile Include="Builders\GradeAccessoryPublisherBuilder.cs" />
     <Compile Include="Builders\GradePublisherBuilder.cs" />
     <Compile Include="Builders\TransmissionPublisherBuilder.cs" />
     <Compile Include="Builders\WheelDrivePublisherBuilder.cs" />
@@ -104,10 +103,9 @@
     <Compile Include="Builders\SubModelPublisherBuilder.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingABodyTypesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarsKey.cs" />
-    <Compile Include="GivenAKeyManager\WhenRequestingAGradeOptionsKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingAGradeEquipmentKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAModelsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAnAssetsKey.cs" />
-    <Compile Include="GivenAKeyManager\WhenRequestingAGradeAccessoriesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASteeringsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAGradesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASubModelKey.cs" />
@@ -123,8 +121,7 @@
     <Compile Include="GivenAS3AssetPublisher\WhenPublishingCarAssets.cs" />
     <Compile Include="GivenAS3AssetPublisher\WhenPublishingTransmissionAssetsForAModelGeneration.cs" />
     <Compile Include="GivenAS3BodyTypePublisher\WhenPublishingGenerationBodyTypes.cs" />
-    <Compile Include="GivenAS3GradeOptionPublisher\WhenPublishingGradeOptions.cs" />
-    <Compile Include="GivenAS3GradeAccessoryPublisher\WhenPublishingGradeAccessories.cs" />
+    <Compile Include="GivenAS3GradeEquipmentPublisher\WhenPublishingGradeEquipments.cs" />
     <Compile Include="GivenAS3SteeringPublisher\WhenPublishingGenerationWheelDrives.cs" />
     <Compile Include="GivenAS3GradePublisher\WhenPublishingGenerationGrades.cs" />
     <Compile Include="GivenAS3SubModelPublisher\WhenPublishingASubModel.cs" />

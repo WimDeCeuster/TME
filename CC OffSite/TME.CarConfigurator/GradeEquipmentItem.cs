@@ -26,7 +26,8 @@ namespace TME.CarConfigurator
 
         public bool OptionalGradeFeature { get { return RepositoryObject.OptionalGradeFeature; } }
 
-        public bool Brochure { get { return RepositoryObject.Brochure; } }
+        [Obsolete]
+        public bool Brochure { get { return RepositoryObject.Visibility.HasFlag(Repository.Objects.Enums.Visibility.Brochure); } }
 
         public bool Standard { get { return RepositoryObject.Standard; } }
 

@@ -8,7 +8,7 @@ using TME.CarConfigurator.Publisher.Common.Result;
 
 namespace TME.CarConfigurator.Publisher.Interfaces
 {
-    public interface IGradeAccessoryPublisher
+    public interface IGradeEquipmentPublisher
     {
         Task<IEnumerable<Result>> Publish(IContext context);
     }

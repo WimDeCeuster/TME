@@ -47,7 +47,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var mappedGradeEquipmentItem = new GradeOption
             {
                 TechnologyItem = generationOption.TechnologyItem,
-                ParentOptionShortID = 0 // ??
+                //ParentOptionShortID = generationGradeOption.HasParentOption ? generationGradeOption.ParentOption.ShortID : 0 // ??
             };
 
             return MapGradeEquipmentItem(mappedGradeEquipmentItem, generationGradeOption, generationOption, crossModelOption, isPreview);
@@ -57,14 +57,37 @@ namespace TME.CarConfigurator.Publisher.Mappers
             where T : EquipmentItem
         {
             //var colour = Administration.ExteriorColours.GetExteriorColours()[generationEquipmentItem.Colour.ID];
-            
-            //mappedEquipmentItem.Category = _categoryInfoMapper.MapEquipmentCategoryInfo(generationGradeEquipmentItem.Category); // ??
+            //
+            //var x = generationEquipmentItem.Generation.ColourCombinations.ExteriorColours().First(colour => colour.ID == generationEquipmentItem.Colour.ID);
+            //
+            //// colour.Code; => xml item name
+            //
+            //var hostName = String.Empty; //ConfigurationManager.Apsettings... "hostname"?
+
+            //generationEquipmentItem.Generation.Assets.First(asset => asset.AssetType.Code.StartsWith("colourschema", StringComparison.InvariantCultureIgnoreCase)).FileName;
+
+            /*
+             <colours method="rgb" model="AYGO">
+                <item name="4W5">
+                    <rgb>ff512d</rgb>
+                    <brightness>-15</brightness>
+                    <contrast>0</contrast>
+                    <saturation>100</saturation>
+                    <alpha>0.60</alpha>
+                </item>
+             </colours>
+            */
+
+
+
+
+            mappedEquipmentItem.Category = _categoryInfoMapper.MapEquipmentCategoryInfo(generationGradeEquipmentItem.Category); // ??
             mappedEquipmentItem.Description = generationGradeEquipmentItem.Translation.Description;
             mappedEquipmentItem.ExteriorColour = null; // ?? (transformation?)
             mappedEquipmentItem.FootNote = generationGradeEquipmentItem.Translation.FootNote;
             mappedEquipmentItem.GradeFeature = generationGradeEquipmentItem.GradeFeature;
             mappedEquipmentItem.ID = generationGradeEquipmentItem.ID;
-            mappedEquipmentItem.InternalName = null; // ??
+            mappedEquipmentItem.InternalName = generationEquipmentItem.BaseName;
             mappedEquipmentItem.KeyFeature = generationEquipmentItem.KeyFeature; // ??
             mappedEquipmentItem.Labels = generationGradeEquipmentItem.Translation.Labels.Select(_labelMapper.MapLabel)
                                                                                    .Where(label => !String.IsNullOrWhiteSpace(label.Value))
@@ -73,7 +96,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.Name = generationGradeEquipmentItem.Translation.Name.DefaultIfEmpty(generationGradeEquipmentItem.Name);
             mappedEquipmentItem.OptionalGradeFeature = generationGradeEquipmentItem.OptionalGradeFeature;
             mappedEquipmentItem.PartNumber = generationGradeEquipmentItem.PartNumber;
-            mappedEquipmentItem.Path = null; // ?? (master path/sort path)
+            mappedEquipmentItem.Path = Administration.MyContext.GetContext().EquipmentGroups.Find(generationGradeEquipmentItem.Group.ID).Path;
             mappedEquipmentItem.ShortID = 0; // ??
             mappedEquipmentItem.SortIndex = generationGradeEquipmentItem.Index;
             mappedEquipmentItem.Visibility = _visibilityMapper.MapVisibility(generationEquipmentItem.Visibility); // ??

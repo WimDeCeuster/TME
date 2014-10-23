@@ -42,8 +42,7 @@
     <Compile Include="IAssetService.cs" />
     <Compile Include="IBodyTypeService.cs" />
     <Compile Include="ICarService.cs" />
-    <Compile Include="IGradeOptionService.cs" />
-    <Compile Include="IGradeAccessoryService.cs" />
+    <Compile Include="IGradeEquipmentService.cs" />
     <Compile Include="ISteeringService.cs" />
     <Compile Include="IGradeService.cs" />
     <Compile Include="ISubModelService.cs" />
