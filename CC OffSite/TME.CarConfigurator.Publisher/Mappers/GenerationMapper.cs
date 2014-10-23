@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 
@@ -31,7 +32,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             {
                 Assets = generation.Assets.Select(_assetMapper.MapLinkedAsset).ToList(),
                 CarConfiguratorVersion = _carConfiguratorVersionMapper.MapCarConfiguratorVersion(generation.ActiveCarConfiguratorVersion),
-                Links = model.Links.Where(link => IsApplicableLink(link, generation))
+                Links = model.Links.Where(link => link.IsApplicableLink(generation))
                                    .Select(link => _linkMapper.MapLink(link, isPreview))
                                    .ToList(),
                 SortIndex = model.Index,
@@ -39,12 +40,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
 
             return _baseMapper.MapDefaults(mappedGeneration, generation, generation, generation.Name);
-        }
-
-        private static Boolean IsApplicableLink(Administration.Link link, Administration.ModelGeneration generation)
-        {
-            return link.Type.CarConfiguratorversionID == generation.ActiveCarConfiguratorVersion.ID ||
-                   link.Type.CarConfiguratorversionID == 0;
         }
     }
 }

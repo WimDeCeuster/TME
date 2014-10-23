@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
@@ -42,17 +43,13 @@ namespace TME.CarConfigurator.Publisher.Mappers
                     IncludingVat = cheapestCar.VatPrice,
                 },
                 Assets = modelGenerationSubModel.AssetSet.Assets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGenerationSubModel.Generation)).ToList(),
-                Links = modelGenerationSubModel.Links.Where(link => IsApplicableLink(link, modelGenerationSubModel.Generation))
+                Links = modelGenerationSubModel.Links.Where(link => link.IsApplicableLink(modelGenerationSubModel.Generation))
                 .Select(link => _linkMapper.MapLink(link ,isPreview)).ToList()
             };
 
             return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel, modelGenerationSubModel, modelGenerationSubModel.Name);
         }
 
-        private static Boolean IsApplicableLink(Administration.Link link, Administration.ModelGeneration generation)
-        {
-            return link.Type.CarConfiguratorversionID == generation.ActiveCarConfiguratorVersion.ID ||
-                   link.Type.CarConfiguratorversionID == 0;
-        }
+        
     }
 }
