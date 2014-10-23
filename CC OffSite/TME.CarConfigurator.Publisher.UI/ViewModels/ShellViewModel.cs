@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Common.Enums;
@@ -95,20 +96,28 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
         public bool CanPublishLive { get { return SelectedGeneration != null; } }
         public bool CanPublishPreview { get { return SelectedGeneration != null; } }
 
-        public void PublishLive()
+        public async Task PublishLive()
         {
-            Publish(PublicationDataSubset.Live);
+            var result = await Publish(PublicationDataSubset.Live);
+
+            DisplayResult(result);
         }
 
-        public void PublishPreview()
+        public async Task PublishPreview()
         {
-            Publish(PublicationDataSubset.Preview);
+            var result = await Publish(PublicationDataSubset.Preview);
+
+            DisplayResult(result);
         }
 
-        private async void Publish(PublicationDataSubset publicationDataSubset)
+        private async Task<Result> Publish(PublicationDataSubset publicationDataSubset)
         {
-            var result = await PublicationService.Publish(SelectedGeneration.ID, Environment, Target, Brand, Country, publicationDataSubset);
-            MessageBox.Show(result is Successfull ? "Success!" : "Failure!");
+            return await PublicationService.Publish(SelectedGeneration.ID, Environment, Target, Brand, Country, publicationDataSubset);
+        }
+
+        private static void DisplayResult(Result result)
+        {
+            MessageBox.Show(result is Successfull ? "Success!" : string.Format("Failure! {0}", ((Failed)result).Reason));
         }
     }
 }

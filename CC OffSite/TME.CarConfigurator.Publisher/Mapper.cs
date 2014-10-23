@@ -127,19 +127,18 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var car in cars)
             {
-                FillCarAssets(car, modelGeneration, car.Generation.BodyTypes[car.BodyTypeID], contextData);
-                FillCarAssets(car, modelGeneration, car.Generation.Engines[car.EngineID], contextData);
-                FillCarAssets(car, modelGeneration, car.Generation.Grades[car.GradeID], contextData);
+                FillCarAssets(car, contextData, modelGeneration, car.Generation.BodyTypes[car.BodyTypeID]);
+                FillCarAssets(car, contextData, modelGeneration, car.Generation.Engines[car.EngineID]);
+                FillCarAssets(car, contextData, modelGeneration, car.Generation.Grades[car.GradeID]);
             }
         }
 
-        private void FillCarAssets(Administration.Car car, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet, ContextData contextData)
+        private void FillCarAssets(Administration.Car car, ContextData contextData, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
         {
             var objectAssetsOnCarLevel = GetObjectAssetsOnCarLevel(car, modelGeneration, objectWithAssetSet);
             var objectAssetsOnGenerationLevel = GetObjectAssetsOnGenerationLevel(objectWithAssetSet.GetObjectID(), contextData.Assets);
 
             var allCarAssetsForThisObject = objectAssetsOnCarLevel.Concat(objectAssetsOnGenerationLevel).ToList();
-            // TODO:filter out non-3D assets
 
             contextData.CarAssets[car.ID].Add(objectWithAssetSet.GetObjectID(), allCarAssetsForThisObject);
         }
@@ -153,7 +152,12 @@ namespace TME.CarConfigurator.Publisher
 
         private IEnumerable<Asset> GetObjectAssetsOnGenerationLevel(Guid objectId, IDictionary<Guid, List<Asset>> assets)
         {
-            return assets.ContainsKey(objectId) ? assets[objectId] : new List<Asset>();
+            if (!assets.ContainsKey(objectId)) 
+                return new List<Asset>();
+
+            // TODO: check with Wim if correct assumption
+            return assets[objectId].Where(a => !string.IsNullOrEmpty(a.AssetType.View)); // on car level, we only need generation assets that can be used in the car configurator spin
+            
         }
 
         private Dictionary<Guid, List<Asset>> GetSubModelAssets(ModelGeneration modelGeneration)

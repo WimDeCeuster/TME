@@ -2,7 +2,6 @@
 using Amazon.S3;
 using Amazon.S3.Model;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.IO;
 using System;
 using TME.CarConfigurator.Publisher.Common.Result;
@@ -54,7 +53,7 @@ namespace TME.CarConfigurator.S3.Shared
             if (result.HttpStatusCode == System.Net.HttpStatusCode.OK)
                 return new Successfull();
 
-            return new Failed();
+            return new Failed{Reason = string.Format("Could not put object for request {0}\\{1}, response status code was {2}", request.BucketName, request.Key, result.HttpStatusCode)};
         }
 
         private string GetBucketName(String brand, String country)
