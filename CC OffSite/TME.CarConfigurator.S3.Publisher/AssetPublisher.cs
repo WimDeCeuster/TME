@@ -108,14 +108,7 @@ namespace TME.CarConfigurator.S3.Publisher
         {
             var assetsByModeAndView = GetAssetsGroupedByModeAndView(assets).ToList();
 
-            var tasks = new List<Task<Result>>();
-
-            foreach (var grouping in assetsByModeAndView)
-            {
-                tasks.Add(_assetService.PutAssetsByModeAndView(brand, country, publicationID, carId, objectID, grouping.Key.Mode, grouping.Key.View, grouping));
-            }
-
-            //var tasks = assetsByModeAndView.Select(grouping => _assetService.PutAssetsByModeAndView(brand, country, publicationID, carId, objectID, grouping.Key.Mode, grouping.Key.View, grouping)).ToList();
+            var tasks = assetsByModeAndView.Select(grouping => _assetService.PutAssetsByModeAndView(brand, country, publicationID, carId, objectID, grouping.Key.Mode, grouping.Key.View, grouping)).ToList();
 
             return await Task.WhenAll(tasks);
         }
