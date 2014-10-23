@@ -96,6 +96,8 @@
     <Compile Include="GivenAModel\WhenAccessingItsSteeringsForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsGradesForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsGradesForTheSecondTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsSubModelsForTheFirstTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsSubModelsForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsWheelDrivesForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsTransmissionsForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsSteeringsForTheSecondTime.cs" />
