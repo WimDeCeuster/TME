@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="CarDbModelGenerationFinder.cs" />
     <Compile Include="Extensions\AssetSetAssetExtensions.cs" />
+    <Compile Include="Extensions\LinkExtensions.cs" />
     <Compile Include="Factories\ContextFactory.cs" />
     <Compile Include="Factories\PublisherFacadeFactory.cs" />
     <Compile Include="Interfaces\IAssetPublisher.cs" />

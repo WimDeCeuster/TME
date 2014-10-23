@@ -8,6 +8,6 @@ namespace TME.CarConfigurator.Publisher.Extensions
         {
             return link.Type.CarConfiguratorversionID == generation.ActiveCarConfiguratorVersion.ID ||
                    link.Type.CarConfiguratorversionID == 0;
-        } 
+        }
     }
 }
