@@ -11,9 +11,8 @@ using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator
 {
-    public class SubModel : BaseObject, ISubModel
+    public class SubModel : BaseObject<Repository.Objects.SubModel>, ISubModel
     {
-        private readonly Repository.Objects.SubModel _repositorySubModel;
         private readonly Publication _repositoryPublication;
         private readonly Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
@@ -25,21 +24,16 @@ namespace TME.CarConfigurator
         public SubModel(Repository.Objects.SubModel repositorySubModel,Publication repositoryPublication,Context repositoryContext,IAssetFactory assetFactory) 
             : base(repositorySubModel)
         {
-            if (repositorySubModel == null) throw new ArgumentNullException("repositorySubModel");
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
-            _repositorySubModel = repositorySubModel;
             _repositoryPublication = repositoryPublication;
             _repositoryContext = repositoryContext;
             _assetFactory = assetFactory;
         }
 
-
-
-
-        public IPrice StartingPrice { get { return _startingPrice = _startingPrice ?? new Price(_repositorySubModel.StartingPrice); } }
+        public IPrice StartingPrice { get { return _startingPrice = _startingPrice ?? new Price(RepositoryObject.StartingPrice); } }
 
         public IEnumerable<IEquipmentItem> Equipment
         {
@@ -55,7 +49,7 @@ namespace TME.CarConfigurator
 
         public IEnumerable<ILink> Links
         {
-            get { return _links = _links ?? _repositorySubModel.Links.Select(l => new Link(l)).ToArray(); }
+            get { return _links = _links ?? RepositoryObject.Links.Select(l => new Link(l)).ToArray(); }
         }
 
  

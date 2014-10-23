@@ -11,9 +11,8 @@ using TME.CarConfigurator.Interfaces.Factories;
 
 namespace TME.CarConfigurator
 {
-    public class WheelDrive : BaseObject, IWheelDrive
+    public class WheelDrive : BaseObject<Repository.Objects.WheelDrive>, IWheelDrive
     {
-        readonly Repository.Objects.WheelDrive _repositoryWheelDrive;
         readonly Repository.Objects.Publication _repositoryPublication;
         readonly Repository.Objects.Context _repositoryContext;
         readonly IAssetFactory _assetFactory;
@@ -24,26 +23,24 @@ namespace TME.CarConfigurator
         public WheelDrive(Repository.Objects.WheelDrive repositoryWheelDrive, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory)
             : base(repositoryWheelDrive)
         {
-            if (repositoryWheelDrive == null) throw new ArgumentNullException("repositoryWheelDrive");
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
-            _repositoryWheelDrive = repositoryWheelDrive;
             _repositoryPublication = repositoryPublication;
             _repositoryContext = repositoryContext;
             _assetFactory = assetFactory;
         }
 
-        public Boolean KeyFeature { get { return _repositoryWheelDrive.KeyFeature; } }
+        public Boolean KeyFeature { get { return RepositoryObject.KeyFeature; } }
 
-        public Boolean Brochure { get { return _repositoryWheelDrive.Brochure; } }
+        public Boolean Brochure { get { return RepositoryObject.Brochure; } }
 
         public IEnumerable<IVisibleInModeAndView> VisibleIn
         {
             get
             {
-                return _visibleInModeAndViews = _visibleInModeAndViews ?? _repositoryWheelDrive.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(_repositoryWheelDrive.ID, visibleInModeAndView, _repositoryPublication, _repositoryContext, _assetFactory)).ToList();
+                return _visibleInModeAndViews = _visibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, _repositoryPublication, _repositoryContext, _assetFactory)).ToList();
             }
         }
 

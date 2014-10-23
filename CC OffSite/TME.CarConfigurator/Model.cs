@@ -9,9 +9,8 @@ using TME.CarConfigurator.Interfaces.Factories;
 
 namespace TME.CarConfigurator
 {
-    public class Model : Core.BaseObject, IModel
+    public class Model : Core.BaseObject<Repository.Objects.Model>, IModel
     {
-        private readonly Repository.Objects.Model _repositoryModel;
         private readonly Repository.Objects.Context _repositoryContext;
         private readonly IPublicationFactory _publicationFactory;
         private readonly IBodyTypeFactory _bodyTypeFactory;
@@ -41,14 +40,14 @@ namespace TME.CarConfigurator
         {
             get
             {
-                _repositoryPublication = _repositoryPublication ?? _publicationFactory.GetPublication(_repositoryModel, _repositoryContext);
+                _repositoryPublication = _repositoryPublication ?? _publicationFactory.GetPublication(RepositoryObject, _repositoryContext);
                 return _repositoryPublication;
             }
         }
 
-        public string Brand { get { return _repositoryModel.Brand; } }
+        public string Brand { get { return RepositoryObject.Brand; } }
 
-        public bool Promoted { get { return _repositoryModel.Promoted; } }
+        public bool Promoted { get { return RepositoryObject.Promoted; } }
 
         public string SSN { get { return RepositoryPublication.Generation.SSN; } }
 
@@ -92,7 +91,6 @@ namespace TME.CarConfigurator
             ISubModelFactory subModelFactory)
             : base(repositoryModel)
         {
-            if (repositoryModel == null) throw new ArgumentNullException("repositoryModel");
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
             if (bodyTypeFactory == null) throw new ArgumentNullException("bodyTypeFactory");
@@ -104,7 +102,6 @@ namespace TME.CarConfigurator
             if (carFactory == null) throw new ArgumentNullException("carFactory");
             if (subModelFactory == null) throw new ArgumentNullException("subModelFactory");
 
-            _repositoryModel = repositoryModel;
             _repositoryContext = repositoryContext;
             _publicationFactory = publicationFactory;
             _bodyTypeFactory = bodyTypeFactory;

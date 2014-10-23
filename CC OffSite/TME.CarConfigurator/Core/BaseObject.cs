@@ -5,61 +5,61 @@ using TME.CarConfigurator.Interfaces.Core;
 
 namespace TME.CarConfigurator.Core
 {
-    public abstract class BaseObject : IBaseObject
+    public abstract class BaseObject<T> : IBaseObject where T : Repository.Objects.Core.BaseObject
     {
-        protected readonly Repository.Objects.Core.BaseObject RepositoryBaseObject;
+        protected readonly T RepositoryObject;
         private IEnumerable<ILabel> _labels;
 
         public Guid ID
         {
-            get { return RepositoryBaseObject.ID; }
+            get { return RepositoryObject.ID; }
         }
 
         public string InternalCode
         {
-            get { return RepositoryBaseObject.InternalCode; }
+            get { return RepositoryObject.InternalCode; }
         }
 
         public string LocalCode
         {
-            get { return RepositoryBaseObject.LocalCode; }
+            get { return RepositoryObject.LocalCode; }
         }
 
         public string Name
         {
-            get { return RepositoryBaseObject.Name; }
+            get { return RepositoryObject.Name; }
         }
 
         public string Description
         {
-            get { return RepositoryBaseObject.Description; }
+            get { return RepositoryObject.Description; }
         }
 
         public string FootNote
         {
-            get { return RepositoryBaseObject.FootNote; }
+            get { return RepositoryObject.FootNote; }
         }
 
         public string ToolTip
         {
-            get { return RepositoryBaseObject.ToolTip; }
+            get { return RepositoryObject.ToolTip; }
         }
 
         public int SortIndex
         {
-            get { return RepositoryBaseObject.SortIndex; }
+            get { return RepositoryObject.SortIndex; }
         }
 
         public IEnumerable<ILabel> Labels
         {
-            get { return _labels = _labels ?? RepositoryBaseObject.Labels.Select(label => new Label(label)).ToArray(); }
+            get { return _labels = _labels ?? RepositoryObject.Labels.Select(label => new Label(label)).ToArray(); }
         }
 
-        protected BaseObject(Repository.Objects.Core.BaseObject repositoryBaseObject)
+        protected BaseObject(T repositoryObject)
         {
-            if (repositoryBaseObject == null) throw new ArgumentNullException("repositoryBaseObject");
+            if (repositoryObject == null) throw new ArgumentNullException("repositoryObject");
 
-            RepositoryBaseObject = repositoryBaseObject;
+            RepositoryObject = repositoryObject;
         }
     }
 }

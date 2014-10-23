@@ -10,9 +10,8 @@ using TME.CarConfigurator.Interfaces.Factories;
 
 namespace TME.CarConfigurator
 {
-    public class BodyType : BaseObject, IBodyType
+    public class BodyType : BaseObject<Repository.Objects.BodyType>, IBodyType
     {
-        protected readonly Repository.Objects.BodyType RepositoryBodyType;
         protected readonly Repository.Objects.Publication RepositoryPublication;
         protected readonly Repository.Objects.Context RepositoryContext;
         protected readonly IAssetFactory AssetFactory;
@@ -22,26 +21,24 @@ namespace TME.CarConfigurator
         public BodyType(Repository.Objects.BodyType repositoryBodyType, Repository.Objects.Publication publication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory)
             : base(repositoryBodyType)
         {
-            if (repositoryBodyType == null) throw new ArgumentNullException("repositoryBodyType");
             if (publication == null) throw new ArgumentNullException("publication");
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
-            RepositoryBodyType = repositoryBodyType;
             RepositoryPublication = publication;
             RepositoryContext = repositoryContext;
             AssetFactory = assetFactory;
         }
 
-        public int NumberOfDoors { get { return RepositoryBodyType.NumberOfDoors; } }
-        public int NumberOfSeats { get { return RepositoryBodyType.NumberOfSeats; } }
+        public int NumberOfDoors { get { return RepositoryObject.NumberOfDoors; } }
+        public int NumberOfSeats { get { return RepositoryObject.NumberOfSeats; } }
 
         public virtual IEnumerable<IVisibleInModeAndView> VisibleIn
         {
             get
             {
                 return
-                    FetchedVisibleInModeAndViews = FetchedVisibleInModeAndViews ?? RepositoryBodyType.VisibleIn.Select(x => new VisibleInModeAndView(RepositoryBodyType.ID, x, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
+                    FetchedVisibleInModeAndViews = FetchedVisibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(x => new VisibleInModeAndView(RepositoryObject.ID, x, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
 
             }
         }
