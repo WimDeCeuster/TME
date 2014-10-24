@@ -56,7 +56,16 @@
                 var newProperty = newObject.find('.property[data-id=' + oldProperty.data('id') + ']')
                                            .filter(isClosestTo(newObject))
 
-                if (newProperty.length !== 1 || newProperty.html() !== oldProperty.html()) {
+                var allowMismatch = newProperty.hasClass('allow-mismatch')
+                var isMismatch = newProperty.html() !== oldProperty.html()
+                var isUnique = newProperty.length === 1
+
+                if (isUnique && isMismatch && allowMismatch) {
+                    newProperty.addClass('allowed-mismatch')
+                    oldProperty.addClass('allowed-mismatch')
+                }
+
+                if (!isUnique || (isMismatch && !allowMismatch)) {
                     topNewObject.parent('.clickable').addClass('mismatch')
                     newProperty.addClass('mismatch')
                     if (!topNewObject.is(newObject))

@@ -29,7 +29,7 @@ namespace TME.CarConfigurator.S3.Publisher
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            return await _timeFramePublishHelper.Publish(context, timeFrame => timeFrame.Grades, _gradeService.PutTimeFrameGenerationGrades);
+            return await _timeFramePublishHelper.PublishList(context, timeFrame => timeFrame.Grades, _gradeService.PutTimeFrameGenerationGrades);
         }
     }
 }

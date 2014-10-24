@@ -5,7 +5,7 @@ using TME.CarConfigurator.Interfaces.Equipment;
 
 namespace TME.CarConfigurator
 {
-    public class GradeEquipmentItem : BaseObject<Repository.Objects.Equipment.GradeEquipmentItem>, IGradeEquipmentItem
+    public abstract class GradeEquipmentItem : BaseObject<Repository.Objects.Equipment.GradeEquipmentItem>, IGradeEquipmentItem
     {
         public GradeEquipmentItem(Repository.Objects.Equipment.GradeEquipmentItem repoEquipmentItem)
             : base(repoEquipmentItem)
@@ -26,7 +26,8 @@ namespace TME.CarConfigurator
 
         public bool OptionalGradeFeature { get { return RepositoryObject.OptionalGradeFeature; } }
 
-        public bool Brochure { get { return RepositoryObject.Brochure; } }
+        [Obsolete]
+        public bool Brochure { get { return RepositoryObject.Visibility.HasFlag(Repository.Objects.Enums.Visibility.Brochure); } }
 
         public bool Standard { get { return RepositoryObject.Standard; } }
 

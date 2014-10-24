@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using Caliburn.Micro;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Common.Enums;
@@ -14,13 +16,18 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
     {
         private const string Brand = "Toyota";
         private const string Target = "S3";
-        private const string Environment = "Development";
 
         private string _country = "DE";
         private Model _selectedModel;
         private ModelGeneration _selectedGeneration;
         private bool _isPublishing;
         private static ICarConfiguratorPublisher _carConfiguratorPublisher;
+
+        public ShellViewModel()
+        {
+            Environments = new[] { "Development", "Production" };
+            SelectedEnvironment = Environments.First();
+        }
 
         public ICarConfiguratorPublisher PublicationService
         {
@@ -80,6 +87,8 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
             get { return SelectedModel == null ? new List<ModelGeneration>() : (IList<ModelGeneration>)SelectedModel.Generations; }
         }
 
+        public IEnumerable<String> Environments { get; set; }
+
         public ModelGeneration SelectedGeneration
         {
             get { return _selectedGeneration; }
@@ -89,13 +98,12 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
                 _selectedGeneration = value;
 
                 NotifyOfPropertyChange(() => SelectedGeneration);
-                NotifyOfPropertyChange(() => CanPublishLive);
-                NotifyOfPropertyChange(() => CanPublishPreview);
+                NotifyOfPropertyChange(() => CanPublishLiveAsync);
+                NotifyOfPropertyChange(() => CanPublishPreviewAsync);
             }
         }
 
-        public bool CanPublishLive { get { return SelectedGeneration != null && !IsPublishing; } }
-        public bool CanPublishPreview { get { return SelectedGeneration != null && !IsPublishing; } }
+        public string SelectedEnvironment { get; set; }
 
         public bool IsPublishing
         {
@@ -105,10 +113,13 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
                 if (value.Equals(_isPublishing)) return;
                 _isPublishing = value;
                 NotifyOfPropertyChange(() => IsPublishing);
-                NotifyOfPropertyChange(() => CanPublishLive);
-                NotifyOfPropertyChange(() => CanPublishPreview);
+                NotifyOfPropertyChange(() => CanPublishLiveAsync);
+                NotifyOfPropertyChange(() => CanPublishPreviewAsync);
             }
         }
+
+        public bool CanPublishLiveAsync { get { return SelectedGeneration != null && !IsPublishing; } }
+        public bool CanPublishPreviewAsync { get { return SelectedGeneration != null && !IsPublishing; } }
 
         public async void PublishLiveAsync()
         {
@@ -126,11 +137,11 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
         private async Task<Result> PublishAsync(PublicationDataSubset publicationDataSubset)
         {
-            if (IsPublishing) return new Failed{Reason = "Already finished"};
+            if (IsPublishing) return new Failed { Reason = "Already finished" };
 
             IsPublishing = true;
 
-            var result = await PublicationService.PublishAsync(SelectedGeneration.ID, Environment, Target, Brand, Country, publicationDataSubset);
+            var result = await PublicationService.PublishAsync(SelectedGeneration.ID, SelectedEnvironment, Target, Brand, Country, publicationDataSubset);
 
             IsPublishing = false;
 

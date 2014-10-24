@@ -10,9 +10,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class CategoryInfoMapper : ICategoryInfoMapper
     {
-        public CategoryInfo MapEquipmentCategoryInfo(Administration.EquipmentCategoryInfo categoryInfo)
+        public CategoryInfo MapEquipmentCategoryInfo(Administration.EquipmentCategoryInfo categoryInfo, Administration.EquipmentCategories categories)
         {
-            var category = Administration.EquipmentCategories.GetEquipmentCategories()[categoryInfo.ID];
+            var category = categories.Find(categoryInfo.ID);
 
             return new CategoryInfo
             {

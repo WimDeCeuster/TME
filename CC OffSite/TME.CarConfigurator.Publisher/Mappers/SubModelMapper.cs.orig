@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.Publisher.Common;
+using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
 using Car = TME.CarConfigurator.Administration.Car;
+using Link = TME.CarConfigurator.Repository.Objects.Link;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
@@ -26,39 +30,59 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _linkMapper = linkMapper;
         }
 
-        public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, IEnumerable<Car> cars, string country, string language, bool isPreview)
+        public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
         {
-            var subModelCars =
-<<<<<<< HEAD
-                modelGenerationSubModel.Generation.Cars.ToArray().Where(car => car.SubModelID == modelGenerationSubModel.ID);
-             
-=======
-                modelGenerationSubModel.Cars();
+            var cheapestCar = GetTheCheapestCar(modelGenerationSubModel, contextData.Cars);
 
->>>>>>> 9b7d66fe1db28a47929c8c15f01e6556d3753e65
-            var cheapestCar = cars.Where(car => subModelCars.Any(subModelCar => subModelCar.ID == car.ID))
-                .OrderBy(car => car.Price)
-                .First();
-
-            var mappedSubModel = new SubModel()
+            var mappedSubModel = new SubModel
             {
-                StartingPrice = new Price()
+                StartingPrice = new Price
                 {
-                    ExcludingVat = cheapestCar.Price,
-                    IncludingVat = cheapestCar.VatPrice,
+                    ExcludingVat = cheapestCar.StartingPrice.ExcludingVat,
+                    IncludingVat = cheapestCar.StartingPrice.IncludingVat,
                 },
-                Assets = modelGenerationSubModel.AssetSet.Assets.Select(asset => _assetMapper.MapAssetSetAsset(asset,modelGenerationSubModel.Generation)).ToList(),
-                Links = modelGenerationSubModel.Links.Where(link => IsApplicableLink(link,modelGenerationSubModel.Generation))
-                .Select(link => _linkMapper.MapLink(link,country,language,isPreview)).ToList()
+<<<<<<< HEAD
+                Assets = modelGenerationSubModel.AssetSet.Assets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGenerationSubModel.Generation)).ToList(),
+                Links = modelGenerationSubModel.Links.Where(link => link.IsApplicableFor(modelGenerationSubModel.Generation))
+                .Select(link => _linkMapper.MapLink(link ,isPreview)).ToList()
+=======
+                Assets = GetMappedAssetsForSubModel(modelGenerationSubModel),
+                Links = GetMappedLinksForSubModel(modelGenerationSubModel, isPreview),
+                Grades = GetSubModelGrades(modelGenerationSubModel, contextData)
+>>>>>>> 014059e166892e42417d8e4bb2c8228321cad35e
             };
 
             return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel, modelGenerationSubModel, modelGenerationSubModel.Name);
         }
 
-        private static Boolean IsApplicableLink(Administration.Link link, Administration.ModelGeneration generation)
+        private static List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
         {
-            return link.Type.CarConfiguratorversionID == generation.ActiveCarConfiguratorVersion.ID ||
-                   link.Type.CarConfiguratorversionID == 0;
+            return contextData.Grades.Where(contextGrade => modelGenerationSubModel.Cars().Select(car => car.GradeID)
+                    .Any(grade => grade == contextGrade.ID))
+                    .ToList();
+        }
+
+        private List<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)
+        {
+            return modelGenerationSubModel.Links
+                .Where(link => link.IsApplicableLink(modelGenerationSubModel.Generation))
+                .Select(link => _linkMapper.MapLink(link ,isPreview))
+                .ToList();
+        }
+
+        private List<Asset> GetMappedAssetsForSubModel(ModelGenerationSubModel modelGenerationSubModel)
+        {
+            return modelGenerationSubModel.AssetSet.Assets
+                .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGenerationSubModel.Generation))
+                .ToList();
+        }
+
+        private static Repository.Objects.Car GetTheCheapestCar(ModelGenerationSubModel modelGenerationSubModel, IEnumerable<Repository.Objects.Car> cars)
+        {
+            return cars.Where(car => modelGenerationSubModel.Cars()
+                .Any(subModelCar => subModelCar.ID == car.ID))
+                .OrderBy(car => car.StartingPrice.ExcludingVat)
+                .First();
         }
     }
 }

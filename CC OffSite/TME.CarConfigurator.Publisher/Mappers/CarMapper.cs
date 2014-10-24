@@ -23,8 +23,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             Engine engine,
             Transmission transmission,
             WheelDrive wheelDrive,
-            Steering steering,
-            SubModel subModel)
+            Steering steering)
         {
             if (car == null) throw new ArgumentNullException("car");
             if (bodyType == null) throw new ArgumentNullException("bodyType");
@@ -36,13 +35,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
             if (car.ShortID == null)
                 throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.ID));
 
-            if (subModel == null)
-                subModel = new SubModel();
-            
 
-            var cheapestColourCombination = car.ColourCombinations
+            /*var cheapestColourCombination = car.ColourCombinations
                                                .OrderBy(cc => cc.ExteriorColour.Price + cc.Upholstery.Price)
-                                               .First();
+                                               .First();  Todo Yens, Figure out when the cheapestcolourcombination needs to be added to the BasePrice*/
 
             var mappedCar = new Car
             {
@@ -52,7 +48,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
                     IncludingVat = car.VatPrice
                 },
                 BodyType = bodyType,
-                SubModel = subModel,
                 ConfigVisible = car.ConfigVisible,
                 Engine = engine,
                 FinanceVisible = car.FinanceVisible,
@@ -61,8 +56,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 SortIndex = car.Index,
                 StartingPrice = new Price
                 {
-                    ExcludingVat = car.Price + cheapestColourCombination.ExteriorColour.Price + cheapestColourCombination.Upholstery.Price,
-                    IncludingVat = car.VatPrice + cheapestColourCombination.ExteriorColour.VatPrice + cheapestColourCombination.Upholstery.VatPrice
+                    ExcludingVat = car.Price,// + cheapestColourCombination.ExteriorColour.Price + cheapestColourCombination.Upholstery.Price,
+                    IncludingVat = car.VatPrice// + cheapestColourCombination.ExteriorColour.VatPrice + cheapestColourCombination.Upholstery.VatPrice
                 },
                 Steering = steering,
                 Transmission = transmission,

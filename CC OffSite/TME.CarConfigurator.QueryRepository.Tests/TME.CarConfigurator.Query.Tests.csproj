@@ -82,6 +82,8 @@
     <Compile Include="GivenAGrade\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenAGrade\WhenAccessingIts3DAssets.cs" />
     <Compile Include="GivenAGrade\WhenAccessingIts3DAssetsASecondTime.cs" />
+    <Compile Include="GivenAGrade\WhenAccessingItsGradeEquipmentForTheSecondTime.cs" />
+    <Compile Include="GivenAGrade\WhenAccessingItsGradeEquipment.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsAssets.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsNonExistentBasedUponGrade.cs" />
@@ -136,6 +138,8 @@
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenASubModel\WhenAccessingItsGradesForTheFirstTime.cs" />
+    <Compile Include="GivenASubModel\WhenAccessingItsGradesForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsLinksForTheFirstTime.cs" />
@@ -166,6 +170,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
     <Compile Include="Services\GivenACarService\WhenGetCarsIsCalled.cs" />
+    <Compile Include="Services\GivenAGradeEquipmentService\WhenGetGradeEquipmentIsCalled.cs" />
     <Compile Include="Services\GivenAGradeService\WhenGetGradesIsCalled.cs" />
     <Compile Include="Services\GivenAModelService\WhenGeGetModelsByLanguageIsCalled.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledForNonExistent3DAssets.cs" />
@@ -189,6 +194,7 @@
     <Compile Include="TestBuilders\ConfigurationManagerBuilder.cs" />
     <Compile Include="TestBuilders\ContextBuilder.cs" />
     <Compile Include="TestBuilders\EngineCategoryBuilder.cs" />
+    <Compile Include="TestBuilders\GradeEquipmentFactoryBuilder.cs" />
     <Compile Include="TestBuilders\GradeFactoryBuilder.cs" />
     <Compile Include="TestBuilders\SteeringFactoryBuilder.cs" />
     <Compile Include="TestBuilders\SubModelFactoryBuilder.cs" />

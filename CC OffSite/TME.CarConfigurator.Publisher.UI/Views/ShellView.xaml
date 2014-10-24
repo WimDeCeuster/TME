@@ -29,6 +29,11 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="3">
+            <TextBlock Width="70">Environment:</TextBlock>
+            <ComboBox x:Name="Environments"  Width="150">
+            </ComboBox>
+        </StackPanel>
         <StackPanel HorizontalAlignment="Center">
             <StackPanel Orientation="Horizontal" Margin="3">
                 <Button x:Name="PublishPreviewAsync">Publish to preview</Button>

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
+using Car = TME.CarConfigurator.Repository.Objects.Car;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
@@ -33,8 +35,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Special = generationGrade.Special,
                 StartingPrice = new Price
                 {
-                    ExcludingVat = cheapestCar.StartingPrice.ExcludingVat,
-                    IncludingVat = cheapestCar.StartingPrice.IncludingVat
+                    ExcludingVat = cheapestCar.BasePrice.ExcludingVat,
+                    IncludingVat = cheapestCar.BasePrice.IncludingVat
                 }
             };
 

@@ -17,8 +17,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IReadOnlyList<Transmission> Transmissions { get; private set; }
         public IReadOnlyList<Steering> Steerings { get; private set; }
         public IReadOnlyList<Grade> Grades { get; private set; }
-        public IReadOnlyDictionary<Guid, IReadOnlyList<GradeAccessory>> GradeAccessories { get; private set; }
-        public IReadOnlyDictionary<Guid, IReadOnlyList<GradeOption>> GradeOptions { get; private set; }
+        public IReadOnlyDictionary<Guid, GradeEquipment> GradeEquipments { get; private set; }
         public IReadOnlyList<SubModel> SubModels { get; private set; }
 
         public readonly Guid ID;
@@ -33,8 +32,7 @@ namespace TME.CarConfigurator.Publisher.Common
             IReadOnlyList<Transmission> transmissions,
             IReadOnlyList<Steering> steerings,
             IReadOnlyList<Grade> grades,
-            IReadOnlyDictionary<Guid, IReadOnlyList<GradeAccessory>> gradeAccessories,
-            IReadOnlyDictionary<Guid, IReadOnlyList<GradeOption>> gradeOptions,
+            IReadOnlyDictionary<Guid, GradeEquipment> gradeEquipments,
             IReadOnlyList<SubModel> subModels)
         {
             if (cars == null) throw new ArgumentNullException("cars");
@@ -44,8 +42,7 @@ namespace TME.CarConfigurator.Publisher.Common
             if (transmissions == null) throw new ArgumentNullException("transmissions");
             if (steerings == null) throw new ArgumentNullException("steerings");
             if (grades == null) throw new ArgumentNullException("grades");
-            if (gradeAccessories == null) throw new ArgumentNullException("gradeAccessories");
-            if (gradeOptions == null) throw new ArgumentNullException("gradeOptions");
+            if (gradeEquipments == null) throw new ArgumentNullException("gradeEquipments");
             if (subModels == null) throw new ArgumentNullException("subModels");
 
             From = from;
@@ -57,8 +54,7 @@ namespace TME.CarConfigurator.Publisher.Common
             Transmissions = transmissions;
             Steerings = steerings;
             Grades = grades;
-            GradeAccessories = gradeAccessories;
-            GradeOptions = gradeOptions;
+            GradeEquipments = gradeEquipments;
             SubModels = subModels;
 
             ID = Guid.NewGuid();

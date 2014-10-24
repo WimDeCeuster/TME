@@ -7,7 +7,7 @@ using Xunit;
 
 namespace TME.Carconfigurator.Tests.GivenAKeyManager
 {
-    public class WhenRequestingAGradeOptionsKey : TestBase
+    public class WhenRequestingAGradeEquipmentKey : TestBase
     {
         private IKeyManager _keyManager;
         private string _expectedKey;
@@ -24,12 +24,12 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
             _timeFrameId = Guid.NewGuid();
             _gradeId = Guid.NewGuid();
 
-            _expectedKey = "publication/" + _publicationId + "/time-frame/" + _timeFrameId + "/grade/" + _gradeId + "/grade-options";
+            _expectedKey = "publication/" + _publicationId + "/time-frame/" + _timeFrameId + "/grade/" + _gradeId + "/grade-equipment";
         }
 
         protected override void Act()
         {
-            _actualKey = _keyManager.GetGradeOptionsKey(_publicationId, _timeFrameId, _gradeId);
+            _actualKey = _keyManager.GetGradeEquipmentsKey(_publicationId, _timeFrameId, _gradeId);
         }
 
         [Fact]

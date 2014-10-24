@@ -24,9 +24,8 @@ namespace TME.CarConfigurator.Publisher
         readonly IGradePublisher _gradePublisher;
         readonly ICarPublisher _carPublisher;
         readonly IAssetPublisher _assetPublisher;
-        private readonly ISubModelPublisher _subModelPublisher;
-        private readonly IGradeAccessoryPublisher _gradeAccessoryPublisher;
-        private readonly IGradeOptionPublisher _gradeOptionPublisher;
+        readonly ISubModelPublisher _subModelPublisher;
+        readonly IGradeEquipmentPublisher _gradeEquipmentPublisher;
 
         public Publisher(IPublicationPublisher publicationPublisher, 
             IModelPublisher modelPublisher, 
@@ -40,8 +39,7 @@ namespace TME.CarConfigurator.Publisher
             ICarPublisher carPublisher,
             IAssetPublisher assetPublisher,
             ISubModelPublisher subModelPublisher,
-            IGradeAccessoryPublisher gradeAccessoryPublisher,
-            IGradeOptionPublisher gradeOptionPublisher)
+            IGradeEquipmentPublisher gradeEquipmentPublisher)
         {
             if (publicationPublisher == null) throw new ArgumentNullException("publicationPublisher");
             if (modelPublisher == null) throw new ArgumentNullException("modelPublisher");
@@ -55,8 +53,7 @@ namespace TME.CarConfigurator.Publisher
             if (carPublisher == null) throw new ArgumentNullException("carPublisher");
             if (assetPublisher == null) throw new ArgumentNullException("assetPublisher");
             if (subModelPublisher == null) throw new ArgumentNullException("subModelPublisher");
-            if (gradeAccessoryPublisher == null) throw new ArgumentNullException("gradeAccessoryPublisher");
-            if (gradeOptionPublisher == null) throw new ArgumentNullException("gradeOptionPublisher");
+            if (gradeEquipmentPublisher == null) throw new ArgumentNullException("gradeEquipmentPublisher");
 
             _publicationPublisher = publicationPublisher;
             _modelPublisher = modelPublisher;
@@ -70,8 +67,7 @@ namespace TME.CarConfigurator.Publisher
             _carPublisher = carPublisher;
             _assetPublisher = assetPublisher;
             _subModelPublisher = subModelPublisher;
-            _gradeAccessoryPublisher = gradeAccessoryPublisher;
-            _gradeOptionPublisher = gradeOptionPublisher;
+            _gradeEquipmentPublisher = gradeEquipmentPublisher;
         }
 
         public async Task<Result> PublishAsync(IContext context)
@@ -112,8 +108,7 @@ namespace TME.CarConfigurator.Publisher
                 _subModelPublisher.PublishGenerationSubModelsAsync(context),
                 _gradePublisher.PublishGenerationGrades(context),
                 _carPublisher.PublishGenerationCars(context),
-                _gradeAccessoryPublisher.Publish(context),
-                _gradeOptionPublisher.Publish(context),
+                _gradeEquipmentPublisher.Publish(context),
                 _assetPublisher.PublishAssets(context),
                 _assetPublisher.PublishCarAssets(context)
             };

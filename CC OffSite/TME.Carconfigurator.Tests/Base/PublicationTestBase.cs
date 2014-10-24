@@ -29,8 +29,7 @@ namespace TME.Carconfigurator.Tests.Base
         protected IGradePublisher GradePublisher;
         protected ICarPublisher CarPublisher;
         protected ISubModelPublisher SubModelPublisher;
-        protected IGradeAccessoryPublisher GradeAccessoryPublisher;
-        protected IGradeOptionPublisher GradeOptionPublisher;
+        protected IGradeEquipmentPublisher GradeEquipmentPublisher;
         protected IAssetPublisher AssetPublisher;
         protected Publisher Publisher;
         protected ISerialiser Serialiser;
@@ -56,8 +55,7 @@ namespace TME.Carconfigurator.Tests.Base
             CarPublisher = A.Fake<ICarPublisher>(x => x.Strict());
             AssetPublisher = A.Fake<IAssetPublisher>(x => x.Strict());
             SubModelPublisher = A.Fake<ISubModelPublisher>(x => x.Strict());
-            GradeAccessoryPublisher = A.Fake<IGradeAccessoryPublisher>(x => x.Strict());
-            GradeOptionPublisher = A.Fake<IGradeOptionPublisher>(x => x.Strict());
+            GradeEquipmentPublisher = A.Fake<IGradeEquipmentPublisher>(x => x.Strict());
 
             var successFullTask = Task.FromResult((Result)new Successfull());
             var successFullTasks = Task.FromResult((IEnumerable<Result>)new[] { new Successfull() });
@@ -77,8 +75,7 @@ namespace TME.Carconfigurator.Tests.Base
                 .WithCarPublisher(CarPublisher)
                 .WithAssetPublisher(AssetPublisher)
                 .WithSubModelPublisher(SubModelPublisher)
-                .WithGradeAccessoryPublisher(GradeAccessoryPublisher)
-                .WithGradeOptionPublisher(GradeOptionPublisher)
+                .WithGradeEquipmentPublisher(GradeEquipmentPublisher)
                 .Build();
 
              var contextBuilder = new ContextBuilder()
@@ -138,8 +135,7 @@ namespace TME.Carconfigurator.Tests.Base
             A.CallTo(() => AssetPublisher.PublishAssets(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => AssetPublisher.PublishCarAssets(null)).WithAnyArguments().Returns(successFullTasks);
             A.CallTo(() => SubModelPublisher.PublishGenerationSubModelsAsync(null)).WithAnyArguments().Returns(successFullTasks);
-            A.CallTo(() => GradeAccessoryPublisher.Publish(null)).WithAnyArguments().Returns(successFullTasks);
-            A.CallTo(() => GradeOptionPublisher.Publish(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => GradeEquipmentPublisher.Publish(null)).WithAnyArguments().Returns(successFullTasks);
 
         }
 

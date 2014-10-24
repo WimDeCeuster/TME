@@ -16,15 +16,12 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
     public class S3PublisherFactory : IPublisherFactory
     {
         ITimeFramePublishHelper _timeFramePublishHelper;
-        ITimeFrameSubObjectPublishHelper _timeFrameSubObjectPublishHelper;
 
-        public S3PublisherFactory(ITimeFramePublishHelper timeFramePublishHelper, ITimeFrameSubObjectPublishHelper timeFrameSubObjectPublishHelper)
+        public S3PublisherFactory(ITimeFramePublishHelper timeFramePublishHelper)
         {
             if (timeFramePublishHelper == null) throw new ArgumentNullException("timeFramePublishHelper");
-            if (timeFrameSubObjectPublishHelper == null) throw new ArgumentNullException("timeFrameSubObjectPublishHelper");
 
             _timeFramePublishHelper = timeFramePublishHelper;
-            _timeFrameSubObjectPublishHelper = timeFrameSubObjectPublishHelper;
         }
 
         public IModelPublisher GetModelPublisher(IModelService service)
@@ -82,14 +79,9 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
             return new SubModelPublisher(service, _timeFramePublishHelper);
         }
 
-        public IGradeAccessoryPublisher GetGradeAccessoryPublisher(IGradeAccessoryService service)
+        public IGradeEquipmentPublisher GetGradeEquipmentPublisher(IGradeEquipmentService service)
         {
-            return new GradeAccessoryPublisher(service, _timeFrameSubObjectPublishHelper);
-        }
-
-        public IGradeOptionPublisher GetGradeOptionPublisher(IGradeOptionService service)
-        {
-            return new GradeOptionPublisher(service, _timeFrameSubObjectPublishHelper);
+            return new GradeEquipmentPublisher(service, _timeFramePublishHelper);
         }
     }
 }

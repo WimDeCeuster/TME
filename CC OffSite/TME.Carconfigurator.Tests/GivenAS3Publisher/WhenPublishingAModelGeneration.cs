@@ -92,16 +92,9 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         }
 
         [Fact]
-        public void ThenItShouldPublishGenerationGradeAccessories()
+        public void ThenItShouldPublishGenerationGradeEquipments()
         {
-            A.CallTo(() => GradeAccessoryPublisher.Publish(Context))
-                .MustHaveHappened(Repeated.Exactly.Once);
-        }
-
-        [Fact]
-        public void ThenItShouldPublishGenerationGradeOptions()
-        {
-            A.CallTo(() => GradeOptionPublisher.Publish(Context))
+            A.CallTo(() => GradeEquipmentPublisher.Publish(Context))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
     }
