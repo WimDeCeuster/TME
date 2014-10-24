@@ -47,6 +47,12 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         }
 
 
+        public SubModelBuilder WithGrades(params Grade[] grades)
+        {
+            _subModel.Grades = grades.ToList();
+            return this;
+        }
+
         public SubModel Build()
         {
             return _subModel;

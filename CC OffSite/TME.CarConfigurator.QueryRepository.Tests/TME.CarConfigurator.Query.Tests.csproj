@@ -138,6 +138,8 @@
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenASubModel\WhenAccessingItsGradesForTheFirstTime.cs" />
+    <Compile Include="GivenASubModel\WhenAccessingItsGradesForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsLinksForTheFirstTime.cs" />
