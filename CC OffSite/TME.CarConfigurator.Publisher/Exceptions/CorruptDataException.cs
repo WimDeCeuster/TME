@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TME.CarConfigurator.Publisher.Mappers.Exceptions
+namespace TME.CarConfigurator.Publisher.Exceptions
 {
     public class CorruptDataException : Exception
     {

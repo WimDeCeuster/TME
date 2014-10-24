@@ -42,9 +42,13 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Facades
                 _publisherFactory.GetCarPublisher(
                     _serviceFactory.GetCarService(environment, dataSubset)),
                 _publisherFactory.GetAssetPublisher(
-                    _serviceFactory.GetAssetService(environment,dataSubset)),
+                    _serviceFactory.GetAssetService(environment, dataSubset)),
                 _publisherFactory.GetSubModelPublisher(
-                    _serviceFactory.GetSubModelService(environment,dataSubset))
+                    _serviceFactory.GetSubModelService(environment, dataSubset)),
+                _publisherFactory.GetGradeAccessoryPublisher(
+                    _serviceFactory.GetGradeAccessoryService(environment, dataSubset)),
+                _publisherFactory.GetGradeOptionPublisher(
+                    _serviceFactory.GetGradeOptionService(environment, dataSubset))
             );
         }
     }

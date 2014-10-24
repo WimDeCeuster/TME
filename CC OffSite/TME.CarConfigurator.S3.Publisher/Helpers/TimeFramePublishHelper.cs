@@ -14,7 +14,7 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
 {
     public class TimeFramePublishHelper : ITimeFramePublishHelper
     {
-        public async Task<IEnumerable<Result>> PublishTimeFrameObjects<T>(IContext context,
+        public async Task<IEnumerable<Result>> Publish<T>(IContext context,
             Func<TimeFrame, IEnumerable<T>> objectsGetter,
             Func<String, String, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
             where T : BaseObject
@@ -29,24 +29,23 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
                 var data = entry.Value;
                 var timeFrames = context.TimeFrames[language];
 
-                tasks.Add(PublishTimeFrameObjects(context.Brand, context.Country, timeFrames, data, objectsGetter, publish));
+                tasks.Add(Publish(context.Brand, context.Country, timeFrames, data.Publication.ID, objectsGetter, publish));
             }
 
             var result = await Task.WhenAll(tasks);
             return result.SelectMany(xs => xs);
         }
 
-        private async Task<IEnumerable<Result>> PublishTimeFrameObjects<T>(
+        async Task<IEnumerable<Result>> Publish<T>(
             String brand,
             String country,
             IEnumerable<TimeFrame> timeFrames,
-            ContextData data,
+            Guid publicationID,
             Func<TimeFrame, IEnumerable<T>> objectsGetter,
             Func<String, String, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
             where T : BaseObject
         {
-            var tasks = timeFrames.Select(timeFrame =>
-                publish(brand, country, data.Publication.ID, timeFrame.ID, objectsGetter(timeFrame).Order()));
+            var tasks = timeFrames.Select(timeFrame => publish(brand, country, publicationID, timeFrame.ID, objectsGetter(timeFrame).Order()));
 
             return await Task.WhenAll(tasks);
         }

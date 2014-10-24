@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Publisher.Mappers.Exceptions;
+using TME.CarConfigurator.Publisher.Exceptions;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
 
@@ -40,8 +40,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 subModel = new SubModel();
             
 
-            var cheapestColourCombination = car.ColourCombinations.OrderBy(cc => cc.ExteriorColour.Price + cc.Upholstery.Price)
-                                                                  .First();
+            var cheapestColourCombination = car.ColourCombinations
+                                               .OrderBy(cc => cc.ExteriorColour.Price + cc.Upholstery.Price)
+                                               .First();
 
             var mappedCar = new Car
             {

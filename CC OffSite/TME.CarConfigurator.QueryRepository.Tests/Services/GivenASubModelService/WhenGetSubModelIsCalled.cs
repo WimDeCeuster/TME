@@ -39,7 +39,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenASubModelService
             var serialiser = A.Fake<ISerialiser>();
             var keyManager = A.Fake<IKeyManager>();
 
-            A.CallTo(() => keyManager.GetSubModelKey(A<Guid>._, A<Guid>._)).Returns(s3Key);
+            A.CallTo(() => keyManager.GetSubModelsKey(A<Guid>._, A<Guid>._)).Returns(s3Key);
             A.CallTo(() => service.GetObject(_context.Brand, _context.Country, s3Key)).Returns(serialisedObject);
             A.CallTo(() => serialiser.Deserialise<IEnumerable<Repository.Objects.SubModel>>(serialisedObject)).Returns(_expectedSubModels);
 

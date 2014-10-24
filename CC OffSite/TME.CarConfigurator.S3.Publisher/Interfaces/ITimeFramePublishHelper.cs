@@ -12,7 +12,7 @@ namespace TME.CarConfigurator.S3.Publisher.Interfaces
 {
     public interface ITimeFramePublishHelper
     {
-        Task<IEnumerable<Result>> PublishTimeFrameObjects<T>(IContext context,
+        Task<IEnumerable<Result>> Publish<T>(IContext context,
             Func<TimeFrame, IEnumerable<T>> objectsGetter,
             Func<String, String, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
             where T : BaseObject;

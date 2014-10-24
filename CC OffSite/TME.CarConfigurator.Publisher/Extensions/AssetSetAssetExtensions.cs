@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TME.CarConfigurator.Administration.Assets;
-using TME.CarConfigurator.Publisher.Mappers.Exceptions;
+using TME.CarConfigurator.Publisher.Exceptions;
 
 namespace TME.CarConfigurator.Publisher.Extensions
 {

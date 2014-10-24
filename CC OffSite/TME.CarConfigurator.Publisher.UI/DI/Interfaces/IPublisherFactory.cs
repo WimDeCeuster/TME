@@ -21,6 +21,8 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Interfaces
         IGradePublisher GetGradePublisher(IGradeService service);
         ICarPublisher GetCarPublisher(ICarService service);
         IAssetPublisher GetAssetPublisher(IAssetService service);
-        ISubModelPublisher GetSubModelPublisher(ISubModelService getSubModelService);
+        ISubModelPublisher GetSubModelPublisher(ISubModelService service);
+        IGradeAccessoryPublisher GetGradeAccessoryPublisher(IGradeAccessoryService service);
+        IGradeOptionPublisher GetGradeOptionPublisher(IGradeOptionService service);
     }
 }

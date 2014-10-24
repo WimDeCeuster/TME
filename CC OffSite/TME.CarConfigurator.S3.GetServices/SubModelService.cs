@@ -25,7 +25,7 @@ namespace TME.CarConfigurator.S3.QueryServices
 
         public IEnumerable<SubModel> GetSubModels(Guid publicationId, Guid publicationTimeFrameId, Context context)
         {
-            var key = _keyManager.GetSubModelKey(publicationId, publicationTimeFrameId);
+            var key = _keyManager.GetSubModelsKey(publicationId, publicationTimeFrameId);
             var serialisedObject = _service.GetObject(context.Brand, context.Country, key);
             return _serialiser.Deserialise<IEnumerable<SubModel>>(serialisedObject);
         }

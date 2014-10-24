@@ -89,13 +89,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3SubModelPublisher
                 .Returns(TIME_FRAME4_SUB_MODEL_VALUE);
 
             var keyManager = A.Fake<IKeyManager>();
-            A.CallTo(() => keyManager.GetSubModelKey(publication1.ID, publicationTimeFrame1.ID))
+            A.CallTo(() => keyManager.GetSubModelsKey(publication1.ID, publicationTimeFrame1.ID))
                 .Returns(TIME_FRAME1_SUB_MODEL_KEY); 
-            A.CallTo(() => keyManager.GetSubModelKey(publication1.ID, publicationTimeFrame2.ID))
+            A.CallTo(() => keyManager.GetSubModelsKey(publication1.ID, publicationTimeFrame2.ID))
                 .Returns(TIME_FRAME2_SUB_MODEL_KEY);
-            A.CallTo(() => keyManager.GetSubModelKey(publication2.ID, publicationTimeFrame3.ID))
+            A.CallTo(() => keyManager.GetSubModelsKey(publication2.ID, publicationTimeFrame3.ID))
                 .Returns(TIME_FRAME3_SUB_MODEL_KEY);
-            A.CallTo(() => keyManager.GetSubModelKey(publication2.ID, publicationTimeFrame4.ID))
+            A.CallTo(() => keyManager.GetSubModelsKey(publication2.ID, publicationTimeFrame4.ID))
                 .Returns(TIME_FRAME4_SUB_MODEL_KEY);
 
             ISubModelService subModelService = new SubModelService(_s3Service,serialiser,keyManager);
