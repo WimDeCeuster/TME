@@ -82,6 +82,8 @@
     <Compile Include="GivenAGrade\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenAGrade\WhenAccessingIts3DAssets.cs" />
     <Compile Include="GivenAGrade\WhenAccessingIts3DAssetsASecondTime.cs" />
+    <Compile Include="GivenAGrade\WhenAccessingItsGradeEquipmentForTheSecondTime.cs" />
+    <Compile Include="GivenAGrade\WhenAccessingItsGradeEquipment.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsAssets.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsNonExistentBasedUponGrade.cs" />
@@ -190,6 +192,7 @@
     <Compile Include="TestBuilders\ConfigurationManagerBuilder.cs" />
     <Compile Include="TestBuilders\ContextBuilder.cs" />
     <Compile Include="TestBuilders\EngineCategoryBuilder.cs" />
+    <Compile Include="TestBuilders\GradeEquipmentFactoryBuilder.cs" />
     <Compile Include="TestBuilders\GradeFactoryBuilder.cs" />
     <Compile Include="TestBuilders\SteeringFactoryBuilder.cs" />
     <Compile Include="TestBuilders\SubModelFactoryBuilder.cs" />

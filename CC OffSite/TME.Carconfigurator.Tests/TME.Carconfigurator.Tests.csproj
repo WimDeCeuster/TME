@@ -88,7 +88,7 @@
   <ItemGroup>
     <Compile Include="Base\PublicationTestBase.cs" />
     <Compile Include="Builders\AssetTypeBuilder.cs" />
-    <Compile Include="Builders\GradeOptionPublisherBuilder.cs" />
+    <Compile Include="Builders\GradeEquipmentPublisherBuilder.cs" />
     <Compile Include="Builders\GradePublisherBuilder.cs" />
     <Compile Include="Builders\TransmissionPublisherBuilder.cs" />
     <Compile Include="Builders\WheelDrivePublisherBuilder.cs" />

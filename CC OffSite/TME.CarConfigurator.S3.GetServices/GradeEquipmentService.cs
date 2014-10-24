@@ -24,11 +24,11 @@ namespace TME.CarConfigurator.S3.QueryServices
             _keyManager = keyManager;
         }
 
-        public IEnumerable<GradeEquipment> GetGradeEquipment(Guid publicationId, Guid timeFrameId, Guid gradeId, Context context)
+        public GradeEquipment GetGradeEquipment(Guid publicationId, Guid timeFrameId, Guid gradeId, Context context)
         {
             var key = _keyManager.GetGradeEquipmentsKey(publicationId, timeFrameId, gradeId);
             var serialisedObject = _service.GetObject(context.Brand, context.Country, key);
-            return _serialiser.Deserialise<IEnumerable<GradeEquipment>>(serialisedObject);
+            return _serialiser.Deserialise<GradeEquipment>(serialisedObject);
         }
     }
 }

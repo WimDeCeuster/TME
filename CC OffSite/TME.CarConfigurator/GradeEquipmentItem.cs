@@ -5,7 +5,7 @@ using TME.CarConfigurator.Interfaces.Equipment;
 
 namespace TME.CarConfigurator
 {
-    public class GradeEquipmentItem : BaseObject<Repository.Objects.Equipment.GradeEquipmentItem>, IGradeEquipmentItem
+    public abstract class GradeEquipmentItem : BaseObject<Repository.Objects.Equipment.GradeEquipmentItem>, IGradeEquipmentItem
     {
         public GradeEquipmentItem(Repository.Objects.Equipment.GradeEquipmentItem repoEquipmentItem)
             : base(repoEquipmentItem)

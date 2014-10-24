@@ -8,6 +8,6 @@ namespace TME.CarConfigurator.QueryServices
 {
     public interface IGradeEquipmentService
     {
-        IEnumerable<GradeEquipment> GetGradeEquipment(Guid publicationId, Guid timeFrameId, Guid gradeId, Context context);
+        GradeEquipment GetGradeEquipment(Guid publicationId, Guid timeFrameId, Guid gradeId, Context context);
     }
 }

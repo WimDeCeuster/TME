@@ -15,8 +15,8 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAGradeEquipmentService
 {
     public class WhenGetGradeEquipmentsIsCalled : TestBase
     {
-        private IEnumerable<Repository.Objects.Equipment.GradeEquipment> _actualGradeEquipments;
-        private IEnumerable<Repository.Objects.Equipment.GradeEquipment> _expectedGradeEquipments;
+        private Repository.Objects.Equipment.GradeEquipment _actualGradeEquipment;
+        private Repository.Objects.Equipment.GradeEquipment _expectedGradeEquipment;
         private IGradeEquipmentService _gradeEquipmentService;
         private Context _context;
 
@@ -27,13 +27,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAGradeEquipmentService
             const string s3Key = "fake s3 key";
             const string serializedObject = "this object is serialized";
 
-            _expectedGradeEquipments = new []
-            {
-                new GradeEquipmentBuilder().Build(),
-                new GradeEquipmentBuilder().Build(),
-                new GradeEquipmentBuilder().Build(),
-                new GradeEquipmentBuilder().Build(),
-            };
+            _expectedGradeEquipment = new GradeEquipmentBuilder().Build();
 
             var serialiser = A.Fake<ISerialiser>();
             var service = A.Fake<IService>();
@@ -41,7 +35,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAGradeEquipmentService
 
             A.CallTo(() => keyManager.GetGradeEquipmentsKey(A<Guid>._, A<Guid>._, A<Guid>._)).Returns(s3Key);
             A.CallTo(() => service.GetObject(_context.Brand, _context.Country, s3Key)).Returns(serializedObject);
-            A.CallTo(() => serialiser.Deserialise<IEnumerable<Repository.Objects.Equipment.GradeEquipment>>(serializedObject)).Returns(_expectedGradeEquipments);
+            A.CallTo(() => serialiser.Deserialise<Repository.Objects.Equipment.GradeEquipment>(serializedObject)).Returns(_expectedGradeEquipment);
 
             var serviceFacade = new S3ServiceFacade()
                 .WithService(service)
@@ -53,13 +47,13 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAGradeEquipmentService
 
         protected override void Act()
         {
-            _actualGradeEquipments = _gradeEquipmentService.GetGradeEquipment(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), _context);
+            _actualGradeEquipment = _gradeEquipmentService.GetGradeEquipment(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), _context);
         }
 
         [Fact]
         public void ThenItShouldReturnTheCorrectListOfAssets()
         {
-            _actualGradeEquipments.Should().BeSameAs(_expectedGradeEquipments);
+            _actualGradeEquipment.Should().BeSameAs(_expectedGradeEquipment);
         }
     }
 }

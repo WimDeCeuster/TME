@@ -104,3 +104,6 @@ table td { vertical-align: top;}
      border-color: red;
 }
 
+.allowed-mismatch {
+    background-color: #DEDEDE;
+}

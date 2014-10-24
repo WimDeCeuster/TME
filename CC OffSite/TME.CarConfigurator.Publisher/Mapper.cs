@@ -36,7 +36,7 @@ namespace TME.CarConfigurator.Publisher
         {
             var data = generationFinder.GetModelGeneration(brand, country, generationID);
             var isPreview = context.DataSubset == PublicationDataSubset.Preview;
-
+            
             foreach (var entry in data)
             {
                 var contextData = new ContextData();
@@ -125,6 +125,7 @@ namespace TME.CarConfigurator.Publisher
                 .Concat(GetEngineAssets(modelGeneration))
                 .Concat(GetTransmissionAssets(modelGeneration))
                 .Concat(GetWheelDriveAssets(modelGeneration))
+                .Concat(GetGradeAssets(modelGeneration))
                 .Concat(GetSubModelAssets(modelGeneration))
                 .ToDictionary(
                     entry => entry.Key,
@@ -154,6 +155,14 @@ namespace TME.CarConfigurator.Publisher
             return modelGeneration.SubModels.ToDictionary(
                 subModel => subModel.ID,
                 subModel => subModel.AssetSet.Assets.GetGenerationAssets()
+                    .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
+        }
+
+        private Dictionary<Guid, List<Asset>> GetGradeAssets(ModelGeneration modelGeneration)
+        {
+            return modelGeneration.Grades.ToDictionary(
+                grade => grade.ID,
+                grade => grade.AssetSet.Assets.GetGenerationAssets()
                     .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
@@ -261,6 +270,7 @@ namespace TME.CarConfigurator.Publisher
             var grades = modelGeneration.Grades.Where(grade => cars.Any(car => car.GradeID == grade.ID)).ToArray();
             var crossModelAccessories = Administration.EquipmentItems.GetEquipmentItems(Administration.Enums.EquipmentType.Accessory);
             var crossModelOptions = Administration.EquipmentItems.GetEquipmentItems(Administration.Enums.EquipmentType.Option);
+            var categories = Administration.EquipmentCategories.GetEquipmentCategories();
 
             foreach (var grade in grades)
             {
@@ -270,6 +280,7 @@ namespace TME.CarConfigurator.Publisher
                                                         accessory,
                                                         (Administration.ModelGenerationAccessory)modelGeneration.Equipment.Single(equipment => equipment.ID == accessory.ID),
                                                         (Administration.Accessory)crossModelAccessories[accessory.ID],
+                                                        categories,
                                                         isPreview));
 
                 var options = grade.Equipment.OfType<Administration.ModelGenerationGradeOption>()
@@ -278,6 +289,7 @@ namespace TME.CarConfigurator.Publisher
                                                                         option,
                                                                         (Administration.ModelGenerationOption)modelGeneration.Equipment.Single(equipment => equipment.ID == option.ID),
                                                                         (Administration.Option)crossModelOptions[option.ID],
+                                                                        categories,
                                                                         isPreview));
 
                 data.GradeEquipments.Add(grade.ID, new GradeEquipment

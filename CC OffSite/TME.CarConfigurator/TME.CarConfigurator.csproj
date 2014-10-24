@@ -51,11 +51,15 @@
     <Compile Include="CarConfiguratorVersion.cs" />
     <Compile Include="Core\BaseObject.cs" />
     <Compile Include="CarEngine.cs" />
+    <Compile Include="Factories\GradeEquipmentFactory.cs" />
     <Compile Include="Factories\GradeFactory.cs" />
     <Compile Include="Factories\SteeringFactory.cs" />
     <Compile Include="Factories\SubModelFactory.cs" />
     <Compile Include="Factories\WheelDriveFactory.cs" />
     <Compile Include="Grade.cs" />
+    <Compile Include="GradeOption.cs" />
+    <Compile Include="GradeAccessory.cs" />
+    <Compile Include="GradeEquipment.cs" />
     <Compile Include="GradeEquipmentItem.cs" />
     <Compile Include="SubModel.cs" />
     <Compile Include="TransmissionType.cs" />

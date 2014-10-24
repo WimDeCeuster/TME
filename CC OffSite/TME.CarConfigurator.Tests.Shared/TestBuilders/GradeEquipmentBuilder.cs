@@ -13,6 +13,20 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             _gradeEquipment = new GradeEquipment();
         }
 
+        public GradeEquipmentBuilder WithAccessories(params GradeAccessory[] accessories)
+        {
+            _gradeEquipment.Accessories = accessories;
+
+            return this;
+        }
+
+        public GradeEquipmentBuilder WithOptions(params GradeOption[] options)
+        {
+            _gradeEquipment.Options = options;
+
+            return this;
+        }
+
         public GradeEquipment Build()
         {
             return _gradeEquipment;

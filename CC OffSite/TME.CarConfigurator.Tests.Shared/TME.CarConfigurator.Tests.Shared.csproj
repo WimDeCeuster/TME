@@ -48,6 +48,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetUpFixture.cs" />
     <Compile Include="TestBase.cs" />
+    <Compile Include="TestBuilders\GradeAccessoryBuilder.cs" />
+    <Compile Include="TestBuilders\GradeOptionBuilder.cs" />
     <Compile Include="TestBuilders\GradeEquipmentBuilder.cs" />
     <Compile Include="TestBuilders\AssetBuilder.cs" />
     <Compile Include="TestBuilders\BodyTypeBuilder.cs" />

@@ -1,0 +1,16 @@
+﻿@model IEnumerable<TME.CarConfigurator.Interfaces.Equipment.IGradeEquipmentItem>
+
+
+@foreach (var model in Model)
+{
+    <div class="clickable">
+        <table class="top">
+            <tr>
+                <td>
+                    <b>@Html.Raw(model.Name), @Html.Raw(model.Name)</b>
+                </td>
+            </tr>
+        </table>
+        @Html.Partial("_gradeEquipmentItem", model)
+    </div>
+}
