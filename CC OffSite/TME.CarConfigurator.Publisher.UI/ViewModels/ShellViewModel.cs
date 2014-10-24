@@ -19,6 +19,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
         private string _country = "DE";
         private Model _selectedModel;
         private ModelGeneration _selectedGeneration;
+        private bool _isPublishing;
         private static ICarConfiguratorPublisher _carConfiguratorPublisher;
 
         public ICarConfiguratorPublisher PublicationService
@@ -93,8 +94,21 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
             }
         }
 
-        public bool CanPublishLive { get { return SelectedGeneration != null; } }
-        public bool CanPublishPreview { get { return SelectedGeneration != null; } }
+        public bool CanPublishLive { get { return SelectedGeneration != null && !IsPublishing; } }
+        public bool CanPublishPreview { get { return SelectedGeneration != null && !IsPublishing; } }
+
+        public bool IsPublishing
+        {
+            get { return _isPublishing; }
+            set
+            {
+                if (value.Equals(_isPublishing)) return;
+                _isPublishing = value;
+                NotifyOfPropertyChange(() => IsPublishing);
+                NotifyOfPropertyChange(() => CanPublishLive);
+                NotifyOfPropertyChange(() => CanPublishPreview);
+            }
+        }
 
         public async void PublishLiveAsync()
         {
@@ -112,7 +126,15 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
         private async Task<Result> PublishAsync(PublicationDataSubset publicationDataSubset)
         {
-            return await PublicationService.PublishAsync(SelectedGeneration.ID, Environment, Target, Brand, Country, publicationDataSubset);
+            if (IsPublishing) return new Failed{Reason = "Already finished"};
+
+            IsPublishing = true;
+
+            var result = await PublicationService.PublishAsync(SelectedGeneration.ID, Environment, Target, Brand, Country, publicationDataSubset);
+
+            IsPublishing = false;
+
+            return result;
         }
 
         private static void DisplayResult(Result result)
