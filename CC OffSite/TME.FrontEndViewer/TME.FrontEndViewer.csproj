@@ -141,6 +141,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ModelGradeEquipmentController.cs" />
+    <Compile Include="Controllers\ModelGradeAssetsController.cs" />
     <Compile Include="Controllers\ModelSubModelAssetsController.cs" />
     <Compile Include="Controllers\ModelSubModelLinksController.cs" />
     <Compile Include="Controllers\ModelSubModelsController.cs" />
@@ -289,6 +291,12 @@
     <Content Include="Views\ModelSubModels\Index.cshtml" />
     <Content Include="Views\ModelSubModels\details.cshtml" />
     <Content Include="Views\Shared\_engine.cshtml" />
+    <Content Include="Views\Shared\Links\Index.cshtml" />
+    <Content Include="Views\Shared\Links\details.cshtml" />
+    <Content Include="Views\Shared\_link.cshtml" />
+    <Content Include="Views\Shared\GradeEquipment\details.cshtml" />
+    <Content Include="Views\Shared\GradeEquipment\Index.cshtml" />
+    <Content Include="Views\Shared\_gradeEquipmentItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

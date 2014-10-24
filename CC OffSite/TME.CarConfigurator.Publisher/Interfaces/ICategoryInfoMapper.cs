@@ -10,6 +10,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface ICategoryInfoMapper
     {
-        CategoryInfo MapEquipmentCategoryInfo(EquipmentCategoryInfo categoryInfo);
+        CategoryInfo MapEquipmentCategoryInfo(EquipmentCategoryInfo categoryInfo, Administration.EquipmentCategories categories);
     }
 }

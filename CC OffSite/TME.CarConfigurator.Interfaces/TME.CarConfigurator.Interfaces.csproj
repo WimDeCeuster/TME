@@ -46,8 +46,10 @@
     <Compile Include="Colours\IColourTransformation.cs" />
     <Compile Include="Colours\IExteriorColour.cs" />
     <Compile Include="Equipment\IGradeAccessory.cs" />
+    <Compile Include="Equipment\IGradeEquipment.cs" />
     <Compile Include="Equipment\IGradeOption.cs" />
     <Compile Include="Equipment\IOptionInfo.cs" />
+    <Compile Include="Factories\IGradeEquipmentFactory.cs" />
     <Compile Include="ICarInfo.cs" />
     <Compile Include="Enums\Visibility.cs" />
     <Compile Include="Equipment\IAccessory.cs" />

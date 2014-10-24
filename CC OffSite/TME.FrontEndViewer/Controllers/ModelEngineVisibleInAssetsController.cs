@@ -36,9 +36,9 @@ namespace TME.FrontEndViewer.Controllers
             var engine = new CarConfigurator.LegacyAdapter.Engine(
                 TMME.CarConfigurator.Model.GetModel(oldContext, modelID)
                 .Engines.Cast<TMME.CarConfigurator.Engine>()
-                .First(x => x.ID == engineID)
-                );
-            var visibleIn = engine.VisibleIn.FirstOrDefault(x => x.Mode == mode && x.View == view);
+                .First(x => x.ID == engineID));
+
+            var visibleIn = engine.VisibleIn.FirstOrDefault(x => x.Mode == (mode ?? "") && x.View == (view ?? ""));
             var list = visibleIn == null
                 ? new List<IAsset>()
                 : visibleIn.Assets.ToList();
@@ -55,7 +55,7 @@ namespace TME.FrontEndViewer.Controllers
                 .GetModels(context).First(x => x.ID == modelID)
                 .Engines.First(x => x.ID == engineID);
 
-            var visibleIn = engine.VisibleIn.FirstOrDefault(x => x.Mode == mode && x.View == view);
+            var visibleIn = engine.VisibleIn.FirstOrDefault(x => x.Mode == (mode ?? "") && x.View == (view ?? ""));
             var list = visibleIn == null
                 ? new List<IAsset>()
                 : visibleIn.Assets.ToList();

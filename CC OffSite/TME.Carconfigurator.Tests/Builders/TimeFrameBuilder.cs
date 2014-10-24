@@ -17,8 +17,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         private List<WheelDrive> _wheelDrives = new List<WheelDrive>();
         private List<Steering> _steerings = new List<Steering>();
         private List<Grade> _grades = new List<Grade>();
-        private Dictionary<Guid, IReadOnlyList<GradeAccessory>> _gradeAccessories = new Dictionary<Guid, IReadOnlyList<GradeAccessory>>();
-        private Dictionary<Guid, IReadOnlyList<GradeOption>> _gradeOptions = new Dictionary<Guid, IReadOnlyList<GradeOption>>();
+        private Dictionary<Guid, GradeEquipment> _gradeEquipments = new Dictionary<Guid, GradeEquipment>();
         private List<Transmission> _transmissions = new List<Transmission>();
         private List<SubModel> _subModels = new List<SubModel>();
 
@@ -66,15 +65,9 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
-        public TimeFrameBuilder WithGradeAccessories(Guid gradeId, IEnumerable<GradeAccessory> gradeAccessories)
+        public TimeFrameBuilder WithGradeEquipment(Guid gradeId, GradeEquipment gradeEquipment)
         {
-            _gradeAccessories.Add(gradeId, gradeAccessories.ToList());
-            return this;
-        }
-
-        public TimeFrameBuilder WithGradeOptions(Guid gradeId, IEnumerable<GradeOption> gradeOptions)
-        {
-            _gradeOptions.Add(gradeId, gradeOptions.ToList());
+            _gradeEquipments.Add(gradeId, gradeEquipment);
             return this;
         }
 
@@ -102,8 +95,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
                 _transmissions,
                 _steerings,
                 _grades,
-                _gradeAccessories,
-                _gradeOptions,
+                _gradeEquipments,
                 _subModels);
         }
     }

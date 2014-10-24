@@ -17,7 +17,8 @@
             <p class="property" data-id="Special">Brochure : @Html.Raw(model.Special)</p>
             <p class="property" data-id="BasedUponID">BasedUponID : @Html.Raw(model.BasedUpon == null ? Guid.Empty : model.BasedUpon.ID)</p>
             <br />
-            @Html.ActionLink("Assets","Index", "ModelGradeAssets", new { modelID = ViewBag.ModelID, gradeID = model.ID}, new { }) 
+            @Html.ActionLink("Assets", "Index", "ModelGradeAssets", new { modelID = ViewBag.ModelID, gradeID = model.ID }, new { }) |
+            @Html.ActionLink("Equipment", "Index", "ModelGradeEquipment", new { modelID = ViewBag.ModelID, gradeID = model.ID }, new { })
         </div>
     </div>
 }
