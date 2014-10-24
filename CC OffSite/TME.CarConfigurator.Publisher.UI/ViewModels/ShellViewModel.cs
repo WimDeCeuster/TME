@@ -13,12 +13,13 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
     {
         private const string Brand = "Toyota";
         private const string Target = "S3";
-        private const string Environment = "Development";
 
         private string _country = "DE";
         private Model _selectedModel;
         private ModelGeneration _selectedGeneration;
         private static ICarConfiguratorPublisher _carConfiguratorPublisher;
+        private static String[] _environments = new [] { "Development", "Production" };
+        private String _selectedEnvironment = _environments[0];
 
         public ICarConfiguratorPublisher PublicationService
         {
@@ -78,6 +79,11 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
             get { return SelectedModel == null ? new List<ModelGeneration>() : (IList<ModelGeneration>)SelectedModel.Generations; }
         }
 
+        public IEnumerable<String> Environments
+        {
+            get { return _environments; }
+        }
+
         public ModelGeneration SelectedGeneration
         {
             get { return _selectedGeneration; }
@@ -85,6 +91,20 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
             {
                 if (Equals(value, _selectedGeneration)) return;
                 _selectedGeneration = value;
+
+                NotifyOfPropertyChange(() => SelectedGeneration);
+                NotifyOfPropertyChange(() => CanPublishLive);
+                NotifyOfPropertyChange(() => CanPublishPreview);
+            }
+        }
+
+        public String SelectedEnvironment
+        {
+            get { return _selectedEnvironment; }
+            set
+            {
+                if (Equals(value, _selectedEnvironment)) return;
+                _selectedEnvironment = value;
 
                 NotifyOfPropertyChange(() => SelectedGeneration);
                 NotifyOfPropertyChange(() => CanPublishLive);
@@ -107,7 +127,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
         private async void Publish(PublicationDataSubset publicationDataSubset)
         {
-            var result = await PublicationService.Publish(SelectedGeneration.ID, Environment, Target, Brand, Country, publicationDataSubset);
+            var result = await PublicationService.Publish(SelectedGeneration.ID, SelectedEnvironment, Target, Brand, Country, publicationDataSubset);
             MessageBox.Show(result is Successfull ? "Success!" : "Failure!");
         }
     }
