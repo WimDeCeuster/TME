@@ -117,7 +117,7 @@ namespace TME.CarConfigurator.Publisher
                 FillCarAssets(cars, contextData, modelGeneration);
                 FillGradeEquipment(cars, modelGeneration, contextData, isPreview);
 
-                context.TimeFrames[language] = GetTimeFrames(language, context);
+                context.TimeFrames[language] = _timeFrameMapper.GetTimeFrames(language, context);
             }
         }
 
@@ -163,12 +163,7 @@ namespace TME.CarConfigurator.Publisher
 
         private IEnumerable<Asset> GetObjectAssetsOnGenerationLevel(Guid objectId, IDictionary<Guid, List<Asset>> assets)
         {
-            if (!assets.ContainsKey(objectId)) 
-                return new List<Asset>();
-
-            // TODO: check with Wim if correct assumption
-            return assets[objectId].Where(a => !string.IsNullOrEmpty(a.AssetType.View)); // on car level, we only need generation assets that can be used in the car configurator spin
-            
+            return assets.ContainsKey(objectId) ? assets[objectId] : new List<Asset>();
         }
 
         private Dictionary<Guid, List<Asset>> GetSubModelAssets(ModelGeneration modelGeneration)

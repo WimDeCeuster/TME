@@ -24,9 +24,9 @@ namespace TME.CarConfigurator.Publisher
         readonly IGradePublisher _gradePublisher;
         readonly ICarPublisher _carPublisher;
         readonly IAssetPublisher _assetPublisher;
-        private ISubModelPublisher _subModelPublisher;
-        private IGradeAccessoryPublisher _gradeAccessoryPublisher;
-        private IGradeOptionPublisher _gradeOptionPublisher;
+        private readonly ISubModelPublisher _subModelPublisher;
+        private readonly IGradeAccessoryPublisher _gradeAccessoryPublisher;
+        private readonly IGradeOptionPublisher _gradeOptionPublisher;
 
         public Publisher(IPublicationPublisher publicationPublisher, 
             IModelPublisher modelPublisher, 
