@@ -141,6 +141,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AutoCompareController.cs" />
     <Compile Include="Controllers\ModelGradeEquipmentController.cs" />
     <Compile Include="Controllers\ModelGradeAssetsController.cs" />
     <Compile Include="Controllers\ModelSubModelAssetsController.cs" />
@@ -297,6 +298,7 @@
     <Content Include="Views\Shared\GradeEquipment\details.cshtml" />
     <Content Include="Views\Shared\GradeEquipment\Index.cshtml" />
     <Content Include="Views\Shared\_gradeEquipmentItem.cshtml" />
+    <Content Include="Views\AutoCompare\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -305,6 +307,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.Comparer\TME.CarConfigurator.Comparer.csproj">
+      <Project>{d8d351d9-c23d-46ef-a679-49e0bd1c8a9b}</Project>
+      <Name>TME.CarConfigurator.Comparer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.DI\TME.CarConfigurator.DI.csproj">
       <Project>{4d5eb607-e56d-47ba-8e67-e196ae1cb19b}</Project>
       <Name>TME.CarConfigurator.DI</Name>
