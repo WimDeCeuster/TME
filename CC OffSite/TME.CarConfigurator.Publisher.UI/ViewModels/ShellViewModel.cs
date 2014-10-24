@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Threading;
 using Caliburn.Micro;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Common.Enums;
