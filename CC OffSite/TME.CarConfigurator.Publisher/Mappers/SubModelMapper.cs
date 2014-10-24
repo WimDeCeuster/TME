@@ -59,7 +59,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         private List<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)
         {
             return modelGenerationSubModel.Links
-                .Where(link => link.IsApplicableLink(modelGenerationSubModel.Generation))
+                .Where(link => link.IsApplicableFor(modelGenerationSubModel.Generation))
                 .Select(link => _linkMapper.MapLink(link ,isPreview))
                 .ToList();
         }

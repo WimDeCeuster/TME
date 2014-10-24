@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Administration.Interfaces;
 using TME.CarConfigurator.Publisher.Common;
@@ -28,48 +29,6 @@ namespace TME.CarConfigurator.Publisher
         readonly IAssetMapper _assetMapper;
         readonly ISubModelMapper _subModelMapper;
         readonly IEquipmentMapper _equipmentMapper;
-
-        public IContext Map(String brand, String country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IContext context)
-        {
-            var data = generationFinder.GetModelGeneration(brand, country, generationID);
-            var isPreview = context.DataSubset == PublicationDataSubset.Preview;
-            
-            foreach (var entry in data)
-            {
-                var contextData = new ContextData();
-                var modelGeneration = entry.Value.Item1;
-                var model = entry.Value.Item2;
-                var language = entry.Key;
-
-                MyContext.SetSystemContext(brand, country, language);
-
-                context.ModelGenerations[language] = modelGeneration;
-                context.ContextData[language] = contextData;
-
-                // fill contextData
-                var generation = _generationMapper.MapGeneration(model, modelGeneration, isPreview);
-                contextData.Generations.Add(generation);
-                contextData.Models.Add(_modelMapper.MapModel(model));
-
-
-                var cars = modelGeneration.Cars.Where(car => isPreview || car.Approved).ToList();
-                FillAssets(modelGeneration, contextData);
-                FillBodyTypes(cars, modelGeneration, contextData);
-                FillEngines(cars, modelGeneration, contextData);
-                FillTransmissions(cars, modelGeneration, contextData);
-                FillWheelDrives(cars, modelGeneration, contextData);
-                FillSteerings(cars, contextData);
-                FillCars(cars,contextData);
-                FillGrades(cars, modelGeneration, contextData);
-                FillSubModels(cars, modelGeneration, contextData,isPreview);
-                FillCarAssets(cars, contextData, modelGeneration);
-                FillGradeEquipment(cars, modelGeneration, contextData, isPreview);    
-
-                context.TimeFrames[language] = _timeFrameMapper.GetTimeFrames(language, context);
-            }
-
-            return context;
-        }
 
         public Mapper(
             ITimeFrameMapper timeFrameMapper,
@@ -115,7 +74,51 @@ namespace TME.CarConfigurator.Publisher
             _equipmentMapper = equipmentMapper;
         }
 
-        public void FillAssets(ModelGeneration modelGeneration, ContextData contextData)
+        public Task MapAsync(string brand, string country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IContext context)
+        {
+            return Task.Run(() => Map(brand, country, generationID, generationFinder, context));
+        }
+
+        private void Map(string brand, string country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IContext context)
+        {
+            var data = generationFinder.GetModelGeneration(brand, country, generationID);
+            var isPreview = context.DataSubset == PublicationDataSubset.Preview;
+
+            foreach (var entry in data)
+            {
+                var contextData = new ContextData();
+                var modelGeneration = entry.Value.Item1;
+                var model = entry.Value.Item2;
+                var language = entry.Key;
+
+                MyContext.SetSystemContext(brand, country, language);
+
+                context.ModelGenerations[language] = modelGeneration;
+                context.ContextData[language] = contextData;
+
+                // fill contextData
+                var generation = _generationMapper.MapGeneration(model, modelGeneration, isPreview);
+                contextData.Generations.Add(generation);
+                contextData.Models.Add(_modelMapper.MapModel(model));
+
+                var cars = modelGeneration.Cars.Where(car => isPreview || car.Approved).ToList();
+                FillAssets(modelGeneration, contextData);
+                FillBodyTypes(cars, modelGeneration, contextData);
+                FillEngines(cars, modelGeneration, contextData);
+                FillTransmissions(cars, modelGeneration, contextData);
+                FillWheelDrives(cars, modelGeneration, contextData);
+                FillSteerings(cars, contextData);
+                FillCars(cars, contextData);
+                FillGrades(cars, modelGeneration, contextData);
+                FillSubModels(cars, modelGeneration, contextData, isPreview);
+                FillCarAssets(cars, contextData, modelGeneration);
+                FillGradeEquipment(cars, modelGeneration, contextData, isPreview);
+
+                context.TimeFrames[language] = _timeFrameMapper.GetTimeFrames(language, context);
+            }
+        }
+
+        private void FillAssets(ModelGeneration modelGeneration, ContextData contextData)
         {
             contextData.Assets =
                 GetBodyTypeAssets(modelGeneration)
@@ -133,18 +136,32 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var car in cars)
             {
-                var carAssets = contextData.CarAssets[car.ID];
-                FillCarAssets(car, carAssets, modelGeneration, car.Generation.BodyTypes[car.BodyTypeID]);
-                FillCarAssets(car, carAssets, modelGeneration, car.Generation.Engines[car.EngineID]);
-                FillCarAssets(car, carAssets, modelGeneration, car.Generation.Grades[car.GradeID]);
+                FillCarAssets(car, contextData, modelGeneration, car.Generation.BodyTypes[car.BodyTypeID]);
+                FillCarAssets(car, contextData, modelGeneration, car.Generation.Engines[car.EngineID]);
+                FillCarAssets(car, contextData, modelGeneration, car.Generation.Grades[car.GradeID]);
             }
         }
 
-        private void FillCarAssets(Administration.Car car, IDictionary<Guid, IList<Asset>> carAssets, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
+        private void FillCarAssets(Administration.Car car, ContextData contextData, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
         {
-            var objectAssets = objectWithAssetSet.AssetSet.Assets.Filter(car);
-            var mappedAssets = objectAssets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
-            carAssets.Add(objectWithAssetSet.GetObjectID(), mappedAssets);
+            var objectAssetsOnCarLevel = GetObjectAssetsOnCarLevel(car, modelGeneration, objectWithAssetSet);
+            var objectAssetsOnGenerationLevel = GetObjectAssetsOnGenerationLevel(objectWithAssetSet.GetObjectID(), contextData.Assets);
+
+            var allCarAssetsForThisObject = objectAssetsOnCarLevel.Concat(objectAssetsOnGenerationLevel).ToList();
+
+            contextData.CarAssets[car.ID].Add(objectWithAssetSet.GetObjectID(), allCarAssetsForThisObject);
+        }
+
+        private IEnumerable<Asset> GetObjectAssetsOnCarLevel(Administration.Car car, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
+        {
+            var objectAssetsOnCarLevel = objectWithAssetSet.AssetSet.Assets.Filter(car);
+
+            return objectAssetsOnCarLevel.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
+        }
+
+        private IEnumerable<Asset> GetObjectAssetsOnGenerationLevel(Guid objectId, IDictionary<Guid, List<Asset>> assets)
+        {
+            return assets.ContainsKey(objectId) ? assets[objectId] : new List<Asset>();
         }
 
         private Dictionary<Guid, List<Asset>> GetSubModelAssets(ModelGeneration modelGeneration)
@@ -237,7 +254,7 @@ namespace TME.CarConfigurator.Publisher
                 contextData.WheelDrives.Add(_wheelDriveMapper.MapWheelDrive(wheelDrive));
         }
 
-        private void FillSubModels(IEnumerable<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData, Boolean isPreview)
+        private void FillSubModels(IList<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData, bool isPreview)
         {
             var applicableSubModels =
                 modelGeneration.SubModels.Where(submodel => cars.Any(car => car.SubModelID == submodel.ID));
@@ -257,7 +274,7 @@ namespace TME.CarConfigurator.Publisher
             }
         }
 
-        void FillGrades(IEnumerable<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData)
+        void FillGrades(IList<Administration.Car> cars, ModelGeneration modelGeneration, ContextData contextData)
         {
             var applicableGrades = modelGeneration.Grades.Where(grade => cars.Any(car => car.GradeID == grade.ID)).ToArray();
 
@@ -267,7 +284,7 @@ namespace TME.CarConfigurator.Publisher
             foreach (var grade in applicableGrades)
             {
                 var mappedGrade = contextData.Grades.Single(contextGrade => grade.ID == contextGrade.ID);
-                
+
                 var applicableCars = cars.Where(car => car.GradeID == grade.ID)
                                          .Select(car => contextData.Cars.Single(contextCar => contextCar.ID == car.ID));
                 foreach (var applicableCar in applicableCars)

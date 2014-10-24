@@ -32,7 +32,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             {
                 Assets = generation.Assets.Select(_assetMapper.MapLinkedAsset).ToList(),
                 CarConfiguratorVersion = _carConfiguratorVersionMapper.MapCarConfiguratorVersion(generation.ActiveCarConfiguratorVersion),
-                Links = model.Links.Where(link => link.IsApplicableLink(generation))
+                Links = model.Links.Where(link => link.IsApplicableFor(generation))
                                    .Select(link => _linkMapper.MapLink(link, isPreview))
                                    .ToList(),
                 SortIndex = model.Index,
