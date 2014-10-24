@@ -36,7 +36,7 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
             return result.SelectMany(xs => xs);
         }
 
-        public async Task<IEnumerable<Result>> PublishTimeFrameObjects<T>(
+        private async Task<IEnumerable<Result>> PublishTimeFrameObjects<T>(
             String brand,
             String country,
             IEnumerable<TimeFrame> timeFrames,

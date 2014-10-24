@@ -19,7 +19,7 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
         const PublicationDataSubset DataSubset = PublicationDataSubset.Live;
         IPublisherFacadeFactory _publisherFacadeFactory;
         IPublisherFacade _publisherFacade;
-        CarConfiguratorPublisher _publicationService;
+        ICarConfiguratorPublisher _carConfiguratorPublisher;
         IContextFactory _contextFactory;
         IPublisher _publisher;
         IService _publisherService;
@@ -42,12 +42,12 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
             A.CallTo(() => _publisherFacade.GetPublisher(Environment, DataSubset)).Returns(_publisher);
             A.CallTo(() => _contextFactory.Get(Brand, Country, Guid.Empty, DataSubset)).Returns(_context);
             
-            _publicationService = new CarConfiguratorPublisher(_contextFactory, _publisherFacadeFactory, _mapper, _generationFinder);
+            _carConfiguratorPublisher = new CarConfiguratorPublisher(_contextFactory, _publisherFacadeFactory, _mapper, _generationFinder);
         }
 
         protected override void Act()
         {
-            _publicationService.Publish(Guid.Empty, Environment, Target, Brand, Country, DataSubset);
+            var result = _carConfiguratorPublisher.PublishAsync(Guid.Empty, Environment, Target, Brand, Country, DataSubset).Result;
         }
 
         [Fact]
@@ -59,13 +59,13 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
         [Fact]
         public void ThenACallToPublisherPublishHappens()
         {
-            A.CallTo(() => _publisher.Publish(_context)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _publisher.PublishAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenACallToMapperHappens()
         {
-            A.CallTo(() => _mapper.Map(Brand, Country, Guid.Empty, _generationFinder, _context)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _mapper.MapAsync(Brand, Country, Guid.Empty, _generationFinder, _context)).MustHaveHappened(Repeated.Exactly.Once);
         }
     }
 }

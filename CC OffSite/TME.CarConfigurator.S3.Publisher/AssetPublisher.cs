@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
@@ -24,17 +23,16 @@ namespace TME.CarConfigurator.S3.Publisher
 
         public async Task<IEnumerable<Result>> PublishAssets(IContext context)
         {
-            var result = await Task.WhenAll(context.ContextData.Keys.Select(languageCode => PublishAssets(context.Brand, context.Country, context.ContextData[languageCode].Publication.ID, context.ContextData[languageCode].Assets)).ToList());
-            return result.SelectMany(xs => xs.ToList());
+            var result = await Task.WhenAll(context.ContextData.Keys.Select(languageCode => PublishAssets(context.Brand, context.Country, context.ContextData[languageCode].Publication.ID, context.ContextData[languageCode].Assets)));
+            return result.SelectMany(xs => xs);
         }
 
         private async Task<IEnumerable<Result>> PublishAssets(String brand, String country, Guid publicationID, IDictionary<Guid, List<Asset>> assetsPerObjectID)
         {
             var result = await Task.WhenAll(assetsPerObjectID.Keys.Select(objectID => PublishAssets(assetsPerObjectID[objectID],
-                assets => PublishAssetsByModeAndView(brand, country, publicationID, objectID, assets),
-                assets => PublishDefaultAssets(brand, country, publicationID, objectID, assets)))
-                .ToList());
-            return result.SelectMany(xs => xs.ToList());
+                async assets => await PublishAssetsByModeAndView(brand, country, publicationID, objectID, assets),
+                async assets => await PublishDefaultAssets(brand, country, publicationID, objectID, assets))));
+            return result.SelectMany(xs => xs);
         }
 
         private static async Task<IEnumerable<Result>> PublishAssets(IEnumerable<Asset> assets, Func<IEnumerable<Asset>, Task<IEnumerable<Result>>> getModeAndViewTasks, Func<IEnumerable<Asset>, Task<Result>> getDefaultTask)
@@ -54,7 +52,7 @@ namespace TME.CarConfigurator.S3.Publisher
         {
             var assetsByModeAndView = GetAssetsGroupedByModeAndView(assets);
 
-            var tasks = assetsByModeAndView.Select(grouping => _assetService.PutAssetsByModeAndView(brand, country, publicationID, objectID, grouping.Key.Mode, grouping.Key.View, grouping)).ToList();
+            var tasks = assetsByModeAndView.Select(grouping => _assetService.PutAssetsByModeAndView(brand, country, publicationID, objectID, grouping.Key.Mode, grouping.Key.View, grouping));
 
             return await Task.WhenAll(tasks);
         }
@@ -79,22 +77,22 @@ namespace TME.CarConfigurator.S3.Publisher
 
         public async Task<IEnumerable<Result>> PublishCarAssets(IContext context)
         {
-            var result = await Task.WhenAll(context.ContextData.Keys.Select(languageCode => PublishAssets(context.Brand, context.Country, context.ContextData[languageCode].Publication.ID, context.ContextData[languageCode].CarAssets)).ToList());
-            return result.SelectMany(xs => xs.ToList());
+            var tasks = context.ContextData.Keys.Select(languageCode => PublishAssets(context.Brand, context.Country, context.ContextData[languageCode].Publication.ID, context.ContextData[languageCode].CarAssets));
+            var result = await Task.WhenAll(tasks);
+            return result.SelectMany(xs => xs);
         }
 
         private async Task<IEnumerable<Result>> PublishAssets(string brand, string country, Guid publicationID, IDictionary<Guid, IDictionary<Guid, IList<Asset>>> carAssets)
         {
-            var result = await Task.WhenAll(carAssets.Keys.Select(carId => PublishAssets(brand, country, publicationID, carId, carAssets[carId])).ToList());
-            return result.SelectMany(xs => xs.ToList());
-       }
+            var result = await Task.WhenAll(carAssets.Keys.Select(carId => PublishAssets(brand, country, publicationID, carId, carAssets[carId])));
+            return result.SelectMany(xs => xs);
+        }
         private async Task<IEnumerable<Result>> PublishAssets(string brand, string country, Guid publicationID, Guid carId, IDictionary<Guid, IList<Asset>> assetsPerObjectID)
         {
-            var result = await Task.WhenAll(assetsPerObjectID.Keys.Select(objectID => PublishAssets(assetsPerObjectID[objectID], 
-                assets => PublishAssetsByModeAndView(brand, country, publicationID, carId, objectID, assets),
-                assets => PublishDefaultAssets(brand, country, publicationID, carId, objectID, assets)))
-                .ToList());
-            return result.SelectMany(xs => xs.ToList());
+            var result = await Task.WhenAll(assetsPerObjectID.Keys.Select(objectID => PublishAssets(assetsPerObjectID[objectID],
+                async assets => await PublishAssetsByModeAndView(brand, country, publicationID, carId, objectID, assets),
+                async assets => await PublishDefaultAssets(brand, country, publicationID, carId, objectID, assets))));
+            return result.SelectMany(xs => xs);
         }
 
         private async Task<Result> PublishDefaultAssets(string brand, string country, Guid publicationID, Guid carId, Guid objectID, IEnumerable<Asset> assets)
@@ -106,9 +104,9 @@ namespace TME.CarConfigurator.S3.Publisher
 
         private async Task<IEnumerable<Result>> PublishAssetsByModeAndView(string brand, string country, Guid publicationID, Guid carId, Guid objectID, IEnumerable<Asset> assets)
         {
-            var assetsByModeAndView = GetAssetsGroupedByModeAndView(assets).ToList();
+            var assetsByModeAndView = GetAssetsGroupedByModeAndView(assets);
 
-            var tasks = assetsByModeAndView.Select(grouping => _assetService.PutAssetsByModeAndView(brand, country, publicationID, carId, objectID, grouping.Key.Mode, grouping.Key.View, grouping)).ToList();
+            var tasks = assetsByModeAndView.Select(grouping => _assetService.PutAssetsByModeAndView(brand, country, publicationID, carId, objectID, grouping.Key.Mode, grouping.Key.View, grouping));
 
             return await Task.WhenAll(tasks);
         }

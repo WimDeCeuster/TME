@@ -66,20 +66,20 @@ namespace TME.CarConfigurator.Publisher
             _subModelPublisher = subModelPublisher;
         }
 
-        public async Task<Result> Publish(IContext context)
+        public async Task<Result> PublishAsync(IContext context)
         {
             var languageCodes = context.ContextData.Keys;
 
-            var result = await Publish(context, languageCodes);
+            var result = await PublishAsync(context, languageCodes);
 
             if (result is Failed) return result;
 
-            return await Activate(context, languageCodes);
+            return await ActivateAsync(context, languageCodes);
         }
 
-        private async Task<Result> Publish(IContext context, IEnumerable<string> languageCodes)
+        private async Task<Result> PublishAsync(IContext context, IEnumerable<string> languageCodes)
         {
-            var results = await Task.WhenAll(PublishPublicationForAllLanguages(context, languageCodes));
+            var results = await PublishPublicationForAllLanguages(context, languageCodes);
 
             return FindFirstFailure(results) ?? new Successfull();
         }
@@ -110,7 +110,7 @@ namespace TME.CarConfigurator.Publisher
 
             var results = await Task.WhenAll(tasks);
 
-            return results.SelectMany(xs => xs.ToList());
+            return results.SelectMany(xs => xs);
         }
 
         private static void CreateAndAddPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames)
@@ -134,12 +134,12 @@ namespace TME.CarConfigurator.Publisher
             data.Models.Single().Publications.Add(new PublicationInfo(data.Publication));
         }
 
-        private static Result FindFirstFailure(IEnumerable<IEnumerable<Result>> results)
+        private static Result FindFirstFailure(IEnumerable<Result> results)
         {
-            return results.SelectMany(xs => xs.ToList()).FirstOrDefault(result => result is Failed);
+            return results.FirstOrDefault(result => result is Failed);
         }
 
-        private Task<Result> Activate(IContext context, IEnumerable<String> languageCodes)
+        private async Task<Result> ActivateAsync(IContext context, IEnumerable<String> languageCodes)
         {
             var languages = _modelService.GetModelsByLanguage(context.Brand, context.Country);
 
@@ -148,7 +148,7 @@ namespace TME.CarConfigurator.Publisher
                 SetPublicationAsActiveForLanguage(context, language);
             }
 
-            return _modelPublisher.PublishModelsByLanguage(context, languages);
+            return await _modelPublisher.PublishModelsByLanguage(context, languages);
         }
 
         private static Language FindOrCreateLanguage(Languages languages, String languageCode)

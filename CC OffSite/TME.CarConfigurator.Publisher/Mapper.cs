@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Administration.Interfaces;
 using TME.CarConfigurator.Publisher.Common;
@@ -70,7 +71,12 @@ namespace TME.CarConfigurator.Publisher
             //_equipmentMapper = equipmentMapper;
         }
 
-        public IContext Map(String brand, String country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IContext context)
+        public Task MapAsync(string brand, string country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IContext context)
+        {
+            return Task.Run(() => Map(brand, country, generationID, generationFinder, context));
+        }
+
+        private void Map(string brand, string country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IContext context)
         {
             var data = generationFinder.GetModelGeneration(brand, country, generationID);
             var isPreview = context.DataSubset == PublicationDataSubset.Preview;
@@ -106,8 +112,6 @@ namespace TME.CarConfigurator.Publisher
 
                 context.TimeFrames[language] = GetTimeFrames(language, context);
             }
-
-            return context;
         }
 
         private void FillAssets(ModelGeneration modelGeneration, ContextData contextData)

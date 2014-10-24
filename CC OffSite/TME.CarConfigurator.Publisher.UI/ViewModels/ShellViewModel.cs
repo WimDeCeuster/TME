@@ -96,23 +96,23 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
         public bool CanPublishLive { get { return SelectedGeneration != null; } }
         public bool CanPublishPreview { get { return SelectedGeneration != null; } }
 
-        public async Task PublishLive()
+        public async void PublishLiveAsync()
         {
-            var result = await Publish(PublicationDataSubset.Live);
+            var result = await PublishAsync(PublicationDataSubset.Live);
 
             DisplayResult(result);
         }
 
-        public async Task PublishPreview()
+        public async void PublishPreviewAsync()
         {
-            var result = await Publish(PublicationDataSubset.Preview);
+            var result = await PublishAsync(PublicationDataSubset.Preview);
 
             DisplayResult(result);
         }
 
-        private async Task<Result> Publish(PublicationDataSubset publicationDataSubset)
+        private async Task<Result> PublishAsync(PublicationDataSubset publicationDataSubset)
         {
-            return await PublicationService.Publish(SelectedGeneration.ID, Environment, Target, Brand, Country, publicationDataSubset);
+            return await PublicationService.PublishAsync(SelectedGeneration.ID, Environment, Target, Brand, Country, publicationDataSubset);
         }
 
         private static void DisplayResult(Result result)
