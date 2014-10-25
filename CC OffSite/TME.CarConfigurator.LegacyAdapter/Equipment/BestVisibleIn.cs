@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TME.CarConfigurator.Interfaces.Equipment;
-using Legacy = TMME.CarConfigurator;
+﻿using TME.CarConfigurator.Interfaces.Equipment;
 
-namespace TME.CarConfigurator.LegacyAdapter
+namespace TME.CarConfigurator.LegacyAdapter.Equipment
 {
     public class BestVisibleIn : IBestVisibleIn
     {
 
         #region Dependencies (Adaptee)
-        private Legacy.BestVisibleIn Adaptee
+        private TMME.CarConfigurator.BestVisibleIn Adaptee
         {
             get;
             set;
@@ -20,7 +14,7 @@ namespace TME.CarConfigurator.LegacyAdapter
         #endregion
 
         #region Constructor
-        public BestVisibleIn(Legacy.BestVisibleIn adaptee)
+        public BestVisibleIn(TMME.CarConfigurator.BestVisibleIn adaptee)
         {
             Adaptee = adaptee;
         }

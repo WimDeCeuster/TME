@@ -62,27 +62,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accessory.cs" />
+    <Compile Include="Equipment\Accessory.cs" />
     <Compile Include="Asset.cs" />
     <Compile Include="AssetType.cs" />
     <Compile Include="BaseObject.cs" />
-    <Compile Include="BestVisibleIn.cs" />
+    <Compile Include="Equipment\BestVisibleIn.cs" />
     <Compile Include="BodyType.cs" />
     <Compile Include="Car.cs" />
     <Compile Include="CarConfiguratorVersion.cs" />
     <Compile Include="Grade.cs" />
     <Compile Include="CarInfo.cs" />
-    <Compile Include="CategoryInfo.cs" />
-    <Compile Include="ColourTransformation.cs" />
-    <Compile Include="EquipmentItem.cs" />
+    <Compile Include="Equipment\CategoryInfo.cs" />
+    <Compile Include="Colours\ColourTransformation.cs" />
+    <Compile Include="Equipment\EquipmentItem.cs" />
     <Compile Include="Extensions\AssetExtensions.cs" />
     <Compile Include="Extensions\VisibilityExtensions.cs" />
-    <Compile Include="ExteriorColour.cs" />
-    <Compile Include="GradeAccesory.cs" />
-    <Compile Include="GradeEquipmentItem.cs" />
-    <Compile Include="GradeOption.cs" />
-    <Compile Include="Option.cs" />
-    <Compile Include="OptionInfo.cs" />
+    <Compile Include="Colours\ExteriorColour.cs" />
+    <Compile Include="Equipment\GradeAccesory.cs" />
+    <Compile Include="Equipment\GradeEquipmentItem.cs" />
+    <Compile Include="Equipment\GradeOption.cs" />
+    <Compile Include="Equipment\Option.cs" />
+    <Compile Include="Equipment\OptionInfo.cs" />
+    <Compile Include="Packs\GradePack.cs" />
     <Compile Include="Steering.cs" />
     <Compile Include="SubModel.cs" />
     <Compile Include="WheelDrive.cs" />

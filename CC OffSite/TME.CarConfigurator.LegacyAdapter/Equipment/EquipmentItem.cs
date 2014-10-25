@@ -3,23 +3,23 @@ using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
-using TME.CarConfigurator.Interfaces.Enums;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
-using Legacy = TMME.CarConfigurator;
+using ExteriorColour = TME.CarConfigurator.LegacyAdapter.Colours.ExteriorColour;
+using Visibility = TME.CarConfigurator.Interfaces.Enums.Visibility;
 
-namespace TME.CarConfigurator.LegacyAdapter
+namespace TME.CarConfigurator.LegacyAdapter.Equipment
 {
     public abstract class EquipmentItem : BaseObject, IEquipmentItem
     {
 
         #region Dependencies (Adaptee)
-        private Legacy.CarEquipmentItem Adaptee
+        private TMME.CarConfigurator.CarEquipmentItem Adaptee
         {
             get;
             set;
         }
-        private Legacy.Generation GenerationOfAdaptee
+        private TMME.CarConfigurator.Generation GenerationOfAdaptee
         {
             get;
             set;
@@ -27,7 +27,7 @@ namespace TME.CarConfigurator.LegacyAdapter
         #endregion
 
         #region Constructor
-        protected EquipmentItem(Legacy.CarEquipmentItem adaptee, Legacy.Generation generationOfAdaptee)
+        protected EquipmentItem(TMME.CarConfigurator.CarEquipmentItem adaptee, TMME.CarConfigurator.Generation generationOfAdaptee)
             : base(adaptee)
         {
             Adaptee = adaptee;

@@ -1,13 +1,12 @@
 ﻿using TME.CarConfigurator.Interfaces.Equipment;
-using Legacy = TMME.CarConfigurator;
 
-namespace TME.CarConfigurator.LegacyAdapter
+namespace TME.CarConfigurator.LegacyAdapter.Equipment
 {
     public class GradeOption : GradeEquipmentItem, IGradeOption
     {
 
         #region Dependencies (Adaptee)
-        private Legacy.EquipmentCompareOption Adaptee
+        private TMME.CarConfigurator.EquipmentCompareOption Adaptee
         {
             get;
             set;
@@ -15,7 +14,7 @@ namespace TME.CarConfigurator.LegacyAdapter
         #endregion
 
         #region Constructor
-        public GradeOption(Legacy.EquipmentCompareOption adaptee)
+        public GradeOption(TMME.CarConfigurator.EquipmentCompareOption adaptee)
             : base(adaptee)
         {
             Adaptee = adaptee;
@@ -24,14 +23,14 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public bool TechnologyItem
         {
-            get { return ((Legacy.CarOption)GetCarEquipmentItem()).TechnologyItem; }
+            get { return ((TMME.CarConfigurator.CarOption)GetCarEquipmentItem()).TechnologyItem; }
         }
 
         public IOptionInfo ParentOption
         {
             get
             {
-                var parentOption = ((Legacy.CarOption)GetCarEquipmentItem()).ParentOption;
+                var parentOption = ((TMME.CarConfigurator.CarOption)GetCarEquipmentItem()).ParentOption;
                 if (parentOption == null) return null;
                 return new OptionInfo(parentOption);
             }

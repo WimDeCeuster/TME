@@ -1,0 +1,19 @@
+﻿@model TME.CarConfigurator.Interfaces.IAvailabilityCompare
+<p class="property" data-id="Standard">Standard : @Html.Raw(Model.Standard)</p>
+<p class="property" data-id="Optional">Optional : @Html.Raw(Model.Optional)</p>
+<p class="property" data-id="NotAvailable">NotAvailable : @Html.Raw(Model.NotAvailable)</p>
+<strong>Standard On</strong>
+@foreach (var car in Model.StandardOn)
+{
+        <p class="property" data-id="StandardOn@(car.ShortID)"> - @Html.Raw(car.Name)</p>
+}
+<strong>Optional On</strong>
+@foreach (var car in Model.OptionalOn)
+{
+        <p class="property" data-id="StandardOn@(car.ShortID)"> - @Html.Raw(car.Name)</p>
+}
+<strong>Not Available On</strong>
+@foreach (var car in Model.NotAvailableOn)
+{
+        <p class="property" data-id="StandardOn@(car.ShortID)"> - @Html.Raw(car.Name)</p>
+}

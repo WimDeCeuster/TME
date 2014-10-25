@@ -4,7 +4,10 @@ using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.Interfaces.Packs;
+using TME.CarConfigurator.LegacyAdapter.Equipment;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
+using TME.CarConfigurator.LegacyAdapter.Packs;
 using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter
@@ -66,10 +69,15 @@ namespace TME.CarConfigurator.LegacyAdapter
                         .Select(x => 
                             (   x.Type == Legacy.EquipmentType.Accessory 
                                     ?  (IGradeEquipmentItem)new GradeAccesory((Legacy.EquipmentCompareAccessory)x)
-                                    : (IGradeEquipmentItem)new GradeOption((Legacy.EquipmentCompareOption)x)
+                                    : (IGradeEquipmentItem)new Equipment.GradeOption((Legacy.EquipmentCompareOption)x)
                             )
                           );
             }
+        }
+
+        public IEnumerable<IGradePack> Packs
+        {
+            get { return Adaptee.Packs.Cast<Legacy.PackCompareItem>().Select(x => new GradePack(x)); }
         }
     }
 }

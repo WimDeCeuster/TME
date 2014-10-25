@@ -23,7 +23,8 @@
                 @Html.Raw(" | ")
                 @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View),"Index", "ModelGradeVisibleInAssets", new { modelID = ViewBag.ModelID, gradeID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View}, new { })         
             }
-            @Html.ActionLink("Equipment", "Index", "ModelGradeEquipment", new { modelID = ViewBag.ModelID, gradeID = model.ID }, new { })
+            @Html.ActionLink("Equipment", "Index", "ModelGradeEquipment", new { modelID = ViewBag.ModelID, gradeID = model.ID, subModelID = ViewBag.SubModelID }, new { }) |
+            @Html.ActionLink("Packs", "Index", "ModelGradePacks", new { modelID = ViewBag.ModelID, gradeID = model.ID , subModelID = ViewBag.SubModelID}, new { }) 
         </div>
     </div>
 }

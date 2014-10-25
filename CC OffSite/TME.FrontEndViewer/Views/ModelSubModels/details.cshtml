@@ -17,8 +17,8 @@
             <p class="property" data-id="StartingPriceExVat">StartingPrice.ExVat : @Html.Raw(model.StartingPrice.PriceExVat)</p>
             <p class="property" data-id="StartingPriceInVat">StartingPrice.InVat : @Html.Raw(model.StartingPrice.PriceInVat)</p>
             <p class="property" data-id="actionlinks">
-                @Html.ActionLink("Assets", "Index", "ModelAssets", new { modelID = ViewBag.ModelID, subModelID = model.ID }, new { })
-                @Html.ActionLink("Links", "Index", "ModelLinks", new { modelID = ViewBag.ModelID, subModelID = model.ID }, new { })
+                @Html.ActionLink("Assets", "Index", "ModelAssets", new { modelID = ViewBag.ModelID, subModelID = model.ID }, new { }) |
+                @Html.ActionLink("Links", "Index", "ModelLinks", new { modelID = ViewBag.ModelID, subModelID = model.ID }, new { }) |
                 @Html.ActionLink("Grades", "Index", "ModelGrades", new { modelID = ViewBag.ModelID, subModelID = model.ID }, new { })
             </p>
         </div>
