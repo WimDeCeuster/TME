@@ -84,6 +84,11 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return GetCarEquipmentItem().Visibility.ToVisibility(); }
         }
 
+        public IBestVisibleIn BestVisibleIn
+        {
+            get { throw new System.NotImplementedException(); }
+        }
+
         public ICategoryInfo Category
         {
             get { return new CategoryInfo(Adaptee.Category); }
@@ -139,7 +144,10 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IEnumerable<ICarInfo> NotAvailableOn
         {
-            get { return Adaptee.NotAvailableOn.Cast<TMME.CarConfigurator.Car>().Select(x => new CarInfo(x)); }
+            get
+            {
+                return Adaptee.NotAvailableOn.Cast<TMME.CarConfigurator.Car>().Select(x => new CarInfo(x)); 
+            }
         }
     }
 }

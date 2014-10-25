@@ -54,6 +54,7 @@
     <Compile Include="Colours\ColourTransformation.cs" />
     <Compile Include="Colours\ExteriorColour.cs" />
     <Compile Include="Context.cs" />
+    <Compile Include="Equipment\BestVisibleIn.cs" />
     <Compile Include="Equipment\GradeEquipment.cs" />
     <Compile Include="Grade.cs" />
     <Compile Include="Enums\Visibility.cs" />

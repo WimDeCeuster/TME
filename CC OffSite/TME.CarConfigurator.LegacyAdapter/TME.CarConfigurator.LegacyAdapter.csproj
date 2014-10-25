@@ -66,6 +66,7 @@
     <Compile Include="Asset.cs" />
     <Compile Include="AssetType.cs" />
     <Compile Include="BaseObject.cs" />
+    <Compile Include="BestVisibleIn.cs" />
     <Compile Include="BodyType.cs" />
     <Compile Include="Car.cs" />
     <Compile Include="CarConfiguratorVersion.cs" />

@@ -19,7 +19,8 @@ namespace TME.CarConfigurator.Interfaces.Equipment
         bool Brochure { get; }
 
         Visibility Visibility { get; }
- 
+        IBestVisibleIn BestVisibleIn { get; }
+   
         ICategoryInfo Category { get; }
         IExteriorColour ExteriorColour { get; }
         

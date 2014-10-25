@@ -37,6 +37,11 @@ namespace TME.CarConfigurator
 
         public Interfaces.Enums.Visibility Visibility { get { throw new NotImplementedException(); } }
 
+        public IBestVisibleIn BestVisibleIn
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public ICategoryInfo Category { get { throw new NotImplementedException(); } }
 
         public Interfaces.Colours.IExteriorColour ExteriorColour { get { throw new NotImplementedException(); } }

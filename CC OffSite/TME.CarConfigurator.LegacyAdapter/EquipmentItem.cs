@@ -80,6 +80,11 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return Adaptee.Visibility.ToVisibility(); }
         }
 
+        public IBestVisibleIn BestVisibleIn
+        {
+            get { return new BestVisibleIn(Adaptee.BestVisibleIn); }
+        }
+
         public ICategoryInfo Category
         {
             get { return new CategoryInfo(Adaptee.Category); }
