@@ -38,7 +38,7 @@ namespace TME.CarConfigurator.Publisher.Extensions
 
         private static bool IsAssetOfCar(Administration.Car car, AssetSetAsset asset)
         {
-            return (asset.IsDeviation() || !asset.AlwaysInclude)
+            return asset.IsDeviation()
                    && (asset.BodyType.IsEmpty() || asset.BodyType.Equals(car.BodyType))
                    && (asset.Engine.IsEmpty() || asset.Engine.Equals(car.Engine))
                    && (asset.Transmission.IsEmpty() || asset.Transmission.Equals(car.Transmission))
@@ -119,7 +119,7 @@ namespace TME.CarConfigurator.Publisher.Extensions
 
             var exteriourColourCode = asset.ExteriorColour.Code;
             var upholsteryCode = asset.Upholstery.Code;
-            var equipmentCode = asset.EquipmentItem.ID.ToString(); // TODO: replace this by equipment item code, either by adding to equipmentinfo object or by fetching from ModelGeneration => Check with Wim || Actually, there is no need, as the ID is just as unique as the code...
+            var equipmentCode = asset.EquipmentItem.ID.ToString(); 
 
             return GetKey(mode, view, side, type, exteriourColourCode, upholsteryCode, equipmentCode);
         }

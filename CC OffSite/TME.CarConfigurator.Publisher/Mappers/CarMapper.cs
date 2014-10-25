@@ -35,10 +35,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
             if (car.ShortID == null)
                 throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.ID));
 
-
-            /*var cheapestColourCombination = car.ColourCombinations
-                                               .OrderBy(cc => cc.ExteriorColour.Price + cc.Upholstery.Price)
-                                               .First();  Todo Yens, Figure out when the cheapestcolourcombination needs to be added to the BasePrice*/
+            var cheapestColourCombination = car.ColourCombinations
+                                               .OrderBy(cc => cc.ExteriorColour.VatPrice + cc.Upholstery.VatPrice)
+                                               .First();
 
             var mappedCar = new Car
             {
@@ -56,8 +55,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 SortIndex = car.Index,
                 StartingPrice = new Price
                 {
-                    ExcludingVat = car.Price,// + cheapestColourCombination.ExteriorColour.Price + cheapestColourCombination.Upholstery.Price,
-                    IncludingVat = car.VatPrice// + cheapestColourCombination.ExteriorColour.VatPrice + cheapestColourCombination.Upholstery.VatPrice
+                    ExcludingVat = car.Price + cheapestColourCombination.ExteriorColour.Price + cheapestColourCombination.Upholstery.Price,
+                    IncludingVat = car.VatPrice + cheapestColourCombination.ExteriorColour.VatPrice + cheapestColourCombination.Upholstery.VatPrice
                 },
                 Steering = steering,
                 Transmission = transmission,

@@ -30,6 +30,51 @@ namespace TME.CarConfigurator.Publisher
         readonly ISubModelMapper _subModelMapper;
         readonly IEquipmentMapper _equipmentMapper;
 
+<<<<<<< HEAD
+=======
+        public IContext Map(String brand, String country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IContext context)
+        {
+            var data = generationFinder.GetModelGeneration(brand, country, generationID);
+            var isPreview = context.DataSubset == PublicationDataSubset.Preview;
+            
+            foreach (var entry in data)
+            {
+                var contextData = new ContextData();
+                var modelGeneration = entry.Value.Item1;
+                var model = entry.Value.Item2;
+                var language = entry.Key;
+
+                MyContext.SetSystemContext(brand, country, language);
+
+                context.ModelGenerations[language] = modelGeneration;
+                context.ContextData[language] = contextData;
+
+                // fill contextData
+                var generation = _generationMapper.MapGeneration(model, modelGeneration, isPreview);
+                contextData.Generations.Add(generation);
+                contextData.Models.Add(_modelMapper.MapModel(model));
+
+
+                var cars = modelGeneration.Cars.Where(car => isPreview || car.Approved).ToList();
+                FillAssets(modelGeneration, contextData);
+                FillBodyTypes(cars, modelGeneration, contextData);
+                FillEngines(cars, modelGeneration, contextData);
+                FillTransmissions(cars, modelGeneration, contextData);
+                FillWheelDrives(cars, modelGeneration, contextData);
+                FillSteerings(cars, contextData);
+                FillCars(cars,contextData);
+                FillGrades(cars, modelGeneration, contextData);
+                FillSubModels(cars, modelGeneration, contextData,isPreview);
+                FillCarAssets(cars, contextData, modelGeneration);
+                FillGradeEquipment(cars, modelGeneration, contextData, isPreview);    
+
+                context.TimeFrames[language] = _timeFrameMapper.GetTimeFrames(language, context);
+            }
+
+            return context;
+        }
+>>>>>>> 014059e166892e42417d8e4bb2c8228321cad35e
+
         public Mapper(
             ITimeFrameMapper timeFrameMapper,
             IModelMapper modelMapper,
@@ -108,9 +153,9 @@ namespace TME.CarConfigurator.Publisher
                 FillTransmissions(cars, modelGeneration, contextData);
                 FillWheelDrives(cars, modelGeneration, contextData);
                 FillSteerings(cars, contextData);
+                FillSubModels(cars, modelGeneration, contextData, isPreview);
                 FillCars(cars, contextData);
                 FillGrades(cars, modelGeneration, contextData);
-                FillSubModels(cars, modelGeneration, contextData, isPreview);
                 FillCarAssets(cars, contextData, modelGeneration);
                 FillGradeEquipment(cars, modelGeneration, contextData, isPreview);
 
@@ -226,7 +271,11 @@ namespace TME.CarConfigurator.Publisher
                 var wheelDrive = contextData.WheelDrives.Single(drive => drive.ID == car.WheelDriveID);
                 var steering = contextData.Steerings.Single(steer => steer.ID == car.SteeringID);
                 contextData.CarAssets.Add(car.ID, new Dictionary<Guid, IList<Asset>>());
+<<<<<<< HEAD
+                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering, subModel));
+=======
                 contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering));
+>>>>>>> 014059e166892e42417d8e4bb2c8228321cad35e
             }
         }
 

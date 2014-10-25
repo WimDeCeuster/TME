@@ -26,7 +26,7 @@ namespace TME.CarConfigurator.Publisher
             _generationFinder = generationFinder;
         }
 
-        public Task<Result> Publish(Guid generationID, String environment, String target, String brand, String country, PublicationDataSubset dataSubset)
+        public async Task<Result> PublishAsync(Guid generationID, String environment, String target, String brand, String country, PublicationDataSubset dataSubset)
         {
             if (String.IsNullOrWhiteSpace(environment)) throw new ArgumentNullException("environment");
             if (String.IsNullOrWhiteSpace(target)) throw new ArgumentNullException("target");
@@ -35,11 +35,11 @@ namespace TME.CarConfigurator.Publisher
             
             var context = _contextFactory.Get(brand, country, generationID, dataSubset);
 
-            _mapper.Map(brand, country, generationID, _generationFinder, context);
+            await _mapper.MapAsync(brand, country, generationID, _generationFinder, context);
 
             var publisher = _publisherFacadeFactory.GetFacade(target).GetPublisher(environment, dataSubset);
 
-            return publisher.Publish(context);
+            return await publisher.PublishAsync(context);
         }
     }
 }

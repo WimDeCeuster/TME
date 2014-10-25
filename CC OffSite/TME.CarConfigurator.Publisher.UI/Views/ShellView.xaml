@@ -36,8 +36,8 @@
         </StackPanel>
         <StackPanel HorizontalAlignment="Center">
             <StackPanel Orientation="Horizontal" Margin="3">
-                <Button x:Name="PublishPreview">Publish to preview</Button>
-                <Button x:Name="PublishLive" Margin="10 0 0 0">Publish to live</Button>
+                <Button x:Name="PublishPreviewAsync">Publish to preview</Button>
+                <Button x:Name="PublishLiveAsync" Margin="10 0 0 0">Publish to live</Button>
             </StackPanel>
         </StackPanel>
     </StackPanel>

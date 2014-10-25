@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Repository.Objects.Core;
@@ -13,10 +14,10 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
 {
     public class TimeFramePublishHelper : ITimeFramePublishHelper
     {
-        public async Task<IEnumerable<Result>> PublishObjects<T>(
-            IContext context,
-            Func<TimeFrame, T> objectsGetter,
-            Func<String, String, Guid, Guid, T, Task<IEnumerable<Result>>> publish)
+        public async Task<IEnumerable<Result>> Publish<T>(IContext context,
+            Func<TimeFrame, IEnumerable<T>> objectsGetter,
+            Func<String, String, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
+            where T : BaseObject
         {
             if (context == null) throw new ArgumentNullException("context");
 
@@ -35,33 +36,22 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
             return result.SelectMany(xs => xs);
         }
 
-        public async Task<IEnumerable<Result>> PublishList<T>(
-            IContext context,
-            Func<TimeFrame, IEnumerable<T>> objectsGetter,
-            Func<String, String, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
-            where T : BaseObject
-        {
-            if (context == null) throw new ArgumentNullException("context");
-
-            return await PublishObjects(
-                context,
-                timeFrame => objectsGetter(timeFrame).Order(),
-                async (brand, country, pubId, tfId, x) =>
-                    await Task.WhenAll(publish(brand, country, pubId, tfId, x)));
-        }
-
+<<<<<<< HEAD
+        private async Task<IEnumerable<Result>> PublishTimeFrameObjects<T>(
+=======
         async Task<IEnumerable<Result>> Publish<T>(
+>>>>>>> 716cde83b651910126edee327fd469001b384d0a
             String brand,
             String country,
             IEnumerable<TimeFrame> timeFrames,
             Guid publicationID,
-            Func<TimeFrame, T> objectsGetter,
-            Func<String, String, Guid, Guid, T, Task<IEnumerable<Result>>> publish)
+            Func<TimeFrame, IEnumerable<T>> objectsGetter,
+            Func<String, String, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
+            where T : BaseObject
         {
-            var tasks = timeFrames.Select(timeFrame => publish(brand, country, publicationID, timeFrame.ID, objectsGetter(timeFrame)));
+            var tasks = timeFrames.Select(timeFrame => publish(brand, country, publicationID, timeFrame.ID, objectsGetter(timeFrame).Order()));
 
-            var results = await Task.WhenAll(tasks);
-            return results.SelectMany(xs => xs);
+            return await Task.WhenAll(tasks);
         }
     }
 }

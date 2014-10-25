@@ -6,6 +6,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface IPublisher
     {
-        Task<Result> Publish(IContext context);
+        Task<Result> PublishAsync(IContext context);
     }
 }

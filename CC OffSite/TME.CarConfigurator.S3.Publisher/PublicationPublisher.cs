@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
@@ -23,15 +24,7 @@ namespace TME.CarConfigurator.S3.Publisher
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            var tasks = new List<Task<Result>>();
-
-            foreach (var entry in context.ContextData)
-            {
-                var language = entry.Key;
-                var data = entry.Value;
-
-                tasks.Add(_publicationService.PutPublication(context.Brand, context.Country, data.Publication));
-            }
+            var tasks = context.ContextData.Values.Select(data => _publicationService.PutPublication(context.Brand, context.Country, data.Publication)).ToList();
 
             return await Task.WhenAll(tasks);
         }

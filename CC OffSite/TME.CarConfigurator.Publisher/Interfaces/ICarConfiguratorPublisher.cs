@@ -7,6 +7,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface ICarConfiguratorPublisher
     {
-        Task<Result> Publish(Guid generationId, String environment, String target, String brand, String country, PublicationDataSubset dataSubset);
+        Task<Result> PublishAsync(Guid generationId, String environment, String target, String brand, String country, PublicationDataSubset dataSubset);
     }
 }

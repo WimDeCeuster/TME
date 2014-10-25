@@ -141,7 +141,7 @@ namespace TME.Carconfigurator.Tests.Base
 
         protected override void Act()
         {
-            var result = Publisher.Publish(Context).Result;
+            var result = Publisher.PublishAsync(Context).Result;
         }
     }
 }

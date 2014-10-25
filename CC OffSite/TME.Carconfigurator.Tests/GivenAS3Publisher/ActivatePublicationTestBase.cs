@@ -111,7 +111,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 
         protected override void Act()
         {
-            var result = Publisher.Publish(Context).Result;
+            var result = Publisher.PublishAsync(Context).Result;
         }
 
         protected Model GetModel(string modelName, string internalCode, string localCode, string oldDescriptionForLanguage1,string footNote,string tooltip,int sortIndex,List<Label> labels)
