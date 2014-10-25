@@ -18,6 +18,11 @@
             <p class="property" data-id="BasedUponID">BasedUponID : @Html.Raw(model.BasedUpon == null ? Guid.Empty : model.BasedUpon.ID)</p>
             <br />
             @Html.ActionLink("Assets", "Index", "ModelGradeAssets", new { modelID = ViewBag.ModelID, gradeID = model.ID }, new { }) |
+            @foreach (var visibleInModeAndView in model.VisibleIn.Where(x => x.Assets.Any()))
+            {
+                @Html.Raw(" | ")
+                @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View),"Index", "ModelGradeVisibleInAssets", new { modelID = ViewBag.ModelID, gradeID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View}, new { })         
+            }
             @Html.ActionLink("Equipment", "Index", "ModelGradeEquipment", new { modelID = ViewBag.ModelID, gradeID = model.ID }, new { })
         </div>
     </div>
