@@ -3,14 +3,13 @@
 
 @foreach (var model in Model)
 {
-    <div class="clickable">
-        <table class="top">
-            <tr>
-                <td>
-                    <b>@Html.Raw(model.Name), @Html.Raw(model.Name)</b>
-                </td>
-            </tr>
-        </table>
-        @Html.Partial("_gradeEquipmentItem", model)
+    <div class="object" data-id="@(model.Name)">
+        <div class="title">
+            <strong>@Html.Raw(model.Name), @Html.Raw(model.Name)</strong>
+        </div>
+        <div class="clickable object">
+
+            @Html.Partial("_gradeEquipmentItem", model)
+        </div>
     </div>
 }

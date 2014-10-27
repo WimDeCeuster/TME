@@ -1,17 +1,12 @@
 ﻿@model IEnumerable<TME.CarConfigurator.Interfaces.IModel>
 
-
 @foreach (var model in Model)
 {
-    <div class="clickable">
-        <table class="top">
-            <tr>
-                <td>
-                    <b>@Html.Raw(model.Name)</b>
-                </td>
-            </tr>
-        </table>
-        <div class="clickable object" data-id="@Html.Raw(model.ID)">
+    <div class="object" data-id="@Html.Raw(model.ID)">
+        <div class="title">
+            <strong>@Html.Raw(model.Name)</strong>
+        </div>
+        <div class="content">
             @Html.Partial("_baseObject", model)
             <p class="property" data-id="Brand">Brand : @Html.Raw(model.Brand)</p>
             <p class="property" data-id="SSN">SSN : @Html.Raw(model.SSN)</p>
@@ -19,16 +14,16 @@
             <p class="property" data-id="CarConfiguratorVersionID">CarConfiguratorVersion.ID : @Html.Raw(model.CarConfiguratorVersion.ID)</p>
             <p class="property" data-id="CarConfiguratorVersionName">CarConfiguratorVersion.Name : @Html.Raw(model.CarConfiguratorVersion.Name)</p>
             <br />
-            @Html.ActionLink("Assets","Index", "ModelAssets", new { modelID = model.ID}, new { }) | 
-            @Html.ActionLink("Links","Index", "ModelLinks", new { modelID = model.ID}, new { }) | 
-            @Html.ActionLink("Body Types", "Index", "ModelBodyTypes", new { modelID = model.ID}, new { }) |
-            @Html.ActionLink("Engines", "Index", "ModelEngines", new { modelID = model.ID}, new { }) |
+            @Html.ActionLink("Assets", "Index", "ModelAssets", new { modelID = model.ID }, new { }) |
+            @Html.ActionLink("Links", "Index", "ModelLinks", new { modelID = model.ID }, new { }) |
+            @Html.ActionLink("Body Types", "Index", "ModelBodyTypes", new { modelID = model.ID }, new { }) |
+            @Html.ActionLink("Engines", "Index", "ModelEngines", new { modelID = model.ID }, new { }) |
             @Html.ActionLink("Transmissions", "Index", "ModelTransmissions", new { modelID = model.ID }, new { }) |
             @Html.ActionLink("WheelDrives", "Index", "ModelWheelDrives", new { modelID = model.ID }, new { }) |
             @Html.ActionLink("Steerings", "Index", "ModelSteerings", new { modelID = model.ID }, new { }) |
             @Html.ActionLink("Grades", "Index", "ModelGrades", new { modelID = model.ID }, new { }) |
-            @Html.ActionLink("Cars", "Index", "ModelCars", new { modelID = model.ID}, new { })
-            @Html.ActionLink("SubModels", "Index", "ModelSubModels", new { modelID = model.ID}, new { })
+            @Html.ActionLink("Cars", "Index", "ModelCars", new { modelID = model.ID }, new { })
+            @Html.ActionLink("SubModels", "Index", "ModelSubModels", new { modelID = model.ID }, new { })
         </div>
     </div>
 }

@@ -4,16 +4,12 @@
 
 @foreach (var model in Model)
 {
-    <div class="clickable">
-        <table class="top">
-            <tr>
-                <td>
-                    <b>@Html.Raw(model.Name)</b>
-                </td>
-            </tr>
-        </table>
-        <div class="clickable object" data-id="@Html.Raw(model.ID)">
-            @Html.Partial("_baseObject",model)
+    <div class="object" data-id="@Html.Raw(model.ID)">
+        <div class="title">
+            <strong>@Html.Raw(model.Name)</strong>
+        </div>
+        <div class="content">
+            @Html.Partial("_baseObject", model)
             <p class="property" data-id="StartingPriceExVat">StartingPrice.ExVat : @Html.Raw(model.StartingPrice.PriceExVat)</p>
             <p class="property" data-id="StartingPriceInVat">StartingPrice.InVat : @Html.Raw(model.StartingPrice.PriceInVat)</p>
             <p class="property" data-id="actionlinks">

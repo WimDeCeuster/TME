@@ -32,19 +32,24 @@
 
             var newObject = findMatchingNewObject(oldObject)
 
-            var topOldObject = oldObject.parents('.object').last()
-            if (!topOldObject.length)
-                topOldObject = oldObject
+            var parentOldObjects = oldObject.parents('.object')
+            if (!parentOldObjects.length)
+                parentOldObjects = oldObject
 
-            var topNewObject = newObject.parents('.object').last()
-            if (!topNewObject.length)
-                topNewObject = newObject
+            var parentNewObjects = newObject.parents('.object')
+            if (!parentNewObjects.length)
+                parentNewObjects = newObject
+
+            oldObject.data('linked-item', newObject)
+            newObject.data('linked-item', oldObject)
 
             if (!newObject.length) {
-                if (topOldObject.is(oldObject))
-                    oldObject.parent('.clickable').addClass('missing')
+                if (parentOldObjects.is(oldObject))
+                    oldObject.addClass('missing')
                 else {
-                    topOldObject.parent('.clickable').addClass('mismatch')
+                    parentOldObjects.each(function (i, parent) {
+                        $(parent).addClass('mismatch')
+                    })
                     oldObject.addClass('missing')
                 }
                 return
@@ -53,7 +58,7 @@
             oldObject.find('.property').filter(isClosestTo(oldObject))
                                        .each(function () {
                 var oldProperty = $(this)
-                var newProperty = newObject.find('.property[data-id=' + oldProperty.data('id') + ']')
+                var newProperty = newObject.find('.property[data-id="' + oldProperty.data('id') + '"]')
                                            .filter(isClosestTo(newObject))
 
                 var allowMismatch = newProperty.hasClass('allow-mismatch')
@@ -66,14 +71,19 @@
                 }
 
                 if (!isUnique || (isMismatch && !allowMismatch)) {
-                    topNewObject.parent('.clickable').addClass('mismatch')
+                    parentNewObjects.each(function (i, parent) {
+                        $(parent).addClass('mismatch')
+                    })
                     newProperty.addClass('mismatch')
-                    if (!topNewObject.is(newObject))
+                    
+                    if (!parentNewObjects.is(newObject))
                         newObject.addClass('mismatch')
 
-                    topOldObject.parent('.clickable').addClass('mismatch')
+                    parentOldObjects.each(function (i, parent) {
+                        $(parent).addClass('mismatch')
+                    })
                     oldProperty.addClass('mismatch')
-                    if (!topOldObject.is(oldObject))
+                    if (!parentOldObjects.is(oldObject))
                         oldObject.addClass('mismatch')
                 }
             })
@@ -84,7 +94,7 @@
                                          .toArray()
                                          .map(getDataId)
 
-            return $('#newarea .object[data-id=' + oldObject.data('id') + ']').filter(function () {
+            return $('#newarea .object[data-id="' + oldObject.data('id') + '"]').filter(function () {
                 var candidateParentsIds = $(this).parents('.object')
                                                  .toArray()
                                                  .map(getDataId)

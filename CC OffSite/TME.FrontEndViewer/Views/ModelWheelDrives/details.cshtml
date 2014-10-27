@@ -4,15 +4,11 @@
 
 @foreach (var model in Model)
 {
-    <div class="clickable">
-        <table class="top">
-            <tr>
-                <td>
-                    <b>@Html.Raw(model.Name)</b>
-                </td>
-            </tr>
-        </table>
-        <div class="clickable object" data-id="@Html.Raw(model.ID)">
+    <div class="object" data-id="@Html.Raw(model.ID)">
+        <div class="title">
+            <strong>@Html.Raw(model.Name)</strong>
+        </div>
+        <div class="content">
             @Html.Partial("_baseObject", model)
             <p class="property" data-id="Brochure">Brochure : @Html.Raw(model.Brochure)</p>
             <p class="property" data-id="KeyFeature">KeyFeature : @Html.Raw(model.KeyFeature)</p>
@@ -24,11 +20,11 @@
             <p class="property" data-id="VisibleInXRaySafetySpin">VisibleInXRaySafetySpin : @Html.Raw(model.VisibleInXRaySafetySpin)</p>
 
             <p class="property" data-id="actionlinks">
-                @Html.ActionLink("Assets","Index", "ModelWheelDriveAssets", new { modelID = ViewBag.ModelID, wheelDriveID = model.ID}, new { })
+                @Html.ActionLink("Assets", "Index", "ModelWheelDriveAssets", new { modelID = ViewBag.ModelID, wheelDriveID = model.ID }, new { })
                 @foreach (var visibleInModeAndView in model.VisibleIn)
                 {
                     @Html.Raw(" | ")
-                    @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View),"Index", "ModelWheelDriveVisibleInAssets", new { modelID = ViewBag.ModelID, wheelDriveID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View}, new { })         
+                    @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View), "Index", "ModelWheelDriveVisibleInAssets", new { modelID = ViewBag.ModelID, wheelDriveID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View }, new { })
                 }
             </p>
 

@@ -25,12 +25,17 @@ textarea {
     min-width: 400px;
 }
 
-.clickable {
+.object .title {
+    padding: 3px;
     cursor: pointer;
 }
 
-.clickable>.clickable {
+.object .content{
     display: none;
+}
+
+.object {
+    margin-top: 10px;
 }
 
 .top {
@@ -82,28 +87,37 @@ textarea {
 table td { vertical-align: top;}
 
 
-.object {
+.object .content {
     border: 1px solid #ddd;
     padding: 0 1.4em 1.4em 1.4em;
     margin: 0 0 1.5em 0;
     background-color: white;
 }
 
-
-.missing {
+.object.missing .title {
      background-color: orange;
 }
 
-.mismatch {
+.object.missing .content {
+     border-color: orange;
+}
+
+.object.mismatch > .title {
      background-color: red;
 }
 
-
-.mismatch.object.sub-item  {
-     background-color: inherit;
+.object.mismatch > .content {
      border-color: red;
+}
+
+.property.mismatch {
+    background-color: red;
 }
 
 .allowed-mismatch {
     background-color: #DEDEDE;
+}
+
+.toggle-all {
+    cursor: pointer;
 }
