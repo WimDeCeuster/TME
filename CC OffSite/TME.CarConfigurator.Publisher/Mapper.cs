@@ -110,9 +110,9 @@ namespace TME.CarConfigurator.Publisher
                 FillSteerings(cars, contextData);
                 FillCars(cars, contextData);
                 FillGrades(cars, modelGeneration, contextData);
-                FillSubModels(cars, modelGeneration, contextData, isPreview);
                 FillCarAssets(cars, contextData, modelGeneration);
                 FillGradeEquipment(cars, modelGeneration, contextData, isPreview);
+                FillSubModels(cars, modelGeneration, contextData, isPreview);
 
                 context.TimeFrames[language] = _timeFrameMapper.GetTimeFrames(language, context);
             }

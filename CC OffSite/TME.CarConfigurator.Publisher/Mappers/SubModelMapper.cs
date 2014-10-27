@@ -8,6 +8,7 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
+using TME.CarConfigurator.Repository.Objects.Equipment;
 using Link = TME.CarConfigurator.Repository.Objects.Link;
 
 namespace TME.CarConfigurator.Publisher.Mappers
@@ -17,19 +18,19 @@ namespace TME.CarConfigurator.Publisher.Mappers
         private readonly IBaseMapper _baseMapper;
         private readonly IAssetMapper _assetMapper;
         private readonly ILinkMapper _linkMapper;
-        private readonly IGradeMapper _gradeMapper;
+        private readonly IEquipmentMapper _equipmentMapper;
 
-        public SubModelMapper(IBaseMapper baseMapper, IAssetMapper assetMapper, ILinkMapper linkMapper,IGradeMapper gradeMapper)
+        public SubModelMapper(IBaseMapper baseMapper, IAssetMapper assetMapper, ILinkMapper linkMapper,IEquipmentMapper equipmentMapper)
         {
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
             if (assetMapper == null) throw new ArgumentNullException("assetMapper");
             if (linkMapper == null) throw new ArgumentNullException("linkMapper");
-            if (gradeMapper == null) throw new ArgumentNullException("gradeMapper");
+            if (equipmentMapper == null) throw new ArgumentNullException("equipmentMapper");
 
             _baseMapper = baseMapper;
             _assetMapper = assetMapper;
             _linkMapper = linkMapper;
-            _gradeMapper = gradeMapper;
+            _equipmentMapper = equipmentMapper;
         }
 
         public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
@@ -45,10 +46,20 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 },
                 Assets = GetMappedAssetsForSubModel(modelGenerationSubModel),
                 Links = GetMappedLinksForSubModel(modelGenerationSubModel, isPreview),
-                Grades = GetSubModelGrades(modelGenerationSubModel, contextData)
+                Grades = GetSubModelGrades(modelGenerationSubModel, contextData),
+                Equipment = GetSubModelEquipment(modelGenerationSubModel,contextData)
             };
 
             return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel, modelGenerationSubModel, modelGenerationSubModel.Name);
+        }
+
+        private List<GradeEquipmentItem> GetSubModelEquipment(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+        {
+            var accesories =  contextData.GradeEquipments.Values.SelectMany(e => e.Accessories).ToList().Where(a => modelGenerationSubModel.Equipment.Any(aq => aq.ID == a.ID));
+            return accesories.Select(gradeAccessory => new GradeAccessory()
+            {
+                BestVisibleIn = gradeAccessory.BestVisibleIn, Category = gradeAccessory.Category, Description = gradeAccessory.Description, ExteriorColour = gradeAccessory.ExteriorColour, FootNote = gradeAccessory.FootNote, GradeFeature = gradeAccessory.GradeFeature, ID = gradeAccessory.ID, InternalCode = gradeAccessory.InternalCode, InternalName = gradeAccessory.InternalName, KeyFeature = gradeAccessory.KeyFeature, Labels = gradeAccessory.Labels, Links = gradeAccessory.Links, LocalCode = gradeAccessory.LocalCode, SortIndex = gradeAccessory.SortIndex, ToolTip = gradeAccessory.ToolTip, Name = gradeAccessory.Name, NotAvailable = gradeAccessory.NotAvailable, NotAvailableOn = gradeAccessory.NotAvailableOn, Optional = gradeAccessory.Optional, OptionalGradeFeature = gradeAccessory.OptionalGradeFeature, OptionalOn = gradeAccessory.OptionalOn, PartNumber = gradeAccessory.PartNumber, Path = gradeAccessory.Path, ShortID = gradeAccessory.ShortID, Standard = gradeAccessory.Standard, StandardOn = gradeAccessory.StandardOn, Visibility = gradeAccessory.Visibility
+            }).Cast<GradeEquipmentItem>().ToList();
         }
 
         private List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
