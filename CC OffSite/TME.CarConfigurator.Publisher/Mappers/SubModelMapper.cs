@@ -8,7 +8,6 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
-using Car = TME.CarConfigurator.Administration.Car;
 using Link = TME.CarConfigurator.Repository.Objects.Link;
 
 namespace TME.CarConfigurator.Publisher.Mappers

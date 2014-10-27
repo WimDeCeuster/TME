@@ -115,6 +115,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="TME.Diagnostics">
+      <HintPath>..\..\Libraries\TME.Diagnostics.dll</HintPath>
+    </Reference>
     <Reference Include="TMME.BusinessObjects">
       <HintPath>..\..\Libraries\TMME.BusinessObjects.dll</HintPath>
     </Reference>
@@ -126,6 +129,9 @@
     </Reference>
     <Reference Include="TMME.CarConfigurator">
       <HintPath>..\..\Libraries\TMME.CarConfigurator.dll</HintPath>
+    </Reference>
+    <Reference Include="TMME.Common">
+      <HintPath>..\..\Libraries\TMME.Common.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
