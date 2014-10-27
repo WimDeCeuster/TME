@@ -17,16 +17,19 @@ namespace TME.CarConfigurator.Publisher.Mappers
         private readonly IBaseMapper _baseMapper;
         private readonly IAssetMapper _assetMapper;
         private readonly ILinkMapper _linkMapper;
+        private readonly IGradeMapper _gradeMapper;
 
-        public SubModelMapper(IBaseMapper baseMapper, IAssetMapper assetMapper, ILinkMapper linkMapper)
+        public SubModelMapper(IBaseMapper baseMapper, IAssetMapper assetMapper, ILinkMapper linkMapper,IGradeMapper gradeMapper)
         {
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
             if (assetMapper == null) throw new ArgumentNullException("assetMapper");
             if (linkMapper == null) throw new ArgumentNullException("linkMapper");
+            if (gradeMapper == null) throw new ArgumentNullException("gradeMapper");
 
             _baseMapper = baseMapper;
             _assetMapper = assetMapper;
             _linkMapper = linkMapper;
+            _gradeMapper = gradeMapper;
         }
 
         public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
@@ -48,23 +51,12 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel, modelGenerationSubModel, modelGenerationSubModel.Name);
         }
 
-        private static List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+        private List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
         {
-            var subModelGrades = contextData.Grades
+            return contextData.Grades
                 .Where(contextGrade => modelGenerationSubModel.Cars()
                                                               .Any(car => car.GradeID == contextGrade.ID))
                 .ToList();
-            MapToSubModelGrades(subModelGrades, modelGenerationSubModel);
-            return subModelGrades;
-        }
-
-        private static void MapToSubModelGrades(IEnumerable<Grade> subModelGrades, ModelGenerationSubModel modelGenerationSubModel)
-        {
-            foreach (var subModelGrade in subModelGrades)
-            {
-                subModelGrade.InternalCode = subModelGrade.Name + "-" + modelGenerationSubModel.Code;
-                subModelGrade.LocalCode = String.Empty;
-            }
         }
 
         private List<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)

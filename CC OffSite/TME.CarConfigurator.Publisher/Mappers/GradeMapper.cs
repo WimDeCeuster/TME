@@ -13,7 +13,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class GradeMapper : IGradeMapper
     {
-        IBaseMapper _baseMapper;
+        private IBaseMapper _baseMapper;
         private readonly IAssetSetMapper _assetSetMapper;
 
         public GradeMapper(IBaseMapper baseMapper, IAssetSetMapper assetSetMapper)
@@ -29,8 +29,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
             var gradeCars = generationGrade.Cars().ToArray();
             var cheapestCar = cars.Where(car => gradeCars.Any(gradeCar => gradeCar.ID == car.ID))
-                                  .OrderBy(car => car.StartingPrice.ExcludingVat)
-                                  .First();
+                .OrderBy(car => car.StartingPrice.ExcludingVat)
+                .First();
 
             var mappedGrade = new Grade
             {
