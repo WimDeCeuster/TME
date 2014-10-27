@@ -256,20 +256,18 @@ namespace TME.CarConfigurator.Publisher
 
         private void FillSubModels(IList<Car> cars, ModelGeneration modelGeneration, ContextData contextData, bool isPreview)
         {
-            var applicableSubModels =
-                modelGeneration.SubModels.Where(submodel => cars.Any(car => car.SubModelID == submodel.ID)).ToList();
+            var applicableSubModels = modelGeneration.SubModels.Where(submodel => cars.Any(car => car.SubModelID == submodel.ID)).ToList();
+
             foreach (var modelGenerationSubModel in applicableSubModels)
-                contextData.SubModels.Add(_subModelMapper.MapSubModel(modelGenerationSubModel,contextData, isPreview));
+                contextData.SubModels.Add(_subModelMapper.MapSubModel(modelGenerationSubModel, contextData, isPreview));
 
             foreach (var modelGenerationSubModel in applicableSubModels)
             {
                 var subModelId = modelGenerationSubModel.ID;
 
-                var mappedSubModel =
-                    contextData.SubModels.Single(contextSubmodel =>subModelId == contextSubmodel.ID);
+                var mappedSubModel = contextData.SubModels.Single(contextSubmodel => subModelId == contextSubmodel.ID);
 
-                var applicableCars = cars.Where(car => car.SubModelID == subModelId)
-                    .Select(car => contextData.Cars.Single(contextCar => contextCar.ID == car.ID));
+                var applicableCars = cars.Where(car => car.SubModelID == subModelId).Select(car => contextData.Cars.Single(contextCar => contextCar.ID == car.ID));
 
                 foreach (var applicableCar in applicableCars)
                     applicableCar.SubModel = mappedSubModel;
