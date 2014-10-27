@@ -18,6 +18,7 @@ namespace TME.FrontEndViewer.Controllers
             var oldContext = MyContext.NewContext(context.Brand, context.Country, context.Language);
 
             ViewBag.ModelID = modelID;
+            ViewBag.SubModelID = subModelID;
 
             var model = new CompareView<IGrade>
             {

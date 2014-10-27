@@ -120,30 +120,7 @@
   </object>
   <object name="S3Serialiser" type="TME.CarConfigurator.S3.Shared.Serialiser, TME.CarConfigurator.S3.Shared"></object>
   <object name="S3KeyManager" type="TME.CarConfigurator.S3.Shared.KeyManager, TME.CarConfigurator.S3.Shared"></object>
-  <object name="DevelopmentLiveS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
-    <constructor-arg name="bucketNameTemplate" value="development-live-cardb-{brand}-{country}" />
-    <constructor-arg name="accessKey" value="AKIAI7K4BGSHR6YAXBEA" />
-    <constructor-arg name="secretKey" value="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" />
-    <constructor-arg ref="AmazonS3Factory" />
-  </object>
-  <object name="DevelopmentPreviewS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
-    <constructor-arg name="bucketNameTemplate" value="development-preview-cardb-{brand}-{country}" />
-    <constructor-arg name="accessKey" value="AKIAI7K4BGSHR6YAXBEA" />
-    <constructor-arg name="secretKey" value="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" />
-    <constructor-arg ref="AmazonS3Factory" />
-  </object>
-  <object name="ProductionLiveS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
-    <constructor-arg name="bucketNameTemplate" value="production-live-cardb-{brand}-{country}" />
-    <constructor-arg name="accessKey" value="AKIAI7K4BGSHR6YAXBEA" />
-    <constructor-arg name="secretKey" value="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" />
-    <constructor-arg ref="AmazonS3Factory" />
-  </object>
-  <object name="ProductionPreviewS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
-    <constructor-arg name="bucketNameTemplate" value="production-preview-cardb-{brand}-{country}" />
-    <constructor-arg name="accessKey" value="AKIAI7K4BGSHR6YAXBEA" />
-    <constructor-arg name="secretKey" value="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" />
-    <constructor-arg ref="AmazonS3Factory" />
-  </object>
+
 
   <object name="AmazonS3Factory" type="TME.CarConfigurator.S3.Shared.Factories.AmazonS3Factory, TME.CarConfigurator.S3.Shared"></object>
   <object name="ShellViewModel" type="TME.CarConfigurator.Publisher.UI.ViewModels.ShellViewModel, TME.CarConfigurator.Publisher.UI" autowire="byType" />

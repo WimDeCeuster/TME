@@ -1,6 +1,6 @@
 ﻿using TME.CarConfigurator.Interfaces.Colours;
 
-namespace TME.CarConfigurator.LegacyAdapter
+namespace TME.CarConfigurator.LegacyAdapter.Colours
 {
     public class ColourTransformation : IColourTransformation
     {

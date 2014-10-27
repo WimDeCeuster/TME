@@ -1,12 +1,11 @@
 ﻿using TME.CarConfigurator.Interfaces.Colours;
-using Legacy = TMME.CarConfigurator;
 
-namespace TME.CarConfigurator.LegacyAdapter
+namespace TME.CarConfigurator.LegacyAdapter.Colours
 {
     public class ExteriorColour : BaseObject, IExteriorColour
     {
         #region Dependencies (Adaptee)
-        private Legacy.CarExteriorColour Adaptee
+        private TMME.CarConfigurator.CarExteriorColour Adaptee
         {
             get;
             set;
@@ -14,7 +13,7 @@ namespace TME.CarConfigurator.LegacyAdapter
         #endregion
 
         #region Constructor
-        public ExteriorColour(Legacy.CarExteriorColour adaptee) : base(adaptee)
+        public ExteriorColour(TMME.CarConfigurator.CarExteriorColour adaptee) : base(adaptee)
         {
             Adaptee = adaptee;
         }

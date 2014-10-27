@@ -3,18 +3,18 @@ using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
-using TME.CarConfigurator.Interfaces.Enums;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
-using Legacy = TMME.CarConfigurator;
+using ExteriorColour = TME.CarConfigurator.LegacyAdapter.Colours.ExteriorColour;
+using Visibility = TME.CarConfigurator.Interfaces.Enums.Visibility;
 
-namespace TME.CarConfigurator.LegacyAdapter
+namespace TME.CarConfigurator.LegacyAdapter.Equipment
 {
     public abstract class GradeEquipmentItem : BaseObject, IGradeEquipmentItem
     {
 
         #region Dependencies (Adaptee)
-        private Legacy.EquipmentCompareItem Adaptee
+        private TMME.CarConfigurator.EquipmentCompareItem Adaptee
         {
             get;
             set;
@@ -22,20 +22,20 @@ namespace TME.CarConfigurator.LegacyAdapter
         #endregion
 
         #region Constructor
-        protected GradeEquipmentItem(Legacy.EquipmentCompareItem adaptee)
+        protected GradeEquipmentItem(TMME.CarConfigurator.EquipmentCompareItem adaptee)
             : base(adaptee)
         {
             Adaptee = adaptee;
         }
         #endregion
 
-        protected Legacy.Car GetCar()
+        protected TMME.CarConfigurator.Car GetCar()
         {
             if (Adaptee.StandardOn.Count > 0) return Adaptee.StandardOn[0];
             if (Adaptee.OptionalOn.Count > 0) return Adaptee.OptionalOn[0];
             return Adaptee.NotAvailableOn[0];
         }
-        protected Legacy.CarEquipmentItem GetCarEquipmentItem()
+        protected TMME.CarConfigurator.CarEquipmentItem GetCarEquipmentItem()
         {
             return GetCar().Equipment[Adaptee.ID];
         }
@@ -82,6 +82,11 @@ namespace TME.CarConfigurator.LegacyAdapter
         public Visibility Visibility
         {
             get { return GetCarEquipmentItem().Visibility.ToVisibility(); }
+        }
+
+        public IBestVisibleIn BestVisibleIn
+        {
+            get { throw new System.NotImplementedException(); }
         }
 
         public ICategoryInfo Category
@@ -139,7 +144,10 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IEnumerable<ICarInfo> NotAvailableOn
         {
-            get { return Adaptee.NotAvailableOn.Cast<TMME.CarConfigurator.Car>().Select(x => new CarInfo(x)); }
+            get
+            {
+                return Adaptee.NotAvailableOn.Cast<TMME.CarConfigurator.Car>().Select(x => new CarInfo(x)); 
+            }
         }
     }
 }

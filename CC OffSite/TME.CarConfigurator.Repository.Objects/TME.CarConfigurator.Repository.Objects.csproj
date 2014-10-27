@@ -54,6 +54,7 @@
     <Compile Include="Colours\ColourTransformation.cs" />
     <Compile Include="Colours\ExteriorColour.cs" />
     <Compile Include="Context.cs" />
+    <Compile Include="Equipment\BestVisibleIn.cs" />
     <Compile Include="Equipment\GradeEquipment.cs" />
     <Compile Include="Grade.cs" />
     <Compile Include="Enums\Visibility.cs" />
@@ -65,6 +66,8 @@
     <Compile Include="Equipment\GradeOption.cs" />
     <Compile Include="Equipment\Option.cs" />
     <Compile Include="CarInfo.cs" />
+    <Compile Include="Packs\GradePack.cs" />
+    <Compile Include="Packs\Pack.cs" />
     <Compile Include="Steering.cs" />
     <Compile Include="SubModel.cs" />
     <Compile Include="TransmissionType.cs" />

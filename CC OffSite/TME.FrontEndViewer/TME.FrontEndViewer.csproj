@@ -141,17 +141,15 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ModelGradePacksController.cs" />
+    <Compile Include="Controllers\ModelGradeVisibleInAssetsController.cs" />
     <Compile Include="Controllers\ModelGradeEquipmentController.cs" />
     <Compile Include="Controllers\ModelGradeAssetsController.cs" />
-    <Compile Include="Controllers\ModelSubModelAssetsController.cs" />
-    <Compile Include="Controllers\ModelSubModelLinksController.cs" />
     <Compile Include="Controllers\ModelSubModelsController.cs" />
-    <Compile Include="Controllers\ModelCarEngineAssetsController.cs" />
     <Compile Include="Controllers\ModelWheelDriveVisibleInAssetsController.cs" />
     <Compile Include="Controllers\ModelTransmissionVisibleInAssetsController.cs" />
     <Compile Include="Controllers\ModelEngineVisibleInAssetsController.cs" />
     <Compile Include="Controllers\ModelBodyTypeVisibleInAssetsController.cs" />
-    <Compile Include="Controllers\ModelCarBodyTypeAssetsController.cs" />
     <Compile Include="Controllers\ModelGradesController.cs" />
     <Compile Include="Controllers\ModelWheelDriveAssetsController.cs" />
     <Compile Include="Controllers\ModelTransmissionAssetsController.cs" />
@@ -291,12 +289,13 @@
     <Content Include="Views\ModelSubModels\Index.cshtml" />
     <Content Include="Views\ModelSubModels\details.cshtml" />
     <Content Include="Views\Shared\_engine.cshtml" />
-    <Content Include="Views\Shared\Links\Index.cshtml" />
-    <Content Include="Views\Shared\Links\details.cshtml" />
-    <Content Include="Views\Shared\_link.cshtml" />
-    <Content Include="Views\Shared\GradeEquipment\details.cshtml" />
-    <Content Include="Views\Shared\GradeEquipment\Index.cshtml" />
-    <Content Include="Views\Shared\_gradeEquipmentItem.cshtml" />
+    <Content Include="Views\ModelGradeEquipment\details.cshtml" />
+    <Content Include="Views\ModelGradeEquipment\Index.cshtml" />
+    <Content Include="Views\Shared\_transmission.cshtml" />
+    <Content Include="Views\Shared\_wheelDrive.cshtml" />
+    <Content Include="Views\ModelGradePacks\details.cshtml" />
+    <Content Include="Views\ModelGradePacks\Index.cshtml" />
+    <Content Include="Views\Shared\_availabilityCompare.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -14,7 +14,7 @@ namespace TME.FrontEndViewer.Controllers
 {
     public class ModelBodyTypeVisibleInAssetsController : Controller
     {
-        public ActionResult Index(Guid modelID, Guid bodyTypeID, string mode, string view)
+        public ActionResult Index(Guid modelID, Guid? bodyTypeID, Guid? carID, string mode, string view)
         {
 
             var context = (Context)Session["context"];
@@ -22,48 +22,51 @@ namespace TME.FrontEndViewer.Controllers
 
             var model = new CompareView<IAsset>
             {
-                OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, bodyTypeID, mode, view),
-                NewReaderModel = GetNewReaderModelWithMetrics(context, modelID, bodyTypeID, mode, view)
+                OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, bodyTypeID, carID, mode, view),
+                NewReaderModel = GetNewReaderModelWithMetrics(context, modelID, bodyTypeID, carID, mode, view)
             };
 
             return View("Assets/Index",model);
         }
 
-        private static ModelWithMetrics<IAsset> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid bodyTypeID, string mode, string view)
+        private static ModelWithMetrics<IAsset> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid? bodyTypeID, Guid? carID, string mode, string view)
         {
             var start = DateTime.Now;
-            var bodyType = new CarConfigurator.LegacyAdapter.BodyType(
-                TMME.CarConfigurator.Model.GetModel(oldContext, modelID)
-                    .BodyTypes.Cast<TMME.CarConfigurator.BodyType>()
-                    .First(x => x.ID == bodyTypeID)
-                );
-            var visibleIn = bodyType.VisibleIn.FirstOrDefault(x => x.Mode == mode && x.View == view);
-            var list = visibleIn == null 
-                ? new List<IAsset>()
-                :  visibleIn.Assets.ToList();
+            var model = new CarConfigurator.LegacyAdapter.Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID));
+            var list = GetList(model, bodyTypeID, carID, mode, view);
 
-            return new ModelWithMetrics<IAsset>()
+            return new ModelWithMetrics<IAsset>
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
         }
-        private static ModelWithMetrics<IAsset> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid bodyTypeID, string mode, string view)
+
+
+
+        private static ModelWithMetrics<IAsset> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid? bodyTypeID, Guid? carID, string mode, string view)
         {
             var start = DateTime.Now;
-            var bodyType = CarConfigurator.DI.Models
-                .GetModels(context).First(x => x.ID == modelID)
-                .BodyTypes.First(x => x.ID == bodyTypeID);
-            var visibleIn = bodyType.VisibleIn.FirstOrDefault(x => x.Mode == mode && x.View == view);
-            var list = visibleIn == null
-                ? new List<IAsset>()
-                : visibleIn.Assets.ToList();
-
-            return new ModelWithMetrics<IAsset>()
+            var model = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID);
+            var list = GetList(model, bodyTypeID, carID, mode, view);
+            
+            return new ModelWithMetrics<IAsset>
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
+        }
+        private static List<IAsset> GetList(IModel model, Guid? bodyTypeID, Guid? carID, string mode, string view)
+        {
+            var bodyType = (carID == null
+                ? model.BodyTypes.First(x => x.ID == bodyTypeID.Value)
+                : model.Cars.First(x => x.ID == carID.Value).BodyType);
+
+            var visibleIn = bodyType.VisibleIn.FirstOrDefault(x => x.Mode == mode && x.View == view);
+            var list = visibleIn == null
+                ? new List<IAsset>()
+                : visibleIn.Assets.ToList();
+            return list;
         }
 
     }

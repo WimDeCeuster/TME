@@ -17,6 +17,7 @@ namespace TME.CarConfigurator.Repository.Objects.Equipment
         public bool OptionalGradeFeature { get; set; }
 
         public Visibility Visibility { get; set; }
+        public BestVisibleIn BestVisibleIn { get; set; }
 
         public CategoryInfo Category { get; set; }
         public ExteriorColour ExteriorColour { get; set; }

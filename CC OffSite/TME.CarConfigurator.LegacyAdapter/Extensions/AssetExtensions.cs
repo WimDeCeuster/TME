@@ -12,7 +12,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Extensions
         public static IEnumerable<IVisibleInModeAndView> GetVisibleInModeAndViews(this Legacy.Assets assets)
         {
             var groups = assets.Cast<Legacy.Asset>()
-                    .Where(x => x.AssetType.Details.View.Length != 0)
+                    .Where(x => x.AssetType.Details.View == "EXT" || x.AssetType.Details.View == "INT")
                     .GroupBy(x => new { x.AssetType.Details.Mode, x.AssetType.Details.View })
                     .Select(group => new VisibleInModeAndView()
                     {
@@ -28,7 +28,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Extensions
         public static IEnumerable<IAsset> GetPlainAssets(this Legacy.Assets assets)
         {
              return assets.Cast<Legacy.Asset>()
-                    .Where(x=>x.AssetType.Details.View.Length == 0)
+                    .Where(x => x.AssetType.Details.View != "EXT" && x.AssetType.Details.View != "INT")
                     .Select(x => new Asset(x)); 
         }
      }
