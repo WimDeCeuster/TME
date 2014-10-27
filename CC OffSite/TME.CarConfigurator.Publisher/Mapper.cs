@@ -297,8 +297,7 @@ namespace TME.CarConfigurator.Publisher
             PutGradesOnApplicableCars(cars, contextData, applicableGrades);
         }
 
-        private static void PutGradesOnApplicableCars(IList<Car> cars, ContextData contextData,
-            ModelGenerationGrade[] applicableGrades)
+        private static void PutGradesOnApplicableCars(IList<Car> cars, ContextData contextData, IEnumerable<ModelGenerationGrade> applicableGrades)
         {
             foreach (var grade in applicableGrades)
             {

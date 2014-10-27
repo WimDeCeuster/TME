@@ -27,7 +27,7 @@ namespace TME.CarConfigurator.S3.Publisher
             return result.SelectMany(xs => xs);
         }
 
-        private async Task<IEnumerable<Result>> PublishAssets(String brand, String country, Guid publicationID, IDictionary<Guid, List<Asset>> assetsPerObjectID)
+        private async Task<IEnumerable<Result>> PublishAssets(String brand, String country, Guid publicationID, IDictionary<Guid, IList<Asset>> assetsPerObjectID)
         {
             var result = await Task.WhenAll(assetsPerObjectID.Keys.Select(objectID => PublishAssets(assetsPerObjectID[objectID],
                 async assets => await PublishAssetsByModeAndView(brand, country, publicationID, objectID, assets),

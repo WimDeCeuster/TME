@@ -160,10 +160,7 @@ namespace TME.Carconfigurator.Tests.Builders
         public ContextBuilder AddCarAsset(string language, Guid carId, Guid objectId, Asset asset)
         {
             var data = _context.ContextData[language];
-
-            if (data.CarAssets == null)
-                data.CarAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
-
+            
             var carAssets = data.CarAssets;
 
             if (!carAssets.ContainsKey(carId))
