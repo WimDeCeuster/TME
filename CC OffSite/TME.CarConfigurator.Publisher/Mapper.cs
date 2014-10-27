@@ -261,13 +261,20 @@ namespace TME.CarConfigurator.Publisher
             foreach (var modelGenerationSubModel in applicableSubModels)
                 contextData.SubModels.Add(_subModelMapper.MapSubModel(modelGenerationSubModel, contextData, isPreview));
 
+            PutSubModelOnApplicableCars(cars, contextData, applicableSubModels);
+        }
+
+        private static void PutSubModelOnApplicableCars(IList<Car> cars, ContextData contextData, List<ModelGenerationSubModel> applicableSubModels)
+        {
             foreach (var modelGenerationSubModel in applicableSubModels)
             {
                 var subModelId = modelGenerationSubModel.ID;
 
                 var mappedSubModel = contextData.SubModels.Single(contextSubmodel => subModelId == contextSubmodel.ID);
 
-                var applicableCars = cars.Where(car => car.SubModelID == subModelId).Select(car => contextData.Cars.Single(contextCar => contextCar.ID == car.ID));
+                var applicableCars =
+                    cars.Where(car => car.SubModelID == subModelId)
+                        .Select(car => contextData.Cars.Single(contextCar => contextCar.ID == car.ID));
 
                 foreach (var applicableCar in applicableCars)
                     applicableCar.SubModel = mappedSubModel;
@@ -281,6 +288,12 @@ namespace TME.CarConfigurator.Publisher
             foreach (var grade in applicableGrades)
                 contextData.Grades.Add(_gradeMapper.MapGrade(grade, contextData.Cars));
 
+            PutGradesOnApplicableCars(cars, contextData, applicableGrades);
+        }
+
+        private static void PutGradesOnApplicableCars(IList<Car> cars, ContextData contextData,
+            ModelGenerationGrade[] applicableGrades)
+        {
             foreach (var grade in applicableGrades)
             {
                 var gradeID = grade.ID;
@@ -288,7 +301,7 @@ namespace TME.CarConfigurator.Publisher
                 var mappedGrade = contextData.Grades.Single(contextGrade => gradeID == contextGrade.ID);
 
                 var applicableCars = cars.Where(car => car.GradeID == gradeID)
-                                         .Select(car => contextData.Cars.Single(contextCar => contextCar.ID == car.ID));
+                    .Select(car => contextData.Cars.Single(contextCar => contextCar.ID == car.ID));
                 foreach (var applicableCar in applicableCars)
                     applicableCar.Grade = mappedGrade;
             }

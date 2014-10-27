@@ -15,7 +15,8 @@ namespace TME.CarConfigurator.Factories
         private readonly IGradeService _gradeService;
         private readonly IAssetFactory _assetFactory;
         private readonly IGradeEquipmentFactory _gradeEquipmentFactory;
-        
+        private IGrade[] _subModelGrades;
+
         public GradeFactory(IGradeService gradeService, IAssetFactory assetFactory, IGradeEquipmentFactory gradeEquipmentFactory)
         {
             if (gradeService == null) throw new ArgumentNullException("gradeService");
@@ -33,6 +34,13 @@ namespace TME.CarConfigurator.Factories
             var grades = new List<IGrade>();
 
             return repoGrades.Select(repoGrade => GetGrade(repoGrade, repoGrades, grades, publication, context)).ToArray();
+        }
+
+        public IReadOnlyList<IGrade> GetSubModelGrades(Publication publication, Context context, Repository.Objects.SubModel subModel)
+        {
+            return GetGrades(publication, context)
+                    .Where(mainGrade => subModel.Grades.Any(repositoryGrade => repositoryGrade.ID == mainGrade.ID))
+                    .ToArray();
         }
 
         // ReSharper disable once ParameterTypeCanBeEnumerable.Local => no, because that would cause a multiple enumeration for repoGrades...
