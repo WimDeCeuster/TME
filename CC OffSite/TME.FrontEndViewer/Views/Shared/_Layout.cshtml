@@ -15,7 +15,6 @@
     @RenderSection("scripts", false)
     
     <script>
-
         Array.prototype.like = function (array2, comparer) {
             var array1 = this
 
@@ -58,7 +57,8 @@
             oldObject.find('.property').filter(isClosestTo(oldObject))
                                        .each(function () {
                 var oldProperty = $(this)
-                var newProperty = newObject.find('.property[data-id="' + oldProperty.data('id') + '"]')
+                var id = oldProperty.data('id').replace(/('|")/g, "\\$1")
+                var newProperty = newObject.find('.property[data-id="' + id + '"]')
                                            .filter(isClosestTo(newObject))
 
                 var allowMismatch = newProperty.hasClass('allow-mismatch')
@@ -94,7 +94,8 @@
                                          .toArray()
                                          .map(getDataId)
 
-            return $('#newarea .object[data-id="' + oldObject.data('id') + '"]').filter(function () {
+            var id = oldObject.data('id').replace(/('|")/g, "\\$1")
+            return $('#newarea .object[data-id="' + id + '"]').filter(function () {
                 var candidateParentsIds = $(this).parents('.object')
                                                  .toArray()
                                                  .map(getDataId)

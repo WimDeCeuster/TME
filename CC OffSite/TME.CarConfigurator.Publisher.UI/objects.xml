@@ -99,6 +99,7 @@
     <constructor-arg ref="BaseMapper" />
     <constructor-arg ref="AssetMapper" />
     <constructor-arg ref="LinkMapper" />
+    <constructor-arg ref="GradeMapper" />
   </object>
   <object name="ColourMapper" type="TME.CarConfigurator.Publisher.Mappers.ColourMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />

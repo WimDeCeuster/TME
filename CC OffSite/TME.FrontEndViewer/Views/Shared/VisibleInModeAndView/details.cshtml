@@ -5,13 +5,13 @@
 @foreach (var model in Model)
 {
     <div class="object" data-id="@String.Format("{0}-{1}",model.Mode, model.View)">
-        <div class="link">
+        <div class="title">
             <strong>@Html.Raw(model.Mode), @Html.Raw(model.View)</strong>
         </div>
         <div class="content">
             @foreach (var asset in model.Assets)
             {
-                var assetWithPrefix = new AssetWithPrefix() { Asset=asset, Prefix = String.Format("{0}-{1}",model.Mode, model.View};
+                var assetWithPrefix = new AssetWithPrefix { Asset=asset, Prefix = String.Format("{0}-{1}", model.Mode, model.View)};
                 @Html.Partial("_assetWithPrefix", assetWithPrefix)
             }
         </div>
