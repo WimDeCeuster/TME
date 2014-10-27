@@ -92,7 +92,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                         contextData.Transmissions.ToList(),
                         contextData.Steerings.ToList(),
                         contextData.Grades.ToList(),
-                        contextData.GradeEquipments.ToDictionary(),
+                        contextData.GradeEquipment.ToDictionary(),
                         contextData.SubModels.ToList());
         }
 
@@ -106,7 +106,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var steerings = contextData.Steerings.Where(SteeringIsPresentOn(timeFrameCars)).ToList();
             var grades = contextData.Grades.Where(GradeIsPresentOn(timeFrameCars)).ToList();
             var subModels = contextData.SubModels.Where(SubModelIsPresentOn(timeFrameCars)).ToList();
-            var gradeEquipments = FilterGradeEquipments(contextData.GradeEquipments, timeFrameCars);
+            var gradeEquipments = FilterGradeEquipments(contextData.GradeEquipment, timeFrameCars);
 
             return new TimeFrame(
                 openDate,
