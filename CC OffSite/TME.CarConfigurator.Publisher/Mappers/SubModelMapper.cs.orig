@@ -50,6 +50,12 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         private static List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
         {
+<<<<<<< HEAD
+            return contextData.Grades
+                    .Where(contextGrade => modelGenerationSubModel.Cars()
+                                                                  .Any(car => car.GradeID == contextGrade.ID))
+                    .ToList();
+=======
             var subModelGrades = contextData.Grades.Where(
                     contextGrade => modelGenerationSubModel.Cars().Any(car => car.GradeID == contextGrade.ID)).ToList();
             subModelGrades = MapToSubModelGrades(subModelGrades, modelGenerationSubModel);
@@ -65,6 +71,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             }
 
             return subModelGrades;
+>>>>>>> 2af71489785161f6521183ab35e9c4bb950f0f73
         }
 
         private List<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)

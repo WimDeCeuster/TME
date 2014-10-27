@@ -89,6 +89,7 @@
   </object>
   <object name="GradeMapper" type="TME.CarConfigurator.Publisher.Mappers.GradeMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />
+    <constructor-arg ref="AssetSetMapper" />
   </object>
   <object name="SteeringMapper" type="TME.CarConfigurator.Publisher.Mappers.SteeringMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />
