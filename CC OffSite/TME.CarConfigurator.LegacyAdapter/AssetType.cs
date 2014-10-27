@@ -1,4 +1,5 @@
-﻿using TME.CarConfigurator.Interfaces.Assets;
+﻿using System.Security.Principal;
+using TME.CarConfigurator.Interfaces.Assets;
 using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter
@@ -33,37 +34,65 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public string Mode
         {
-            get { return Adaptee.Mode; }
+            get
+            {
+                if (Adaptee.Details.View != "EXT" && Adaptee.Details.View != "INT") return string.Empty;
+                return Adaptee.Mode;
+            }
         }
 
         public string View
         {
-            get { return Adaptee.Details.View; }
+            get
+            {
+                if (Adaptee.Details.View != "EXT" && Adaptee.Details.View != "INT") return string.Empty;
+                return Adaptee.Details.View;
+            }
         }
 
         public string Side
         {
-            get { return Adaptee.Details.Side; }
+            get
+            {
+                if (Adaptee.Details.View != "EXT" && Adaptee.Details.View != "INT") return string.Empty;
+                return Adaptee.Details.Side;
+            }
         }
 
         public string Type
         {
-            get { return Adaptee.Details.Type; }
+            get
+            {
+                if (Adaptee.Details.View != "EXT" && Adaptee.Details.View != "INT") return string.Empty;
+                return Adaptee.Details.Type;
+            }
         }
 
         public string ExteriorColourCode
         {
-            get { return Adaptee.Details.ExteriorColourCode; }
+            get
+            {
+                if (Adaptee.Details.View != "EXT" && Adaptee.Details.View != "INT") return string.Empty;
+                return Adaptee.Details.ExteriorColourCode;
+            }
         }
 
         public string UpholsteryCode
         {
-            get { return Adaptee.Details.UpholsteryCode; }
+            get
+            {
+                if (Adaptee.Details.View != "EXT" && Adaptee.Details.View != "INT") return string.Empty;
+                return Adaptee.Details.UpholsteryCode;
+            }
         }
 
         public string EquipmentCode
         {
-            get { return Adaptee.Details.EquipmentCode; }
+            get
+            {
+                if (Adaptee.Details.View != "EXT" && Adaptee.Details.View != "INT") return string.Empty;
+                return Adaptee.Details.EquipmentCode;
+            }
         }
     }
 }

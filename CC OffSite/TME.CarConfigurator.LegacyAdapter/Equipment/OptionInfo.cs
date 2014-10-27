@@ -1,6 +1,6 @@
 ﻿using TME.CarConfigurator.Interfaces.Equipment;
 
-namespace TME.CarConfigurator.LegacyAdapter
+namespace TME.CarConfigurator.LegacyAdapter.Equipment
 {
     public class OptionInfo : IOptionInfo
     {

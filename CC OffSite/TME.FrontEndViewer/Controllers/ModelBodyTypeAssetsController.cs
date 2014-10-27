@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.FrontEndViewer.Models;
 using TMME.CarConfigurator;
@@ -12,7 +14,7 @@ namespace TME.FrontEndViewer.Controllers
 {
     public class ModelBodyTypeAssetsController : Controller
     {
-        public ActionResult Index(Guid modelID, Guid bodyTypeID)
+        public ActionResult Index(Guid modelID, Guid? bodyTypeID, Guid? carID)
         {
 
             var context = (Context)Session["context"];
@@ -20,22 +22,29 @@ namespace TME.FrontEndViewer.Controllers
 
             var model = new CompareView<IAsset>
             {
-                OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, bodyTypeID),
-                NewReaderModel = GetNewReaderModelWithMetrics(context, modelID, bodyTypeID)
+                OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, bodyTypeID, carID),
+                NewReaderModel = GetNewReaderModelWithMetrics(context, modelID, bodyTypeID, carID)
             };
 
             return View("Assets/Index",model);
         }
 
-        private static ModelWithMetrics<IAsset> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid bodyTypeID)
+        private static ModelWithMetrics<IAsset> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid? bodyTypeID, Guid? carID)
         {
             var start = DateTime.Now;
-            var list =
-                new CarConfigurator.LegacyAdapter.BodyType(
-                    TMME.CarConfigurator.Model.GetModel(oldContext, modelID)
-                    .BodyTypes.Cast<TMME.CarConfigurator.BodyType>()
-                    .First(x => x.ID == bodyTypeID)
-                ).Assets.ToList();
+            var model = new CarConfigurator.LegacyAdapter.Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID));
+            var list = GetList(model, bodyTypeID, carID);
+            return new ModelWithMetrics<IAsset>()
+            {
+                Model = list,
+                TimeToLoad = DateTime.Now.Subtract(start)
+            };
+        }
+        private static ModelWithMetrics<IAsset> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid? bodyTypeID, Guid? carID)
+        {
+            var start = DateTime.Now;
+            var model = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID);
+            var list = GetList(model, bodyTypeID, carID);
 
             return new ModelWithMetrics<IAsset>()
             {
@@ -43,19 +52,13 @@ namespace TME.FrontEndViewer.Controllers
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
         }
-        private static ModelWithMetrics<IAsset> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid bodyTypeID)
+        private static List<IAsset> GetList(IModel model, Guid? bodyTypeID, Guid? carID)
         {
-            var start = DateTime.Now;
-            var list = CarConfigurator.DI.Models
-                .GetModels(context).First(x => x.ID == modelID)
-                .BodyTypes.First(x=> x.ID == bodyTypeID)
-                .Assets.ToList();
+            var bodyType = (carID == null
+                ? model.BodyTypes.First(x => x.ID == bodyTypeID.Value)
+                : model.Cars.First(x => x.ID == carID.Value).BodyType);
 
-            return new ModelWithMetrics<IAsset>()
-            {
-                Model = list,
-                TimeToLoad = DateTime.Now.Subtract(start)
-            };
+            return bodyType.Assets.ToList();
         }
 
     }

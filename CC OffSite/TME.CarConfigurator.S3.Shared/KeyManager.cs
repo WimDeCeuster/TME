@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.S3.Shared
@@ -78,13 +79,13 @@ namespace TME.CarConfigurator.S3.Shared
         {
             return string.Format("{0}/grade-equipment", GetGradeKey(publicationID, timeFrameID, gradeID));
         }
-        
+
         private string GetCarKey(Guid publicationID, Guid carID)
         {
             return string.Format("{0}/car/{1}", GetPublicationKey(publicationID), carID);
         }
 
-        private static string GetAssetsKey(Guid publicationId, Guid objectId)
+        private static string GetAssetsKeyPrefix(Guid publicationId, Guid objectId)
         {
             var publicationAssetsKey = string.Format(PublicationAssetsKeyTemplate, publicationId);
 
@@ -98,7 +99,7 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetDefaultAssetsKey(Guid publicationId, Guid objectId)
         {
-            var assetsKey = GetAssetsKey(publicationId, objectId);
+            var assetsKey = GetAssetsKeyPrefix(publicationId, objectId);
 
             return GetDefaultAssetsKey(assetsKey);
         }
@@ -117,12 +118,29 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetAssetsKey(Guid publicationId, Guid objectId, String view, String mode)
         {
-            return string.Format("{0}/{1}/{2}", GetAssetsKey(publicationId, objectId), view, mode);
+            return GetAssetsKeyWithViewAndMode(GetAssetsKeyPrefix(publicationId, objectId), view, mode);
         }
 
         public string GetAssetsKey(Guid publicationID, Guid carID, Guid objectID, string view, string mode)
         {
-            return string.Format("{0}/{1}/{2}", GetAssetsKey(publicationID, carID, objectID), view, mode);
+            return GetAssetsKeyWithViewAndMode(GetAssetsKey(publicationID, carID, objectID), view, mode);
+        }
+
+        private string GetAssetsKeyWithViewAndMode(string assetsKey, string view, string mode)
+        {
+            var stringBuilder = new StringBuilder();
+
+            stringBuilder.Append(assetsKey);
+            stringBuilder.Append("/");
+            stringBuilder.Append(view);
+
+            if (string.IsNullOrEmpty(mode))
+                return stringBuilder.ToString();
+
+            stringBuilder.Append("/");
+            stringBuilder.Append(mode);
+
+            return stringBuilder.ToString();
         }
     }
 }

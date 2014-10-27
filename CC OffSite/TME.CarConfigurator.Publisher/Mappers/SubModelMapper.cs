@@ -8,7 +8,6 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
-using Car = TME.CarConfigurator.Administration.Car;
 using Link = TME.CarConfigurator.Repository.Objects.Link;
 
 namespace TME.CarConfigurator.Publisher.Mappers
@@ -18,16 +17,19 @@ namespace TME.CarConfigurator.Publisher.Mappers
         private readonly IBaseMapper _baseMapper;
         private readonly IAssetMapper _assetMapper;
         private readonly ILinkMapper _linkMapper;
+        private readonly IGradeMapper _gradeMapper;
 
-        public SubModelMapper(IBaseMapper baseMapper, IAssetMapper assetMapper, ILinkMapper linkMapper)
+        public SubModelMapper(IBaseMapper baseMapper, IAssetMapper assetMapper, ILinkMapper linkMapper,IGradeMapper gradeMapper)
         {
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
             if (assetMapper == null) throw new ArgumentNullException("assetMapper");
             if (linkMapper == null) throw new ArgumentNullException("linkMapper");
+            if (gradeMapper == null) throw new ArgumentNullException("gradeMapper");
 
             _baseMapper = baseMapper;
             _assetMapper = assetMapper;
             _linkMapper = linkMapper;
+            _gradeMapper = gradeMapper;
         }
 
         public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
@@ -49,18 +51,19 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel, modelGenerationSubModel, modelGenerationSubModel.Name);
         }
 
-        private static List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+        private List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
         {
-            return contextData.Grades.Where(contextGrade => modelGenerationSubModel.Cars().Select(car => car.GradeID)
-                    .Any(grade => grade == contextGrade.ID))
-                    .ToList();
+            return contextData.Grades
+                .Where(contextGrade => modelGenerationSubModel.Cars()
+                                                              .Any(car => car.GradeID == contextGrade.ID))
+                .ToList();
         }
 
         private List<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)
         {
             return modelGenerationSubModel.Links
                 .Where(link => link.IsApplicableFor(modelGenerationSubModel.Generation))
-                .Select(link => _linkMapper.MapLink(link ,isPreview))
+                .Select(link => _linkMapper.MapLink(link, isPreview))
                 .ToList();
         }
 

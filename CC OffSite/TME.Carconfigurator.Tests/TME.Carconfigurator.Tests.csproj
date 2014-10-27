@@ -102,10 +102,13 @@
     <Compile Include="Builders\TimeFrameBuilder.cs" />
     <Compile Include="Builders\SubModelPublisherBuilder.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingABodyTypesKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingACarAssetsKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingACarAssetsKeyWithoutMode.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAGradeEquipmentKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAModelsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAnAssetsKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingAnAssetsKeyWithoutMode.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASteeringsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAGradesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASubModelKey.cs" />
