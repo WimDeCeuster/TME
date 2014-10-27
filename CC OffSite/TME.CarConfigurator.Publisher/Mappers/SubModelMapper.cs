@@ -50,9 +50,21 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         private static List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
         {
-            return contextData.Grades.Where(contextGrade => modelGenerationSubModel.Cars().Select(car => car.GradeID)
-                    .Any(grade => grade == contextGrade.ID))
-                    .ToList();
+            var subModelGrades = contextData.Grades.Where(
+                    contextGrade => modelGenerationSubModel.Cars().Any(car => car.GradeID == contextGrade.ID)).ToList();
+            subModelGrades = MapToSubModelGrades(subModelGrades, modelGenerationSubModel);
+            return subModelGrades;
+        }
+
+        private static List<Grade> MapToSubModelGrades(List<Grade> subModelGrades, ModelGenerationSubModel modelGenerationSubModel)
+        {
+            foreach (var subModelGrade in subModelGrades)
+            {
+                subModelGrade.InternalCode = subModelGrade.Name + "-" + modelGenerationSubModel.Code;
+                subModelGrade.LocalCode = String.Empty;
+            }
+
+            return subModelGrades;
         }
 
         private List<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)

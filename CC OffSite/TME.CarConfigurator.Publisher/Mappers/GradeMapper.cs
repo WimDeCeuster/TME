@@ -14,12 +14,15 @@ namespace TME.CarConfigurator.Publisher.Mappers
     public class GradeMapper : IGradeMapper
     {
         IBaseMapper _baseMapper;
+        private readonly IAssetSetMapper _assetSetMapper;
 
-        public GradeMapper(IBaseMapper baseMapper)
+        public GradeMapper(IBaseMapper baseMapper, IAssetSetMapper assetSetMapper)
         {
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
+            if (assetSetMapper == null) throw new ArgumentNullException("assetSetMapper");
 
             _baseMapper = baseMapper;
+            _assetSetMapper = assetSetMapper;
         }
 
         public Grade MapGrade(Administration.ModelGenerationGrade generationGrade, IEnumerable<Car> cars)
@@ -37,7 +40,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 {
                     ExcludingVat = cheapestCar.BasePrice.ExcludingVat,
                     IncludingVat = cheapestCar.BasePrice.IncludingVat
-                }
+                },
+                VisibleIn = _assetSetMapper.GetVisibility(generationGrade.AssetSet).ToList()
             };
 
             return _baseMapper.MapDefaultsWithSort(mappedGrade, generationGrade, generationGrade, generationGrade.Name);
