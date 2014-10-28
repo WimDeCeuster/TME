@@ -75,6 +75,8 @@
     <Compile Include="Factories\IEngineFactory.cs" />
     <Compile Include="Factories\IModelFactory.cs" />
     <Compile Include="Factories\IPublicationFactory.cs" />
+    <Compile Include="IColourCombinationPublisher.cs" />
+    <Compile Include="IColourCombinationService.cs" />
     <Compile Include="IFuelType.cs" />
     <Compile Include="IGrade.cs" />
     <Compile Include="ISubModel.cs" />
@@ -100,6 +102,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj">
+      <Project>{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}</Project>
+      <Name>TME.CarConfigurator.Publisher.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.QueryServices\TME.CarConfigurator.QueryServices.csproj">
       <Project>{37F53701-A371-44CC-B2F5-886910FBA751}</Project>
       <Name>TME.CarConfigurator.QueryServices</Name>

@@ -10,6 +10,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface IBodyTypePublisher
     {
-        Task<IEnumerable<Result>> PublishGenerationBodyTypes(IContext context);
+        Task<IEnumerable<Result>> PublishGenerationBodyTypesAsync(IContext context);
     }
 }

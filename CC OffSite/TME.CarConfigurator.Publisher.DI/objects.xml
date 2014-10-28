@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <objects xmlns="http://www.springframework.net">
-  <object name="ContextFactory" type="TME.CarConfigurator.Publisher.Factories.ContextFactory, TME.CarConfigurator.Publisher"></object>
-  <object name="PublisherFacadeFactory" type="TME.CarConfigurator.Publisher.Factories.PublisherFacadeFactory, TME.CarConfigurator.Publisher"></object>
+  
   <object name="Mapper" type="TME.CarConfigurator.Publisher.Mapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="TimeFrameMapper" />
     <constructor-arg ref="ModelMapper" />
@@ -16,9 +15,16 @@
     <constructor-arg ref="CarMapper" />
     <constructor-arg ref="AssetMapper" />
     <constructor-arg ref="EquipmentMapper" />
+    <constructor-arg ref="PackMapper" />
+    <constructor-arg ref="ColourMapper" />
   </object>
+  
   <object name="ModelMapper" type="TME.CarConfigurator.Publisher.Mappers.ModelMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />
+  </object>
+  <object name="PackMapper" type="TME.CarConfigurator.Publisher.Mappers.PackMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="BaseMapper" />
+    <constructor-arg ref="CarMapper" />
   </object>
   <object name="GenerationMapper" type="TME.CarConfigurator.Publisher.Mappers.GenerationMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="AssetMapper" />
@@ -105,34 +111,31 @@
     <constructor-arg ref="BaseMapper" />
     <constructor-arg ref="AssetFileService" />
   </object>
+  
   <object name="AssetFileService" type="TME.CarConfigurator.Publisher.Services.AssetFileService, TME.CarConfigurator.Publisher"></object>
-
-  <object name="CarDbModelGenerationFinder" type="TME.CarConfigurator.Publisher.CarDbModelGenerationFinder, TME.CarConfigurator.Publisher"></object>
-  <object name="PublicationService" type="TME.CarConfigurator.Publisher.CarConfiguratorPublisher, TME.CarConfigurator.Publisher">
-    <constructor-arg ref="ContextFactory" />
-    <constructor-arg ref="PublisherFacadeFactory" />
+  
+  <object name="CarConfiguratorPublisher" type="TME.CarConfigurator.Publisher.CarConfiguratorPublisher, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="PublisherFactory" />
     <constructor-arg ref="Mapper" />
-    <constructor-arg ref="CarDbModelGenerationFinder" />
   </object>
-  <object name="S3PublisherFacade" type="TME.CarConfigurator.Publisher.UI.DI.Facades.S3PublisherFacade, TME.CarConfigurator.Publisher.UI">
-    <constructor-arg ref="S3PublisherFactory" />
+  
+  <object name="PublisherFactory" type="TME.CarConfigurator.Publisher.DI.PublisherFactory, TME.CarConfigurator.Publisher.DI"></object>
+  
+  <object name="S3PublisherFactory" type="TME.CarConfigurator.Publisher.DI.S3.PublisherFactory, TME.CarConfigurator.Publisher.DI">
     <constructor-arg ref="S3ServiceFactory" />
-  </object>
-  <object name="S3PublisherFactory" type="TME.CarConfigurator.Publisher.UI.DI.Factories.S3PublisherFactory, TME.CarConfigurator.Publisher.UI">
     <constructor-arg ref="TimeFramePublishHelper" />
   </object>
+  
   <object name="TimeFramePublishHelper" type="TME.CarConfigurator.S3.Publisher.Helpers.TimeFramePublishHelper, TME.CarConfigurator.S3.Publisher"></object>
-  <object name="S3ServiceFactory" type="TME.CarConfigurator.Publisher.UI.DI.Factories.S3ServiceFactory, TME.CarConfigurator.Publisher.UI">
+  
+  <object name="S3ServiceFactory" type="TME.CarConfigurator.Publisher.DI.S3.ServiceFactory, TME.CarConfigurator.Publisher.DI">
     <constructor-arg ref="S3Serialiser" />
     <constructor-arg ref="S3KeyManager" />
   </object>
   <object name="S3Serialiser" type="TME.CarConfigurator.S3.Shared.Serialiser, TME.CarConfigurator.S3.Shared"></object>
   <object name="S3KeyManager" type="TME.CarConfigurator.S3.Shared.KeyManager, TME.CarConfigurator.S3.Shared"></object>
 
-
   <object name="AmazonS3Factory" type="TME.CarConfigurator.S3.Shared.Factories.AmazonS3Factory, TME.CarConfigurator.S3.Shared"></object>
+  
   <object name="ShellViewModel" type="TME.CarConfigurator.Publisher.UI.ViewModels.ShellViewModel, TME.CarConfigurator.Publisher.UI" autowire="byType" />
-  <!--<object name="ShellViewModel" type="TME.CarConfigurator.Publisher.UI.ViewModels.ShellViewModel, TME.CarConfigurator.Publisher.UI">
-        <constructor-arg index="0" ref="PublicationService"/>
-      </object>-->
 </objects>

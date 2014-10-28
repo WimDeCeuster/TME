@@ -1,35 +1,35 @@
-﻿using Spring.Context.Support;
-using System;
+﻿using System;
+using Spring.Context.Support;
 using TME.CarConfigurator.CommandServices;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Publisher.Common.Enums;
-using TME.CarConfigurator.Publisher.UI.DI.Interfaces;
+using TME.CarConfigurator.Publisher.DI.Interfaces;
 using TME.CarConfigurator.S3.CommandServices;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
-namespace TME.CarConfigurator.Publisher.UI.DI.Factories
+namespace TME.CarConfigurator.Publisher.DI.S3
 {
-    public class S3ServiceFactory : IServiceFactory
+    public class ServiceFactory : IServiceFactory
     {
-        ISerialiser _serialiser;
-        IKeyManager _keyManager;
+        readonly ISerialiser _serialiser;
+        readonly IKeyManager _keyManager;
 
-        public S3ServiceFactory(ISerialiser serialiser, IKeyManager keyManager)
+        public ServiceFactory(ISerialiser serialiser, IKeyManager keyManager)
         {
             _serialiser = serialiser;
             _keyManager = keyManager;
         }
 
-        IService GetService(String environment, PublicationDataSubset dataSubset)
+        private static IService GetService(String environment, PublicationDataSubset dataSubset)
         {
-            var objectName = String.Format("{0}{1}S3Service", environment, dataSubset.ToString());
-            return (IService)ContextRegistry.GetContext().GetObject(String.Format("{0}{1}S3Service", environment, dataSubset.ToString()));
+            return (IService)ContextRegistry.GetContext().GetObject(String.Format((string) "{0}{1}S3Service", (object) environment, (object) dataSubset));
         }
 
         public QueryServices.IModelService GetGetModelService(String environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
 
-            return new S3.QueryServices.ModelService(_serialiser, service, _keyManager);
+            return new CarConfigurator.S3.QueryServices.ModelService(_serialiser, service, _keyManager);
         }
 
         public IModelService GetPutModelService(String environment, PublicationDataSubset dataSubset)
@@ -114,6 +114,20 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
             var service = GetService(environment, dataSubset);
 
             return new GradeEquipmentService(service, _serialiser, _keyManager);
+        }
+
+        public IGradePackService GetGradePackService(string environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return new GradePackService(service, _serialiser, _keyManager);
+        }
+        
+        public IColourCombinationService GetColourCombinationService(String environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return new ColourCombinationService(service,_serialiser,_keyManager);
         }
     }
 }

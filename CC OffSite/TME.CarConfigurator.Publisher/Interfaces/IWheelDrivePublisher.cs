@@ -10,6 +10,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface IWheelDrivePublisher
     {
-        Task<IEnumerable<Result>> PublishGenerationWheelDrives(IContext context);
+        Task<IEnumerable<Result>> PublishGenerationWheelDrivesAsync(IContext context);
     }
 }

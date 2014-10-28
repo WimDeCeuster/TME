@@ -39,7 +39,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 SSN = generation.FactoryGenerations.First().SSN                
             };
 
-            return _baseMapper.MapDefaults(mappedGeneration, generation, generation, generation.Name);
+            return _baseMapper.MapDefaults(mappedGeneration, generation, generation);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface IAssetPublisher
     {
-        Task<IEnumerable<Result>> PublishAssets(IContext context);
-        Task<IEnumerable<Result>> PublishCarAssets(IContext context);
+        Task<IEnumerable<Result>> PublishAssetsAsync(IContext context);
+        Task<IEnumerable<Result>> PublishCarAssetsAsync(IContext context);
     }
 }

@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6CB2E090-5694-4AFF-A503-5F59C25B37DC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TME.CarConfigurator.Publisher.DI</RootNamespace>
+    <AssemblyName>TME.CarConfigurator.Publisher.DI</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging">
+      <HintPath>..\packages\Common.Logging.1.2.0\lib\1.0\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Core">
+      <HintPath>..\packages\Spring.Core.1.3.2\lib\net40\Spring.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interfaces\IServiceFactory.cs" />
+    <Compile Include="Interfaces\ITargetPublisherFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublisherFactory.cs" />
+    <Compile Include="S3\PublisherFactory.cs" />
+    <Compile Include="S3\ServiceFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.CommandServices\TME.CarConfigurator.CommandServices.csproj">
+      <Project>{3DB012EE-FEB6-40F1-9C09-97212C142013}</Project>
+      <Name>TME.CarConfigurator.CommandServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
+      <Project>{EFDB033C-66A8-40BB-B596-561F45E6C7F7}</Project>
+      <Name>TME.CarConfigurator.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj">
+      <Project>{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}</Project>
+      <Name>TME.CarConfigurator.Publisher.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Publisher\TME.CarConfigurator.Publisher.csproj">
+      <Project>{90212D66-76E4-4842-8CF0-EAD35988D8E2}</Project>
+      <Name>TME.CarConfigurator.Publisher</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.QueryServices\TME.CarConfigurator.QueryServices.csproj">
+      <Project>{37f53701-a371-44cc-b2f5-886910fba751}</Project>
+      <Name>TME.CarConfigurator.QueryServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
+      <Project>{2154eaaa-3d11-4654-bea6-7b147451dba8}</Project>
+      <Name>TME.CarConfigurator.Repository.Objects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.QueryServices.csproj">
+      <Project>{5f4575a4-88db-4b32-bc1e-cd6fed06ca12}</Project>
+      <Name>TME.CarConfigurator.S3.QueryServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.Publisher\TME.CarConfigurator.S3.Publisher.csproj">
+      <Project>{12F8E2E0-B205-4771-8499-357EA845082F}</Project>
+      <Name>TME.CarConfigurator.S3.Publisher</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.CommandServices.csproj">
+      <Project>{F2D02000-FCD7-4356-9356-30E98CF5B829}</Project>
+      <Name>TME.CarConfigurator.S3.CommandServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.Shared\TME.CarConfigurator.S3.Shared.csproj">
+      <Project>{07BE5767-ABBA-4DC4-BB09-F1CE85CAC7FC}</Project>
+      <Name>TME.CarConfigurator.S3.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="objects.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="services.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

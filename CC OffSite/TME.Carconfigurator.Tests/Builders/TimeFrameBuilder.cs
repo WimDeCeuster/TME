@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Equipment;
+using TME.CarConfigurator.Repository.Objects.Packs;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
@@ -17,9 +19,11 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         private List<WheelDrive> _wheelDrives = new List<WheelDrive>();
         private List<Steering> _steerings = new List<Steering>();
         private List<Grade> _grades = new List<Grade>();
-        private Dictionary<Guid, GradeEquipment> _gradeEquipments = new Dictionary<Guid, GradeEquipment>();
+        private readonly Dictionary<Guid, GradeEquipment> _gradeEquipments = new Dictionary<Guid, GradeEquipment>();
+        private readonly Dictionary<Guid, IList<GradePack>> _gradePacks = new Dictionary<Guid, IList<GradePack>>();
         private List<Transmission> _transmissions = new List<Transmission>();
         private List<SubModel> _subModels = new List<SubModel>();
+        private List<ExteriorColour> _exteriorColours = new List<ExteriorColour>();
 
         public TimeFrameBuilder WithDateRange(DateTime from, DateTime until)
         {
@@ -83,6 +87,18 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public TimeFrameBuilder WithGradePacks(Guid gradeId, IList<GradePack> gradePacks)
+        {
+            _gradePacks.Add(gradeId, gradePacks);
+            return this;
+        }
+        
+        public TimeFrameBuilder WithExteriorColour(IEnumerable<ExteriorColour> exteriorColour)
+        {
+            _exteriorColours = exteriorColour.ToList();
+            return this;
+        }
+
         public TimeFrame Build()
         {
             return new TimeFrame(
@@ -96,7 +112,9 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
                 _steerings,
                 _grades,
                 _gradeEquipments,
-                _subModels);
+                _gradePacks,
+                _subModels,
+                _exteriorColours);
         }
     }
 }

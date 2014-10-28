@@ -11,7 +11,6 @@ namespace TME.CarConfigurator.Repository.Objects
         
         public List<Link> Links { get; set; }
         public List<Asset> Assets { get; set; }
-        public List<GradeEquipmentItem> Equipment { get; set; }
         public List<Grade> Grades { get; set; } 
     }
 }

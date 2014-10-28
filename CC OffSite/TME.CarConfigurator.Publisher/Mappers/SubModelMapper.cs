@@ -47,22 +47,30 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Assets = GetMappedAssetsForSubModel(modelGenerationSubModel),
                 Links = GetMappedLinksForSubModel(modelGenerationSubModel, isPreview),
                 Grades = GetSubModelGrades(modelGenerationSubModel, contextData),
-                Equipment = GetSubModelEquipment(modelGenerationSubModel,contextData)
             };
 
-            return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel, modelGenerationSubModel, modelGenerationSubModel.Name);
+            return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel, modelGenerationSubModel);
         }
 
-        private List<GradeEquipmentItem> GetSubModelEquipment(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+/*        private static GradeEquipment GetSubModelEquipment(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
         {
-            var accesories =  contextData.GradeEquipments.Values.SelectMany(e => e.Accessories).ToList().Where(a => modelGenerationSubModel.Equipment.Any(aq => aq.ID == a.ID));
-            return accesories.Select(gradeAccessory => new GradeAccessory()
-            {
-                BestVisibleIn = gradeAccessory.BestVisibleIn, Category = gradeAccessory.Category, Description = gradeAccessory.Description, ExteriorColour = gradeAccessory.ExteriorColour, FootNote = gradeAccessory.FootNote, GradeFeature = gradeAccessory.GradeFeature, ID = gradeAccessory.ID, InternalCode = gradeAccessory.InternalCode, InternalName = gradeAccessory.InternalName, KeyFeature = gradeAccessory.KeyFeature, Labels = gradeAccessory.Labels, Links = gradeAccessory.Links, LocalCode = gradeAccessory.LocalCode, SortIndex = gradeAccessory.SortIndex, ToolTip = gradeAccessory.ToolTip, Name = gradeAccessory.Name, NotAvailable = gradeAccessory.NotAvailable, NotAvailableOn = gradeAccessory.NotAvailableOn, Optional = gradeAccessory.Optional, OptionalGradeFeature = gradeAccessory.OptionalGradeFeature, OptionalOn = gradeAccessory.OptionalOn, PartNumber = gradeAccessory.PartNumber, Path = gradeAccessory.Path, ShortID = gradeAccessory.ShortID, Standard = gradeAccessory.Standard, StandardOn = gradeAccessory.StandardOn, Visibility = gradeAccessory.Visibility
-            }).Cast<GradeEquipmentItem>().ToList();
-        }
+            var accesories =  contextData.GradeEquipments.Values.SelectMany(equipment => equipment.Accessories)
+                .ToList()
+                .Where(
+                    accessory => 
+                        modelGenerationSubModel.Equipment.Any(generationSubModelEquipmentItem => generationSubModelEquipmentItem.ID == accessory.ID));
+            
+            var options = contextData.GradeEquipments.Values.SelectMany(equipment => equipment.Options)
+                    .ToList()
+                    .Where(
+                        option =>
+                            modelGenerationSubModel.Equipment.Any(
+                                generationSubModelEquipmentItem => generationSubModelEquipmentItem.ID == option.ID));
 
-        private List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+            return new GradeEquipment(){Accessories = accesories,Options = options};
+        }*/
+
+        private static List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
         {
             return contextData.Grades
                 .Where(contextGrade => modelGenerationSubModel.Cars()

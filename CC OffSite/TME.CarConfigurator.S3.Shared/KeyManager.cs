@@ -60,6 +60,11 @@ namespace TME.CarConfigurator.S3.Shared
             return string.Format("{0}/cars", GetTimeFrameKey(publicationID, timeFrameID));
         }
 
+        public string GetColourCombinationsKey(Guid publicationID, Guid timeFrameID)
+        {
+            return string.Format("{0}/colourcombinations",GetTimeFrameKey(publicationID ,timeFrameID));
+        }
+
         public string GetSubModelsKey(Guid publicationID, Guid timeFrameID)
         {
             return string.Format("{0}/submodels", GetTimeFrameKey(publicationID, timeFrameID));
@@ -72,12 +77,17 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetGradeAccessoriesKey(Guid publicationID, Guid timeFrameID, Guid gradeID)
         {
-            return string.Format("{0}/grade-accessories", GetGradeKey(publicationID, timeFrameID, gradeID));
+            return string.Format("{0}/accessories", GetGradeKey(publicationID, timeFrameID, gradeID));
         }
 
         public string GetGradeEquipmentsKey(Guid publicationID, Guid timeFrameID, Guid gradeID)
         {
-            return string.Format("{0}/grade-equipment", GetGradeKey(publicationID, timeFrameID, gradeID));
+            return string.Format("{0}/equipment", GetGradeKey(publicationID, timeFrameID, gradeID));
+        }
+
+        public string GetGradePacksKey(Guid publicationID, Guid timeFrameID, Guid gradeID)
+        {
+            return string.Format("{0}/packs", GetGradeKey(publicationID, timeFrameID, gradeID));
         }
 
         private string GetCarKey(Guid publicationID, Guid carID)

@@ -7,6 +7,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface ITransmissionPublisher
     {
-        Task<IEnumerable<Result>> PublishGenerationTransmissions(IContext context);
+        Task<IEnumerable<Result>> PublishGenerationTransmissionsAsync(IContext context);
     }
 }

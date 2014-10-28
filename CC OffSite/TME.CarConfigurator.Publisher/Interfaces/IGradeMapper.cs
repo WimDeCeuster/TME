@@ -6,6 +6,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface IGradeMapper
     {
-        Grade MapGrade(Administration.ModelGenerationGrade grade, IEnumerable<Car> cars);
+        Grade MapGenerationGrade(Administration.ModelGenerationGrade grade, IEnumerable<Car> cars);
     }
 }

@@ -109,7 +109,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3TransmissionPublisher
 
         protected override void Act()
         {
-            var result = _publisher.PublishGenerationTransmissions(_context).Result;
+            var result = _publisher.PublishGenerationTransmissionsAsync(_context).Result;
         }
 
         [Fact]

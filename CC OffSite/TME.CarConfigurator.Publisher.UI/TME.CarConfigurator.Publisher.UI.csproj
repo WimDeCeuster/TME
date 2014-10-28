@@ -91,11 +91,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bootstrapper\AppBootstrapper.cs" />
-    <Compile Include="DI\Facades\S3PublisherFacade.cs" />
-    <Compile Include="DI\Factories\S3PublisherFactory.cs" />
-    <Compile Include="DI\Factories\S3ServiceFactory.cs" />
-    <Compile Include="DI\Interfaces\IPublisherFactory.cs" />
-    <Compile Include="DI\Interfaces\IServiceFactory.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -122,9 +117,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="objects.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -136,9 +128,17 @@
       <Project>{3db012ee-feb6-40f1-9c09-97212c142013}</Project>
       <Name>TME.CarConfigurator.CommandServices</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
+      <Project>{EFDB033C-66A8-40BB-B596-561F45E6C7F7}</Project>
+      <Name>TME.CarConfigurator.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj">
       <Project>{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}</Project>
       <Name>TME.CarConfigurator.Publisher.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Publisher.DI\TME.CarConfigurator.Publisher.DI.csproj">
+      <Project>{6cb2e090-5694-4aff-a503-5f59c25b37dc}</Project>
+      <Name>TME.CarConfigurator.Publisher.DI</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Publisher\TME.CarConfigurator.Publisher.csproj">
       <Project>{90212D66-76E4-4842-8CF0-EAD35988D8E2}</Project>
@@ -175,11 +175,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="services.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

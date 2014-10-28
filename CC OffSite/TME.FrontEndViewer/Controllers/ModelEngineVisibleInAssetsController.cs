@@ -19,6 +19,7 @@ namespace TME.FrontEndViewer.Controllers
 
             var context = (Context)Session["context"];
             var oldContext = MyContext.NewContext(context.Brand, context.Country, context.Language);
+            if (string.IsNullOrEmpty(mode)) mode = string.Empty;
             
             var model = new CompareView<IAsset>
             {

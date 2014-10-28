@@ -26,7 +26,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 SortIndex = 0
             };
 
-            return _baseMapper.MapDefaults(mappedSteering, steering, steering, steering.Name);
+            return _baseMapper.MapDefaults(mappedSteering, steering, steering);
         }
     }
 }

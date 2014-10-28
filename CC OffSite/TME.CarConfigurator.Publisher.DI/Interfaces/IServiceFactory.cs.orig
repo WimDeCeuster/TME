@@ -1,8 +1,9 @@
 ﻿using System;
 using TME.CarConfigurator.CommandServices;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Publisher.Common.Enums;
 
-namespace TME.CarConfigurator.Publisher.UI.DI.Interfaces
+namespace TME.CarConfigurator.Publisher.DI.Interfaces
 {
     public interface IServiceFactory
     {
@@ -19,5 +20,10 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Interfaces
         IAssetService GetAssetService(String environment, PublicationDataSubset dataSubset);
         ISubModelService GetSubModelService(String environment, PublicationDataSubset dataSubset);
         IGradeEquipmentService GetGradeEquipmentService(String environment, PublicationDataSubset dataSubset);
+<<<<<<< Updated upstream:CC OffSite/TME.CarConfigurator.Publisher.DI/Interfaces/IServiceFactory.cs
+        IGradePackService GetGradePackService(string environment, PublicationDataSubset dataSubset);
+=======
+        IColourCombinationService GetColourCombinationService(String environment, PublicationDataSubset dataSubset);
+>>>>>>> Stashed changes:CC OffSite/TME.CarConfigurator.Publisher.UI/DI/Interfaces/IServiceFactory.cs
     }
 }

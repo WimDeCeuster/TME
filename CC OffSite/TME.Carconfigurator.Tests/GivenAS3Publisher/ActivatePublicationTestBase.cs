@@ -91,12 +91,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context.TimeFrames.Add(Language2, timeFrames);
 
             A.CallTo(() => PutModelPublisher.PublishModelsByLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
-            A.CallTo(() => PublicationPublisher.PublishPublications(null)).WithAnyArguments().Returns(successFullTasks);
-            A.CallTo(() => BodyTypePublisher.PublishGenerationBodyTypes(null)).WithAnyArguments().Returns(successFullTasks);
-            A.CallTo(() => EnginePublisher.PublishGenerationEngines(null)).WithAnyArguments().Returns(successFullTasks);
-            A.CallTo(() => CarPublisher.PublishGenerationCars(null)).WithAnyArguments().Returns(successFullTasks);
-            A.CallTo(() => AssetPublisher.PublishAssets(null)).WithAnyArguments().Returns(successFullTasks);
-            A.CallTo(() => AssetPublisher.PublishCarAssets(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => PublicationPublisher.PublishPublicationsAsync(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => BodyTypePublisher.PublishGenerationBodyTypesAsync(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => EnginePublisher.PublishGenerationEnginesAsync(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => CarPublisher.PublishGenerationCarsAsync(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => AssetPublisher.PublishAssetsAsync(null)).WithAnyArguments().Returns(successFullTasks);
+            A.CallTo(() => AssetPublisher.PublishCarAssetsAsync(null)).WithAnyArguments().Returns(successFullTasks);
 
             Publisher = new PublisherBuilder()
                 .WithPublicationPublisher(PublicationPublisher)

@@ -20,7 +20,7 @@ namespace TME.CarConfigurator.S3.Publisher
             _publicationService = publicationService;
         }
 
-        public async Task<IEnumerable<Result>> PublishPublications(IContext context)
+        public async Task<IEnumerable<Result>> PublishPublicationsAsync(IContext context)
         {
             if (context == null) throw new ArgumentNullException("context");
 
