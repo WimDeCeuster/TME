@@ -1,4 +1,6 @@
-﻿using TME.CarConfigurator.Core;
+﻿using System;
+using System.Collections.Generic;
+using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 
