@@ -86,7 +86,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\PublicationTestBase.cs" />
     <Compile Include="Builders\AssetTypeBuilder.cs" />
     <Compile Include="Builders\GradeEquipmentPublisherBuilder.cs" />
     <Compile Include="Builders\GradePublisherBuilder.cs" />
