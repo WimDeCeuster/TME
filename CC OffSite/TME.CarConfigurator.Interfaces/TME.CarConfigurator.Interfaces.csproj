@@ -45,6 +45,7 @@
     <Compile Include="Assets\IVisibleInModeAndView.cs" />
     <Compile Include="Colours\IColourTransformation.cs" />
     <Compile Include="Colours\IExteriorColour.cs" />
+    <Compile Include="Factories\IPackFactory.cs" />
     <Compile Include="IAvailabilityCompare.cs" />
     <Compile Include="Equipment\IBestVisibleIn.cs" />
     <Compile Include="Equipment\IGradeAccessory.cs" />

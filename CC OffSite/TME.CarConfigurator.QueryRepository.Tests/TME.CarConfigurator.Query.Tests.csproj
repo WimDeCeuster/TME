@@ -90,6 +90,7 @@
     <Compile Include="GivenAGrade\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsBasedUponGradeForTheFirstTime.cs" />
+    <Compile Include="GivenAGrade\WhenAccessingItsPacksForTheFirstTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheFirstTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsBasedUponGradeForTheSecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="TestBuilders\EngineCategoryBuilder.cs" />
     <Compile Include="TestBuilders\GradeEquipmentFactoryBuilder.cs" />
     <Compile Include="TestBuilders\GradeFactoryBuilder.cs" />
+    <Compile Include="TestBuilders\PackFactoryBuilder.cs" />
     <Compile Include="TestBuilders\SteeringFactoryBuilder.cs" />
     <Compile Include="TestBuilders\SubModelFactoryBuilder.cs" />
     <Compile Include="TestBuilders\WheelDriveFactoryBuilder.cs" />

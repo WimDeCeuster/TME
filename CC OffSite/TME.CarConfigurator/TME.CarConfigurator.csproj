@@ -55,6 +55,7 @@
     <Compile Include="ExteriorColour.cs" />
     <Compile Include="Factories\GradeEquipmentFactory.cs" />
     <Compile Include="Factories\GradeFactory.cs" />
+    <Compile Include="Factories\PackFactory.cs" />
     <Compile Include="Factories\SteeringFactory.cs" />
     <Compile Include="Factories\SubModelFactory.cs" />
     <Compile Include="Factories\WheelDriveFactory.cs" />

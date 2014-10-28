@@ -4,6 +4,7 @@ using System.Linq;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
+using TME.CarConfigurator.Repository.Objects.Packs;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {

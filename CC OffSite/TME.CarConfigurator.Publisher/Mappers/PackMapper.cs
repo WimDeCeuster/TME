@@ -36,7 +36,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 OptionalOn = FindCarsOnWhichPackHasCorrectAvailability(gradeCars, gradePack.ID, Availability.Optional),
                 NotAvailableOn = FindCarsOnWhichPackHasCorrectAvailability(gradeCars, gradePack.ID, Availability.NotAvailable),
 
-                ShortID = 0, // TODO: where to map shortID from?
+                ShortID = 0, // TODO: map shortid when it is in admin library
                 GradeFeature = gradePack.GradeFeature,
                 OptionalGradeFeature = gradePack.OptionalGradeFeature,
             };
