@@ -4,15 +4,11 @@
 
 @foreach (var model in Model)
 {
-    <div class="clickable">
-        <table class="top">
-            <tr>
-                <td>
-                    <b>@Html.Raw(model.Name)</b>
-                </td>
-            </tr>
-        </table>
-        <div class="clickable object" data-id="@Html.Raw(model.ID)">
+    <div class="object" data-id="@Html.Raw(model.ID)">
+        <div class="title">
+            <strong>@Html.Raw(model.Name)</strong>
+        </div>
+        <div class="content">
             @Html.Partial("_baseObject", model)
             <p class="property" data-id="ShortID">ShortID : @Html.Raw(model.ShortID)</p>
             <p class="property" data-id="BrochurePromoted">Promoted : @Html.Raw(model.Promoted)</p>
@@ -23,27 +19,35 @@
             <p class="property" data-id="BasePricePriceInVat">BasePrice.PriceInVat : @Html.Raw(model.BasePrice.PriceInVat)</p>
             <p class="property" data-id="StartingPricePriceExVat">StartingPrice.PriceExVat : @Html.Raw(model.StartingPrice.PriceExVat)</p>
             <p class="property" data-id="StartingPricePriceInVat">StartingPrice.PriceInVat : @Html.Raw(model.StartingPrice.PriceInVat)</p>
-            <strong>Body Type</strong>
-            <div class="sub-item object" data-id="@Html.Raw(model.BodyType.ID)">
-                @Html.Partial("_bodyType", model.BodyType)
-                <br />
-                @Html.ActionLink("Assets", "Index", "ModelBodyTypeAssets", new { modelID = ViewBag.ModelID, carID = model.ID }, new { })
-                @foreach (var visibleInModeAndView in model.BodyType.VisibleIn.Where(x => x.Assets.Any()))
-                {
-                    @Html.Raw(" | ")
-                    @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View), "Index", "ModelBodyTypeVisibleInAssets", new { modelID = ViewBag.ModelID, carID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View }, new { })
-                }
+            <div class="object sub-item" data-id="@Html.Raw(model.BodyType.ID)">
+                <div class="title">
+                    <strong>Body Type</strong>
+                </div>
+                <div class="content">
+                    @Html.Partial("_bodyType", model.BodyType)
+                    <br />
+                    @Html.ActionLink("Assets", "Index", "ModelBodyTypeAssets", new { modelID = ViewBag.ModelID, carID = model.ID }, new { })
+                    @foreach (var visibleInModeAndView in model.BodyType.VisibleIn.Where(x => x.Assets.Any()))
+                    {
+                        @Html.Raw(" | ")
+                        @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View), "Index", "ModelBodyTypeVisibleInAssets", new { modelID = ViewBag.ModelID, carID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View }, new { })
+                    }
+                </div>
             </div>
-            <strong>Engine</strong>
-            <div class="sub-item object" data-id="@Html.Raw(model.Engine.ID)">
-                @Html.Partial("_engine", model.Engine)
-                <br />
-                @Html.ActionLink("Assets", "Index", "ModelEngineAssets", new { modelID = ViewBag.ModelID, carID = model.ID }, new { })
-                @foreach (var visibleInModeAndView in model.Engine.VisibleIn.Where(x => x.Assets.Any()))
-                {
-                    @Html.Raw(" | ")
-                    @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View), "Index", "ModelEngineVisibleInAssets", new { modelID = ViewBag.ModelID, carID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View }, new { })
-                }
+            <div class="object sub-item" data-id="@Html.Raw(model.Engine.ID)">
+                <div class="title">
+                    <strong>Engine</strong>
+                </div>
+                <div class="content">
+                    @Html.Partial("_engine", model.Engine)
+                    <br />
+                    @Html.ActionLink("Assets", "Index", "ModelEngineAssets", new { modelID = ViewBag.ModelID, carID = model.ID }, new { })
+                    @foreach (var visibleInModeAndView in model.Engine.VisibleIn.Where(x => x.Assets.Any()))
+                    {
+                        @Html.Raw(" | ")
+                        @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View), "Index", "ModelEngineVisibleInAssets", new { modelID = ViewBag.ModelID, carID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View }, new { })
+                    }
+                </div>
             </div>
             @*<!--
                 <strong>Transmission</strong>

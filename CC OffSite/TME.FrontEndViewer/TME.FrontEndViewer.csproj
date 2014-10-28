@@ -295,6 +295,14 @@
     <Content Include="Views\ModelSubModels\Index.cshtml" />
     <Content Include="Views\ModelSubModels\details.cshtml" />
     <Content Include="Views\Shared\_engine.cshtml" />
+    <Content Include="Views\Shared\Links\Index.cshtml" />
+    <Content Include="Views\Shared\Links\details.cshtml" />
+    <Content Include="Views\Shared\_link.cshtml" />
+    <Content Include="Views\Shared\GradeEquipment\details.cshtml" />
+    <Content Include="Views\Shared\GradeEquipment\Index.cshtml" />
+    <Content Include="Views\Shared\_gradeEquipmentItem.cshtml" />
+    <Content Include="Views\Shared\_exteriorColour.cshtml" />
+    <Content Include="Views\Shared\_CompareLayout.cshtml" />
     <Content Include="Views\ModelGradeEquipment\details.cshtml" />
     <Content Include="Views\ModelGradeEquipment\Index.cshtml" />
     <Content Include="Views\Shared\_transmission.cshtml" />

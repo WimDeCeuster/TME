@@ -3,15 +3,11 @@
 
 @foreach (var model in Model)
 {
-    <div class="clickable">
-        <table class="top">
-            <tr>
-                <td>
-                    <b>@Html.Raw(model.Name)</b>
-                </td>
-            </tr>
-        </table>
-        <div class="clickable object" data-id="@(model.Name))">
+    <div class="object" data-id="@(model.Name)">
+        <div class="title">
+            <strong>@Html.Raw(model.Name)</strong>
+        </div>
+        <div class="content">
             @Html.Partial("_baseObject", model)
             <p class="property" data-id=".PartNumber">.PartNumber : @Html.Raw(model.PartNumber)</p>
             <p class="property" data-id="InternalName">InternalName : @Html.Raw(model.InternalName)</p>
@@ -21,10 +17,10 @@
             <p class="property" data-id="OptionalGradeFeature">OptionalGradeFeature : @Html.Raw(model.OptionalGradeFeature)</p>
             <p class="property" data-id="Path">Path : @Html.Raw(model.Path)</p>
             @*<p class="property" data-id="Visibility">Visibility : @Html.Raw(model.Visibility.ToString("g"))</p>*@
-            <p class="property" data-id="BestVisibleInMode">BestVisibleIn.Mode : @Html.Raw(model.BestVisibleIn.Mode)</p>
+            @*<p class="property" data-id="BestVisibleInMode">BestVisibleIn.Mode : @Html.Raw(model.BestVisibleIn.Mode)</p>
             <p class="property" data-id="BestVisibleInView">BestVisibleIn.View : @Html.Raw(model.BestVisibleIn.View)</p>
-            <p class="property" data-id="BestVisibleInAngle">BestVisibleIn.Angle : @Html.Raw(model.BestVisibleIn.Angle)</p>
+            <p class="property" data-id="BestVisibleInAngle">BestVisibleIn.Angle : @Html.Raw(model.BestVisibleIn.Angle)</p>*@
             @Html.Partial("_availabilityCompare", model)
-         </div>
+        </div>
     </div>
 }

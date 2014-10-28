@@ -1,0 +1,8 @@
+﻿@model TME.CarConfigurator.Interfaces.Colours.IExteriorColour
+@Html.Partial("_baseObject", Model)
+<p class="property" data-id="Alpha">Alpha : @Html.Raw(Model.Transformation.Alpha)</p>
+<p class="property" data-id="Brightness">Brightness : @Html.Raw(Model.Transformation.Brightness)</p>
+<p class="property" data-id="Contrast">Contrast : @Html.Raw(Model.Transformation.Contrast)</p>
+<p class="property" data-id="Hue">Hue : @Html.Raw(Model.Transformation.Hue)</p>
+<p class="property" data-id="RGB">RGB : @Html.Raw(Model.Transformation.RGB)</p>
+<p class="property" data-id="Saturation">Saturation : @Html.Raw(Model.Transformation.Saturation)</p>

@@ -80,6 +80,7 @@
     <Compile Include="Extensions\LinkExtensions.cs" />
     <Compile Include="Factories\ContextFactory.cs" />
     <Compile Include="Factories\PublisherFacadeFactory.cs" />
+    <Compile Include="Interfaces\IAssetFileService.cs" />
     <Compile Include="Interfaces\IAssetPublisher.cs" />
     <Compile Include="Interfaces\IAssetMapper.cs" />
     <Compile Include="Interfaces\IAssetScopeMapper.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Interfaces\ICarMapper.cs" />
     <Compile Include="Interfaces\ICarPublisher.cs" />
     <Compile Include="Interfaces\ICategoryInfoMapper.cs" />
+    <Compile Include="Interfaces\IColourMapper.cs" />
     <Compile Include="Interfaces\IContextFactory.cs" />
     <Compile Include="Interfaces\IDefaultBaseMapper.cs" />
     <Compile Include="Interfaces\IEngineCategoryMapper.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="Mappers\CarMapper.cs" />
     <Compile Include="Mappers\BaseMapper.cs" />
     <Compile Include="Mappers\CategoryInfoMapper.cs" />
+    <Compile Include="Mappers\ColourMapper.cs" />
     <Compile Include="Mappers\EngineCategoryMapper.cs" />
     <Compile Include="Mappers\EngineMapper.cs" />
     <Compile Include="Mappers\EngineTypeMapper.cs" />
@@ -159,6 +162,7 @@
     <Compile Include="Mappers\TransmissionTypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publisher.cs" />
+    <Compile Include="Services\AssetFileService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TME.CarConfigurator.CommandServices\TME.CarConfigurator.CommandServices.csproj">

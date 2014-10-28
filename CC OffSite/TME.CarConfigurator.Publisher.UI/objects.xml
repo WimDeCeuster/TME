@@ -32,6 +32,7 @@
     <constructor-arg ref="LinkMapper" />
     <constructor-arg ref="VisibilityMapper" />
     <constructor-arg ref="CategoryInfoMapper" />
+    <constructor-arg ref="ColourMapper" />
   </object>
   <object name="BodyTypeMapper" type="TME.CarConfigurator.Publisher.Mappers.BodyTypeMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />
@@ -98,7 +99,13 @@
     <constructor-arg ref="BaseMapper" />
     <constructor-arg ref="AssetMapper" />
     <constructor-arg ref="LinkMapper" />
+    <constructor-arg ref="GradeMapper" />
   </object>
+  <object name="ColourMapper" type="TME.CarConfigurator.Publisher.Mappers.ColourMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="BaseMapper" />
+    <constructor-arg ref="AssetFileService" />
+  </object>
+  <object name="AssetFileService" type="TME.CarConfigurator.Publisher.Services.AssetFileService, TME.CarConfigurator.Publisher"></object>
 
   <object name="CarDbModelGenerationFinder" type="TME.CarConfigurator.Publisher.CarDbModelGenerationFinder, TME.CarConfigurator.Publisher"></object>
   <object name="PublicationService" type="TME.CarConfigurator.Publisher.CarConfiguratorPublisher, TME.CarConfigurator.Publisher">

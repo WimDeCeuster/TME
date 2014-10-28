@@ -329,10 +329,11 @@ namespace TME.CarConfigurator.Publisher
             foreach (var grade in grades)
             {
                 var accessories = grade.Equipment.OfType<ModelGenerationGradeAccessory>()
+<<<<<<< HEAD
                     .Select(accessory =>
                         _equipmentMapper.MapGradeAccessory(
                             accessory,
-                                                        (Administration.ModelGenerationAccessory)modelGeneration.Equipment[accessory.ID],
+                            (ModelGenerationAccessory)modelGeneration.Equipment.Single(equipment => equipment.ID == accessory.ID),
                             (Administration.Accessory)crossModelAccessories[accessory.ID],
                             categories,
                             isPreview));
@@ -341,12 +342,32 @@ namespace TME.CarConfigurator.Publisher
                     .Select(option =>
                         _equipmentMapper.MapGradeOption(
                             option,
-                                                                        (Administration.ModelGenerationOption)modelGeneration.Equipment[option.ID],
+                            (ModelGenerationOption)modelGeneration.Equipment.Single(equipment => equipment.ID == option.ID),
                             (Administration.Option)crossModelOptions[option.ID],
                             categories,
                             isPreview));
 
                 data.GradeEquipment.Add(grade.ID, new GradeEquipment
+=======
+                                                 .Select(accessory =>
+                                                     _equipmentMapper.MapGradeAccessory(
+                                                        accessory,
+                                                        (Administration.ModelGenerationAccessory)modelGeneration.Equipment[accessory.ID],
+                                                        (Administration.Accessory)crossModelAccessories[accessory.ID],
+                                                        categories,
+                                                        isPreview));
+
+                var options = grade.Equipment.OfType<ModelGenerationGradeOption>()
+                                                                 .Select(option =>
+                                                                     _equipmentMapper.MapGradeOption(
+                                                                        option,
+                                                                        (Administration.ModelGenerationOption)modelGeneration.Equipment[option.ID],
+                                                                        (Administration.Option)crossModelOptions[option.ID],
+                                                                        categories,
+                                                                        isPreview));
+
+                data.GradeEquipments.Add(grade.ID, new GradeEquipment
+>>>>>>> 34d1bc72a7c811e64040b35337dc5c37365301cd
                 {
                     Accessories = accessories.ToList(),
                     Options = options.ToList()

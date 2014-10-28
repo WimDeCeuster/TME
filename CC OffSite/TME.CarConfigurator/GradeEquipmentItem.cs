@@ -7,10 +7,11 @@ namespace TME.CarConfigurator
 {
     public abstract class GradeEquipmentItem : BaseObject<Repository.Objects.Equipment.GradeEquipmentItem>, IGradeEquipmentItem
     {
-        public GradeEquipmentItem(Repository.Objects.Equipment.GradeEquipmentItem repoEquipmentItem)
-            : base(repoEquipmentItem)
-        {
-        }
+        ExteriorColour _exteriorColour;
+        
+        public GradeEquipmentItem(Repository.Objects.Equipment.GradeEquipmentItem repositoryEquipmentItem)
+            : base(repositoryEquipmentItem)
+        { }
 
         public int ShortID { get { return RepositoryObject.ShortID; } }
 
@@ -44,7 +45,7 @@ namespace TME.CarConfigurator
 
         public ICategoryInfo Category { get { throw new NotImplementedException(); } }
 
-        public Interfaces.Colours.IExteriorColour ExteriorColour { get { throw new NotImplementedException(); } }
+        public Interfaces.Colours.IExteriorColour ExteriorColour { get { return RepositoryObject.ExteriorColour == null ? null : _exteriorColour = _exteriorColour ?? new ExteriorColour(RepositoryObject.ExteriorColour); } }
 
         public IEnumerable<Interfaces.Assets.IAsset> Assets { get { throw new NotImplementedException(); } }
 

@@ -3,19 +3,15 @@
 
 @foreach (var model in Model)
 {
-    <div class="clickable">
-        <table class="top">
-            <tr>
-                <td>
-                    <b>@Html.Raw(model.Name)</b>
-                </td>
-            </tr>
-        </table>
-        <div class="clickable object" data-id="@(model.Name))">
+    <div class="object" data-id="@(model.Name)">
+        <div class="title">
+            <strong>@Html.Raw(model.Name)</strong>
+        </div>
+        <div class="content">
             @Html.Partial("_baseObject", model)
             <p class="property" data-id="GradeFeature">GradeFeature : @Html.Raw(model.GradeFeature)</p>
             <p class="property" data-id="OptionalGradeFeature">OptionalGradeFeature : @Html.Raw(model.OptionalGradeFeature)</p>
             @Html.Partial("_availabilityCompare", model)
-         </div>
+        </div>
     </div>
 }

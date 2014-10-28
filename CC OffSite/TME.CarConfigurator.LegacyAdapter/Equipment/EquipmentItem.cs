@@ -100,7 +100,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
                 
                 var carColour = GenerationOfAdaptee.ExteriorColours[colour.ID];
                 if (carColour == null) return null;
-                return new ExteriorColour(carColour);
+                return new Colours.ExteriorColour(carColour);
             }
         }
 
