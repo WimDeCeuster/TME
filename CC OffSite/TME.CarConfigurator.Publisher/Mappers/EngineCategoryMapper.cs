@@ -31,10 +31,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 LocalCode = String.Empty
             };
 
-            return _baseMapper.MapTranslateableDefaults(
-                _baseMapper.MapSortDefaults(mappedEngineCategory, engineCategory),
-                engineCategory,
-                engineCategory.Name);
+            return _baseMapper.MapTranslateableDefaults(_baseMapper.MapSortDefaults(mappedEngineCategory, engineCategory), engineCategory);
         }
     }
 }

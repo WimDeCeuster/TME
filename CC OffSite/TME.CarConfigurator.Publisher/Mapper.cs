@@ -332,7 +332,7 @@ namespace TME.CarConfigurator.Publisher
                     .Select(accessory =>
                         _equipmentMapper.MapGradeAccessory(
                             accessory,
-                                                        (Administration.ModelGenerationAccessory)modelGeneration.Equipment[accessory.ID],
+                            (ModelGenerationAccessory)modelGeneration.Equipment[accessory.ID],
                             (Administration.Accessory)crossModelAccessories[accessory.ID],
                             categories,
                             isPreview));
@@ -341,7 +341,7 @@ namespace TME.CarConfigurator.Publisher
                     .Select(option =>
                         _equipmentMapper.MapGradeOption(
                             option,
-                                                                        (Administration.ModelGenerationOption)modelGeneration.Equipment[option.ID],
+                            (ModelGenerationOption)modelGeneration.Equipment[option.ID],
                             (Administration.Option)crossModelOptions[option.ID],
                             categories,
                             isPreview));

@@ -34,14 +34,14 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
                 StandardOn = FindCarsOnWhichPackHasCorrectAvailability(gradeCars, gradePack.ID, Availability.Standard),
                 OptionalOn = FindCarsOnWhichPackHasCorrectAvailability(gradeCars, gradePack.ID, Availability.Optional),
-                NotAvailableOn = FindCarsOnWhichPackHasCorrectAvailability(gradeCars, gradePack.ID, Availability.NotAvailable)
+                NotAvailableOn = FindCarsOnWhichPackHasCorrectAvailability(gradeCars, gradePack.ID, Availability.NotAvailable),
+
+                ShortID = 0, // TODO: where to map shortID from?
+                GradeFeature = gradePack.GradeFeature,
+                OptionalGradeFeature = gradePack.OptionalGradeFeature,
             };
-
-            mappedGradePack = _baseMapper.MapTranslateableDefaults(mappedGradePack, generationPack, gradePack.Name);
-
-            // TODO: more mapping: grade features etc
-
-            return mappedGradePack;
+            
+            return _baseMapper.MapDefaultsWithSort(mappedGradePack, generationPack, generationPack);
         }
 
         private IEnumerable<CarInfo> FindCarsOnWhichPackHasCorrectAvailability(IEnumerable<Car> gradeCars, Guid packID, Availability availability)

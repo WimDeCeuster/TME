@@ -95,7 +95,7 @@
     <Compile Include="Interfaces\ICategoryInfoMapper.cs" />
     <Compile Include="Interfaces\IColourMapper.cs" />
     <Compile Include="Interfaces\IContextFactory.cs" />
-    <Compile Include="Interfaces\IDefaultBaseMapper.cs" />
+    <Compile Include="Interfaces\IBaseMapper.cs" />
     <Compile Include="Interfaces\IEngineCategoryMapper.cs" />
     <Compile Include="Interfaces\IEngineMapper.cs" />
     <Compile Include="Interfaces\IGradeEquipmentPublisher.cs" />

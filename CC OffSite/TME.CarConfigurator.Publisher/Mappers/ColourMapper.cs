@@ -35,7 +35,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 SortIndex = 0
             };
 
-            return _baseMapper.MapTranslateableDefaults(mappedColour, colour, colour.Name);
+            return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
         }
 
         ColourTransformation GetColourTransformation(string colourFilePath, string colourCode)

@@ -48,7 +48,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Grades = GetSubModelGrades(modelGenerationSubModel, contextData)
             };
 
-            return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel, modelGenerationSubModel, modelGenerationSubModel.Name);
+            return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel, modelGenerationSubModel);
         }
 
         private List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)

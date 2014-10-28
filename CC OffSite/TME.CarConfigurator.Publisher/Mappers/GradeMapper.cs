@@ -44,7 +44,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 VisibleIn = _assetSetMapper.GetVisibility(generationGrade.AssetSet).ToList()
             };
 
-            return _baseMapper.MapDefaultsWithSort(mappedGrade, generationGrade, generationGrade, generationGrade.Name);
+            return _baseMapper.MapDefaultsWithSort(mappedGrade, generationGrade, generationGrade);
         }
     }
 }
