@@ -1,11 +1,5 @@
-﻿using Spring.Context.Support;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using TME.CarConfigurator.CommandServices;
-using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.UI.DI.Interfaces;
 using TME.CarConfigurator.S3.Publisher;
@@ -15,7 +9,7 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
 {
     public class S3PublisherFactory : IPublisherFactory
     {
-        ITimeFramePublishHelper _timeFramePublishHelper;
+        readonly ITimeFramePublishHelper _timeFramePublishHelper;
 
         public S3PublisherFactory(ITimeFramePublishHelper timeFramePublishHelper)
         {
@@ -82,6 +76,11 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
         public IGradeEquipmentPublisher GetGradeEquipmentPublisher(IGradeEquipmentService service)
         {
             return new GradeEquipmentPublisher(service, _timeFramePublishHelper);
+        }
+
+        public IGradePackPublisher GetGradePackPublisher(IGradePackService service)
+        {
+            return new GradePackPublisher(service, _timeFramePublishHelper);
         }
     }
 }

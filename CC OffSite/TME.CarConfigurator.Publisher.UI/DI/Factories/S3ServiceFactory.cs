@@ -10,8 +10,8 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
 {
     public class S3ServiceFactory : IServiceFactory
     {
-        ISerialiser _serialiser;
-        IKeyManager _keyManager;
+        readonly ISerialiser _serialiser;
+        readonly IKeyManager _keyManager;
 
         public S3ServiceFactory(ISerialiser serialiser, IKeyManager keyManager)
         {
@@ -19,10 +19,9 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
             _keyManager = keyManager;
         }
 
-        IService GetService(String environment, PublicationDataSubset dataSubset)
+        private static IService GetService(String environment, PublicationDataSubset dataSubset)
         {
-            var objectName = String.Format("{0}{1}S3Service", environment, dataSubset.ToString());
-            return (IService)ContextRegistry.GetContext().GetObject(String.Format("{0}{1}S3Service", environment, dataSubset.ToString()));
+            return (IService)ContextRegistry.GetContext().GetObject(String.Format("{0}{1}S3Service", environment, dataSubset));
         }
 
         public QueryServices.IModelService GetGetModelService(String environment, PublicationDataSubset dataSubset)
@@ -114,6 +113,13 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
             var service = GetService(environment, dataSubset);
 
             return new GradeEquipmentService(service, _serialiser, _keyManager);
+        }
+
+        public IGradePackService GetGradePackService(string environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return new GradePackService(service, _serialiser, _keyManager);
         }
     }
 }

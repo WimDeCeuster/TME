@@ -49,7 +49,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
                 .Build();
 
             // act
-            await assetPublisher.PublishCarAssets(context);
+            await assetPublisher.PublishCarAssetsAsync(context);
 
             // assert
             A.CallTo(() => assetService.PutAssetsByModeAndView(A<string>._, A<string>._, A<Guid>._, A<Guid>._, A<Guid>._, A<string>._, A<string>._, A<IEnumerable<Asset>>._))

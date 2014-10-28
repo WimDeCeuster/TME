@@ -100,6 +100,7 @@
     <Compile Include="Interfaces\IEngineMapper.cs" />
     <Compile Include="Interfaces\IGradeEquipmentPublisher.cs" />
     <Compile Include="Interfaces\IEquipmentMapper.cs" />
+    <Compile Include="Interfaces\IGradePackPublisher.cs" />
     <Compile Include="Interfaces\IPackMapper.cs" />
     <Compile Include="Interfaces\ISteeringMapper.cs" />
     <Compile Include="Interfaces\IGradeMapper.cs" />

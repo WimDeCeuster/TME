@@ -44,6 +44,7 @@
     <Compile Include="CarPublisher.cs" />
     <Compile Include="GradeEquipmentPublisher.cs" />
     <Compile Include="Extensions\BaseObjectExtensions.cs" />
+    <Compile Include="GradePackPublisher.cs" />
     <Compile Include="Helpers\TimeFramePublishHelper.cs" />
     <Compile Include="Interfaces\ITimeFramePublishHelper.cs" />
     <Compile Include="SteeringPublisher.cs" />

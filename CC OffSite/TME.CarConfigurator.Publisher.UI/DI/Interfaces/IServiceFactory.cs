@@ -19,5 +19,6 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Interfaces
         IAssetService GetAssetService(String environment, PublicationDataSubset dataSubset);
         ISubModelService GetSubModelService(String environment, PublicationDataSubset dataSubset);
         IGradeEquipmentService GetGradeEquipmentService(String environment, PublicationDataSubset dataSubset);
+        IGradePackService GetGradePackService(string environment, PublicationDataSubset dataSubset);
     }
 }

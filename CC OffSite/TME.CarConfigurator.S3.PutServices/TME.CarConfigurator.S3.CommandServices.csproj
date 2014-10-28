@@ -45,6 +45,7 @@
     <Compile Include="CarService.cs" />
     <Compile Include="AssetsService.cs" />
     <Compile Include="GradeEquipmentService.cs" />
+    <Compile Include="GradePackService.cs" />
     <Compile Include="SteeringService.cs" />
     <Compile Include="GradeService.cs" />
     <Compile Include="SubModelService.cs" />

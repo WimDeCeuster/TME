@@ -6,6 +6,7 @@ using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Common.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Enums;
 
@@ -26,20 +27,9 @@ namespace TME.CarConfigurator.Publisher
         readonly IAssetPublisher _assetPublisher;
         readonly ISubModelPublisher _subModelPublisher;
         readonly IGradeEquipmentPublisher _gradeEquipmentPublisher;
+        private readonly IGradePackPublisher _gradePackPublisher;
 
-        public Publisher(IPublicationPublisher publicationPublisher, 
-            IModelPublisher modelPublisher, 
-            QueryServices.IModelService modelService, 
-            IBodyTypePublisher bodyTypePublisher,
-            IEnginePublisher enginePublisher,
-            ITransmissionPublisher transmissionPublisher,
-            IWheelDrivePublisher wheelDrivePublisher,
-            ISteeringPublisher steeringPublisher,
-            IGradePublisher gradePublisher,
-            ICarPublisher carPublisher,
-            IAssetPublisher assetPublisher,
-            ISubModelPublisher subModelPublisher,
-            IGradeEquipmentPublisher gradeEquipmentPublisher)
+        public Publisher(IPublicationPublisher publicationPublisher, IModelPublisher modelPublisher, IModelService modelService, IBodyTypePublisher bodyTypePublisher, IEnginePublisher enginePublisher, ITransmissionPublisher transmissionPublisher, IWheelDrivePublisher wheelDrivePublisher, ISteeringPublisher steeringPublisher, IGradePublisher gradePublisher, ICarPublisher carPublisher, IAssetPublisher assetPublisher, ISubModelPublisher subModelPublisher, IGradeEquipmentPublisher gradeEquipmentPublisher, IGradePackPublisher gradePackPublisher)
         {
             if (publicationPublisher == null) throw new ArgumentNullException("publicationPublisher");
             if (modelPublisher == null) throw new ArgumentNullException("modelPublisher");
@@ -54,6 +44,7 @@ namespace TME.CarConfigurator.Publisher
             if (assetPublisher == null) throw new ArgumentNullException("assetPublisher");
             if (subModelPublisher == null) throw new ArgumentNullException("subModelPublisher");
             if (gradeEquipmentPublisher == null) throw new ArgumentNullException("gradeEquipmentPublisher");
+            if (gradePackPublisher == null) throw new ArgumentNullException("gradePackPublisher");
 
             _publicationPublisher = publicationPublisher;
             _modelPublisher = modelPublisher;
@@ -68,6 +59,7 @@ namespace TME.CarConfigurator.Publisher
             _assetPublisher = assetPublisher;
             _subModelPublisher = subModelPublisher;
             _gradeEquipmentPublisher = gradeEquipmentPublisher;
+            _gradePackPublisher = gradePackPublisher;
         }
 
         public async Task<Result> PublishAsync(IContext context)
@@ -99,18 +91,20 @@ namespace TME.CarConfigurator.Publisher
 
             var tasks = new List<Task<IEnumerable<Result>>>
             {
-                _publicationPublisher.PublishPublications(context),
-                _bodyTypePublisher.PublishGenerationBodyTypes(context),
-                _enginePublisher.PublishGenerationEngines(context),
-                _transmissionPublisher.PublishGenerationTransmissions(context),
-                _wheelDrivePublisher.PublishGenerationWheelDrives(context),
-                _steeringPublisher.PublishGenerationSteerings(context),
-                _gradePublisher.PublishGenerationGrades(context),
+                _publicationPublisher.PublishPublicationsAsync(context),
+                _bodyTypePublisher.PublishGenerationBodyTypesAsync(context),
+                _enginePublisher.PublishGenerationEnginesAsync(context),
+                _transmissionPublisher.PublishGenerationTransmissionsAsync(context),
+                _wheelDrivePublisher.PublishGenerationWheelDrivesAsync(context),
+                _steeringPublisher.PublishGenerationSteeringsAsync(context),
+                _gradePublisher.PublishGenerationGradesAsync(context),
                 _subModelPublisher.PublishGenerationSubModelsAsync(context),
-                _carPublisher.PublishGenerationCars(context),
-                _gradeEquipmentPublisher.Publish(context),
-                _assetPublisher.PublishAssets(context),
-                _assetPublisher.PublishCarAssets(context)
+                _carPublisher.PublishGenerationCarsAsync(context),
+                _gradeEquipmentPublisher.PublishAsync(context),
+                _gradePackPublisher.PublishAsync(context),
+                
+                _assetPublisher.PublishAssetsAsync(context),
+                _assetPublisher.PublishCarAssetsAsync(context)
             };
 
             var results = await Task.WhenAll(tasks);

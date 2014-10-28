@@ -21,7 +21,7 @@ namespace TME.CarConfigurator.S3.Publisher
             _assetService = assetService;
         }
 
-        public async Task<IEnumerable<Result>> PublishAssets(IContext context)
+        public async Task<IEnumerable<Result>> PublishAssetsAsync(IContext context)
         {
             var result = await Task.WhenAll(context.ContextData.Keys.Select(languageCode => PublishAssets(context.Brand, context.Country, context.ContextData[languageCode].Publication.ID, context.ContextData[languageCode].Assets)));
             return result.SelectMany(xs => xs);
@@ -75,7 +75,7 @@ namespace TME.CarConfigurator.S3.Publisher
             return assets.Where(a => String.IsNullOrEmpty(a.AssetType.Mode) || String.IsNullOrEmpty(a.AssetType.View));
         }
 
-        public async Task<IEnumerable<Result>> PublishCarAssets(IContext context)
+        public async Task<IEnumerable<Result>> PublishCarAssetsAsync(IContext context)
         {
             var tasks = context.ContextData.Keys.Select(languageCode => PublishAssets(context.Brand, context.Country, context.ContextData[languageCode].Publication.ID, context.ContextData[languageCode].CarAssets));
             var result = await Task.WhenAll(tasks);
