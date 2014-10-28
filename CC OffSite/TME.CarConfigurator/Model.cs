@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
+using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
 
@@ -74,6 +75,11 @@ namespace TME.CarConfigurator
         public IEnumerable<ICar> Cars { get { return _cars = _cars ?? _carFactory.GetCars(RepositoryPublication, _repositoryContext); } }
 
         public IEnumerable<ISubModel> SubModels { get { return _subModels = _subModels ?? _subModelFactory.GetSubModels(RepositoryPublication, _repositoryContext); } }
+
+        public IEnumerable<IColourCombination> ColourCombinations
+        {
+            get { throw new NotImplementedException(); }
+        }
 
         public IEnumerable<IGradeEquipmentItem> GradeEquipmentItems;
 

@@ -5,10 +5,10 @@ using TME.CarConfigurator.LegacyAdapter.Extensions;
 
 namespace TME.CarConfigurator.LegacyAdapter.Colours
 {
-    public class ExteriorColour : BaseObject, IExteriorColour
+    public class Upholstery : BaseObject, IUphostery
     {
         #region Dependencies (Adaptee)
-        private TMME.CarConfigurator.CarExteriorColour Adaptee
+        private TMME.CarConfigurator.CarUpholstery Adaptee
         {
             get;
             set;
@@ -16,25 +16,26 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
         #endregion
 
         #region Constructor
-        public ExteriorColour(TMME.CarConfigurator.CarExteriorColour adaptee) : base(adaptee)
+        public Upholstery(TMME.CarConfigurator.CarUpholstery adaptee)
+            : base(adaptee)
         {
             Adaptee = adaptee;
         }
         #endregion
 
-        public bool Promoted
+        public string InteriorColourCode
         {
-            get { return Adaptee.IsPromoted; }
+            get { return Adaptee.InteriorColourCode; }
         }
 
-        public IColourTransformation Transformation
+        public string TrimCode
         {
-            get { return new ColourTransformation(Adaptee.Transformation);}
+            get { return Adaptee.TrimCode; }
         }
 
-        public IExteriorColourType Type
+        public IUpholsteryType Type
         {
-            get { return new ExteriorColourType(Adaptee.Type); }
+            get { return new UpholsteryType(Adaptee.Type); }
         }
 
         public IEnumerable<IAsset> Assets

@@ -43,8 +43,12 @@
     <Compile Include="Assets\IAssetType.cs" />
     <Compile Include="Assets\IFileType.cs" />
     <Compile Include="Assets\IVisibleInModeAndView.cs" />
+    <Compile Include="Colours\IColourCombination.cs" />
     <Compile Include="Colours\IColourTransformation.cs" />
     <Compile Include="Colours\IExteriorColour.cs" />
+    <Compile Include="Colours\IExteriorColourType.cs" />
+    <Compile Include="Colours\IUpholsteryType.cs" />
+    <Compile Include="Colours\IUphostery.cs" />
     <Compile Include="IAvailabilityCompare.cs" />
     <Compile Include="Equipment\IBestVisibleIn.cs" />
     <Compile Include="Equipment\IGradeAccessory.cs" />

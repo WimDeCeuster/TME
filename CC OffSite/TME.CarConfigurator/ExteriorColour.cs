@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Core;
+using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 
 namespace TME.CarConfigurator
@@ -18,9 +19,24 @@ namespace TME.CarConfigurator
 
         }
 
+        public bool Promoted
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public IColourTransformation Transformation
         {
             get { return _transformation = _transformation ?? new ColourTransformation(RepositoryObject.Transformation); }
+        }
+
+        public IExteriorColourType Type
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IEnumerable<IAsset> Assets
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 }

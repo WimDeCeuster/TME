@@ -51,8 +51,12 @@
     <Compile Include="Assets\Enums\Scope.cs" />
     <Compile Include="Assets\FileType.cs" />
     <Compile Include="Assets\VisibleInModeAndView.cs" />
+    <Compile Include="Colours\ColourCombination.cs" />
     <Compile Include="Colours\ColourTransformation.cs" />
+    <Compile Include="Colours\Upholstery.cs" />
+    <Compile Include="Colours\UpholsteryType.cs" />
     <Compile Include="Colours\ExteriorColour.cs" />
+    <Compile Include="Colours\ExteriorColourType.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Equipment\BestVisibleIn.cs" />
     <Compile Include="Equipment\GradeEquipment.cs" />
