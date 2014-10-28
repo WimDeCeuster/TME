@@ -335,7 +335,7 @@ namespace TME.CarConfigurator.Publisher
                             (ModelGenerationAccessory)modelGeneration.Equipment[accessory.ID],
                             (Administration.Accessory)crossModelAccessories[accessory.ID],
                             categories,
-                            isPreview));
+                            isPreview)).ToList();
 
                 var options = grade.Equipment.OfType<ModelGenerationGradeOption>()
                     .Select(option =>
@@ -344,12 +344,12 @@ namespace TME.CarConfigurator.Publisher
                             (ModelGenerationOption)modelGeneration.Equipment[option.ID],
                             (Administration.Option)crossModelOptions[option.ID],
                             categories,
-                            isPreview));
+                            isPreview)).ToList();
 
                 data.GradeEquipment.Add(grade.ID, new GradeEquipment
                 {
-                    Accessories = accessories.ToList(),
-                    Options = options.ToList()
+                    Accessories = accessories,
+                    Options = options
                 });
             }
         }
