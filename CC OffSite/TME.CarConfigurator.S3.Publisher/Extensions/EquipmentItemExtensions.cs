@@ -6,12 +6,12 @@ namespace TME.CarConfigurator.S3.Publisher.Extensions
 {
     public static class EquipmentItemExtensions
     {
-        public static IOrderedEnumerable<T> OrderEquipment<T>(this IEnumerable<T> baseObjects)
+        public static IOrderedEnumerable<T> OrderEquipment<T>(this IEnumerable<T> equipmentItems)
             where T : EquipmentItem
         {
-            return baseObjects.OrderBy(equipmentItem => equipmentItem.Category.SortIndex)
-                              .ThenBy(equipmentItem => equipmentItem.SortIndex)
-                              .ThenBy(equipmentItem => equipmentItem.Name);
+            return equipmentItems.OrderBy(equipmentItem => equipmentItem.Category.SortIndex)
+                                 .ThenBy(equipmentItem => equipmentItem.SortIndex)
+                                 .ThenBy(equipmentItem => equipmentItem.Name);
         }
 
     }
