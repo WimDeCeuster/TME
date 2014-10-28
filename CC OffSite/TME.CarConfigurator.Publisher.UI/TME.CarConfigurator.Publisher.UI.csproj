@@ -91,11 +91,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bootstrapper\AppBootstrapper.cs" />
-    <Compile Include="DI\Facades\S3PublisherFacade.cs" />
-    <Compile Include="DI\Factories\S3PublisherFactory.cs" />
-    <Compile Include="DI\Factories\S3ServiceFactory.cs" />
-    <Compile Include="DI\Interfaces\IPublisherFactory.cs" />
-    <Compile Include="DI\Interfaces\IServiceFactory.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +175,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

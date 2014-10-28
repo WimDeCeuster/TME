@@ -79,14 +79,14 @@ namespace TME.CarConfigurator.Publisher
             _packMapper = packMapper;
         }
 
-        public Task MapAsync(string brand, string country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IContext context)
+        public Task MapAsync(IContext context)
         {
-            return Task.Run(() => Map(brand, country, generationID, generationFinder, context));
+            return Task.Run(() => Map(context));
         }
 
-        private void Map(string brand, string country, Guid generationID, ICarDbModelGenerationFinder generationFinder, IContext context)
+        private void Map(IContext context)
         {
-            var data = generationFinder.GetModelGeneration(brand, country, generationID);
+            var data = GetModelGenerationForEachLanguage(context.Brand, context.Country, context.GenerationID);
             var isPreview = context.DataSubset == PublicationDataSubset.Preview;
 
             foreach (var entry in data)
@@ -96,7 +96,7 @@ namespace TME.CarConfigurator.Publisher
                 var model = entry.Value.Item2;
                 var language = entry.Key;
 
-                MyContext.SetSystemContext(brand, country, language);
+                MyContext.SetSystemContext(context.Brand, context.Country, language);
 
                 context.ModelGenerations[language] = modelGeneration;
                 context.ContextData[language] = contextData;
@@ -124,6 +124,22 @@ namespace TME.CarConfigurator.Publisher
 
                 context.TimeFrames[language] = _timeFrameMapper.GetTimeFrames(language, context);
             }
+        }
+
+        private  IEnumerable<KeyValuePair<string, Tuple<ModelGeneration, Model>>> GetModelGenerationForEachLanguage(String brand, String countryCode, Guid generationID)
+        {
+            // Is ensuring a context can be retrieved by setting to the know global context necessary?
+            MyContext.SetSystemContext("Toyota", "ZZ", "en");
+
+            var country = MyContext.GetContext().Countries.Single(ctry => ctry.Code == countryCode);
+            return country.Languages.ToDictionary(lang => lang.Code, lang =>
+            {
+                MyContext.SetSystemContext(brand, countryCode, lang.Code);
+                var generation = ModelGeneration.GetModelGeneration(generationID);
+                var model = Model.GetModel(generation.Model.ID);
+
+                return Tuple.Create(generation, model);
+            });
         }
 
         private void FillAssets(ModelGeneration modelGeneration, ContextData contextData)

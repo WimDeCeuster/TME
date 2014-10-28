@@ -2,7 +2,7 @@
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Enums;
 
-namespace TME.CarConfigurator.Publisher.UI.DI.Interfaces
+namespace TME.CarConfigurator.Publisher.DI.Interfaces
 {
     public interface IServiceFactory
     {

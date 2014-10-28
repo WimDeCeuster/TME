@@ -1,12 +1,12 @@
-﻿using Spring.Context.Support;
-using System;
+﻿using System;
+using Spring.Context.Support;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Enums;
-using TME.CarConfigurator.Publisher.UI.DI.Interfaces;
+using TME.CarConfigurator.Publisher.DI.Interfaces;
 using TME.CarConfigurator.S3.CommandServices;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
-namespace TME.CarConfigurator.Publisher.UI.DI.Factories
+namespace TME.CarConfigurator.Publisher.DI
 {
     public class S3ServiceFactory : IServiceFactory
     {
@@ -21,7 +21,7 @@ namespace TME.CarConfigurator.Publisher.UI.DI.Factories
 
         private static IService GetService(String environment, PublicationDataSubset dataSubset)
         {
-            return (IService)ContextRegistry.GetContext().GetObject(String.Format("{0}{1}S3Service", environment, dataSubset));
+            return (IService)ContextRegistry.GetContext().GetObject(String.Format((string) "{0}{1}S3Service", (object) environment, (object) dataSubset));
         }
 
         public QueryServices.IModelService GetGetModelService(String environment, PublicationDataSubset dataSubset)

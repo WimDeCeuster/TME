@@ -137,7 +137,4 @@
 
   <object name="AmazonS3Factory" type="TME.CarConfigurator.S3.Shared.Factories.AmazonS3Factory, TME.CarConfigurator.S3.Shared"></object>
   <object name="ShellViewModel" type="TME.CarConfigurator.Publisher.UI.ViewModels.ShellViewModel, TME.CarConfigurator.Publisher.UI" autowire="byType" />
-  <!--<object name="ShellViewModel" type="TME.CarConfigurator.Publisher.UI.ViewModels.ShellViewModel, TME.CarConfigurator.Publisher.UI">
-        <constructor-arg index="0" ref="PublicationService"/>
-      </object>-->
 </objects>

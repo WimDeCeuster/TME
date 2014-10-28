@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
+using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
@@ -8,22 +9,16 @@ namespace TME.CarConfigurator.Publisher
 {
     public class CarConfiguratorPublisher : ICarConfiguratorPublisher
     {
-        readonly IContextFactory _contextFactory;
-        readonly IPublisherFacadeFactory _publisherFacadeFactory;
+        readonly IPublisherFactory _publisherFactoryFacade;
         readonly IMapper _mapper;
-        readonly ICarDbModelGenerationFinder _generationFinder;
 
-        public CarConfiguratorPublisher(IContextFactory contextFactory, IPublisherFacadeFactory publisherFacadeFactory, IMapper mapper, ICarDbModelGenerationFinder generationFinder)
+        public CarConfiguratorPublisher(IPublisherFactory publisherFactoryFacade, IMapper mapper)
         {
-            if (contextFactory == null) throw new ArgumentNullException("contextFactory");
-            if (publisherFacadeFactory == null) throw new ArgumentNullException("publisherFacadeFactory");
+            if (publisherFactoryFacade == null) throw new ArgumentNullException("publisherFactoryFacade");
             if (mapper == null) throw new ArgumentNullException("mapper");
-            if (generationFinder == null) throw new ArgumentNullException("generationFinder");
 
-            _contextFactory = contextFactory;
-            _publisherFacadeFactory = publisherFacadeFactory;
+            _publisherFactoryFacade = publisherFactoryFacade;
             _mapper = mapper;
-            _generationFinder = generationFinder;
         }
 
         public async Task<Result> PublishAsync(Guid generationID, String environment, String target, String brand, String country, PublicationDataSubset dataSubset)
@@ -33,11 +28,11 @@ namespace TME.CarConfigurator.Publisher
             if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand");
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
             
-            var context = _contextFactory.Get(brand, country, generationID, dataSubset);
+            var context = new Context(brand, country, generationID, dataSubset);
 
-            await _mapper.MapAsync(brand, country, generationID, _generationFinder, context);
+            await _mapper.MapAsync(context);
 
-            var publisher = _publisherFacadeFactory.GetFacade(target).GetPublisher(environment, dataSubset);
+            var publisher = _publisherFactoryFacade.GetPublisher(target, environment, dataSubset);
 
             return await publisher.PublishAsync(context);
         }
