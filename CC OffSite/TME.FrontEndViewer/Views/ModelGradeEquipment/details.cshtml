@@ -1,26 +1,56 @@
-﻿@model IEnumerable<TME.CarConfigurator.Interfaces.Equipment.IGradeEquipmentItem>
+﻿@model TME.FrontEndViewer.Models.GradeEquipmentModel
 
-
-@foreach (var model in Model)
+<h3>Accessories</h3>
+@foreach (var model in Model.Accessories)
 {
-    <div class="object" data-id="@(model.Name)">
+    <div class="object" data-id="@(model.ID)">
         <div class="title">
             <strong>@Html.Raw(model.Name)</strong>
         </div>
         <div class="content">
-            @Html.Partial("_baseObject", model)
-            <p class="property" data-id=".PartNumber">.PartNumber : @Html.Raw(model.PartNumber)</p>
-            <p class="property" data-id="InternalName">InternalName : @Html.Raw(model.InternalName)</p>
-            <p class="property" data-id="Brochure">Brochure : @Html.Raw(model.Brochure)</p>
-            <p class="property" data-id="KeyFeature">KeyFeature : @Html.Raw(model.KeyFeature)</p>
-            <p class="property" data-id="GradeFeature">GradeFeature : @Html.Raw(model.GradeFeature)</p>
-            <p class="property" data-id="OptionalGradeFeature">OptionalGradeFeature : @Html.Raw(model.OptionalGradeFeature)</p>
-            <p class="property" data-id="Path">Path : @Html.Raw(model.Path)</p>
-            @*<p class="property" data-id="Visibility">Visibility : @Html.Raw(model.Visibility.ToString("g"))</p>*@
-            @*<p class="property" data-id="BestVisibleInMode">BestVisibleIn.Mode : @Html.Raw(model.BestVisibleIn.Mode)</p>
-            <p class="property" data-id="BestVisibleInView">BestVisibleIn.View : @Html.Raw(model.BestVisibleIn.View)</p>
-            <p class="property" data-id="BestVisibleInAngle">BestVisibleIn.Angle : @Html.Raw(model.BestVisibleIn.Angle)</p>*@
-            @Html.Partial("_availabilityCompare", model)
+            @Html.Partial("Equipment/_gradeEquipmentItem", model)
+        </div>
+    </div>
+}
+
+<h3>Options</h3>
+@foreach (var model in Model.Options)
+{
+    <div class="object" data-id="@(model.ID)">
+        <div class="title">
+            <strong>@Html.Raw(model.Name)</strong>
+        </div>
+        <div class="content">
+            <p class="property allow-mismatch" data-id="TechnologyItem">TechnologyItem : @Html.Raw(model.TechnologyItem)</p>
+            @Html.Partial("Equipment/_gradeEquipmentItem", model)
+            @if(model.ParentOption != null)
+            { 
+                <div class="object" data-id="@(model.ID)">
+                    <div class="title">
+                        <strong>@Html.Raw(model.Name)</strong>
+                    </div>
+                    <div class="content">
+                        @Html.Partial("Equipment/_optionInfo", model.ParentOption)
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p class="property" data-id="ParentOption">ParentOption : @Html.Raw(model.ParentOption)</p>
+            }
+        </div>
+    </div>
+}
+
+<h3>Rest</h3>
+@foreach (var model in Model.Rest)
+{
+    <div class="object" data-id="@(model.ID)">
+        <div class="title">
+            <strong>@Html.Raw(model.Name)</strong>
+        </div>
+        <div class="content">
+            @Html.Partial("Equipment/_gradeEquipmentItem", model)
         </div>
     </div>
 }

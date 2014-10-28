@@ -1,0 +1,36 @@
+﻿@model TME.CarConfigurator.Interfaces.Equipment.IEquipmentItem
+@Html.Partial("_baseObject", Model)
+<p class="property" data-id="PartNumber">PartNumber : @Html.Raw(Model.PartNumber)</p>
+<p class="property" data-id="InternalName">InternalName : @Html.Raw(Model.InternalName)</p>
+<p class="property" data-id="Brochure">Brochure : @Html.Raw(Model.Brochure)</p>
+<p class="property" data-id="KeyFeature">KeyFeature : @Html.Raw(Model.KeyFeature)</p>
+<p class="property" data-id="GradeFeature">GradeFeature : @Html.Raw(Model.GradeFeature)</p>
+<p class="property" data-id="OptionalGradeFeature">OptionalGradeFeature : @Html.Raw(Model.OptionalGradeFeature)</p>
+<p class="property" data-id="Path">Path : @Html.Raw(Model.Path)</p>
+<p class="property" data-id="Visibility">Visibility : @Html.Raw(Model.Visibility.ToString("g"))</p>
+<div class="object sub-item" data-id="@Html.Raw(Model.Category.ID)">
+    <div class="title">
+        <strong>Category</strong>
+    </div>
+    <div class="content">
+        @Html.Partial("Equipment/_category", Model.Category)
+    </div>
+</div>
+@if (Model.ExteriorColour != null)
+{ 
+    <div class="object sub-item" data-id="@Html.Raw(Model.ExteriorColour.ID)">
+        <div class="title">
+            <strong>ExteriorColour</strong>
+        </div>
+        <div class="content">
+            @Html.Partial("Colours/_exteriorColour", Model.ExteriorColour)
+        </div>
+    </div>
+}
+else
+{
+    <p class="property" data-id="ExteriorColour">ExteriorColour : @Html.Raw(Model.ExteriorColour)</p>
+}
+@*<p class="property" data-id="BestVisibleInMode">BestVisibleIn.Mode : @Html.Raw(Model.BestVisibleIn.Mode)</p>
+    <p class="property" data-id="BestVisibleInView">BestVisibleIn.View : @Html.Raw(Model.BestVisibleIn.View)</p>
+    <p class="property" data-id="BestVisibleInAngle">BestVisibleIn.Angle : @Html.Raw(Model.BestVisibleIn.Angle)</p>*@

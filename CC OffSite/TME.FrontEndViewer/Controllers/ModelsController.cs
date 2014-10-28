@@ -31,7 +31,7 @@ namespace TME.FrontEndViewer.Controllers
 
 
             var oldContext = MyContext.NewContext(context.Brand, context.Country, context.Language);
-            var model = new CompareView<IModel>
+            var model = new CompareView<IReadOnlyList<IModel>>
             {
                OldReaderModel = GetOldReaderModelWithMetrics(oldContext),
                NewReaderModel = GetNewReaderModelWithMetrics(context)
@@ -42,7 +42,7 @@ namespace TME.FrontEndViewer.Controllers
 
 
 
-        private static ModelWithMetrics<IModel> GetOldReaderModelWithMetrics(MyContext oldContext)
+        private static ModelWithMetrics<IReadOnlyList<IModel>> GetOldReaderModelWithMetrics(MyContext oldContext)
         {
             var start = DateTime.Now;
             var list = TMME.CarConfigurator.Models.GetModels(oldContext)
@@ -51,18 +51,18 @@ namespace TME.FrontEndViewer.Controllers
                 .Cast<IModel>()
                 .ToList();
 
-            return  new ModelWithMetrics<IModel>()
+            return  new ModelWithMetrics<IReadOnlyList<IModel>>()
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
         }
-        private static ModelWithMetrics<IModel> GetNewReaderModelWithMetrics(Context context)
+        private static ModelWithMetrics<IReadOnlyList<IModel>> GetNewReaderModelWithMetrics(Context context)
         {
             var start = DateTime.Now;
             var list = CarConfigurator.DI.Models.GetModels(context).ToList();
 
-            return new ModelWithMetrics<IModel>()
+            return new ModelWithMetrics<IReadOnlyList<IModel>>()
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)

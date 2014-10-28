@@ -14,7 +14,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
     {
         public Visibility MapVisibility(ItemVisibility visibility)
         {
-            //return (Visibility)visibility;
             if ((visibility & ~ItemVisibility.Website & ~ItemVisibility.CarConfigurator & ~ItemVisibility.Brochure & ~ItemVisibility.None) != 0)
                 throw new UnrecognisedItemVisibilityException(visibility);
 

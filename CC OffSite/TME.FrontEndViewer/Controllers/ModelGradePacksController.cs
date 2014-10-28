@@ -18,7 +18,7 @@ namespace TME.FrontEndViewer.Controllers
             var context = (Context)Session["context"];
             var oldContext = MyContext.NewContext(context.Brand, context.Country, context.Language);
 
-            var model = new CompareView<IGradePack>
+            var model = new CompareView<IReadOnlyList<IGradePack>>
             {
                 OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, gradeID, subModelID),
                 NewReaderModel = GetNewReaderModelWithMetrics(context, modelID, gradeID, subModelID)
@@ -27,25 +27,25 @@ namespace TME.FrontEndViewer.Controllers
             return View(model);
         }
 
-        private static ModelWithMetrics<IGradePack> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid gradeID, Guid? subModelID)
+        private static ModelWithMetrics<IReadOnlyList<IGradePack>> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid gradeID, Guid? subModelID)
         {
             var start = DateTime.Now;
             var model = new CarConfigurator.LegacyAdapter.Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID));
             var list = GetList(model, gradeID, subModelID);
 
-            return new ModelWithMetrics<IGradePack>()
+            return new ModelWithMetrics<IReadOnlyList<IGradePack>>()
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
         }
-        private static ModelWithMetrics<IGradePack> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid gradeID, Guid? subModelID)
+        private static ModelWithMetrics<IReadOnlyList<IGradePack>> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid gradeID, Guid? subModelID)
         {
             var start = DateTime.Now;
             var model = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID);
             var list = GetList(model, gradeID, subModelID);
 
-            return new ModelWithMetrics<IGradePack>()
+            return new ModelWithMetrics<IReadOnlyList<IGradePack>>()
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)

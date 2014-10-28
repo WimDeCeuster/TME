@@ -101,7 +101,7 @@ namespace TME.CarConfigurator.Publisher
                 contextData.Generations.Add(generation);
                 contextData.Models.Add(_modelMapper.MapModel(model));
 
-                var cars = modelGeneration.Cars.Where(car => isPreview || car.Approved).ToList();
+                var cars = modelGeneration.Cars.Where(car => isPreview ? car.Preview : car.Approved).ToList();
                 FillAssets(modelGeneration, contextData);
                 FillBodyTypes(cars, modelGeneration, contextData);
                 FillEngines(cars, modelGeneration, contextData);
@@ -307,7 +307,7 @@ namespace TME.CarConfigurator.Publisher
             }
         }
 
-        void FillGradeEquipment(IEnumerable<Car> cars, ModelGeneration modelGeneration, ContextData data, Boolean isPreview)
+        void FillGradeEquipment(IReadOnlyList<Car> cars, ModelGeneration modelGeneration, ContextData data, Boolean isPreview)
         {
             var grades = modelGeneration.Grades.Where(grade => cars.Any(car => car.GradeID == grade.ID)).ToArray();
             var crossModelAccessories = EquipmentItems.GetEquipmentItems(Administration.Enums.EquipmentType.Accessory);
@@ -316,23 +316,29 @@ namespace TME.CarConfigurator.Publisher
 
             foreach (var grade in grades)
             {
+                var gradeCars = cars.Where(car => car.GradeID == grade.ID).ToList();
+
                 var accessories = grade.Equipment.OfType<ModelGenerationGradeAccessory>()
+                                                 .Where(accessory => gradeCars.Any(car => car.Equipment[accessory.ID] != null && car.Equipment[accessory.ID].Availability != Administration.Enums.Availability.NotAvailable))
                                                  .Select(accessory =>
                                                      _equipmentMapper.MapGradeAccessory(
                                                         accessory,
                                                         (Administration.ModelGenerationAccessory)modelGeneration.Equipment[accessory.ID],
                                                         (Administration.Accessory)crossModelAccessories[accessory.ID],
                                                         categories,
+                                                        gradeCars,
                                                         isPreview));
 
                 var options = grade.Equipment.OfType<ModelGenerationGradeOption>()
-                                                                 .Select(option =>
-                                                                     _equipmentMapper.MapGradeOption(
-                                                                        option,
-                                                                        (Administration.ModelGenerationOption)modelGeneration.Equipment[option.ID],
-                                                                        (Administration.Option)crossModelOptions[option.ID],
-                                                                        categories,
-                                                                        isPreview));
+                                             .Where(option => gradeCars.Any(car => car.Equipment[option.ID] != null && car.Equipment[option.ID].Availability != Administration.Enums.Availability.NotAvailable))
+                                             .Select(option =>
+                                                 _equipmentMapper.MapGradeOption(
+                                                 option,
+                                                 (Administration.ModelGenerationOption)modelGeneration.Equipment[option.ID],
+                                                 (Administration.Option)crossModelOptions[option.ID],
+                                                 categories,
+                                                 gradeCars,
+                                                 isPreview));
 
                 data.GradeEquipments.Add(grade.ID, new GradeEquipment
                 {

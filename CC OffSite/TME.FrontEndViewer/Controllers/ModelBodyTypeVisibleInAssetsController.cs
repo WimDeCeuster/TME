@@ -20,7 +20,7 @@ namespace TME.FrontEndViewer.Controllers
             var context = (Context)Session["context"];
             var oldContext = MyContext.NewContext(context.Brand, context.Country, context.Language);
 
-            var model = new CompareView<IAsset>
+            var model = new CompareView<IReadOnlyList<IAsset>>
             {
                 OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, bodyTypeID, carID, mode, view),
                 NewReaderModel = GetNewReaderModelWithMetrics(context, modelID, bodyTypeID, carID, mode, view)
@@ -29,13 +29,13 @@ namespace TME.FrontEndViewer.Controllers
             return View("Assets/Index",model);
         }
 
-        private static ModelWithMetrics<IAsset> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid? bodyTypeID, Guid? carID, string mode, string view)
+        private static ModelWithMetrics<IReadOnlyList<IAsset>> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid? bodyTypeID, Guid? carID, string mode, string view)
         {
             var start = DateTime.Now;
             var model = new CarConfigurator.LegacyAdapter.Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID));
             var list = GetList(model, bodyTypeID, carID, mode, view);
 
-            return new ModelWithMetrics<IAsset>
+            return new ModelWithMetrics<IReadOnlyList<IAsset>>
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)
@@ -44,13 +44,13 @@ namespace TME.FrontEndViewer.Controllers
 
 
 
-        private static ModelWithMetrics<IAsset> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid? bodyTypeID, Guid? carID, string mode, string view)
+        private static ModelWithMetrics<IReadOnlyList<IAsset>> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid? bodyTypeID, Guid? carID, string mode, string view)
         {
             var start = DateTime.Now;
             var model = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID);
             var list = GetList(model, bodyTypeID, carID, mode, view);
             
-            return new ModelWithMetrics<IAsset>
+            return new ModelWithMetrics<IReadOnlyList<IAsset>>
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)

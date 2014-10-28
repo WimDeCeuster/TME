@@ -38,6 +38,19 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return _baseMapper.MapTranslateableDefaults(mappedColour, colour, colour.Name);
         }
 
+        public ExteriorColour MapExteriorColour(Administration.ExteriorColour colour, string colourFilePath)
+        {
+            var mappedColour = new ExteriorColour
+            {
+                Transformation = GetColourTransformation(colourFilePath, colour.Code),
+                InternalCode = colour.Code,
+                LocalCode = String.Empty,
+                SortIndex = 0
+            };
+
+            return _baseMapper.MapTranslateableDefaults(mappedColour, colour, colour.Name);
+        }
+
         ColourTransformation GetColourTransformation(string colourFilePath, string colourCode)
         {
             var fileContent = _assetFileService.GetFileContent(colourFilePath);
@@ -45,6 +58,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var xml = XDocument.Parse(fileContent);
 
             var item = xml.Root.Elements("item").FirstOrDefault(el => el.Attribute("name").Value.Equals(colourCode, StringComparison.InvariantCultureIgnoreCase));
+
+            if (item == null)
+                return new ColourTransformation();
 
             /*
              <colours method="rgb" model="AYGO">
@@ -60,14 +76,21 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             var invariantCulture = CultureInfo.GetCultureInfo(String.Empty);
 
+            var alphaItem = item.Element("alpha");
+            var brightnessItem = item.Element("brightness");
+            var contrastItem = item.Element("contrast");
+            var hueItem = item.Element("hue");
+            var rgbItem = item.Element("rgb");
+            var saturationItem = item.Element("saturation");
+
             return new ColourTransformation
             {
-                Alpha = Decimal.Parse(item.Element("alpha").Value, invariantCulture),
-                Brightness = Decimal.Parse(item.Element("brightness").Value, invariantCulture),
-                Contrast = Decimal.Parse(item.Element("contrast").Value, invariantCulture),
-                Hue = 0,
-                RGB = item.Element("rgb").Value,
-                Saturation = Decimal.Parse(item.Element("saturation").Value, invariantCulture)
+                Alpha = alphaItem == null ? 0 : Decimal.Parse(alphaItem.Value, invariantCulture),
+                Brightness = brightnessItem == null ? 0 : Decimal.Parse(brightnessItem.Value, invariantCulture),
+                Contrast = contrastItem == null ? 0 : Decimal.Parse(contrastItem.Value, invariantCulture),
+                Hue = hueItem == null ? 0 : Decimal.Parse(hueItem.Value, invariantCulture),
+                RGB = rgbItem == null ? String.Empty : rgbItem.Value,
+                Saturation = saturationItem == null ? 0 : Decimal.Parse(saturationItem.Value, invariantCulture)
             };
         }
     }
