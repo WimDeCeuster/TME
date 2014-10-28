@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects.Colours;
+using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
@@ -35,7 +37,19 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 SortIndex = 0
             };
 
-            return _baseMapper.MapTranslateableDefaults(mappedColour, colour, colour.Name);
+            return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
+        }
+
+        public ExteriorColour MapColourCombination(ModelGenerationExteriorColour exteriorColour)
+        {
+            var mappedColour = new ExteriorColour()
+            {
+                InternalCode = exteriorColour.Code,
+                LocalCode = String.Empty,
+                SortIndex = 0
+            };
+
+            return _baseMapper.MapTranslateableDefaults(mappedColour, exteriorColour);
         }
 
         public ExteriorColour MapExteriorColour(Administration.ExteriorColour colour, string colourFilePath)
@@ -48,7 +62,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 SortIndex = 0
             };
 
-            return _baseMapper.MapTranslateableDefaults(mappedColour, colour, colour.Name);
+            return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
         }
 
         ColourTransformation GetColourTransformation(string colourFilePath, string colourCode)

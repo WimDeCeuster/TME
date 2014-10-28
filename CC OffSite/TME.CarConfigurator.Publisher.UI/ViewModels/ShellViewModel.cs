@@ -24,11 +24,11 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
         public ShellViewModel()
         {
-            Environments = new[] { "Development", "Production" };
+            Environments = new[] { "Development", "Acceptance", "Production" };
             SelectedEnvironment = Environments.First();
         }
 
-        public ICarConfiguratorPublisher PublicationService
+        public ICarConfiguratorPublisher CarConfiguratorPublisher
         {
             get { return _carConfiguratorPublisher; }
             set { _carConfiguratorPublisher = value; }
@@ -140,7 +140,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
             IsPublishing = true;
 
-            var result = await PublicationService.PublishAsync(SelectedGeneration.ID, SelectedEnvironment, Target, Brand, Country, publicationDataSubset);
+            var result = await CarConfiguratorPublisher.PublishAsync(SelectedGeneration.ID, SelectedEnvironment, Target, Brand, Country, publicationDataSubset);
 
             IsPublishing = false;
 

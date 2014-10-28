@@ -26,7 +26,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Publications = new List<PublicationInfo>()
             };
 
-            return _baseMapper.MapDefaultsWithSort(mappedModel, model, model, model.Name);
+            return _baseMapper.MapDefaultsWithSort(mappedModel, model, model);
         }
     }
 }

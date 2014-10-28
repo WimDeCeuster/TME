@@ -43,6 +43,7 @@
     <Compile Include="IBodyTypeService.cs" />
     <Compile Include="ICarService.cs" />
     <Compile Include="IGradeEquipmentService.cs" />
+    <Compile Include="IGradePackService.cs" />
     <Compile Include="ISteeringService.cs" />
     <Compile Include="IGradeService.cs" />
     <Compile Include="ISubModelService.cs" />

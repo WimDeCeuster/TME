@@ -1,4 +1,7 @@
-﻿using TME.CarConfigurator.Interfaces.Colours;
+﻿using System.Collections.Generic;
+using TME.CarConfigurator.Interfaces.Assets;
+using TME.CarConfigurator.Interfaces.Colours;
+using TME.CarConfigurator.LegacyAdapter.Extensions;
 
 namespace TME.CarConfigurator.LegacyAdapter.Colours
 {
@@ -19,9 +22,24 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
         }
         #endregion
 
+        public bool Promoted
+        {
+            get { return Adaptee.IsPromoted; }
+        }
+
         public IColourTransformation Transformation
         {
             get { return new ColourTransformation(Adaptee.Transformation);}
+        }
+
+        public IExteriorColourType Type
+        {
+            get { return new ExteriorColourType(Adaptee.Type); }
+        }
+
+        public IEnumerable<IAsset> Assets
+        {
+            get { return Adaptee.Assets.GetPlainAssets(); }
         }
     }
 }

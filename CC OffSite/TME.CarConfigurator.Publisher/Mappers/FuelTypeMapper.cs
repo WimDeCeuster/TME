@@ -27,7 +27,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 SortIndex = 0
             };
 
-            return _baseMapper.MapDefaults(mappedFuelType, fuelType, fuelType, fuelType.Name);
+            return _baseMapper.MapDefaults(mappedFuelType, fuelType, fuelType);
         }
     }
 }

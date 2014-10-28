@@ -1,9 +1,5 @@
 ﻿using FakeItEasy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.QueryServices;
@@ -25,11 +21,19 @@ namespace TME.Carconfigurator.Tests.Builders
         private IAssetPublisher _assetPublisher = A.Fake<IAssetPublisher>();
         private ISubModelPublisher _subModelPublisher = A.Fake<ISubModelPublisher>();
         private IGradeEquipmentPublisher _gradeEquipmentPublisher = A.Fake<IGradeEquipmentPublisher>();
+        private IColourCombinationPublisher _colourCombinationPublisher = A.Fake<IColourCombinationPublisher>();
+        private IGradePackPublisher _gradePackPublisher = A.Fake<IGradePackPublisher>();
 
         public PublisherBuilder WithPublicationPublisher(IPublicationPublisher publicationPublisher)
         {
             _publicationPublisher = publicationPublisher;
 
+            return this;
+        }
+
+        public PublisherBuilder WithColourCombinationPublisher(IColourCombinationPublisher colourCombinationPublisher)
+        {
+            _colourCombinationPublisher = colourCombinationPublisher;
             return this;
         }
 
@@ -132,7 +136,16 @@ namespace TME.Carconfigurator.Tests.Builders
                 _carPublisher,
                 _assetPublisher,
                 _subModelPublisher,
-                _gradeEquipmentPublisher);
+                _gradeEquipmentPublisher,
+                _gradePackPublisher, 
+                _colourCombinationPublisher);
+        }
+
+        public PublisherBuilder WithGradePackPublisher(IGradePackPublisher gradePackPublisher)
+        {
+            _gradePackPublisher = gradePackPublisher;
+
+            return this;
         }
     }
 }

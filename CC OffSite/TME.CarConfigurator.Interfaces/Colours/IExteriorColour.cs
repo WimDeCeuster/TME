@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
 
 namespace TME.CarConfigurator.Interfaces.Colours
 {
     public interface IExteriorColour : IBaseObject
     {
+        bool Promoted { get; }
         IColourTransformation Transformation { get; }
+        IExteriorColourType Type { get; }
+
+        IEnumerable<IAsset> Assets { get; }
     }
 }

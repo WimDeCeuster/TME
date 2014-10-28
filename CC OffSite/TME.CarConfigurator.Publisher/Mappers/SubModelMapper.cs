@@ -8,6 +8,7 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
+using TME.CarConfigurator.Repository.Objects.Equipment;
 using Link = TME.CarConfigurator.Repository.Objects.Link;
 
 namespace TME.CarConfigurator.Publisher.Mappers
@@ -17,19 +18,19 @@ namespace TME.CarConfigurator.Publisher.Mappers
         private readonly IBaseMapper _baseMapper;
         private readonly IAssetMapper _assetMapper;
         private readonly ILinkMapper _linkMapper;
-        private readonly IGradeMapper _gradeMapper;
+        private readonly IEquipmentMapper _equipmentMapper;
 
-        public SubModelMapper(IBaseMapper baseMapper, IAssetMapper assetMapper, ILinkMapper linkMapper,IGradeMapper gradeMapper)
+        public SubModelMapper(IBaseMapper baseMapper, IAssetMapper assetMapper, ILinkMapper linkMapper,IEquipmentMapper equipmentMapper)
         {
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
             if (assetMapper == null) throw new ArgumentNullException("assetMapper");
             if (linkMapper == null) throw new ArgumentNullException("linkMapper");
-            if (gradeMapper == null) throw new ArgumentNullException("gradeMapper");
+            if (equipmentMapper == null) throw new ArgumentNullException("equipmentMapper");
 
             _baseMapper = baseMapper;
             _assetMapper = assetMapper;
             _linkMapper = linkMapper;
-            _gradeMapper = gradeMapper;
+            _equipmentMapper = equipmentMapper;
         }
 
         public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
@@ -45,13 +46,31 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 },
                 Assets = GetMappedAssetsForSubModel(modelGenerationSubModel),
                 Links = GetMappedLinksForSubModel(modelGenerationSubModel, isPreview),
-                Grades = GetSubModelGrades(modelGenerationSubModel, contextData)
+                Grades = GetSubModelGrades(modelGenerationSubModel, contextData),
             };
 
-            return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel, modelGenerationSubModel, modelGenerationSubModel.Name);
+            return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel, modelGenerationSubModel);
         }
 
-        private List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+/*        private static GradeEquipment GetSubModelEquipment(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+        {
+            var accesories =  contextData.GradeEquipments.Values.SelectMany(equipment => equipment.Accessories)
+                .ToList()
+                .Where(
+                    accessory => 
+                        modelGenerationSubModel.Equipment.Any(generationSubModelEquipmentItem => generationSubModelEquipmentItem.ID == accessory.ID));
+            
+            var options = contextData.GradeEquipments.Values.SelectMany(equipment => equipment.Options)
+                    .ToList()
+                    .Where(
+                        option =>
+                            modelGenerationSubModel.Equipment.Any(
+                                generationSubModelEquipmentItem => generationSubModelEquipmentItem.ID == option.ID));
+
+            return new GradeEquipment(){Accessories = accesories,Options = options};
+        }*/
+
+        private static List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
         {
             return contextData.Grades
                 .Where(contextGrade => modelGenerationSubModel.Cars()

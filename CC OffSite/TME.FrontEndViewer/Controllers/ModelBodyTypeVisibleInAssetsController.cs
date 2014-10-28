@@ -19,6 +19,7 @@ namespace TME.FrontEndViewer.Controllers
 
             var context = (Context)Session["context"];
             var oldContext = MyContext.NewContext(context.Brand, context.Country, context.Language);
+            if (string.IsNullOrEmpty(mode)) mode = string.Empty;
 
             var model = new CompareView<IReadOnlyList<IAsset>>
             {
@@ -62,7 +63,7 @@ namespace TME.FrontEndViewer.Controllers
                 ? model.BodyTypes.First(x => x.ID == bodyTypeID.Value)
                 : model.Cars.First(x => x.ID == carID.Value).BodyType);
 
-            var visibleIn = bodyType.VisibleIn.FirstOrDefault(x => (string.IsNullOrEmpty(mode) || x.Mode == mode) && x.View == view);
+            var visibleIn = bodyType.VisibleIn.FirstOrDefault(x => x.Mode == mode && x.View == view);
             var list = visibleIn == null
                 ? new List<IAsset>()
                 : visibleIn.Assets.ToList();

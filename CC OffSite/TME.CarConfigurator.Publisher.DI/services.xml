@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+  <object name="DevelopmentLiveS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
+    <constructor-arg name="bucketNameTemplate" value="development-live-cardb-{brand}-{country}" />
+    <constructor-arg name="accessKey" value="private" />
+    <constructor-arg name="secretKey" value="private" />
+    <constructor-arg ref="AmazonS3Factory" />
+  </object>
+  <object name="DevelopmentPreviewS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
+    <constructor-arg name="bucketNameTemplate" value="development-preview-cardb-{brand}-{country}" />
+    <constructor-arg name="accessKey" value="private" />
+    <constructor-arg name="secretKey" value="private" />
+    <constructor-arg ref="AmazonS3Factory" />
+  </object>
+  <object name="ProductionLiveS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
+    <constructor-arg name="bucketNameTemplate" value="production-live-cardb-{brand}-{country}" />
+    <constructor-arg name="accessKey" value="private" />
+    <constructor-arg name="secretKey" value="private" />
+    <constructor-arg ref="AmazonS3Factory" />
+  </object>
+  <object name="ProductionPreviewS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
+    <constructor-arg name="bucketNameTemplate" value="production-preview-cardb-{brand}-{country}" />
+    <constructor-arg name="accessKey" value="private" />
+    <constructor-arg name="secretKey" value="private" />
+    <constructor-arg ref="AmazonS3Factory" />
+  </object>
+</objects>

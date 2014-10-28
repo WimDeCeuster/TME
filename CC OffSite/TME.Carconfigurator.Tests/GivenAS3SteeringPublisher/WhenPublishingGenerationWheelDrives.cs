@@ -109,7 +109,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3SteeringPublisher
 
         protected override void Act()
         {
-            var result = _publisher.PublishGenerationSteerings(_context).Result;
+            var result = _publisher.PublishGenerationSteeringsAsync(_context).Result;
         }
 
         [Fact]

@@ -86,9 +86,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\PublicationTestBase.cs" />
     <Compile Include="Builders\AssetTypeBuilder.cs" />
+    <Compile Include="Builders\ColourCombinationPublisherBuilder.cs" />
     <Compile Include="Builders\GradeEquipmentPublisherBuilder.cs" />
+    <Compile Include="Builders\GradePacksPublisherBuilder.cs" />
     <Compile Include="Builders\GradePublisherBuilder.cs" />
     <Compile Include="Builders\TransmissionPublisherBuilder.cs" />
     <Compile Include="Builders\WheelDrivePublisherBuilder.cs" />
@@ -105,13 +106,15 @@
     <Compile Include="GivenAKeyManager\WhenRequestingACarAssetsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarAssetsKeyWithoutMode.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarsKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingAColourCombinationsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAGradeEquipmentKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingAGradePacksKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAModelsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAnAssetsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAnAssetsKeyWithoutMode.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASteeringsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAGradesKey.cs" />
-    <Compile Include="GivenAKeyManager\WhenRequestingASubModelKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingASubModelsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAWheelDrivesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingATransmissionsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAnEnginesKey.cs" />
@@ -124,7 +127,9 @@
     <Compile Include="GivenAS3AssetPublisher\WhenPublishingCarAssets.cs" />
     <Compile Include="GivenAS3AssetPublisher\WhenPublishingTransmissionAssetsForAModelGeneration.cs" />
     <Compile Include="GivenAS3BodyTypePublisher\WhenPublishingGenerationBodyTypes.cs" />
+    <Compile Include="GivenAS3ColourCombinationPublisher\WhenPublishingGenerationColourCombinations.cs" />
     <Compile Include="GivenAS3GradeEquipmentPublisher\WhenPublishingGradeEquipments.cs" />
+    <Compile Include="GivenAS3GradePackPublisher\WhenPublishingGradePacks.cs" />
     <Compile Include="GivenAS3SteeringPublisher\WhenPublishingGenerationWheelDrives.cs" />
     <Compile Include="GivenAS3GradePublisher\WhenPublishingGenerationGrades.cs" />
     <Compile Include="GivenAS3SubModelPublisher\WhenPublishingASubModel.cs" />

@@ -26,7 +26,7 @@ namespace TME.CarConfigurator.S3.Publisher
             _timeFramePublishHelper = timeFramePublishHelper;
         }
 
-        public async Task<IEnumerable<Result>> PublishGenerationCars(IContext context)
+        public async Task<IEnumerable<Result>> PublishGenerationCarsAsync(IContext context)
         {
             if (context == null) throw new ArgumentNullException("context");
 

@@ -7,6 +7,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface ICarPublisher
     {
-        Task<IEnumerable<Result>> PublishGenerationCars(IContext context);
+        Task<IEnumerable<Result>> PublishGenerationCarsAsync(IContext context);
     }
 }
