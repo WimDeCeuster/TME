@@ -148,6 +148,7 @@
     <Compile Include="Mappers\LinkMapper.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Mappers\ModelMapper.cs" />
+    <Compile Include="Mappers\PackMapper.cs" />
     <Compile Include="Mappers\SteeringMapper.cs" />
     <Compile Include="Mappers\GradeMapper.cs" />
     <Compile Include="Mappers\SubModelMapper.cs" />

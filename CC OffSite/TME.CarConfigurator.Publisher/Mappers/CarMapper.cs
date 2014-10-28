@@ -2,6 +2,7 @@
 using System.Linq;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Exceptions;
+using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
 
@@ -66,6 +67,18 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
 
             return _baseMapper.MapDefaults(mappedCar, car, car, car.Name);
+        }
+
+        public CarInfo MapCarInfo(Administration.Car car)
+        {
+            if (car.ShortID == null)
+                throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.ID));
+
+            return new CarInfo
+            {
+                Name = car.Translation.Name.DefaultIfEmpty(car.Name),
+                ShortID = car.ShortID.Value
+            };
         }
     }
 }

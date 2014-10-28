@@ -358,10 +358,11 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var grade in grades)
             {
+                var gradeCars = grade.Cars().ToList();
                 var gradePacks = grade.Packs;
                 var generationPacks = grade.Generation.Packs;
 
-                var mappedGradePacks = gradePacks.Select(gp => _packMapper.MapGradePack(gp, generationPacks[gp.ID])).ToList();
+                var mappedGradePacks = gradePacks.Select(gradePack => _packMapper.MapGradePack(gradePack, generationPacks[gradePack.ID], gradeCars)).ToList();
 
                 contextData.GradePacks.Add(grade.ID, mappedGradePacks);
             }
