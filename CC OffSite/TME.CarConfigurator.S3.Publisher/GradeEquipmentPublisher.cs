@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
-using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Common.Result;
 using TME.CarConfigurator.Publisher.Interfaces;

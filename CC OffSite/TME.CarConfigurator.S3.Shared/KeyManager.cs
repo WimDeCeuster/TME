@@ -72,12 +72,17 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetGradeAccessoriesKey(Guid publicationID, Guid timeFrameID, Guid gradeID)
         {
-            return string.Format("{0}/grade-accessories", GetGradeKey(publicationID, timeFrameID, gradeID));
+            return string.Format("{0}/accessories", GetGradeKey(publicationID, timeFrameID, gradeID));
         }
 
         public string GetGradeEquipmentsKey(Guid publicationID, Guid timeFrameID, Guid gradeID)
         {
-            return string.Format("{0}/grade-equipment", GetGradeKey(publicationID, timeFrameID, gradeID));
+            return string.Format("{0}/equipment", GetGradeKey(publicationID, timeFrameID, gradeID));
+        }
+
+        public string GetGradePacksKey(Guid publicationID, Guid timeFrameID, Guid gradeID)
+        {
+            return string.Format("{0}/packs", GetGradeKey(publicationID, timeFrameID, gradeID));
         }
 
         private string GetCarKey(Guid publicationID, Guid carID)

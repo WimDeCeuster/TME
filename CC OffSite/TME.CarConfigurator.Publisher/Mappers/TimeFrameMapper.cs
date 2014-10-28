@@ -12,6 +12,7 @@ using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
 using TME.CarConfigurator.Repository.Objects.Equipment;
+using TME.CarConfigurator.Repository.Objects.Packs;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
@@ -93,6 +94,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                         contextData.Steerings.ToList(),
                         contextData.Grades.ToList(),
                         contextData.GradeEquipment.ToDictionary(),
+                        contextData.GradePacks.ToDictionary(),
                         contextData.SubModels.ToList());
         }
 
@@ -107,6 +109,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var grades = contextData.Grades.Where(GradeIsPresentOn(timeFrameCars)).ToList();
             var subModels = contextData.SubModels.Where(SubModelIsPresentOn(timeFrameCars)).ToList();
             var gradeEquipments = FilterGradeEquipments(contextData.GradeEquipment, timeFrameCars);
+            var gradePacks = FilterGradePacks(contextData.GradePacks, timeFrameCars);
 
             return new TimeFrame(
                 openDate,
@@ -119,7 +122,22 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 steerings,
                 grades,
                 gradeEquipments,
+                gradePacks,
                 subModels);
+        }
+
+        private static IReadOnlyDictionary<Guid, IList<GradePack>> FilterGradePacks(IEnumerable<KeyValuePair<Guid, IList<GradePack>>> gradePacks, IEnumerable<Administration.Car> cars)
+        {
+            return gradePacks
+                .Where(entry => cars.Any(c => c.GradeID == entry.Key))
+                .ToDictionary(entry => entry.Key, entry => GetFilteredGradePacks(entry.Value, cars));
+        }
+
+        private static IList<GradePack> GetFilteredGradePacks(IEnumerable<GradePack> gradePacks, IEnumerable<Administration.Car> cars)
+        {
+            return gradePacks
+                .Where(gradePack => cars.Any(c => c.Packs[gradePack.ID] != null))
+                .ToList();
         }
 
         static IReadOnlyList<T> FilterGradeEquipmentItems<T>(IEnumerable<T> gradeEquipmentItems, IEnumerable<Administration.Car> cars)

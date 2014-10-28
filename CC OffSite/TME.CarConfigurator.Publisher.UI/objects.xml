@@ -16,9 +16,14 @@
     <constructor-arg ref="CarMapper" />
     <constructor-arg ref="AssetMapper" />
     <constructor-arg ref="EquipmentMapper" />
+    <constructor-arg ref="PackMapper" />
   </object>
   <object name="ModelMapper" type="TME.CarConfigurator.Publisher.Mappers.ModelMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />
+  </object>
+  <object name="PackMapper" type="TME.CarConfigurator.Publisher.Mappers.PackMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="BaseMapper" />
+    <constructor-arg ref="CarMapper" />
   </object>
   <object name="GenerationMapper" type="TME.CarConfigurator.Publisher.Mappers.GenerationMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="AssetMapper" />

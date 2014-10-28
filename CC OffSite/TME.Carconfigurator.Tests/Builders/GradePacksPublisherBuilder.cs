@@ -6,21 +6,21 @@ using TME.CarConfigurator.S3.Publisher.Interfaces;
 
 namespace TME.Carconfigurator.Tests.Builders
 {
-    public class GradeEquipmentPublisherBuilder
+    public class GradePacksPublisherBuilder
     {
-        private IGradeEquipmentService _service = A.Fake<IGradeEquipmentService>();
+        private IGradePackService _service = A.Fake<IGradePackService>();
         private readonly ITimeFramePublishHelper _timeFramePublishHelper = new TimeFramePublishHelper();
 
-        public GradeEquipmentPublisherBuilder WithService(IGradeEquipmentService service)
+        public GradePacksPublisherBuilder WithService(IGradePackService service)
         {
             _service = service;
 
             return this;
         }
 
-        public GradeEquipmentPublisher Build()
+        public GradePackPublisher Build()
         {
-            return new GradeEquipmentPublisher(_service, _timeFramePublishHelper);
+            return new GradePackPublisher(_service, _timeFramePublishHelper);
         }
     }
 }

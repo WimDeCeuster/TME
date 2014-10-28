@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Equipment;
+using TME.CarConfigurator.Repository.Objects.Packs;
 
 namespace TME.CarConfigurator.Publisher.Common
 {
@@ -18,6 +19,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IReadOnlyList<Steering> Steerings { get; private set; }
         public IReadOnlyList<Grade> Grades { get; private set; }
         public IReadOnlyDictionary<Guid, GradeEquipment> GradeEquipments { get; private set; }
+        public IReadOnlyDictionary<Guid, IList<GradePack>> GradePacks { get; private set; }
         public IReadOnlyList<SubModel> SubModels { get; private set; }
 
         public readonly Guid ID;
@@ -33,6 +35,7 @@ namespace TME.CarConfigurator.Publisher.Common
             IReadOnlyList<Steering> steerings,
             IReadOnlyList<Grade> grades,
             IReadOnlyDictionary<Guid, GradeEquipment> gradeEquipments,
+            IReadOnlyDictionary<Guid, IList<GradePack>> gradePacks,
             IReadOnlyList<SubModel> subModels)
         {
             if (cars == null) throw new ArgumentNullException("cars");
@@ -43,10 +46,12 @@ namespace TME.CarConfigurator.Publisher.Common
             if (steerings == null) throw new ArgumentNullException("steerings");
             if (grades == null) throw new ArgumentNullException("grades");
             if (gradeEquipments == null) throw new ArgumentNullException("gradeEquipments");
+            if (gradePacks == null) throw new ArgumentNullException("gradePacks");
             if (subModels == null) throw new ArgumentNullException("subModels");
 
             From = from;
             Until = until;
+            GradePacks = gradePacks;
             Cars = cars;
             BodyTypes = bodyTypes;
             Engines = engines;
