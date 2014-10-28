@@ -1,6 +1,7 @@
 ﻿using FakeItEasy;
 using System;
 using TME.CarConfigurator.Publisher;
+using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
@@ -19,13 +20,12 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
         IPublisherFactory _publisherFactory;
         ICarConfiguratorPublisher _carConfiguratorPublisher;
         IPublisher _publisher;
-        IContext _context;
         IMapper _mapper;
+        private Guid _generationId = Guid.NewGuid();
 
         protected override void Arrange()
         {
             _publisherFactory = A.Fake<IPublisherFactory>(opt => opt.Strict());
-            _context = A.Fake<IContext>();
             _publisher = A.Fake<IPublisher>();
             _mapper = A.Fake<IMapper>();
             
@@ -36,19 +36,21 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
 
         protected override void Act()
         {
-            var result = _carConfiguratorPublisher.PublishAsync(Guid.Empty, Environment, Target, Brand, Country, DataSubset).Result;
+            var result = _carConfiguratorPublisher.PublishAsync(_generationId, Environment, Target, Brand, Country, DataSubset).Result;
         }
 
         [Fact]
         public void ThenACallToPublisherPublishHappens()
         {
-            A.CallTo(() => _publisher.PublishAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _publisher.PublishAsync(A<Context>.That.Matches(c => c.Brand == Brand && c.Country == Country &&c.GenerationID == _generationId)))
+                .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenACallToMapperHappens()
         {
-            A.CallTo(() => _mapper.MapAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _mapper.MapAsync(A<Context>.That.Matches(c => c.Brand == Brand && c.Country == Country && c.GenerationID == _generationId)))
+                .MustHaveHappened(Repeated.Exactly.Once);
         }
     }
 }
