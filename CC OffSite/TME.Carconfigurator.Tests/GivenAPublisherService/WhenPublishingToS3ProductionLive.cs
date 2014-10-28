@@ -18,7 +18,6 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
         const PublicationDataSubset DataSubset = PublicationDataSubset.Live;
         IPublisherFactory _publisherFactory;
         ICarConfiguratorPublisher _carConfiguratorPublisher;
-        IContextFactory _contextFactory;
         IPublisher _publisher;
         IContext _context;
         IMapper _mapper;
@@ -27,25 +26,17 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
         {
             _publisherFactory = A.Fake<IPublisherFactory>(opt => opt.Strict());
             _context = A.Fake<IContext>();
-            _contextFactory = A.Fake<IContextFactory>();
             _publisher = A.Fake<IPublisher>();
             _mapper = A.Fake<IMapper>();
             
             A.CallTo(() => _publisherFactory.GetPublisher(Target, Environment, DataSubset)).Returns(_publisher);
-            A.CallTo(() => _contextFactory.Get(Brand, Country, Guid.Empty, DataSubset)).Returns(_context);
             
-            _carConfiguratorPublisher = new CarConfiguratorPublisher(_contextFactory, _publisherFactory, _mapper);
+            _carConfiguratorPublisher = new CarConfiguratorPublisher(_publisherFactory, _mapper);
         }
 
         protected override void Act()
         {
             var result = _carConfiguratorPublisher.PublishAsync(Guid.Empty, Environment, Target, Brand, Country, DataSubset).Result;
-        }
-
-        [Fact]
-        public void ThenContextFactoryShouldBeCalledWithCorrectParamaters()
-        {
-            A.CallTo(() => _contextFactory.Get(Brand, Country, Guid.Empty, DataSubset)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]

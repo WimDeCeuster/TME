@@ -6,14 +6,14 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.S3.Publisher;
 using TME.CarConfigurator.S3.Publisher.Interfaces;
 
-namespace TME.CarConfigurator.Publisher.DI
+namespace TME.CarConfigurator.Publisher.DI.S3
 {
-    public class S3PublisherFactory : ITargetPublisherFactory
+    public class PublisherFactory : ITargetPublisherFactory
     {
         private readonly IServiceFactory _serviceFactory;
         private readonly ITimeFramePublishHelper _timeFramePublishHelper;
 
-        private S3PublisherFactory(IServiceFactory serviceFactory, ITimeFramePublishHelper timeFramePublishHelper)
+        private PublisherFactory(IServiceFactory serviceFactory, ITimeFramePublishHelper timeFramePublishHelper)
         {
             if (serviceFactory == null) throw new ArgumentNullException("serviceFactory");
             if (timeFramePublishHelper == null) throw new ArgumentNullException("timeFramePublishHelper");

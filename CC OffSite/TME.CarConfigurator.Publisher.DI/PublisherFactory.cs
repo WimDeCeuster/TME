@@ -1,11 +1,12 @@
-﻿using System;
+using System;
 using Spring.Context.Support;
 using TME.CarConfigurator.Publisher.Common.Enums;
+using TME.CarConfigurator.Publisher.DI.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 
-namespace TME.CarConfigurator.Publisher.DI.Interfaces
+namespace TME.CarConfigurator.Publisher.DI
 {
-    class PublisherFactory : IPublisherFactory
+    public class PublisherFactory : IPublisherFactory
     {
         public IPublisher GetPublisher(string target, string environment, PublicationDataSubset dataSubset)
         {

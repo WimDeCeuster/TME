@@ -6,14 +6,14 @@ using TME.CarConfigurator.Publisher.DI.Interfaces;
 using TME.CarConfigurator.S3.CommandServices;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
-namespace TME.CarConfigurator.Publisher.DI
+namespace TME.CarConfigurator.Publisher.DI.S3
 {
-    public class S3ServiceFactory : IServiceFactory
+    public class ServiceFactory : IServiceFactory
     {
         readonly ISerialiser _serialiser;
         readonly IKeyManager _keyManager;
 
-        public S3ServiceFactory(ISerialiser serialiser, IKeyManager keyManager)
+        public ServiceFactory(ISerialiser serialiser, IKeyManager keyManager)
         {
             _serialiser = serialiser;
             _keyManager = keyManager;
@@ -28,7 +28,7 @@ namespace TME.CarConfigurator.Publisher.DI
         {
             var service = GetService(environment, dataSubset);
 
-            return new S3.QueryServices.ModelService(_serialiser, service, _keyManager);
+            return new CarConfigurator.S3.QueryServices.ModelService(_serialiser, service, _keyManager);
         }
 
         public IModelService GetPutModelService(String environment, PublicationDataSubset dataSubset)

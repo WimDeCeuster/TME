@@ -45,12 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IPublisherFactory.cs" />
     <Compile Include="Interfaces\IServiceFactory.cs" />
     <Compile Include="Interfaces\ITargetPublisherFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="S3PublisherFactory.cs" />
-    <Compile Include="S3ServiceFactory.cs" />
+    <Compile Include="PublisherFactory.cs" />
+    <Compile Include="S3\PublisherFactory.cs" />
+    <Compile Include="S3\ServiceFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TME.CarConfigurator.CommandServices\TME.CarConfigurator.CommandServices.csproj">
@@ -68,6 +68,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.QueryServices\TME.CarConfigurator.QueryServices.csproj">
       <Project>{37f53701-a371-44cc-b2f5-886910fba751}</Project>
       <Name>TME.CarConfigurator.QueryServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
+      <Project>{2154eaaa-3d11-4654-bea6-7b147451dba8}</Project>
+      <Name>TME.CarConfigurator.Repository.Objects</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.QueryServices.csproj">
       <Project>{5f4575a4-88db-4b32-bc1e-cd6fed06ca12}</Project>

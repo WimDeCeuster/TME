@@ -9,15 +9,15 @@ namespace TME.CarConfigurator.Publisher
 {
     public class CarConfiguratorPublisher : ICarConfiguratorPublisher
     {
-        readonly IPublisherFactory _publisherFactoryFacade;
+        readonly IPublisherFactory _publisherFactory;
         readonly IMapper _mapper;
 
-        public CarConfiguratorPublisher(IPublisherFactory publisherFactoryFacade, IMapper mapper)
+        public CarConfiguratorPublisher(IPublisherFactory publisherFactory, IMapper mapper)
         {
-            if (publisherFactoryFacade == null) throw new ArgumentNullException("publisherFactoryFacade");
+            if (publisherFactory == null) throw new ArgumentNullException("publisherFactory");
             if (mapper == null) throw new ArgumentNullException("mapper");
 
-            _publisherFactoryFacade = publisherFactoryFacade;
+            _publisherFactory = publisherFactory;
             _mapper = mapper;
         }
 
@@ -32,7 +32,7 @@ namespace TME.CarConfigurator.Publisher
 
             await _mapper.MapAsync(context);
 
-            var publisher = _publisherFactoryFacade.GetPublisher(target, environment, dataSubset);
+            var publisher = _publisherFactory.GetPublisher(target, environment, dataSubset);
 
             return await publisher.PublishAsync(context);
         }
