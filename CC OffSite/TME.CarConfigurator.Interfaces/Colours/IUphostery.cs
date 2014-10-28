@@ -4,12 +4,12 @@ using TME.CarConfigurator.Interfaces.Core;
 
 namespace TME.CarConfigurator.Interfaces.Colours
 {
-    public interface IExteriorColour : IBaseObject
+    public interface IUphostery : IBaseObject
     {
-        bool Promoted { get; }
-        IColourTransformation Transformation { get; }
-        IExteriorColourType Type { get; }
+        string InteriorColourCode { get; }
+        string TrimCode { get; }
+        IUpholsteryType Type { get; }
 
         IEnumerable<IAsset> Assets { get; }
-    }
+   }
 }

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
+using TME.CarConfigurator.Interfaces.Colours;
+using TME.CarConfigurator.LegacyAdapter.Colours;
 using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter
@@ -102,6 +105,17 @@ namespace TME.CarConfigurator.LegacyAdapter
         public IEnumerable<ISubModel> SubModels
         {
             get { return Adaptee.SubModels.Cast<Legacy.SubModel>().Select(x => new SubModel(x)); }
+        }
+
+        public IEnumerable<IColourCombination> ColourCombinations
+        {
+            get
+            {
+                return Adaptee.Cars.Cast<Legacy.Car>()
+                        .SelectMany(car => car.Colours.Cast<Legacy.CarColourCombination>())
+                        .Distinct()
+                        .Select(x=> new ColourCombination(x));
+            }
         }
     }
 }

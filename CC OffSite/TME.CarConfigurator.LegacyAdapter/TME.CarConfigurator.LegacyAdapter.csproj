@@ -62,6 +62,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Colours\ColourCombination.cs" />
+    <Compile Include="Colours\Upholstery.cs" />
+    <Compile Include="Colours\UpholsteryType.cs" />
+    <Compile Include="Colours\ExteriorColourType.cs" />
     <Compile Include="Equipment\Accessory.cs" />
     <Compile Include="Asset.cs" />
     <Compile Include="AssetType.cs" />
