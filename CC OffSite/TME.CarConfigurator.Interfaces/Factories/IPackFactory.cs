@@ -6,6 +6,6 @@ namespace TME.CarConfigurator.Interfaces.Factories
 {
     public interface IPackFactory
     {
-        IEnumerable<IGradePack> GetGradePacks(Publication publication, Context context, Grade grade);
+        IReadOnlyList<IGradePack> GetGradePacks(Publication publication, Context context, Grade grade);
     }
 }

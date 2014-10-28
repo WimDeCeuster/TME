@@ -9,7 +9,6 @@ using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Interfaces.Packs;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Packs;
 
 namespace TME.CarConfigurator.Factories
 {
@@ -23,10 +22,11 @@ namespace TME.CarConfigurator.Factories
             _packService = packService;
         }
 
-        public IEnumerable<IGradePack> GetGradePacks(Publication publication, Context context, Repository.Objects.Grade grade)
+        public IReadOnlyList<IGradePack> GetGradePacks(Publication publication, Context context, Repository.Objects.Grade grade)
         {
             return _packService.GetGradePacks(publication.ID, publication.GetCurrentTimeFrame().ID, grade.ID, context)
-                .Select(repoPack => new GradePack(repoPack));
+                .Select(repoPack => new GradePack(repoPack))
+                .ToList();
         }
     }
 

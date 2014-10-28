@@ -91,6 +91,7 @@
     <Compile Include="GivenAGrade\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsBasedUponGradeForTheFirstTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsPacksForTheFirstTime.cs" />
+    <Compile Include="GivenAGrade\WhenAccessingItsPacksForTheSecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheFirstTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsBasedUponGradeForTheSecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledForNonExistent3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledFor3DAssets.cs" />
+    <Compile Include="Services\GivenAPackService\WhenGetGradePacksIsCalled.cs" />
     <Compile Include="Services\GivenASteeringService\WhenGetSteeringsIsCalled.cs" />
     <Compile Include="Services\GivenASubModelService\WhenGetSubModelIsCalled.cs" />
     <Compile Include="Services\GivenAWheelDriveService\WhenGetWheelDrivesIsCalled.cs" />

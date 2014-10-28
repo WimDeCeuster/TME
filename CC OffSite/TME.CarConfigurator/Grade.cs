@@ -22,6 +22,7 @@ namespace TME.CarConfigurator
         private IEnumerable<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
         private IReadOnlyList<IGradeEquipmentItem> _equipmentItems;
         private IGradeEquipment _gradeEquipment;
+        private IEnumerable<IGradePack> _packs;
 
         Price _price;
         readonly IGrade _basedUponGrade;
@@ -71,7 +72,7 @@ namespace TME.CarConfigurator
 
         public IEnumerable<IGradePack> Packs
         {
-            get { return _packFactory.GetGradePacks(_repositoryPublication, _repositoryContext, RepositoryObject); }
+            get { return _packs = _packs ?? _packFactory.GetGradePacks(_repositoryPublication, _repositoryContext, RepositoryObject); }
         }
     }
 }

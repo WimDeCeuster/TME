@@ -22,7 +22,11 @@ namespace TME.CarConfigurator.S3.QueryServices
 
         public IEnumerable<GradePack> GetGradePacks(Guid publicationId, Guid publicationTimeFrameId, Guid gradeId, Context context)
         {
-            throw new NotImplementedException();
+            var key = _keyManager.GetGradePacksKey(publicationId, publicationTimeFrameId, gradeId);
+
+            var serializedPacks = _service.GetObject(context.Brand, context.Country, key);
+
+            return _serializer.Deserialise<IEnumerable<GradePack>>(serializedPacks);
         }
     }
 }
