@@ -63,7 +63,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAPackService
         }
 
         [Fact]
-        public void ThenItShouldReturnTheCorrectPublication()
+        public void ThenItShouldReturnTheCorrectPacks()
         {
             _actualPacks.Should().BeSameAs(_expectedPacks);
         }
