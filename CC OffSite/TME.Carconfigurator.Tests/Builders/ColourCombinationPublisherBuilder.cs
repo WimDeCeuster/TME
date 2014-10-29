@@ -1,3 +1,5 @@
+using TME.CarConfigurator.CommandServices;
+using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.S3.CommandServices;
 using TME.CarConfigurator.S3.Publisher;
 using TME.CarConfigurator.S3.Publisher.Helpers;

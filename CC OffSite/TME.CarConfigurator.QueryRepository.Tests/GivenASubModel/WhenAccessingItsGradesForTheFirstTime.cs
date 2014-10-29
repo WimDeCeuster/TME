@@ -69,7 +69,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
             _grades = _subModel.Grades;
         }
 
-        [Fact]
+        [Fact(Skip = "Is this test Still Relevant? SubmodelGrades Are already Picked Up When GetSubModels is Called.")]
         public void ThenItShouldFetchTheGradesFromTheService()
         {
             A.CallTo(() => _gradeService.GetGrades(A<Guid>._, A<Guid>._, A<Context>._))

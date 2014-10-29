@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Administration.BaseObjects;
+using TME.CarConfigurator.Administration.Translations;
 using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects.Core;
+using Label = TME.CarConfigurator.Repository.Objects.Core.Label;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
