@@ -64,6 +64,7 @@
     <Compile Include="GradeAccessory.cs" />
     <Compile Include="GradeEquipment.cs" />
     <Compile Include="GradeEquipmentItem.cs" />
+    <Compile Include="GradePack.cs" />
     <Compile Include="SubModel.cs" />
     <Compile Include="TransmissionType.cs" />
     <Compile Include="Transmission.cs" />
