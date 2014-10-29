@@ -17,27 +17,31 @@ namespace TME.CarConfigurator
         private readonly Repository.Objects.Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
         private readonly IGradeEquipmentFactory _gradeEquipmentFactory;
+        private readonly IPackFactory _packFactory;
         private IEnumerable<IAsset> _fetchedAssets;
         private IEnumerable<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
         private IReadOnlyList<IGradeEquipmentItem> _equipmentItems;
         private IGradeEquipment _gradeEquipment;
+        private IEnumerable<IGradePack> _packs;
 
         Price _price;
         readonly IGrade _basedUponGrade;
 
-        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IGrade basedUponGrade, IAssetFactory assetFactory, IGradeEquipmentFactory gradeEquipmentFactory)
+        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IGrade basedUponGrade, IAssetFactory assetFactory, IGradeEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
             : base(repositoryGrade)
         {
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
             if (gradeEquipmentFactory == null) throw new ArgumentNullException("gradeEquipmentFactory");
+            if (packFactory == null) throw new ArgumentNullException("packFactory");
 
             _repositoryPublication = repositoryPublication;
             _repositoryContext = repositoryContext;
             _basedUponGrade = basedUponGrade;
             _assetFactory = assetFactory;
             _gradeEquipmentFactory = gradeEquipmentFactory;
+            _packFactory = packFactory;
         }
 
         public bool Special { get { return RepositoryObject.Special; } }
@@ -68,7 +72,7 @@ namespace TME.CarConfigurator
 
         public IEnumerable<IGradePack> Packs
         {
-            get { throw new NotImplementedException(); }
+            get { return _packs = _packs ?? _packFactory.GetGradePacks(_repositoryPublication, _repositoryContext, RepositoryObject.ID); }
         }
     }
 }

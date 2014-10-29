@@ -30,5 +30,6 @@ namespace TME.CarConfigurator.DI.Interfaces
         ISubModelService CreateSubModelService();
         IGradeEquipmentService CreateGradeEquipmentService();
         IColourService CreateColourService();
+        IPackService CreatePackService();
     }
 }

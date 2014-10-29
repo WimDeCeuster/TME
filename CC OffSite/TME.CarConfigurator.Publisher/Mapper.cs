@@ -396,7 +396,10 @@ namespace TME.CarConfigurator.Publisher
                 var gradePacks = grade.Packs;
                 var generationPacks = grade.Generation.Packs;
 
-                var mappedGradePacks = gradePacks.Select(gradePack => _packMapper.MapGradePack(gradePack, generationPacks[gradePack.ID], gradeCars)).ToList();
+                var mappedGradePacks = gradePacks
+                    .Select(gradePack => _packMapper.MapGradePack(gradePack, generationPacks[gradePack.ID], gradeCars))
+                    .Where(gradePack => gradePack.OptionalOn.Any() || gradePack.StandardOn.Any()) // do not publish packs that are not available on any car
+                    .ToList();
 
                 contextData.GradePacks.Add(grade.ID, mappedGradePacks);
             }

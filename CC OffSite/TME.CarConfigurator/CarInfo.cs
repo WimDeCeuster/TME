@@ -5,7 +5,7 @@ namespace TME.CarConfigurator
 {
     public class CarInfo : ICarInfo
     {
-        Repository.Objects.CarInfo _repositoryCarInfo;
+        readonly Repository.Objects.CarInfo _repositoryCarInfo;
 
         public CarInfo(Repository.Objects.CarInfo repositoryCarInfo)
         {

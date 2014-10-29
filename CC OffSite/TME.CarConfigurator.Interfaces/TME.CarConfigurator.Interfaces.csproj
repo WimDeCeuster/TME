@@ -46,6 +46,7 @@
     <Compile Include="Colours\IColourCombination.cs" />
     <Compile Include="Colours\IColourTransformation.cs" />
     <Compile Include="Colours\IExteriorColour.cs" />
+    <Compile Include="Factories\IPackFactory.cs" />
     <Compile Include="Colours\IExteriorColourType.cs" />
     <Compile Include="Colours\IUpholsteryType.cs" />
     <Compile Include="Colours\IUpholstery.cs" />

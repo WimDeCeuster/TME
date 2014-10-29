@@ -61,10 +61,10 @@ namespace TME.CarConfigurator
 
         public IEnumerable<Interfaces.ILink> Links { get { return _links = _links ?? RepositoryObject.Links.Select(link => new Link(link)).ToList(); } }
 
-        public IEnumerable<Interfaces.ICarInfo> StandardOn { get { return _standardOn = _standardOn ?? RepositoryObject.StandardOn.Select(carInfo => new CarInfo(carInfo)).ToList(); } }
+        public IReadOnlyList<ICarInfo> StandardOn { get { return _standardOn = _standardOn ?? RepositoryObject.StandardOn.Select(carInfo => new CarInfo(carInfo)).ToList(); } }
 
-        public IEnumerable<Interfaces.ICarInfo> OptionalOn { get { return _optionalOn = _optionalOn ?? RepositoryObject.OptionalOn.Select(carInfo => new CarInfo(carInfo)).ToList(); } }
+        public IReadOnlyList<ICarInfo> OptionalOn { get { return _optionalOn = _optionalOn ?? RepositoryObject.OptionalOn.Select(carInfo => new CarInfo(carInfo)).ToList(); } }
 
-        public IEnumerable<Interfaces.ICarInfo> NotAvailableOn { get { return _notAvailableOn = _notAvailableOn ?? RepositoryObject.NotAvailableOn.Select(carInfo => new CarInfo(carInfo)).ToList(); } }
+        public IReadOnlyList<ICarInfo> NotAvailableOn { get { return _notAvailableOn = _notAvailableOn ?? RepositoryObject.NotAvailableOn.Select(carInfo => new CarInfo(carInfo)).ToList(); } }
     }
 }

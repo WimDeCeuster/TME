@@ -101,6 +101,13 @@
     <Compile Include="GivenAGradeOption\WhenAccessingItsNonExistingParentOptionInfo.cs" />
     <Compile Include="GivenAGradeOption\WhenAccessingItsParentOptionInfoForTheFirstTime.cs" />
     <Compile Include="GivenAGradeOption\WhenAccessingItsParentOptionInfoForTheSecondTime.cs" />
+    <Compile Include="GivenAGradePack\WhenAccessingItsLabels.cs" />
+    <Compile Include="GivenAGradePack\WhenAccessingItsNotAvailableOnForTheFirstTime.cs" />
+    <Compile Include="GivenAGradePack\WhenAccessingItsNotAvailableOnForTheSecondTime.cs" />
+    <Compile Include="GivenAGradePack\WhenAccessingItsOptionalOnForTheFirstTime.cs" />
+    <Compile Include="GivenAGradePack\WhenAccessingItsOptionalOnForTheSecondTime.cs" />
+    <Compile Include="GivenAGradePack\WhenAccessingItsStandardOnForTheFirstTime.cs" />
+    <Compile Include="GivenAGradePack\WhenAccessingItsStandardOnForTheSecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenAGrade\WhenAccessingIts3DAssets.cs" />
     <Compile Include="GivenAGrade\WhenAccessingIts3DAssetsASecondTime.cs" />
@@ -112,6 +119,8 @@
     <Compile Include="GivenAGrade\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsBasedUponGradeForTheFirstTime.cs" />
+    <Compile Include="GivenAGrade\WhenAccessingItsPacksForTheFirstTime.cs" />
+    <Compile Include="GivenAGrade\WhenAccessingItsPacksForTheSecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheFirstTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsBasedUponGradeForTheSecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
@@ -206,6 +215,7 @@
     <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledForNonExistent3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledFor3DAssets.cs" />
+    <Compile Include="Services\GivenAPackService\WhenGetGradePacksIsCalled.cs" />
     <Compile Include="Services\GivenASteeringService\WhenGetSteeringsIsCalled.cs" />
     <Compile Include="Services\GivenASubModelService\WhenGetSubModelIsCalled.cs" />
     <Compile Include="Services\GivenAWheelDriveService\WhenGetWheelDrivesIsCalled.cs" />
@@ -222,6 +232,7 @@
     <Compile Include="TestBuilders\ColourFactoryBuilder.cs" />
     <Compile Include="TestBuilders\GradeEquipmentFactoryBuilder.cs" />
     <Compile Include="TestBuilders\GradeFactoryBuilder.cs" />
+    <Compile Include="TestBuilders\PackFactoryBuilder.cs" />
     <Compile Include="TestBuilders\SteeringFactoryBuilder.cs" />
     <Compile Include="TestBuilders\SubModelFactoryBuilder.cs" />
     <Compile Include="TestBuilders\WheelDriveFactoryBuilder.cs" />

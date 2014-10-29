@@ -77,7 +77,7 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IEnumerable<IGradePack> Packs
         {
-            get { return Adaptee.Packs.Cast<Legacy.PackCompareItem>().Select(x => new GradePack(x)); }
+            get { return Adaptee.Packs.Cast<Legacy.PackCompareItem>().Select(x => new Packs.GradePack(x)); }
         }
     }
 }
