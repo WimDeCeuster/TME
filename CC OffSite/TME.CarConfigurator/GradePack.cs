@@ -3,6 +3,7 @@ using System.Linq;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
+using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Packs;
 
 namespace TME.CarConfigurator

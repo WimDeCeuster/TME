@@ -97,6 +97,7 @@
     <Compile Include="GivenAGradeOption\WhenAccessingItsNonExistingParentOptionInfo.cs" />
     <Compile Include="GivenAGradeOption\WhenAccessingItsParentOptionInfoForTheFirstTime.cs" />
     <Compile Include="GivenAGradeOption\WhenAccessingItsParentOptionInfoForTheSecondTime.cs" />
+    <Compile Include="GivenAGradePack\WhenAccessingItsLabels.cs" />
     <Compile Include="GivenAGradePack\WhenAccessingItsNotAvailableOnForTheFirstTime.cs" />
     <Compile Include="GivenAGradePack\WhenAccessingItsNotAvailableOnForTheSecondTime.cs" />
     <Compile Include="GivenAGradePack\WhenAccessingItsOptionalOnForTheFirstTime.cs" />
