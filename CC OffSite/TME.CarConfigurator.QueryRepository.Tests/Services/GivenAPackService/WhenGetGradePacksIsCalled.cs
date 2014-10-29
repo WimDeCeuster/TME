@@ -6,10 +6,8 @@ using TME.CarConfigurator.DI;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Packs;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
-using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.Services.GivenAPackService
