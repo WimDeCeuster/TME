@@ -1,15 +1,18 @@
-﻿using System;
-
-namespace TME.CarConfigurator.Repository.Objects.Colours
+﻿namespace TME.CarConfigurator.Repository.Objects.Colours
 {
 
     public class ColourTransformation
     {
+        public ColourTransformation()
+        {
+            RGB = string.Empty;
+        }
+
         public string RGB { get; set; }
-        public Decimal Hue { get; set; }
-        public Decimal Saturation { get; set; }
-        public Decimal Brightness { get; set; }
-        public Decimal Contrast { get; set; }
-        public Decimal Alpha { get; set; }
+        public decimal Hue { get; set; }
+        public decimal Saturation { get; set; }
+        public decimal Brightness { get; set; }
+        public decimal Contrast { get; set; }
+        public decimal Alpha { get; set; }
     }
 }

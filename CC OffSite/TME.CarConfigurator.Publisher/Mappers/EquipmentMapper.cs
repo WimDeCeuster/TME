@@ -66,7 +66,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.BestVisibleIn = null;
             mappedEquipmentItem.Category = _categoryInfoMapper.MapEquipmentCategoryInfo(generationGradeEquipmentItem.Category, categories); // ??
             mappedEquipmentItem.Description = generationGradeEquipmentItem.Translation.Description;
-            mappedEquipmentItem.ExteriorColour = hasColour ? GetColour(generationEquipmentItem) : null;
+            mappedEquipmentItem.ExteriorColour = hasColour ? GetColour(generationEquipmentItem, isPreview) : null;
             mappedEquipmentItem.FootNote = generationGradeEquipmentItem.Translation.FootNote;
             mappedEquipmentItem.GradeFeature = generationGradeEquipmentItem.GradeFeature;
             mappedEquipmentItem.ID = generationGradeEquipmentItem.ID;
@@ -96,15 +96,15 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return mappedEquipmentItem;
         }
 
-        ExteriorColour GetColour(Administration.ModelGenerationEquipmentItem generationEquipmentItem)
+        ExteriorColour GetColour(Administration.ModelGenerationEquipmentItem generationEquipmentItem, Boolean isPreview)
         {
             var colour = generationEquipmentItem.Generation.ColourCombinations.ExteriorColours().FirstOrDefault(clr => clr.ID == generationEquipmentItem.Colour.ID);
             
             if (colour != null)
-                return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, colour);
+                return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, colour, isPreview);
 
             var crossModelColour = Administration.ExteriorColours.GetExteriorColours()[generationEquipmentItem.Colour.ID];
-            return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, crossModelColour);
+            return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, crossModelColour, isPreview);
         }
 
         IReadOnlyList<CarInfo> GetAvailabilityInfo(Administration.ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, Administration.Enums.Availability availability, IReadOnlyList<Administration.Car> cars)

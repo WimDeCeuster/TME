@@ -29,11 +29,11 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _assetFileService = assetFileService;
         }
 
-        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ModelGenerationExteriorColour colour)
+        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ModelGenerationExteriorColour colour, Boolean isPreview)
         {
             var mappedColour = new ExteriorColour
             {
-                Transformation = GetColourTransformation(GetFilePath(modelGeneration), colour.Code),
+                Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview),
                 InternalCode = colour.Code,
                 LocalCode = String.Empty,
                 SortIndex = 0
@@ -42,27 +42,36 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
         }
 
-        string GetFilePath(ModelGeneration modelGeneration)
-        {
-            return modelGeneration.Assets.First(asset => asset.AssetType.Name.StartsWith("colourschema", StringComparison.InvariantCultureIgnoreCase)).FileName;
-        }
-
-        public ColourCombination MapColourCombination(ModelGeneration modelGeneration, ModelGenerationColourCombination colourCombination)
+        public ColourCombination MapColourCombination(ModelGeneration modelGeneration, ModelGenerationColourCombination colourCombination, Boolean isPreview)
         {
             return new ColourCombination
             {
-                ExteriorColour = MapExteriorColour(modelGeneration, colourCombination.ExteriorColour),
+                ExteriorColour = MapExteriorColour(modelGeneration, colourCombination.ExteriorColour, isPreview),
                 ID = colourCombination.ID,
                 SortIndex = 0, //?
                 Upholstery = MapUpholstery(colourCombination.Upholstery)
             };
         }
 
+        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ExteriorColour colour, Boolean isPreview)
+        {
+            var mappedColour = new ExteriorColour
+            {
+                Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview),
+                InternalCode = colour.Code,
+                LocalCode = String.Empty,
+                SortIndex = 0
+            };
+
+            return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
+        }
+
         Upholstery MapUpholstery(ModelGenerationUpholstery modelGenerationUpholstery)
         {
-            
             var mappedUpholstery = new Upholstery
             {
+                InternalCode = modelGenerationUpholstery.Code,
+                LocalCode = String.Empty,
                 InteriorColourCode = modelGenerationUpholstery.InteriorColour.Code,
                 TrimCode = modelGenerationUpholstery.Trim.Code,
                 Type = MapUpholsteryType(modelGenerationUpholstery.Type)
@@ -79,28 +88,21 @@ namespace TME.CarConfigurator.Publisher.Mappers
             
             var mappedUpholsteryType = new UpholsteryType
             {
+                InternalCode = upholstery.Code,
+                LocalCode = String.Empty,
                 SortIndex = upholstery.Index
             };
 
             return _baseMapper.MapTranslateableDefaults(mappedUpholsteryType, upholstery);
         }
 
-        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ExteriorColour colour)
+        ColourTransformation GetColourTransformation(ModelGeneration generation, String colourCode, Boolean isPreview)
         {
-            var mappedColour = new ExteriorColour
-            {
-                Transformation = GetColourTransformation(GetFilePath(modelGeneration), colour.Code),
-                InternalCode = colour.Code,
-                LocalCode = String.Empty,
-                SortIndex = 0
-            };
+            var colourSchemaAsset = GetColourSchemaAsset(generation, isPreview);
+            if (colourSchemaAsset == null)
+                return new ColourTransformation();
 
-            return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
-        }
-
-        ColourTransformation GetColourTransformation(string colourFilePath, string colourCode)
-        {
-            var fileContent = _assetFileService.GetFileContent(colourFilePath);
+            var fileContent = _assetFileService.GetFileContent(colourSchemaAsset.FileName);
 
             var xml = XDocument.Parse(fileContent);
 
@@ -118,6 +120,13 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var rgbItem = item.Element("rgb");
             var saturationItem = item.Element("saturation");
 
+            var rgbValue = rgbItem == null ? String.Empty : rgbItem.Value;
+
+            // sometimes the rgb values will have its leading 0 truncated "because Flash can handle it"
+            // here we restore sanity
+            if (rgbValue.Length == 5)
+                rgbValue = "0" + rgbValue;
+
             return new ColourTransformation
             {
                 Alpha = alphaItem == null ? 0 : Decimal.Parse(alphaItem.Value, invariantCulture),
@@ -127,6 +136,22 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 RGB = rgbItem == null ? String.Empty : rgbItem.Value,
                 Saturation = saturationItem == null ? 0 : Decimal.Parse(saturationItem.Value, invariantCulture)
             };
+
+        }
+
+        static TME.CarConfigurator.Administration.Assets.LinkedAsset GetColourSchemaAsset(ModelGeneration generation, Boolean isPreview)
+        {
+            var liveTypeName = "colourschema";
+            var previewTypeName = "preview_" + liveTypeName;
+            var activeVersionName = generation.ActiveCarConfiguratorVersion.Name;
+            var preferredTypeName = isPreview ? previewTypeName : liveTypeName;
+            var preferredVersionedTypeName = String.Format("{0}-{1}", preferredTypeName, activeVersionName);
+            var liveVersionedTypeName = String.Format("{0}-{1}", liveTypeName, activeVersionName);
+
+            return generation.Assets[preferredVersionedTypeName] ?? // preview_colourschema-4.x
+                   generation.Assets[liveVersionedTypeName] ?? // colourschema-4.x
+                   generation.Assets[preferredTypeName] ?? // preview_colourschema
+                   generation.Assets[liveTypeName]; //// colourschema
         }
     }
 }
