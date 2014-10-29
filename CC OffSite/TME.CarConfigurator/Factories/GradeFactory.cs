@@ -15,17 +15,19 @@ namespace TME.CarConfigurator.Factories
         private readonly IGradeService _gradeService;
         private readonly IAssetFactory _assetFactory;
         private readonly IGradeEquipmentFactory _gradeEquipmentFactory;
-        private IGrade[] _subModelGrades;
+        private readonly IPackFactory _packFactory;
 
-        public GradeFactory(IGradeService gradeService, IAssetFactory assetFactory, IGradeEquipmentFactory gradeEquipmentFactory)
+        public GradeFactory(IGradeService gradeService, IAssetFactory assetFactory, IGradeEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
         {
             if (gradeService == null) throw new ArgumentNullException("gradeService");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
             if (gradeEquipmentFactory == null) throw new ArgumentNullException("gradeEquipmentFactory");
+            if (packFactory == null) throw new ArgumentNullException("packFactory");
 
             _gradeService = gradeService;
             _assetFactory = assetFactory;
             _gradeEquipmentFactory = gradeEquipmentFactory;
+            _packFactory = packFactory;
         }
 
         public IReadOnlyList<IGrade> GetGrades(Publication publication, Context context)
@@ -54,7 +56,7 @@ namespace TME.CarConfigurator.Factories
                 ? null 
                 : GetGrade(repoGrades.Single(grd => grd.ID == repoGrade.BasedUponGradeID), repoGrades, grades, publication, context);
 
-            var grade = new Grade(repoGrade, publication, context, parentGrade, _assetFactory, _gradeEquipmentFactory);
+            var grade = new Grade(repoGrade, publication, context, parentGrade, _assetFactory, _gradeEquipmentFactory, _packFactory);
             grades.Add(grade);
 
             return grade;

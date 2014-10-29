@@ -176,6 +176,7 @@
     </Compile>
     <Compile Include="Models\CompareView.cs" />
     <Compile Include="Models\BaseObjectWithPrefix.cs" />
+    <Compile Include="Models\GradeEquipmentModel.cs" />
     <Compile Include="Models\ModelWithMetrics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -295,13 +296,8 @@
     <Content Include="Views\ModelSubModels\Index.cshtml" />
     <Content Include="Views\ModelSubModels\details.cshtml" />
     <Content Include="Views\Shared\_engine.cshtml" />
-    <Content Include="Views\Shared\Links\Index.cshtml" />
-    <Content Include="Views\Shared\Links\details.cshtml" />
     <Content Include="Views\Shared\_link.cshtml" />
-    <Content Include="Views\Shared\GradeEquipment\details.cshtml" />
-    <Content Include="Views\Shared\GradeEquipment\Index.cshtml" />
-    <Content Include="Views\Shared\_gradeEquipmentItem.cshtml" />
-    <Content Include="Views\Shared\_exteriorColour.cshtml" />
+    <Content Include="Views\Shared\Colours\_exteriorColour.cshtml" />
     <Content Include="Views\Shared\_CompareLayout.cshtml" />
     <Content Include="Views\ModelGradeEquipment\details.cshtml" />
     <Content Include="Views\ModelGradeEquipment\Index.cshtml" />
@@ -310,6 +306,10 @@
     <Content Include="Views\ModelGradePacks\details.cshtml" />
     <Content Include="Views\ModelGradePacks\Index.cshtml" />
     <Content Include="Views\Shared\_availabilityCompare.cshtml" />
+    <Content Include="Views\Shared\Equipment\_equipmentItem.cshtml" />
+    <Content Include="Views\Shared\Equipment\_gradeEquipmentItem.cshtml" />
+    <Content Include="Views\Shared\Equipment\_optionInfo.cshtml" />
+    <Content Include="Views\Shared\Equipment\_category.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -12,6 +12,7 @@ namespace TME.CarConfigurator.S3.Shared.Interfaces
         String GetWheelDrivesKey(Guid publicationID, Guid timeFrameID);
         String GetSteeringsKey(Guid publicationID, Guid timeFrameID);
         String GetCarsKey(Guid publicationID, Guid timeFrameID);
+        String GetColourCombinationsKey(Guid publicationID, Guid timeFrameID);
         String GetSubModelsKey(Guid publicationID, Guid timeFrameID);
         String GetGradesKey(Guid publicationID, Guid timeFrameID);
         String GetGradeEquipmentsKey(Guid publicationID, Guid timeFrameID, Guid gradeID);

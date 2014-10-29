@@ -49,12 +49,16 @@
     <Compile Include="Car.cs" />
     <Compile Include="CarBodyType.cs" />
     <Compile Include="CarConfiguratorVersion.cs" />
+    <Compile Include="CarInfo.cs" />
+    <Compile Include="CategoryInfo.cs" />
     <Compile Include="ColourTransformation.cs" />
     <Compile Include="Core\BaseObject.cs" />
     <Compile Include="CarEngine.cs" />
+    <Compile Include="Extensions\VisibilityExtensions.cs" />
     <Compile Include="ExteriorColour.cs" />
     <Compile Include="Factories\GradeEquipmentFactory.cs" />
     <Compile Include="Factories\GradeFactory.cs" />
+    <Compile Include="Factories\PackFactory.cs" />
     <Compile Include="Factories\SteeringFactory.cs" />
     <Compile Include="Factories\SubModelFactory.cs" />
     <Compile Include="Factories\WheelDriveFactory.cs" />
@@ -63,6 +67,8 @@
     <Compile Include="GradeAccessory.cs" />
     <Compile Include="GradeEquipment.cs" />
     <Compile Include="GradeEquipmentItem.cs" />
+    <Compile Include="GradePack.cs" />
+    <Compile Include="OptionInfo.cs" />
     <Compile Include="SubModel.cs" />
     <Compile Include="TransmissionType.cs" />
     <Compile Include="Transmission.cs" />

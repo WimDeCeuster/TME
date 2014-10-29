@@ -1,6 +1,7 @@
 ﻿using System;
 using Spring.Context.Support;
 using TME.CarConfigurator.CommandServices;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.DI.Interfaces;
 using TME.CarConfigurator.S3.CommandServices;
@@ -120,6 +121,13 @@ namespace TME.CarConfigurator.Publisher.DI.S3
             var service = GetService(environment, dataSubset);
 
             return new GradePackService(service, _serialiser, _keyManager);
+        }
+        
+        public IColourCombinationService GetColourCombinationService(String environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return new ColourCombinationService(service,_serialiser,_keyManager);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using TME.CarConfigurator.CommandServices;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Publisher.Common.Enums;
 
 namespace TME.CarConfigurator.Publisher.DI.Interfaces
@@ -20,5 +21,6 @@ namespace TME.CarConfigurator.Publisher.DI.Interfaces
         ISubModelService GetSubModelService(String environment, PublicationDataSubset dataSubset);
         IGradeEquipmentService GetGradeEquipmentService(String environment, PublicationDataSubset dataSubset);
         IGradePackService GetGradePackService(string environment, PublicationDataSubset dataSubset);
+        IColourCombinationService GetColourCombinationService(String environment, PublicationDataSubset dataSubset);
     }
 }

@@ -28,5 +28,6 @@ namespace TME.CarConfigurator.DI.Interfaces
         ICarService CreateCarService();
         ISubModelService CreateSubModelService();
         IGradeEquipmentService CreateGradeEquipmentService();
+        IPackService CreatePackService();
     }
 }

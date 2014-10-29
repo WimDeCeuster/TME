@@ -94,19 +94,19 @@ table td { vertical-align: top;}
     background-color: white;
 }
 
-.object.missing .title {
+.object.missing > .title, .object.missing-sub-item.missing > .title {
      background-color: orange;
 }
 
-.object.missing .content {
+.object.missing > .content, .object.missing-sub-item.missing > .title {
      border-color: orange;
 }
 
-.object.mismatch > .title {
+.object.mismatch > .title, .object.missing-sub-item > .title {
      background-color: red;
 }
 
-.object.mismatch > .content {
+.object.mismatch > .content, .object.missing-sub-item > .content {
      border-color: red;
 }
 

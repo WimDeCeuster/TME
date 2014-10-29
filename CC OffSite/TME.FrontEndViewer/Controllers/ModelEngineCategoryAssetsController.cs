@@ -20,7 +20,7 @@ namespace TME.FrontEndViewer.Controllers
             var context = (Context)Session["context"];
             var oldContext = MyContext.NewContext(context.Brand, context.Country, context.Language);
 
-            var model = new CompareView<IAsset>
+            var model = new CompareView<IReadOnlyList<IAsset>>
             {
                 OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, engineID),
                 NewReaderModel = GetNewReaderModelWithMetrics(context, modelID, engineID)
@@ -29,7 +29,7 @@ namespace TME.FrontEndViewer.Controllers
             return View("Assets/Index",model);
         }
 
-        private static ModelWithMetrics<IAsset> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid engineID)
+        private static ModelWithMetrics<IReadOnlyList<IAsset>> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid engineID)
         {
             var start = DateTime.Now;
 
@@ -42,13 +42,13 @@ namespace TME.FrontEndViewer.Controllers
             var list = category == null ? new List<IAsset>() : category.Assets.ToList();
 
 
-            return new ModelWithMetrics<IAsset>()
+            return new ModelWithMetrics<IReadOnlyList<IAsset>>()
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
         }
-        private static ModelWithMetrics<IAsset> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid engineID)
+        private static ModelWithMetrics<IReadOnlyList<IAsset>> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid engineID)
         {
             var start = DateTime.Now;
 
@@ -59,7 +59,7 @@ namespace TME.FrontEndViewer.Controllers
 
             var list = category == null ? new List<IAsset>() : category.Assets.ToList();
 
-            return new ModelWithMetrics<IAsset>()
+            return new ModelWithMetrics<IReadOnlyList<IAsset>>()
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)

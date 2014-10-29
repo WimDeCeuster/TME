@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 
@@ -10,7 +11,11 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 
         public GradeEquipmentBuilder()
         {
-            _gradeEquipment = new GradeEquipment();
+            _gradeEquipment = new GradeEquipment
+            {
+                Accessories = new List<GradeAccessory>(),
+                Options = new List<GradeOption>()
+            };
         }
 
         public GradeEquipmentBuilder WithAccessories(params GradeAccessory[] accessories)

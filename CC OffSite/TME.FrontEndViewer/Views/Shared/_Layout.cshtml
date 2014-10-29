@@ -25,82 +25,87 @@
             })
         }
 
-        $('#oldarea .object').each(function () {
-            var oldObject = $(this)
-            var oldParents = oldObject.parents('.object')
+        $('.object').each(function () {
+            var object = $(this)
+            if (object.data('linked-item'))
+                return
 
-            var newObject = findMatchingNewObject(oldObject)
+            var isOld = !!object.parents('#oldarea').length
 
-            var parentOldObjects = oldObject.parents('.object')
-            if (!parentOldObjects.length)
-                parentOldObjects = oldObject
+            var parents = object.parents('.object')
 
-            var parentNewObjects = newObject.parents('.object')
-            if (!parentNewObjects.length)
-                parentNewObjects = newObject
+            var linkedObject = findMatchingObject(object, isOld ? '#newarea' : '#oldarea')
 
-            oldObject.data('linked-item', newObject)
-            newObject.data('linked-item', oldObject)
+            var parentObjects = object.parents('.object')
+            if (!parentObjects.length)
+                parentObjects = object
 
-            if (!newObject.length) {
-                if (parentOldObjects.is(oldObject))
-                    oldObject.addClass('missing')
+            var parentLinkedObjects = linkedObject.parents('.object')
+            if (!parentLinkedObjects.length)
+                parentLinkedObjects = linkedObject
+
+            if (!linkedObject.length) {
+                if (parentObjects.is(object))
+                    object.addClass('missing')
                 else {
-                    parentOldObjects.each(function (i, parent) {
-                        $(parent).addClass('mismatch')
+                    parentObjects.each(function (i, parent) {
+                        $(parent).addClass('missing-sub-item')
                     })
-                    oldObject.addClass('missing')
+                    object.addClass('missing')
                 }
                 return
             }
 
-            oldObject.find('.property').filter(isClosestTo(oldObject))
-                                       .each(function () {
-                var oldProperty = $(this)
-                var id = oldProperty.data('id').replace(/('|")/g, "\\$1")
-                var newProperty = newObject.find('.property[data-id="' + id + '"]')
-                                           .filter(isClosestTo(newObject))
+            object.data('linked-item', linkedObject)
+            linkedObject.data('linked-item', object)
 
-                var allowMismatch = newProperty.hasClass('allow-mismatch')
-                var isMismatch = newProperty.html() !== oldProperty.html()
-                var isUnique = newProperty.length === 1
+            object.find('.property').filter(isClosestTo(object))
+                                       .each(function () {
+                var property = $(this)
+                var id = getDataId(property)
+                var linkedProperty = linkedObject.find('.property[data-id="' + id + '"]')
+                                           .filter(isClosestTo(linkedObject))
+
+                var allowMismatch = linkedProperty.hasClass('allow-mismatch')
+                var isMismatch = linkedProperty.html() !== property.html()
+                var isUnique = linkedProperty.length === 1
 
                 if (isUnique && isMismatch && allowMismatch) {
-                    newProperty.addClass('allowed-mismatch')
-                    oldProperty.addClass('allowed-mismatch')
+                    linkedProperty.addClass('allowed-mismatch')
+                    property.addClass('allowed-mismatch')
                 }
 
                 if (!isUnique || (isMismatch && !allowMismatch)) {
-                    parentNewObjects.each(function (i, parent) {
+                    parentLinkedObjects.each(function (i, parent) {
                         $(parent).addClass('mismatch')
                     })
-                    newProperty.addClass('mismatch')
+                    linkedProperty.addClass('mismatch')
                     
-                    if (!parentNewObjects.is(newObject))
-                        newObject.addClass('mismatch')
+                    if (!parentLinkedObjects.is(linkedObject))
+                        linkedObject.addClass('mismatch')
 
-                    parentOldObjects.each(function (i, parent) {
+                    parentObjects.each(function (i, parent) {
                         $(parent).addClass('mismatch')
                     })
-                    oldProperty.addClass('mismatch')
-                    if (!parentOldObjects.is(oldObject))
-                        oldObject.addClass('mismatch')
+                    property.addClass('mismatch')
+                    if (!parentObjects.is(object))
+                        object.addClass('mismatch')
                 }
             })
         })
 
-        function findMatchingNewObject(oldObject) {
-            var oldParentsIds = oldObject.parents('.object')
+        function findMatchingObject(object, linkedSelector) {
+            var parentsIds = object.parents('.object')
                                          .toArray()
                                          .map(getDataId)
 
-            var id = oldObject.data('id').replace(/('|")/g, "\\$1")
-            return $('#newarea .object[data-id="' + id + '"]').filter(function () {
+            var id = getDataId(object)
+            return $(linkedSelector + ' .object[data-id="' + id + '"]').filter(function () {
                 var candidateParentsIds = $(this).parents('.object')
                                                  .toArray()
                                                  .map(getDataId)
 
-                return oldParentsIds.like(candidateParentsIds)
+                return parentsIds.like(candidateParentsIds)
             })
         }
 
@@ -111,7 +116,7 @@
         }
 
         function getDataId(element) {
-            return $(element).data('id')
+            return $(element).attr('data-id').replace(/('|")/g, "\\$1")
         }
 
 

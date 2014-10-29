@@ -1,5 +1,6 @@
 ﻿using System;
 using TME.CarConfigurator.CommandServices;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.DI.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
@@ -72,6 +73,11 @@ namespace TME.CarConfigurator.Publisher.DI.S3
             return new AssetPublisher(service);
         }
 
+        private IColourCombinationPublisher GetColourCombinationPublisher(IColourCombinationService service)
+        {
+            return new ColourCombinationPublisher(service,_timeFramePublishHelper);
+        }
+
         private ISubModelPublisher GetSubModelPublisher(ISubModelService service)
         {
             return new SubModelPublisher(service, _timeFramePublishHelper);
@@ -103,7 +109,8 @@ namespace TME.CarConfigurator.Publisher.DI.S3
                 GetAssetPublisher(_serviceFactory.GetAssetService(environment, dataSubset)),
                 GetSubModelPublisher(_serviceFactory.GetSubModelService(environment, dataSubset)),
                 GetGradeEquipmentPublisher(_serviceFactory.GetGradeEquipmentService(environment, dataSubset)),
-                GetGradePackPublisher(_serviceFactory.GetGradePackService(environment, dataSubset))
+                GetGradePackPublisher(_serviceFactory.GetGradePackService(environment, dataSubset)),
+                GetColourCombinationPublisher(_serviceFactory.GetColourCombinationService(environment,dataSubset))
             );
         }
     }

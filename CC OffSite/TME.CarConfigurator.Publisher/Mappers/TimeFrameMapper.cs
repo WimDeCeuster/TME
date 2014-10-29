@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TME.BusinessObjects.Templates.SqlServer.Specialized.Core;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Exceptions;
 using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Core;
+using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Packs;
 
@@ -95,7 +92,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                         contextData.Grades.ToList(),
                         contextData.GradeEquipment.ToDictionary(),
                         contextData.GradePacks.ToDictionary(),
-                        contextData.SubModels.ToList());
+                        contextData.SubModels.ToList(),
+                        contextData.ColourCombinations.ToList());
         }
 
         static TimeFrame GetTimeFrame(DateTime openDate, DateTime closeDate, IReadOnlyList<Administration.Car> timeFrameCars, ContextData contextData)
@@ -109,6 +107,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var grades = contextData.Grades.Where(GradeIsPresentOn(timeFrameCars)).ToList();
             var subModels = contextData.SubModels.Where(SubModelIsPresentOn(timeFrameCars)).ToList();
             var gradeEquipments = FilterGradeEquipments(contextData.GradeEquipment, timeFrameCars);
+            var colourCombinations = contextData.ColourCombinations.Where(ColourCombinationIsPresentOn(timeFrameCars)).ToList();
             var gradePacks = FilterGradePacks(contextData.GradePacks, timeFrameCars);
 
             return new TimeFrame(
@@ -123,7 +122,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 grades,
                 gradeEquipments,
                 gradePacks,
-                subModels);
+                subModels,
+                colourCombinations);
         }
 
         private static IReadOnlyDictionary<Guid, IList<GradePack>> FilterGradePacks(IEnumerable<KeyValuePair<Guid, IList<GradePack>>> gradePacks, IEnumerable<Administration.Car> cars)
@@ -206,6 +206,11 @@ namespace TME.CarConfigurator.Publisher.Mappers
         static Func<SubModel, Boolean> SubModelIsPresentOn(IEnumerable<Administration.Car> cars)
         {
             return subModel => cars.Any(car => car.SubModelID == subModel.ID);
+        }
+
+        private static Func<ExteriorColour, Boolean> ColourCombinationIsPresentOn(IEnumerable<Administration.Car> cars)
+        {
+            return exteriorColour => cars.Any(car => car.ColourCombinations.ExteriorColours().Any(adminExteriorColour => adminExteriorColour.ID == exteriorColour.ID));
         }
     }
 }

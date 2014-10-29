@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="CarService.cs" />
     <Compile Include="AssetsService.cs" />
+    <Compile Include="ColourCombinationService.cs" />
     <Compile Include="GradeEquipmentService.cs" />
     <Compile Include="GradePackService.cs" />
     <Compile Include="SteeringService.cs" />
@@ -61,6 +62,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.CommandServices\TME.CarConfigurator.CommandServices.csproj">
       <Project>{3db012ee-feb6-40f1-9c09-97212c142013}</Project>
       <Name>TME.CarConfigurator.CommandServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
+      <Project>{EFDB033C-66A8-40BB-B596-561F45E6C7F7}</Project>
+      <Name>TME.CarConfigurator.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj">
       <Project>{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}</Project>

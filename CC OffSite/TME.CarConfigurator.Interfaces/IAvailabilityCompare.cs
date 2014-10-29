@@ -8,8 +8,8 @@ namespace TME.CarConfigurator.Interfaces
         bool Optional { get; }
         bool NotAvailable { get; }
 
-        IEnumerable<ICarInfo> StandardOn { get; }
-        IEnumerable<ICarInfo> OptionalOn { get; }
-        IEnumerable<ICarInfo> NotAvailableOn { get; }
+        IReadOnlyList<ICarInfo> StandardOn { get; }
+        IReadOnlyList<ICarInfo> OptionalOn { get; }
+        IReadOnlyList<ICarInfo> NotAvailableOn { get; }
     }
 }

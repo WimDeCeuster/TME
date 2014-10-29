@@ -9,8 +9,8 @@ namespace TME.CarConfigurator.Repository.Objects.Packs
         public bool Optional { get; set; }
         public bool NotAvailable { get; set; }
 
-        public IEnumerable<CarInfo> StandardOn { get; set; }
-        public IEnumerable<CarInfo> OptionalOn { get; set; }
-        public IEnumerable<CarInfo> NotAvailableOn { get; set; }
+        public IList<CarInfo> StandardOn { get; set; }
+        public IList<CarInfo> OptionalOn { get; set; }
+        public IList<CarInfo> NotAvailableOn { get; set; }
     }
 }

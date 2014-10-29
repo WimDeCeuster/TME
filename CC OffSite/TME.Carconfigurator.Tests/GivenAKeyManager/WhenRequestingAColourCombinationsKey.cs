@@ -7,7 +7,7 @@ using Xunit;
 
 namespace TME.Carconfigurator.Tests.GivenAKeyManager
 {
-    public class WhenRequestingASubModelKey : TestBase
+    public class WhenRequestingAColourCombinationsKey : TestBase
     {
         private IKeyManager _keyManager;
         private string _expectedKey;
@@ -22,12 +22,12 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
             _publicationId = Guid.NewGuid();
             _timeFrameId = Guid.NewGuid();
 
-            _expectedKey = "publication/" + _publicationId + "/time-frame/" + _timeFrameId + "/submodels";
+            _expectedKey = "publication/" + _publicationId + "/time-frame/" + _timeFrameId + "/colourcombinations";
         }
 
         protected override void Act()
         {
-            _actualKey = _keyManager.GetSubModelsKey(_publicationId, _timeFrameId);
+            _actualKey = _keyManager.GetColourCombinationsKey(_publicationId, _timeFrameId);
         }
 
         [Fact]
