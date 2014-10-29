@@ -19,7 +19,7 @@ namespace TME.FrontEndViewer.Controllers
             var context = (Context)Session["context"];
             var oldContext = MyContext.NewContext(context.Brand, context.Country, context.Language);
 
-            var model = new CompareView<IAsset>
+            var model = new CompareView<IReadOnlyList<IAsset>>
             {
                 OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID,subModelID),
                 NewReaderModel = GetNewReaderModelWithMetrics(context, modelID,subModelID)
@@ -28,7 +28,7 @@ namespace TME.FrontEndViewer.Controllers
             return View("Assets/Index",model);
         }
 
-        private static ModelWithMetrics<IAsset> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid? subModelID)
+        private static ModelWithMetrics<IReadOnlyList<IAsset>> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid? subModelID)
         {
             List<IAsset> list;
             var start = DateTime.Now;
@@ -42,13 +42,13 @@ namespace TME.FrontEndViewer.Controllers
                     .First(x => x.ID == subModelID)
                 ).Assets.ToList();
 
-            return new ModelWithMetrics<IAsset>()
+            return new ModelWithMetrics<IReadOnlyList<IAsset>>()
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
         }
-        private static ModelWithMetrics<IAsset> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid? subModelID)
+        private static ModelWithMetrics<IReadOnlyList<IAsset>> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid? subModelID)
         {
             List<IAsset> list;
             var start = DateTime.Now;
@@ -60,7 +60,7 @@ namespace TME.FrontEndViewer.Controllers
                 .SubModels.First(x => x.ID == subModelID)
                 .Assets.ToList();
 
-            return new ModelWithMetrics<IAsset>()
+            return new ModelWithMetrics<IReadOnlyList<IAsset>>()
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)

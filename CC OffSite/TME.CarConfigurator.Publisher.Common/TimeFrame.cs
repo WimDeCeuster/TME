@@ -1,8 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Packs;
+using BodyType = TME.CarConfigurator.Repository.Objects.BodyType;
+using Car = TME.CarConfigurator.Repository.Objects.Car;
+using Engine = TME.CarConfigurator.Repository.Objects.Engine;
+using Steering = TME.CarConfigurator.Repository.Objects.Steering;
+using Transmission = TME.CarConfigurator.Repository.Objects.Transmission;
+using WheelDrive = TME.CarConfigurator.Repository.Objects.WheelDrive;
 
 namespace TME.CarConfigurator.Publisher.Common
 {
@@ -21,6 +28,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IReadOnlyDictionary<Guid, GradeEquipment> GradeEquipments { get; private set; }
         public IReadOnlyDictionary<Guid, IList<GradePack>> GradePacks { get; private set; }
         public IReadOnlyList<SubModel> SubModels { get; private set; }
+        public IReadOnlyList<ExteriorColour> ColourCombinations { get; private set; }
 
         public readonly Guid ID;
 
@@ -36,7 +44,8 @@ namespace TME.CarConfigurator.Publisher.Common
             IReadOnlyList<Grade> grades,
             IReadOnlyDictionary<Guid, GradeEquipment> gradeEquipments,
             IReadOnlyDictionary<Guid, IList<GradePack>> gradePacks,
-            IReadOnlyList<SubModel> subModels)
+            IReadOnlyList<SubModel> subModels,
+            IReadOnlyList<ExteriorColour> exteriorColours)
         {
             if (cars == null) throw new ArgumentNullException("cars");
             if (bodyTypes == null) throw new ArgumentNullException("bodyTypes");
@@ -48,10 +57,12 @@ namespace TME.CarConfigurator.Publisher.Common
             if (gradeEquipments == null) throw new ArgumentNullException("gradeEquipments");
             if (gradePacks == null) throw new ArgumentNullException("gradePacks");
             if (subModels == null) throw new ArgumentNullException("subModels");
+            if (exteriorColours == null) throw new ArgumentNullException("exteriorColours");
 
             From = from;
             Until = until;
             GradePacks = gradePacks;
+            ColourCombinations = exteriorColours;
             Cars = cars;
             BodyTypes = bodyTypes;
             Engines = engines;

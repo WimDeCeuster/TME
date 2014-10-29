@@ -19,9 +19,9 @@ namespace TME.CarConfigurator.Factories
             _packService = packService;
         }
 
-        public IReadOnlyList<IGradePack> GetGradePacks(Publication publication, Context context, Repository.Objects.Grade grade)
+        public IReadOnlyList<IGradePack> GetGradePacks(Publication publication, Context context, Guid gradeId)
         {
-            return _packService.GetGradePacks(publication.ID, publication.GetCurrentTimeFrame().ID, grade.ID, context)
+            return _packService.GetGradePacks(publication.ID, publication.GetCurrentTimeFrame().ID, gradeId, context)
                 .Select(repoPack => new GradePack(repoPack))
                 .ToList();
         }

@@ -132,21 +132,21 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
             get { return Adaptee.NotAvailable; }
         }
 
-        public IEnumerable<ICarInfo> StandardOn
+        public IReadOnlyList<ICarInfo> StandardOn
         {
-            get { return Adaptee.StandardOn.Cast<TMME.CarConfigurator.Car>().Select(x => new CarInfo(x)); }
+            get { return Adaptee.StandardOn.Cast<TMME.CarConfigurator.Car>().Select(x => new CarInfo(x)).ToList(); }
         }
 
-        public IEnumerable<ICarInfo> OptionalOn
+        public IReadOnlyList<ICarInfo> OptionalOn
         {
-            get { return Adaptee.OptionalOn.Cast<TMME.CarConfigurator.Car>().Select(x => new CarInfo(x)); }
+            get { return Adaptee.OptionalOn.Cast<TMME.CarConfigurator.Car>().Select(x => new CarInfo(x)).ToList(); }
         }
 
-        public IEnumerable<ICarInfo> NotAvailableOn
+        public IReadOnlyList<ICarInfo> NotAvailableOn
         {
             get
             {
-                return Adaptee.NotAvailableOn.Cast<TMME.CarConfigurator.Car>().Select(x => new CarInfo(x)); 
+                return Adaptee.NotAvailableOn.Cast<TMME.CarConfigurator.Car>().Select(x => new CarInfo(x)).ToList(); 
             }
         }
     }

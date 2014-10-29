@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TME.CarConfigurator.Interfaces.Assets;
+using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Core;
 
 namespace TME.CarConfigurator.Interfaces
@@ -22,6 +23,8 @@ namespace TME.CarConfigurator.Interfaces
         IEnumerable<IFuelType> FuelTypes { get; }
         IEnumerable<ICar> Cars { get; }
         IEnumerable<ISubModel> SubModels { get; }
+
+        IEnumerable<IColourCombination> ColourCombinations { get; }
 
     }
 }

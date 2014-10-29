@@ -31,6 +31,7 @@ namespace TME.CarConfigurator.Publisher
         readonly ISubModelMapper _subModelMapper;
         readonly IEquipmentMapper _equipmentMapper;
         readonly IPackMapper _packMapper;
+        readonly IColourMapper _colourMapper;
 
         public Mapper(
             ITimeFrameMapper timeFrameMapper,
@@ -46,7 +47,8 @@ namespace TME.CarConfigurator.Publisher
             IAssetMapper assetMapper,
             ISubModelMapper subModelMapper,
             IEquipmentMapper equipmentMapper,
-            IPackMapper packMapper)
+            IPackMapper packMapper,
+            IColourMapper colourMapper)
         {
             if (timeFrameMapper == null) throw new ArgumentNullException("timeFrameMapper");
             if (modelMapper == null) throw new ArgumentNullException("modelMapper");
@@ -77,6 +79,7 @@ namespace TME.CarConfigurator.Publisher
             _carMapper = carMapper;
             _equipmentMapper = equipmentMapper;
             _packMapper = packMapper;
+            _colourMapper = colourMapper;
         }
 
         public Task MapAsync(IContext context)
@@ -115,11 +118,12 @@ namespace TME.CarConfigurator.Publisher
                 FillTransmissions(cars, modelGeneration, contextData);
                 FillWheelDrives(cars, modelGeneration, contextData);
                 FillSteerings(cars, contextData);
+                FillColourCombinations(cars,modelGeneration, contextData);
                 FillCars(cars, contextData);
                 FillGrades(cars, modelGeneration, contextData);
-                FillSubModels(cars, modelGeneration, contextData, isPreview);
                 FillCarAssets(cars, contextData, modelGeneration);
                 FillGradeEquipment(grades, modelGeneration, contextData, isPreview);
+                FillSubModels(cars, modelGeneration, contextData, isPreview);
                 FillGradePacks(grades, contextData);
 
                 context.TimeFrames[language] = _timeFrameMapper.GetTimeFrames(language, context);
@@ -270,6 +274,12 @@ namespace TME.CarConfigurator.Publisher
                 contextData.Transmissions.Add(_transmissionMapper.MapTransmission(transmission));
         }
 
+        private void FillColourCombinations(IEnumerable<Car> cars,ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var colourCombination in modelGeneration.ColourCombinations.Where(colourCombination => cars.Any(car => car.ColourCombinations.Any(adminColourCombination => adminColourCombination.ExteriorColour.ID == colourCombination.ExteriorColour.ID))))
+                contextData.ColourCombinations.Add(_colourMapper.MapColourCombination(colourCombination.ExteriorColour));
+        }
+
         void FillWheelDrives(IEnumerable<Car> cars, ModelGeneration modelGeneration, ContextData contextData)
         {
             foreach (var wheelDrive in modelGeneration.WheelDrives.Where(wheelDrive => cars.Any(car => car.WheelDriveID == wheelDrive.ID)))
@@ -308,7 +318,7 @@ namespace TME.CarConfigurator.Publisher
             var applicableGrades = modelGeneration.Grades.Where(grade => cars.Any(car => car.GradeID == grade.ID)).ToArray();
 
             foreach (var grade in applicableGrades)
-                contextData.Grades.Add(_gradeMapper.MapGrade(grade, contextData.Cars));
+                contextData.Grades.Add(_gradeMapper.MapGenerationGrade(grade, contextData.Cars));
 
             PutGradesOnApplicableCars(cars, contextData, applicableGrades);
         }
@@ -344,22 +354,28 @@ namespace TME.CarConfigurator.Publisher
 
             foreach (var grade in grades)
             {
+                var gradeCars = grade.Cars().ToList();
+
                 var accessories = grade.Equipment.OfType<ModelGenerationGradeAccessory>()
+                    .Where(accessory => gradeCars.Any(car => car.Equipment[accessory.ID] != null && car.Equipment[accessory.ID].Availability != Administration.Enums.Availability.NotAvailable))
                     .Select(accessory =>
                         _equipmentMapper.MapGradeAccessory(
                             accessory,
                             (ModelGenerationAccessory)modelGeneration.Equipment[accessory.ID],
                             (Administration.Accessory)crossModelAccessories[accessory.ID],
                             categories,
+                            gradeCars,
                             isPreview)).ToList();
 
                 var options = grade.Equipment.OfType<ModelGenerationGradeOption>()
-                    .Select(option =>
-                        _equipmentMapper.MapGradeOption(
+                        .Where(option => gradeCars.Any(car => car.Equipment[option.ID] != null && car.Equipment[option.ID].Availability != Administration.Enums.Availability.NotAvailable))
+                        .Select(option =>
+                            _equipmentMapper.MapGradeOption(
                             option,
-                            (ModelGenerationOption)modelGeneration.Equipment[option.ID],
+                            (Administration.ModelGenerationOption)modelGeneration.Equipment[option.ID],
                             (Administration.Option)crossModelOptions[option.ID],
                             categories,
+                            gradeCars,
                             isPreview)).ToList();
 
                 data.GradeEquipment.Add(grade.ID, new GradeEquipment
@@ -378,7 +394,10 @@ namespace TME.CarConfigurator.Publisher
                 var gradePacks = grade.Packs;
                 var generationPacks = grade.Generation.Packs;
 
-                var mappedGradePacks = gradePacks.Select(gradePack => _packMapper.MapGradePack(gradePack, generationPacks[gradePack.ID], gradeCars)).ToList();
+                var mappedGradePacks = gradePacks
+                    .Select(gradePack => _packMapper.MapGradePack(gradePack, generationPacks[gradePack.ID], gradeCars))
+                    .Where(gradePack => gradePack.OptionalOn.Any() || gradePack.StandardOn.Any()) // do not publish packs that are not available on any car
+                    .ToList();
 
                 contextData.GradePacks.Add(grade.ID, mappedGradePacks);
             }

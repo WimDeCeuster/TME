@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
@@ -8,20 +9,24 @@ namespace TME.CarConfigurator
 {
     public class GradePack : BaseObject<Repository.Objects.Packs.GradePack>, IGradePack
     {
+        private IReadOnlyList<CarInfo> _standardOn;
+        private IReadOnlyList<CarInfo> _optionalOn;
+        private IReadOnlyList<CarInfo> _notAvailableOn;
+
         public GradePack(Repository.Objects.Packs.GradePack repositoryObject)
             : base(repositoryObject)
         {
         }
 
-        public int ShortID { get; private set; }
-        public bool GradeFeature { get; private set; }
-        public bool OptionalGradeFeature { get; private set; }
-        public IEnumerable<IAsset> Assets { get; private set; }
-        public bool Standard { get; private set; }
-        public bool Optional { get; private set; }
-        public bool NotAvailable { get; private set; }
-        public IEnumerable<ICarInfo> StandardOn { get; private set; }
-        public IEnumerable<ICarInfo> OptionalOn { get; private set; }
-        public IEnumerable<ICarInfo> NotAvailableOn { get; private set; }
+        public int ShortID { get { return RepositoryObject.ShortID; } }
+        public bool GradeFeature { get { return RepositoryObject.GradeFeature; } }
+        public bool OptionalGradeFeature { get { return RepositoryObject.OptionalGradeFeature; } }
+        public IEnumerable<IAsset> Assets { get { return new List<IAsset>(); } }
+        public bool Standard { get { return RepositoryObject.Standard; } }
+        public bool Optional { get { return RepositoryObject.Optional; } }
+        public bool NotAvailable { get { return RepositoryObject.NotAvailable; } }
+        public IReadOnlyList<ICarInfo> StandardOn { get { return _standardOn = _standardOn ?? RepositoryObject.StandardOn.Select(ci => new CarInfo(ci)).ToList(); } }
+        public IReadOnlyList<ICarInfo> OptionalOn { get { return _optionalOn = _optionalOn ?? RepositoryObject.OptionalOn.Select(ci => new CarInfo(ci)).ToList(); } }
+        public IReadOnlyList<ICarInfo> NotAvailableOn { get { return _notAvailableOn = _notAvailableOn ?? RepositoryObject.NotAvailableOn.Select(ci => new CarInfo(ci)).ToList(); } }
     }
 }

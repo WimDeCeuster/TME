@@ -16,7 +16,6 @@ namespace TME.CarConfigurator.Factories
         private readonly IAssetFactory _assetFactory;
         private readonly IGradeEquipmentFactory _gradeEquipmentFactory;
         private readonly IPackFactory _packFactory;
-        private IGrade[] _subModelGrades;
 
         public GradeFactory(IGradeService gradeService, IAssetFactory assetFactory, IGradeEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
         {

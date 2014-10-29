@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TME.CarConfigurator.Repository.Objects</RootNamespace>
     <AssemblyName>TME.CarConfigurator.Repository.Objects</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -51,8 +53,12 @@
     <Compile Include="Assets\Enums\Scope.cs" />
     <Compile Include="Assets\FileType.cs" />
     <Compile Include="Assets\VisibleInModeAndView.cs" />
+    <Compile Include="Colours\ColourCombination.cs" />
     <Compile Include="Colours\ColourTransformation.cs" />
+    <Compile Include="Colours\Upholstery.cs" />
+    <Compile Include="Colours\UpholsteryType.cs" />
     <Compile Include="Colours\ExteriorColour.cs" />
+    <Compile Include="Colours\ExteriorColourType.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Equipment\BestVisibleIn.cs" />
     <Compile Include="Equipment\GradeEquipment.cs" />

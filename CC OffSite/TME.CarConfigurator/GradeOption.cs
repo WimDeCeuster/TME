@@ -3,22 +3,24 @@ using TME.CarConfigurator.Interfaces.Equipment;
 
 namespace TME.CarConfigurator
 {
-    public class GradeOption : GradeEquipmentItem, IGradeOption
+    public class GradeOption : GradeEquipmentItem<Repository.Objects.Equipment.GradeOption>, IGradeOption
     {
-        public GradeOption(Repository.Objects.Equipment.GradeOption repoOption)
+        readonly IOptionInfo _parentOptionInfo;
+
+        public GradeOption(Repository.Objects.Equipment.GradeOption repoOption, IOptionInfo parentOptionInfo)
             : base(repoOption)
         {
-
+            _parentOptionInfo = parentOptionInfo;
         }
 
         public bool TechnologyItem
         {
-            get { throw new NotImplementedException(); }
+            get { return RepositoryObject.TechnologyItem; }
         }
 
         public IOptionInfo ParentOption
         {
-            get { throw new NotImplementedException(); }
+            get { return _parentOptionInfo; }
         }
     }
 }

@@ -72,7 +72,7 @@ namespace TME.CarConfigurator
 
         public IEnumerable<IGradePack> Packs
         {
-            get { return _packs = _packs ?? _packFactory.GetGradePacks(_repositoryPublication, _repositoryContext, RepositoryObject); }
+            get { return _packs = _packs ?? _packFactory.GetGradePacks(_repositoryPublication, _repositoryContext, RepositoryObject.ID); }
         }
     }
 }

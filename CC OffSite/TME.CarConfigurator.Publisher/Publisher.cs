@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Common.Result;
@@ -28,8 +29,23 @@ namespace TME.CarConfigurator.Publisher
         readonly ISubModelPublisher _subModelPublisher;
         readonly IGradeEquipmentPublisher _gradeEquipmentPublisher;
         private readonly IGradePackPublisher _gradePackPublisher;
+        private readonly IColourCombinationPublisher _colourCombinationPublisher;
 
-        public Publisher(IPublicationPublisher publicationPublisher, IModelPublisher modelPublisher, IModelService modelService, IBodyTypePublisher bodyTypePublisher, IEnginePublisher enginePublisher, ITransmissionPublisher transmissionPublisher, IWheelDrivePublisher wheelDrivePublisher, ISteeringPublisher steeringPublisher, IGradePublisher gradePublisher, ICarPublisher carPublisher, IAssetPublisher assetPublisher, ISubModelPublisher subModelPublisher, IGradeEquipmentPublisher gradeEquipmentPublisher, IGradePackPublisher gradePackPublisher)
+        public Publisher(IPublicationPublisher publicationPublisher, 
+        	IModelPublisher modelPublisher, 
+        	IModelService modelService, 
+        	IBodyTypePublisher bodyTypePublisher, 
+        	IEnginePublisher enginePublisher, 
+        	ITransmissionPublisher transmissionPublisher, 
+        	IWheelDrivePublisher wheelDrivePublisher, 
+        	ISteeringPublisher steeringPublisher, 
+        	IGradePublisher gradePublisher,
+        	ICarPublisher carPublisher, 
+        	IAssetPublisher assetPublisher, 
+        	ISubModelPublisher subModelPublisher, 
+        	IGradeEquipmentPublisher gradeEquipmentPublisher, 
+        	IGradePackPublisher gradePackPublisher,
+            IColourCombinationPublisher colourCombinationPublisher)
         {
             if (publicationPublisher == null) throw new ArgumentNullException("publicationPublisher");
             if (modelPublisher == null) throw new ArgumentNullException("modelPublisher");
@@ -45,6 +61,7 @@ namespace TME.CarConfigurator.Publisher
             if (subModelPublisher == null) throw new ArgumentNullException("subModelPublisher");
             if (gradeEquipmentPublisher == null) throw new ArgumentNullException("gradeEquipmentPublisher");
             if (gradePackPublisher == null) throw new ArgumentNullException("gradePackPublisher");
+            if (colourCombinationPublisher == null) throw new ArgumentNullException("colourCombinationPublisher");
 
             _publicationPublisher = publicationPublisher;
             _modelPublisher = modelPublisher;
@@ -60,6 +77,7 @@ namespace TME.CarConfigurator.Publisher
             _subModelPublisher = subModelPublisher;
             _gradeEquipmentPublisher = gradeEquipmentPublisher;
             _gradePackPublisher = gradePackPublisher;
+            _colourCombinationPublisher = colourCombinationPublisher;
         }
 
         public async Task<Result> PublishAsync(IContext context)
@@ -100,6 +118,7 @@ namespace TME.CarConfigurator.Publisher
                 _gradePublisher.PublishGenerationGradesAsync(context),
                 _subModelPublisher.PublishGenerationSubModelsAsync(context),
                 _carPublisher.PublishGenerationCarsAsync(context),
+                _colourCombinationPublisher.PublishGenerationColourCombinationsAsync(context),
                 _gradeEquipmentPublisher.PublishAsync(context),
                 _gradePackPublisher.PublishAsync(context),
                 

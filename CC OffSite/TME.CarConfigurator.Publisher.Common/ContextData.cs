@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
+using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Packs;
 
@@ -23,6 +24,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IList<Grade> Grades { get; private set; }
         public IList<SubModel> SubModels { get; private set; }
         public IDictionary<Guid, GradeEquipment> GradeEquipment { get; private set; }
+        public IList<ExteriorColour> ColourCombinations { get; private set; }
         public IDictionary<Guid, IDictionary<Guid, IList<Asset>>> CarAssets { get; private set; }
         public IDictionary<Guid, IList<GradePack>> GradePacks { get; private set; }
 
@@ -41,6 +43,7 @@ namespace TME.CarConfigurator.Publisher.Common
             Grades = new List<Grade>();
             SubModels = new List<SubModel>();
             GradeEquipment = new Dictionary<Guid, GradeEquipment>();
+            ColourCombinations = new List<ExteriorColour>();
             GradePacks = new Dictionary<Guid, IList<GradePack>>();
         }
     }

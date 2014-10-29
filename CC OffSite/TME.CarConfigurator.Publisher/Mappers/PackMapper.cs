@@ -41,10 +41,14 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 OptionalGradeFeature = gradePack.OptionalGradeFeature,
             };
             
-            return _baseMapper.MapDefaultsWithSort(mappedGradePack, generationPack, generationPack);
+             _baseMapper.MapDefaultsWithSort(mappedGradePack, generationPack, generationPack);
+
+            mappedGradePack.LocalCode = gradePack.LocalCode; // basemapper falls back to internalcode by default, but this shouldn't happen for grade packs
+
+            return mappedGradePack;
         }
 
-        private IEnumerable<CarInfo> FindCarsOnWhichPackHasCorrectAvailability(IEnumerable<Car> gradeCars, Guid packID, Availability availability)
+        private IList<CarInfo> FindCarsOnWhichPackHasCorrectAvailability(IEnumerable<Car> gradeCars, Guid packID, Availability availability)
         {
             var matchingCars = gradeCars.Where(c =>
             {
@@ -52,7 +56,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 return carPack != null && carPack.Availability == availability;
             });
 
-            return matchingCars.Select(c => _carMapper.MapCarInfo(c));
+            return matchingCars.Select(c => _carMapper.MapCarInfo(c)).ToList();
         }
     }
 }
