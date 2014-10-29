@@ -58,7 +58,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGradeEquipmentItem
                 .WithGradeEquipmentService(gradeEquipmentService)
                 .Build();
 
-            _gradeEquipmentItem = gradeEquipmentFactory.GetGradeEquipment(publication, context, Guid.Empty).GradeAccessories.Single();
+            _gradeEquipmentItem = gradeEquipmentFactory.GetGradeEquipment(publication, context, Guid.Empty).Accessories.Single();
 
             _firstCarInfos = _gradeEquipmentItem.StandardOn;
         }

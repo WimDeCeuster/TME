@@ -53,7 +53,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGradeEquipmentItem
                 .WithGradeEquipmentService(gradeEquipmentService)
                 .Build();
 
-            _accessory = gradeEquipmentFactory.GetGradeEquipment(publication, context, Guid.Empty).GradeAccessories.Single();
+            _accessory = gradeEquipmentFactory.GetGradeEquipment(publication, context, Guid.Empty).Accessories.Single();
         }
 
         protected override void Act()

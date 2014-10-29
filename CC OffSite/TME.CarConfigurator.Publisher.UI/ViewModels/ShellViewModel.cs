@@ -114,11 +114,13 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
                 NotifyOfPropertyChange(() => IsPublishing);
                 NotifyOfPropertyChange(() => CanPublishLiveAsync);
                 NotifyOfPropertyChange(() => CanPublishPreviewAsync);
+                NotifyOfPropertyChange(() => CanPublishForReviewAsync);
             }
         }
 
         public bool CanPublishLiveAsync { get { return SelectedGeneration != null && !IsPublishing; } }
         public bool CanPublishPreviewAsync { get { return SelectedGeneration != null && !IsPublishing; } }
+        public bool CanPublishForReviewAsync { get { return !IsPublishing; } }
 
         public async void PublishLiveAsync()
         {
@@ -150,6 +152,27 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
         private static void DisplayResult(Result result)
         {
             MessageBox.Show(result is Successfull ? "Success!" : string.Format("Failure! {0}", ((Failed)result).Reason));
+        }
+
+        public async Task<Result> PublishForReviewAsync()
+        {
+            if (IsPublishing) return new Failed { Reason = "Already finished" };
+
+            IsPublishing = true;
+
+            Result result;
+
+            if ((result = await CarConfiguratorPublisher.PublishAsync(new Guid("D45FD002-E547-4D37-BA78-855BAD1CA998"), SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview)) is Failed) { DisplayResult(result); return result; }
+            if ((result = await CarConfiguratorPublisher.PublishAsync(new Guid("0B6B6F08-CA5F-4EF9-8720-9A1E033F1276"), SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview)) is Failed) { DisplayResult(result); return result; }
+            if ((result = await CarConfiguratorPublisher.PublishAsync(new Guid("66ED2534-32FB-4CDE-8910-F3B8DA35966F"), SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview)) is Failed) { DisplayResult(result); return result; }
+            if ((result = await CarConfiguratorPublisher.PublishAsync(new Guid("C7F1DC17-D700-4D62-BCC5-F6B4A88F94E0"), SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview)) is Failed) { DisplayResult(result); return result; }
+            if ((result = await CarConfiguratorPublisher.PublishAsync(new Guid("D066CC26-A7A2-4DA2-9A01-FA33F9179698"), SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview)) is Failed) { DisplayResult(result); return result; }
+
+            IsPublishing = false;
+
+            DisplayResult(result);
+
+            return result;
         }
     }
 }

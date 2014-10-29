@@ -40,5 +40,9 @@
                 <Button x:Name="PublishLiveAsync" Margin="10 0 0 0">Publish to live</Button>
             </StackPanel>
         </StackPanel>
+        <StackPanel HorizontalAlignment="Center">
+            <TextBlock>Only use this when doing reviews:</TextBlock>
+            <Button x:Name="PublishForReviewAsync">Publish for review</Button>
+        </StackPanel>
     </StackPanel>
 </UserControl>

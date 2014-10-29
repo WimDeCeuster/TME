@@ -67,7 +67,7 @@ namespace TME.CarConfigurator
 
         public IEnumerable<IGradeEquipmentItem> Equipment
         {
-            get { return _equipmentItems = _equipmentItems ?? GradeEquipment.GradeAccessories.Cast<IGradeEquipmentItem>().Concat(GradeEquipment.GradeOptions).ToList(); }
+            get { return _equipmentItems = _equipmentItems ?? GradeEquipment.Accessories.Cast<IGradeEquipmentItem>().Concat(GradeEquipment.Options).ToList(); }
         }
 
         public IEnumerable<IGradePack> Packs

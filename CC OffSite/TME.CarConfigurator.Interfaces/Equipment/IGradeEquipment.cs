@@ -4,7 +4,7 @@ namespace TME.CarConfigurator.Interfaces.Equipment
 {
     public interface IGradeEquipment
     {
-        IReadOnlyList<IGradeAccessory> GradeAccessories { get; }
-        IReadOnlyList<IGradeOption> GradeOptions { get; }
+        IReadOnlyList<IGradeAccessory> Accessories { get; }
+        IReadOnlyList<IGradeOption> Options { get; }
     }
 }

@@ -46,7 +46,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGradeOption
                 .WithGradeEquipmentService(gradeEquipmentService)
                 .Build();
 
-            _option = gradeEquipmentFactory.GetGradeEquipment(publication, context, Guid.Empty).GradeOptions.Single();
+            _option = gradeEquipmentFactory.GetGradeEquipment(publication, context, Guid.Empty).Options.Single();
         }
 
         protected override void Act()
