@@ -23,7 +23,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         private readonly Dictionary<Guid, IList<GradePack>> _gradePacks = new Dictionary<Guid, IList<GradePack>>();
         private List<Transmission> _transmissions = new List<Transmission>();
         private List<SubModel> _subModels = new List<SubModel>();
-        private List<ExteriorColour> _exteriorColours = new List<ExteriorColour>();
+        private List<ColourCombination> _colourCombinations = new List<ColourCombination>();
 
         public TimeFrameBuilder WithDateRange(DateTime from, DateTime until)
         {
@@ -92,10 +92,10 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             _gradePacks.Add(gradeId, gradePacks);
             return this;
         }
-        
-        public TimeFrameBuilder WithExteriorColour(IEnumerable<ExteriorColour> exteriorColour)
+
+        public TimeFrameBuilder WithColourCombinations(IEnumerable<ColourCombination> colourCombinations)
         {
-            _exteriorColours = exteriorColour.ToList();
+            _colourCombinations = colourCombinations.ToList();
             return this;
         }
 
@@ -114,7 +114,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
                 _gradeEquipments,
                 _gradePacks,
                 _subModels,
-                _exteriorColours);
+                _colourCombinations);
         }
     }
 }

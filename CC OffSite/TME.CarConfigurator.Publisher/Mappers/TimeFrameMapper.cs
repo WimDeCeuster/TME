@@ -208,9 +208,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return subModel => cars.Any(car => car.SubModelID == subModel.ID);
         }
 
-        private static Func<ExteriorColour, Boolean> ColourCombinationIsPresentOn(IEnumerable<Administration.Car> cars)
+        private static Func<ColourCombination, Boolean> ColourCombinationIsPresentOn(IEnumerable<Administration.Car> cars)
         {
-            return exteriorColour => cars.Any(car => car.ColourCombinations.ExteriorColours().Any(adminExteriorColour => adminExteriorColour.ID == exteriorColour.ID));
+            return colourCombination => cars.Any(car => car.ColourCombinations[colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID] != null);
         }
     }
 }

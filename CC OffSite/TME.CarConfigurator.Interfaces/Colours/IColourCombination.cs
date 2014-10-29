@@ -8,9 +8,9 @@ namespace TME.CarConfigurator.Interfaces.Colours
     {
         Guid ID { get; }
         IExteriorColour ExteriorColour { get; }
-        IUphostery Upholstery { get; }
+        IUpholstery Upholstery { get; }
         int SortIndex { get; }
 
-        IEnumerable<IAsset> Assets { get; }
+        IReadOnlyList<IAsset> Assets { get; }
     }
 }

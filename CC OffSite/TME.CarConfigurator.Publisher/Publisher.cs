@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Common.Result;
@@ -29,7 +28,7 @@ namespace TME.CarConfigurator.Publisher
         readonly ISubModelPublisher _subModelPublisher;
         readonly IGradeEquipmentPublisher _gradeEquipmentPublisher;
         private readonly IGradePackPublisher _gradePackPublisher;
-        private readonly IColourCombinationPublisher _colourCombinationPublisher;
+        private readonly IColourPublisher _colourCombinationPublisher;
 
         public Publisher(IPublicationPublisher publicationPublisher, 
         	IModelPublisher modelPublisher, 
@@ -45,7 +44,7 @@ namespace TME.CarConfigurator.Publisher
         	ISubModelPublisher subModelPublisher, 
         	IGradeEquipmentPublisher gradeEquipmentPublisher, 
         	IGradePackPublisher gradePackPublisher,
-            IColourCombinationPublisher colourCombinationPublisher)
+            IColourPublisher colourCombinationPublisher)
         {
             if (publicationPublisher == null) throw new ArgumentNullException("publicationPublisher");
             if (modelPublisher == null) throw new ArgumentNullException("modelPublisher");
@@ -118,7 +117,7 @@ namespace TME.CarConfigurator.Publisher
                 _gradePublisher.PublishGenerationGradesAsync(context),
                 _subModelPublisher.PublishGenerationSubModelsAsync(context),
                 _carPublisher.PublishGenerationCarsAsync(context),
-                _colourCombinationPublisher.PublishGenerationColourCombinationsAsync(context),
+                _colourCombinationPublisher.PublishGenerationColourCombinations(context),
                 _gradeEquipmentPublisher.PublishAsync(context),
                 _gradePackPublisher.PublishAsync(context),
                 

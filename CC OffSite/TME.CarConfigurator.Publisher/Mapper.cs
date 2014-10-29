@@ -274,10 +274,12 @@ namespace TME.CarConfigurator.Publisher
                 contextData.Transmissions.Add(_transmissionMapper.MapTransmission(transmission));
         }
 
-        private void FillColourCombinations(IEnumerable<Car> cars,ModelGeneration modelGeneration, ContextData contextData)
+        private void FillColourCombinations(IEnumerable<Car> cars, ModelGeneration modelGeneration, ContextData contextData)
         {
-            foreach (var colourCombination in modelGeneration.ColourCombinations.Where(colourCombination => cars.Any(car => car.ColourCombinations.Any(adminColourCombination => adminColourCombination.ExteriorColour.ID == colourCombination.ExteriorColour.ID))))
-                contextData.ColourCombinations.Add(_colourMapper.MapColourCombination(colourCombination.ExteriorColour));
+            foreach (var colourCombination in modelGeneration.ColourCombinations.Where(
+                colourCombination => cars.Any(
+                    car => car.ColourCombinations[colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID] != null && car.ColourCombinations[colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID].Approved)))
+                contextData.ColourCombinations.Add(_colourMapper.MapColourCombination(modelGeneration, colourCombination));
         }
 
         void FillWheelDrives(IEnumerable<Car> cars, ModelGeneration modelGeneration, ContextData contextData)

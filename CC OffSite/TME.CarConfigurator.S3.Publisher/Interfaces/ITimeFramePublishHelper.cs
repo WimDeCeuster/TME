@@ -11,7 +11,8 @@ namespace TME.CarConfigurator.S3.Publisher.Interfaces
     public interface ITimeFramePublishHelper
     {
         Task<IEnumerable<Result>> PublishObjects<T>(IContext context, Func<TimeFrame, T> objectsGetter, Func<String, String, Guid, Guid, T, Task<IEnumerable<Result>>> publish);
-        Task<IEnumerable<Result>> PublishList<T>(IContext context, Func<TimeFrame, IEnumerable<T>> objectsGetter, Func<String, String, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
+        Task<IEnumerable<Result>> PublishBaseObjectList<T>(IContext context, Func<TimeFrame, IEnumerable<T>> objectsGetter, Func<String, String, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
             where T : BaseObject;
+        Task<IEnumerable<Result>> PublishList<T>(IContext context, Func<TimeFrame, IEnumerable<T>> objectsGetter, Func<String, String, Guid, Guid, IEnumerable<T>, Task<Result>> publish);
     }
 }
