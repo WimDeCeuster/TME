@@ -78,21 +78,28 @@ namespace TME.CarConfigurator.Publisher.Mappers
                                                                                  .ToList();
             mappedEquipmentItem.Links = crossModelEquipmentItem.Links.Select(link => _linkMapper.MapLink(link, isPreview)).ToList();
             mappedEquipmentItem.Name = generationGradeEquipmentItem.Translation.Name.DefaultIfEmpty(generationGradeEquipmentItem.Name);
-            mappedEquipmentItem.NotAvailable = generationGradeEquipmentItem.Availability == Administration.Enums.Availability.NotAvailable;
             mappedEquipmentItem.NotAvailableOn = GetAvailabilityInfo(generationGradeEquipmentItem, Administration.Enums.Availability.NotAvailable, cars);
-            mappedEquipmentItem.Optional = generationGradeEquipmentItem.Availability == Administration.Enums.Availability.Optional;
             mappedEquipmentItem.OptionalGradeFeature = generationGradeEquipmentItem.OptionalGradeFeature;
             mappedEquipmentItem.OptionalOn = GetAvailabilityInfo(generationGradeEquipmentItem, Administration.Enums.Availability.Optional, cars);
             mappedEquipmentItem.PartNumber = generationGradeEquipmentItem.PartNumber;
             mappedEquipmentItem.Path = Administration.MyContext.GetContext().EquipmentGroups.Find(generationGradeEquipmentItem.Group.ID).Path.ToLowerInvariant();
             mappedEquipmentItem.ShortID = 0; // ??
             mappedEquipmentItem.SortIndex = generationGradeEquipmentItem.Index;
-            mappedEquipmentItem.Standard = generationGradeEquipmentItem.Availability == Administration.Enums.Availability.Standard;
             mappedEquipmentItem.StandardOn = GetAvailabilityInfo(generationGradeEquipmentItem, Administration.Enums.Availability.Standard, cars);
             mappedEquipmentItem.Visibility = _visibilityMapper.MapVisibility(generationEquipmentItem.Visibility);
             mappedEquipmentItem.ToolTip = generationGradeEquipmentItem.Translation.ToolTip;
             mappedEquipmentItem.InternalCode = generationEquipmentItem.BaseCode;
             mappedEquipmentItem.LocalCode = generationGradeEquipmentItem.LocalCode.DefaultIfEmpty(isOwner ? generationEquipmentItem.BaseCode : String.Empty);
+
+            mappedEquipmentItem.NotAvailable = mappedEquipmentItem.NotAvailableOn.Count > mappedEquipmentItem.StandardOn.Count &&
+                                               mappedEquipmentItem.NotAvailableOn.Count > mappedEquipmentItem.OptionalOn.Count;
+
+            mappedEquipmentItem.Optional = mappedEquipmentItem.OptionalOn.Count > mappedEquipmentItem.StandardOn.Count &&
+                                           mappedEquipmentItem.OptionalOn.Count >= mappedEquipmentItem.NotAvailableOn.Count;
+
+            mappedEquipmentItem.Standard = mappedEquipmentItem.StandardOn.Count >= mappedEquipmentItem.OptionalOn.Count &&
+                                           mappedEquipmentItem.StandardOn.Count >= mappedEquipmentItem.NotAvailableOn.Count;
+            
             return mappedEquipmentItem;
         }
 

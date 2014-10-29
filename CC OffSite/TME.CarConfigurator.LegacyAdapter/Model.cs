@@ -113,8 +113,8 @@ namespace TME.CarConfigurator.LegacyAdapter
             {
                 return Adaptee.Cars.Cast<Legacy.Car>()
                         .SelectMany(car => car.Colours.Cast<Legacy.CarColourCombination>())
-                        .Distinct()
-                        .Select(x => new Colours.ColourCombination(x))
+                        .GroupBy(colourCombination => Tuple.Create(colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID))
+                        .Select(group => new Colours.ColourCombination(group.First()))
                         .ToList();
             }
         }

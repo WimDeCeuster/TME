@@ -37,9 +37,24 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 InternalCode = colour.Code,
                 LocalCode = String.Empty,
                 Promoted = colour.Promoted,
-                SortIndex = 0,
+                SortIndex = colour.Index,
                 Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview),
                 Type = MapExteriorColourType(colour.Type)
+            };
+
+            return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
+        }
+
+        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ExteriorColour colour, Boolean isPreview)
+        {
+            var mappedColour = new ExteriorColour
+            {
+                InternalCode = colour.Code,
+                LocalCode = String.Empty,
+                Promoted = false,
+                SortIndex = 0,
+                Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview),
+                Type  = MapExteriorColourType(colour.Type)
             };
 
             return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
@@ -56,19 +71,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
         }
 
-        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ExteriorColour colour, Boolean isPreview)
-        {
-            var mappedColour = new ExteriorColour
-            {
-                Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview),
-                InternalCode = colour.Code,
-                LocalCode = String.Empty,
-                SortIndex = 0
-            };
-
-            return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
-        }
-
         ExteriorColourType MapExteriorColourType(ExteriorColourTypeInfo typeInfo)
         {
             var type = Administration.ExteriorColourTypes.GetExteriorColourTypes()[typeInfo.ID];
@@ -77,7 +79,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             {
                 InternalCode = type.Code,
                 LocalCode = String.Empty,
-                SortIndex = 0
+                SortIndex = typeInfo.Index
             };
 
             return _baseMapper.MapTranslateableDefaults(mappedType, type);
