@@ -4,8 +4,6 @@ using TME.CarConfigurator.S3.CommandServices;
 using TME.CarConfigurator.S3.Publisher;
 using TME.CarConfigurator.S3.Publisher.Helpers;
 using TME.CarConfigurator.S3.Publisher.Interfaces;
-using TME.CarConfigurator.CommandServices;
-using TME.CarConfigurator.Publisher.Interfaces;
 
 namespace TME.Carconfigurator.Tests.Builders
 {

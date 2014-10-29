@@ -51,6 +51,8 @@
     <Compile Include="SetUpFixture.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="TestBuilders\ColourCombinationBuilder.cs" />
+    <Compile Include="TestBuilders\ExteriorTypeColourBuilder.cs" />
+    <Compile Include="TestBuilders\UpholsteryTypeBuilder.cs" />
     <Compile Include="TestBuilders\UpholsteryBuilder.cs" />
     <Compile Include="TestBuilders\ExteriorColourBuilder.cs" />
     <Compile Include="TestBuilders\GradeAccessoryBuilder.cs" />

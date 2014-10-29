@@ -57,6 +57,7 @@
     <Compile Include="CarEngine.cs" />
     <Compile Include="Extensions\VisibilityExtensions.cs" />
     <Compile Include="ExteriorColour.cs" />
+    <Compile Include="ExteriorColourType.cs" />
     <Compile Include="Factories\GradeEquipmentFactory.cs" />
     <Compile Include="Factories\ColourFactory.cs" />
     <Compile Include="Factories\GradeFactory.cs" />

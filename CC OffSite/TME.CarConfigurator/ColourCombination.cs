@@ -33,7 +33,7 @@ namespace TME.CarConfigurator
 
         public IExteriorColour ExteriorColour
         {
-            get { return _exteriorColour = _exteriorColour ?? new ExteriorColour(_repositoryColourCombination.ExteriorColour); }
+            get { return _exteriorColour = _exteriorColour ?? _colourFactory.GetExteriorColour(_repositoryColourCombination.ExteriorColour); }
         }
 
         public IUpholstery Upholstery

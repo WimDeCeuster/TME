@@ -1,17 +1,15 @@
-﻿using System;
+﻿using FakeItEasy;
+using System;
 using System.Collections.Generic;
-using FakeItEasy;
+using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.S3.CommandServices;
-using TME.CarConfigurator.S3.Publisher.Interfaces;
 using TME.CarConfigurator.S3.Shared.Interfaces;
-using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
-using TME.CarConfigurator.Publisher.Interfaces;
 
 namespace TME.Carconfigurator.Tests.GivenAS3ColourCombinationPublisher
 {

@@ -9,6 +9,7 @@ namespace TME.CarConfigurator
     public class ExteriorColour : BaseObject<Repository.Objects.Colours.ExteriorColour>, IExteriorColour
     {
         ColourTransformation _transformation;
+        ExteriorColourType _type;
 
         public ExteriorColour(Repository.Objects.Colours.ExteriorColour repoColor)
             : base(repoColor)
@@ -18,7 +19,7 @@ namespace TME.CarConfigurator
 
         public bool Promoted
         {
-            get { throw new NotImplementedException(); }
+            get { return RepositoryObject.Promoted; }
         }
 
         public IColourTransformation Transformation
@@ -28,7 +29,7 @@ namespace TME.CarConfigurator
 
         public IExteriorColourType Type
         {
-            get { throw new NotImplementedException(); }
+            get { return _type = _type ?? new ExteriorColourType(RepositoryObject.Type); }
         }
 
         public IEnumerable<IAsset> Assets

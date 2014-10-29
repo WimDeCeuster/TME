@@ -32,5 +32,10 @@ namespace TME.CarConfigurator.Factories
         {
             return new Upholstery(repositoryUpholstery);
         }
+
+        public IExteriorColour GetExteriorColour(Repository.Objects.Colours.ExteriorColour repositoryExteriorColour)
+        {
+            return new ExteriorColour(repositoryExteriorColour);
+        }
     }
 }

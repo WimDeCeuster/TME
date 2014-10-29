@@ -23,6 +23,13 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public ExteriorColourBuilder WithExteriorColourType(ExteriorColourType type)
+        {
+            _colour.Type = type;
+
+            return this;
+        }
+
         public ExteriorColour Build()
         {
             return _colour;

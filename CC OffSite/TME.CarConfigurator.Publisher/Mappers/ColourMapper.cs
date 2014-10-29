@@ -9,6 +9,7 @@ using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
+using ExteriorColourType = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColourType;
 using Upholstery = TME.CarConfigurator.Repository.Objects.Colours.Upholstery;
 using UpholsteryType = TME.CarConfigurator.Repository.Objects.Colours.UpholsteryType;
 
@@ -33,10 +34,12 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
             var mappedColour = new ExteriorColour
             {
-                Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview),
                 InternalCode = colour.Code,
                 LocalCode = String.Empty,
-                SortIndex = 0
+                Promoted = colour.Promoted,
+                SortIndex = 0,
+                Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview),
+                Type = MapExteriorColourType(colour.Type)
             };
 
             return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
@@ -64,6 +67,20 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
 
             return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
+        }
+
+        ExteriorColourType MapExteriorColourType(ExteriorColourTypeInfo typeInfo)
+        {
+            var type = Administration.ExteriorColourTypes.GetExteriorColourTypes()[typeInfo.ID];
+
+            var mappedType = new ExteriorColourType
+            {
+                InternalCode = type.Code,
+                LocalCode = String.Empty,
+                SortIndex = 0
+            };
+
+            return _baseMapper.MapTranslateableDefaults(mappedType, type);
         }
 
         Upholstery MapUpholstery(ModelGenerationUpholstery modelGenerationUpholstery)

@@ -1,5 +1,6 @@
 ﻿using System;
 using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.Interfaces.Factories;
 
 namespace TME.CarConfigurator
 {
@@ -7,8 +8,8 @@ namespace TME.CarConfigurator
     {
         readonly IOptionInfo _parentOptionInfo;
 
-        public GradeOption(Repository.Objects.Equipment.GradeOption repoOption, IOptionInfo parentOptionInfo)
-            : base(repoOption)
+        public GradeOption(Repository.Objects.Equipment.GradeOption repoOption, IOptionInfo parentOptionInfo, IColourFactory colourFactory)
+            : base(repoOption, colourFactory)
         {
             _parentOptionInfo = parentOptionInfo;
         }
