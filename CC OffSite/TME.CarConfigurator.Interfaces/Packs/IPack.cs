@@ -10,7 +10,5 @@ namespace TME.CarConfigurator.Interfaces.Packs
         bool GradeFeature { get; }
         bool OptionalGradeFeature { get; }
 
-
-        IEnumerable<IAsset> Assets { get; }
     }
 }
