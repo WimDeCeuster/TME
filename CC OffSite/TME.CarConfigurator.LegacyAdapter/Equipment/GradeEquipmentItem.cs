@@ -106,12 +106,6 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
                 return new Colours.ExteriorColour(carColour);
             }
         }
-
-        public IEnumerable<IAsset> Assets
-        {
-            get { return GetCarEquipmentItem().Assets.GetPlainAssets(); }
-        }
-
         public IEnumerable<ILink> Links
         {
             get { return GetCarEquipmentItem().Links.Cast<TMME.CarConfigurator.Link>().Select(x => new Link(x)); }

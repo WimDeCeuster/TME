@@ -97,6 +97,7 @@
   <object name="GradeMapper" type="TME.CarConfigurator.Publisher.Mappers.GradeMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />
     <constructor-arg ref="AssetSetMapper" />
+    <constructor-arg ref="LabelMapper" />
   </object>
   <object name="SteeringMapper" type="TME.CarConfigurator.Publisher.Mappers.SteeringMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />
@@ -106,6 +107,7 @@
     <constructor-arg ref="AssetMapper" />
     <constructor-arg ref="LinkMapper" />
     <constructor-arg ref="EquipmentMapper" />
+    <constructor-arg ref="GradeMapper" />
   </object>
   <object name="ColourMapper" type="TME.CarConfigurator.Publisher.Mappers.ColourMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />

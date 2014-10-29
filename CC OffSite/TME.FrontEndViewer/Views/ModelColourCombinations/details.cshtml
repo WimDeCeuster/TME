@@ -2,7 +2,7 @@
 
 @foreach (var model in Model)
 {
-    <div class="object" data-id="@Html.Raw(model.ID)">
+    <div class="object" data-id="@Html.Raw(String.Format("{0} - {1}", model.ExteriorColour.InternalCode, model.Upholstery.InternalCode))">
         <div class="title">
             <strong>@Html.Raw(String.Format("{0} - {1}", model.ExteriorColour.Name, model.Upholstery.Name))</strong>
         </div>
@@ -22,17 +22,7 @@
                     <strong>Upholstery</strong>
                 </div>
                 <div class="content">
-                    @Html.Partial("_baseObject", model.Upholstery)
-                    <p class="property" data-id="InteriorColourCode">InteriorColourCode : @Html.Raw(model.Upholstery.InteriorColourCode)</p>
-                    <p class="property" data-id="TrimCode">TrimCode : @Html.Raw(model.Upholstery.TrimCode)</p>
-                    <div class="object sub-item" data-id="@Html.Raw(model.Upholstery.Type.ID)">
-                        <div class="title">
-                            <strong>Type</strong>
-                        </div>
-                        <div class="content">
-                            @Html.Partial("_baseObject", model.Upholstery.Type)
-                        </div>
-                    </div>
+                    @Html.Partial("Colours/_upholstery", model.Upholstery)
                 </div>
             </div>
         </div>

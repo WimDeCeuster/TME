@@ -52,11 +52,6 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
             get { return Adaptee.OptionalGradeFeature; }
         }
 
-        public IEnumerable<IAsset> Assets
-        {
-            get { return GetCarPack().Assets.GetPlainAssets(); }
-        }
-
         public bool Standard
         {
             get { return Adaptee.Standard; }

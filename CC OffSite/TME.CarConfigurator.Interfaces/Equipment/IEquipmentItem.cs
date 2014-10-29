@@ -23,8 +23,7 @@ namespace TME.CarConfigurator.Interfaces.Equipment
    
         ICategoryInfo Category { get; }
         IExteriorColour ExteriorColour { get; }
-        
-        IEnumerable<IAsset> Assets { get; }
+
         IEnumerable<ILink> Links { get; }
     }
 }
