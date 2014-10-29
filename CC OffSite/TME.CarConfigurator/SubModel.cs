@@ -51,7 +51,9 @@ namespace TME.CarConfigurator
                 return
                     _grades =
                         _grades ??
-                        _gradeFactory.GetSubModelGrades(_repositoryPublication, _repositoryContext, RepositoryObject);
+                        RepositoryObject.Grades.Select(
+                            grade => _gradeFactory.GetSubModelGrade(grade,_repositoryPublication,_repositoryContext));
+//                        _gradeFactory.GetSubModelGrades(_repositoryPublication, _repositoryContext, RepositoryObject);
             }
         }
 
