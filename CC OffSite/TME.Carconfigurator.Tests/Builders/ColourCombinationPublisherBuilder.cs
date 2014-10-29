@@ -1,16 +1,18 @@
-using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.CommandServices;
+using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.S3.CommandServices;
 using TME.CarConfigurator.S3.Publisher;
 using TME.CarConfigurator.S3.Publisher.Helpers;
 using TME.CarConfigurator.S3.Publisher.Interfaces;
-using TME.Carconfigurator.Tests.GivenAS3ColourCombinationPublisher;
+using TME.CarConfigurator.CommandServices;
+using TME.CarConfigurator.Publisher.Interfaces;
 
 namespace TME.Carconfigurator.Tests.Builders
 {
     public class ColourCombinationPublisherBuilder
     {
         private readonly ITimeFramePublishHelper _timeFramePublishHelper = new TimeFramePublishHelper();
-        private IColourCombinationService _service;
+        private IColourService _service;
 
         public ColourCombinationPublisherBuilder WithService(ColourCombinationService colourCombinationService)
         {
@@ -18,9 +20,9 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
-        public IColourCombinationPublisher Build()
+        public IColourPublisher Build()
         {
-            return new ColourCombinationPublisher(_service, _timeFramePublishHelper);
+            return new ColourPublisher(_service, _timeFramePublishHelper);
         }
     }
 }

@@ -9,6 +9,7 @@ using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Common.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.S3.Publisher.Interfaces;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
@@ -38,7 +39,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         private ICarPublisher _carPublisher;
         private ISubModelPublisher _subModelPublisher;
         private IGradeEquipmentPublisher _gradeEquipmentPublisher;
-        private IColourCombinationPublisher _colourCombinationPublisher;
+        private IColourPublisher _colourCombinationPublisher;
         private IAssetPublisher _assetPublisher;
         private IGradePackPublisher _gradePackPublisher;
 
@@ -58,7 +59,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             _subModelPublisher = A.Fake<ISubModelPublisher>(x => x.Strict());
             _gradeEquipmentPublisher = A.Fake<IGradeEquipmentPublisher>(x => x.Strict());
             _gradePackPublisher = A.Fake<IGradePackPublisher>(x => x.Strict());
-            _colourCombinationPublisher = A.Fake<IColourCombinationPublisher>(x => x.Strict());
+            _colourCombinationPublisher = A.Fake<IColourPublisher>(x => x.Strict());
 
             var successFullTask = Task.FromResult((Result)new Successfull());
             var successFullTasks = Task.FromResult((IEnumerable<Result>)new[] { new Successfull() });
@@ -145,7 +146,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => _subModelPublisher.PublishGenerationSubModelsAsync(_context)).Returns(successFullTasks);
             A.CallTo(() => _gradeEquipmentPublisher.PublishAsync(_context)).Returns(successFullTasks);
             A.CallTo(() => _gradePackPublisher.PublishAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _colourCombinationPublisher.PublishGenerationColourCombinationsAsync(_context)).Returns(successFullTasks);
+            A.CallTo(() => _colourCombinationPublisher.PublishGenerationColourCombinations(_context)).Returns(successFullTasks);
         }
 
         protected override void Act()
@@ -234,7 +235,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldPublishGenerationColourCombinations()
         {
-            A.CallTo(() => _colourCombinationPublisher.PublishGenerationColourCombinationsAsync(_context))
+            A.CallTo(() => _colourCombinationPublisher.PublishGenerationColourCombinations(_context))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
     }

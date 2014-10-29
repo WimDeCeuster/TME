@@ -123,7 +123,7 @@ namespace TME.CarConfigurator.Publisher.DI.S3
             return new GradePackService(service, _serialiser, _keyManager);
         }
         
-        public IColourCombinationService GetColourCombinationService(String environment, PublicationDataSubset dataSubset)
+        public IColourService GetColourCombinationService(String environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
 

@@ -1,4 +1,6 @@
-﻿using TME.CarConfigurator.Publisher.Interfaces;
+﻿using System.Collections.Generic;
+using System.Linq;
+using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects.Core;
 
 namespace TME.CarConfigurator.Publisher.Mappers
@@ -12,6 +14,15 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Code = label.Definition.Code,
                 Value = label.Value
             };
+        }
+
+        public List<Label> MapLabels(IEnumerable<Administration.Translations.Label> labels)
+        {
+            return labels.Select(label => new Label()
+            {
+                Code = label.Definition.Code, 
+                Value = label.Value
+            }).ToList();
         }
     }
 }

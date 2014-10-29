@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
@@ -36,7 +37,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
             get { return new ExteriorColour(Adaptee.ExteriorColour); }
         }
 
-        public IUphostery Upholstery
+        public IUpholstery Upholstery
         {
             get { return new Upholstery(Adaptee.Upholstery);}
         }
@@ -46,9 +47,9 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
             get { return Adaptee.SortIndex; }
         }
 
-        public IEnumerable<IAsset> Assets
+        public IReadOnlyList<IAsset> Assets
         {
-            get { return Adaptee.Assets.GetPlainAssets(); }
+            get { return Adaptee.Assets.GetPlainAssets().ToList(); }
         }
-}
+    }
 }

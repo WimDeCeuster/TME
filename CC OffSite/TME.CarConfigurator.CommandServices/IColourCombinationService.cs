@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Common.Result;
 using TME.CarConfigurator.Repository.Objects.Colours;
 
-namespace TME.CarConfigurator.Interfaces
+namespace TME.CarConfigurator.CommandServices
 {
     public interface IColourCombinationService
     {

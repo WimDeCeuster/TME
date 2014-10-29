@@ -12,19 +12,17 @@ namespace TME.CarConfigurator.Interfaces
         bool Promoted { get; }
 
         ICarConfiguratorVersion CarConfiguratorVersion { get; }
-        IEnumerable<ILink> Links { get; }
-        IEnumerable<IAsset> Assets { get; }
-        IEnumerable<IBodyType> BodyTypes { get; }
-        IEnumerable<IEngine> Engines { get; }
-        IEnumerable<ITransmission> Transmissions { get; }
-        IEnumerable<IWheelDrive> WheelDrives { get; }
-        IEnumerable<ISteering> Steerings { get; }
-        IEnumerable<IGrade> Grades { get; }
-        IEnumerable<IFuelType> FuelTypes { get; }
-        IEnumerable<ICar> Cars { get; }
-        IEnumerable<ISubModel> SubModels { get; }
-
-        IEnumerable<IColourCombination> ColourCombinations { get; }
-
+        IReadOnlyList<ILink> Links { get; }
+        IReadOnlyList<IAsset> Assets { get; }
+        IReadOnlyList<IBodyType> BodyTypes { get; }
+        IReadOnlyList<IEngine> Engines { get; }
+        IReadOnlyList<ITransmission> Transmissions { get; }
+        IReadOnlyList<IWheelDrive> WheelDrives { get; }
+        IReadOnlyList<ISteering> Steerings { get; }
+        IReadOnlyList<IGrade> Grades { get; }
+        IReadOnlyList<IFuelType> FuelTypes { get; }
+        IReadOnlyList<ICar> Cars { get; }
+        IReadOnlyList<ISubModel> SubModels { get; }
+        IReadOnlyList<IColourCombination> ColourCombinations { get; }
     }
 }

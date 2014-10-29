@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IColourService.cs" />
     <Compile Include="IGradeOptionService.cs" />
     <Compile Include="IAssetService.cs" />
     <Compile Include="IBodyTypeService.cs" />

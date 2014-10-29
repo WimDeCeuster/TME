@@ -32,7 +32,7 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
             return result.SelectMany(xs => xs);
         }
 
-        public async Task<IEnumerable<Result>> PublishList<T>(IContext context, Func<TimeFrame, IEnumerable<T>> objectsGetter, Func<String, String, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
+        public async Task<IEnumerable<Result>> PublishBaseObjectList<T>(IContext context, Func<TimeFrame, IEnumerable<T>> objectsGetter, Func<String, String, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
             where T : BaseObject
         {
             if (context == null) throw new ArgumentNullException("context");
@@ -41,6 +41,17 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
                 context,
                 timeFrame => objectsGetter(timeFrame).Order(),
                 async (brand, country, pubId, tfId, x) => await Task.WhenAll(publish(brand, country, pubId, tfId, x)));
+        }
+
+        public async Task<IEnumerable<Result>> PublishList<T>(IContext context, Func<TimeFrame, IEnumerable<T>> objectsGetter, Func<string, string, Guid, Guid, IEnumerable<T>, Task<Result>> publish)
+        {
+            if (context == null) throw new ArgumentNullException("context");
+
+            return await PublishObjects(
+                context,
+                timeFrame => objectsGetter(timeFrame),
+                async (brand, country, pubId, tfId, x) => await Task.WhenAll(publish(brand, country, pubId, tfId, x)));
+
         }
 
         async Task<IEnumerable<Result>> Publish<T>(String brand, String country, IEnumerable<TimeFrame> timeFrames, Guid publicationID, Func<TimeFrame, T> objectsGetter, Func<String, String, Guid, Guid, T, Task<IEnumerable<Result>>> publish)

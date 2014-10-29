@@ -99,13 +99,12 @@ namespace TME.CarConfigurator.Publisher.Mappers
         ExteriorColour GetColour(Administration.ModelGenerationEquipmentItem generationEquipmentItem)
         {
             var colour = generationEquipmentItem.Generation.ColourCombinations.ExteriorColours().FirstOrDefault(clr => clr.ID == generationEquipmentItem.Colour.ID);
-            var colourFilePath = generationEquipmentItem.Generation.Assets.First(asset => asset.AssetType.Name.StartsWith("colourschema", StringComparison.InvariantCultureIgnoreCase)).FileName;
             
             if (colour != null)
-                return _colourMapper.MapExteriorColour(colour, colourFilePath);
+                return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, colour);
 
             var crossModelColour = Administration.ExteriorColours.GetExteriorColours()[generationEquipmentItem.Colour.ID];
-            return _colourMapper.MapExteriorColour(crossModelColour, colourFilePath);
+            return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, crossModelColour);
         }
 
         IReadOnlyList<CarInfo> GetAvailabilityInfo(Administration.ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, Administration.Enums.Availability availability, IReadOnlyList<Administration.Car> cars)

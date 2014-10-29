@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using FakeItEasy;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
+using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.S3.CommandServices;
+using TME.CarConfigurator.S3.Publisher.Interfaces;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
+using TME.CarConfigurator.Publisher.Interfaces;
 
 namespace TME.Carconfigurator.Tests.GivenAS3ColourCombinationPublisher
 {
     public class WhenPublishingGenerationColourCombinations : TestBase
     {
-        private IColourCombinationPublisher _colourCombinationPublisher;
+        private IColourPublisher _colourPublisher;
         private IContext _context;
         private IService _s3Service;
         private const string TIME_FRAME1_EXTERIOR_COLOUR_KEY = "Key for Exterior Colour For TimeFrame 1";
@@ -33,15 +35,15 @@ namespace TME.Carconfigurator.Tests.GivenAS3ColourCombinationPublisher
 
         protected override void Arrange()
         {
-            var exteriorColour1 = new ExteriorColourBuilder().Build();
-            var exteriorColour2 = new ExteriorColourBuilder().Build();
-            var exteriorColour3 = new ExteriorColourBuilder().Build();
-            var exteriorColour4 = new ExteriorColourBuilder().Build();
+            var colourCombination1 = new ColourCombinationBuilder().Build();
+            var colourCombination2 = new ColourCombinationBuilder().Build();
+            var colourCombination3 = new ColourCombinationBuilder().Build();
+            var colourCombination4 = new ColourCombinationBuilder().Build();
 
-            var timeFrame1 = new TimeFrameBuilder().WithExteriorColour(new [] { exteriorColour1 }).WithDateRange(DateTime.MinValue,DateTime.MaxValue).Build();
-            var timeFrame2 = new TimeFrameBuilder().WithExteriorColour(new[] { exteriorColour1, exteriorColour2 }).WithDateRange(DateTime.MinValue, DateTime.MaxValue).Build();
-            var timeFrame3 = new TimeFrameBuilder().WithExteriorColour(new[] { exteriorColour3, exteriorColour4 }).WithDateRange(DateTime.MinValue, DateTime.MaxValue).Build();
-            var timeFrame4 = new TimeFrameBuilder().WithExteriorColour(new [] { exteriorColour4 }).WithDateRange(DateTime.MinValue,DateTime.MaxValue).Build();
+            var timeFrame1 = new TimeFrameBuilder().WithColourCombinations(new [] { colourCombination1 }).WithDateRange(DateTime.MinValue,DateTime.MaxValue).Build();
+            var timeFrame2 = new TimeFrameBuilder().WithColourCombinations(new [] { colourCombination1, colourCombination2 }).WithDateRange(DateTime.MinValue, DateTime.MaxValue).Build();
+            var timeFrame3 = new TimeFrameBuilder().WithColourCombinations(new [] { colourCombination3, colourCombination4 }).WithDateRange(DateTime.MinValue, DateTime.MaxValue).Build();
+            var timeFrame4 = new TimeFrameBuilder().WithColourCombinations(new [] { colourCombination4 }).WithDateRange(DateTime.MinValue,DateTime.MaxValue).Build();
 
             var publicationTimeFrame1 = new PublicationTimeFrameBuilder().WithDateRange(DateTime.MinValue,DateTime.MaxValue).WithID(timeFrame1.ID).Build();
             var publicationTimeFrame2 = new PublicationTimeFrameBuilder().WithDateRange(DateTime.MinValue,DateTime.MaxValue).WithID(timeFrame2.ID).Build();
@@ -71,13 +73,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3ColourCombinationPublisher
             _s3Service = A.Fake<IService>();
             var serialiser = A.Fake<ISerialiser>();
 
-            A.CallTo(() => serialiser.Serialise(A<IEnumerable<ExteriorColour>>.That.IsSameSequenceAs(new List<ExteriorColour> { exteriorColour1 })))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<ColourCombination>>.That.IsSameSequenceAs(new List<ColourCombination> { colourCombination1 })))
                 .Returns(TIME_FRAME1_EXTERIOR_COLOUR_VALUE);
-            A.CallTo(() => serialiser.Serialise(A<IEnumerable<ExteriorColour>>.That.IsSameSequenceAs(new List<ExteriorColour> { exteriorColour1, exteriorColour2 })))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<ColourCombination>>.That.IsSameSequenceAs(new List<ColourCombination> { colourCombination1, colourCombination2 })))
                 .Returns(TIME_FRAME2_EXTERIOR_COLOUR_VALUE);
-            A.CallTo(() => serialiser.Serialise(A<IEnumerable<ExteriorColour>>.That.IsSameSequenceAs(new List<ExteriorColour> { exteriorColour3, exteriorColour4 })))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<ColourCombination>>.That.IsSameSequenceAs(new List<ColourCombination> { colourCombination3, colourCombination4 })))
                 .Returns(TIME_FRAME3_EXTERIOR_COLOUR_VALUE);
-            A.CallTo(() => serialiser.Serialise(A<IEnumerable<ExteriorColour>>.That.IsSameSequenceAs(new List<ExteriorColour> { exteriorColour4 })))
+            A.CallTo(() => serialiser.Serialise(A<IEnumerable<ColourCombination>>.That.IsSameSequenceAs(new List<ColourCombination> { colourCombination4 })))
                 .Returns(TIME_FRAME4_EXTERIOR_COLOUR_VALUE);
 
             var keymanager = A.Fake<IKeyManager>();
@@ -92,12 +94,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3ColourCombinationPublisher
                 .Returns(TIME_FRAME4_EXTERIOR_COLOUR_KEY);
 
             var colourCombinationService = new ColourCombinationService(_s3Service, serialiser,keymanager);
-            _colourCombinationPublisher = new ColourCombinationPublisherBuilder().WithService(colourCombinationService).Build();
+            _colourPublisher = new ColourCombinationPublisherBuilder().WithService(colourCombinationService).Build();
         }
 
         protected override void Act()
         {
-            var result = _colourCombinationPublisher.PublishGenerationColourCombinationsAsync(_context).Result;
+            var result = _colourPublisher.PublishGenerationColourCombinations(_context).Result;
         }
 
         [Fact]

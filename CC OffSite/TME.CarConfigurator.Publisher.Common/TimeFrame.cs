@@ -28,7 +28,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IReadOnlyDictionary<Guid, GradeEquipment> GradeEquipments { get; private set; }
         public IReadOnlyDictionary<Guid, IList<GradePack>> GradePacks { get; private set; }
         public IReadOnlyList<SubModel> SubModels { get; private set; }
-        public IReadOnlyList<ExteriorColour> ColourCombinations { get; private set; }
+        public IReadOnlyList<ColourCombination> ColourCombinations { get; private set; }
 
         public readonly Guid ID;
 
@@ -45,7 +45,7 @@ namespace TME.CarConfigurator.Publisher.Common
             IReadOnlyDictionary<Guid, GradeEquipment> gradeEquipments,
             IReadOnlyDictionary<Guid, IList<GradePack>> gradePacks,
             IReadOnlyList<SubModel> subModels,
-            IReadOnlyList<ExteriorColour> exteriorColours)
+            IReadOnlyList<ColourCombination> colourCombinations)
         {
             if (cars == null) throw new ArgumentNullException("cars");
             if (bodyTypes == null) throw new ArgumentNullException("bodyTypes");
@@ -57,12 +57,12 @@ namespace TME.CarConfigurator.Publisher.Common
             if (gradeEquipments == null) throw new ArgumentNullException("gradeEquipments");
             if (gradePacks == null) throw new ArgumentNullException("gradePacks");
             if (subModels == null) throw new ArgumentNullException("subModels");
-            if (exteriorColours == null) throw new ArgumentNullException("exteriorColours");
+            if (colourCombinations == null) throw new ArgumentNullException("colourCombinations");
 
             From = from;
             Until = until;
             GradePacks = gradePacks;
-            ColourCombinations = exteriorColours;
+            ColourCombinations = colourCombinations;
             Cars = cars;
             BodyTypes = bodyTypes;
             Engines = engines;

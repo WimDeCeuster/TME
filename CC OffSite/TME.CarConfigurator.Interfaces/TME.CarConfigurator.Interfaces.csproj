@@ -49,7 +49,8 @@
     <Compile Include="Factories\IPackFactory.cs" />
     <Compile Include="Colours\IExteriorColourType.cs" />
     <Compile Include="Colours\IUpholsteryType.cs" />
-    <Compile Include="Colours\IUphostery.cs" />
+    <Compile Include="Colours\IUpholstery.cs" />
+    <Compile Include="Factories\IColourFactory.cs" />
     <Compile Include="IAvailabilityCompare.cs" />
     <Compile Include="Equipment\IBestVisibleIn.cs" />
     <Compile Include="Equipment\IGradeAccessory.cs" />
@@ -80,8 +81,6 @@
     <Compile Include="Factories\IEngineFactory.cs" />
     <Compile Include="Factories\IModelFactory.cs" />
     <Compile Include="Factories\IPublicationFactory.cs" />
-    <Compile Include="IColourCombinationPublisher.cs" />
-    <Compile Include="IColourCombinationService.cs" />
     <Compile Include="IFuelType.cs" />
     <Compile Include="IGrade.cs" />
     <Compile Include="ISubModel.cs" />

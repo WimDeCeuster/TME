@@ -38,11 +38,9 @@ namespace TME.CarConfigurator.Factories
             return repoGrades.Select(repoGrade => GetGrade(repoGrade, repoGrades, grades, publication, context)).ToArray();
         }
 
-        public IReadOnlyList<IGrade> GetSubModelGrades(Publication publication, Context context, Repository.Objects.SubModel subModel)
+        public IGrade GetSubModelGrade(RepoGrade repoGrade,Publication publication,Context context)
         {
-            return GetGrades(publication, context)
-                    .Where(mainGrade => subModel.Grades.Any(repositoryGrade => repositoryGrade.ID == mainGrade.ID))
-                    .ToArray();
+            return new Grade(repoGrade,publication,context,null,_assetFactory,_gradeEquipmentFactory,_packFactory);
         }
 
         // ReSharper disable once ParameterTypeCanBeEnumerable.Local => no, because that would cause a multiple enumeration for repoGrades...

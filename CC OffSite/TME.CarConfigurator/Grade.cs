@@ -33,7 +33,6 @@ namespace TME.CarConfigurator
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
-            if (gradeEquipmentFactory == null) throw new ArgumentNullException("gradeEquipmentFactory");
             if (packFactory == null) throw new ArgumentNullException("packFactory");
 
             _repositoryPublication = repositoryPublication;

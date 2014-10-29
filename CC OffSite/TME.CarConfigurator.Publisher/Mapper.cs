@@ -123,7 +123,7 @@ namespace TME.CarConfigurator.Publisher
                 FillGrades(cars, modelGeneration, contextData);
                 FillCarAssets(cars, contextData, modelGeneration);
                 FillGradeEquipment(grades, modelGeneration, contextData, isPreview);
-                FillSubModels(cars, modelGeneration, contextData, isPreview);
+                FillSubModels(grades,cars, modelGeneration, contextData, isPreview);
                 FillGradePacks(grades, contextData);
 
                 context.TimeFrames[language] = _timeFrameMapper.GetTimeFrames(language, context);
@@ -274,10 +274,12 @@ namespace TME.CarConfigurator.Publisher
                 contextData.Transmissions.Add(_transmissionMapper.MapTransmission(transmission));
         }
 
-        private void FillColourCombinations(IEnumerable<Car> cars,ModelGeneration modelGeneration, ContextData contextData)
+        private void FillColourCombinations(IEnumerable<Car> cars, ModelGeneration modelGeneration, ContextData contextData)
         {
-            foreach (var colourCombination in modelGeneration.ColourCombinations.Where(colourCombination => cars.Any(car => car.ColourCombinations.Any(adminColourCombination => adminColourCombination.ExteriorColour.ID == colourCombination.ExteriorColour.ID))))
-                contextData.ColourCombinations.Add(_colourMapper.MapColourCombination(colourCombination.ExteriorColour));
+            foreach (var colourCombination in modelGeneration.ColourCombinations.Where(
+                colourCombination => cars.Any(
+                    car => car.ColourCombinations[colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID] != null && car.ColourCombinations[colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID].Approved)))
+                contextData.ColourCombinations.Add(_colourMapper.MapColourCombination(modelGeneration, colourCombination));
         }
 
         void FillWheelDrives(IEnumerable<Car> cars, ModelGeneration modelGeneration, ContextData contextData)
@@ -286,12 +288,12 @@ namespace TME.CarConfigurator.Publisher
                 contextData.WheelDrives.Add(_wheelDriveMapper.MapWheelDrive(wheelDrive));
         }
 
-        private void FillSubModels(IList<Car> cars, ModelGeneration modelGeneration, ContextData contextData, bool isPreview)
+        private void FillSubModels(ModelGenerationGrade[] grades, IList<Car> cars, ModelGeneration modelGeneration, ContextData contextData, bool isPreview)
         {
             var applicableSubModels = modelGeneration.SubModels.Where(submodel => cars.Any(car => car.SubModelID == submodel.ID)).ToList();
 
             foreach (var modelGenerationSubModel in applicableSubModels)
-                contextData.SubModels.Add(_subModelMapper.MapSubModel(modelGenerationSubModel, contextData, isPreview));
+                contextData.SubModels.Add(_subModelMapper.MapSubModel(grades,modelGenerationSubModel, contextData, isPreview));
 
             PutSubModelOnApplicableCars(cars, contextData, applicableSubModels);
         }
