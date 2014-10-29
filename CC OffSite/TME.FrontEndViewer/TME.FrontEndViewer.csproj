@@ -311,6 +311,9 @@
     <Content Include="Views\Shared\Equipment\_gradeEquipmentItem.cshtml" />
     <Content Include="Views\Shared\Equipment\_optionInfo.cshtml" />
     <Content Include="Views\Shared\Equipment\_category.cshtml" />
+    <Content Include="Views\ModelColourCombinations\Index.cshtml" />
+    <Content Include="Views\ModelColourCombinations\details.cshtml" />
+    <Content Include="Views\Shared\_upholstery.cshtml" />
     <Content Include="Views\ModelColourCombinations\details.cshtml" />
     <Content Include="Views\ModelColourCombinations\Index.cshtml" />
   </ItemGroup>
