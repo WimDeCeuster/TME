@@ -1,0 +1,40 @@
+﻿@model IReadOnlyList<TME.CarConfigurator.Interfaces.Colours.IColourCombination>
+
+@foreach (var model in Model)
+{
+    <div class="object" data-id="@Html.Raw(model.ID)">
+        <div class="title">
+            <strong>@Html.Raw(String.Format("{0} - {1}", model.ExteriorColour.Name, model.Upholstery.Name))</strong>
+        </div>
+        <div class="content">
+            <p class="property" data-id="ID">ID : @Html.Raw(model.ID)</p>
+            <p class="property" data-id="SortIndex">SortIndex : @Html.Raw(model.SortIndex)</p>
+            <div class="object sub-item" data-id="@Html.Raw(model.ExteriorColour.ID)">
+                <div class="title">
+                    <strong>Exterior Colour</strong>
+                </div>
+                <div class="content">
+                    @Html.Partial("Colours/_exteriorColour", model.ExteriorColour)
+                </div>
+            </div>
+            <div class="object sub-item" data-id="@Html.Raw(model.Upholstery.ID)">
+                <div class="title">
+                    <strong>Upholstery</strong>
+                </div>
+                <div class="content">
+                    @Html.Partial("_baseObject", model.Upholstery)
+                    <p class="property" data-id="InteriorColourCode">InteriorColourCode : @Html.Raw(model.Upholstery.InteriorColourCode)</p>
+                    <p class="property" data-id="TrimCode">TrimCode : @Html.Raw(model.Upholstery.TrimCode)</p>
+                    <div class="object sub-item" data-id="@Html.Raw(model.Upholstery.Type.ID)">
+                        <div class="title">
+                            <strong>Type</strong>
+                        </div>
+                        <div class="content">
+                            @Html.Partial("_baseObject", model.Upholstery.Type)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

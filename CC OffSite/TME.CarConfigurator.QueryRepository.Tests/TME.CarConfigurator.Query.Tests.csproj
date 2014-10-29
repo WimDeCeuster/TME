@@ -77,6 +77,10 @@
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheSecondTime.cs" />
+    <Compile Include="GivenAColourCombination\WhenAccessingItsUpholsteryForTheFirstTime.cs" />
+    <Compile Include="GivenAColourCombination\WhenAccessingItsExteriorColourForTheFirstTime.cs" />
+    <Compile Include="GivenAColourCombination\WhenAccessingItsUpholsteryForTheSecondTime.cs" />
+    <Compile Include="GivenAColourCombination\WhenAccessingItsExteriorColourForTheSecondTime.cs" />
     <Compile Include="GivenAFuelType\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenAFuelType\WhenAccessingItsLabelsForTheSecondTime.cs" />
     <Compile Include="GivenAGradeEquipmentItem\WhenAccessingItsNotAvailableOnForTheFirstTime.cs" />
@@ -113,6 +117,8 @@
     <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarsForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarsForTheSecondTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsColourCombinationsForTheFirstTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsColourCombinationsForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsSteeringsForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsGradesForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsGradesForTheSecondTime.cs" />
@@ -188,6 +194,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
     <Compile Include="Services\GivenACarService\WhenGetCarsIsCalled.cs" />
+    <Compile Include="Services\GivenAColourService\WhenGetColourCombinationsIsCalled.cs" />
     <Compile Include="Services\GivenAGradeEquipmentService\WhenGetGradeEquipmentIsCalled.cs" />
     <Compile Include="Services\GivenAGradeService\WhenGetGradesIsCalled.cs" />
     <Compile Include="Services\GivenAModelService\WhenGeGetModelsByLanguageIsCalled.cs" />
@@ -212,6 +219,7 @@
     <Compile Include="TestBuilders\ConfigurationManagerBuilder.cs" />
     <Compile Include="TestBuilders\ContextBuilder.cs" />
     <Compile Include="TestBuilders\EngineCategoryBuilder.cs" />
+    <Compile Include="TestBuilders\ColourFactoryBuilder.cs" />
     <Compile Include="TestBuilders\GradeEquipmentFactoryBuilder.cs" />
     <Compile Include="TestBuilders\GradeFactoryBuilder.cs" />
     <Compile Include="TestBuilders\SteeringFactoryBuilder.cs" />

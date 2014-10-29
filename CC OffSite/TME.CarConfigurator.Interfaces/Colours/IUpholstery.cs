@@ -4,7 +4,7 @@ using TME.CarConfigurator.Interfaces.Core;
 
 namespace TME.CarConfigurator.Interfaces.Colours
 {
-    public interface IUphostery : IBaseObject
+    public interface IUpholstery : IBaseObject
     {
         string InteriorColourCode { get; }
         string TrimCode { get; }

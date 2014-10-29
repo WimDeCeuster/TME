@@ -73,9 +73,9 @@ namespace TME.CarConfigurator.Publisher.DI.S3
             return new AssetPublisher(service);
         }
 
-        private IColourCombinationPublisher GetColourCombinationPublisher(IColourCombinationService service)
+        private IColourPublisher GetColourCombinationPublisher(IColourService service)
         {
-            return new ColourCombinationPublisher(service,_timeFramePublishHelper);
+            return new ColourPublisher(service, _timeFramePublishHelper);
         }
 
         private ISubModelPublisher GetSubModelPublisher(ISubModelService service)

@@ -21,6 +21,7 @@ namespace TME.CarConfigurator.Factories
         private readonly IGradeFactory _gradeFactory;
         private readonly ICarFactory _carFactory;
         private readonly ISubModelFactory _subModelFactory;
+        private readonly IColourFactory _colourFactory;
 
         public ModelFactory(
             IModelService modelService,
@@ -32,7 +33,8 @@ namespace TME.CarConfigurator.Factories
             ISteeringFactory steeringFactory,
             IGradeFactory gradeFactory,
             ICarFactory carFactory,
-            ISubModelFactory subModelFactory)
+            ISubModelFactory subModelFactory,
+            IColourFactory colourFactory)
         {
             if (modelService == null) throw new ArgumentNullException("modelService");
             if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
@@ -44,6 +46,7 @@ namespace TME.CarConfigurator.Factories
             if (gradeFactory == null) throw new ArgumentNullException("gradeFactory");
             if (carFactory == null) throw new ArgumentNullException("carFactory");
             if (subModelFactory == null) throw new ArgumentNullException("subModelFactory");
+            if (colourFactory == null) throw new ArgumentNullException("colourFactory");
 
             _modelService = modelService;
             _publicationFactory = publicationFactory;
@@ -55,6 +58,7 @@ namespace TME.CarConfigurator.Factories
             _gradeFactory = gradeFactory;
             _carFactory = carFactory;
             _subModelFactory = subModelFactory;
+            _colourFactory = colourFactory;
         }
 
         public IReadOnlyList<IModel> GetModels(Context context)
@@ -73,7 +77,7 @@ namespace TME.CarConfigurator.Factories
 
         private IModel CreateModel(Repository.Objects.Model repositoryModel, Context context)
         {
-            return new Model(repositoryModel, context, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _steeringFactory, _gradeFactory, _carFactory,_subModelFactory);
+            return new Model(repositoryModel, context, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _steeringFactory, _gradeFactory, _carFactory, _subModelFactory, _colourFactory);
         }
     }
 }

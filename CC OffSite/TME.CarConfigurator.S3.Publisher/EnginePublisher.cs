@@ -27,7 +27,7 @@ namespace TME.CarConfigurator.S3.Publisher
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            return await _timeFramePublishHelper.PublishList(context, timeFrame => timeFrame.Engines, _engineService.PutTimeFrameGenerationEngines);
+            return await _timeFramePublishHelper.PublishBaseObjectList(context, timeFrame => timeFrame.Engines, _engineService.PutTimeFrameGenerationEngines);
         }
     }
 }

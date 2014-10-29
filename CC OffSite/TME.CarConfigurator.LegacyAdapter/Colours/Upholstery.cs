@@ -5,7 +5,7 @@ using TME.CarConfigurator.LegacyAdapter.Extensions;
 
 namespace TME.CarConfigurator.LegacyAdapter.Colours
 {
-    public class Upholstery : BaseObject, IUphostery
+    public class Upholstery : BaseObject, IUpholstery
     {
         #region Dependencies (Adaptee)
         private TMME.CarConfigurator.CarUpholstery Adaptee

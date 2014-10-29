@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Result;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.S3.CommandServices
 {
-    public class ColourCombinationService : IColourCombinationService
+    public class ColourCombinationService : IColourService
     {
         private readonly IService _s3Service;
         private readonly ISerialiser _serialiser;
@@ -25,8 +25,8 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keymanager = keymanager;
         }
 
-        public async Task<Result> PutTimeFrameGenerationColourCombinationsAsync(string brand, string country, Guid publicationID, Guid timeFrameID,
-            IEnumerable<ExteriorColour> colourCombinations)
+        public async Task<Result> PutTimeFrameGenerationColourCombinations(string brand, string country, Guid publicationID, Guid timeFrameID,
+            IEnumerable<ColourCombination> colourCombinations)
         {
             if (brand == null) throw new ArgumentNullException("brand");
             if (country == null) throw new ArgumentNullException("country");

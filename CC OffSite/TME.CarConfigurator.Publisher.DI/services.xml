@@ -2,26 +2,26 @@
 <objects xmlns="http://www.springframework.net">
   <object name="DevelopmentLiveS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
     <constructor-arg name="bucketNameTemplate" value="development-live-cardb-{brand}-{country}" />
-    <constructor-arg name="accessKey" value="private" />
-    <constructor-arg name="secretKey" value="private" />
+    <constructor-arg name="accessKey" value="AKIAIKV6A26WVSHDMO5A" />
+    <constructor-arg name="secretKey" value="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" />
     <constructor-arg ref="AmazonS3Factory" />
   </object>
   <object name="DevelopmentPreviewS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
     <constructor-arg name="bucketNameTemplate" value="development-preview-cardb-{brand}-{country}" />
-    <constructor-arg name="accessKey" value="private" />
-    <constructor-arg name="secretKey" value="private" />
+    <constructor-arg name="accessKey" value="AKIAIKV6A26WVSHDMO5A" />
+    <constructor-arg name="secretKey" value="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" />
     <constructor-arg ref="AmazonS3Factory" />
   </object>
   <object name="ProductionLiveS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
     <constructor-arg name="bucketNameTemplate" value="production-live-cardb-{brand}-{country}" />
-    <constructor-arg name="accessKey" value="private" />
-    <constructor-arg name="secretKey" value="private" />
+    <constructor-arg name="accessKey" value="AKIAIKV6A26WVSHDMO5A" />
+    <constructor-arg name="secretKey" value="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" />
     <constructor-arg ref="AmazonS3Factory" />
   </object>
   <object name="ProductionPreviewS3Service" type="TME.CarConfigurator.S3.Shared.Service, TME.CarConfigurator.S3.Shared">
     <constructor-arg name="bucketNameTemplate" value="production-preview-cardb-{brand}-{country}" />
-    <constructor-arg name="accessKey" value="private" />
-    <constructor-arg name="secretKey" value="private" />
+    <constructor-arg name="accessKey" value="AKIAIKV6A26WVSHDMO5A" />
+    <constructor-arg name="secretKey" value="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" />
     <constructor-arg ref="AmazonS3Factory" />
   </object>
 </objects>

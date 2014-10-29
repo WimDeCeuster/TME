@@ -147,6 +147,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ModelColourCombinationsController.cs" />
     <Compile Include="Controllers\ModelGradePacksController.cs" />
     <Compile Include="Controllers\ModelGradeVisibleInAssetsController.cs" />
     <Compile Include="Controllers\ModelGradeEquipmentController.cs" />
@@ -310,6 +311,8 @@
     <Content Include="Views\Shared\Equipment\_gradeEquipmentItem.cshtml" />
     <Content Include="Views\Shared\Equipment\_optionInfo.cshtml" />
     <Content Include="Views\Shared\Equipment\_category.cshtml" />
+    <Content Include="Views\ModelColourCombinations\details.cshtml" />
+    <Content Include="Views\ModelColourCombinations\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

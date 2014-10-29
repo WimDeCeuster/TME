@@ -9,6 +9,8 @@ using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
+using Upholstery = TME.CarConfigurator.Repository.Objects.Colours.Upholstery;
+using UpholsteryType = TME.CarConfigurator.Repository.Objects.Colours.UpholsteryType;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
@@ -27,11 +29,11 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _assetFileService = assetFileService;
         }
 
-        public ExteriorColour MapExteriorColour(Administration.ModelGenerationExteriorColour colour, string colourFilePath)
+        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ModelGenerationExteriorColour colour)
         {
             var mappedColour = new ExteriorColour
             {
-                Transformation = GetColourTransformation(colourFilePath, colour.Code),
+                Transformation = GetColourTransformation(GetFilePath(modelGeneration), colour.Code),
                 InternalCode = colour.Code,
                 LocalCode = String.Empty,
                 SortIndex = 0
@@ -40,23 +42,54 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
         }
 
-        public ExteriorColour MapColourCombination(ModelGenerationExteriorColour exteriorColour)
+        string GetFilePath(ModelGeneration modelGeneration)
         {
-            var mappedColour = new ExteriorColour()
-            {
-                InternalCode = exteriorColour.Code,
-                LocalCode = String.Empty,
-                SortIndex = 0
-            };
-
-            return _baseMapper.MapTranslateableDefaults(mappedColour, exteriorColour);
+            return modelGeneration.Assets.First(asset => asset.AssetType.Name.StartsWith("colourschema", StringComparison.InvariantCultureIgnoreCase)).FileName;
         }
 
-        public ExteriorColour MapExteriorColour(Administration.ExteriorColour colour, string colourFilePath)
+        public ColourCombination MapColourCombination(ModelGeneration modelGeneration, ModelGenerationColourCombination colourCombination)
+        {
+            return new ColourCombination
+            {
+                ExteriorColour = MapExteriorColour(modelGeneration, colourCombination.ExteriorColour),
+                ID = colourCombination.ID,
+                SortIndex = 0, //?
+                Upholstery = MapUpholstery(colourCombination.Upholstery)
+            };
+        }
+
+        Upholstery MapUpholstery(ModelGenerationUpholstery modelGenerationUpholstery)
+        {
+            
+            var mappedUpholstery = new Upholstery
+            {
+                InteriorColourCode = modelGenerationUpholstery.InteriorColour.Code,
+                TrimCode = modelGenerationUpholstery.Trim.Code,
+                Type = MapUpholsteryType(modelGenerationUpholstery.Type)
+            };
+
+            return _baseMapper.MapSortDefaults(
+                        _baseMapper.MapTranslateableDefaults(mappedUpholstery, modelGenerationUpholstery),
+                        modelGenerationUpholstery);
+        }
+
+        UpholsteryType MapUpholsteryType(UpholsteryTypeInfo upholsteryTypeInfo)
+        {
+            var upholstery = Administration.UpholsteryTypes.GetUpholsteryTypes()[upholsteryTypeInfo.ID];
+            
+            var mappedUpholsteryType = new UpholsteryType
+            {
+                SortIndex = upholstery.Index
+            };
+
+            return _baseMapper.MapTranslateableDefaults(mappedUpholsteryType, upholstery);
+        }
+
+        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ExteriorColour colour)
         {
             var mappedColour = new ExteriorColour
             {
-                Transformation = GetColourTransformation(colourFilePath, colour.Code),
+                Transformation = GetColourTransformation(GetFilePath(modelGeneration), colour.Code),
                 InternalCode = colour.Code,
                 LocalCode = String.Empty,
                 SortIndex = 0
@@ -75,18 +108,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             if (item == null)
                 return new ColourTransformation();
-
-            /*
-             <colours method="rgb" model="AYGO">
-                <item name="4W5">
-                    <rgb>ff512d</rgb>
-                    <brightness>-15</brightness>
-                    <contrast>0</contrast>
-                    <saturation>100</saturation>
-                    <alpha>0.60</alpha>
-                </item>
-             </colours>
-            */
 
             var invariantCulture = CultureInfo.GetCultureInfo(String.Empty);
 
