@@ -219,3 +219,6 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+
+# Amazon S3 keys
+services.xml
