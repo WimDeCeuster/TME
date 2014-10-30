@@ -130,50 +130,64 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
         private async Task PublishAsync(ModelGeneration generation, PublicationDataSubset publicationDataSubset)
         {
-            if (IsPublishing)
+            try
             {
-                PublishingDone(new Failed { Reason = "Already publishing" });
-                return;
+                if (IsPublishing)
+                {
+                    PublishingDone(new Failed { Reason = "Already publishing" });
+                    return;
+                }
+
+                StartPublishing();
+
+                PublishingDone(await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, publicationDataSubset));
             }
-
-            StartPublishing();
-
-            PublishingDone(await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, publicationDataSubset));
+            catch (Exception e)
+            {
+                DisplayResult(new Failed{Exception = e});
+            }
         }
 
         public async Task PublishForReviewAsync()
         {
-            if (IsPublishing)
+            try
             {
-                PublishingDone(new Failed { Reason = "Already publishing" });
-                return;
+                if (IsPublishing)
+                {
+                    PublishingDone(new Failed { Reason = "Already publishing" });
+                    return;
+                }
+
+                StartPublishing();
+
+                GetRandomCountry();
+
+                var modelsThatHaveApprovedGenerations = Models.Where(m => m.Approved && m.Generations.Any(g => g.Approved)).ToList();
+                var modelsInRandomOrder = modelsThatHaveApprovedGenerations.OrderBy(m => Guid.NewGuid()).ToList();
+                var first5Models = modelsInRandomOrder.Take(5).ToList();
+                var generations = first5Models.Select(m => m.Generations.Single(g => g.Approved)).ToList();
+
+                Messages.Add(String.Format("Starting publish for {0}", string.Join(", ", generations)));
+
+                foreach (var generation in generations)
+                {
+                    Messages.Add(string.Format("Publishing {0} for {1}", generation, Country));
+
+                    var result = await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview);
+
+                    if (result is Successfull)
+                        continue;
+
+                    PublishingDone(result);
+                    return;
+                }
+
+                PublishingDone(new Successfull());
             }
-
-            StartPublishing();
-
-            GetRandomCountry();
-
-            var modelsThatHaveApprovedGenerations = Models.Where(m => m.Approved && m.Generations.Any(g => g.Approved)).ToList();
-            var modelsInRandomOrder = modelsThatHaveApprovedGenerations.OrderBy(m => Guid.NewGuid()).ToList();
-            var first5Models = modelsInRandomOrder.Take(5).ToList();
-            var generations = first5Models.Select(m => m.Generations.Single(g => g.Approved)).ToList();
-
-            Messages.Add(String.Format("Starting publish for {0}", string.Join(", ", generations)));
-
-            foreach (var generation in generations)
+            catch (Exception e)
             {
-                Messages.Add(string.Format("Publishing {0} for {1}", generation, Country));
-
-                var result = await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview);
-
-                if (result is Successfull)
-                    continue;
-
-                PublishingDone(result);
-                return;
+                DisplayResult(new Failed { Exception = e });
             }
-
-            PublishingDone(new Successfull());
         }
 
         public void GetRandomCountry()
@@ -197,7 +211,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
         private static void DisplayResult(Result result)
         {
-            MessageBox.Show(result is Successfull ? "Success!" : string.Format("Failure! {0}", ((Failed)result).Reason));
+            MessageBox.Show(result is Successfull ? "Success!" : string.Format("Failure! {0}", ((Failed)result).Reason ?? ((Failed)result).Exception.ToString()));
         }
     }
 }
