@@ -30,7 +30,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
             var gradeCars = generationGrade.Cars().ToArray();
             var cheapestCar = cars.Where(car => gradeCars.Any(gradeCar => gradeCar.ID == car.ID))
-                .OrderBy(car => car.StartingPrice.ExcludingVat)
+                .OrderBy(car => car.StartingPrice.IncludingVat)
                 .First();
 
             var mappedGrade = new Grade
