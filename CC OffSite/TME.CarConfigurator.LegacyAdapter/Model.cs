@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
-using TME.CarConfigurator.LegacyAdapter.Colours;
+using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.LegacyAdapter.Equipment;
 using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter
@@ -43,7 +43,7 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get
             {
-                return Object.Equals(Legacy.Model.GetPromotedModel(Legacy.MyContext.CurrentContext), Adaptee); 
+                return Legacy.Model.GetPromotedModel(Legacy.MyContext.CurrentContext).Equals(Adaptee); 
             }
         }
 
@@ -117,6 +117,11 @@ namespace TME.CarConfigurator.LegacyAdapter
                         .Select(group => new Colours.ColourCombination(group.First()))
                         .ToList();
             }
+        }
+
+        public IModelEquipment Equipment
+        {
+            get { return new ModelEquipment();}
         }
     }
 }

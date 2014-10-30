@@ -81,6 +81,11 @@ namespace TME.CarConfigurator
 
         public IReadOnlyList<IColourCombination> ColourCombinations { get { return _colourCombinations = _colourCombinations ?? _colourFactory.GetColourCombinations(RepositoryPublication, _repositoryContext); } }
 
+        public IModelEquipment Equipment
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public Model(
             Repository.Objects.Model repositoryModel,
             Repository.Objects.Context repositoryContext,
