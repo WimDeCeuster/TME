@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FakeItEasy;
 using FluentAssertions;
+using TME.CarConfigurator.Assets;
 using TME.CarConfigurator.DI;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;

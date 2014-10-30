@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Interfaces.Core;
 
-namespace TME.CarConfigurator
+namespace TME.CarConfigurator.Core
 {
     public class Label : ILabel
     {

@@ -4,7 +4,7 @@ using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 
-namespace TME.CarConfigurator
+namespace TME.CarConfigurator.Colours
 {
     public class ExteriorColour : BaseObject<Repository.Objects.Colours.ExteriorColour>, IExteriorColour
     {

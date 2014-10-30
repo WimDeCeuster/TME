@@ -61,6 +61,7 @@
     <Compile Include="Colours\ExteriorColourType.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Equipment\BestVisibleIn.cs" />
+    <Compile Include="Equipment\Category.cs" />
     <Compile Include="Equipment\GradeEquipment.cs" />
     <Compile Include="Grade.cs" />
     <Compile Include="Enums\Visibility.cs" />

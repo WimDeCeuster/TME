@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TME.CarConfigurator.Colours;
 using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Colours;

@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Extensions;
-using TME.CarConfigurator.Interfaces.Equipment;
-using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Colours;
+using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.Interfaces.Factories;
 
-namespace TME.CarConfigurator
+namespace TME.CarConfigurator.Equipment
 {
     public abstract class GradeEquipmentItem<T> : BaseObject<T>, IGradeEquipmentItem
         where T : Repository.Objects.Equipment.GradeEquipmentItem

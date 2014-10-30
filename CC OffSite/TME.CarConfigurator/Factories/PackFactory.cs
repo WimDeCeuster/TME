@@ -4,6 +4,7 @@ using System.Linq;
 using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Interfaces.Packs;
+using TME.CarConfigurator.Packs;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 

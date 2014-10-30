@@ -1,7 +1,7 @@
 using System;
 using TME.CarConfigurator.Interfaces.Assets;
 
-namespace TME.CarConfigurator
+namespace TME.CarConfigurator.Assets
 {
     public class FileType : IFileType
     {

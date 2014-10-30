@@ -1,8 +1,7 @@
-﻿using System;
-using TME.CarConfigurator.Interfaces.Equipment;
+﻿using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
 
-namespace TME.CarConfigurator
+namespace TME.CarConfigurator.Equipment
 {
     public class GradeOption : GradeEquipmentItem<Repository.Objects.Equipment.GradeOption>, IGradeOption
     {
