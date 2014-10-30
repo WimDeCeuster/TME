@@ -81,7 +81,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
             return cars.Where(car => modelGenerationSubModel.Cars()
                 .Any(subModelCar => subModelCar.ID == car.ID))
-                .OrderBy(car => car.StartingPrice.ExcludingVat)
+                .OrderBy(car => car.StartingPrice.IncludingVat)
                 .First();
         }
     }
