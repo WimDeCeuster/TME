@@ -53,41 +53,13 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel,modelGenerationSubModel);
         }
-
-/*        private static GradeEquipment GetSubModelEquipment(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
-        {
-            var accesories =  contextData.GradeEquipments.Values.SelectMany(equipment => equipment.Accessories)
-                .ToList()
-                .Where(
-                    accessory => 
-                        modelGenerationSubModel.Equipment.Any(generationSubModelEquipmentItem => generationSubModelEquipmentItem.ID == accessory.ID));
-            
-            var options = contextData.GradeEquipments.Values.SelectMany(equipment => equipment.Options)
-                    .ToList()
-                    .Where(
-                        option =>
-                            modelGenerationSubModel.Equipment.Any(
-                                generationSubModelEquipmentItem => generationSubModelEquipmentItem.ID == option.ID));
-
-            return new GradeEquipment(){Accessories = accesories,Options = options};
-        }*/
-
+        
         private List<Grade> GetSubModelGrades(IEnumerable<ModelGenerationGrade> generationGrades, ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
         {
-          /*  return generationGrades.Where(
-                    genGrade => genGrade.SubModels.Any(submodel => submodel.ID == modelGenerationSubModel.ID))
-                    .Select(generationGrade => _gradeMapper.MapSubModelGrade(generationGrade)).ToList();*/
-
-
             return generationGrades
                 .Where(generationGrade => modelGenerationSubModel.Cars()
                                                               .Any(car => car.GradeID == generationGrade.ID))
                 .Select(grade => _gradeMapper.MapSubModelGrade(grade,modelGenerationSubModel)).ToList();
-
-            return contextData.Grades
-                .Where(contextGrade => modelGenerationSubModel.Cars()
-                                                              .Any(car => car.GradeID == contextGrade.ID))
-                .ToList();
         }
 
         private List<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)

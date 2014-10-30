@@ -132,7 +132,7 @@ namespace TME.CarConfigurator.Publisher
             }
         }
 
-        private  IEnumerable<KeyValuePair<string, Tuple<ModelGeneration, Model>>> GetModelGenerationForEachLanguage(String brand, String countryCode, Guid generationID)
+        private static IEnumerable<KeyValuePair<string, Tuple<ModelGeneration, Model>>> GetModelGenerationForEachLanguage(String brand, String countryCode, Guid generationID)
         {
             // Is ensuring a context can be retrieved by setting to the know global context necessary?
             MyContext.SetSystemContext("Toyota", "ZZ", "en");
