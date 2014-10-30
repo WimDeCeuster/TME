@@ -19,7 +19,6 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
         private IEnumerable<IGrade> _secondGrades;
         private Repository.Objects.Grade _grade2;
         private Repository.Objects.Grade _grade1;
-        private IGradeService _gradeService;
         private IEnumerable<IGrade> _firstGrades;
 
         protected override void Arrange()
@@ -47,12 +46,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
             A.CallTo(() => subModelService.GetSubModels(A<Guid>._, A<Guid>._, A<Context>._))
                 .Returns(new List<Repository.Objects.SubModel> { repositorySubModel });
 
-            _gradeService = A.Fake<IGradeService>();
-            A.CallTo(() => _gradeService.GetGrades(publication.ID, publicationTimeFrame.ID, context))
-                .Returns(new List<Repository.Objects.Grade>() { _grade1, _grade2 });
-
             var gradeFactory = new GradeFactoryBuilder()
-                .WithGradeService(_gradeService)
                 .Build();
 
             var subModelFactory = new SubModelFactoryBuilder()
@@ -68,13 +62,6 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
         protected override void Act()
         {
             _secondGrades = _subModel.Grades;
-        }
-
-        [Fact(Skip = "Is this test Still Relevant? SubmodelGrades Are already Picked Up When GetSubModels is Called.")]
-        public void ThenItShouldNotFetchTheGradesFromTheServiceAgain()
-        {
-            A.CallTo(() => _gradeService.GetGrades(A<Guid>._, A<Guid>._, A<Context>._))
-                .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]

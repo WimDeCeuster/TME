@@ -19,11 +19,11 @@ namespace TME.CarConfigurator
         private readonly IGradeFactory _gradeFactory;
 
         private IEnumerable<IAsset> _assets;
-        private IEnumerable<IGrade> _grades; 
+        private IEnumerable<IGrade> _grades;
         private IEnumerable<ILink> _links;
         private IPrice _startingPrice;
 
-        public SubModel(Repository.Objects.SubModel repositorySubModel,Publication repositoryPublication,Context repositoryContext,IAssetFactory assetFactory,IGradeFactory gradeFactory) 
+        public SubModel(Repository.Objects.SubModel repositorySubModel, Publication repositoryPublication, Context repositoryContext, IAssetFactory assetFactory, IGradeFactory gradeFactory)
             : base(repositorySubModel)
         {
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
@@ -48,12 +48,7 @@ namespace TME.CarConfigurator
         {
             get
             {
-                return
-                    _grades =
-                        _grades ??
-                        RepositoryObject.Grades.Select(
-                            grade => _gradeFactory.GetSubModelGrade(grade,_repositoryPublication,_repositoryContext));
-//                        _gradeFactory.GetSubModelGrades(_repositoryPublication, _repositoryContext, RepositoryObject);
+                return _grades = _grades ?? RepositoryObject.Grades.Select(grade => _gradeFactory.GetSubModelGrade(grade, _repositoryPublication, _repositoryContext));
             }
         }
 
@@ -64,6 +59,6 @@ namespace TME.CarConfigurator
             get { return _links = _links ?? RepositoryObject.Links.Select(l => new Link(l)).ToArray(); }
         }
 
- 
+
     }
 }
