@@ -3,20 +3,27 @@ using System.Collections.Generic;
 using System.EnterpriseServices;
 using System.Linq;
 using System.Web.Mvc;
+using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.FrontEndViewer.Models;
-using TMME.CarConfigurator;
 using Model = TME.CarConfigurator.LegacyAdapter.Model;
+using MyContext = TMME.CarConfigurator.MyContext;
 
 namespace TME.FrontEndViewer.Controllers
 {
     public class ModelsController : Controller
     {
+
+        public ActionResult SelectCountryLanguage(string countrycode, string languagecode)
+        {
+            return Index("Toyota", countrycode, languagecode);
+        }
         public ActionResult Index()
         {
-
-            return Index( "Toyota","DE","DE");
+            if (Session["context"] ==  null) return Index( "Toyota","DE","DE");
+            var context = ((Context) Session["context"]);
+            return Index(context.Brand, context.Country, context.Language);
         }
 
         private ActionResult Index(string brand, string country, string language)
@@ -30,16 +37,25 @@ namespace TME.FrontEndViewer.Controllers
             Session.Add("context", context);
 
 
+
             var oldContext = MyContext.NewContext(context.Brand, context.Country, context.Language);
-            var model = new CompareView<IReadOnlyList<IModel>>
+            var model = new ModelCompare
             {
+               SelectedCountry = country,
+               SelectedLanguage = language,
+               Countries = GetCountries(),
                OldReaderModel = GetOldReaderModelWithMetrics(oldContext),
                NewReaderModel = GetNewReaderModelWithMetrics(context)
             };
 
-            return View(model);
+            return View("Index", model);
         }
-
+        
+        private static List<Country> GetCountries()
+        {
+            CarConfigurator.Administration.MyContext.SetSystemContext("Toyota", "ZZ", "EN");
+            return CarConfigurator.Administration.MyContext.GetContext().Countries.Select(x=> x).ToList();
+        }
 
 
         private static ModelWithMetrics<IReadOnlyList<IModel>> GetOldReaderModelWithMetrics(MyContext oldContext)
@@ -68,5 +84,7 @@ namespace TME.FrontEndViewer.Controllers
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
         }
+
+
     }
 }

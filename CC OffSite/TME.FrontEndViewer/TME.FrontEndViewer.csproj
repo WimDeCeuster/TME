@@ -115,6 +115,18 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="TME.BusinessObjects, Version=4.0.11.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TME.BusinessObjects.dll</HintPath>
+    </Reference>
+    <Reference Include="TME.BusinessObjects.Templates, Version=2.2.4.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TME.BusinessObjects.Templates.dll</HintPath>
+    </Reference>
+    <Reference Include="TME.CarConfigurator.Administration, Version=7.1.4.1, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TME.CarConfigurator.Administration.dll</HintPath>
+    </Reference>
     <Reference Include="TME.Diagnostics">
       <HintPath>..\..\Libraries\TME.Diagnostics.dll</HintPath>
     </Reference>
@@ -179,6 +191,7 @@
     <Compile Include="Models\CompareView.cs" />
     <Compile Include="Models\BaseObjectWithPrefix.cs" />
     <Compile Include="Models\GradeEquipmentModel.cs" />
+    <Compile Include="Models\ModelCompare.cs" />
     <Compile Include="Models\ModelWithMetrics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

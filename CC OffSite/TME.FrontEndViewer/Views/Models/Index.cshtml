@@ -1,7 +1,29 @@
-﻿@model TME.FrontEndViewer.Models.CompareView<IReadOnlyList<TME.CarConfigurator.Interfaces.IModel>>
+﻿@using TME.CarConfigurator.Administration
+@using MyContext = TMME.CarConfigurator.MyContext
+@model TME.FrontEndViewer.Models.ModelCompare
 @{
     Layout = "~/Views/Shared/_CompareLayout.cshtml";
 }
+
+<div class="object" data-id="rubish">
+    <div class="title">
+        <strong>Current Context >> @Model.SelectedCountry - @Model.SelectedLanguage</strong>
+    </div>
+    <div class="content">
+        <ul>
+        @foreach (var country in Model.Countries)
+        {
+            <li>
+                <strong>@country.Name</strong>
+                @foreach (var language in country.Languages) {
+                 @Html.Raw(" | ") @Html.ActionLink(language.Name, "SelectCountryLanguage", "Models" ,new { CountryCode = country.Code, LanguageCode = language.Code }, new { })
+                }
+                
+            </li>
+        }
+         </ul>
+    </div>
+</div>
 <table>
     <tr>
         <td id="oldarea" class="areaview">@Html.Partial("details",Model.OldReaderModel.Model)</td>
