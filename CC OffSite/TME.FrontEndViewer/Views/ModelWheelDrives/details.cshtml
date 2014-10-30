@@ -4,31 +4,19 @@
 
 @foreach (var model in Model)
 {
-    <div class="clickable">
-        <table class="top">
-            <tr>
-                <td>
-                    <b>@Html.Raw(model.Name)</b>
-                </td>
-            </tr>
-        </table>
-        <div class="clickable object" data-id="@Html.Raw(model.ID)">
-            @Html.Partial("_baseObject", model)
-            <p class="property" data-id="Brochure">Brochure : @Html.Raw(model.Brochure)</p>
-            <p class="property" data-id="KeyFeature">KeyFeature : @Html.Raw(model.KeyFeature)</p>
-
-            <p class="property" data-id="VisibleInExteriorSpin">VisibleInExteriorSpin : @Html.Raw(model.VisibleInExteriorSpin)</p>
-            <p class="property" data-id="VisibleInInteriorSpin">VisibleInInteriorSpin : @Html.Raw(model.VisibleInInteriorSpin)</p>
-            <p class="property" data-id="VisibleInXRay4X4Spin">VisibleInXRay4X4Spin : @Html.Raw(model.VisibleInXRay4X4Spin)</p>
-            <p class="property" data-id="VisibleInXRayHybridSpin">VisibleInXRayHybridSpin : @Html.Raw(model.VisibleInXRayHybridSpin)</p>
-            <p class="property" data-id="VisibleInXRaySafetySpin">VisibleInXRaySafetySpin : @Html.Raw(model.VisibleInXRaySafetySpin)</p>
+    <div class="object" data-id="@Html.Raw(model.ID)">
+        <div class="title">
+            <strong>@Html.Raw(model.Name)</strong>
+        </div>
+        <div class="content">
+            @Html.Partial("_wheelDrive", model)
 
             <p class="property" data-id="actionlinks">
-                @Html.ActionLink("Assets","Index", "ModelWheelDriveAssets", new { modelID = ViewBag.ModelID, wheelDriveID = model.ID}, new { })
-                @foreach (var visibleInModeAndView in model.VisibleIn)
+                @Html.ActionLink("Assets", "Index", "ModelWheelDriveAssets", new { modelID = ViewBag.ModelID, wheelDriveID = model.ID }, new { })
+                @foreach (var visibleInModeAndView in model.VisibleIn.Where(x => x.Assets.Any()))
                 {
                     @Html.Raw(" | ")
-                    @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View),"Index", "ModelWheelDriveVisibleInAssets", new { modelID = ViewBag.ModelID, wheelDriveID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View}, new { })         
+                    @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View), "Index", "ModelWheelDriveVisibleInAssets", new { modelID = ViewBag.ModelID, wheelDriveID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View }, new { })
                 }
             </p>
 

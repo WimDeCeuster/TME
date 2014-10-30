@@ -20,7 +20,7 @@ namespace TME.FrontEndViewer.Controllers
 
             ViewBag.ModelID = modelID;
 
-            var model = new CompareView<ISubModel>
+            var model = new CompareView<IReadOnlyList<ISubModel>>
             {
                 OldReaderModel = GetOldReaderModelWithMetrics(oldcontext,modelID),
                 NewReaderModel = GetNewReaderModelWithMetrics(context,modelID)
@@ -29,7 +29,7 @@ namespace TME.FrontEndViewer.Controllers
             return View(model);
         }
 
-        private ModelWithMetrics<ISubModel> GetOldReaderModelWithMetrics(MyContext oldcontext, Guid modelID)
+        private ModelWithMetrics<IReadOnlyList<ISubModel>> GetOldReaderModelWithMetrics(MyContext oldcontext, Guid modelID)
         {
             var start = DateTime.Now;
             var list = TMME.CarConfigurator.Model.GetModel(oldcontext, modelID)
@@ -39,19 +39,19 @@ namespace TME.FrontEndViewer.Controllers
                 .Cast<ISubModel>()
                 .ToList();
 
-            return new ModelWithMetrics<ISubModel>()
+            return new ModelWithMetrics<IReadOnlyList<ISubModel>>()
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
         }
 
-        private static ModelWithMetrics<ISubModel> GetNewReaderModelWithMetrics(Context context, Guid modelID)
+        private static ModelWithMetrics<IReadOnlyList<ISubModel>> GetNewReaderModelWithMetrics(Context context, Guid modelID)
         {
             var start = DateTime.Now;
             var list = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID).SubModels.ToList();
 
-            return new ModelWithMetrics<ISubModel>()
+            return new ModelWithMetrics<IReadOnlyList<ISubModel>>()
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)

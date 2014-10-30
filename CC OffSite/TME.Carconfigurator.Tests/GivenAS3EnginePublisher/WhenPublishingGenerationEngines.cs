@@ -109,7 +109,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3EnginePublisher
 
         protected override void Act()
         {
-            var result = _publisher.PublishGenerationEngines(_context).Result;
+            var result = _publisher.PublishGenerationEnginesAsync(_context).Result;
         }
 
         [Fact]

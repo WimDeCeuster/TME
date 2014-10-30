@@ -73,13 +73,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CarDbModelGenerationFinder.cs" />
+    <Compile Include="CarConfiguratorPublisher.cs" />
     <Compile Include="Exceptions\UnrecognisedItemVisibilityException.cs" />
     <Compile Include="Extensions\AssetSetAssetExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\LinkExtensions.cs" />
-    <Compile Include="Factories\ContextFactory.cs" />
-    <Compile Include="Factories\PublisherFacadeFactory.cs" />
+    <Compile Include="Interfaces\IAssetFileService.cs" />
     <Compile Include="Interfaces\IAssetPublisher.cs" />
     <Compile Include="Interfaces\IAssetMapper.cs" />
     <Compile Include="Interfaces\IAssetScopeMapper.cs" />
@@ -87,17 +86,20 @@
     <Compile Include="Interfaces\IAssetTypeMapper.cs" />
     <Compile Include="Interfaces\IBodyTypeMapper.cs" />
     <Compile Include="Interfaces\IBodyTypePublisher.cs" />
+    <Compile Include="Interfaces\ICarConfiguratorPublisher.cs" />
     <Compile Include="Interfaces\ICarConfiguratorVersionMapper.cs" />
-    <Compile Include="Interfaces\ICarDbModelGenerationFinder.cs" />
     <Compile Include="Interfaces\ICarMapper.cs" />
     <Compile Include="Interfaces\ICarPublisher.cs" />
     <Compile Include="Interfaces\ICategoryInfoMapper.cs" />
-    <Compile Include="Interfaces\IContextFactory.cs" />
-    <Compile Include="Interfaces\IDefaultBaseMapper.cs" />
+    <Compile Include="Interfaces\IColourCombinationPublisher.cs" />
+    <Compile Include="Interfaces\IColourMapper.cs" />
+    <Compile Include="Interfaces\IBaseMapper.cs" />
     <Compile Include="Interfaces\IEngineCategoryMapper.cs" />
     <Compile Include="Interfaces\IEngineMapper.cs" />
     <Compile Include="Interfaces\IGradeEquipmentPublisher.cs" />
     <Compile Include="Interfaces\IEquipmentMapper.cs" />
+    <Compile Include="Interfaces\IGradePackPublisher.cs" />
+    <Compile Include="Interfaces\IPackMapper.cs" />
     <Compile Include="Interfaces\ISteeringMapper.cs" />
     <Compile Include="Interfaces\IGradeMapper.cs" />
     <Compile Include="Interfaces\ISubModelMapper.cs" />
@@ -116,17 +118,14 @@
     <Compile Include="Interfaces\ILabelMapper.cs" />
     <Compile Include="Interfaces\ILinkMapper.cs" />
     <Compile Include="Interfaces\IMapper.cs" />
-    <Compile Include="Interfaces\ICarConfiguratorPublisher.cs" />
     <Compile Include="Interfaces\IModelMapper.cs" />
     <Compile Include="Interfaces\IModelPublisher.cs" />
     <Compile Include="Interfaces\IPublicationPublisher.cs" />
     <Compile Include="Interfaces\IPublisher.cs" />
-    <Compile Include="Interfaces\IPublisherFacade.cs" />
-    <Compile Include="Interfaces\IPublisherFacadeFactory.cs" />
     <Compile Include="Interfaces\ITransmissionMapper.cs" />
     <Compile Include="Interfaces\ITransmissionTypeMapper.cs" />
+    <Compile Include="IPublisherFactory.cs" />
     <Compile Include="Mapper.cs" />
-    <Compile Include="CarConfiguratorPublisher.cs" />
     <Compile Include="Mappers\AssetMapper.cs" />
     <Compile Include="Mappers\AssetSetMapper.cs" />
     <Compile Include="Mappers\AssetTypeMapper.cs" />
@@ -135,6 +134,7 @@
     <Compile Include="Mappers\CarMapper.cs" />
     <Compile Include="Mappers\BaseMapper.cs" />
     <Compile Include="Mappers\CategoryInfoMapper.cs" />
+    <Compile Include="Mappers\ColourMapper.cs" />
     <Compile Include="Mappers\EngineCategoryMapper.cs" />
     <Compile Include="Mappers\EngineMapper.cs" />
     <Compile Include="Mappers\EngineTypeMapper.cs" />
@@ -147,6 +147,7 @@
     <Compile Include="Mappers\LinkMapper.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Mappers\ModelMapper.cs" />
+    <Compile Include="Mappers\PackMapper.cs" />
     <Compile Include="Mappers\SteeringMapper.cs" />
     <Compile Include="Mappers\GradeMapper.cs" />
     <Compile Include="Mappers\SubModelMapper.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Mappers\TransmissionTypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publisher.cs" />
+    <Compile Include="Services\AssetFileService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TME.CarConfigurator.CommandServices\TME.CarConfigurator.CommandServices.csproj">
@@ -192,7 +194,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Factories\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

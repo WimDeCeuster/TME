@@ -4,19 +4,15 @@
 
 @foreach (var model in Model)
 {
-    <div class="clickable">
-        <table class="top">
-            <tr>
-                <td>
-                    <b>@Html.Raw(model.Mode), @Html.Raw(model.View)</b>
-                </td>
-            </tr>
-        </table>
-        <div class="clickable object" data-id="@String.Format("{0}-{1}",model.Mode, model.View)">
+    <div class="object" data-id="@String.Format("{0}-{1}",model.Mode, model.View)">
+        <div class="title">
+            <strong>@Html.Raw(model.Mode), @Html.Raw(model.View)</strong>
+        </div>
+        <div class="content">
             @foreach (var asset in model.Assets)
             {
-                var assetWithPrefix = new AssetWithPrefix() { Asset=asset, Prefix = String.Format("{0}-{1}",model.Mode, model.View};
-                  @Html.Partial("_assetWithPrefix", assetWithPrefix)
+                var assetWithPrefix = new AssetWithPrefix { Asset=asset, Prefix = String.Format("{0}-{1}", model.Mode, model.View)};
+                @Html.Partial("_assetWithPrefix", assetWithPrefix)
             }
         </div>
     </div>

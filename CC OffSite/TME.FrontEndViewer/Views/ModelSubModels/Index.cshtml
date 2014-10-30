@@ -1,14 +1,14 @@
-﻿@model TME.FrontEndViewer.Models.CompareView<TME.CarConfigurator.Interfaces.ISubModel>
-<h2>Toyota Viewer</h2>
-<div>
-    <table>
-        <tr>
-            <td id="oldarea" class="areaview">@Html.Partial("details",Model.OldReaderModel.Model)</td>
-            <td id="newarea" class="areaview">@Html.Partial("details",Model.NewReaderModel.Model)</td>
-        </tr>
-        <tr>
-            <td>@Html.Raw(Model.OldReaderModel.TimeToLoad.TotalMinutes)</td>
-            <td>@Html.Raw(Model.NewReaderModel.TimeToLoad.TotalMinutes)</td>
-        </tr>
-    </table>
-</div>
+﻿@model TME.FrontEndViewer.Models.CompareView<IReadOnlyList<TME.CarConfigurator.Interfaces.ISubModel>>
+@{
+    Layout = "~/Views/Shared/_CompareLayout.cshtml";
+}
+<table>
+    <tr>
+        <td id="oldarea" class="areaview">@Html.Partial("details",Model.OldReaderModel.Model)</td>
+        <td id="newarea" class="areaview">@Html.Partial("details",Model.NewReaderModel.Model)</td>
+    </tr>
+    <tr>
+        <td>@Html.Raw(Model.OldReaderModel.TimeToLoad.TotalMinutes)</td>
+        <td>@Html.Raw(Model.NewReaderModel.TimeToLoad.TotalMinutes)</td>
+    </tr>
+</table>

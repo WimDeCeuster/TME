@@ -8,6 +8,7 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
     public class GradeEquipmentFactoryBuilder
     {
         private IGradeEquipmentService _gradeEquipmentService = A.Fake<IGradeEquipmentService>();
+        private IColourFactory _colourFactory = A.Fake<IColourFactory>();
 
         public GradeEquipmentFactoryBuilder WithGradeEquipmentService(IGradeEquipmentService gradeEquipmentService)
         {
@@ -16,9 +17,16 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
             return this;
         }
 
+        public GradeEquipmentFactoryBuilder WithColourFactory(IColourFactory colourFactory)
+        {
+            _colourFactory = colourFactory;
+
+            return this;
+        }
+
         public IGradeEquipmentFactory Build()
         {
-            return new GradeEquipmentFactory(_gradeEquipmentService);
+            return new GradeEquipmentFactory(_gradeEquipmentService, _colourFactory);
         }
     }
 }

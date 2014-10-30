@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
+using TME.CarConfigurator.Interfaces.Colours;
+using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.LegacyAdapter.Equipment;
 using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter
@@ -49,59 +52,76 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return new CarConfiguratorVersion(Adaptee.CarConfiguratorVersion); }
         }
 
-        public IEnumerable<ILink> Links
+        public IReadOnlyList<ILink> Links
         {
-            get { return Adaptee.Links.Cast<Legacy.Link>().Select(x => new Link(x)); }
+            get { return Adaptee.Links.Cast<Legacy.Link>().Select(x => new Link(x)).ToList(); }
         }
 
-        public IEnumerable<IAsset> Assets
+        public IReadOnlyList<IAsset> Assets
         {
-            get { return Adaptee.Assets.Cast<Legacy.Asset>().Select(x => new Asset(x)); }
+            get { return Adaptee.Assets.Cast<Legacy.Asset>().Select(x => new Asset(x)).ToList(); }
         }
 
-        public IEnumerable<IBodyType> BodyTypes
+        public IReadOnlyList<IBodyType> BodyTypes
         {
-            get { return Adaptee.BodyTypes.Cast<Legacy.BodyType>().Select(x => new BodyType(x)); }
+            get { return Adaptee.BodyTypes.Cast<Legacy.BodyType>().Select(x => new BodyType(x)).ToList(); }
         }
 
-        public IEnumerable<IEngine> Engines
+        public IReadOnlyList<IEngine> Engines
         {
-            get { return Adaptee.Engines.Cast<Legacy.Engine>().Select(x => new Engine(x)); }
+            get { return Adaptee.Engines.Cast<Legacy.Engine>().Select(x => new Engine(x)).ToList(); }
         }
 
-        public IEnumerable<ITransmission> Transmissions
+        public IReadOnlyList<ITransmission> Transmissions
         {
-            get { return Adaptee.Transmissions.Cast<Legacy.Transmission>().Select(x => new Transmission(x)); }
+            get { return Adaptee.Transmissions.Cast<Legacy.Transmission>().Select(x => new Transmission(x)).ToList(); }
         }
 
-        public IEnumerable<IWheelDrive> WheelDrives
+        public IReadOnlyList<IWheelDrive> WheelDrives
         {
-            get { return Adaptee.WheelDrives.Cast<Legacy.WheelDrive>().Select(x => new WheelDrive(x)); }
+            get { return Adaptee.WheelDrives.Cast<Legacy.WheelDrive>().Select(x => new WheelDrive(x)).ToList(); }
         }
 
-        public IEnumerable<ISteering> Steerings
+        public IReadOnlyList<ISteering> Steerings
         {
-            get { return Adaptee.Cars.Cast<Legacy.Car>().Select(car => car.Steering).Distinct().Select(x => new Steering(x)); }
+            get { return Adaptee.Cars.Cast<Legacy.Car>().Select(car => car.Steering).Distinct().Select(x => new Steering(x)).ToList(); }
         }
 
-        public IEnumerable<IGrade> Grades
+        public IReadOnlyList<IGrade> Grades
         {
-            get { return Adaptee.Grades.Cast<Legacy.Grade>().Select(x => new Grade(x)); }
+            get { return Adaptee.Grades.Cast<Legacy.Grade>().Select(x => new Grade(x)).ToList(); }
         }
 
-        public IEnumerable<IFuelType> FuelTypes
+        public IReadOnlyList<IFuelType> FuelTypes
         {
-            get { return Adaptee.FuelTypes.Cast<Legacy.FuelType>().Select(x => new FuelType(x)); }
+            get { return Adaptee.FuelTypes.Cast<Legacy.FuelType>().Select(x => new FuelType(x)).ToList(); }
         }
 
-        public IEnumerable<ICar> Cars
+        public IReadOnlyList<ICar> Cars
         {
-            get { return Adaptee.Cars.Cast<Legacy.Car>().Select(x => new Car(x)); }
+            get { return Adaptee.Cars.Cast<Legacy.Car>().Select(x => new Car(x)).ToList(); }
         }
 
-        public IEnumerable<ISubModel> SubModels
+        public IReadOnlyList<ISubModel> SubModels
         {
-            get { return Adaptee.SubModels.Cast<Legacy.SubModel>().Select(x => new SubModel(x)); }
+            get { return Adaptee.SubModels.Cast<Legacy.SubModel>().Select(x => new SubModel(x)).ToList(); }
+        }
+
+        public IReadOnlyList<IColourCombination> ColourCombinations
+        {
+            get
+            {
+                return Adaptee.Cars.Cast<Legacy.Car>()
+                        .SelectMany(car => car.Colours.Cast<Legacy.CarColourCombination>())
+                        .GroupBy(colourCombination => Tuple.Create(colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID))
+                        .Select(group => new Colours.ColourCombination(group.First()))
+                        .ToList();
+            }
+        }
+
+        public IModelEquipment Equipment
+        {
+            get { return new ModelEquipment();}
         }
     }
 }

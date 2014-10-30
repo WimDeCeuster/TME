@@ -9,7 +9,7 @@ namespace TME.Carconfigurator.Tests.Builders
     public class GradeEquipmentPublisherBuilder
     {
         private IGradeEquipmentService _service = A.Fake<IGradeEquipmentService>();
-        private ITimeFramePublishHelper _timeFramePublishHelper = new TimeFramePublishHelper();
+        private readonly ITimeFramePublishHelper _timeFramePublishHelper = new TimeFramePublishHelper();
 
         public GradeEquipmentPublisherBuilder WithService(IGradeEquipmentService service)
         {

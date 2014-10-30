@@ -38,7 +38,7 @@ namespace TME.CarConfigurator.Publisher.Extensions
 
         private static bool IsAssetOfCar(Administration.Car car, AssetSetAsset asset)
         {
-            return asset.IsDeviation()
+            return (asset.IsDeviation() || !asset.AlwaysInclude)
                    && (asset.BodyType.IsEmpty() || asset.BodyType.Equals(car.BodyType))
                    && (asset.Engine.IsEmpty() || asset.Engine.Equals(car.Engine))
                    && (asset.Transmission.IsEmpty() || asset.Transmission.Equals(car.Transmission))
@@ -58,7 +58,7 @@ namespace TME.CarConfigurator.Publisher.Extensions
         {
             if (asset.Grade.ID == car.GradeID) return false; // There is no asset that is the same with a better grade than the car, because this asset already has the same grade. There can (potentially/theoretically) be other assets with the exact same deviation properties, but those shouldn't stop this one from being added. 
 
-            return assets.Any(otherAsset => IsAssetOfCar(car, otherAsset)
+            return assets.Any(otherAsset => (asset.IsDeviation() || !asset.AlwaysInclude)
                                             && otherAsset.AssetType.Equals(asset.AssetType)
                                             && (asset.BodyType.IsEmpty() || otherAsset.BodyType.Equals(asset.BodyType)) // Only check if bodytype is the same if the current asset has a bodytype, otherwise it can be ignored
                                             && otherAsset.Engine.Equals(asset.Engine)

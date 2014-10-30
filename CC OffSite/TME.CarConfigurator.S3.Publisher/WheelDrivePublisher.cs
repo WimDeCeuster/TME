@@ -25,11 +25,11 @@ namespace TME.CarConfigurator.S3.Publisher
             _timeFramePublishHelper = timeFramePublishHelper;
         }
 
-        public async Task<IEnumerable<Result>> PublishGenerationWheelDrives(IContext context)
+        public async Task<IEnumerable<Result>> PublishGenerationWheelDrivesAsync(IContext context)
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            return await _timeFramePublishHelper.PublishList(context, timeFrame => timeFrame.WheelDrives, _wheelDriveService.PutTimeFrameGenerationWheelDrives);
+            return await _timeFramePublishHelper.PublishBaseObjectList(context, timeFrame => timeFrame.WheelDrives, _wheelDriveService.PutTimeFrameGenerationWheelDrives);
         }
     }
 }

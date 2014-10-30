@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 
 namespace TME.CarConfigurator.Publisher.Mappers
@@ -16,33 +18,35 @@ namespace TME.CarConfigurator.Publisher.Mappers
         ILinkMapper _linkMapper;
         IVisibilityMapper _visibilityMapper;
         ICategoryInfoMapper _categoryInfoMapper;
+        IColourMapper _colourMapper;
 
-        public EquipmentMapper(IBaseMapper baseMapper, ILabelMapper labelMapper, ILinkMapper linkMapper, IVisibilityMapper visibilityMapper, ICategoryInfoMapper categoryInfoMapper)
+        public EquipmentMapper(IBaseMapper baseMapper, ILabelMapper labelMapper, ILinkMapper linkMapper, IVisibilityMapper visibilityMapper, ICategoryInfoMapper categoryInfoMapper, IColourMapper colourMapper)
         {
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
             if (labelMapper == null) throw new ArgumentNullException("labelMapper");
             if (linkMapper == null) throw new ArgumentNullException("linkMapper");
             if (visibilityMapper == null) throw new ArgumentNullException("visibilityMapper");
             if (categoryInfoMapper == null) throw new ArgumentNullException("categoryInfoMapper");
+            if (colourMapper == null) throw new ArgumentNullException("colourMapper");
 
             _baseMapper = baseMapper;
             _labelMapper = labelMapper;
             _linkMapper = linkMapper;
             _visibilityMapper = visibilityMapper;
             _categoryInfoMapper = categoryInfoMapper;
+            _colourMapper = colourMapper;
         }
 
-        public GradeAccessory MapGradeAccessory(Administration.ModelGenerationGradeAccessory generationGradeAccessory, Administration.ModelGenerationAccessory generationAccessory, Administration.Accessory crossModelAccessory, Administration.EquipmentCategories categories, Boolean isPreview)
+        public GradeAccessory MapGradeAccessory(Administration.ModelGenerationGradeAccessory generationGradeAccessory, Administration.ModelGenerationAccessory generationAccessory, Administration.Accessory crossModelAccessory, Administration.EquipmentCategories categories, IReadOnlyList<Administration.Car> cars, Boolean isPreview)
         {
             var mappedGradeEquipmentItem = new GradeAccessory
             {
-                
             };
 
-            return MapGradeEquipmentItem(mappedGradeEquipmentItem, generationGradeAccessory, generationAccessory, crossModelAccessory, categories, isPreview);
+            return MapGradeEquipmentItem(mappedGradeEquipmentItem, generationGradeAccessory, generationAccessory, crossModelAccessory, categories, cars, isPreview);
         }
 
-        public GradeOption MapGradeOption(Administration.ModelGenerationGradeOption generationGradeOption, Administration.ModelGenerationOption generationOption, Administration.Option crossModelOption, Administration.EquipmentCategories categories, Boolean isPreview)
+        public GradeOption MapGradeOption(Administration.ModelGenerationGradeOption generationGradeOption, Administration.ModelGenerationOption generationOption, Administration.Option crossModelOption, Administration.EquipmentCategories categories, IReadOnlyList<Administration.Car> cars, Boolean isPreview)
         {
             var mappedGradeEquipmentItem = new GradeOption
             {
@@ -50,58 +54,75 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 //ParentOptionShortID = generationGradeOption.HasParentOption ? generationGradeOption.ParentOption.ShortID : 0 // ??
             };
 
-            return MapGradeEquipmentItem(mappedGradeEquipmentItem, generationGradeOption, generationOption, crossModelOption, categories, isPreview);
+            return MapGradeEquipmentItem(mappedGradeEquipmentItem, generationGradeOption, generationOption, crossModelOption, categories, cars, isPreview);
         }
 
-        T MapGradeEquipmentItem<T>(T mappedEquipmentItem, Administration.ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, Administration.ModelGenerationEquipmentItem generationEquipmentItem, Administration.EquipmentItem crossModelEquipmentItem, Administration.EquipmentCategories categories, Boolean isPreview)
-            where T : EquipmentItem
+        T MapGradeEquipmentItem<T>(T mappedEquipmentItem, Administration.ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, Administration.ModelGenerationEquipmentItem generationEquipmentItem, Administration.EquipmentItem crossModelEquipmentItem, Administration.EquipmentCategories categories, IReadOnlyList<Administration.Car> cars, Boolean isPreview)
+            where T : GradeEquipmentItem
         {
-            //var colour = Administration.ExteriorColours.GetExteriorColours()[generationEquipmentItem.Colour.ID];
-            //
-            //var x = generationEquipmentItem.Generation.ColourCombinations.ExteriorColours().First(colour => colour.ID == generationEquipmentItem.Colour.ID);
-            //
-            //// colour.Code; => xml item name
-            //
-            //var hostName = String.Empty; //ConfigurationManager.Apsettings... "hostname"?
+            var hasColour = generationGradeEquipmentItem.Colour.ID != Guid.Empty;
+            var isOwner = generationGradeEquipmentItem.Owner == Administration.MyContext.GetContext().CountryCode;
 
-            //generationEquipmentItem.Generation.Assets.First(asset => asset.AssetType.Code.StartsWith("colourschema", StringComparison.InvariantCultureIgnoreCase)).FileName;
-
-            /*
-             <colours method="rgb" model="AYGO">
-                <item name="4W5">
-                    <rgb>ff512d</rgb>
-                    <brightness>-15</brightness>
-                    <contrast>0</contrast>
-                    <saturation>100</saturation>
-                    <alpha>0.60</alpha>
-                </item>
-             </colours>
-            */
-
-
-
-
+            mappedEquipmentItem.BestVisibleIn = null;
             mappedEquipmentItem.Category = _categoryInfoMapper.MapEquipmentCategoryInfo(generationGradeEquipmentItem.Category, categories); // ??
             mappedEquipmentItem.Description = generationGradeEquipmentItem.Translation.Description;
-            mappedEquipmentItem.ExteriorColour = null; // ?? (transformation?)
+            mappedEquipmentItem.ExteriorColour = hasColour ? GetColour(generationEquipmentItem, isPreview) : null;
             mappedEquipmentItem.FootNote = generationGradeEquipmentItem.Translation.FootNote;
             mappedEquipmentItem.GradeFeature = generationGradeEquipmentItem.GradeFeature;
             mappedEquipmentItem.ID = generationGradeEquipmentItem.ID;
             mappedEquipmentItem.InternalName = generationEquipmentItem.BaseName;
-            mappedEquipmentItem.KeyFeature = generationEquipmentItem.KeyFeature; // ??
-            mappedEquipmentItem.Labels = generationGradeEquipmentItem.Translation.Labels.Select(_labelMapper.MapLabel)
-                                                                                   .Where(label => !String.IsNullOrWhiteSpace(label.Value))
-                                                                                   .ToList();
+            mappedEquipmentItem.KeyFeature = generationEquipmentItem.KeyFeature;
+            mappedEquipmentItem.Labels = generationGradeEquipmentItem.Translation.Labels
+                                                                                 .Select(_labelMapper.MapLabel)
+                                                                                 .Where(label => !String.IsNullOrWhiteSpace(label.Value))
+                                                                                 .ToList();
             mappedEquipmentItem.Links = crossModelEquipmentItem.Links.Select(link => _linkMapper.MapLink(link, isPreview)).ToList();
             mappedEquipmentItem.Name = generationGradeEquipmentItem.Translation.Name.DefaultIfEmpty(generationGradeEquipmentItem.Name);
+            mappedEquipmentItem.NotAvailableOn = GetAvailabilityInfo(generationGradeEquipmentItem, Administration.Enums.Availability.NotAvailable, cars);
             mappedEquipmentItem.OptionalGradeFeature = generationGradeEquipmentItem.OptionalGradeFeature;
+            mappedEquipmentItem.OptionalOn = GetAvailabilityInfo(generationGradeEquipmentItem, Administration.Enums.Availability.Optional, cars);
             mappedEquipmentItem.PartNumber = generationGradeEquipmentItem.PartNumber;
-            mappedEquipmentItem.Path = Administration.MyContext.GetContext().EquipmentGroups.Find(generationGradeEquipmentItem.Group.ID).Path;
+            mappedEquipmentItem.Path = Administration.MyContext.GetContext().EquipmentGroups.Find(generationGradeEquipmentItem.Group.ID).Path.ToLowerInvariant();
             mappedEquipmentItem.ShortID = 0; // ??
             mappedEquipmentItem.SortIndex = generationGradeEquipmentItem.Index;
-            mappedEquipmentItem.Visibility = _visibilityMapper.MapVisibility(generationEquipmentItem.Visibility); // ??
+            mappedEquipmentItem.StandardOn = GetAvailabilityInfo(generationGradeEquipmentItem, Administration.Enums.Availability.Standard, cars);
+            mappedEquipmentItem.Visibility = _visibilityMapper.MapVisibility(generationEquipmentItem.Visibility);
             mappedEquipmentItem.ToolTip = generationGradeEquipmentItem.Translation.ToolTip;
-            return _baseMapper.MapLocalizableDefaults(mappedEquipmentItem, generationEquipmentItem);
+            mappedEquipmentItem.InternalCode = generationEquipmentItem.BaseCode;
+            mappedEquipmentItem.LocalCode = generationGradeEquipmentItem.LocalCode.DefaultIfEmpty(isOwner ? generationEquipmentItem.BaseCode : String.Empty);
+
+            mappedEquipmentItem.NotAvailable = mappedEquipmentItem.NotAvailableOn.Count > mappedEquipmentItem.StandardOn.Count &&
+                                               mappedEquipmentItem.NotAvailableOn.Count > mappedEquipmentItem.OptionalOn.Count;
+
+            mappedEquipmentItem.Optional = mappedEquipmentItem.OptionalOn.Count > mappedEquipmentItem.StandardOn.Count &&
+                                           mappedEquipmentItem.OptionalOn.Count >= mappedEquipmentItem.NotAvailableOn.Count;
+
+            mappedEquipmentItem.Standard = mappedEquipmentItem.StandardOn.Count >= mappedEquipmentItem.OptionalOn.Count &&
+                                           mappedEquipmentItem.StandardOn.Count >= mappedEquipmentItem.NotAvailableOn.Count;
+            
+            return mappedEquipmentItem;
+        }
+
+        ExteriorColour GetColour(Administration.ModelGenerationEquipmentItem generationEquipmentItem, Boolean isPreview)
+        {
+            var colour = generationEquipmentItem.Generation.ColourCombinations.ExteriorColours().FirstOrDefault(clr => clr.ID == generationEquipmentItem.Colour.ID);
+            
+            if (colour != null)
+                return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, colour, isPreview);
+
+            var crossModelColour = Administration.ExteriorColours.GetExteriorColours()[generationEquipmentItem.Colour.ID];
+            return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, crossModelColour, isPreview);
+        }
+
+        IReadOnlyList<CarInfo> GetAvailabilityInfo(Administration.ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, Administration.Enums.Availability availability, IReadOnlyList<Administration.Car> cars)
+        {
+            return cars.Where(car => car.Equipment[generationGradeEquipmentItem.ID] != null ? car.Equipment[generationGradeEquipmentItem.ID].Availability == availability : availability == Administration.Enums.Availability.NotAvailable)
+                       .Select(car => new CarInfo
+                       {
+                           Name = car.Translation.Name.DefaultIfEmpty(car.Name),
+                           ShortID = car.ShortID.Value
+                       })
+                       .ToList();
         }
     }
 }

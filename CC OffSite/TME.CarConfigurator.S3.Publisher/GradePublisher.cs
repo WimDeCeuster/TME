@@ -25,11 +25,11 @@ namespace TME.CarConfigurator.S3.Publisher
             _timeFramePublishHelper = timeFramePublishHelper;
         }
 
-        public async Task<IEnumerable<Result>> PublishGenerationGrades(IContext context)
+        public async Task<IEnumerable<Result>> PublishGenerationGradesAsync(IContext context)
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            return await _timeFramePublishHelper.PublishList(context, timeFrame => timeFrame.Grades, _gradeService.PutTimeFrameGenerationGrades);
+            return await _timeFramePublishHelper.PublishBaseObjectList(context, timeFrame => timeFrame.Grades, _gradeService.PutTimeFrameGenerationGrades);
         }
     }
 }

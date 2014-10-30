@@ -30,7 +30,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 VisibleIn = _assetSetMapper.GetVisibility(generationWheelDrive.AssetSet).ToList()
             };
 
-            return _baseMapper.MapDefaultsWithSort(mappedWheelDrive, crossModelWheelDrive, generationWheelDrive, generationWheelDrive.Name);
+            return _baseMapper.MapDefaultsWithSort(mappedWheelDrive, crossModelWheelDrive, generationWheelDrive);
         }
     }
 }

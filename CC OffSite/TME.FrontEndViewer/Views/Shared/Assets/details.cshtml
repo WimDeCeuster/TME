@@ -1,16 +1,14 @@
 ﻿@model IEnumerable<TME.CarConfigurator.Interfaces.Assets.IAsset>
 
 
-@foreach (var model in Model)
+@foreach (var model in Model.OrderBy(x=> x.Name).ThenBy(x=>x.AssetType.Name))
 {
-    <div class="clickable">
-        <table class="top">
-            <tr>
-                <td>
-                    <b>@Html.Raw(model.Name), @Html.Raw(model.AssetType.Name)</b>
-                </td>
-            </tr>
-        </table>
-        @Html.Partial("_asset", model)
+    <div class="object" data-id="@(String.Format("{0}-{1}-{2}-{3}-{4}", model.ID, model.AssetType.Code, model.AssetType.ExteriorColourCode, model.AssetType.UpholsteryCode, model.AssetType.EquipmentCode))">
+        <div class="title">
+            <strong>@Html.Raw(model.Name), @Html.Raw(model.AssetType.Name)</strong>
+        </div>
+        <div class="content">
+            @Html.Partial("_asset", model)
+        </div>
     </div>
 }

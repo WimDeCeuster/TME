@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 
@@ -32,8 +29,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
             var crossModelEngine = Administration.Engines.GetEngines()[generationEngine.ID];
             var engineCategory = Administration.EngineCategories.GetEngineCategories()[crossModelEngine.Category.ID];
-            //var engineType = Administration.EngineTypes.GetEngineTypes()[engine.Type.ID];
-            var fuelType = Administration.FuelTypes.GetFuelTypes()[generationEngine.Type.FuelType.ID];
 
             var mappedEngine = new Engine
             {
@@ -44,7 +39,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 VisibleIn = _assetSetMapper.GetVisibility(generationEngine.AssetSet).ToList()
             };
 
-            return _baseMapper.MapDefaultsWithSort(mappedEngine, crossModelEngine, generationEngine, generationEngine.Name);
+            return _baseMapper.MapDefaultsWithSort(mappedEngine, crossModelEngine, generationEngine);
         }
     }
 }

@@ -8,7 +8,6 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
-using Car = TME.CarConfigurator.Administration.Car;
 using Link = TME.CarConfigurator.Repository.Objects.Link;
 
 namespace TME.CarConfigurator.Publisher.Mappers
@@ -18,19 +17,25 @@ namespace TME.CarConfigurator.Publisher.Mappers
         private readonly IBaseMapper _baseMapper;
         private readonly IAssetMapper _assetMapper;
         private readonly ILinkMapper _linkMapper;
+        private readonly IEquipmentMapper _equipmentMapper;
+        private readonly IGradeMapper _gradeMapper;
 
-        public SubModelMapper(IBaseMapper baseMapper, IAssetMapper assetMapper, ILinkMapper linkMapper)
+        public SubModelMapper(IBaseMapper baseMapper, IAssetMapper assetMapper, ILinkMapper linkMapper,IEquipmentMapper equipmentMapper,IGradeMapper gradeMapper)
         {
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
             if (assetMapper == null) throw new ArgumentNullException("assetMapper");
             if (linkMapper == null) throw new ArgumentNullException("linkMapper");
+            if (equipmentMapper == null) throw new ArgumentNullException("equipmentMapper");
+            if (gradeMapper == null) throw new ArgumentNullException("gradeMapper");
 
             _baseMapper = baseMapper;
             _assetMapper = assetMapper;
             _linkMapper = linkMapper;
+            _equipmentMapper = equipmentMapper;
+            _gradeMapper = gradeMapper;
         }
 
-        public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
+        public SubModel MapSubModel(ModelGenerationGrade[] generationGrades, ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
         {
             var cheapestCar = GetTheCheapestCar(modelGenerationSubModel, contextData.Cars);
 
@@ -43,24 +48,53 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 },
                 Assets = GetMappedAssetsForSubModel(modelGenerationSubModel),
                 Links = GetMappedLinksForSubModel(modelGenerationSubModel, isPreview),
-                Grades = GetSubModelGrades(modelGenerationSubModel, contextData)
+                Grades = GetSubModelGrades(generationGrades, modelGenerationSubModel, contextData)
             };
 
-            return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel, modelGenerationSubModel, modelGenerationSubModel.Name);
+            return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel,modelGenerationSubModel);
         }
 
-        private static List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+/*        private static GradeEquipment GetSubModelEquipment(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
         {
-            return contextData.Grades.Where(contextGrade => modelGenerationSubModel.Cars().Select(car => car.GradeID)
-                    .Any(grade => grade == contextGrade.ID))
-                    .ToList();
+            var accesories =  contextData.GradeEquipments.Values.SelectMany(equipment => equipment.Accessories)
+                .ToList()
+                .Where(
+                    accessory => 
+                        modelGenerationSubModel.Equipment.Any(generationSubModelEquipmentItem => generationSubModelEquipmentItem.ID == accessory.ID));
+            
+            var options = contextData.GradeEquipments.Values.SelectMany(equipment => equipment.Options)
+                    .ToList()
+                    .Where(
+                        option =>
+                            modelGenerationSubModel.Equipment.Any(
+                                generationSubModelEquipmentItem => generationSubModelEquipmentItem.ID == option.ID));
+
+            return new GradeEquipment(){Accessories = accesories,Options = options};
+        }*/
+
+        private List<Grade> GetSubModelGrades(IEnumerable<ModelGenerationGrade> generationGrades, ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+        {
+          /*  return generationGrades.Where(
+                    genGrade => genGrade.SubModels.Any(submodel => submodel.ID == modelGenerationSubModel.ID))
+                    .Select(generationGrade => _gradeMapper.MapSubModelGrade(generationGrade)).ToList();*/
+
+
+            return generationGrades
+                .Where(generationGrade => modelGenerationSubModel.Cars()
+                                                              .Any(car => car.GradeID == generationGrade.ID))
+                .Select(grade => _gradeMapper.MapSubModelGrade(grade,modelGenerationSubModel)).ToList();
+
+            return contextData.Grades
+                .Where(contextGrade => modelGenerationSubModel.Cars()
+                                                              .Any(car => car.GradeID == contextGrade.ID))
+                .ToList();
         }
 
         private List<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)
         {
             return modelGenerationSubModel.Links
                 .Where(link => link.IsApplicableFor(modelGenerationSubModel.Generation))
-                .Select(link => _linkMapper.MapLink(link ,isPreview))
+                .Select(link => _linkMapper.MapLink(link, isPreview))
                 .ToList();
         }
 
@@ -75,7 +109,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
             return cars.Where(car => modelGenerationSubModel.Cars()
                 .Any(subModelCar => subModelCar.ID == car.ID))
-                .OrderBy(car => car.StartingPrice.ExcludingVat)
+                .OrderBy(car => car.StartingPrice.IncludingVat)
                 .First();
         }
     }

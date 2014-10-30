@@ -46,7 +46,15 @@ namespace TME.CarConfigurator
 
         public IEnumerable<IGrade> Grades
         {
-            get { return _grades = _grades ?? _gradeFactory.GetGrades(_repositoryPublication, _repositoryContext).Where(adminGrade => RepositoryObject.Grades.Any(repoGrade => repoGrade.ID == adminGrade.ID)).ToList(); }
+            get
+            {
+                return
+                    _grades =
+                        _grades ??
+                        RepositoryObject.Grades.Select(
+                            grade => _gradeFactory.GetSubModelGrade(grade,_repositoryPublication,_repositoryContext));
+//                        _gradeFactory.GetSubModelGrades(_repositoryPublication, _repositoryContext, RepositoryObject);
+            }
         }
 
         public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace TME.CarConfigurator.Interfaces.Equipment
 {
     public interface IGradeEquipment
     {
-        IReadOnlyList<IGradeAccessory> GradeAccessories { get; }
-        IReadOnlyList<IGradeOption> GradeOptions { get; }
+        IReadOnlyList<IGradeAccessory> Accessories { get; }
+        IReadOnlyList<IGradeOption> Options { get; }
     }
 }

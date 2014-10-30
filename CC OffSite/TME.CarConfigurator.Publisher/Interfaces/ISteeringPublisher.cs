@@ -10,6 +10,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface ISteeringPublisher
     {
-        Task<IEnumerable<Result>> PublishGenerationSteerings(IContext context);
+        Task<IEnumerable<Result>> PublishGenerationSteeringsAsync(IContext context);
     }
 }

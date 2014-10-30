@@ -18,8 +18,9 @@ namespace TME.FrontEndViewer.Controllers
             var oldContext = MyContext.NewContext(context.Brand, context.Country, context.Language);
 
             ViewBag.ModelID = modelID;
+            ViewBag.SubModelID = subModelID;
 
-            var model = new CompareView<IGrade>
+            var model = new CompareView<IReadOnlyList<IGrade>>
             {
                 OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID,subModelID),
                 NewReaderModel = GetNewReaderModelWithMetrics(context, modelID,subModelID)
@@ -27,7 +28,7 @@ namespace TME.FrontEndViewer.Controllers
 
             return View(model);
         }
-        private static ModelWithMetrics<IGrade> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID,Guid? subModelID)
+        private static ModelWithMetrics<IReadOnlyList<IGrade>> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID,Guid? subModelID)
         {
             List<IGrade> list;
             var start = DateTime.Now;
@@ -47,14 +48,14 @@ namespace TME.FrontEndViewer.Controllers
                     .First(x => x.ID == subModelID)
                 ).Grades.ToList();
 
-            return new ModelWithMetrics<IGrade>()
+            return new ModelWithMetrics<IReadOnlyList<IGrade>>()
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
         }
 
-        private static ModelWithMetrics<IGrade> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid? subModelID )
+        private static ModelWithMetrics<IReadOnlyList<IGrade>> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid? subModelID )
         {
             List<IGrade> list;
             var start = DateTime.Now;
@@ -69,7 +70,7 @@ namespace TME.FrontEndViewer.Controllers
                 
 
 
-            return new ModelWithMetrics<IGrade>()
+            return new ModelWithMetrics<IReadOnlyList<IGrade>>()
             {
                 Model = list.ToList(),
                 TimeToLoad = DateTime.Now.Subtract(start)

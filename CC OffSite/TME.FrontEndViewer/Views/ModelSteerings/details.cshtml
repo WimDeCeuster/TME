@@ -4,15 +4,11 @@
 
 @foreach (var model in Model)
 {
-    <div class="clickable">
-        <table class="top">
-            <tr>
-                <td>
-                    <b>@Html.Raw(model.Name)</b>
-                </td>
-            </tr>
-        </table>
-        <div class="clickable object" data-id="@Html.Raw(model.ID)">
+    <div class="object" data-id="@Html.Raw(model.ID)">
+        <div class="title">
+            <strong>@Html.Raw(model.Name)</strong>
+        </div>
+        <div class="content">
             @Html.Partial("_baseObject", model)
         </div>
     </div>

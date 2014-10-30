@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 
@@ -33,7 +30,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 VisibleIn = _assetSetMapper.GetVisibility(generationBodyType.AssetSet).ToList()
             };
 
-            return _baseMapper.MapDefaultsWithSort(mappedBodyType, crossModelBodyType, generationBodyType, generationBodyType.Name);
+            return (BodyType)_baseMapper.MapDefaultsWithSort(mappedBodyType, crossModelBodyType, generationBodyType);
         }
     }
 }

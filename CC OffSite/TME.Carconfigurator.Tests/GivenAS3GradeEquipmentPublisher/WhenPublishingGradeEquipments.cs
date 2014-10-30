@@ -21,10 +21,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradeEquipmentPublisher
     {
         const String _brand = "Toyota";
         const String _country = "DE";
-        const String _serialisedGradeEquipment1 = "serialised gradeEquipment 1";
-        const String _serialisedGradeEquipment2 = "serialised gradeEquipment 2";
-        const String _serialisedGradeEquipment3 = "serialised gradeEquipment 3";
-        const String _serialisedGradeEquipment4 = "serialised gradeEquipment 4";
+        const String _serialisedGradeEquipment = "serialised gradeEquipment";
         const String _language1 = "lang 1";
         const String _language2 = "lang 2";
         const String _timeFrame1Grade1EquipmentsKey = "time frame 1 grade 1 equipments key";
@@ -45,10 +42,10 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradeEquipmentPublisher
             var gradeId3 = Guid.NewGuid();
             var gradeId4 = Guid.NewGuid();
             
-            var gradeEquipment1 = new GradeEquipment();
-            var gradeEquipment2 = new GradeEquipment();
-            var gradeEquipment3 = new GradeEquipment();
-            var gradeEquipment4 = new GradeEquipment();
+            var gradeEquipment1 = new GradeEquipmentBuilder().Build();
+            var gradeEquipment2 = new GradeEquipmentBuilder().Build();
+            var gradeEquipment3 = new GradeEquipmentBuilder().Build();
+            var gradeEquipment4 = new GradeEquipmentBuilder().Build();
 
             var timeFrame1 = new TimeFrameBuilder()
                                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
@@ -102,14 +99,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradeEquipmentPublisher
             _service = new GradeEquipmentService(_s3Service, serialiser, keyManager);
             _publisher = new GradeEquipmentPublisherBuilder().WithService(_service).Build();
 
-            A.CallTo(() => serialiser.Serialise(gradeEquipment1))
-                .Returns(_serialisedGradeEquipment1);
-            A.CallTo(() => serialiser.Serialise(gradeEquipment2))
-                .Returns(_serialisedGradeEquipment2);
-            A.CallTo(() => serialiser.Serialise(gradeEquipment3))
-                .Returns(_serialisedGradeEquipment3);
-            A.CallTo(() => serialiser.Serialise(gradeEquipment4))
-                .Returns(_serialisedGradeEquipment4);
+            A.CallTo(() => serialiser.Serialise(A<GradeEquipment>._))
+                .Returns(_serialisedGradeEquipment);
 
             A.CallTo(() => keyManager.GetGradeEquipmentsKey(publication1.ID, publicationTimeFrame1.ID, gradeId1)).Returns(_timeFrame1Grade1EquipmentsKey);
             A.CallTo(() => keyManager.GetGradeEquipmentsKey(publication1.ID, publicationTimeFrame2.ID, gradeId1)).Returns(_timeFrame2Grade1EquipmentsKey);
@@ -121,7 +112,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradeEquipmentPublisher
 
         protected override void Act()
         {
-            var result = _publisher.Publish(_context).Result;
+            var result = _publisher.PublishAsync(_context).Result;
         }
 
         [Fact]
@@ -134,32 +125,32 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradeEquipmentPublisher
         [Fact]
         public void ThenGenerationGradeEquipmentsShouldBePutForTimeFrame1()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame1Grade1EquipmentsKey, _serialisedGradeEquipment1))
+            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame1Grade1EquipmentsKey, _serialisedGradeEquipment))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenGenerationGradeEquipmentsShouldBePutForTimeFrame2()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame2Grade1EquipmentsKey, _serialisedGradeEquipment1))
+            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame2Grade1EquipmentsKey, _serialisedGradeEquipment))
                 .MustHaveHappened(Repeated.Exactly.Once);
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame2Grade2EquipmentsKey, _serialisedGradeEquipment2))
+            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame2Grade2EquipmentsKey, _serialisedGradeEquipment))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenGenerationGradeEquipmentsShouldBePutForTimeFrame3()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame3Grade3EquipmentsKey, _serialisedGradeEquipment3))
+            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame3Grade3EquipmentsKey, _serialisedGradeEquipment))
                 .MustHaveHappened(Repeated.Exactly.Once);
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame3Grade4EquipmentsKey, _serialisedGradeEquipment4))
+            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame3Grade4EquipmentsKey, _serialisedGradeEquipment))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenGenerationGradeEquipmentsShouldBePutForTimeFrame4()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame4Grade4EquipmentsKey, _serialisedGradeEquipment4))
+            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame4Grade4EquipmentsKey, _serialisedGradeEquipment))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
     }

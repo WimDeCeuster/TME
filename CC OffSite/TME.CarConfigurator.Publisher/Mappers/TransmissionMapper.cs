@@ -40,7 +40,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 VisibleIn = _assetSetMapper.GetVisibility(generationTransmission.AssetSet).ToList()
             };
 
-            return _baseMapper.MapDefaultsWithSort(mappedTransmission, crossModelTransmission, generationTransmission, generationTransmission.Name);
+            return _baseMapper.MapDefaultsWithSort(mappedTransmission, crossModelTransmission, generationTransmission);
         }
     }
 }

@@ -43,8 +43,18 @@
     <Compile Include="Assets\IAssetType.cs" />
     <Compile Include="Assets\IFileType.cs" />
     <Compile Include="Assets\IVisibleInModeAndView.cs" />
+    <Compile Include="Colours\IColourCombination.cs" />
     <Compile Include="Colours\IColourTransformation.cs" />
     <Compile Include="Colours\IExteriorColour.cs" />
+    <Compile Include="Equipment\IModelEquipment.cs" />
+    <Compile Include="Equipment\ICategory.cs" />
+    <Compile Include="Factories\IPackFactory.cs" />
+    <Compile Include="Colours\IExteriorColourType.cs" />
+    <Compile Include="Colours\IUpholsteryType.cs" />
+    <Compile Include="Colours\IUpholstery.cs" />
+    <Compile Include="Factories\IColourFactory.cs" />
+    <Compile Include="IAvailabilityCompare.cs" />
+    <Compile Include="Equipment\IBestVisibleIn.cs" />
     <Compile Include="Equipment\IGradeAccessory.cs" />
     <Compile Include="Equipment\IGradeEquipment.cs" />
     <Compile Include="Equipment\IGradeOption.cs" />
@@ -92,9 +102,16 @@
     <Compile Include="IModel.cs" />
     <Compile Include="ISteering.cs" />
     <Compile Include="IWheelDrive.cs" />
+    <Compile Include="Packs\IGradePack.cs" />
+    <Compile Include="Packs\IPack.cs" />
+    <Compile Include="Packs\IPackCompare.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj">
+      <Project>{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}</Project>
+      <Name>TME.CarConfigurator.Publisher.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.QueryServices\TME.CarConfigurator.QueryServices.csproj">
       <Project>{37F53701-A371-44CC-B2F5-886910FBA751}</Project>
       <Name>TME.CarConfigurator.QueryServices</Name>

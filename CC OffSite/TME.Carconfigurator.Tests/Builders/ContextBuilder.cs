@@ -82,51 +82,10 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
-        public ContextBuilder WithBodyTypes(String language, params BodyType[] bodyTypes)
-        {
-            foreach (var bodyType in bodyTypes)
-                _context.ContextData[language].BodyTypes.Add(bodyType);
-            return this;
-        }
-
-        public ContextBuilder WithEngines(String language, params Engine[] engines)
-        {
-            foreach (var engine in engines)
-                _context.ContextData[language].Engines.Add(engine);
-            return this;
-        }
-
         public ContextBuilder WithTransmissions(String language, params Transmission[] transmissions)
         {
             foreach (var transmission in transmissions)
                 _context.ContextData[language].Transmissions.Add(transmission);
-            return this;
-        }
-
-        public ContextBuilder WithWheelDrives(String language, params WheelDrive[] wheelDrives)
-        {
-            foreach (var wheelDrive in wheelDrives)
-                _context.ContextData[language].WheelDrives.Add(wheelDrive);
-            return this;
-        }
-
-        public ContextBuilder WithSteerings(String language, params Steering[] steerings)
-        {
-            foreach (var steering in steerings)
-                _context.ContextData[language].Steerings.Add(steering);
-            return this;
-        }
-
-        public ContextBuilder WithGrades(String language, params Grade[] grades)
-        {
-            foreach (var grade in grades)
-                _context.ContextData[language].Grades.Add(grade);
-            return this;
-        }
-
-        private ContextBuilder WithTimeFrames(String language, IEnumerable<TimeFrame> timeFrames)
-        {
-            _context.TimeFrames[language] = timeFrames.ToList();
             return this;
         }
 
@@ -143,13 +102,6 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
-        public ContextBuilder WithSubModels(String language, params SubModel[] subModels)
-        {
-            foreach (var subModel in subModels)
-                _context.ContextData[language].SubModels.Add(subModel);
-            return this;
-        }
-
         public ContextBuilder WithModel(String language, Model model)
         {
             _context.ContextData[language].Models.Add(model);
@@ -160,10 +112,7 @@ namespace TME.Carconfigurator.Tests.Builders
         public ContextBuilder AddCarAsset(string language, Guid carId, Guid objectId, Asset asset)
         {
             var data = _context.ContextData[language];
-
-            if (data.CarAssets == null)
-                data.CarAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
-
+            
             var carAssets = data.CarAssets;
 
             if (!carAssets.ContainsKey(carId))

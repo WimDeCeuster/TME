@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 
@@ -10,7 +6,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class TransmissionTypeMapper : ITransmissionTypeMapper
     {
-        IBaseMapper _baseMapper;
+        readonly IBaseMapper _baseMapper;
 
         public TransmissionTypeMapper(IBaseMapper baseMapper)
         {
@@ -26,7 +22,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 SortIndex = 0,
             };
 
-            return _baseMapper.MapDefaults(mappedTransmissionType, transmissionType, transmissionType, transmissionType.Name);
+            return _baseMapper.MapDefaults(mappedTransmissionType, transmissionType, transmissionType);
         }
     }
 }

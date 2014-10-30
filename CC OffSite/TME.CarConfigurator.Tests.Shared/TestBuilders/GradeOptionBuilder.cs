@@ -20,6 +20,20 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public GradeOptionBuilder WithShortId(int id)
+        {
+            _gradeOption.ShortID = id;
+
+            return this;
+        }
+
+        public GradeOptionBuilder WithParentShortId(int parentId)
+        {
+            _gradeOption.ParentOptionShortID = parentId;
+
+            return this;
+        }
+
         public GradeOption Build()
         {
             return _gradeOption;

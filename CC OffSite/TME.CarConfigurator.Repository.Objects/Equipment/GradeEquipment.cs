@@ -7,7 +7,7 @@ namespace TME.CarConfigurator.Repository.Objects.Equipment
 {
     public class GradeEquipment
     {
-        public IEnumerable<GradeAccessory> Accessories { get; set; }
-        public IEnumerable<GradeOption> Options { get; set; }
+        public IReadOnlyList<GradeAccessory> Accessories { get; set; }
+        public IReadOnlyList<GradeOption> Options { get; set; }
     }
 }

@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
-using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.S3.Shared

@@ -1,0 +1,10 @@
+﻿@using TME.FrontEndViewer.Models
+@model TME.CarConfigurator.Interfaces.Colours.IExteriorColour
+@Html.Partial("_baseObject", Model)
+<p class="property" data-id="Promoted">Promoted : @Html.Raw(Model.Promoted)</p>
+<p class="property" data-id="Alpha">Alpha : @Html.Raw(Model.Transformation.Alpha.ToString("f"))</p>
+<p class="property" data-id="Brightness">Brightness : @Html.Raw(Model.Transformation.Brightness.ToString("f"))</p>
+<p class="property" data-id="Contrast">Contrast : @Html.Raw(Model.Transformation.Contrast.ToString("f"))</p>
+<p class="property" data-id="Hue">Hue : @Html.Raw(Model.Transformation.Hue.ToString("f"))</p>
+<p class="property" data-id="RGB">RGB : @Html.Raw(Model.Transformation.RGB)</p>
+@Html.Partial("_baseObjectWithPrefix", new BaseObjectWithPrefix() { BaseObject = Model.Type, Prefix = "Type" })

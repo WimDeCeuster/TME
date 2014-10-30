@@ -1,13 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.Administration.BaseObjects;
+using TME.CarConfigurator.Administration.Translations;
 using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Repository.Objects.Core;
+using Label = TME.CarConfigurator.Repository.Objects.Core.Label;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class BaseMapper : IBaseMapper
     {
-        ILabelMapper _labelMapper;
+        readonly ILabelMapper _labelMapper;
 
         public BaseMapper(ILabelMapper labelMapper)
         {
@@ -16,20 +22,16 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _labelMapper = labelMapper;
         }
 
-        public TBase MapLocalizableDefaults<TBase>(TBase baseObject, Administration.BaseObjects.LocalizeableBusinessBase localizableObject)
-            where TBase : Repository.Objects.Core.BaseObject
+        public T MapLocalizableDefaults<T>(T baseObject, LocalizeableBusinessBase localizableObject)
+            where T : BaseObject
         {
             baseObject.InternalCode = localizableObject.BaseCode;
             baseObject.LocalCode = localizableObject.LocalCode.DefaultIfEmpty(localizableObject.BaseCode);
             return baseObject;
         }
 
-        public TBase MapTranslateableDefaults<TBase, TTranslateable>(
-            TBase baseObject,
-            TTranslateable translateableObject,
-            String defaultName)
-            where TBase : Repository.Objects.Core.BaseObject
-            where TTranslateable : Administration.BaseObjects.TranslateableBusinessBase
+        public T MapTranslateableDefaults<T>(T baseObject, TranslateableBusinessBase translateableObject)
+            where T : BaseObject
         {
             baseObject.Description = translateableObject.Translation.Description;
             baseObject.FootNote = translateableObject.Translation.FootNote;
@@ -37,41 +39,30 @@ namespace TME.CarConfigurator.Publisher.Mappers
             baseObject.Labels = translateableObject.Translation.Labels.Select(_labelMapper.MapLabel)
                                                                       .Where(label => !String.IsNullOrWhiteSpace(label.Value))
                                                                       .ToList();
-            baseObject.Name = translateableObject.Translation.Name.DefaultIfEmpty(defaultName);
+            baseObject.Name = translateableObject.Translation.Name.DefaultIfEmpty(translateableObject.BaseName);
             baseObject.ToolTip = translateableObject.Translation.ToolTip;
 
             return baseObject;
         }
 
-        public TBase MapSortDefaults<TBase>(TBase baseObject, Administration.BaseObjects.ISortedIndex sortableObject)
-            where TBase : Repository.Objects.Core.BaseObject
+        public T MapSortDefaults<T>(T baseObject, ISortedIndex sortableObject)
+            where T : BaseObject
         {
             baseObject.SortIndex = sortableObject.Index;
-
             return baseObject;
         }
-        
-        public TBase MapDefaults<TBase, TTranslateable>(
-            TBase baseObject,
-            Administration.BaseObjects.LocalizeableBusinessBase localizableObject,
-            TTranslateable translateableObject,
-            String defaultName)
-            where TBase : Repository.Objects.Core.BaseObject
-            where TTranslateable : Administration.BaseObjects.TranslateableBusinessBase
+
+        public T MapDefaults<T>(T baseObject, LocalizeableBusinessBase localizableObject, TranslateableBusinessBase translateableObject)
+            where T : BaseObject
         {
-            return MapLocalizableDefaults(MapTranslateableDefaults(baseObject, translateableObject, defaultName), localizableObject);
+            return MapLocalizableDefaults(MapTranslateableDefaults(baseObject, translateableObject), localizableObject);
         }
 
-
-        public TBase MapDefaultsWithSort<TBase, TTranslateableAndSortable>(
-            TBase baseObject,
-            Administration.BaseObjects.LocalizeableBusinessBase localizableObject,
-            TTranslateableAndSortable translateableAndSortableObject,
-            String defaultName)
-            where TBase : Repository.Objects.Core.BaseObject
-            where TTranslateableAndSortable : Administration.BaseObjects.TranslateableBusinessBase, Administration.BaseObjects.ISortedIndex
+        public T MapDefaultsWithSort<T, TTranslateableAndSortable>(T baseObject, LocalizeableBusinessBase localizableObject, TTranslateableAndSortable translateableAndSortableObject)
+            where T : BaseObject
+            where TTranslateableAndSortable : TranslateableBusinessBase, ISortedIndex
         {
-            return MapSortDefaults(MapDefaults(baseObject, localizableObject, translateableAndSortableObject, defaultName), translateableAndSortableObject);
+            return MapSortDefaults(MapDefaults(baseObject, localizableObject, translateableAndSortableObject), translateableAndSortableObject);
         }
     }
 }

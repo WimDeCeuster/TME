@@ -15,6 +15,7 @@ namespace TME.CarConfigurator.DI.Interfaces
         IServiceFacade WithCarService(ICarService carService);
         IServiceFacade WithSubModelService(ISubModelService subModelService);
         IServiceFacade WithGradeEquipmentService(IGradeEquipmentService gradeEquipmentService);
+        IServiceFacade WithColourService(IColourService colourService);
         
         IModelService CreateModelService();
         IPublicationService CreatePublicationService();
@@ -28,5 +29,7 @@ namespace TME.CarConfigurator.DI.Interfaces
         ICarService CreateCarService();
         ISubModelService CreateSubModelService();
         IGradeEquipmentService CreateGradeEquipmentService();
+        IColourService CreateColourService();
+        IPackService CreatePackService();
     }
 }

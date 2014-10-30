@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace TME.CarConfigurator.Repository.Objects.Equipment
 {
@@ -10,9 +9,9 @@ namespace TME.CarConfigurator.Repository.Objects.Equipment
         public bool Optional { get; set; }
         public bool NotAvailable { get; set; }
 
-        public IEnumerable<CarInfo> StandardOn { get; set; }
-        public IEnumerable<CarInfo> OptionalOn { get; set; }
-        public IEnumerable<CarInfo> NotAvailableOn { get; set; }
+        public IReadOnlyList<CarInfo> StandardOn { get; set; }
+        public IReadOnlyList<CarInfo> OptionalOn { get; set; }
+        public IReadOnlyList<CarInfo> NotAvailableOn { get; set; }
 
     }
 }
