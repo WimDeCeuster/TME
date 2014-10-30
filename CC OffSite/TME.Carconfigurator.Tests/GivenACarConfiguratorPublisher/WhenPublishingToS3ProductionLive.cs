@@ -3,12 +3,11 @@ using System;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
-using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
 
-namespace TME.Carconfigurator.Tests.GivenAPublisherService
+namespace TME.Carconfigurator.Tests.GivenACarConfiguratorPublisher
 {
     public class WhenPublishingToS3ProductionLive : TestBase
     {
@@ -21,7 +20,7 @@ namespace TME.Carconfigurator.Tests.GivenAPublisherService
         ICarConfiguratorPublisher _carConfiguratorPublisher;
         IPublisher _publisher;
         IMapper _mapper;
-        private Guid _generationId = Guid.NewGuid();
+        private readonly Guid _generationId = Guid.NewGuid();
 
         protected override void Arrange()
         {
