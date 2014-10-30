@@ -33,9 +33,11 @@ $(function () {
 
     $(document).on('click', '.toggle-all', function () {
         if (isAnyVisible())
-            $('.object .content:visible').slideUp(updateToggleAll)
+            $('.object .content:visible').hide()
         else
-            $('.object .content:invisible').slideDown(updateToggleAll)
+            $('.object .content:hidden').show()
+
+        updateToggleAll()
     })
 
 
