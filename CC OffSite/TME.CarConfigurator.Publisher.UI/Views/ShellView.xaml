@@ -6,11 +6,11 @@
              mc:Ignorable="d" >
     <StackPanel>
         <StackPanel Orientation="Horizontal" Margin="3">
-            <TextBlock Width="70">Country:</TextBlock>
+            <TextBlock Width="75">Country:</TextBlock>
             <TextBox x:Name="Country" Width="20"></TextBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="3">
-            <TextBlock Width="70">Model:</TextBlock>
+            <TextBlock Width="75">Model:</TextBlock>
             <ComboBox x:Name="Models"  Width="150">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -20,7 +20,7 @@
             </ComboBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="3">
-            <TextBlock Width="70">Generation:</TextBlock>
+            <TextBlock Width="75">Generation:</TextBlock>
             <ComboBox x:Name="Generations"  Width="150">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -30,7 +30,7 @@
             </ComboBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="3">
-            <TextBlock Width="70">Environment:</TextBlock>
+            <TextBlock Width="75">Environment:</TextBlock>
             <ComboBox x:Name="Environments"  Width="150">
             </ComboBox>
         </StackPanel>
@@ -40,7 +40,7 @@
                 <Button x:Name="PublishLiveAsync" Margin="10 0 0 0">Publish to live</Button>
             </StackPanel>
         </StackPanel>
-        <StackPanel HorizontalAlignment="Center">
+        <StackPanel HorizontalAlignment="Center" Margin="3">
             <TextBlock>Only use this when doing reviews:</TextBlock>
             <Button x:Name="PublishForReviewAsync">Publish for review</Button>
         </StackPanel>
