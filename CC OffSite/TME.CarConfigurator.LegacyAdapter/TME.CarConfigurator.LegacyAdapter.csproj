@@ -67,9 +67,9 @@
     <Compile Include="Colours\UpholsteryType.cs" />
     <Compile Include="Colours\ExteriorColourType.cs" />
     <Compile Include="Equipment\Accessory.cs" />
-    <Compile Include="Asset.cs" />
-    <Compile Include="AssetType.cs" />
-    <Compile Include="BaseObject.cs" />
+    <Compile Include="Assets\Asset.cs" />
+    <Compile Include="Assets\AssetType.cs" />
+    <Compile Include="Core\BaseObject.cs" />
     <Compile Include="Equipment\BestVisibleIn.cs" />
     <Compile Include="BodyType.cs" />
     <Compile Include="Car.cs" />
@@ -93,18 +93,18 @@
     <Compile Include="WheelDrive.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="TransmissionType.cs" />
-    <Compile Include="StartingPrice.cs" />
+    <Compile Include="Core\StartingPrice.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="EngineCategory.cs" />
     <Compile Include="EngineType.cs" />
-    <Compile Include="FileType.cs" />
+    <Compile Include="Assets\FileType.cs" />
     <Compile Include="FuelType.cs" />
-    <Compile Include="Label.cs" />
+    <Compile Include="Core\Label.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="Model.cs" />
-    <Compile Include="Price.cs" />
+    <Compile Include="Core\Price.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VisibleInModeAndView.cs" />
+    <Compile Include="Assets\VisibleInModeAndView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">

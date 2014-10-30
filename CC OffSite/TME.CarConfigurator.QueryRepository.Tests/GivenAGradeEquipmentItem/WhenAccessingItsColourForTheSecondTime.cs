@@ -59,7 +59,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGradeEquipmentItem
                 .WithColourFactory(colourFactory)
                 .Build();
 
-            _accessory = gradeEquipmentFactory.GetGradeEquipment(publication, context, Guid.Empty).GradeAccessories.Single();
+            _accessory = gradeEquipmentFactory.GetGradeEquipment(publication, context, Guid.Empty).Accessories.Single();
 
             _firstColour = _accessory.ExteriorColour;
         }

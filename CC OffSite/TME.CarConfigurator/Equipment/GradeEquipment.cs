@@ -7,16 +7,16 @@ namespace TME.CarConfigurator.Equipment
 {
     public class GradeEquipment : IGradeEquipment
     {
-        public IReadOnlyList<IGradeAccessory> GradeAccessories { get; private set; }
-        public IReadOnlyList<IGradeOption> GradeOptions { get; private set; }
+        public IReadOnlyList<IGradeAccessory> Accessories { get; private set; }
+        public IReadOnlyList<IGradeOption> Options { get; private set; }
 
-        public GradeEquipment(IEnumerable<IGradeAccessory> gradeAccessories, IEnumerable<IGradeOption> gradeOptions)
+        public GradeEquipment(IEnumerable<IGradeAccessory> accessories, IEnumerable<IGradeOption> options)
         {
-            if (gradeAccessories == null) throw new ArgumentNullException("gradeAccessories");
-            if (gradeOptions == null) throw new ArgumentNullException("gradeOptions");
+            if (accessories == null) throw new ArgumentNullException("accessories");
+            if (options == null) throw new ArgumentNullException("options");
 
-            GradeAccessories = gradeAccessories.ToList();
-            GradeOptions = gradeOptions.ToList();
+            Accessories = accessories.ToList();
+            Options = options.ToList();
         }
     }
 }
