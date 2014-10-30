@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
-using TME.CarConfigurator.Repository.Objects.Equipment;
 
 namespace TME.CarConfigurator.Repository.Objects
 {

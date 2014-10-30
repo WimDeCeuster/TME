@@ -12,7 +12,7 @@ namespace TME.CarConfigurator.Repository.Objects
         public bool Special { get; set; }
         public Guid BasedUponGradeID { get; set; }
         public Price StartingPrice { get; set; }
-       
+        
         public List<VisibleInModeAndView> VisibleIn { get; set; }
 
     }
