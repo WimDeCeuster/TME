@@ -10,23 +10,23 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.GivenAColourCombination
+namespace TME.CarConfigurator.Query.Tests.GivenAExteriorColour
 {
-    public class WhenAccessingItsUpholsteryForTheSecondTime : TestBase
+    public class WhenAccessingItsExteriorColourTypeForTheSecondTime : TestBase
     {
-        IColourCombination _colourCombination;
-        IUpholstery _firstUpholstery;
-        IUpholstery _secondUpholstery;
-        Repository.Objects.Colours.Upholstery _repoUpholstery;
+        IExteriorColour _exteriorColour;
+        IExteriorColourType _firstExteriorColourType;
+        IExteriorColourType _secondExteriorColourType;
+        Repository.Objects.Colours.ExteriorColourType _repoExteriorColourType;
 
         protected override void Arrange()
         {
-            _repoUpholstery = new UpholsteryBuilder()
+            _repoExteriorColourType = new ExteriorColourTypeBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
 
-            var repoColourCombination = new ColourCombinationBuilder()
-                .WithUpholstery(_repoUpholstery)
+            var repoExteriorColour = new ExteriorColourBuilder()
+                .WithExteriorColourType(_repoExteriorColourType)
                 .Build();
 
             var publicationTimeFrame = new PublicationTimeFrameBuilder()
@@ -40,33 +40,29 @@ namespace TME.CarConfigurator.Query.Tests.GivenAColourCombination
 
             var context = new ContextBuilder().Build();
 
-            var colourCombinationService = A.Fake<IColourService>();
-            A.CallTo(() => colourCombinationService.GetColourCombinations(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new [] { repoColourCombination });
-
             var colourFactory = new ColourFactoryBuilder()
-                .WithColourService(colourCombinationService)
                 .Build();
 
-            _colourCombination = colourFactory.GetColourCombinations(publication, context).Single();
+            _exteriorColour = colourFactory.GetExteriorColour(repoExteriorColour);
 
-            _firstUpholstery = _colourCombination.Upholstery; ;
+            _firstExteriorColourType = _exteriorColour.Type;
         }
 
         protected override void Act()
         {
-            _secondUpholstery = _colourCombination.Upholstery;
+            _secondExteriorColourType = _exteriorColour.Type;
         }
 
         [Fact]
         public void ThenItShouldNotRecalculateTheType()
         {
-            _secondUpholstery.Should().Be(_firstUpholstery);
+            _secondExteriorColourType.Should().Be(_firstExteriorColourType);
         }
 
         [Fact]
         public void ThenItShouldHaveTheType()
         {
-            _secondUpholstery.ID.Should().Be(_repoUpholstery.ID);
+            _secondExteriorColourType.ID.Should().Be(_repoExteriorColourType.ID);
         }
     }
 }

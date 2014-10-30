@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TME.CarConfigurator.Assets;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TME.CarConfigurator.Assets;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
@@ -79,6 +80,11 @@ namespace TME.CarConfigurator
         public IReadOnlyList<ISubModel> SubModels { get { return _subModels = _subModels ?? _subModelFactory.GetSubModels(RepositoryPublication, _repositoryContext); } }
 
         public IReadOnlyList<IColourCombination> ColourCombinations { get { return _colourCombinations = _colourCombinations ?? _colourFactory.GetColourCombinations(RepositoryPublication, _repositoryContext); } }
+
+        public IModelEquipment Equipment
+        {
+            get { throw new NotImplementedException(); }
+        }
 
         public Model(
             Repository.Objects.Model repositoryModel,

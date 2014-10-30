@@ -23,6 +23,13 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public UpholsteryBuilder WithUpholsteryType(UpholsteryType type)
+        {
+            _upholstery.Type = type;
+
+            return this;
+        }
+
         public Upholstery Build()
         {
             return _upholstery;

@@ -1,14 +1,14 @@
-﻿using System;
-using TME.CarConfigurator.Interfaces.Equipment;
+﻿using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.Interfaces.Factories;
 
-namespace TME.CarConfigurator
+namespace TME.CarConfigurator.Equipment
 {
     public class GradeOption : GradeEquipmentItem<Repository.Objects.Equipment.GradeOption>, IGradeOption
     {
         readonly IOptionInfo _parentOptionInfo;
 
-        public GradeOption(Repository.Objects.Equipment.GradeOption repoOption, IOptionInfo parentOptionInfo)
-            : base(repoOption)
+        public GradeOption(Repository.Objects.Equipment.GradeOption repoOption, IOptionInfo parentOptionInfo, IColourFactory colourFactory)
+            : base(repoOption, colourFactory)
         {
             _parentOptionInfo = parentOptionInfo;
         }

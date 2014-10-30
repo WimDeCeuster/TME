@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TME.CarConfigurator.Colours;
 using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Colours;
@@ -31,6 +32,11 @@ namespace TME.CarConfigurator.Factories
         public IUpholstery GetUpholstery(Repository.Objects.Colours.Upholstery repositoryUpholstery)
         {
             return new Upholstery(repositoryUpholstery);
+        }
+
+        public IExteriorColour GetExteriorColour(Repository.Objects.Colours.ExteriorColour repositoryExteriorColour)
+        {
+            return new ExteriorColour(repositoryExteriorColour);
         }
     }
 }

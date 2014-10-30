@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Factories;
 
-namespace TME.CarConfigurator
+namespace TME.CarConfigurator.Assets
 {
     public class VisibleInModeAndView : IVisibleInModeAndView
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TME.CarConfigurator.Equipment;
 using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Equipment;
@@ -16,12 +17,15 @@ namespace TME.CarConfigurator.Factories
     public class GradeEquipmentFactory : IGradeEquipmentFactory
     {
         private readonly IGradeEquipmentService _gradeEquipmentService;
-        
-        public GradeEquipmentFactory(IGradeEquipmentService gradeEquipmentService)
+        private readonly IColourFactory _colourFactory;
+
+        public GradeEquipmentFactory(IGradeEquipmentService gradeEquipmentService, IColourFactory colourFactory)
         {
             if (gradeEquipmentService == null) throw new ArgumentNullException("gradeEquipmentService");
+            if (colourFactory == null) throw new ArgumentNullException("colourFactory");
 
             _gradeEquipmentService = gradeEquipmentService;
+            _colourFactory = colourFactory;
         }
 
         public IGradeEquipment GetGradeEquipment(Publication publication, Context context, Guid gradeId)
@@ -35,7 +39,7 @@ namespace TME.CarConfigurator.Factories
 
         IGradeAccessory GetGradeAccessory(RepoGradeAccessory accessory)
         {
-            return new GradeAccessory(accessory);
+            return new GradeAccessory(accessory, _colourFactory);
         }
 
         // ReSharper disable once ParameterTypeCanBeEnumerable.Local => no, because that would cause a multiple enumeration for repoGrades...
@@ -47,7 +51,7 @@ namespace TME.CarConfigurator.Factories
 
             var parentOptionInfo = parentGradeOption == null ? null : new OptionInfo(parentGradeOption.ShortID, parentGradeOption.Name);
 
-            return new GradeOption(repoGradeOption, parentOptionInfo);
+            return new GradeOption(repoGradeOption, parentOptionInfo, _colourFactory);
         }
     }
 }

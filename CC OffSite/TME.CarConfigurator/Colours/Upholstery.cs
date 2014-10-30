@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces.Colours;
 
-namespace TME.CarConfigurator
+namespace TME.CarConfigurator.Colours
 {
     public class Upholstery : BaseObject<Repository.Objects.Colours.Upholstery>, IUpholstery
     {

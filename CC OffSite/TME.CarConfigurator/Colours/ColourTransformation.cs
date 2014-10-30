@@ -1,7 +1,7 @@
 ﻿using System;
 using TME.CarConfigurator.Interfaces.Colours;
 
-namespace TME.CarConfigurator
+namespace TME.CarConfigurator.Colours
 {
     public class ColourTransformation : IColourTransformation
     {

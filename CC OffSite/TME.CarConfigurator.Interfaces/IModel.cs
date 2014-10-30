@@ -2,6 +2,7 @@
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Interfaces.Equipment;
 
 namespace TME.CarConfigurator.Interfaces
 {
@@ -12,6 +13,7 @@ namespace TME.CarConfigurator.Interfaces
         bool Promoted { get; }
 
         ICarConfiguratorVersion CarConfiguratorVersion { get; }
+        // ReSharper disable ReturnTypeCanBeEnumerable.Global
         IReadOnlyList<ILink> Links { get; }
         IReadOnlyList<IAsset> Assets { get; }
         IReadOnlyList<IBodyType> BodyTypes { get; }
@@ -24,5 +26,7 @@ namespace TME.CarConfigurator.Interfaces
         IReadOnlyList<ICar> Cars { get; }
         IReadOnlyList<ISubModel> SubModels { get; }
         IReadOnlyList<IColourCombination> ColourCombinations { get; }
+        // ReSharper restore ReturnTypeCanBeEnumerable.Global
+        IModelEquipment Equipment { get; }
     }
 }

@@ -23,6 +23,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
         }
 
+        /// <summary>
+        /// Get the translated path
+        /// </summary>
         static String GetPath(Administration.EquipmentCategory category)
         {
             var name = category.Translation.Name.DefaultIfEmpty(category.Name) ;
@@ -30,6 +33,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return String.IsNullOrWhiteSpace(parentPath) ? name : String.Format("{0}/{1}", GetPath(category.ParentCategory), name);
         }
 
+        /// <summary>
+        /// Get the flattened index
+        /// </summary>
         static Int32 GetSortIndex(Administration.EquipmentCategory category)
         {
             var siblingDescendantCount = GetPreviousSiblings(category).Sum(sibling => GetDescendantCount(sibling));

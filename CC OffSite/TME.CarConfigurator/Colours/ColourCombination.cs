@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Factories;
 
-namespace TME.CarConfigurator
+namespace TME.CarConfigurator.Colours
 {
     public class ColourCombination : IColourCombination
     {
@@ -33,7 +30,7 @@ namespace TME.CarConfigurator
 
         public IExteriorColour ExteriorColour
         {
-            get { return _exteriorColour = _exteriorColour ?? new ExteriorColour(_repositoryColourCombination.ExteriorColour); }
+            get { return _exteriorColour = _exteriorColour ?? _colourFactory.GetExteriorColour(_repositoryColourCombination.ExteriorColour); }
         }
 
         public IUpholstery Upholstery

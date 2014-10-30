@@ -1,7 +1,7 @@
 ﻿using System;
 using TME.CarConfigurator.Interfaces.Core;
 
-namespace TME.CarConfigurator
+namespace TME.CarConfigurator.Core
 {
     public class Price : IPrice
     {

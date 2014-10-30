@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using TME.CarConfigurator.Core;
+using TME.CarConfigurator.Packs;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
 
