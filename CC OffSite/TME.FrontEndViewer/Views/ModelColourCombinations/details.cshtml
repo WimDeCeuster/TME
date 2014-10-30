@@ -34,6 +34,9 @@
                     @Html.Partial("Colours/_upholstery", model.Upholstery)
                 </div>
             </div>
+
+            @Html.ActionLink("Exterior Colour Assets", "Index", "ModelExteriorColourAssets", new { modelID = ViewBag.ModelID, exteriorColourID = model.ExteriorColour.ID }, new { }) |
+            @Html.ActionLink("Upholstery Assets", "Index", "ModelUpholsteryAssets", new { modelID = ViewBag.ModelID, upholsteryID = model.Upholstery.ID }, new { })
         </div>
     </div>
 }

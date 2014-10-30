@@ -9,7 +9,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Extensions
 {
     internal static class AssetExtensions
     {
-        public static IEnumerable<IVisibleInModeAndView> GetVisibleInModeAndViews(this Legacy.Assets assets)
+        public static IReadOnlyList<IVisibleInModeAndView> GetVisibleInModeAndViews(this Legacy.Assets assets)
         {
             var groups = assets.Cast<Legacy.Asset>()
                     .Where(x => x.AssetType.Details.View == "EXT" || x.AssetType.Details.View == "INT")
@@ -25,11 +25,12 @@ namespace TME.CarConfigurator.LegacyAdapter.Extensions
             return groups;
         }
 
-        public static IEnumerable<IAsset> GetPlainAssets(this Legacy.Assets assets)
+        public static IReadOnlyList<IAsset> GetPlainAssets(this Legacy.Assets assets)
         {
              return assets.Cast<Legacy.Asset>()
                     .Where(x => x.AssetType.Details.View != "EXT" && x.AssetType.Details.View != "INT")
-                    .Select(x => new Asset(x)); 
+                    .Select(x => new Asset(x))
+                    .ToList(); 
         }
      }
  }

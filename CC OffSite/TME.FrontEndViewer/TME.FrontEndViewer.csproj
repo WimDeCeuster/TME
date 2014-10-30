@@ -161,6 +161,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ModelEquipmentCategoriesController.cs" />
     <Compile Include="Controllers\ModelColourCombinationsController.cs" />
+    <Compile Include="Controllers\ModelUpholsteryAssetsController.cs" />
+    <Compile Include="Controllers\ModelExteriorColourAssetsController.cs" />
     <Compile Include="Controllers\ModelGradePacksController.cs" />
     <Compile Include="Controllers\ModelGradeVisibleInAssetsController.cs" />
     <Compile Include="Controllers\ModelGradeEquipmentController.cs" />

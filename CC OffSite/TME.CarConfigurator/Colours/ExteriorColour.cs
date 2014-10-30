@@ -45,7 +45,7 @@ namespace TME.CarConfigurator.Colours
             get { return _type = _type ?? new ExteriorColourType(RepositoryObject.Type); }
         }
 
-        public IEnumerable<IAsset> Assets
+        public IReadOnlyList<IAsset> Assets
         {
             get { return _assets = _assets ?? _assetFactory.GetAssets(_publication, RepositoryObject.ID, _context); }
         }
