@@ -74,7 +74,6 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
             return result.SelectMany(xs => xs);
         }
 
-
         async Task<IEnumerable<Result>> Publish<T>(String brand, String country, IEnumerable<TimeFrame> timeFrames, Guid publicationID, Func<TimeFrame, T> objectsGetter, Func<String, String, Guid, Guid, T, Task<IEnumerable<Result>>> publish)
         {
             var tasks = timeFrames.Select(timeFrame => publish(brand, country, publicationID, timeFrame.ID, objectsGetter(timeFrame)));
@@ -83,7 +82,7 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
             return results.SelectMany(xs => xs);
         }
 
-        async Task<IEnumerable<Result>> PublishPerSubModel<T>(String brand, String country, IReadOnlyList<TimeFrame> timeFrames, Guid publicationID, Func<TimeFrame, IReadOnlyList<SubModel>> subModelGetter, Func<TimeFrame, T> objectsGetter, Func<String, String, Guid, Guid, Guid,List<Grade>, T, Task<IEnumerable<Result>>> publish)
+        async Task<IEnumerable<Result>> PublishPerSubModel<T>(string brand, string country, IReadOnlyList<TimeFrame> timeFrames, Guid publicationID, Func<TimeFrame, IReadOnlyList<SubModel>> subModelGetter, Func<TimeFrame, T> objectsGetter, Func<string, string, Guid, Guid, Guid, List<Grade>,T, Task<IEnumerable<Result>>> publish)
         {
             var tasks = new List<Task<IEnumerable<Result>>>();
 
@@ -91,7 +90,7 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
             {
                 var submodels = subModelGetter(timeFrame);
                 
-                tasks.AddRange(submodels.Select(submodel => publish(brand, country, publicationID, timeFrame.ID, submodel.ID,submodel.Grades, objectsGetter(timeFrame))));
+                tasks.AddRange(submodels.Select(submodel => publish(brand, country, publicationID, timeFrame.ID, submodel.ID,submodel.Grades,objectsGetter(timeFrame))));
             }
 
             var results = await Task.WhenAll(tasks);

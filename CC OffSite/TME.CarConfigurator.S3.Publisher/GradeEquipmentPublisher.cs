@@ -53,7 +53,7 @@ namespace TME.CarConfigurator.S3.Publisher
                 _gradeEquipmentService.Put(brand, country, publicationId, timeFrameId, entry.Key, SortGradeEquipment(entry.Value))));
         }
 
-        async Task<IEnumerable<Result>> PublishSubModelGradeEquipmentAsync(string brand, string country, Guid publicationId, Guid timeFrameId,Guid subModelID,List<Grade> applicableGrades , IReadOnlyDictionary<Guid, GradeEquipment> gradeEquipments)
+        async Task<IEnumerable<Result>> PublishSubModelGradeEquipmentAsync(string brand, string country, Guid publicationId, Guid timeFrameId,Guid subModelID,List<Grade> applicableGrades ,IReadOnlyDictionary<Guid, GradeEquipment> gradeEquipments)
         {
             var tasks = new List<Task<Result>>();
             foreach (var entry in gradeEquipments)

@@ -73,6 +73,8 @@
     <Compile Include="Packs\GradePack.cs" />
     <Compile Include="Equipment\OptionInfo.cs" />
     <Compile Include="SubModel.cs" />
+    <Compile Include="SubModelGrade.cs" />
+    <Compile Include="SubModelGradeEquipment.cs" />
     <Compile Include="TransmissionType.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="Extensions\VisibleInModeAndViewExtensions.cs" />

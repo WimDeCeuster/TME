@@ -14,15 +14,15 @@ namespace TME.CarConfigurator
 {
     public class Grade : BaseObject<Repository.Objects.Grade>, IGrade
     {
-        private readonly Repository.Objects.Publication _repositoryPublication;
-        private readonly Repository.Objects.Context _repositoryContext;
+        public readonly Repository.Objects.Publication _repositoryPublication;
+        public readonly Repository.Objects.Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
-        private readonly IGradeEquipmentFactory _gradeEquipmentFactory;
+        public readonly IGradeEquipmentFactory _gradeEquipmentFactory;
         private readonly IPackFactory _packFactory;
         private IEnumerable<IAsset> _fetchedAssets;
         private IEnumerable<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
-        private IReadOnlyList<IGradeEquipmentItem> _equipmentItems;
-        private IGradeEquipment _gradeEquipment;
+        public IReadOnlyList<IGradeEquipmentItem> _equipmentItems;
+        public IGradeEquipment _gradeEquipment;
         private IEnumerable<IGradePack> _packs;
 
         Price _price;
@@ -60,12 +60,12 @@ namespace TME.CarConfigurator
 
         public virtual IEnumerable<IAsset> Assets { get { return _fetchedAssets = _fetchedAssets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
 
-        public IGradeEquipment GradeEquipment
+        public virtual IGradeEquipment GradeEquipment
         {
             get { return _gradeEquipment = _gradeEquipment ?? _gradeEquipmentFactory.GetGradeEquipment(_repositoryPublication, _repositoryContext, ID); }
         }
 
-        public IEnumerable<IGradeEquipmentItem> Equipment
+        public virtual IEnumerable<IGradeEquipmentItem> Equipment
         {
             get { return _equipmentItems = _equipmentItems ?? GradeEquipment.Accessories.Cast<IGradeEquipmentItem>().Concat(GradeEquipment.Options).ToList(); }
         }

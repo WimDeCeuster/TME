@@ -37,6 +37,17 @@ namespace TME.CarConfigurator.Factories
                 gradeEquipment.Options.Select(option => GetGradeOption(option, gradeEquipment.Options)));
         }
 
+        public IGradeEquipment GetSubModelGradeEquipment(Publication publication, Guid subModelID, Context context,
+            Guid gradeID)
+        {
+            var gradeEquipment = _gradeEquipmentService.GetSubModelGradeEquipment(publication.ID,
+                publication.GetCurrentTimeFrame().ID, gradeID, subModelID, context);
+
+            return new GradeEquipment(
+                gradeEquipment.Accessories.Select(GetGradeAccessory),
+                gradeEquipment.Options.Select(option => GetGradeOption(option,gradeEquipment.Options)));
+        }
+
         IGradeAccessory GetGradeAccessory(RepoGradeAccessory accessory)
         {
             return new GradeAccessory(accessory, _colourFactory);

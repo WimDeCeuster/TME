@@ -4,10 +4,12 @@ using System.Linq;
 using System.Web.Mvc;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.LegacyAdapter;
 using TME.FrontEndViewer.Models;
 using TMME.CarConfigurator;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator;
+using Model = TME.CarConfigurator.LegacyAdapter.Model;
 
 namespace TME.FrontEndViewer.Controllers
 {
@@ -31,7 +33,7 @@ namespace TME.FrontEndViewer.Controllers
         private static ModelWithMetrics<GradeEquipmentModel> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid gradeID, Guid? subModelID)
         {
             var start = DateTime.Now;
-            var model = new CarConfigurator.LegacyAdapter.Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID));
+            var model = new Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID));
             var gradeEquipmentModel = GetGradeEquipment(model, gradeID, subModelID);
 
             return new ModelWithMetrics<GradeEquipmentModel>()

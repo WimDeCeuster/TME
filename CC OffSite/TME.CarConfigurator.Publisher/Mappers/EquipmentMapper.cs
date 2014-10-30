@@ -57,6 +57,17 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return MapGradeEquipmentItem(mappedGradeEquipmentItem, generationGradeOption, generationOption, crossModelOption, categories, cars, isPreview);
         }
 
+        private GradeAccessory MapAccessory(GradeAccessory gradeAccessory,IReadOnlyList<Car> applicableCars,Guid subModelID)
+        {
+            gradeAccessory.OptionalOn =
+                applicableCars.Where(car => car.SubModel.ID == subModelID).Select(car => new CarInfo()
+                {
+                    Name = car.Name,
+                    ShortID = car.ShortID
+                }).ToList();
+            return gradeAccessory;
+        }
+
         T MapGradeEquipmentItem<T>(T mappedEquipmentItem, Administration.ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, Administration.ModelGenerationEquipmentItem generationEquipmentItem, Administration.EquipmentItem crossModelEquipmentItem, Administration.EquipmentCategories categories, IReadOnlyList<Administration.Car> cars, Boolean isPreview)
             where T : GradeEquipmentItem
         {
