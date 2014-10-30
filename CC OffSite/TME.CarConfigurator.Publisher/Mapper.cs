@@ -341,24 +341,23 @@ namespace TME.CarConfigurator.Publisher
             var applicableGrades = modelGeneration.Grades.Where(grade => cars.Any(car => car.GradeID == grade.ID)).ToArray();
 
             foreach (var grade in applicableGrades)
-                contextData.Grades.Add(_gradeMapper.MapGenerationGrade(grade, contextData.Cars));
+            {
+                var mappedGrade = _gradeMapper.MapGenerationGrade(grade, contextData.Cars);
+                
+                contextData.Grades.Add(mappedGrade);
 
-            PutGradesOnApplicableCars(cars, contextData, applicableGrades);
+                AddGradeToCar(cars, contextData, grade, mappedGrade);
+            }
         }
 
-        private static void PutGradesOnApplicableCars(IList<Car> cars, ContextData contextData, IEnumerable<ModelGenerationGrade> applicableGrades)
+        private static void AddGradeToCar(IEnumerable<Car> cars, ContextData contextData, ModelGenerationGrade grade, Grade mappedGrade)
         {
-            foreach (var grade in applicableGrades)
-            {
-                var gradeID = grade.ID;
+            var gradeID = grade.ID;
+            var applicableCars = cars.Where(car => car.GradeID == gradeID)
+                .Select(car => contextData.Cars.Single(contextCar => contextCar.ID == car.ID));
 
-                var mappedGrade = contextData.Grades.Single(contextGrade => gradeID == contextGrade.ID);
-
-                var applicableCars = cars.Where(car => car.GradeID == gradeID)
-                    .Select(car => contextData.Cars.Single(contextCar => contextCar.ID == car.ID));
-                foreach (var applicableCar in applicableCars)
-                    applicableCar.Grade = mappedGrade;
-            }
+            foreach (var applicableCar in applicableCars)
+                applicableCar.Grade = mappedGrade;
         }
 
         void FillSteerings(IEnumerable<Car> cars, ContextData contextData)

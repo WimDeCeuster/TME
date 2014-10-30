@@ -59,7 +59,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return generationGrades
                 .Where(generationGrade => modelGenerationSubModel.Cars()
                                                               .Any(car => car.GradeID == generationGrade.ID))
-                .Select(grade => _gradeMapper.MapSubModelGrade(grade,modelGenerationSubModel)).ToList();
+                .Select(grade => _gradeMapper.MapSubModelGrade(grade,modelGenerationSubModel,contextData.Cars)).ToList();
         }
 
         private List<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)

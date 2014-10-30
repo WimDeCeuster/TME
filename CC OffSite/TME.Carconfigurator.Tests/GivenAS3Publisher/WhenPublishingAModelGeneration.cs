@@ -145,6 +145,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => _assetPublisher.PublishCarAssetsAsync(_context)).Returns(successFullTasks);
             A.CallTo(() => _subModelPublisher.PublishGenerationSubModelsAsync(_context)).Returns(successFullTasks);
             A.CallTo(() => _gradeEquipmentPublisher.PublishAsync(_context)).Returns(successFullTasks);
+            A.CallTo(() => _gradeEquipmentPublisher.PublishSubModelGradeEquipmentAsync(_context)).Returns(successFullTasks);
             A.CallTo(() => _gradePackPublisher.PublishAsync(_context)).Returns(successFullTasks);
             A.CallTo(() => _colourCombinationPublisher.PublishGenerationColourCombinations(_context)).Returns(successFullTasks);
         }

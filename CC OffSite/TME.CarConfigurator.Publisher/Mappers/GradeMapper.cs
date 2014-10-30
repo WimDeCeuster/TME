@@ -48,14 +48,23 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return _baseMapper.MapDefaultsWithSort(mappedGrade, generationGrade, generationGrade);
         }
 
-        public Grade MapSubModelGrade(ModelGenerationGrade grade, ModelGenerationSubModel subModel)
+        public Grade MapSubModelGrade(ModelGenerationGrade grade, ModelGenerationSubModel subModel,IEnumerable<Car> cars)
         {
             var generationGradeSubModel = grade.SubModels.Where(s => s.Name == subModel.Name).Single(s => s.SubModel.ID == subModel.ID);
-            
+            var gradeCars = grade.Cars().ToArray();
+            var cheapestCar = cars.Where(car => gradeCars.Any(gradeCar => gradeCar.ID == car.ID))
+                .OrderBy(car => car.StartingPrice.ExcludingVat)
+                .First();
+
             var mappedGrade = new Grade
             {
                 BasedUponGradeID = grade.BasedUpon.ID,
                 Special = grade.Special,
+                StartingPrice = new Price()
+                {
+                    ExcludingVat = cheapestCar.BasePrice.ExcludingVat,
+                    IncludingVat = cheapestCar.BasePrice.IncludingVat
+                },
                 VisibleIn = _assetSetMapper.GetVisibility(grade.AssetSet).ToList()
             };
 
