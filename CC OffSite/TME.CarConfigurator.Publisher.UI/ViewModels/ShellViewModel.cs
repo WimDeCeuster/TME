@@ -18,8 +18,8 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
         private string _country = "DE";
         private Model _selectedModel;
-        private ModelGeneration _selectedGeneration;
         private bool _isPublishing;
+        private IObservableCollection<string> _messages = new BindableCollection<string>();
         private static ICarConfiguratorPublisher _carConfiguratorPublisher;
 
         public ShellViewModel()
@@ -43,11 +43,9 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
                 _country = value;
 
                 SelectedModel = null;
-                SelectedGeneration = null;
 
                 NotifyOfPropertyChange(() => Country);
                 NotifyOfPropertyChange(() => Models);
-                NotifyOfPropertyChange(() => Generations);
             }
         }
 
@@ -77,30 +75,12 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
                 _selectedModel = value;
 
                 NotifyOfPropertyChange(() => SelectedModel);
-                NotifyOfPropertyChange(() => Generations);
-            }
-        }
-
-        public IEnumerable<ModelGeneration> Generations
-        {
-            get { return SelectedModel == null ? new List<ModelGeneration>() : (IList<ModelGeneration>)SelectedModel.Generations; }
-        }
-
-        public IEnumerable<String> Environments { get; set; }
-
-        public ModelGeneration SelectedGeneration
-        {
-            get { return _selectedGeneration; }
-            set
-            {
-                if (Equals(value, _selectedGeneration)) return;
-                _selectedGeneration = value;
-
-                NotifyOfPropertyChange(() => SelectedGeneration);
                 NotifyOfPropertyChange(() => CanPublishLiveAsync);
                 NotifyOfPropertyChange(() => CanPublishPreviewAsync);
             }
         }
+
+        public IEnumerable<String> Environments { get; set; }
 
         public string SelectedEnvironment { get; set; }
 
@@ -118,61 +98,106 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
             }
         }
 
-        public bool CanPublishLiveAsync { get { return SelectedGeneration != null && !IsPublishing; } }
-        public bool CanPublishPreviewAsync { get { return SelectedGeneration != null && !IsPublishing; } }
+        public bool CanPublishLiveAsync { get { return SelectedModel != null && !IsPublishing; } }
+        public bool CanPublishPreviewAsync { get { return SelectedModel != null && !IsPublishing; } }
         public bool CanPublishForReviewAsync { get { return !IsPublishing; } }
 
-        public async void PublishLiveAsync()
-        {
-            var result = await PublishAsync(PublicationDataSubset.Live);
 
-            DisplayResult(result);
+        public IObservableCollection<string> Messages
+        {
+            get { return _messages; }
+            set
+            {
+                if (Equals(value, _messages)) return;
+                _messages = value;
+                NotifyOfPropertyChange(() => Messages);
+            }
         }
 
-        public async void PublishPreviewAsync()
+        public async Task PublishLiveAsync()
         {
-            var result = await PublishAsync(PublicationDataSubset.Preview);
+            var generation = SelectedModel.Generations.Single(g => g.Approved);
 
-            DisplayResult(result);
+            await PublishAsync(generation, PublicationDataSubset.Live);
         }
 
-        private async Task<Result> PublishAsync(PublicationDataSubset publicationDataSubset)
+        public async Task PublishPreviewAsync()
         {
-            if (IsPublishing) return new Failed { Reason = "Already finished" };
+            var generation = SelectedModel.Generations.Single(g => g.Preview);
 
+            await PublishAsync(generation, PublicationDataSubset.Preview);
+        }
+
+        private async Task PublishAsync(ModelGeneration generation, PublicationDataSubset publicationDataSubset)
+        {
+            if (IsPublishing)
+            {
+                PublishingDone(new Failed { Reason = "Already publishing" });
+                return;
+            }
+
+            StartPublishing();
+
+            PublishingDone(await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, publicationDataSubset));
+        }
+
+        public async Task PublishForReviewAsync()
+        {
+            if (IsPublishing)
+            {
+                PublishingDone(new Failed { Reason = "Already publishing" });
+                return;
+            }
+
+            StartPublishing();
+
+            GetRandomCountry();
+
+            var modelsThatHaveApprovedGenerations = Models.Where(m => m.Approved && m.Generations.Any(g => g.Approved)).ToList();
+            var modelsInRandomOrder = modelsThatHaveApprovedGenerations.OrderBy(m => Guid.NewGuid()).ToList();
+            var first5Models = modelsInRandomOrder.Take(5).ToList();
+            var generations = first5Models.Select(m => m.Generations.Single(g => g.Approved)).ToList();
+
+            Messages.Add(String.Format("Starting publish for {0}", string.Join(", ", generations)));
+
+            foreach (var generation in generations)
+            {
+                Messages.Add(string.Format("Publishing {0} for {1}", generation, Country));
+
+                var result = await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview);
+
+                if (result is Successfull)
+                    continue;
+
+                PublishingDone(result);
+                return;
+            }
+
+            PublishingDone(new Successfull());
+        }
+
+        public void GetRandomCountry()
+        {
+            Country = MyContext.GetContext().Countries.Select(c => c.Code).OrderBy(c => Guid.NewGuid()).First();
+        }
+
+        private void StartPublishing()
+        {
             IsPublishing = true;
 
-            var result = await CarConfiguratorPublisher.PublishAsync(SelectedGeneration.ID, SelectedEnvironment, Target, Brand, Country, publicationDataSubset);
+            Messages.Clear();
+        }
 
+        private void PublishingDone(Result result)
+        {
             IsPublishing = false;
 
-            return result;
+            DisplayResult(result);
         }
 
         private static void DisplayResult(Result result)
         {
             MessageBox.Show(result is Successfull ? "Success!" : string.Format("Failure! {0}", ((Failed)result).Reason));
-        }
-
-        public async Task<Result> PublishForReviewAsync()
-        {
-            if (IsPublishing) return new Failed { Reason = "Already finished" };
-
-            IsPublishing = true;
-
-            Result result;
-
-            if ((result = await CarConfiguratorPublisher.PublishAsync(new Guid("D45FD002-E547-4D37-BA78-855BAD1CA998"), SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview)) is Failed) { DisplayResult(result); return result; }
-            if ((result = await CarConfiguratorPublisher.PublishAsync(new Guid("0B6B6F08-CA5F-4EF9-8720-9A1E033F1276"), SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview)) is Failed) { DisplayResult(result); return result; }
-            if ((result = await CarConfiguratorPublisher.PublishAsync(new Guid("66ED2534-32FB-4CDE-8910-F3B8DA35966F"), SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview)) is Failed) { DisplayResult(result); return result; }
-            if ((result = await CarConfiguratorPublisher.PublishAsync(new Guid("C7F1DC17-D700-4D62-BCC5-F6B4A88F94E0"), SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview)) is Failed) { DisplayResult(result); return result; }
-            if ((result = await CarConfiguratorPublisher.PublishAsync(new Guid("D066CC26-A7A2-4DA2-9A01-FA33F9179698"), SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview)) is Failed) { DisplayResult(result); return result; }
-
-            IsPublishing = false;
-
-            DisplayResult(result);
-
-            return result;
         }
     }
 }
