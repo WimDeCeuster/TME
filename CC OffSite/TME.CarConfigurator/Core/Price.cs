@@ -5,7 +5,7 @@ namespace TME.CarConfigurator.Core
 {
     public class Price : IPrice
     {
-        private Repository.Objects.Core.Price _price;
+        private readonly Repository.Objects.Core.Price _price;
 
         public Price(Repository.Objects.Core.Price price)
         {
