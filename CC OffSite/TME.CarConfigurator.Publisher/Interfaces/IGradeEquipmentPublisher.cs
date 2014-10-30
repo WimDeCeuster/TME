@@ -11,5 +11,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
     public interface IGradeEquipmentPublisher
     {
         Task<IEnumerable<Result>> PublishAsync(IContext context);
+        Task<IEnumerable<Result>> PublishSubModelGradeEquipmentAsync(IContext context);
     }
 }
