@@ -7,6 +7,7 @@ using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.Equipment
 {
@@ -14,6 +15,8 @@ namespace TME.CarConfigurator.Equipment
         where T : Repository.Objects.Equipment.GradeEquipmentItem
     {
         readonly IColourFactory _colourFactory;
+        readonly Context _context;
+        readonly Publication _publication;
 
         IExteriorColour _exteriorColour;
         ICategoryInfo _categoryInfo;
@@ -21,12 +24,16 @@ namespace TME.CarConfigurator.Equipment
         IReadOnlyList<ICarInfo> _standardOn;
         IReadOnlyList<ICarInfo> _optionalOn;
         IReadOnlyList<ICarInfo> _notAvailableOn;
-        
-        public GradeEquipmentItem(T repositoryEquipmentItem, IColourFactory colourFactory)
+
+        public GradeEquipmentItem(T repositoryEquipmentItem, Publication publication, Context context, IColourFactory colourFactory)
             : base(repositoryEquipmentItem)
         {
+            if (publication == null) throw new ArgumentNullException("publication");
+            if (context == null) throw new ArgumentNullException("context");
             if (colourFactory == null) throw new ArgumentNullException("colourFactory");
 
+            _publication = publication;
+            _context = context;
             _colourFactory = colourFactory;
         }
 
@@ -62,7 +69,7 @@ namespace TME.CarConfigurator.Equipment
 
         public ICategoryInfo Category { get { return _categoryInfo = _categoryInfo ?? new CategoryInfo(RepositoryObject.Category); } }
 
-        public Interfaces.Colours.IExteriorColour ExteriorColour { get { return RepositoryObject.ExteriorColour == null ? null : _exteriorColour = _exteriorColour ?? _colourFactory.GetExteriorColour(RepositoryObject.ExteriorColour); } }
+        public Interfaces.Colours.IExteriorColour ExteriorColour { get { return RepositoryObject.ExteriorColour == null ? null : _exteriorColour = _exteriorColour ?? _colourFactory.GetExteriorColour(RepositoryObject.ExteriorColour, _publication, _context); } }
 
         public IEnumerable<Interfaces.Assets.IAsset> Assets { get { throw new NotImplementedException(); } }
 

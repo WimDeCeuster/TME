@@ -45,9 +45,8 @@
                 parentLinkedObjects = linkedObject
 
             if (!linkedObject.length) {
-                if (parentObjects.is(object))
-                    object.addClass('missing')
-                else {
+                object.addClass('missing')
+                if (!parentObjects.is(object)) {
                     parentObjects.each(function (i, parent) {
                         $(parent).addClass('missing-sub-item')
                     })
@@ -55,6 +54,17 @@
                 }
                 return
             }
+
+            if (object.index() !== linkedObject.index()) {
+                object.addClass('wrong-order')
+                linkedObject.addClass('wrong-order')
+                if (!parentObjects.is(object)) {
+                    parentObjects.each(function (i, parent) {
+                        $(parent).addClass('wrong-order-sub-item')
+                    })
+                }
+            }
+
 
             object.data('linked-item', linkedObject)
             linkedObject.data('linked-item', object)
@@ -95,17 +105,17 @@
         })
 
         function findMatchingObject(object, linkedSelector) {
-            var parentsIds = object.parents('.object')
-                                         .toArray()
-                                         .map(getDataId)
+            var parentIds = object.parents('.object')
+                                  .toArray()
+                                  .map(getDataId)
 
             var id = getDataId(object)
             return $(linkedSelector + ' .object[data-id="' + id + '"]').filter(function () {
-                var candidateParentsIds = $(this).parents('.object')
-                                                 .toArray()
-                                                 .map(getDataId)
+                var candidateParentIds = $(this).parents('.object')
+                                                .toArray()
+                                                .map(getDataId)
 
-                return parentsIds.like(candidateParentsIds)
+                return parentIds.like(candidateParentIds)
             })
         }
 
