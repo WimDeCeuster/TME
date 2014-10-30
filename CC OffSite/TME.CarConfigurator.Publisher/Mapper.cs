@@ -9,9 +9,11 @@ using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
 using Car = TME.CarConfigurator.Administration.Car;
+using Model = TME.CarConfigurator.Administration.Model;
 
 namespace TME.CarConfigurator.Publisher
 {
@@ -290,29 +292,28 @@ namespace TME.CarConfigurator.Publisher
 
         private void FillSubModels(ModelGenerationGrade[] grades, IList<Car> cars, ModelGeneration modelGeneration, ContextData contextData, bool isPreview)
         {
-            var applicableSubModels = modelGeneration.SubModels.Where(submodel => cars.Any(car => car.SubModelID == submodel.ID)).ToList();
-
-            foreach (var modelGenerationSubModel in applicableSubModels)
-                contextData.SubModels.Add(_subModelMapper.MapSubModel(grades,modelGenerationSubModel, contextData, isPreview));
-
-            PutSubModelOnApplicableCars(cars, contextData, applicableSubModels);
-        }
-
-        private static void PutSubModelOnApplicableCars(IList<Car> cars, ContextData contextData, List<ModelGenerationSubModel> applicableSubModels)
-        {
+            var applicableSubModels = modelGeneration.SubModels.Where(submodel => cars.Any(car => car.SubModelID == submodel.ID));
+            
             foreach (var modelGenerationSubModel in applicableSubModels)
             {
                 var subModelId = modelGenerationSubModel.ID;
 
-                var mappedSubModel = contextData.SubModels.Single(contextSubmodel => subModelId == contextSubmodel.ID);
+                var mappedSubModel = _subModelMapper.MapSubModel(grades, modelGenerationSubModel, contextData, isPreview);
+                
+                contextData.SubModels.Add(mappedSubModel);
 
-                var applicableCars =
-                    cars.Where(car => car.SubModelID == subModelId)
-                        .Select(car => contextData.Cars.Single(contextCar => contextCar.ID == car.ID));
-
-                foreach (var applicableCar in applicableCars)
-                    applicableCar.SubModel = mappedSubModel;
+                AddSubModelToCar(cars, contextData, subModelId, mappedSubModel);
             }
+        }
+
+        private static void AddSubModelToCar(IEnumerable<Car> cars, ContextData contextData, Guid subModelId, SubModel mappedSubModel)
+        {
+            var applicableCars = cars
+                    .Where(car => car.SubModelID == subModelId)
+                    .Select(car => contextData.Cars.Single(contextCar => contextCar.ID == car.ID));
+
+            foreach (var applicableCar in applicableCars)
+                applicableCar.SubModel = mappedSubModel;
         }
 
         void FillGrades(IList<Car> cars, ModelGeneration modelGeneration, ContextData contextData)
