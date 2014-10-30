@@ -33,17 +33,17 @@ namespace TME.CarConfigurator.Factories
             var gradeEquipment = _gradeEquipmentService.GetGradeEquipment(publication.ID, publication.GetCurrentTimeFrame().ID, gradeId, context);
 
             return new GradeEquipment(
-                gradeEquipment.Accessories.Select(GetGradeAccessory),
-                gradeEquipment.Options.Select(option => GetGradeOption(option, gradeEquipment.Options)));
+                gradeEquipment.Accessories.Select(accessory => GetGradeAccessory(accessory, publication, context)),
+                gradeEquipment.Options.Select(option => GetGradeOption(option, gradeEquipment.Options, publication, context)));
         }
 
-        IGradeAccessory GetGradeAccessory(RepoGradeAccessory accessory)
+        IGradeAccessory GetGradeAccessory(RepoGradeAccessory accessory, Publication publication, Context context)
         {
-            return new GradeAccessory(accessory, _colourFactory);
+            return new GradeAccessory(accessory, publication, context, _colourFactory);
         }
 
         // ReSharper disable once ParameterTypeCanBeEnumerable.Local => no, because that would cause a multiple enumeration for repoGrades...
-        IGradeOption GetGradeOption(RepoGradeOption repoGradeOption, IReadOnlyList<RepoGradeOption> repoGrades)
+        IGradeOption GetGradeOption(RepoGradeOption repoGradeOption, IReadOnlyList<RepoGradeOption> repoGrades, Publication publication, Context context)
         {
             var parentGradeOption = repoGradeOption.ParentOptionShortID == 0
                 ? null
@@ -51,7 +51,7 @@ namespace TME.CarConfigurator.Factories
 
             var parentOptionInfo = parentGradeOption == null ? null : new OptionInfo(parentGradeOption.ShortID, parentGradeOption.Name);
 
-            return new GradeOption(repoGradeOption, parentOptionInfo, _colourFactory);
+            return new GradeOption(repoGradeOption, parentOptionInfo, publication, context, _colourFactory);
         }
     }
 }

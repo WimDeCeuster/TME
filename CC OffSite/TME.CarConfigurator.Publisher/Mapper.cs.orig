@@ -154,10 +154,14 @@ namespace TME.CarConfigurator.Publisher
                 .Concat(GetWheelDriveAssets(modelGeneration))
                 .Concat(GetGradeAssets(modelGeneration))
                 .Concat(GetSubModelAssets(modelGeneration))
-                .Concat(GetColourCombinationAssets(modelGeneration))
+<<<<<<< HEAD
                 .ToDictionary(
                     entry => entry.Key,
                     entry => (IList<Asset>)entry.Value);
+=======
+                .Concat(GetColourCombinationAssets(modelGeneration))
+                .ToDictionary();
+>>>>>>> 0c92003218ed5ad35a404b4d8f917e92c2eabfe9
         }
 
         private void FillCarAssets(IEnumerable<Car> cars, ContextData contextData, ModelGeneration modelGeneration)
@@ -200,17 +204,21 @@ namespace TME.CarConfigurator.Publisher
                     .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetColourCombinationAssets(ModelGeneration modelGeneration)
+<<<<<<< HEAD
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetGradeAssets(ModelGeneration modelGeneration)
+=======
+        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetColourCombinationAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.ColourCombinations
                                   .ExteriorColours()
                                   .ToDictionary(
                                     colour => colour.ID,
-                                    colour => colour.AssetSet.Assets.GetGenerationAssets()
+                                    colour => (IList<Asset>)colour.AssetSet.Assets.GetGenerationAssets()
                                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetGradeAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetGradeAssets(ModelGeneration modelGeneration)
+>>>>>>> 0c92003218ed5ad35a404b4d8f917e92c2eabfe9
         {
             return modelGeneration.Grades.ToDictionary(
                 grade => grade.ID,
@@ -297,8 +305,7 @@ namespace TME.CarConfigurator.Publisher
                     .ToList();
 
             var index = 0;
-            foreach (var colourCombination in colourCombinations)
-            {
+            foreach (var colourCombination in colourCombinations) {
                 colourCombination.SortIndex = index++;
                 contextData.ColourCombinations.Add(colourCombination);
             }

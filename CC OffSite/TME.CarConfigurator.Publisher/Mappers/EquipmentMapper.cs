@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TME.CarConfigurator.Publisher.Exceptions;
 using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
@@ -48,10 +49,13 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         public GradeOption MapGradeOption(Administration.ModelGenerationGradeOption generationGradeOption, Administration.ModelGenerationOption generationOption, Administration.Option crossModelOption, Administration.EquipmentCategories categories, IReadOnlyList<Administration.Car> cars, Boolean isPreview)
         {
+            if (generationGradeOption.HasParentOption && !generationGradeOption.ParentOption.ShortID.HasValue)
+                throw new CorruptDataException(String.Format("Please supply a ShortID for grade option {0}", generationGradeOption.ParentOption.ID));
+
             var mappedGradeEquipmentItem = new GradeOption
             {
                 TechnologyItem = generationOption.TechnologyItem,
-                //ParentOptionShortID = generationGradeOption.HasParentOption ? generationGradeOption.ParentOption.ShortID : 0 // ??
+                ParentOptionShortID = generationGradeOption.HasParentOption ? generationGradeOption.ParentOption.ShortID.Value : 0
             };
 
             return MapGradeEquipmentItem(mappedGradeEquipmentItem, generationGradeOption, generationOption, crossModelOption, categories, cars, isPreview);
@@ -60,6 +64,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
         T MapGradeEquipmentItem<T>(T mappedEquipmentItem, Administration.ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, Administration.ModelGenerationEquipmentItem generationEquipmentItem, Administration.EquipmentItem crossModelEquipmentItem, Administration.EquipmentCategories categories, IReadOnlyList<Administration.Car> cars, Boolean isPreview)
             where T : GradeEquipmentItem
         {
+            if (!generationGradeEquipmentItem.ShortID.HasValue)
+                throw new CorruptDataException(String.Format("Please supply a ShortID for grade equipment item {0}", generationGradeEquipmentItem.ID));
+
             var hasColour = generationGradeEquipmentItem.Colour.ID != Guid.Empty;
             var isOwner = generationGradeEquipmentItem.Owner == Administration.MyContext.GetContext().CountryCode;
 
@@ -83,7 +90,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.OptionalOn = GetAvailabilityInfo(generationGradeEquipmentItem, Administration.Enums.Availability.Optional, cars);
             mappedEquipmentItem.PartNumber = generationGradeEquipmentItem.PartNumber;
             mappedEquipmentItem.Path = Administration.MyContext.GetContext().EquipmentGroups.Find(generationGradeEquipmentItem.Group.ID).Path.ToLowerInvariant();
-            mappedEquipmentItem.ShortID = 0; // ??
+            mappedEquipmentItem.ShortID = generationGradeEquipmentItem.ShortID.Value;
             mappedEquipmentItem.SortIndex = generationGradeEquipmentItem.Index;
             mappedEquipmentItem.StandardOn = GetAvailabilityInfo(generationGradeEquipmentItem, Administration.Enums.Availability.Standard, cars);
             mappedEquipmentItem.Visibility = _visibilityMapper.MapVisibility(generationEquipmentItem.Visibility);
