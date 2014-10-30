@@ -1,6 +1,18 @@
 ﻿@using TME.FrontEndViewer.Models
 @model TME.CarConfigurator.Interfaces.Colours.IUpholstery
-@Html.Partial("_baseObject", Model)
-<p class="property" data-id="Promoted">InteriorColourCode : @Html.Raw(Model.InteriorColourCode)</p>
-<p class="property" data-id="Alpha">TrimCode : @Html.Raw(Model.TrimCode)</p>
+<p class="property" data-id="ID">ID : @Html.Raw(Model.ID)</p>
+<p class="property" data-id="InternalCode">InternalCode : @Html.Raw(Model.InternalCode)</p>
+<p class="property" data-id="LocalCode">LocalCode : @Html.Raw(Model.LocalCode)</p>
+<p class="property" data-id="Name">Name : @Html.Raw(Model.Name)</p>
+<p class="property" data-id="Description">Description : @Html.Encode(Model.Description)</p>
+<p class="property" data-id="ToolTip">ToolTip : @Html.Raw(Model.ToolTip)</p>
+<p class="property" data-id="FootNote">FootNote : @Html.Raw(Model.FootNote)</p>
+<p class="property allow-mismatch" data-id="SortIndex">SortIndex : @Html.Raw(Model.SortIndex)</p>
+@foreach (var label in Model.Labels)
+{
+    <p class="property" data-id="Label@(label.Code)Code"><b>Code : @Html.Raw(label.Code)</b></p>    
+    <p class="property" data-id="Label@(label.Code)Value">Value : @Html.Raw(label.Value)</p>    
+}
+<p class="property" data-id="InteriorColourCode">InteriorColourCode : @Html.Raw(Model.InteriorColourCode)</p>
+<p class="property" data-id="TrimCode">TrimCode : @Html.Raw(Model.TrimCode)</p>
 @Html.Partial("_baseObjectWithPrefix", new BaseObjectWithPrefix() { BaseObject = Model.Type, Prefix = "Type" })

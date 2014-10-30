@@ -1,4 +1,13 @@
 ﻿@model IReadOnlyList<TME.CarConfigurator.Interfaces.Colours.IColourCombination>
+<div class="object" data-id="SortCompare">
+    <div class="title">
+        <strong>Sort Compare</strong>
+    </div>
+    <div class="content">
+        <p class="property" data-id="ExteriorColourSortOrder">Exterior Colours : @String.Join(", " , Model.Select(x=> x.ExteriorColour).OrderBy(x=>x.SortIndex).Select(x=>x.InternalCode).Distinct()) </p>
+        <p class="property" data-id="UpholsterySortOrder">Upholsteries : @String.Join(", " , Model.Select(x=> x.Upholstery).OrderBy(x=>x.SortIndex).Select(x=>x.InternalCode).Distinct()) </p>
+    </div>
+</div>
 
 @foreach (var model in Model)
 {
@@ -7,7 +16,7 @@
             <strong>@Html.Raw(String.Format("{0} - {1}", model.ExteriorColour.Name, model.Upholstery.Name))</strong>
         </div>
         <div class="content">
-            <p class="property" data-id="ID">ID : @Html.Raw(model.ID)</p>
+            <p class="property allow-mismatch" data-id="ID">ID : @Html.Raw(model.ID)</p>
             <p class="property" data-id="SortIndex">SortIndex : @Html.Raw(model.SortIndex)</p>
             <div class="object sub-item" data-id="@Html.Raw(model.ExteriorColour.ID)">
                 <div class="title">
