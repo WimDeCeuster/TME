@@ -102,6 +102,7 @@
     <Compile Include="Builders\PublisherBuilder.cs" />
     <Compile Include="Builders\TimeFrameBuilder.cs" />
     <Compile Include="Builders\SubModelPublisherBuilder.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingAnEquipmentCategoriesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingABodyTypesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarAssetsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarAssetsKeyWithoutMode.cs" />
