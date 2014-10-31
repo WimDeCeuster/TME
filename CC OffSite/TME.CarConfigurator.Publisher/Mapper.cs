@@ -157,9 +157,8 @@ namespace TME.CarConfigurator.Publisher
                 .Concat(GetWheelDriveAssets(modelGeneration))
                 .Concat(GetGradeAssets(modelGeneration))
                 .Concat(GetSubModelAssets(modelGeneration))
-                .ToDictionary(
-                    entry => entry.Key,
-                    entry => entry.Value);
+                .Concat(GetColourCombinationAssets(modelGeneration))
+                .ToDictionary();
         }
 
         private void FillCarAssets(IEnumerable<Car> cars, ContextData contextData, ModelGeneration modelGeneration)
@@ -200,6 +199,31 @@ namespace TME.CarConfigurator.Publisher
                 subModel => subModel.ID,
                 subModel => (IList<Asset>)subModel.AssetSet.Assets.GetGenerationAssets()
                     .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
+        }
+
+        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetColourCombinationAssets(ModelGeneration modelGeneration)
+        {
+            return GetExteriorColourAssets(modelGeneration).Concat(GetUpholsteryAssets(modelGeneration));
+        }
+
+        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetExteriorColourAssets(ModelGeneration modelGeneration)
+        {
+            return modelGeneration.ColourCombinations
+                                  .ExteriorColours()
+                                  .ToDictionary(
+                                    colour => colour.ID,
+                                    colour => (IList<Asset>)colour.AssetSet.Assets.GetGenerationAssets()
+                                        .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
+        }
+
+        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetUpholsteryAssets(ModelGeneration modelGeneration)
+        {
+            return modelGeneration.ColourCombinations
+                                  .Upholsteries()
+                                  .ToDictionary(
+                                    upholstery => upholstery.ID,
+                                    upholstery => (IList<Asset>)upholstery.AssetSet.Assets.GetGenerationAssets()
+                                        .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
         private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetGradeAssets(ModelGeneration modelGeneration)
@@ -278,10 +302,21 @@ namespace TME.CarConfigurator.Publisher
 
         private void FillColourCombinations(IEnumerable<Car> cars, ModelGeneration modelGeneration, ContextData contextData, Boolean isPreview)
         {
-            foreach (var colourCombination in modelGeneration.ColourCombinations.Where(
+            var colourCombinations = modelGeneration.ColourCombinations.Where(
                 colourCombination => cars.Any(
-                    car => car.ColourCombinations[colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID] != null && car.ColourCombinations[colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID].Approved)))
-                contextData.ColourCombinations.Add(_colourMapper.MapColourCombination(modelGeneration, colourCombination, isPreview));
+                    car => car.ColourCombinations[colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID] != null && car.ColourCombinations[colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID].Approved))
+                    .Select(colourCombination => _colourMapper.MapColourCombination(modelGeneration, colourCombination, isPreview))
+                    .OrderBy(combination => combination.ExteriorColour.Type.SortIndex)
+                    .ThenBy(combination => combination.ExteriorColour.SortIndex)
+                    .ThenBy(combination => combination.Upholstery.Type.SortIndex)
+                    .ThenBy(combination => combination.Upholstery.SortIndex)
+                    .ToList();
+
+            var index = 0;
+            foreach (var colourCombination in colourCombinations) {
+                colourCombination.SortIndex = index++;
+                contextData.ColourCombinations.Add(colourCombination);
+            }
         }
 
         void FillWheelDrives(IEnumerable<Car> cars, ModelGeneration modelGeneration, ContextData contextData)

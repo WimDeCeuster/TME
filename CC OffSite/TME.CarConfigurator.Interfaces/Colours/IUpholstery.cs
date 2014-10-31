@@ -10,6 +10,6 @@ namespace TME.CarConfigurator.Interfaces.Colours
         string TrimCode { get; }
         IUpholsteryType Type { get; }
 
-        IEnumerable<IAsset> Assets { get; }
+        IReadOnlyList<IAsset> Assets { get; }
    }
 }

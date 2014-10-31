@@ -43,7 +43,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAUpholstery
             var colourFactory = new ColourFactoryBuilder()
                 .Build();
 
-            _upholstery = colourFactory.GetUpholstery(repoUpholstery);
+            _upholstery = colourFactory.GetUpholstery(repoUpholstery, publication, context);
 
             _firstUpholsteryType = _upholstery.Type;
         }

@@ -27,15 +27,18 @@ $(function () {
         var object = $(this).parents('.object').eq(0)
         var linkedObject = object.data('linked-item')
 
-        object.children('.content').slideToggle()
-        linkedObject.children('.content').slideToggle(updateToggleAll)
+        object.children('.content').slideToggle(updateToggleAll)
+        if (linkedObject)
+            linkedObject.children('.content').slideToggle()
     })
 
     $(document).on('click', '.toggle-all', function () {
         if (isAnyVisible())
-            $('.object .content:visible').slideUp(updateToggleAll)
+            $('.object .content:visible').hide()
         else
-            $('.object .content:invisible').slideDown(updateToggleAll)
+            $('.object .content:hidden').show()
+
+        updateToggleAll()
     })
 
 

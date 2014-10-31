@@ -43,7 +43,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAExteriorColour
             var colourFactory = new ColourFactoryBuilder()
                 .Build();
 
-            _exteriorColour = colourFactory.GetExteriorColour(repoExteriorColour);
+            _exteriorColour = colourFactory.GetExteriorColour(repoExteriorColour, publication, context);
 
             _firstExteriorColourType = _exteriorColour.Type;
         }

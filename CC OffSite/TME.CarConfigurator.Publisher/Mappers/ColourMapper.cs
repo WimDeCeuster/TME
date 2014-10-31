@@ -66,7 +66,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             {
                 ExteriorColour = MapExteriorColour(modelGeneration, colourCombination.ExteriorColour, isPreview),
                 ID = colourCombination.ID,
-                SortIndex = 0, //?
+                SortIndex = 0, // to be replaced with list position based on exttype/ext/upholtype/uphol order
                 Upholstery = MapUpholstery(colourCombination.Upholstery)
             };
         }

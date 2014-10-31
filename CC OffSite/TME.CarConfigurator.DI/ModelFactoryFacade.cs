@@ -134,7 +134,7 @@ namespace TME.CarConfigurator.DI
             _transmissionFactory = _transmissionFactory ?? new TransmissionFactory(_serviceFacade.CreateTransmissionService(),_assetFactory);
             _wheelDriveFactory = _wheelDriveFactory ?? new WheelDriveFactory(_serviceFacade.CreateWheelDriveService(), _assetFactory);
             _steeringFactory = _steeringFactory ?? new SteeringFactory(_serviceFacade.CreateSteeringService());
-            _colourFactory = _colourFactory ?? new ColourFactory(_serviceFacade.CreateColourService());
+            _colourFactory = _colourFactory ?? new ColourFactory(_serviceFacade.CreateColourService(), _assetFactory);
             _gradeEquipmentFactory = _gradeEquipmentFactory ?? new GradeEquipmentFactory(_serviceFacade.CreateGradeEquipmentService(), _colourFactory);
             _packFactory = _packFactory ?? new PackFactory(_serviceFacade.CreatePackService());
             _gradeFactory = _gradeFactory ?? new GradeFactory(_serviceFacade.CreateGradeService(), _assetFactory, _gradeEquipmentFactory, _packFactory);

@@ -102,11 +102,19 @@ table td { vertical-align: top;}
      border-color: orange;
 }
 
-.object.mismatch > .title, .object.missing-sub-item > .title {
+.object.wrong-order > .title, .object.wrong-order-sub-item.wrong-order> .title {
+     background-color: turquoise;
+}
+
+.object.wrong-order > .content, .object.wrong-order-sub-item.wrong-order > .title {
+     border-color: turquoise;
+}
+
+.object.mismatch > .title, .object.missing-sub-item > .title, .object.wrong-order-sub-item > .title {
      background-color: red;
 }
 
-.object.mismatch > .content, .object.missing-sub-item > .content {
+.object.mismatch > .content, .object.missing-sub-item > .content, .object.wrong-order-sub-item > .content {
      border-color: red;
 }
 

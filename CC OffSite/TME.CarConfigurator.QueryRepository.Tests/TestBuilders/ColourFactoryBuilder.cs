@@ -8,6 +8,7 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
     public class ColourFactoryBuilder
     {
         private IColourService _colourService = A.Fake<IColourService>();
+        private IAssetFactory _assetFactory = A.Fake<IAssetFactory>();
 
         public ColourFactoryBuilder WithColourService(IColourService colourService)
         {
@@ -16,9 +17,16 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
             return this;
         }
 
+        public ColourFactoryBuilder WithAssetFactory(IAssetFactory assetFactory)
+        {
+            _assetFactory = assetFactory;
+
+            return this;
+        }
+
         public IColourFactory Build()
         {
-            return new ColourFactory(_colourService);
+            return new ColourFactory(_colourService, _assetFactory);
         }
     }
 }

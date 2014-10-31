@@ -25,7 +25,8 @@
             })
         }
 
-        $('.object').each(function () {
+        // link objects and find mismatches
+        $('.object:not(.ignore-compare)').each(function () {
             var object = $(this)
             if (object.data('linked-item'))
                 return
@@ -45,9 +46,8 @@
                 parentLinkedObjects = linkedObject
 
             if (!linkedObject.length) {
-                if (parentObjects.is(object))
-                    object.addClass('missing')
-                else {
+                object.addClass('missing')
+                if (!parentObjects.is(object)) {
                     parentObjects.each(function (i, parent) {
                         $(parent).addClass('missing-sub-item')
                     })
@@ -94,18 +94,40 @@
             })
         })
 
+        //move missing objects down
+        $('.object.missing:not(.ignore-compare)').each(function () {
+            var object = $(this)
+            object.appendTo(object.parent())
+        })
+
+        //compare order of non-missing objects
+        $('.object:not(.missing, .ignore-compare)').each(function () {
+            var object = $(this)
+            var linkedObject = object.data('linked-item')
+
+            if (object.index() !== linkedObject.index()) {
+                object.addClass('wrong-order')
+                linkedObject.addClass('wrong-order')
+                if (!parentObjects.is(object)) {
+                    parentObjects.each(function (i, parent) {
+                        $(parent).addClass('wrong-order-sub-item')
+                    })
+                }
+            }
+        })
+
         function findMatchingObject(object, linkedSelector) {
-            var parentsIds = object.parents('.object')
-                                         .toArray()
-                                         .map(getDataId)
+            var parentIds = object.parents('.object')
+                                  .toArray()
+                                  .map(getDataId)
 
             var id = getDataId(object)
             return $(linkedSelector + ' .object[data-id="' + id + '"]').filter(function () {
-                var candidateParentsIds = $(this).parents('.object')
-                                                 .toArray()
-                                                 .map(getDataId)
+                var candidateParentIds = $(this).parents('.object')
+                                                .toArray()
+                                                .map(getDataId)
 
-                return parentsIds.like(candidateParentsIds)
+                return parentIds.like(candidateParentIds)
             })
         }
 
