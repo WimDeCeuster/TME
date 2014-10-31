@@ -77,8 +77,20 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             foreach (var kvp in applicableEquipment)
             {
-                var mappedAccessories = kvp.Value.Accessories.Select(accessory => MapSubModelGradeAccessory(accessory,modelGenerationSubModel.Cars().Where(car => car.GradeID== kvp.Key),kvp.Key)).ToList();
-                var mappedOptions = kvp.Value.Options.Select(option => MapSubModelGradeOption(option,modelGenerationSubModel.Cars().Where(car => car.GradeID ==kvp.Key),kvp.Key)).ToList();
+                var mappedAccessories = kvp.Value.Accessories.Select(accessory => 
+                    MapSubModelGradeAccessory(accessory,modelGenerationSubModel.Cars()
+                                                            .Where(car => car.GradeID== kvp.Key),kvp.Key))
+                    .Where(gradeAccessory => gradeAccessory.OptionalOn.Count != 0 || gradeAccessory.StandardOn.Count != 0)
+                    .Select(accessory => accessory)
+                    .ToList();
+
+                var mappedOptions = kvp.Value.Options.Select(option => 
+                    MapSubModelGradeOption(option, modelGenerationSubModel.Cars()
+                                                        .Where(car => car.GradeID == kvp.Key), kvp.Key))
+                    .Where(gradeAccessory => gradeAccessory.OptionalOn.Count != 0 || gradeAccessory.StandardOn.Count != 0)
+                    .Select(accessory => accessory)
+                    .ToList();
+
                 mappedSubModelGradeEquipment.Add(kvp.Key,new GradeEquipment {Accessories = mappedAccessories,Options = mappedOptions});
             }
 
@@ -103,7 +115,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         private IReadOnlyList<CarInfo> GetAvailabilityInfoForSubModelGradeEquipment(GradeEquipmentItem equipmentItem, Availability availability, IEnumerable<Car> cars, Guid gradeID)
         {
-            return cars.Where(car => car.Equipment[equipmentItem.ID] != null && car.GradeID == gradeID ? car.Equipment[equipmentItem.ID].Availability == availability : availability == Availability.NotAvailable)
+            return cars.Where(car => car.Equipment[equipmentItem.ID] != null ? car.Equipment[equipmentItem.ID].Availability == availability : availability == Availability.NotAvailable)
                         .Select(car => new CarInfo
                         {
                             Name = car.Translation.Name.DefaultIfEmpty(car.Name),

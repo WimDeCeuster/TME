@@ -75,6 +75,12 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             _gradeEquipments.Add(gradeId, gradeEquipment);
             return this;
         }
+        
+        public TimeFrameBuilder WithSubModelGradeEquipment(Guid submodelID,Guid gradeId, GradeEquipment gradeEquipment)
+        {
+            _subModelGradeEquipments.Add(submodelID,new Dictionary<Guid, GradeEquipment>(){{gradeId,gradeEquipment}});
+            return this;
+        }
 
         public TimeFrameBuilder WithTransmissions(IEnumerable<Transmission> transmissions)
         {
