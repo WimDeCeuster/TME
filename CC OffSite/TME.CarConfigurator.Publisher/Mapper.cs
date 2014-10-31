@@ -337,8 +337,15 @@ namespace TME.CarConfigurator.Publisher
                 
                 contextData.SubModels.Add(mappedSubModel);
 
+                FillSubModelGradeEquipment(modelGenerationSubModel,contextData);
+
                 AddSubModelToCar(cars, contextData, subModelId, mappedSubModel);
             }
+        }
+
+        private void FillSubModelGradeEquipment(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+        {
+            contextData.SubModelGradeEquipment.Add(modelGenerationSubModel.ID,_equipmentMapper.MapSubModelGradeEquipment(modelGenerationSubModel,contextData));
         }
 
         private static void AddSubModelToCar(IEnumerable<Car> cars, ContextData contextData, Guid subModelId, SubModel mappedSubModel)

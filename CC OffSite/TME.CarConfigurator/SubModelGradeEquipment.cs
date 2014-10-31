@@ -10,5 +10,8 @@ namespace TME.CarConfigurator
             : base(accessories, options)
         {
         }
+
+        public override IReadOnlyList<IGradeAccessory> Accessories { get; set; }
+        public override IReadOnlyList<IGradeOption> Options { get; set; }
     }
 }

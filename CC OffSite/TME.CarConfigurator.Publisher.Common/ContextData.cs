@@ -26,6 +26,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IDictionary<Guid, GradeEquipment> GradeEquipment { get; private set; }
         public IList<ColourCombination> ColourCombinations { get; private set; }
         public IDictionary<Guid, IDictionary<Guid, IList<Asset>>> CarAssets { get; private set; }
+        public IDictionary<Guid, IDictionary<Guid, GradeEquipment>> SubModelGradeEquipment { get; private set; }
         public IDictionary<Guid, IList<GradePack>> GradePacks { get; private set; }
 
         public ContextData()
@@ -38,6 +39,7 @@ namespace TME.CarConfigurator.Publisher.Common
             Assets = new Dictionary<Guid, IList<Asset>>();
             Transmissions = new List<Transmission>();
             CarAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
+            SubModelGradeEquipment = new Dictionary<Guid, IDictionary<Guid, GradeEquipment>>();
             WheelDrives = new List<WheelDrive>();
             Steerings = new List<Steering>();
             Grades = new List<Grade>();

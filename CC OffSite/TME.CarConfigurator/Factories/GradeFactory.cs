@@ -40,7 +40,7 @@ namespace TME.CarConfigurator.Factories
 
         public IGrade GetSubModelGrade(RepoGrade repoGrade,Guid subModelID,Publication publication,Context context)
         {
-            return subModelID == null ? new Grade(repoGrade,publication,context,null,_assetFactory,_gradeEquipmentFactory,_packFactory) : new SubModelGrade(repoGrade,publication,context,subModelID,null,_assetFactory,_gradeEquipmentFactory,_packFactory);
+            return new SubModelGrade(repoGrade,publication,context,subModelID,null,_assetFactory,_gradeEquipmentFactory,_packFactory);
         }
 
         // ReSharper disable once ParameterTypeCanBeEnumerable.Local => no, because that would cause a multiple enumeration for repoGrades...

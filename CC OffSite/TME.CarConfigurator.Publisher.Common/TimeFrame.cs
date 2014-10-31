@@ -26,6 +26,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IReadOnlyList<Steering> Steerings { get; private set; }
         public IReadOnlyList<Grade> Grades { get; private set; }
         public IReadOnlyDictionary<Guid, GradeEquipment> GradeEquipments { get; private set; }
+        public IDictionary<Guid, IDictionary<Guid, GradeEquipment>> SubModelGradeEquipments { get; private set; }
         public IReadOnlyDictionary<Guid, IList<GradePack>> GradePacks { get; private set; }
         public IReadOnlyList<SubModel> SubModels { get; private set; }
         public IReadOnlyList<ColourCombination> ColourCombinations { get; private set; }
@@ -45,7 +46,8 @@ namespace TME.CarConfigurator.Publisher.Common
             IReadOnlyDictionary<Guid, GradeEquipment> gradeEquipments,
             IReadOnlyDictionary<Guid, IList<GradePack>> gradePacks,
             IReadOnlyList<SubModel> subModels,
-            IReadOnlyList<ColourCombination> colourCombinations)
+            IReadOnlyList<ColourCombination> colourCombinations,
+            IDictionary<Guid, IDictionary<Guid, GradeEquipment>> subModelGradeEquipments)
         {
             if (cars == null) throw new ArgumentNullException("cars");
             if (bodyTypes == null) throw new ArgumentNullException("bodyTypes");
@@ -58,6 +60,7 @@ namespace TME.CarConfigurator.Publisher.Common
             if (gradePacks == null) throw new ArgumentNullException("gradePacks");
             if (subModels == null) throw new ArgumentNullException("subModels");
             if (colourCombinations == null) throw new ArgumentNullException("colourCombinations");
+            if (subModelGradeEquipments == null) throw new ArgumentNullException("subModelGradeEquipments");
 
             From = from;
             Until = until;
@@ -72,6 +75,7 @@ namespace TME.CarConfigurator.Publisher.Common
             Grades = grades;
             GradeEquipments = gradeEquipments;
             SubModels = subModels;
+            SubModelGradeEquipments = subModelGradeEquipments;
 
             ID = Guid.NewGuid();
         }

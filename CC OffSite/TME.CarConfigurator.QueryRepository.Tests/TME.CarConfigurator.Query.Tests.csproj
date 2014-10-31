@@ -181,6 +181,8 @@
     <Compile Include="GivenAnUpholstery\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenAnUpholstery\WhenAccessingItsUpholsteryTypeForTheFirstTime.cs" />
     <Compile Include="GivenAnUpholstery\WhenAccessingItsUpholsteryTypeForTheSecondTime.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessingItsEquipmentForTheFirstTime.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessingItsEquipmentForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsGradesForTheFirstTime.cs" />
@@ -217,6 +219,7 @@
     <Compile Include="Services\GivenACarService\WhenGetCarsIsCalled.cs" />
     <Compile Include="Services\GivenAColourService\WhenGetColourCombinationsIsCalled.cs" />
     <Compile Include="Services\GivenAGradeEquipmentService\WhenGetGradeEquipmentIsCalled.cs" />
+    <Compile Include="Services\GivenAGradeEquipmentService\WhenGetSubModelGradeEquipmentIsCalled.cs" />
     <Compile Include="Services\GivenAGradeService\WhenGetGradesIsCalled.cs" />
     <Compile Include="Services\GivenAModelService\WhenGeGetModelsByLanguageIsCalled.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledForNonExistent3DAssets.cs" />
