@@ -23,8 +23,7 @@ namespace TME.FrontEndViewer.Controllers
             var model = new CompareView<IReadOnlyList<ICategory>>
             {
                 OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID),
-                NewReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID)
-                //NewReaderModel = GetNewReaderModelWithMetrics(context, modelID)
+                NewReaderModel = GetNewReaderModelWithMetrics(context, modelID)
             };
 
             return View(model);
