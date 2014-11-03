@@ -133,7 +133,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var hasColour = generationGradeEquipmentItem.Colour.ID != Guid.Empty;
             var isOwner = generationGradeEquipmentItem.Owner == MyContext.GetContext().CountryCode;
 
-            mappedEquipmentItem.BestVisibleIn = null;
+            mappedEquipmentItem.BestVisibleIn = new BestVisibleIn {Angle = generationEquipmentItem.BestVisibleInAngle,Mode = generationEquipmentItem.BestVisibleInMode,View = generationEquipmentItem.BestVisibleInView};
             mappedEquipmentItem.Category = _categoryInfoMapper.MapEquipmentCategoryInfo(generationGradeEquipmentItem.Category, categories); // ??
             mappedEquipmentItem.Description = generationGradeEquipmentItem.Translation.Description;
             mappedEquipmentItem.ExteriorColour = hasColour ? GetColour(generationEquipmentItem, isPreview) : null;
@@ -185,7 +185,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.BestVisibleIn = equipmentItem.BestVisibleIn;
             mappedEquipmentItem.Category = equipmentItem.Category;
             mappedEquipmentItem.Description = equipmentItem.Description;
-            //todo needs a check for Exterior Color: Block => SubModel Equipment
             mappedEquipmentItem.ExteriorColour = hasColour ? equipmentItem.ExteriorColour : null;
             mappedEquipmentItem.FootNote = equipmentItem.FootNote;
             mappedEquipmentItem.GradeFeature = equipmentItem.GradeFeature;

@@ -50,6 +50,7 @@
     <Compile Include="CarBodyType.cs" />
     <Compile Include="CarConfiguratorVersion.cs" />
     <Compile Include="CarInfo.cs" />
+    <Compile Include="Equipment\BestVisibleIn.cs" />
     <Compile Include="Equipment\Category.cs" />
     <Compile Include="Equipment\CategoryInfo.cs" />
     <Compile Include="Colours\ColourCombination.cs" />
