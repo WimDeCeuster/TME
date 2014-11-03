@@ -67,7 +67,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
 
         protected override void Act()
         {
-            _equipment = _grade.Equipment;
+            _equipment = _grade.Equipment.Options.Cast<IGradeEquipmentItem>().Concat(_grade.Equipment.Accessories);
         }
 
         [Fact]

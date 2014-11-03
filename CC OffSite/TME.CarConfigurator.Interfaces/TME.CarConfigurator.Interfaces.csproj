@@ -46,6 +46,7 @@
     <Compile Include="Colours\IColourCombination.cs" />
     <Compile Include="Colours\IColourTransformation.cs" />
     <Compile Include="Colours\IExteriorColour.cs" />
+    <Compile Include="Equipment\ICarEquipment.cs" />
     <Compile Include="Equipment\IModelEquipment.cs" />
     <Compile Include="Equipment\ICategory.cs" />
     <Compile Include="Factories\IPackFactory.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Factories\IEngineFactory.cs" />
     <Compile Include="Factories\IModelFactory.cs" />
     <Compile Include="Factories\IPublicationFactory.cs" />
+    <Compile Include="ICarPart.cs" />
     <Compile Include="IFuelType.cs" />
     <Compile Include="IGrade.cs" />
     <Compile Include="ISubModel.cs" />
@@ -106,6 +108,9 @@
     <Compile Include="Packs\IPack.cs" />
     <Compile Include="Packs\IPackCompare.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TechnicalSpecifications\ICategory.cs" />
+    <Compile Include="TechnicalSpecifications\ICategoryInfo.cs" />
+    <Compile Include="TechnicalSpecifications\IModelTechnicalSpecifications.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj">

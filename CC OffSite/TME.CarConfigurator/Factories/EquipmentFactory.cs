@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Equipment;
 using TME.CarConfigurator.Extensions;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
-using RepoGradeEquipment = TME.CarConfigurator.Repository.Objects.Equipment.GradeEquipment;
+using RepoCategory = TME.CarConfigurator.Repository.Objects.Equipment.Category;
 using RepoGradeAccessory = TME.CarConfigurator.Repository.Objects.Equipment.GradeAccessory;
 using RepoGradeOption = TME.CarConfigurator.Repository.Objects.Equipment.GradeOption;
-using RepoCategory = TME.CarConfigurator.Repository.Objects.Equipment.Category;
-using TME.CarConfigurator.Repository.Objects.Core;
 
 namespace TME.CarConfigurator.Factories
 {

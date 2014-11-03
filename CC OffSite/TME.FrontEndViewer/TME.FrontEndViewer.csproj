@@ -159,6 +159,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ModelCarPartsController.cs" />
+    <Compile Include="Controllers\ModelCarPartVisibleInAssetsController.cs" />
+    <Compile Include="Controllers\ModelTechnicalSpecificationCategoriesController.cs" />
     <Compile Include="Controllers\ModelEquipmentCategoriesController.cs" />
     <Compile Include="Controllers\ModelColourCombinationsController.cs" />
     <Compile Include="Controllers\ModelUpholsteryAssetsController.cs" />
@@ -192,7 +195,6 @@
     </Compile>
     <Compile Include="Models\CompareView.cs" />
     <Compile Include="Models\BaseObjectWithPrefix.cs" />
-    <Compile Include="Models\GradeEquipmentModel.cs" />
     <Compile Include="Models\ModelCompare.cs" />
     <Compile Include="Models\ModelWithMetrics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -335,6 +337,10 @@
     <Content Include="Views\Shared\Colours\_upholstery.cshtml" />
     <Content Include="Views\ModelEquipmentCategories\details.cshtml" />
     <Content Include="Views\ModelEquipmentCategories\Index.cshtml" />
+    <Content Include="Views\ModelTechnicalSpecificationCategories\details.cshtml" />
+    <Content Include="Views\ModelTechnicalSpecificationCategories\Index.cshtml" />
+    <Content Include="Views\ModelCarParts\details.cshtml" />
+    <Content Include="Views\ModelCarParts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

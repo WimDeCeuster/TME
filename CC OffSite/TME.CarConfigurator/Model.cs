@@ -7,6 +7,7 @@ using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Interfaces.TechnicalSpecifications;
 
 
 namespace TME.CarConfigurator
@@ -84,6 +85,11 @@ namespace TME.CarConfigurator
         public IReadOnlyList<IColourCombination> ColourCombinations { get { return _colourCombinations = _colourCombinations ?? _colourFactory.GetColourCombinations(RepositoryPublication, _repositoryContext); } }
 
         public IModelEquipment Equipment { get { return _equipment = _equipment ?? _equipmentFactory.GetModelEquipment(RepositoryPublication, _repositoryContext); } }
+
+        public IModelTechnicalSpecifications TechnicalSpecifications
+        {
+            get { throw new NotImplementedException(); }
+        }
 
         public Model(
             Repository.Objects.Model repositoryModel,

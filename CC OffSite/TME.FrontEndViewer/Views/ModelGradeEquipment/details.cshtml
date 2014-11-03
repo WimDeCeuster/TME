@@ -1,4 +1,4 @@
-﻿@model TME.FrontEndViewer.Models.GradeEquipmentModel
+﻿@model TME.CarConfigurator.Interfaces.Equipment.IGradeEquipment
 
 <h3>Accessories</h3>
 <div>
@@ -41,21 +41,6 @@
                 {
                     <p class="property" data-id="ParentOption">ParentOption : @Html.Raw(model.ParentOption)</p>
                 }
-            </div>
-        </div>
-    }
-</div>
-
-<h3>Rest</h3>
-<div>
-    @foreach (var model in Model.Rest.OrderBy(x => x.SortIndex).ThenBy(x => x.Name).ThenBy(x => x.InternalCode))
-    {
-        <div class="object" data-id="@(model.ID)">
-            <div class="title">
-                <strong>@Html.Raw(model.Name)</strong>
-            </div>
-            <div class="content">
-                @Html.Partial("Equipment/_gradeEquipmentItem", model)
             </div>
         </div>
     }

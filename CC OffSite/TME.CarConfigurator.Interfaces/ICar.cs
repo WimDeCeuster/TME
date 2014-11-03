@@ -1,4 +1,6 @@
-﻿using TME.CarConfigurator.Interfaces.Core;
+﻿using System.Collections.Generic;
+using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Interfaces.Equipment;
 
 namespace TME.CarConfigurator.Interfaces
 {
@@ -20,6 +22,11 @@ namespace TME.CarConfigurator.Interfaces
         ISteering Steering { get; }
         IGrade Grade { get; }
         ISubModel SubModel { get; }
+        IReadOnlyList<ICarPart> Parts { get; }
+
+        ICarEquipment Equipment { get; }
+
+
     }
 }
 
