@@ -1,7 +1,7 @@
-﻿using FakeItEasy;
-using FluentAssertions;
-using System;
+﻿using System;
 using System.Linq;
+using FakeItEasy;
+using FluentAssertions;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
@@ -12,7 +12,7 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CategoryConfigurator.Query.Tests.GivenAnEquipmentCategory
+namespace TME.CarConfigurator.Query.Tests.GivenAnEquipmentCategory
 {
     public class WhenAccessingItsParentForTheSecondTime : TestBase
     {

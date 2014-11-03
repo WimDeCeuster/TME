@@ -1,19 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
-using System;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Core;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
-using TME.CarConfigurator.Interfaces.Core;
-using TME.CarConfigurator.Repository.Objects.Core;
 
-namespace TME.GradeConfigurator.Query.Tests.GivenAGrade
+namespace TME.CarConfigurator.Query.Tests.GivenAGrade
 {
     public class WhenAccessingItsStartingPriceForTheFirstTime : TestBase
     {

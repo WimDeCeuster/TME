@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
+using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Interfaces.Enums;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
-using Visibility = TME.CarConfigurator.Interfaces.Enums.Visibility;
 
 namespace TME.CarConfigurator.LegacyAdapter.Equipment
 {
-    public abstract class EquipmentItem : BaseObject, IEquipmentItem
+    public abstract class CarEquipmentItem : BaseObject, ICarEquipmentItem
     {
 
         #region Dependencies (Adaptee)
@@ -18,7 +18,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
             get;
             set;
         }
-        private TMME.CarConfigurator.Generation GenerationOfAdaptee
+        private TMME.CarConfigurator.Car CarOfAdaptee
         {
             get;
             set;
@@ -26,12 +26,15 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
         #endregion
 
         #region Constructor
-        protected EquipmentItem(TMME.CarConfigurator.CarEquipmentItem adaptee, TMME.CarConfigurator.Generation generationOfAdaptee)
+        protected CarEquipmentItem(TMME.CarConfigurator.CarEquipmentItem adaptee, TMME.CarConfigurator.Car carOfAdaptee)
             : base(adaptee)
         {
             Adaptee = adaptee;
-            GenerationOfAdaptee = generationOfAdaptee;
+            CarOfAdaptee = carOfAdaptee;
         }
+
+
+
         #endregion
 
         public int ShortID
@@ -96,21 +99,27 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
                 var colour = Adaptee.Colour;
                 if (colour.IsEmpty()) return null;
 
-                
-                var carColour = GenerationOfAdaptee.ExteriorColours[colour.ID];
-                if (carColour == null) return null;
-                return new Colours.CarExteriorColour(carColour);
+                var carColour = CarOfAdaptee.Colours.ExteriorColours[colour.ID];
+                return carColour == null
+                    ? (IExteriorColour)new Colours.ExteriorColour(colour)
+                    : new Colours.CarExteriorColour(carColour);
             }
         }
-
-        public IEnumerable<IAsset> Assets
-        {
-            get { return Adaptee.Assets.GetPlainAssets(); }
-        }
-
         public IEnumerable<ILink> Links
         {
             get { return Adaptee.Links.Cast<TMME.CarConfigurator.Link>().Select(x => new Link(x)); }
         }
+
+        public bool Standard
+        {
+            get { return Adaptee.Standard; }
+        }
+
+        public bool Optional
+        {
+            get { return Adaptee.Optional; }
+        }
+
+        public abstract IPrice TotalPrice { get; }
     }
 }

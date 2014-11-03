@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
@@ -28,8 +27,7 @@ namespace TME.CarConfigurator.S3.Publisher
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            return await _timeFramePublishHelper.PublishList(context, timeFrame => timeFrame.ColourCombinations.OrderBy(cc => cc.SortIndex),
-                _service.PutTimeFrameGenerationColourCombinations);
+            return await _timeFramePublishHelper.PublishList(context, timeFrame => timeFrame.ColourCombinations, _service.PutTimeFrameGenerationColourCombinations);
         }
     }
 }

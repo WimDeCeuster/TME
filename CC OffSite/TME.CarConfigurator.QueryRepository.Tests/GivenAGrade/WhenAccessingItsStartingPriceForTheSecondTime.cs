@@ -1,10 +1,7 @@
-﻿using FakeItEasy;
-using FluentAssertions;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FakeItEasy;
+using FluentAssertions;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
@@ -15,7 +12,7 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.GradeConfigurator.Query.Tests.GivenAGrade
+namespace TME.CarConfigurator.Query.Tests.GivenAGrade
 {
     public class WhenAccessingItsBasedUponGradeForTheSecondTime : TestBase
     {

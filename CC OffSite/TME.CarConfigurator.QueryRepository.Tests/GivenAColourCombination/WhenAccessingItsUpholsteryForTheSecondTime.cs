@@ -58,13 +58,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenAColourCombination
         }
 
         [Fact]
-        public void ThenItShouldNotRecalculateTheType()
+        public void ThenItShouldNotRecalculateTheUpholstery()
         {
             _secondUpholstery.Should().Be(_firstUpholstery);
         }
 
         [Fact]
-        public void ThenItShouldHaveTheType()
+        public void ThenItShouldHaveTheUpholstery()
         {
             _secondUpholstery.ID.Should().Be(_repoUpholstery.ID);
         }

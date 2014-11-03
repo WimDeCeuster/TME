@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.Publisher.Exceptions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
@@ -17,8 +15,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class ColourMapper : IColourMapper
     {
-        IBaseMapper _baseMapper;
-        IAssetFileService _assetFileService;
+        readonly IBaseMapper _baseMapper;
+        readonly IAssetFileService _assetFileService;
 
 
         public ColourMapper(IBaseMapper baseMapper, IAssetFileService assetFileService)
@@ -54,7 +52,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Promoted = false,
                 SortIndex = 0,
                 Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview),
-                Type  = MapExteriorColourType(colour.Type)
+                Type = MapExteriorColourType(colour.Type)
             };
 
             return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
@@ -66,14 +64,14 @@ namespace TME.CarConfigurator.Publisher.Mappers
             {
                 ExteriorColour = MapExteriorColour(modelGeneration, colourCombination.ExteriorColour, isPreview),
                 ID = colourCombination.ID,
-                SortIndex = 0, // to be replaced with list position based on exttype/ext/upholtype/uphol order
+                SortIndex = 0, // will be replaced with list position based on exttype/ext/upholtype/uphol order in calling function
                 Upholstery = MapUpholstery(colourCombination.Upholstery)
             };
         }
 
         ExteriorColourType MapExteriorColourType(ExteriorColourTypeInfo typeInfo)
         {
-            var type = Administration.ExteriorColourTypes.GetExteriorColourTypes()[typeInfo.ID];
+            var type = ExteriorColourTypes.GetExteriorColourTypes()[typeInfo.ID];
 
             var mappedType = new ExteriorColourType
             {
@@ -101,8 +99,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         UpholsteryType MapUpholsteryType(UpholsteryTypeInfo upholsteryTypeInfo)
         {
-            var upholstery = Administration.UpholsteryTypes.GetUpholsteryTypes()[upholsteryTypeInfo.ID];
-            
+            var upholstery = UpholsteryTypes.GetUpholsteryTypes()[upholsteryTypeInfo.ID];
+
             var mappedUpholsteryType = new UpholsteryType
             {
                 InternalCode = upholstery.Code,
@@ -121,9 +119,12 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             var fileContent = _assetFileService.GetFileContent(colourSchemaAsset.FileName);
 
-            var xml = XDocument.Parse(fileContent);
-
-            var item = xml.Root.Elements("item").FirstOrDefault(el => el.Attribute("name").Value.Equals(colourCode, StringComparison.InvariantCultureIgnoreCase));
+            var root = XDocument.Parse(fileContent).Root;
+            
+            if (root == null)
+                throw new CorruptDataException(string.Format("Colour transformation file {0} does not haqve a root element", colourSchemaAsset.FileName));
+            
+            var item = root.Elements("item").FirstOrDefault(el => el.Attribute("name").Value.Equals(colourCode, StringComparison.InvariantCultureIgnoreCase));
 
             if (item == null)
                 return new ColourTransformation();
@@ -150,25 +151,20 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Brightness = brightnessItem == null ? 0 : Decimal.Parse(brightnessItem.Value, invariantCulture),
                 Contrast = contrastItem == null ? 0 : Decimal.Parse(contrastItem.Value, invariantCulture),
                 Hue = hueItem == null ? 0 : Decimal.Parse(hueItem.Value, invariantCulture),
-                RGB = rgbItem == null ? String.Empty : rgbItem.Value,
+                RGB = rgbValue,
                 Saturation = saturationItem == null ? 0 : Decimal.Parse(saturationItem.Value, invariantCulture)
             };
-
         }
 
-        static TME.CarConfigurator.Administration.Assets.LinkedAsset GetColourSchemaAsset(ModelGeneration generation, Boolean isPreview)
+        static Administration.Assets.LinkedAsset GetColourSchemaAsset(ModelGeneration generation, Boolean isPreview)
         {
-            var liveTypeName = "colourschema";
-            var previewTypeName = "preview_" + liveTypeName;
-            var activeVersionName = generation.ActiveCarConfiguratorVersion.Name;
-            var preferredTypeName = isPreview ? previewTypeName : liveTypeName;
-            var preferredVersionedTypeName = String.Format("{0}-{1}", preferredTypeName, activeVersionName);
-            var liveVersionedTypeName = String.Format("{0}-{1}", liveTypeName, activeVersionName);
+            const string colourschema = "colourschema";
+            const string previewColourschema = "preview_colourschema";
 
-            return generation.Assets[preferredVersionedTypeName] ?? // preview_colourschema-4.x
-                   generation.Assets[liveVersionedTypeName] ?? // colourschema-4.x
-                   generation.Assets[preferredTypeName] ?? // preview_colourschema
-                   generation.Assets[liveTypeName]; //// colourschema
+            return generation.Assets[String.Format("{0}-{1}", isPreview ? previewColourschema : colourschema, generation.ActiveCarConfiguratorVersion.Name)] ?? // preview_colourschema-4.x
+                   generation.Assets[String.Format("{0}-{1}", colourschema, generation.ActiveCarConfiguratorVersion.Name)] ?? // colourschema-4.x
+                   generation.Assets[isPreview ? previewColourschema : colourschema] ?? // preview_colourschema
+                   generation.Assets[colourschema]; //// colourschema
         }
     }
 }

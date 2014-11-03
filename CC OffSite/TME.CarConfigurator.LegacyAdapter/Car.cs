@@ -3,6 +3,7 @@ using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.LegacyAdapter.Equipment;
 using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter
@@ -106,7 +107,7 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public ICarEquipment Equipment
         {
-            get { throw new System.NotImplementedException(); }
+            get { return new CarEquipment(Adaptee); }
         }
     }
 }

@@ -11,11 +11,11 @@ namespace TME.CarConfigurator.Publisher.Services
 
     public class AssetFileService : IAssetFileService
     {
-        Dictionary<String, String> _cache = new Dictionary<String, String>();
+        readonly Dictionary<String, String> _cache = new Dictionary<String, String>();
 
         public String GetFileContent(String filePath)
         {
-            if (String.IsNullOrWhiteSpace(filePath)) throw new ArgumentNullException("filePath cannot be empty.");
+            if (String.IsNullOrWhiteSpace(filePath)) throw new ArgumentNullException("filePath");
 
             var key = filePath.ToLowerInvariant();
             if (!_cache.ContainsKey(key))
@@ -24,7 +24,7 @@ namespace TME.CarConfigurator.Publisher.Services
             return _cache[key];
         }
 
-        String FetchFileContent(String path)
+        static String FetchFileContent(String path)
         {
             using (var webClient = new WebClient()) { 
                 var content = webClient.DownloadString(new Uri(new Uri(@"http://t1-carassets.toyota-europe.com"), path));
