@@ -76,6 +76,7 @@
     <Compile Include="CarConfiguratorPublisher.cs" />
     <Compile Include="Exceptions\UnrecognisedItemVisibilityException.cs" />
     <Compile Include="Extensions\AssetSetAssetExtensions.cs" />
+    <Compile Include="Extensions\AvailabilityPropertiesExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\LinkExtensions.cs" />
     <Compile Include="Interfaces\IAssetFileService.cs" />

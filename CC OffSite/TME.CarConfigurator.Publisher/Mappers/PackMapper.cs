@@ -4,6 +4,7 @@ using System.Linq;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Administration.Enums;
 using TME.CarConfigurator.Publisher.Exceptions;
+using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Packs;
@@ -33,10 +34,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             var mappedGradePack = new GradePack
             {
-                Standard = gradePack.Availability == Availability.Standard,
-                Optional =  gradePack.Availability == Availability.Optional,
-                NotAvailable = gradePack.Availability == Availability.NotAvailable,
-
                 StandardOn = FindCarsOnWhichPackHasCorrectAvailability(gradeCars, gradePack.ID, Availability.Standard),
                 OptionalOn = FindCarsOnWhichPackHasCorrectAvailability(gradeCars, gradePack.ID, Availability.Optional),
                 NotAvailableOn = FindCarsOnWhichPackHasCorrectAvailability(gradeCars, gradePack.ID, Availability.NotAvailable),
@@ -45,6 +42,11 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 GradeFeature = gradePack.GradeFeature,
                 OptionalGradeFeature = gradePack.OptionalGradeFeature,
             };
+
+
+            mappedGradePack.NotAvailable = mappedGradePack.CalculateNotAvailable();
+            mappedGradePack.Optional = mappedGradePack.CalculateOptional();
+            mappedGradePack.Standard = mappedGradePack.CalculateStandard();
             
              _baseMapper.MapDefaultsWithSort(mappedGradePack, generationPack);
 
@@ -53,7 +55,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return mappedGradePack;
         }
 
-        private IList<CarInfo> FindCarsOnWhichPackHasCorrectAvailability(IEnumerable<Car> gradeCars, Guid packID, Availability availability)
+        private IReadOnlyList<CarInfo> FindCarsOnWhichPackHasCorrectAvailability(IEnumerable<Car> gradeCars, Guid packID, Availability availability)
         {
             var matchingCars = gradeCars.Where(c =>
             {

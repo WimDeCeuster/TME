@@ -9,6 +9,7 @@ using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Equipment;
+using TME.CarConfigurator.Repository.Objects.Interfaces;
 using Car = TME.CarConfigurator.Administration.Car;
 using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
 
@@ -116,7 +117,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         }
 
         T MapGradeEquipmentItem<T>(T mappedEquipmentItem, ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, ModelGenerationEquipmentItem generationEquipmentItem, Administration.EquipmentItem crossModelEquipmentItem, EquipmentCategories categories, IReadOnlyList<Car> cars, Boolean isPreview)
-            where T : GradeEquipmentItem
+            where T : GradeEquipmentItem, IAvailabilityProperties
         {
             if (!generationGradeEquipmentItem.ShortID.HasValue)
                 throw new CorruptDataException(String.Format("Please supply a ShortID for grade equipment item {0}", generationGradeEquipmentItem.ID));
@@ -152,26 +153,11 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.InternalCode = generationEquipmentItem.BaseCode;
             mappedEquipmentItem.LocalCode = generationGradeEquipmentItem.LocalCode.DefaultIfEmpty(isOwner ? generationEquipmentItem.BaseCode : String.Empty);
 
-            mappedEquipmentItem.NotAvailable = CalculateNotAvailable(mappedEquipmentItem);
-            mappedEquipmentItem.Optional = CalculateOptional(mappedEquipmentItem);
-            mappedEquipmentItem.Standard = CalculateStandard(mappedEquipmentItem);
+            mappedEquipmentItem.NotAvailable = mappedEquipmentItem.CalculateNotAvailable();
+            mappedEquipmentItem.Optional = mappedEquipmentItem.CalculateOptional();
+            mappedEquipmentItem.Standard = mappedEquipmentItem.CalculateStandard();
 
             return mappedEquipmentItem;
-        }
-
-        private static bool CalculateStandard<T>(T mappedEquipmentItem) where T : GradeEquipmentItem
-        {
-            return mappedEquipmentItem.StandardOn.Count >= mappedEquipmentItem.OptionalOn.Count && mappedEquipmentItem.StandardOn.Count >= mappedEquipmentItem.NotAvailableOn.Count;
-        }
-
-        private static bool CalculateOptional<T>(T mappedEquipmentItem) where T : GradeEquipmentItem
-        {
-            return mappedEquipmentItem.OptionalOn.Count > mappedEquipmentItem.StandardOn.Count && mappedEquipmentItem.OptionalOn.Count >= mappedEquipmentItem.NotAvailableOn.Count;
-        }
-
-        private static bool CalculateNotAvailable<T>(T mappedEquipmentItem) where T : GradeEquipmentItem
-        {
-            return mappedEquipmentItem.NotAvailableOn.Count > mappedEquipmentItem.StandardOn.Count && mappedEquipmentItem.NotAvailableOn.Count > mappedEquipmentItem.OptionalOn.Count;
         }
 
         T MapSubModelGradeEquipmentItem<T>(T mappedEquipmentItem, GradeEquipmentItem equipmentItem, Guid gradeID, IReadOnlyList<Car> cars, Boolean isPreview)
@@ -203,10 +189,11 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.Visibility = equipmentItem.Visibility;
             mappedEquipmentItem.ToolTip = equipmentItem.ToolTip;
             mappedEquipmentItem.InternalCode = equipmentItem.InternalCode;
-            mappedEquipmentItem.LocalCode = equipmentItem.LocalCode; 
-            mappedEquipmentItem.NotAvailable = CalculateNotAvailable(mappedEquipmentItem);
-            mappedEquipmentItem.Optional = CalculateOptional(mappedEquipmentItem);
-            mappedEquipmentItem.Standard = CalculateStandard(mappedEquipmentItem);
+            mappedEquipmentItem.LocalCode = equipmentItem.LocalCode;
+
+            mappedEquipmentItem.NotAvailable = mappedEquipmentItem.CalculateNotAvailable();
+            mappedEquipmentItem.Optional = mappedEquipmentItem.CalculateOptional();
+            mappedEquipmentItem.Standard = mappedEquipmentItem.CalculateStandard();
 
             return mappedEquipmentItem;
         }
