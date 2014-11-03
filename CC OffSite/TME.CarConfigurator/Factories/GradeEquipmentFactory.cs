@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Equipment;
 using TME.CarConfigurator.Extensions;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.QueryServices;

@@ -76,6 +76,7 @@
     <Compile Include="Car.cs" />
     <Compile Include="CarConfiguratorVersion.cs" />
     <Compile Include="Equipment\Category.cs" />
+    <Compile Include="Equipment\GradeEquipment.cs" />
     <Compile Include="Equipment\ModelEquipment.cs" />
     <Compile Include="Grade.cs" />
     <Compile Include="CarInfo.cs" />
