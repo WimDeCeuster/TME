@@ -205,7 +205,7 @@ namespace TME.CarConfigurator.Publisher
             return GetExteriorColourAssets(modelGeneration).Concat(GetUpholsteryAssets(modelGeneration));
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetExteriorColourAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetExteriorColourAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.ColourCombinations
                                   .ExteriorColours()
@@ -215,13 +215,13 @@ namespace TME.CarConfigurator.Publisher
                                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetUpholsteryAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetUpholsteryAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.ColourCombinations
                                   .Upholsteries()
                                   .ToDictionary(
                                     upholstery => upholstery.ID,
-                                    upholstery => (IList<Asset>)upholstery.AssetSet.Assets.GetGenerationAssets()
+                                    upholstery => upholstery.AssetSet.Assets.GetGenerationAssets()
                                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
