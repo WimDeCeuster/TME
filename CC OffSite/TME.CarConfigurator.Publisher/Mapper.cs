@@ -132,7 +132,7 @@ namespace TME.CarConfigurator.Publisher
                 FillGradeEquipment(grades, modelGeneration, contextData, isPreview);
                 FillSubModels(grades, cars, modelGeneration, contextData, isPreview);
                 FillGradePacks(grades, contextData);
-                FillEquipmentCategories(cars, contextData);
+                FillEquipmentCategories(contextData);
 
                 context.TimeFrames[language] = _timeFrameMapper.GetTimeFrames(language, context);
             }
@@ -446,7 +446,7 @@ namespace TME.CarConfigurator.Publisher
             }
         }
 
-        private void FillEquipmentCategories(IEnumerable<Administration.Car> cars, ContextData contextData)
+        private void FillEquipmentCategories(ContextData contextData)
         {
             var allCategories = Administration.EquipmentCategories.GetEquipmentCategories()
                                                                   .Flatten(category => category.Categories)
