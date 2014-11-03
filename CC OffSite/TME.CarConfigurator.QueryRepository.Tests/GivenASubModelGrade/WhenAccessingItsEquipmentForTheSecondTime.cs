@@ -22,9 +22,9 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModelGrade
         private GradeAccessory _accessory2;
         private GradeOption _option1;
         private GradeOption _option2;
-        private IEnumerable<IGradeEquipmentItem> _secondEquipment;
-        private IGradeEquipmentService _gradeEquipmentService;
-        private IEnumerable<IGradeEquipmentItem> _firstEquipment;
+        private IGradeEquipment _secondEquipment;
+        private IEquipmentService _gradeEquipmentService;
+        private IGradeEquipment _firstEquipment;
 
         protected override void Arrange()
         {
@@ -50,14 +50,14 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModelGrade
 
             var context = new ContextBuilder().Build();
 
-            _gradeEquipmentService = A.Fake<IGradeEquipmentService>();
+            _gradeEquipmentService = A.Fake<IEquipmentService>();
             A.CallTo(
                 () =>
                     _gradeEquipmentService.GetSubModelGradeEquipment(publication.ID, publicationTimeFrame.ID,
                         repoGrade.ID, subModelID, context)).Returns(gradeEquipment);
 
             var gradeEquipmentFactory =
-                new GradeEquipmentFactoryBuilder().WithGradeEquipmentService(_gradeEquipmentService).Build();
+                new EquipmentFactoryBuilder().WithEquipmentService(_gradeEquipmentService).Build();
 
             var gradeService = A.Fake<IGradeService>();
             A.CallTo(() => gradeService.GetSubModelGrades(publication.ID, publicationTimeFrame.ID, subModelID, context)).Returns(new[] { repoGrade });

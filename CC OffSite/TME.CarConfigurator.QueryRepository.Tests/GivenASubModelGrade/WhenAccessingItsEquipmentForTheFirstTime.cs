@@ -24,8 +24,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModelGrade
         private GradeAccessory _accessory2;
         private GradeOption _option1;
         private GradeOption _option2;
-        private IEnumerable<IGradeEquipmentItem> _equipment;
-        private IGradeEquipmentService _gradeEquipmentService;
+        private IGradeEquipment _equipment;
+        private IEquipmentService _gradeEquipmentService;
 
         protected override void Arrange()
         {
@@ -51,14 +51,14 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModelGrade
 
             var context = new ContextBuilder().Build();
 
-            _gradeEquipmentService = A.Fake<IGradeEquipmentService>();
+            _gradeEquipmentService = A.Fake<IEquipmentService>();
             A.CallTo(
                 () =>
                     _gradeEquipmentService.GetSubModelGradeEquipment(publication.ID, publicationTimeFrame.ID,
                         repoGrade.ID, subModelID, context)).Returns(gradeEquipment);
 
             var gradeEquipmentFactory =
-                new GradeEquipmentFactoryBuilder().WithGradeEquipmentService(_gradeEquipmentService).Build();
+                new EquipmentFactoryBuilder().WithEquipmentService(_gradeEquipmentService).Build();
 
             var gradeService = A.Fake<IGradeService>();
             A.CallTo(() => gradeService.GetSubModelGrades(publication.ID, publicationTimeFrame.ID, subModelID, context)).Returns(new [] {repoGrade});
@@ -83,12 +83,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModelGrade
         [Fact]
         public void ThenItShouldHaveTheCorrectEquipment()
         {
-            _equipment.Should().HaveCount(4);
+            _equipment.Accessories.Should().HaveCount(2);
+            _equipment.Options.Should().HaveCount(2);
 
-            _equipment.Should().Contain(e => e.ID == _option1.ID);
-            _equipment.Should().Contain(e => e.ID == _option2.ID);
-            _equipment.Should().Contain(e => e.ID == _accessory1.ID);
-            _equipment.Should().Contain(e => e.ID == _accessory2.ID);
+            _equipment.Options.Should().Contain(e => e.ID == _option1.ID);
+            _equipment.Options.Should().Contain(e => e.ID == _option2.ID);
+            _equipment.Accessories.Should().Contain(e => e.ID == _accessory1.ID);
+            _equipment.Accessories.Should().Contain(e => e.ID == _accessory2.ID);
         }
     }
 }

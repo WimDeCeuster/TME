@@ -12,20 +12,15 @@ namespace TME.CarConfigurator
     {
         private readonly Guid _subModelID;
 
-        public SubModelGrade(Repository.Objects.Grade repositoryGrade, Publication repositoryPublication, Context repositoryContext,Guid subModelID, IGrade basedUponGrade, IAssetFactory assetFactory, IGradeEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory) 
+        public SubModelGrade(Repository.Objects.Grade repositoryGrade, Publication repositoryPublication, Context repositoryContext,Guid subModelID, IGrade basedUponGrade, IAssetFactory assetFactory, IEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory) 
             : base(repositoryGrade, repositoryPublication, repositoryContext, basedUponGrade, assetFactory, gradeEquipmentFactory, packFactory)
         {
             _subModelID = subModelID;
         }
 
-        public override IGradeEquipment GradeEquipment
+        public override IGradeEquipment Equipment
         {
-            get { return _gradeEquipment = _gradeEquipment ?? _gradeEquipmentFactory.GetSubModelGradeEquipment(_repositoryPublication,_subModelID, _repositoryContext, ID); }
-        }
-
-        public override IEnumerable<IGradeEquipmentItem> Equipment
-        {
-            get { return _equipmentItems = _equipmentItems ?? GradeEquipment.Accessories.Cast<IGradeEquipmentItem>().Concat(GradeEquipment.Options).ToList(); }
+            get { return _equipment = _equipment ?? _gradeEquipmentFactory.GetSubModelGradeEquipment(_repositoryPublication,_subModelID, _repositoryContext, ID); }
         }
     }
 }

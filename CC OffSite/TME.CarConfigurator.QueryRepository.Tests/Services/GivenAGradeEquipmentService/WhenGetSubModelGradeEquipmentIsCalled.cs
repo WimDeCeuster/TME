@@ -16,7 +16,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAGradeEquipmentService
     {
         private Repository.Objects.Equipment.GradeEquipment _actualGradeEquipment;
         private Repository.Objects.Equipment.GradeEquipment _expectedSubModelGradeEquipment;
-        private IGradeEquipmentService _gradeEquipmentService;
+        private IEquipmentService _gradeEquipmentService;
         private Context _context;
 
         protected override void Arrange()

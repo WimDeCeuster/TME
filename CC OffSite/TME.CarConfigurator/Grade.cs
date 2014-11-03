@@ -17,11 +17,11 @@ namespace TME.CarConfigurator
         public readonly Repository.Objects.Publication _repositoryPublication;
         public readonly Repository.Objects.Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
-        private readonly IEquipmentFactory _gradeEquipmentFactory;
+        public readonly IEquipmentFactory _gradeEquipmentFactory;
         private readonly IPackFactory _packFactory;
         private IReadOnlyList<IAsset> _fetchedAssets;
         private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
-        private IGradeEquipment _equipment;
+        public IGradeEquipment _equipment;
         private IReadOnlyList<IGradePack> _packs;
         public IReadOnlyList<IGradeEquipmentItem> _equipmentItems;
 
@@ -60,14 +60,9 @@ namespace TME.CarConfigurator
 
         public virtual IReadOnlyList<IAsset> Assets { get { return _fetchedAssets = _fetchedAssets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
 
-        public virtual IGradeEquipment GradeEquipment
+        public virtual IGradeEquipment Equipment
         {
             get { return _equipment = _equipment ?? _gradeEquipmentFactory.GetGradeEquipment(_repositoryPublication, _repositoryContext, ID); }
-        }
-
-        public virtual IEnumerable<IGradeEquipmentItem> Equipment
-	{
-            get { return _equipmentItems = _equipmentItems ?? GradeEquipment.Accessories.Cast<IGradeEquipmentItem>().Concat(GradeEquipment.Options).ToList(); }
         }
 
 

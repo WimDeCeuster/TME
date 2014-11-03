@@ -27,6 +27,17 @@ namespace TME.CarConfigurator.Factories
             _colourFactory = colourFactory;
         }
 
+        public IGradeEquipment GetSubModelGradeEquipment(Publication publication, Guid subModelID, Context context,
+            Guid gradeID)
+        {
+            var gradeEquipment = _equipmentService.GetSubModelGradeEquipment(publication.ID,
+                publication.GetCurrentTimeFrame().ID, gradeID, subModelID, context);
+
+            return new GradeEquipment(
+                gradeEquipment.Accessories.Select(accessory => GetGradeAccessory(accessory, publication, context)),
+                gradeEquipment.Options.Select(option => GetGradeOption(option, gradeEquipment.Options, publication, context)));
+        }
+
         public IGradeEquipment GetGradeEquipment(Publication publication, Context context, Guid gradeId)
         {
             var gradeEquipment = _equipmentService.GetGradeEquipment(publication.ID, publication.GetCurrentTimeFrame().ID, gradeId, context);
