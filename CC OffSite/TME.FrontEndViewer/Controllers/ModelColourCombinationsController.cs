@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Repository.Objects;
 using TME.FrontEndViewer.Models;

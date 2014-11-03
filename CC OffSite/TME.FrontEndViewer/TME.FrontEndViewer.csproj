@@ -366,6 +366,10 @@
       <Project>{2154EAAA-3D11-4654-BEA6-7B147451DBA8}</Project>
       <Name>TME.CarConfigurator.Repository.Objects</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.QueryServices.csproj">
+      <Project>{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}</Project>
+      <Name>TME.CarConfigurator.S3.QueryServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator\TME.CarConfigurator.csproj">
       <Project>{89489B1E-DFAA-4164-93C3-A79859368CF8}</Project>
       <Name>TME.CarConfigurator</Name>

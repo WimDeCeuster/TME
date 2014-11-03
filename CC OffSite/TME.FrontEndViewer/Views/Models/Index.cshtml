@@ -14,7 +14,7 @@
         @foreach (var country in Model.Countries)
         {
             <li>
-                <strong>@country.Name</strong>
+                <strong>@country.Code (@country.Name)</strong>
                 @foreach (var language in country.Languages) {
                  @Html.Raw(" | ") @Html.ActionLink(language.Name, "SelectCountryLanguage", "Models" ,new { CountryCode = country.Code, LanguageCode = language.Code }, new { })
                 }

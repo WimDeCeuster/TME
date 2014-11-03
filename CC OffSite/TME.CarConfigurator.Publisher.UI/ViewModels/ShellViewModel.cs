@@ -160,8 +160,6 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
                 StartPublishing();
 
-                GetRandomCountry();
-
                 var modelsThatHaveApprovedGenerations = Models.Where(m => m.Approved && m.Generations.Any(g => g.Approved)).ToList();
                 var modelsInRandomOrder = modelsThatHaveApprovedGenerations.OrderBy(m => Guid.NewGuid()).ToList();
                 var first5Models = modelsInRandomOrder.Take(5).ToList();
