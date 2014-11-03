@@ -14,7 +14,6 @@ namespace TME.CarConfigurator.Interfaces
         bool Promoted { get; }
 
         ICarConfiguratorVersion CarConfiguratorVersion { get; }
-        // ReSharper disable ReturnTypeCanBeEnumerable.Global
         IReadOnlyList<ILink> Links { get; }
         IReadOnlyList<IAsset> Assets { get; }
         IReadOnlyList<IBodyType> BodyTypes { get; }
@@ -27,7 +26,6 @@ namespace TME.CarConfigurator.Interfaces
         IReadOnlyList<ICar> Cars { get; }
         IReadOnlyList<ISubModel> SubModels { get; }
         IReadOnlyList<IColourCombination> ColourCombinations { get; }
-        // ReSharper restore ReturnTypeCanBeEnumerable.Global
         IModelEquipment Equipment { get; }
         IModelTechnicalSpecifications TechnicalSpecifications { get; }
     }
