@@ -26,10 +26,11 @@ namespace TME.CarConfigurator.Publisher.Services
 
         String FetchFileContent(String path)
         {
-            var webClient = new WebClient();
-            var content = webClient.DownloadString(new Uri(new Uri(@"http://t1-carassets.toyota-europe.com"), path));
-
-            return content;
+            using (var webClient = new WebClient()) { 
+                var content = webClient.DownloadString(new Uri(new Uri(@"http://t1-carassets.toyota-europe.com"), path));
+            
+                return content;
+            }
         }
     }
 }
