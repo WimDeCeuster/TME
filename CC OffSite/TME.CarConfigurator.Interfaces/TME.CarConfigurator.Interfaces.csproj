@@ -49,6 +49,7 @@
     <Compile Include="Equipment\ICarEquipment.cs" />
     <Compile Include="Equipment\IModelEquipment.cs" />
     <Compile Include="Equipment\ICategory.cs" />
+    <Compile Include="Factories\ISpecificationsFactory.cs" />
     <Compile Include="Factories\IPackFactory.cs" />
     <Compile Include="Colours\IExteriorColourType.cs" />
     <Compile Include="Colours\IUpholsteryType.cs" />
@@ -60,7 +61,7 @@
     <Compile Include="Equipment\IGradeEquipment.cs" />
     <Compile Include="Equipment\IGradeOption.cs" />
     <Compile Include="Equipment\IOptionInfo.cs" />
-    <Compile Include="Factories\IGradeEquipmentFactory.cs" />
+    <Compile Include="Factories\IEquipmentFactory.cs" />
     <Compile Include="ICarInfo.cs" />
     <Compile Include="Enums\Visibility.cs" />
     <Compile Include="Equipment\IAccessory.cs" />

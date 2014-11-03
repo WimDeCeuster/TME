@@ -10,6 +10,8 @@ using Engine = TME.CarConfigurator.Repository.Objects.Engine;
 using Steering = TME.CarConfigurator.Repository.Objects.Steering;
 using Transmission = TME.CarConfigurator.Repository.Objects.Transmission;
 using WheelDrive = TME.CarConfigurator.Repository.Objects.WheelDrive;
+using EquipmentCategory = TME.CarConfigurator.Repository.Objects.Equipment.Category;
+using SpecificationCategory = TME.CarConfigurator.Repository.Objects.TechnicalSpecifications.Category;
 
 namespace TME.CarConfigurator.Publisher.Common
 {
@@ -31,7 +33,8 @@ namespace TME.CarConfigurator.Publisher.Common
         public IReadOnlyDictionary<Guid, IList<GradePack>> GradePacks { get; private set; }
         public IReadOnlyList<SubModel> SubModels { get; private set; }
         public IReadOnlyList<ColourCombination> ColourCombinations { get; private set; }
-        public IReadOnlyList<Category> EquipmentCategories { get; private set; }
+        public IReadOnlyList<EquipmentCategory> EquipmentCategories { get; private set; }
+        public IReadOnlyList<SpecificationCategory> SpecificationCategories { get; set; }
 
         public readonly Guid ID;
 
@@ -50,8 +53,9 @@ namespace TME.CarConfigurator.Publisher.Common
             IReadOnlyDictionary<Guid, IList<GradePack>> gradePacks,
             IReadOnlyList<SubModel> subModels,
             IReadOnlyList<ColourCombination> colourCombinations,
+            IReadOnlyList<EquipmentCategory> equipmentCategories,
             IDictionary<Guid, IDictionary<Guid, GradeEquipment>> subModelGradeEquipments,
-            IReadOnlyList<Category> equipmentCategories)
+            IReadOnlyList<SpecificationCategory> specificationCategories)
         {
             if (cars == null) throw new ArgumentNullException("cars");
             if (bodyTypes == null) throw new ArgumentNullException("bodyTypes");
@@ -67,7 +71,7 @@ namespace TME.CarConfigurator.Publisher.Common
             if (colourCombinations == null) throw new ArgumentNullException("colourCombinations");
             if (subModelGradeEquipments == null) throw new ArgumentNullException("subModelGradeEquipments");
             if (equipmentCategories == null) throw new ArgumentNullException("equipmentCategories");
-
+            if (specificationCategories == null) throw new ArgumentNullException("specificationCategories");
 
             From = from;
             Until = until;
@@ -85,8 +89,10 @@ namespace TME.CarConfigurator.Publisher.Common
             SubModels = subModels;
             SubModelGradeEquipments = subModelGradeEquipments;
             EquipmentCategories = equipmentCategories;
+            SpecificationCategories = specificationCategories;
 
             ID = Guid.NewGuid();
         }
+
     }
 }

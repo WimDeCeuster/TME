@@ -5,6 +5,8 @@ using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Packs;
+using EquipmentCategory = TME.CarConfigurator.Repository.Objects.Equipment.Category;
+using SpecificationCategory = TME.CarConfigurator.Repository.Objects.TechnicalSpecifications.Category;
 
 namespace TME.CarConfigurator.Publisher.Common
 {
@@ -26,7 +28,8 @@ namespace TME.CarConfigurator.Publisher.Common
         public IDictionary<Guid,IList<Grade>> SubModelGrades { get; private set; }
         public IDictionary<Guid, GradeEquipment> GradeEquipment { get; private set; }
         public IList<ColourCombination> ColourCombinations { get; private set; }
-        public IList<Category> EquipmentCategories { get; private set; }
+        public IList<EquipmentCategory> EquipmentCategories { get; private set; }
+        public IList<SpecificationCategory> SpecificationCategories { get; private set; }
         public IDictionary<Guid, IDictionary<Guid, IList<Asset>>> CarAssets { get; private set; }
         public IDictionary<Guid, IDictionary<Guid, GradeEquipment>> SubModelGradeEquipment { get; private set; }
         public IDictionary<Guid, IList<GradePack>> GradePacks { get; private set; }
@@ -50,7 +53,8 @@ namespace TME.CarConfigurator.Publisher.Common
             GradeEquipment = new Dictionary<Guid, GradeEquipment>();
             ColourCombinations = new List<ColourCombination>();
             GradePacks = new Dictionary<Guid, IList<GradePack>>();
-            EquipmentCategories = new List<Category>();
+            EquipmentCategories = new List<EquipmentCategory>();
+            SpecificationCategories = new List<SpecificationCategory>();
         }
     }
 }

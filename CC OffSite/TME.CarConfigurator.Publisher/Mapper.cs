@@ -133,6 +133,7 @@ namespace TME.CarConfigurator.Publisher
                 FillSubModels(grades, cars, modelGeneration, contextData, isPreview);
                 FillGradePacks(grades, contextData);
                 FillEquipmentCategories(contextData);
+                FillSpecificationCategories(contextData);
 
                 context.TimeFrames[language] = _timeFrameMapper.GetTimeFrames(language, context);
             }
@@ -217,7 +218,7 @@ namespace TME.CarConfigurator.Publisher
                                   .ExteriorColours()
                                   .ToDictionary(
                                     colour => colour.ID,
-                                    colour => colour.AssetSet.Assets.GetGenerationAssets()
+                                    colour => colour.AssetSet.Assets//.GetGenerationAssets()
                                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
@@ -482,6 +483,17 @@ namespace TME.CarConfigurator.Publisher
 
             foreach (var mappedCategory in mappedCategories)
                 contextData.EquipmentCategories.Add(mappedCategory);
+        }
+
+        private void FillSpecificationCategories(ContextData contextData)
+        {
+            var mappedCategories = Administration.SpecificationCategories.GetSpecificationCategories()
+                                                                         .Flatten(category => category.Categories)
+                                                                         .Select(_categoryMapper.MapSpecificationCategory)
+                                                                         .ToList();
+
+            foreach (var mappedCategory in mappedCategories)
+                contextData.SpecificationCategories.Add(mappedCategory);
         }
     }
 }
