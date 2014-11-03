@@ -159,6 +159,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ModelCarEquipmentController.cs" />
     <Compile Include="Controllers\ModelCarPartsController.cs" />
     <Compile Include="Controllers\ModelCarPartVisibleInAssetsController.cs" />
     <Compile Include="Controllers\ModelTechnicalSpecificationCategoriesController.cs" />
@@ -341,6 +342,9 @@
     <Content Include="Views\ModelTechnicalSpecificationCategories\Index.cshtml" />
     <Content Include="Views\ModelCarParts\details.cshtml" />
     <Content Include="Views\ModelCarParts\Index.cshtml" />
+    <Content Include="Views\ModelCarEquipment\details.cshtml" />
+    <Content Include="Views\ModelCarEquipment\Index.cshtml" />
+    <Content Include="Views\Shared\Equipment\_carEquipmentItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

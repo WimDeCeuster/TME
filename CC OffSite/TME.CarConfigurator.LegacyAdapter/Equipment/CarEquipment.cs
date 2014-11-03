@@ -6,11 +6,11 @@ using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter.Equipment
 {
-    public class GradeEquipment :  IGradeEquipment
+    public class CarEquipment :  ICarEquipment
     {
 
         #region Dependencies (Adaptee)
-        private Legacy.Grade Adaptee
+        private Legacy.Car Adaptee
         {
             get;
             set;
@@ -18,32 +18,32 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
         #endregion
 
         #region Constructor
-        public GradeEquipment(Legacy.Grade adaptee)
+        public CarEquipment(Legacy.Car adaptee)
         {
             Adaptee = adaptee;
         }
         #endregion
 
-        public IReadOnlyList<IGradeAccessory> Accessories
+        public IReadOnlyList<ICarAccessory> Accessories
         {
             get
             {
                 return Adaptee.Equipment
-                        .Cast<Legacy.EquipmentCompareItem>()
+                        .Cast<Legacy.CarEquipmentItem>()
                         .Where(x => x.Type == Legacy.EquipmentType.Accessory)
-                        .Select(x => new GradeAccesory((Legacy.EquipmentCompareAccessory)x))
+                        .Select(x => new CarAccessory((Legacy.CarAccessory)x, Adaptee))
                         .ToList();
             }
         }
 
-        public IReadOnlyList<IGradeOption> Options
+        public IReadOnlyList<ICarOption> Options
         {
             get
             {
                 return Adaptee.Equipment
-                        .Cast<Legacy.EquipmentCompareItem>()
+                        .Cast<Legacy.CarEquipmentItem>()
                         .Where(x => x.Type != Legacy.EquipmentType.Accessory)
-                        .Select(x => new GradeOption((Legacy.EquipmentCompareOption)x))
+                        .Select(x => new CarOption((Legacy.CarOption)x, Adaptee))
                         .ToList();
             }
         }
