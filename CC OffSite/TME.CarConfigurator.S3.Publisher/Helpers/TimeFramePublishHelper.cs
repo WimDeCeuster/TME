@@ -50,7 +50,7 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
 
             return await PublishObjects(
                 context,
-                timeFrame => objectsGetter(timeFrame),
+                objectsGetter,
                 async (brand, country, pubId, tfId, x) => await Task.WhenAll(publish(brand, country, pubId, tfId, x)));
 
         }
@@ -82,7 +82,7 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
             return results.SelectMany(xs => xs);
         }
 
-        async Task<IEnumerable<Result>> PublishPerSubModel<T>(string brand, string country, IReadOnlyList<TimeFrame> timeFrames, Guid publicationID, Func<TimeFrame, IReadOnlyList<SubModel>> subModelGetter, Func<TimeFrame, T> objectsGetter, Func<string, string, Guid, Guid, Guid, List<Grade>,T, Task<IEnumerable<Result>>> publish)
+        async Task<IEnumerable<Result>> PublishPerSubModel<T>(String brand, String country, IEnumerable<TimeFrame> timeFrames, Guid publicationID, Func<TimeFrame, IReadOnlyList<SubModel>> subModelGetter, Func<TimeFrame, T> objectsGetter, Func<String, String, Guid, Guid, Guid,List<Grade>, T, Task<IEnumerable<Result>>> publish)
         {
             var tasks = new List<Task<IEnumerable<Result>>>();
 

@@ -9,6 +9,7 @@ using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Equipment;
+using TME.CarConfigurator.Repository.Objects.Interfaces;
 using Car = TME.CarConfigurator.Administration.Car;
 using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
 
@@ -40,7 +41,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _colourMapper = colourMapper;
         }
 
-        public GradeAccessory MapGradeAccessory(Administration.ModelGenerationGradeAccessory generationGradeAccessory, Administration.ModelGenerationAccessory generationAccessory, Administration.Accessory crossModelAccessory, Administration.EquipmentCategories categories, IReadOnlyList<Administration.Car> cars, Boolean isPreview)
+        public GradeAccessory MapGradeAccessory(ModelGenerationGradeAccessory generationGradeAccessory, ModelGenerationAccessory generationAccessory, Administration.Accessory crossModelAccessory, EquipmentCategories categories, IReadOnlyList<Car> cars, Boolean isPreview)
         {
             var mappedGradeEquipmentItem = new GradeAccessory
             {
@@ -49,7 +50,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return MapGradeEquipmentItem(mappedGradeEquipmentItem, generationGradeAccessory, generationAccessory, crossModelAccessory, categories, cars, isPreview);
         }
 
-        public GradeOption MapGradeOption(Administration.ModelGenerationGradeOption generationGradeOption, Administration.ModelGenerationOption generationOption, Administration.Option crossModelOption, Administration.EquipmentCategories categories, IReadOnlyList<Administration.Car> cars, Boolean isPreview)
+        public GradeOption MapGradeOption(ModelGenerationGradeOption generationGradeOption, ModelGenerationOption generationOption, Administration.Option crossModelOption, EquipmentCategories categories, IReadOnlyList<Car> cars, Boolean isPreview)
         {
             if (generationGradeOption.HasParentOption && !generationGradeOption.ParentOption.ShortID.HasValue)
                 throw new CorruptDataException(String.Format("Please supply a ShortID for grade option {0}", generationGradeOption.ParentOption.ID));
@@ -70,47 +71,38 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             var grades = allGrades.Where(grade => cars.Any(car => car.GradeID == grade.ID));
 
-            var applicableEquipment = grades.SelectMany(grade => contextData.GradeEquipment 
+            var applicableEquipment = grades.SelectMany(grade => contextData.GradeEquipment
                                                     .Where(equipment => equipment.Key == grade.ID)).ToList();
 
             var mappedSubModelGradeEquipment = new Dictionary<Guid, GradeEquipment>();
 
             foreach (var kvp in applicableEquipment)
             {
-                var mappedAccessories = kvp.Value.Accessories.Select(accessory => 
-                    MapSubModelGradeAccessory(accessory,modelGenerationSubModel.Cars()
-                                                            .Where(car => car.GradeID== kvp.Key),kvp.Key,isPreview))
+                var mappedAccessories = kvp.Value.Accessories.Select(accessory =>
+                    MapSubModelGradeEquipmentItem(accessory, modelGenerationSubModel.Cars()
+                                                            .Where(car => car.GradeID == kvp.Key).ToList(), kvp.Key, isPreview))
                     .Where(gradeAccessory => gradeAccessory.OptionalOn.Count != 0 || gradeAccessory.StandardOn.Count != 0)
                     .Select(accessory => accessory)
                     .ToList();
 
-                var mappedOptions = kvp.Value.Options.Select(option => 
-                    MapSubModelGradeOption(option, modelGenerationSubModel.Cars()
-                        .Where(car => car.GradeID == kvp.Key), kvp.Key, isPreview))
+                var mappedOptions = kvp.Value.Options.Select(option =>
+                    MapSubModelGradeEquipmentItem(option, modelGenerationSubModel.Cars()
+                        .Where(car => car.GradeID == kvp.Key).ToList(), kvp.Key, isPreview))
                     .Where(gradeAccessory => gradeAccessory.OptionalOn.Count != 0 || gradeAccessory.StandardOn.Count != 0)
                     .Select(accessory => accessory)
                     .ToList();
 
-                mappedSubModelGradeEquipment.Add(kvp.Key,new GradeEquipment {Accessories = mappedAccessories,Options = mappedOptions});
+                mappedSubModelGradeEquipment.Add(kvp.Key, new GradeEquipment { Accessories = mappedAccessories, Options = mappedOptions });
             }
 
 
             return mappedSubModelGradeEquipment;
         }
 
-        private GradeAccessory MapSubModelGradeAccessory(GradeAccessory accessory, IEnumerable<Car> gradeCars, Guid gradeID, Boolean isPreview)
+        private T MapSubModelGradeEquipmentItem<T>(T accessory, IReadOnlyList<Car> gradeCars, Guid gradeID, Boolean isPreview)
+            where T:GradeEquipmentItem, new()
         {
-            var mappedAccessory = new GradeAccessory();
-
-            return MapSubModelGradeEquipmentItem(mappedAccessory,accessory, gradeID, gradeCars, isPreview);
-        }
-
-        private GradeOption MapSubModelGradeOption(GradeOption option, IEnumerable<Car> gradeCars, Guid gradeID, Boolean isPreview)
-        {
-            var mappedGradeOption = new GradeOption();
-
-            return MapSubModelGradeEquipmentItem(mappedGradeOption, option, gradeID,
-                gradeCars, isPreview);
+            return MapSubModelGradeEquipmentItem(new T(), accessory, gradeID, gradeCars, isPreview);
         }
 
         private IReadOnlyList<CarInfo> GetAvailabilityInfoForSubModelGradeEquipment(GradeEquipmentItem equipmentItem, Availability availability, IEnumerable<Car> cars, Guid gradeID)
@@ -124,8 +116,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                         .ToList();
         }
 
-        T MapGradeEquipmentItem<T>(T mappedEquipmentItem, ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, ModelGenerationEquipmentItem generationEquipmentItem, Administration.EquipmentItem crossModelEquipmentItem, Administration.EquipmentCategories categories, IReadOnlyList<Administration.Car> cars, Boolean isPreview)
-            where T : GradeEquipmentItem
+        T MapGradeEquipmentItem<T>(T mappedEquipmentItem, ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, ModelGenerationEquipmentItem generationEquipmentItem, Administration.EquipmentItem crossModelEquipmentItem, EquipmentCategories categories, IReadOnlyList<Car> cars, Boolean isPreview)
+            where T : GradeEquipmentItem, IAvailabilityProperties
         {
             if (!generationGradeEquipmentItem.ShortID.HasValue)
                 throw new CorruptDataException(String.Format("Please supply a ShortID for grade equipment item {0}", generationGradeEquipmentItem.ID));
@@ -133,7 +125,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var hasColour = generationGradeEquipmentItem.Colour.ID != Guid.Empty;
             var isOwner = generationGradeEquipmentItem.Owner == MyContext.GetContext().CountryCode;
 
-            mappedEquipmentItem.BestVisibleIn = new BestVisibleIn {Angle = generationEquipmentItem.BestVisibleInAngle,Mode = generationEquipmentItem.BestVisibleInMode,View = generationEquipmentItem.BestVisibleInView};
+            mappedEquipmentItem.BestVisibleIn = new BestVisibleIn { Angle = generationEquipmentItem.BestVisibleInAngle, Mode = generationEquipmentItem.BestVisibleInMode, View = generationEquipmentItem.BestVisibleInView };
             mappedEquipmentItem.Category = _categoryInfoMapper.MapEquipmentCategoryInfo(generationGradeEquipmentItem.Category, categories); // ??
             mappedEquipmentItem.Description = generationGradeEquipmentItem.Translation.Description;
             mappedEquipmentItem.ExteriorColour = hasColour ? GetColour(generationEquipmentItem, isPreview) : null;
@@ -152,7 +144,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.OptionalGradeFeature = generationGradeEquipmentItem.OptionalGradeFeature;
             mappedEquipmentItem.OptionalOn = GetAvailabilityInfo(generationGradeEquipmentItem, Availability.Optional, cars);
             mappedEquipmentItem.PartNumber = generationGradeEquipmentItem.PartNumber;
-            mappedEquipmentItem.Path = Administration.MyContext.GetContext().EquipmentGroups.Find(generationGradeEquipmentItem.Group.ID).Path.ToLowerInvariant();
+            mappedEquipmentItem.Path = MyContext.GetContext().EquipmentGroups.Find(generationGradeEquipmentItem.Group.ID).Path.ToLowerInvariant();
             mappedEquipmentItem.ShortID = generationGradeEquipmentItem.ShortID.Value;
             mappedEquipmentItem.SortIndex = generationGradeEquipmentItem.Index;
             mappedEquipmentItem.StandardOn = GetAvailabilityInfo(generationGradeEquipmentItem, Availability.Standard, cars);
@@ -161,26 +153,21 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.InternalCode = generationEquipmentItem.BaseCode;
             mappedEquipmentItem.LocalCode = generationGradeEquipmentItem.LocalCode.DefaultIfEmpty(isOwner ? generationEquipmentItem.BaseCode : String.Empty);
 
-            mappedEquipmentItem.NotAvailable = mappedEquipmentItem.NotAvailableOn.Count > mappedEquipmentItem.StandardOn.Count &&
-                                               mappedEquipmentItem.NotAvailableOn.Count > mappedEquipmentItem.OptionalOn.Count;
+            mappedEquipmentItem.NotAvailable = mappedEquipmentItem.CalculateNotAvailable();
+            mappedEquipmentItem.Optional = mappedEquipmentItem.CalculateOptional();
+            mappedEquipmentItem.Standard = mappedEquipmentItem.CalculateStandard();
 
-            mappedEquipmentItem.Optional = mappedEquipmentItem.OptionalOn.Count > mappedEquipmentItem.StandardOn.Count &&
-                                           mappedEquipmentItem.OptionalOn.Count >= mappedEquipmentItem.NotAvailableOn.Count;
-
-            mappedEquipmentItem.Standard = mappedEquipmentItem.StandardOn.Count >= mappedEquipmentItem.OptionalOn.Count &&
-                                           mappedEquipmentItem.StandardOn.Count >= mappedEquipmentItem.NotAvailableOn.Count;
-            
             return mappedEquipmentItem;
         }
 
-        T MapSubModelGradeEquipmentItem<T>(T mappedEquipmentItem, GradeEquipmentItem equipmentItem, Guid gradeID, IEnumerable<Car> cars, Boolean isPreview)
+        T MapSubModelGradeEquipmentItem<T>(T mappedEquipmentItem, GradeEquipmentItem equipmentItem, Guid gradeID, IReadOnlyList<Car> cars, Boolean isPreview)
             where T : GradeEquipmentItem
         {
 
             var hasColour = equipmentItem.ExteriorColour != null;
 
-            mappedEquipmentItem.OptionalOn = GetAvailabilityInfoForSubModelGradeEquipment(equipmentItem,Availability.Optional, cars, gradeID);
-            mappedEquipmentItem.NotAvailableOn = GetAvailabilityInfoForSubModelGradeEquipment(equipmentItem,Availability.NotAvailable, cars, gradeID);
+            mappedEquipmentItem.OptionalOn = GetAvailabilityInfoForSubModelGradeEquipment(equipmentItem, Availability.Optional, cars, gradeID);
+            mappedEquipmentItem.NotAvailableOn = GetAvailabilityInfoForSubModelGradeEquipment(equipmentItem, Availability.NotAvailable, cars, gradeID);
             mappedEquipmentItem.StandardOn = GetAvailabilityInfoForSubModelGradeEquipment(equipmentItem, Availability.Standard, cars, gradeID);
             mappedEquipmentItem.BestVisibleIn = equipmentItem.BestVisibleIn;
             mappedEquipmentItem.Category = equipmentItem.Category;
@@ -203,9 +190,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.ToolTip = equipmentItem.ToolTip;
             mappedEquipmentItem.InternalCode = equipmentItem.InternalCode;
             mappedEquipmentItem.LocalCode = equipmentItem.LocalCode;
-            mappedEquipmentItem.NotAvailable = mappedEquipmentItem.NotAvailableOn.Count > mappedEquipmentItem.StandardOn.Count && mappedEquipmentItem.NotAvailableOn.Count > mappedEquipmentItem.OptionalOn.Count;
-            mappedEquipmentItem.Optional = mappedEquipmentItem.OptionalOn.Count > mappedEquipmentItem.StandardOn.Count && mappedEquipmentItem.OptionalOn.Count >= mappedEquipmentItem.NotAvailableOn.Count;
-            mappedEquipmentItem.Standard = mappedEquipmentItem.StandardOn.Count >= mappedEquipmentItem.OptionalOn.Count && mappedEquipmentItem.StandardOn.Count >= mappedEquipmentItem.NotAvailableOn.Count;
+
+            mappedEquipmentItem.NotAvailable = mappedEquipmentItem.CalculateNotAvailable();
+            mappedEquipmentItem.Optional = mappedEquipmentItem.CalculateOptional();
+            mappedEquipmentItem.Standard = mappedEquipmentItem.CalculateStandard();
 
             return mappedEquipmentItem;
         }
@@ -213,7 +201,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         ExteriorColour GetColour(ModelGenerationEquipmentItem generationEquipmentItem, Boolean isPreview)
         {
             var colour = generationEquipmentItem.Generation.ColourCombinations.ExteriorColours().FirstOrDefault(clr => clr.ID == generationEquipmentItem.Colour.ID);
-            
+
             if (colour != null)
                 return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, colour, isPreview);
 

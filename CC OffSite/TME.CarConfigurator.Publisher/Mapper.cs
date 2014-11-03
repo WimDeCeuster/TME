@@ -466,12 +466,9 @@ namespace TME.CarConfigurator.Publisher
 
         private void FillEquipmentCategories(ContextData contextData)
         {
-            var allCategories = Administration.EquipmentCategories.GetEquipmentCategories()
-                                                                  .Flatten(category => category.Categories)
-                                                                  .ToList();
-
-            var applicableCategories = allCategories;
-            var mappedCategories = applicableCategories.Select(_categoryMapper.MapEquipmentCategory).ToList();
+            var mappedCategories = EquipmentCategories.GetEquipmentCategories()
+                .Flatten(category => category.Categories)
+                .Select(_categoryMapper.MapEquipmentCategory);
 
             foreach (var mappedCategory in mappedCategories)
                 contextData.EquipmentCategories.Add(mappedCategory);
