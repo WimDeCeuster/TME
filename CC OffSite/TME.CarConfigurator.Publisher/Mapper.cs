@@ -339,7 +339,7 @@ namespace TME.CarConfigurator.Publisher
 
                 contextData.SubModels.Add(mappedSubModel);
 
-                FillSubModelGradeEquipment(modelGenerationSubModel,contextData);
+                FillSubModelGradeEquipment(modelGenerationSubModel,contextData, isPreview);
 
                 AddSubModelToCar(cars, contextData, subModelId, mappedSubModel);
             }
@@ -353,9 +353,9 @@ namespace TME.CarConfigurator.Publisher
                 .Select(grade => _gradeMapper.MapSubModelGrade(grade,modelGenerationSubModel,contextData.Cars)).ToList());
         }
 
-        private void FillSubModelGradeEquipment(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+        private void FillSubModelGradeEquipment(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, Boolean isPreview)
         {
-            contextData.SubModelGradeEquipment.Add(modelGenerationSubModel.ID,_equipmentMapper.MapSubModelGradeEquipment(modelGenerationSubModel,contextData));
+            contextData.SubModelGradeEquipment.Add(modelGenerationSubModel.ID,_equipmentMapper.MapSubModelGradeEquipment(modelGenerationSubModel,contextData, isPreview));
         }
 
         private static void AddSubModelToCar(IEnumerable<Car> cars, ContextData contextData, Guid subModelId, SubModel mappedSubModel)
