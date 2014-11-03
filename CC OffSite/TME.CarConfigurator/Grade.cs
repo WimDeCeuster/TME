@@ -14,15 +14,16 @@ namespace TME.CarConfigurator
 {
     public class Grade : BaseObject<Repository.Objects.Grade>, IGrade
     {
-        private readonly Repository.Objects.Publication _repositoryPublication;
-        private readonly Repository.Objects.Context _repositoryContext;
+        public readonly Repository.Objects.Publication _repositoryPublication;
+        public readonly Repository.Objects.Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
-        private readonly IEquipmentFactory _gradeEquipmentFactory;
+        public readonly IEquipmentFactory _gradeEquipmentFactory;
         private readonly IPackFactory _packFactory;
         private IReadOnlyList<IAsset> _fetchedAssets;
         private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
-        private IGradeEquipment _equipment;
+        public IGradeEquipment _equipment;
         private IReadOnlyList<IGradePack> _packs;
+        public IReadOnlyList<IGradeEquipmentItem> _equipmentItems;
 
         Price _price;
         readonly IGrade _basedUponGrade;
@@ -59,11 +60,10 @@ namespace TME.CarConfigurator
 
         public virtual IReadOnlyList<IAsset> Assets { get { return _fetchedAssets = _fetchedAssets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
 
-        public IGradeEquipment Equipment
+        public virtual IGradeEquipment Equipment
         {
             get { return _equipment = _equipment ?? _gradeEquipmentFactory.GetGradeEquipment(_repositoryPublication, _repositoryContext, ID); }
         }
-
 
 
         public IReadOnlyList<IGradePack> Packs

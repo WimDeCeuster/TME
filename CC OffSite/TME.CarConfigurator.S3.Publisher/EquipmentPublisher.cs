@@ -49,7 +49,7 @@ namespace TME.CarConfigurator.S3.Publisher
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            return await _timeFramePublishHelper.PublishObjectsPerSubModel(context,timeFrame => timeFrame.SubModels, timeFrame => timeFrame.GradeEquipments,
+            return await _timeFramePublishHelper.PublishObjectsPerSubModel(context,timeFrame => timeFrame.SubModels, timeFrame => timeFrame.SubModelGradeEquipments,
                     PublishSubModelGradeEquipmentAsync);
         }
 
@@ -60,17 +60,17 @@ namespace TME.CarConfigurator.S3.Publisher
                 _equipmentService.Put(brand, country, publicationId, timeFrameId, entry.Key, SortGradeEquipment(entry.Value))));
         }
 
-        async Task<IEnumerable<Result>> PublishSubModelGradeEquipmentAsync(string brand, string country, Guid publicationId, Guid timeFrameId,Guid subModelID,List<Grade> applicableGrades , IReadOnlyDictionary<Guid, GradeEquipment> gradeEquipments)
+        async Task<IEnumerable<Result>> PublishSubModelGradeEquipmentAsync(string brand, string country, Guid publicationId, Guid timeFrameId,Guid subModelID,List<Grade> applicableGrades ,IDictionary<Guid, IDictionary<Guid, GradeEquipment>> gradeEquipments)
         {
+            //todo refactor
             var tasks = new List<Task<Result>>();
-            foreach (var entry in gradeEquipments)
+            var gradeEquipmentsPerGrade = gradeEquipments.Where(entry => entry.Key == subModelID).SelectMany(entry => entry.Value).ToList();
+            foreach (var entry in gradeEquipmentsPerGrade)
             {
                 foreach (var applicableGrade in applicableGrades)
                 {
                     if (entry.Key == applicableGrade.ID)
-                    {
                         tasks.Add(_equipmentService.PutPerSubModel(brand, country, publicationId, timeFrameId,subModelID,entry.Key, SortGradeEquipment(entry.Value)));
-                    }
                 }
             }
             return await Task.WhenAll(tasks);

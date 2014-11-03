@@ -11,49 +11,54 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.Services.GivenAGradeEquipmentService
+namespace TME.CarConfigurator.Query.Tests.Services.GivenAGradeService
 {
-    public class WhenGetGradeEquipmentsIsCalled : TestBase
+    public class WhenGetSubModelGradeIsCalled : TestBase
     {
-        private Repository.Objects.Equipment.GradeEquipment _actualGradeEquipment;
-        private Repository.Objects.Equipment.GradeEquipment _expectedGradeEquipment;
-        private IEquipmentService _gradeEquipmentService;
         private Context _context;
+        private IGradeService _gradeService;
+        private IEnumerable<Repository.Objects.Grade> _expectedGrades;
+        private IEnumerable<Repository.Objects.Grade> _actualGrades;
 
         protected override void Arrange()
         {
-            _context = new ContextBuilder().Build();
+            _context = ContextBuilder.Initialize().Build();
 
             const string s3Key = "fake s3 key";
             const string serializedObject = "this object is serialized";
 
-            _expectedGradeEquipment = new GradeEquipmentBuilder().Build();
+            _expectedGrades = new List<Repository.Objects.Grade>
+            {
+                new GradeBuilder().Build(),
+                new GradeBuilder().Build(),
+            };
 
             var serialiser = A.Fake<ISerialiser>();
             var service = A.Fake<IService>();
             var keyManager = A.Fake<IKeyManager>();
 
-            A.CallTo(() => keyManager.GetGradeEquipmentsKey(A<Guid>._, A<Guid>._, A<Guid>._)).Returns(s3Key);
+            A.CallTo(() => keyManager.GetSubModelGradesKey(A<Guid>._,A<Guid>._, A<Guid>._)).Returns(s3Key);
             A.CallTo(() => service.GetObject(_context.Brand, _context.Country, s3Key)).Returns(serializedObject);
-            A.CallTo(() => serialiser.Deserialise<Repository.Objects.Equipment.GradeEquipment>(serializedObject)).Returns(_expectedGradeEquipment);
+            A.CallTo(() => serialiser.Deserialise<IEnumerable<Repository.Objects.Grade>>(serializedObject)).Returns(_expectedGrades);
 
             var serviceFacade = new S3ServiceFacade()
                 .WithService(service)
                 .WithSerializer(serialiser)
                 .WithKeyManager(keyManager);
 
-            _gradeEquipmentService = serviceFacade.CreateEquipmentService();
+            _gradeService = serviceFacade.CreateGradeService();
         }
 
         protected override void Act()
         {
-            _actualGradeEquipment = _gradeEquipmentService.GetGradeEquipment(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), _context);
+            _actualGrades = _gradeService.GetSubModelGrades(Guid.NewGuid(), Guid.NewGuid(),Guid.NewGuid(), _context);
         }
 
         [Fact]
-        public void ThenItShouldReturnTheCorrectListOfEquipment()
+        public void ThenItShouldReturnTheCorrectListOfGrades()
         {
-            _actualGradeEquipment.Should().BeSameAs(_expectedGradeEquipment);
+            _actualGrades.Should().BeSameAs(_expectedGrades);
         }
+
     }
 }

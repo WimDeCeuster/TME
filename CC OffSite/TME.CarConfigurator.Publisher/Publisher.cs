@@ -122,6 +122,7 @@ namespace TME.CarConfigurator.Publisher
                 _subModelPublisher.PublishGenerationSubModelsAsync(context),
                 _carPublisher.PublishGenerationCarsAsync(context),
                 _colourCombinationPublisher.PublishGenerationColourCombinations(context),
+                _gradePublisher.PublishSubModelGradesAsync(context),
                 _equipmentPublisher.PublishAsync(context),
                 _equipmentPublisher.PublishCategoriesAsync(context),
                 _equipmentPublisher.PublishSubModelGradeEquipmentAsync(context),

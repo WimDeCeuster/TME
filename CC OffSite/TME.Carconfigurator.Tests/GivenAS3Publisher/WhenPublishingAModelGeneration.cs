@@ -143,6 +143,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => _wheelDrivePublisher.PublishGenerationWheelDrivesAsync(_context)).Returns(successFullTasks);
             A.CallTo(() => _steeringPublisher.PublishGenerationSteeringsAsync(_context)).Returns(successFullTasks);
             A.CallTo(() => _gradePublisher.PublishGenerationGradesAsync(_context)).Returns(successFullTasks);
+            A.CallTo(() => _gradePublisher.PublishSubModelGradesAsync(_context)).Returns(successFullTasks);
             A.CallTo(() => _carPublisher.PublishGenerationCarsAsync(_context)).Returns(successFullTasks);
             A.CallTo(() => _assetPublisher.PublishAssetsAsync(_context)).Returns(successFullTasks);
             A.CallTo(() => _assetPublisher.PublishCarAssetsAsync(_context)).Returns(successFullTasks);

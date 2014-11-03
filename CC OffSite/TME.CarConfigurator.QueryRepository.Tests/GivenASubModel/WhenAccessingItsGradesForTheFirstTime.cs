@@ -49,7 +49,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
                 .Returns(new List<Repository.Objects.SubModel> { repositorySubModel });
 
             _gradeService = A.Fake<IGradeService>();
-            A.CallTo(() => _gradeService.GetGrades(publication.ID, publicationTimeFrame.ID, context))
+            A.CallTo(() => _gradeService.GetSubModelGrades(publication.ID, publicationTimeFrame.ID,repositorySubModel.ID ,context))
                 .Returns(new List<Repository.Objects.Grade>(){_grade1,_grade2});
 
             var gradeFactory = new GradeFactoryBuilder()
@@ -61,7 +61,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
                 .WithGradeFactory(gradeFactory)
                 .Build();
 
-            _subModel = subModelFactory.GetSubModels(publication, context).Single();
+            _subModel = subModelFactory.GetSubModels(publication, context).First();
         }
 
         protected override void Act()

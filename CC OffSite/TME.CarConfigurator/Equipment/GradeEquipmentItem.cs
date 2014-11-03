@@ -24,8 +24,9 @@ namespace TME.CarConfigurator.Equipment
         IReadOnlyList<ICarInfo> _standardOn;
         IReadOnlyList<ICarInfo> _optionalOn;
         IReadOnlyList<ICarInfo> _notAvailableOn;
+        BestVisibleIn _bestVisibleIn;
 
-        public GradeEquipmentItem(T repositoryEquipmentItem, Publication publication, Context context, IColourFactory colourFactory)
+        protected GradeEquipmentItem(T repositoryEquipmentItem, Publication publication, Context context, IColourFactory colourFactory)
             : base(repositoryEquipmentItem)
         {
             if (publication == null) throw new ArgumentNullException("publication");
@@ -64,7 +65,7 @@ namespace TME.CarConfigurator.Equipment
 
         public IBestVisibleIn BestVisibleIn
         {
-            get { throw new NotImplementedException(); }
+            get { return _bestVisibleIn = _bestVisibleIn ?? new BestVisibleIn(RepositoryObject.BestVisibleIn); }
         }
 
         public ICategoryInfo Category { get { return _categoryInfo = _categoryInfo ?? new CategoryInfo(RepositoryObject.Category); } }
