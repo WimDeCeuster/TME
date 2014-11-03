@@ -11,30 +11,30 @@ namespace TME.CarConfigurator.LegacyAdapter
     public class Price : IPrice
     {
 
-        #region Dependencies (Adaptee)
-        private Legacy.IPrice Adaptee
-        {
-            get;
-            set;
-        }
-        #endregion
 
         #region Constructor
         public Price(Legacy.IPrice adaptee)
         {
-            Adaptee = adaptee;
+            PriceInVat = adaptee.PriceInVat;
+            PriceExVat = adaptee.PriceExVat;
         }
 
+        internal Price()
+        {
+            
+        }
         #endregion
 
         public decimal PriceInVat
         {
-            get { return Adaptee.PriceInVat; }
+            get;
+            internal set;
         }
 
         public decimal PriceExVat
         {
-            get { return Adaptee.PriceExVat; }
+            get;
+            internal set;
         }
     }
 }

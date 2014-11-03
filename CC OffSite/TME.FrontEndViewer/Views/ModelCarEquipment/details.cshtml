@@ -1,0 +1,57 @@
+﻿@model TME.CarConfigurator.Interfaces.Equipment.ICarEquipment
+
+<h3>Accessories</h3>
+<div>
+    @foreach (var model in Model.Accessories.OrderBy(x => x.SortIndex).ThenBy(x => x.Name).ThenBy(x => x.InternalCode))
+    {
+        <div class="object" data-id="@(model.ID)">
+            <div class="title">
+                <strong>@Html.Raw(model.Name)</strong>
+            </div>
+            <div class="content">
+                @Html.Partial("Equipment/_carEquipmentItem", model)
+                <p class="property" data-id="BasePricePriceExVat">BasePrice.PriceExVat : @Html.Raw(model.BasePrice.PriceExVat)</p>
+                <p class="property" data-id="BasePricePriceInVat">BasePrice.PriceInVat : @Html.Raw(model.BasePrice.PriceInVat)</p>
+                <p class="property" data-id="MountingCostsOnNewVehiclePriceExVat">MountingCostsOnNewVehicle.PriceExVat : @Html.Raw(model.MountingCostsOnNewVehicle.Price.PriceExVat)</p>
+                <p class="property" data-id="MountingCostsOnNewVehiclePriceInVat">MountingCostsOnNewVehicle.PriceInVat : @Html.Raw(model.MountingCostsOnNewVehicle.Price.PriceInVat)</p>
+                <p class="property" data-id="MountingCostsOnNewVehicleTime">MountingCostsOnNewVehicle.Time : @Html.Raw(model.MountingCostsOnNewVehicle.Time)</p>
+                <p class="property" data-id="MountingCostsOnUsedVehiclePriceExVat">MountingCostsOnUsedVehicle.PriceExVat : @Html.Raw(model.MountingCostsOnUsedVehicle.Price.PriceExVat)</p>
+                <p class="property" data-id="MountingCostsOnUsedVehiclePriceInVat">MountingCostsOnUsedVehicle.PriceInVat : @Html.Raw(model.MountingCostsOnUsedVehicle.Price.PriceInVat)</p>
+                <p class="property" data-id="MountingCostsOnUsedVehicleTime">MountingCostsOnUsedVehicle.Time : @Html.Raw(model.MountingCostsOnUsedVehicle.Time)</p>
+            </div>
+        </div>
+    }
+</div>
+
+<h3>Options</h3>
+<div>
+    @foreach (var model in Model.Options.OrderBy(x => x.SortIndex).ThenBy(x => x.Name).ThenBy(x => x.InternalCode))
+    {
+        <div class="object" data-id="@(model.ID)">
+            <div class="title">
+                <strong>@Html.Raw(model.Name)</strong>
+            </div>
+            <div class="content">
+                @Html.Partial("Equipment/_carEquipmentItem", model)
+                <p class="property allow-mismatch" data-id="TechnologyItem">TechnologyItem : @Html.Raw(model.TechnologyItem)</p>
+@*              <p class="property" data-id="SuffixOption">SuffixOption : @Html.Raw(model.SuffixOption)</p>
+                <p class="property" data-id="PostProductionOption">PostProductionOption : @Html.Raw(model.PostProductionOption)</p>*@
+                @if (model.ParentOption != null)
+                {
+                    <div class="object" data-id="@(model.ID)">
+                        <div class="title">
+                            <strong>@Html.Raw(model.Name)</strong>
+                        </div>
+                        <div class="content">
+                            @Html.Partial("Equipment/_optionInfo", model.ParentOption)
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <p class="property" data-id="ParentOption">ParentOption : @Html.Raw(model.ParentOption)</p>
+                }
+            </div>
+        </div>
+    }
+</div>

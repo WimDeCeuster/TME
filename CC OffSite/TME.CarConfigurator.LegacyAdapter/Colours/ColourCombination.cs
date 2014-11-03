@@ -34,7 +34,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
 
         public IExteriorColour ExteriorColour
         {
-            get { return new ExteriorColour(Adaptee.ExteriorColour); }
+            get { return new CarExteriorColour(Adaptee.ExteriorColour); }
         }
 
         public IUpholstery Upholstery
