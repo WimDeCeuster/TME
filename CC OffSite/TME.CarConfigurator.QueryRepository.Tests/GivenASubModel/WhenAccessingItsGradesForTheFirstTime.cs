@@ -30,7 +30,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
 
             var repositorySubModel = new SubModelBuilder()
                 .WithID(Guid.NewGuid())
-                .WithGrades(_grade1,_grade2)
+                .WithGrades(_grade1, _grade2)
                 .Build();
 
             var publicationTimeFrame = new PublicationTimeFrameBuilder()
@@ -50,7 +50,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
 
             _gradeService = A.Fake<IGradeService>();
             A.CallTo(() => _gradeService.GetGrades(publication.ID, publicationTimeFrame.ID, context))
-                .Returns(new List<Repository.Objects.Grade>(){_grade1,_grade2});
+                .Returns(new List<Repository.Objects.Grade> { _grade1, _grade2 });
 
             var gradeFactory = new GradeFactoryBuilder()
                 .WithGradeService(_gradeService)
@@ -67,13 +67,6 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
         protected override void Act()
         {
             _grades = _subModel.Grades;
-        }
-
-        [Fact(Skip = "Is this test Still Relevant? SubmodelGrades Are already Picked Up When GetSubModels is Called.")]
-        public void ThenItShouldFetchTheGradesFromTheService()
-        {
-            A.CallTo(() => _gradeService.GetGrades(A<Guid>._, A<Guid>._, A<Context>._))
-                .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]

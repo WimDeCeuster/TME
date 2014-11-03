@@ -76,7 +76,7 @@ namespace TME.CarConfigurator.S3.Publisher
             return await Task.WhenAll(tasks);
         }
 
-        GradeEquipment SortGradeEquipment(GradeEquipment equipment)
+        static GradeEquipment SortGradeEquipment(GradeEquipment equipment)
         {
             return new GradeEquipment
             {
