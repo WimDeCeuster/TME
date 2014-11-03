@@ -58,13 +58,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenAColourCombination
         }
 
         [Fact]
-        public void ThenItShouldNotRecalculateTheType()
+        public void ThenItShouldNotRecalculateTheExteriorColour()
         {
             _secondExteriorColour.Should().Be(_firstExteriorColour);
         }
 
         [Fact]
-        public void ThenItShouldHaveTheType()
+        public void ThenItShouldHaveTheExteriorColour()
         {
             _secondExteriorColour.ID.Should().Be(_repoExteriorColour.ID);
         }

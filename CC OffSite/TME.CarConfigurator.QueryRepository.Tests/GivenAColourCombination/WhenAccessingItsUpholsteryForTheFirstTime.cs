@@ -59,7 +59,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAColourCombination
         }
 
         [Fact]
-        public void ThenItShouldHaveTheType()
+        public void ThenItShouldHaveTheUpholstery()
         {
             _upholstery.ID.Should().Be(_repoUpholstery.ID);
         }
