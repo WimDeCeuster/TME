@@ -49,8 +49,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
                 .Returns(new List<Repository.Objects.SubModel> { repositorySubModel });
 
             _gradeService = A.Fake<IGradeService>();
-            A.CallTo(() => _gradeService.GetSubModelGrades(publication.ID, publicationTimeFrame.ID,repositorySubModel.ID ,context))
+<<<<<<< HEAD
+            A.CallTo(() => _gradeService.GetGrades(publication.ID, publicationTimeFrame.ID, context))
                 .Returns(new List<Repository.Objects.Grade> { _grade1, _grade2 });
+=======
+            A.CallTo(() => _gradeService.GetSubModelGrades(publication.ID, publicationTimeFrame.ID,repositorySubModel.ID ,context))
+                .Returns(new List<Repository.Objects.Grade>(){_grade1,_grade2});
+>>>>>>> 65a81f01ecac0ec274989260c0eb963bdc0ec4a9
 
             var gradeFactory = new GradeFactoryBuilder()
                 .WithGradeService(_gradeService)

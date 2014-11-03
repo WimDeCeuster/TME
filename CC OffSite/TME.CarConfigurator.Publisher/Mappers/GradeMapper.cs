@@ -51,7 +51,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         public Grade MapSubModelGrade(ModelGenerationGrade grade, ModelGenerationSubModel subModel,IEnumerable<Car> cars)
         {
             var generationGradeSubModel = grade.SubModels.Where(s => s.Name == subModel.Name).Single(s => s.SubModel.ID == subModel.ID);
-            var gradeCars = grade.Cars().ToArray();
+            var gradeCars = grade.Cars().Where(car => subModel.Cars().Any(subModelCar => subModelCar.ID == car.ID)).ToArray();
             var cheapestCar = cars.Where(car => gradeCars.Any(gradeCar => gradeCar.ID == car.ID))
                 .OrderBy(car => car.StartingPrice.IncludingVat)
                 .First();

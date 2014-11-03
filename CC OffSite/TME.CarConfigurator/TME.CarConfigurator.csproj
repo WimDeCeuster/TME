@@ -50,6 +50,7 @@
     <Compile Include="CarBodyType.cs" />
     <Compile Include="CarConfiguratorVersion.cs" />
     <Compile Include="CarInfo.cs" />
+    <Compile Include="Equipment\BestVisibleIn.cs" />
     <Compile Include="Equipment\Category.cs" />
     <Compile Include="Equipment\CategoryInfo.cs" />
     <Compile Include="Colours\ColourCombination.cs" />
@@ -75,6 +76,8 @@
     <Compile Include="Packs\GradePack.cs" />
     <Compile Include="Equipment\OptionInfo.cs" />
     <Compile Include="SubModel.cs" />
+    <Compile Include="SubModelGrade.cs" />
+    <Compile Include="SubModelGradeEquipment.cs" />
     <Compile Include="TransmissionType.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="Extensions\VisibleInModeAndViewExtensions.cs" />

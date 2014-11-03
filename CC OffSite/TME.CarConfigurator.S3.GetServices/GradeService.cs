@@ -29,5 +29,12 @@ namespace TME.CarConfigurator.S3.QueryServices
             var serializedObject = _service.GetObject(context.Brand, context.Country, key);
             return _serializer.Deserialise<IEnumerable<Grade>>(serializedObject);
         }
+
+        public IEnumerable<Grade> GetSubModelGrades(Guid publicationID, Guid publicationTimeFrameID, Guid subModelID, Context context)
+        {
+            var key = _keyManager.GetSubModelGradesKey(publicationID, publicationTimeFrameID, subModelID);
+            var serialisedObject = _service.GetObject(context.Brand, context.Country, key);
+            return _serializer.Deserialise<IEnumerable<Grade>>(serialisedObject);
+        }
     }
 }

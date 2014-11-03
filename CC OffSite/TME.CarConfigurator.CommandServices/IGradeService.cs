@@ -9,5 +9,6 @@ namespace TME.CarConfigurator.CommandServices
     public interface IGradeService
     {
         Task<Result> PutTimeFrameGenerationGrades(String brand, String country, Guid publicationID, Guid timeFrameID, IEnumerable<Grade> grades);
+        Task<Result> PutGradesPerSubModel(String brand, String country, Guid publicationID, Guid timeFrameID, Guid subModelID, List<Grade> gradesPerSubModel);
     }
 }
