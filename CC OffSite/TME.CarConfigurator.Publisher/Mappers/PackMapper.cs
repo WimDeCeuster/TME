@@ -41,7 +41,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 OptionalGradeFeature = gradePack.OptionalGradeFeature,
             };
             
-             _baseMapper.MapDefaultsWithSort(mappedGradePack, generationPack, generationPack);
+             _baseMapper.MapDefaultsWithSort(mappedGradePack, generationPack);
 
             mappedGradePack.LocalCode = gradePack.LocalCode; // basemapper falls back to internalcode by default, but this shouldn't happen for grade packs
 

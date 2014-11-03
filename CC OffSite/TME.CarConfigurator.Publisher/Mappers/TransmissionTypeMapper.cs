@@ -22,7 +22,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 SortIndex = 0,
             };
 
-            return _baseMapper.MapDefaults(mappedTransmissionType, transmissionType, transmissionType);
+            return _baseMapper.MapDefaults(mappedTransmissionType, transmissionType);
         }
     }
 }

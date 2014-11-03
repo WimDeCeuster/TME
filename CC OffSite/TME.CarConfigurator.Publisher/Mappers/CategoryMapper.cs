@@ -41,7 +41,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 SortIndex = GetSortIndex(category)
             };
 
-            return _baseMapper.MapDefaults(mappedCategory, category, category);
+            return _baseMapper.MapDefaults(mappedCategory, category);
         }
 
         /// <summary>

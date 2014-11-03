@@ -96,9 +96,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Type = MapUpholsteryType(modelGenerationUpholstery.Type)
             };
 
-            return _baseMapper.MapSortDefaults(
-                        _baseMapper.MapTranslateableDefaults(mappedUpholstery, modelGenerationUpholstery),
-                        modelGenerationUpholstery);
+            return _baseMapper.MapTranslateableDefaultsWithSort(mappedUpholstery, modelGenerationUpholstery);
         }
 
         UpholsteryType MapUpholsteryType(UpholsteryTypeInfo upholsteryTypeInfo)
