@@ -11,6 +11,7 @@ using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Equipment;
+using TME.CarConfigurator.Repository.Objects.Extensions;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
 using Car = TME.CarConfigurator.Administration.Car;
 using Model = TME.CarConfigurator.Administration.Model;
@@ -34,6 +35,7 @@ namespace TME.CarConfigurator.Publisher
         readonly IEquipmentMapper _equipmentMapper;
         readonly IPackMapper _packMapper;
         readonly IColourMapper _colourMapper;
+        readonly ICategoryMapper _categoryMapper;
 
         public Mapper(
             ITimeFrameMapper timeFrameMapper,
@@ -50,7 +52,8 @@ namespace TME.CarConfigurator.Publisher
             ISubModelMapper subModelMapper,
             IEquipmentMapper equipmentMapper,
             IPackMapper packMapper,
-            IColourMapper colourMapper)
+            IColourMapper colourMapper,
+            ICategoryMapper categoryMapper)
         {
             if (timeFrameMapper == null) throw new ArgumentNullException("timeFrameMapper");
             if (modelMapper == null) throw new ArgumentNullException("modelMapper");
@@ -66,6 +69,7 @@ namespace TME.CarConfigurator.Publisher
             if (subModelMapper == null) throw new ArgumentNullException("subModelMapper");
             if (equipmentMapper == null) throw new ArgumentNullException("equipmentMapper");
             if (packMapper == null) throw new ArgumentNullException("packMapper");
+            if (categoryMapper == null) throw new ArgumentNullException("categoryMapper");
 
             _timeFrameMapper = timeFrameMapper;
             _modelMapper = modelMapper;
@@ -82,6 +86,7 @@ namespace TME.CarConfigurator.Publisher
             _equipmentMapper = equipmentMapper;
             _packMapper = packMapper;
             _colourMapper = colourMapper;
+            _categoryMapper = categoryMapper;
         }
 
         public Task MapAsync(IContext context)
@@ -120,13 +125,14 @@ namespace TME.CarConfigurator.Publisher
                 FillTransmissions(cars, modelGeneration, contextData);
                 FillWheelDrives(cars, modelGeneration, contextData);
                 FillSteerings(cars, contextData);
-                FillColourCombinations(cars,modelGeneration, contextData, isPreview);
+                FillColourCombinations(cars, modelGeneration, contextData, isPreview);
                 FillCars(cars, contextData);
                 FillGrades(cars, modelGeneration, contextData);
                 FillCarAssets(cars, contextData, modelGeneration);
                 FillGradeEquipment(grades, modelGeneration, contextData, isPreview);
-                FillSubModels(grades,cars, modelGeneration, contextData, isPreview);
+                FillSubModels(grades, cars, modelGeneration, contextData, isPreview);
                 FillGradePacks(grades, contextData);
+                FillEquipmentCategories(cars, contextData);
 
                 context.TimeFrames[language] = _timeFrameMapper.GetTimeFrames(language, context);
             }
@@ -438,6 +444,19 @@ namespace TME.CarConfigurator.Publisher
 
                 contextData.GradePacks.Add(grade.ID, mappedGradePacks);
             }
+        }
+
+        private void FillEquipmentCategories(IEnumerable<Administration.Car> cars, ContextData contextData)
+        {
+            var allCategories = Administration.EquipmentCategories.GetEquipmentCategories()
+                                                                  .Flatten(category => category.Categories)
+                                                                  .ToList();
+
+            var applicableCategories = allCategories;
+            var mappedCategories = applicableCategories.Select(_categoryMapper.MapEquipmentCategory).ToList();
+
+            foreach (var mappedCategory in mappedCategories)
+                contextData.EquipmentCategories.Add(mappedCategory);
         }
     }
 }

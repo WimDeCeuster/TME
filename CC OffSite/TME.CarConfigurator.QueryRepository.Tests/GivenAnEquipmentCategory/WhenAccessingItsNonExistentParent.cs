@@ -10,22 +10,22 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
+using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Repository.Objects.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
 
-namespace TME.CarConfigurator.Query.Tests.GivenAGradeOption
+namespace TME.CategoryConfigurator.Query.Tests.GivenAnEquipmentCategory
 {
-    public class WhenAccessingItsNonExistingParentOptionInfo : TestBase
+    public class WhenAccessingItsNonExistentParent : TestBase
     {
-        IOptionInfo _optionInfo;
-        IGradeOption _option;
-
+        ICategory _category;
+        ICategory _parentCategory;
+        IEquipmentService _equipmentService;
+        
         protected override void Arrange()
         {
-            var repoOption = new GradeOptionBuilder()
-                .Build();
-
-            var repoGradeEquipment = new GradeEquipmentBuilder()
-                .WithOptions(repoOption)
+            var repoCategory = new EquipmentCategoryBuilder()
+                .WithId(Guid.NewGuid())
                 .Build();
 
             var publicationTimeFrame = new PublicationTimeFrameBuilder()
@@ -39,25 +39,25 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGradeOption
 
             var context = new ContextBuilder().Build();
 
-            var gradeEquipmentService = A.Fake<IEquipmentService>();
-            A.CallTo(() => gradeEquipmentService.GetGradeEquipment(A<Guid>._, A<Guid>._, A<Guid>._, A<Context>._)).Returns(repoGradeEquipment);
+            _equipmentService = A.Fake<IEquipmentService>();
+            A.CallTo(() => _equipmentService.GetCategories(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new [] { repoCategory });
 
-            var gradeEquipmentFactory = new EquipmentFactoryBuilder()
-                .WithEquipmentService(gradeEquipmentService)
+            var categoryFactory = new EquipmentFactoryBuilder()
+                .WithEquipmentService(_equipmentService)
                 .Build();
 
-            _option = gradeEquipmentFactory.GetGradeEquipment(publication, context, Guid.Empty).Options.Single();
+            _category = categoryFactory.GetCategories(publication, context).Single();
         }
 
         protected override void Act()
         {
-            _optionInfo = _option.ParentOption;
+            _parentCategory = _category.Parent;
         }
 
         [Fact]
-        public void ThenItShouldHaveTheOptionInfo()
+        public void ThenTheParentEquipmentShouldBeCorrect()
         {
-            _optionInfo.Should().Be(null);
+            _parentCategory.ID.Should().Be(Guid.Empty);
         }
     }
 }

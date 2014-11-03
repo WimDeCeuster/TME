@@ -24,6 +24,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         private List<Transmission> _transmissions = new List<Transmission>();
         private List<SubModel> _subModels = new List<SubModel>();
         private List<ColourCombination> _colourCombinations = new List<ColourCombination>();
+        private List<Category> _equipmentCategories = new List<Category>();
 
         public TimeFrameBuilder WithDateRange(DateTime from, DateTime until)
         {
@@ -99,6 +100,12 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public TimeFrameBuilder WithEquipmentCategories(params Category[] categories)
+        {
+            _equipmentCategories = categories.ToList();
+            return this;
+        }
+
         public TimeFrame Build()
         {
             return new TimeFrame(
@@ -114,7 +121,8 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
                 _gradeEquipments,
                 _gradePacks,
                 _subModels,
-                _colourCombinations);
+                _colourCombinations,
+                _equipmentCategories);
         }
     }
 }

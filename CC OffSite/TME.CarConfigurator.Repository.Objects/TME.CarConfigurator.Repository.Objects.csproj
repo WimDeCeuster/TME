@@ -63,6 +63,7 @@
     <Compile Include="Equipment\BestVisibleIn.cs" />
     <Compile Include="Equipment\Category.cs" />
     <Compile Include="Equipment\GradeEquipment.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Grade.cs" />
     <Compile Include="Enums\Visibility.cs" />
     <Compile Include="Equipment\Accessory.cs" />

@@ -19,7 +19,7 @@ namespace TME.CarConfigurator.DI
         private IGradeFactory _gradeFactory;
         private ICarFactory _carFactory;
         private ISubModelFactory _subModelFactory;
-        private IGradeEquipmentFactory _gradeEquipmentFactory;
+        private IEquipmentFactory _equipmentFactory;
         private IColourFactory _colourFactory;
         private IPackFactory _packFactory;
 
@@ -93,9 +93,9 @@ namespace TME.CarConfigurator.DI
             return this;
         }
 
-        public IModelFactoryFacade WithGradeEquipmentFactory(IGradeEquipmentFactory gradeEquipmentFactory)
+        public IModelFactoryFacade WithGradeEquipmentFactory(IEquipmentFactory gradeEquipmentFactory)
         {
-            _gradeEquipmentFactory = gradeEquipmentFactory;
+            _equipmentFactory = gradeEquipmentFactory;
 
             return this;
         }
@@ -118,7 +118,19 @@ namespace TME.CarConfigurator.DI
         {
             UseDefaultsWhenNoImplementationProvided();
 
-            return new ModelFactory(_modelService, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _steeringFactory, _gradeFactory, _carFactory, _subModelFactory, _colourFactory);
+            return new ModelFactory(
+                _modelService,
+                _publicationFactory,
+                _bodyTypeFactory,
+                _engineFactory,
+                _transmissionFactory,
+                _wheelDriveFactory,
+                _steeringFactory,
+                _gradeFactory,
+                _carFactory,
+                _subModelFactory,
+                _colourFactory,
+                _equipmentFactory);
         }
 
         private void UseDefaultsWhenNoImplementationProvided()
@@ -135,9 +147,9 @@ namespace TME.CarConfigurator.DI
             _wheelDriveFactory = _wheelDriveFactory ?? new WheelDriveFactory(_serviceFacade.CreateWheelDriveService(), _assetFactory);
             _steeringFactory = _steeringFactory ?? new SteeringFactory(_serviceFacade.CreateSteeringService());
             _colourFactory = _colourFactory ?? new ColourFactory(_serviceFacade.CreateColourService(), _assetFactory);
-            _gradeEquipmentFactory = _gradeEquipmentFactory ?? new GradeEquipmentFactory(_serviceFacade.CreateGradeEquipmentService(), _colourFactory);
+            _equipmentFactory = _equipmentFactory ?? new EquipmentFactory(_serviceFacade.CreateGradeEquipmentService(), _colourFactory);
             _packFactory = _packFactory ?? new PackFactory(_serviceFacade.CreatePackService());
-            _gradeFactory = _gradeFactory ?? new GradeFactory(_serviceFacade.CreateGradeService(), _assetFactory, _gradeEquipmentFactory, _packFactory);
+            _gradeFactory = _gradeFactory ?? new GradeFactory(_serviceFacade.CreateGradeService(), _assetFactory, _equipmentFactory, _packFactory);
             _carFactory = _carFactory ?? new CarFactory(_serviceFacade.CreateCarService(), _bodyTypeFactory, _engineFactory);
             _subModelFactory = _subModelFactory ?? new SubModelFactory(_serviceFacade.CreateSubModelService(), _assetFactory,_gradeFactory);
         }

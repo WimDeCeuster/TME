@@ -14,10 +14,10 @@ namespace TME.CarConfigurator.Factories
     {
         private readonly IGradeService _gradeService;
         private readonly IAssetFactory _assetFactory;
-        private readonly IGradeEquipmentFactory _gradeEquipmentFactory;
+        private readonly IEquipmentFactory _gradeEquipmentFactory;
         private readonly IPackFactory _packFactory;
 
-        public GradeFactory(IGradeService gradeService, IAssetFactory assetFactory, IGradeEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
+        public GradeFactory(IGradeService gradeService, IAssetFactory assetFactory, IEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
         {
             if (gradeService == null) throw new ArgumentNullException("gradeService");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");

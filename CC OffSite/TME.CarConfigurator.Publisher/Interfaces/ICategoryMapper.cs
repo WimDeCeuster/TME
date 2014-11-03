@@ -8,8 +8,9 @@ using TME.CarConfigurator.Repository.Objects.Equipment;
 
 namespace TME.CarConfigurator.Publisher.Interfaces
 {
-    public interface ICategoryInfoMapper
+    public interface ICategoryMapper
     {
         CategoryInfo MapEquipmentCategoryInfo(EquipmentCategoryInfo categoryInfo, Administration.EquipmentCategories categories);
+        Category MapEquipmentCategory(EquipmentCategory category);
     }
 }

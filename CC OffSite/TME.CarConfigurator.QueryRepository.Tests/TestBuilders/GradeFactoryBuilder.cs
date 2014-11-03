@@ -9,7 +9,7 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
     {
         private IGradeService _gradeService = A.Fake<IGradeService>();
         private IAssetFactory _assetFactory = A.Fake<IAssetFactory>();
-        private IGradeEquipmentFactory _gradeEquipmentFactory =  A.Fake<IGradeEquipmentFactory>();
+        private IEquipmentFactory _gradeEquipmentFactory =  A.Fake<IEquipmentFactory>();
         private IPackFactory _packFactory = A.Fake<IPackFactory>();
 
         public GradeFactoryBuilder WithGradeService(IGradeService gradeService)
@@ -26,7 +26,7 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
             return this;
         }
 
-        public GradeFactoryBuilder WithGradeEquipmentFactory(IGradeEquipmentFactory gradeEquipmentFactory)
+        public GradeFactoryBuilder WithGradeEquipmentFactory(IEquipmentFactory gradeEquipmentFactory)
         {
             _gradeEquipmentFactory = gradeEquipmentFactory;
 
