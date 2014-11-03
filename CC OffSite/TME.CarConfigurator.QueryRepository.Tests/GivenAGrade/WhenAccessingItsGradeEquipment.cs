@@ -18,7 +18,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
     {
         private IEnumerable<IGradeEquipmentItem> _equipment;
         private Repository.Objects.Equipment.GradeEquipment _repositoryGradeEquipment;
-        private IGradeEquipmentService _gradeEquipmentService;
+        private IEquipmentService _gradeEquipmentService;
         private IGrade _grade;
 
         protected override void Arrange()
@@ -50,11 +50,11 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
             var gradeService = A.Fake<IGradeService>();
             A.CallTo(() => gradeService.GetGrades(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new List<Repository.Objects.Grade> { repoGrade });
 
-            _gradeEquipmentService = A.Fake<IGradeEquipmentService>(opt => opt.Strict());
+            _gradeEquipmentService = A.Fake<IEquipmentService>(opt => opt.Strict());
             A.CallTo(() => _gradeEquipmentService.GetGradeEquipment(publication.ID, publicationTimeFrame.ID, repoGrade.ID, context)).Returns(_repositoryGradeEquipment);
 
-            var gradeEquipmentFactory = new GradeEquipmentFactoryBuilder()
-                .WithGradeEquipmentService(_gradeEquipmentService)
+            var gradeEquipmentFactory = new EquipmentFactoryBuilder()
+                .WithEquipmentService(_gradeEquipmentService)
                 .Build();
 
             var gradeFactory = new GradeFactoryBuilder()

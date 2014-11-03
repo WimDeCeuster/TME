@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Extensions;
 using TME.FrontEndViewer.Models;
 using TMME.CarConfigurator;
 
@@ -42,7 +43,6 @@ namespace TME.FrontEndViewer.Controllers
             };
         }
 
-
         private static ModelWithMetrics<IReadOnlyList<ICategory>> GetNewReaderModelWithMetrics(Context context, Guid modelID)
         {
             var start = DateTime.Now;
@@ -56,21 +56,9 @@ namespace TME.FrontEndViewer.Controllers
             };
         }
 
-
         private static IReadOnlyList<ICategory> GetList(IModel model)
         {
-            var list = new List<ICategory>();
-            AddToList(list, model.Equipment.Categories);
-            return list;
-        }
-
-        private static void AddToList(ICollection<ICategory> list, IEnumerable<ICategory> categories)
-        {
-            foreach (var category in categories)
-            {
-                list.Add(category);
-                AddToList(list, category.Categories);
-            }
+            return model.Equipment.Categories.Flatten(category => category.Categories).ToList();
         }
     }
 }

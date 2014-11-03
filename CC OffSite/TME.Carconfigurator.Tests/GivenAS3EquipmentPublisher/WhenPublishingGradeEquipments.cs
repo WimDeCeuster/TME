@@ -15,7 +15,7 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.S3.Publisher;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 
-namespace TME.Carconfigurator.Tests.GivenAS3GradeEquipmentPublisher
+namespace TME.Carconfigurator.Tests.GivenAS3EquipmentPublisher
 {
     public class WhenPublishingGenerationGradeEquipments : TestBase
     {
@@ -31,8 +31,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradeEquipmentPublisher
         const String _timeFrame3Grade4EquipmentsKey = "time frame 3 grade 4 equipments key";
         const String _timeFrame4Grade4EquipmentsKey = "time frame 1 grade 4 equipments key";
         IService _s3Service;
-        IGradeEquipmentService _service;
-        IGradeEquipmentPublisher _publisher;
+        IEquipmentService _service;
+        IEquipmentPublisher _publisher;
         IContext _context;
 
         protected override void Arrange()
@@ -96,8 +96,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradeEquipmentPublisher
             var serialiser = A.Fake<ISerialiser>();
             var keyManager = A.Fake<IKeyManager>();
 
-            _service = new GradeEquipmentService(_s3Service, serialiser, keyManager);
-            _publisher = new GradeEquipmentPublisherBuilder().WithService(_service).Build();
+            _service = new EquipmentService(_s3Service, serialiser, keyManager);
+            _publisher = new EquipmentPublisherBuilder().WithService(_service).Build();
 
             A.CallTo(() => serialiser.Serialise(A<GradeEquipment>._))
                 .Returns(_serialisedGradeEquipment);

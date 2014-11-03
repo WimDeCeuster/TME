@@ -8,9 +8,10 @@ using TME.CarConfigurator.Publisher.Common.Result;
 
 namespace TME.CarConfigurator.Publisher.Interfaces
 {
-    public interface IGradeEquipmentPublisher
+    public interface IEquipmentPublisher
     {
         Task<IEnumerable<Result>> PublishAsync(IContext context);
+        Task<IEnumerable<Result>> PublishCategoriesAsync(IContext context);
         Task<IEnumerable<Result>> PublishSubModelGradeEquipmentAsync(IContext context);
     }
 }

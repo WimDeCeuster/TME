@@ -47,13 +47,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGradeEquipmentItem
 
             var context = new ContextBuilder().Build();
 
-            var gradeEquipmentService = A.Fake<IGradeEquipmentService>();
+            var gradeEquipmentService = A.Fake<IEquipmentService>();
             A.CallTo(() => gradeEquipmentService.GetGradeEquipment(A<Guid>._, A<Guid>._, A<Guid>._, A<Context>._)).Returns(repoGradeEquipment);
 
             var colourFactory = new ColourFactoryBuilder().Build();
 
-            var gradeEquipmentFactory = new GradeEquipmentFactoryBuilder()
-                .WithGradeEquipmentService(gradeEquipmentService)
+            var gradeEquipmentFactory = new EquipmentFactoryBuilder()
+                .WithEquipmentService(gradeEquipmentService)
                 .WithColourFactory(colourFactory)
                 .Build();
 

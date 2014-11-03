@@ -17,7 +17,7 @@ namespace TME.CarConfigurator
         private readonly Repository.Objects.Publication _repositoryPublication;
         private readonly Repository.Objects.Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
-        private readonly IGradeEquipmentFactory _gradeEquipmentFactory;
+        private readonly IEquipmentFactory _gradeEquipmentFactory;
         private readonly IPackFactory _packFactory;
         private IReadOnlyList<IAsset> _fetchedAssets;
         private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
@@ -27,7 +27,7 @@ namespace TME.CarConfigurator
         Price _price;
         readonly IGrade _basedUponGrade;
 
-        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IGrade basedUponGrade, IAssetFactory assetFactory, IGradeEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
+        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IGrade basedUponGrade, IAssetFactory assetFactory, IEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
             : base(repositoryGrade)
         {
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");

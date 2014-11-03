@@ -29,6 +29,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IReadOnlyDictionary<Guid, IList<GradePack>> GradePacks { get; private set; }
         public IReadOnlyList<SubModel> SubModels { get; private set; }
         public IReadOnlyList<ColourCombination> ColourCombinations { get; private set; }
+        public IReadOnlyList<Category> EquipmentCategories { get; private set; }
 
         public readonly Guid ID;
 
@@ -45,7 +46,8 @@ namespace TME.CarConfigurator.Publisher.Common
             IReadOnlyDictionary<Guid, GradeEquipment> gradeEquipments,
             IReadOnlyDictionary<Guid, IList<GradePack>> gradePacks,
             IReadOnlyList<SubModel> subModels,
-            IReadOnlyList<ColourCombination> colourCombinations)
+            IReadOnlyList<ColourCombination> colourCombinations,
+            IReadOnlyList<Category> equipmentCategories)
         {
             if (cars == null) throw new ArgumentNullException("cars");
             if (bodyTypes == null) throw new ArgumentNullException("bodyTypes");
@@ -58,6 +60,8 @@ namespace TME.CarConfigurator.Publisher.Common
             if (gradePacks == null) throw new ArgumentNullException("gradePacks");
             if (subModels == null) throw new ArgumentNullException("subModels");
             if (colourCombinations == null) throw new ArgumentNullException("colourCombinations");
+            if (equipmentCategories == null) throw new ArgumentNullException("equipmentCategories");
+
 
             From = from;
             Until = until;
@@ -72,6 +76,7 @@ namespace TME.CarConfigurator.Publisher.Common
             Grades = grades;
             GradeEquipments = gradeEquipments;
             SubModels = subModels;
+            EquipmentCategories = equipmentCategories;
 
             ID = Guid.NewGuid();
         }

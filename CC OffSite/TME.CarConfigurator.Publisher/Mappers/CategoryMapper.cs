@@ -9,8 +9,17 @@ using TME.CarConfigurator.Repository.Objects.Equipment;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
-    public class CategoryInfoMapper : ICategoryInfoMapper
+    public class CategoryMapper : ICategoryMapper
     {
+        IBaseMapper _baseMapper;
+
+        public CategoryMapper(IBaseMapper baseMapper)
+        {
+            if (baseMapper == null) throw new ArgumentNullException("baseMapper");
+
+            _baseMapper = baseMapper;
+        }
+
         public CategoryInfo MapEquipmentCategoryInfo(Administration.EquipmentCategoryInfo categoryInfo, Administration.EquipmentCategories categories)
         {
             var category = categories.Find(categoryInfo.ID);
@@ -21,6 +30,18 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Path = GetPath(category).ToLowerInvariant(),
                 SortIndex = GetSortIndex(category)
             };
+        }
+
+        public Category MapEquipmentCategory(Administration.EquipmentCategory category)
+        {
+            var mappedCategory = new Category
+            {
+                ParentCategoryID = category.ParentCategory == null ? null : (Guid?)category.ParentCategory.ID,
+                Path = GetPath(category).ToLowerInvariant(),
+                SortIndex = GetSortIndex(category)
+            };
+
+            return _baseMapper.MapDefaults(mappedCategory, category, category);
         }
 
         /// <summary>
