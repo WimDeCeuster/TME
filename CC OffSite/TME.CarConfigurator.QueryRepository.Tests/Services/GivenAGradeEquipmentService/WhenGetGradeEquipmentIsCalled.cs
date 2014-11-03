@@ -51,7 +51,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAGradeEquipmentService
         }
 
         [Fact]
-        public void ThenItShouldReturnTheCorrectListOfAssets()
+        public void ThenItShouldReturnTheCorrectListOfEquipment()
         {
             _actualGradeEquipment.Should().BeSameAs(_expectedGradeEquipment);
         }
