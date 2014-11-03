@@ -77,6 +77,8 @@
     <Compile Include="Packs\Pack.cs" />
     <Compile Include="Steering.cs" />
     <Compile Include="SubModel.cs" />
+    <Compile Include="TechnicalSpecifications\Category.cs" />
+    <Compile Include="TechnicalSpecifications\CategoryInfo.cs" />
     <Compile Include="TransmissionType.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="Core\Label.cs" />

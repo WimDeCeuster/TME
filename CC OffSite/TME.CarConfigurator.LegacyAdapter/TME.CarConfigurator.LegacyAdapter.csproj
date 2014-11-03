@@ -92,6 +92,8 @@
     <Compile Include="Packs\GradePack.cs" />
     <Compile Include="Steering.cs" />
     <Compile Include="SubModel.cs" />
+    <Compile Include="TechnicalSpecifications\Category.cs" />
+    <Compile Include="TechnicalSpecifications\ModelTechnicalSpecifications.cs" />
     <Compile Include="WheelDrive.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="TransmissionType.cs" />
