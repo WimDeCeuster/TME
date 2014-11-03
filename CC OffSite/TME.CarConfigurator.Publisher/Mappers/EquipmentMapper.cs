@@ -20,10 +20,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
         readonly ILabelMapper _labelMapper;
         readonly ILinkMapper _linkMapper;
         readonly IVisibilityMapper _visibilityMapper;
-        readonly ICategoryInfoMapper _categoryInfoMapper;
+        ICategoryMapper _categoryInfoMapper;
         readonly IColourMapper _colourMapper;
 
-        public EquipmentMapper(IBaseMapper baseMapper, ILabelMapper labelMapper, ILinkMapper linkMapper, IVisibilityMapper visibilityMapper, ICategoryInfoMapper categoryInfoMapper, IColourMapper colourMapper)
+        public EquipmentMapper(IBaseMapper baseMapper, ILabelMapper labelMapper, ILinkMapper linkMapper, IVisibilityMapper visibilityMapper, ICategoryMapper categoryInfoMapper, IColourMapper colourMapper)
         {
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
             if (labelMapper == null) throw new ArgumentNullException("labelMapper");

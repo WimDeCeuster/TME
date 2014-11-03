@@ -17,18 +17,18 @@ namespace TME.CarConfigurator
         public readonly Repository.Objects.Publication _repositoryPublication;
         public readonly Repository.Objects.Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
-        public readonly IGradeEquipmentFactory _gradeEquipmentFactory;
+        private readonly IEquipmentFactory _gradeEquipmentFactory;
         private readonly IPackFactory _packFactory;
-        private IEnumerable<IAsset> _fetchedAssets;
-        private IEnumerable<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
+        private IReadOnlyList<IAsset> _fetchedAssets;
+        private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
+        private IGradeEquipment _equipment;
+        private IReadOnlyList<IGradePack> _packs;
         public IReadOnlyList<IGradeEquipmentItem> _equipmentItems;
-        public IGradeEquipment _gradeEquipment;
-        private IEnumerable<IGradePack> _packs;
 
         Price _price;
         readonly IGrade _basedUponGrade;
 
-        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IGrade basedUponGrade, IAssetFactory assetFactory, IGradeEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
+        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IGrade basedUponGrade, IAssetFactory assetFactory, IEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
             : base(repositoryGrade)
         {
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
@@ -50,7 +50,7 @@ namespace TME.CarConfigurator
 
         public IPrice StartingPrice { get { return _price = _price ?? new Price(RepositoryObject.StartingPrice); } }
 
-        public virtual IEnumerable<IVisibleInModeAndView> VisibleIn
+        public virtual IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
             get
             {
@@ -58,19 +58,20 @@ namespace TME.CarConfigurator
             }
         }
 
-        public virtual IEnumerable<IAsset> Assets { get { return _fetchedAssets = _fetchedAssets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
+        public virtual IReadOnlyList<IAsset> Assets { get { return _fetchedAssets = _fetchedAssets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
 
         public virtual IGradeEquipment GradeEquipment
         {
-            get { return _gradeEquipment = _gradeEquipment ?? _gradeEquipmentFactory.GetGradeEquipment(_repositoryPublication, _repositoryContext, ID); }
+            get { return _equipment = _equipment ?? _gradeEquipmentFactory.GetGradeEquipment(_repositoryPublication, _repositoryContext, ID); }
         }
 
         public virtual IEnumerable<IGradeEquipmentItem> Equipment
-        {
+	{
             get { return _equipmentItems = _equipmentItems ?? GradeEquipment.Accessories.Cast<IGradeEquipmentItem>().Concat(GradeEquipment.Options).ToList(); }
         }
 
-        public IEnumerable<IGradePack> Packs
+
+        public IReadOnlyList<IGradePack> Packs
         {
             get { return _packs = _packs ?? _packFactory.GetGradePacks(_repositoryPublication, _repositoryContext, RepositoryObject.ID); }
         }

@@ -45,7 +45,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 VisibleIn = _assetSetMapper.GetVisibility(generationGrade.AssetSet).ToList()
             };
 
-            return _baseMapper.MapDefaultsWithSort(mappedGrade, generationGrade, generationGrade);
+            return _baseMapper.MapDefaultsWithSort(mappedGrade, generationGrade);
         }
 
         public Grade MapSubModelGrade(ModelGenerationGrade grade, ModelGenerationSubModel subModel,IEnumerable<Car> cars)
@@ -68,7 +68,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 VisibleIn = _assetSetMapper.GetVisibility(grade.AssetSet).ToList()
             };
 
-            var mappedGradeForSubModelWithDefaults = _baseMapper.MapDefaultsWithSort(mappedGrade,grade,grade);
+            var mappedGradeForSubModelWithDefaults = _baseMapper.MapDefaultsWithSort(mappedGrade, grade);
 
             mappedGradeForSubModelWithDefaults.Name = SetTheCorrectSubModelGradeName(generationGradeSubModel, grade);
             mappedGradeForSubModelWithDefaults.LocalCode = String.Empty;

@@ -25,7 +25,7 @@ namespace TME.CarConfigurator.Equipment
         IReadOnlyList<ICarInfo> _optionalOn;
         IReadOnlyList<ICarInfo> _notAvailableOn;
 
-        public GradeEquipmentItem(T repositoryEquipmentItem, Publication publication, Context context, IColourFactory colourFactory)
+        protected GradeEquipmentItem(T repositoryEquipmentItem, Publication publication, Context context, IColourFactory colourFactory)
             : base(repositoryEquipmentItem)
         {
             if (publication == null) throw new ArgumentNullException("publication");

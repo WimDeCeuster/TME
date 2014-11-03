@@ -124,9 +124,12 @@
     <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheFirstTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsBasedUponGradeForTheSecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
+    <Compile Include="GivenAModelEquipment\WhenAccessingItsCategoriesForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarsForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarsForTheSecondTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsEquipmentForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsColourCombinationsForTheFirstTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsEquipmentForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsColourCombinationsForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsSteeringsForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsGradesForTheFirstTime.cs" />
@@ -169,6 +172,9 @@
     <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />
+    <Compile Include="GivenAnEquipmentCategory\WhenAccessingItsNonExistentParent.cs" />
+    <Compile Include="GivenAnEquipmentCategory\WhenAccessingItsParentForTheFirstTime.cs" />
+    <Compile Include="GivenAnEquipmentCategory\WhenAccessingItsParentForTheSecondTime.cs" />
     <Compile Include="GivenAnExteriorColour\WhenAccessingItsAssets.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -246,7 +252,7 @@
     <Compile Include="TestBuilders\ContextBuilder.cs" />
     <Compile Include="TestBuilders\EngineCategoryBuilder.cs" />
     <Compile Include="TestBuilders\ColourFactoryBuilder.cs" />
-    <Compile Include="TestBuilders\GradeEquipmentFactoryBuilder.cs" />
+    <Compile Include="TestBuilders\EquipmentFactoryBuilder.cs" />
     <Compile Include="TestBuilders\GradeFactoryBuilder.cs" />
     <Compile Include="TestBuilders\PackFactoryBuilder.cs" />
     <Compile Include="TestBuilders\SteeringFactoryBuilder.cs" />

@@ -11,6 +11,7 @@ using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Equipment;
+using TME.CarConfigurator.Repository.Objects.Extensions;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
 using Car = TME.CarConfigurator.Administration.Car;
 using Model = TME.CarConfigurator.Administration.Model;
@@ -34,6 +35,7 @@ namespace TME.CarConfigurator.Publisher
         readonly IEquipmentMapper _equipmentMapper;
         readonly IPackMapper _packMapper;
         readonly IColourMapper _colourMapper;
+        readonly ICategoryMapper _categoryMapper;
 
         public Mapper(
             ITimeFrameMapper timeFrameMapper,
@@ -50,7 +52,8 @@ namespace TME.CarConfigurator.Publisher
             ISubModelMapper subModelMapper,
             IEquipmentMapper equipmentMapper,
             IPackMapper packMapper,
-            IColourMapper colourMapper)
+            IColourMapper colourMapper,
+            ICategoryMapper categoryMapper)
         {
             if (timeFrameMapper == null) throw new ArgumentNullException("timeFrameMapper");
             if (modelMapper == null) throw new ArgumentNullException("modelMapper");
@@ -66,6 +69,7 @@ namespace TME.CarConfigurator.Publisher
             if (subModelMapper == null) throw new ArgumentNullException("subModelMapper");
             if (equipmentMapper == null) throw new ArgumentNullException("equipmentMapper");
             if (packMapper == null) throw new ArgumentNullException("packMapper");
+            if (categoryMapper == null) throw new ArgumentNullException("categoryMapper");
 
             _timeFrameMapper = timeFrameMapper;
             _modelMapper = modelMapper;
@@ -82,6 +86,7 @@ namespace TME.CarConfigurator.Publisher
             _equipmentMapper = equipmentMapper;
             _packMapper = packMapper;
             _colourMapper = colourMapper;
+            _categoryMapper = categoryMapper;
         }
 
         public Task MapAsync(IContext context)
@@ -120,13 +125,14 @@ namespace TME.CarConfigurator.Publisher
                 FillTransmissions(cars, modelGeneration, contextData);
                 FillWheelDrives(cars, modelGeneration, contextData);
                 FillSteerings(cars, contextData);
-                FillColourCombinations(cars,modelGeneration, contextData, isPreview);
+                FillColourCombinations(cars, modelGeneration, contextData, isPreview);
                 FillCars(cars, contextData);
                 FillGrades(cars, modelGeneration, contextData);
                 FillCarAssets(cars, contextData, modelGeneration);
                 FillGradeEquipment(grades, modelGeneration, contextData, isPreview);
-                FillSubModels(grades,cars, modelGeneration, contextData, isPreview);
+                FillSubModels(grades, cars, modelGeneration, contextData, isPreview);
                 FillGradePacks(grades, contextData);
+                FillEquipmentCategories(contextData);
 
                 context.TimeFrames[language] = _timeFrameMapper.GetTimeFrames(language, context);
             }
@@ -134,9 +140,6 @@ namespace TME.CarConfigurator.Publisher
 
         private static IEnumerable<KeyValuePair<string, Tuple<ModelGeneration, Model>>> GetModelGenerationForEachLanguage(String brand, String countryCode, Guid generationID)
         {
-            // Is ensuring a context can be retrieved by setting to the know global context necessary?
-            MyContext.SetSystemContext("Toyota", "ZZ", "en");
-
             var country = MyContext.GetContext().Countries.Single(ctry => ctry.Code == countryCode);
             return country.Languages.ToDictionary(lang => lang.Code, lang =>
             {
@@ -158,7 +161,9 @@ namespace TME.CarConfigurator.Publisher
                 .Concat(GetGradeAssets(modelGeneration))
                 .Concat(GetSubModelAssets(modelGeneration))
                 .Concat(GetColourCombinationAssets(modelGeneration))
-                .ToDictionary();
+                .ToDictionary(
+                    entry => entry.Key,
+                    entry => (IList<Asset>)entry.Value);
         }
 
         private void FillCarAssets(IEnumerable<Car> cars, ContextData contextData, ModelGeneration modelGeneration)
@@ -193,77 +198,77 @@ namespace TME.CarConfigurator.Publisher
             return assets.ContainsKey(objectId) ? assets[objectId] : new List<Asset>();
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetSubModelAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetSubModelAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.SubModels.ToDictionary(
                 subModel => subModel.ID,
-                subModel => (IList<Asset>)subModel.AssetSet.Assets.GetGenerationAssets()
+                subModel => subModel.AssetSet.Assets.GetGenerationAssets()
                     .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetColourCombinationAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetColourCombinationAssets(ModelGeneration modelGeneration)
         {
             return GetExteriorColourAssets(modelGeneration).Concat(GetUpholsteryAssets(modelGeneration));
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetExteriorColourAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetExteriorColourAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.ColourCombinations
                                   .ExteriorColours()
                                   .ToDictionary(
                                     colour => colour.ID,
-                                    colour => (IList<Asset>)colour.AssetSet.Assets.GetGenerationAssets()
+                                    colour => colour.AssetSet.Assets.GetGenerationAssets()
                                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetUpholsteryAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetUpholsteryAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.ColourCombinations
                                   .Upholsteries()
                                   .ToDictionary(
                                     upholstery => upholstery.ID,
-                                    upholstery => (IList<Asset>)upholstery.AssetSet.Assets.GetGenerationAssets()
+                                    upholstery => upholstery.AssetSet.Assets.GetGenerationAssets()
                                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetGradeAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetGradeAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.Grades.ToDictionary(
                 grade => grade.ID,
-                grade => (IList<Asset>)grade.AssetSet.Assets.GetGenerationAssets()
+                grade => grade.AssetSet.Assets.GetGenerationAssets()
                     .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetTransmissionAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetTransmissionAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.Transmissions.ToDictionary(
                 transmission => transmission.ID,
-                transmission => (IList<Asset>)transmission.AssetSet.Assets.GetGenerationAssets()
+                transmission => transmission.AssetSet.Assets.GetGenerationAssets()
                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetBodyTypeAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetBodyTypeAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.BodyTypes.ToDictionary(
                 bodytype => bodytype.ID,
-                bodytype => (IList<Asset>)bodytype.AssetSet.Assets.GetGenerationAssets()
+                bodytype => bodytype.AssetSet.Assets.GetGenerationAssets()
                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetEngineAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetEngineAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.Engines.ToDictionary(
                 engine => engine.ID,
-                engine => (IList<Asset>)engine.AssetSet.Assets
+                engine => engine.AssetSet.Assets
                                          .GetGenerationAssets()
                                          .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetWheelDriveAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetWheelDriveAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.WheelDrives.ToDictionary(
                 wheelDrive => wheelDrive.ID,
-                wheelDrive => (IList<Asset>)wheelDrive.AssetSet.Assets
+                wheelDrive => wheelDrive.AssetSet.Assets
                                          .GetGenerationAssets()
                                          .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
@@ -313,7 +318,8 @@ namespace TME.CarConfigurator.Publisher
                     .ToList();
 
             var index = 0;
-            foreach (var colourCombination in colourCombinations) {
+            foreach (var colourCombination in colourCombinations)
+            {
                 colourCombination.SortIndex = index++;
                 contextData.ColourCombinations.Add(colourCombination);
             }
@@ -328,7 +334,7 @@ namespace TME.CarConfigurator.Publisher
         private void FillSubModels(ModelGenerationGrade[] grades, IList<Car> cars, ModelGeneration modelGeneration, ContextData contextData, bool isPreview)
         {
             var applicableSubModels = modelGeneration.SubModels.Where(submodel => cars.Any(car => car.SubModelID == submodel.ID));
-            
+
             foreach (var modelGenerationSubModel in applicableSubModels)
             {
                 var subModelId = modelGenerationSubModel.ID;
@@ -375,7 +381,7 @@ namespace TME.CarConfigurator.Publisher
             foreach (var grade in applicableGrades)
             {
                 var mappedGrade = _gradeMapper.MapGenerationGrade(grade, contextData.Cars);
-                
+
                 contextData.Grades.Add(mappedGrade);
 
                 AddGradeToCar(cars, contextData, grade, mappedGrade);
@@ -455,6 +461,19 @@ namespace TME.CarConfigurator.Publisher
 
                 contextData.GradePacks.Add(grade.ID, mappedGradePacks);
             }
+        }
+
+        private void FillEquipmentCategories(ContextData contextData)
+        {
+            var allCategories = Administration.EquipmentCategories.GetEquipmentCategories()
+                                                                  .Flatten(category => category.Categories)
+                                                                  .ToList();
+
+            var applicableCategories = allCategories;
+            var mappedCategories = applicableCategories.Select(_categoryMapper.MapEquipmentCategory).ToList();
+
+            foreach (var mappedCategory in mappedCategories)
+                contextData.EquipmentCategories.Add(mappedCategory);
         }
     }
 }

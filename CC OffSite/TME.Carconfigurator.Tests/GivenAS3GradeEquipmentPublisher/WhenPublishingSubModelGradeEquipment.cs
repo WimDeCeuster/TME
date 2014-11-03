@@ -15,7 +15,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradeEquipmentPublisher
     public class WhenPublishingSubModelGradeEquipment : TestBase
     {
         private IContext _context;
-        private IGradeEquipmentPublisher _subModelGradeEquipmentPublisher;
+        private IEquipmentPublisher _subModelGradeEquipmentPublisher;
         private IService _s3Service;
         private const string TIME_FRAME_1_GRADE_1_SUBMODEL1_EQUIPMENTITEM_KEY = "Timeframe 1, Grade 1, Submodel 1, EquipmentKey";
         private const string TIME_FRAME_2_GRADE_1_SUBMODEL1_EQUIPMENTITEM_KEY = "Timeframe 2, Grade 1, Submodel 1, EquipmentKey";
@@ -113,9 +113,9 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradeEquipmentPublisher
 
             A.CallTo(() => keymanager.GetSubModelGradeEquipmentsKey(publication2.ID, timeFrame4.ID, grade4.ID, subModel4.ID)).Returns(TIME_FRAME_4_GRADE_4_SUBMODEL4_EQUIPMENTITEM_KEY);
 
-            var gradeEquipmentService = new GradeEquipmentService(_s3Service,serialiser,keymanager);
+            var gradeEquipmentService = new EquipmentService(_s3Service,serialiser,keymanager);
             _subModelGradeEquipmentPublisher =
-                new GradeEquipmentPublisherBuilder().WithService(gradeEquipmentService).Build();
+                new EquipmentPublisherBuilder().WithService(gradeEquipmentService).Build();
         }
 
         protected override void Act()

@@ -9,13 +9,13 @@ using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.S3.CommandServices
 {
-    public class GradeEquipmentService : IGradeEquipmentService
+    public class EquipmentService : IEquipmentService
     {
         readonly IService _service;
         readonly ISerialiser _serialiser;
         readonly IKeyManager _keyManager;
 
-        public GradeEquipmentService(IService service, ISerialiser serialiser, IKeyManager keyManager)
+        public EquipmentService(IService service, ISerialiser serialiser, IKeyManager keyManager)
         {
             _service = service;
             _serialiser = serialiser;
@@ -30,6 +30,18 @@ namespace TME.CarConfigurator.S3.CommandServices
 
             var path = _keyManager.GetGradeEquipmentsKey(publicationID, timeFrameID, gradeID);
             var value = _serialiser.Serialise(gradeEquipment);
+
+            return await _service.PutObjectAsync(brand, country, path, value);
+        }
+        
+        public async Task<Result> PutCategoriesAsync(String brand, String country, Guid publicationID, Guid timeFrameID, IEnumerable<Category> categories)
+        {
+            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand");
+            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
+            if (categories == null) throw new ArgumentNullException("categories");
+
+            var path = _keyManager.GetEquipmentCategoriesKey(publicationID, timeFrameID);
+            var value = _serialiser.Serialise(categories);
 
             return await _service.PutObjectAsync(brand, country, path, value);
         }

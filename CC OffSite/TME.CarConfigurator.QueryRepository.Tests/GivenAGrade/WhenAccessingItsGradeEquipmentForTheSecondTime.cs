@@ -16,10 +16,12 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
 {
     public class WhenAccessingItsGradeEquipmentForTheSecondTime : TestBase
     {
-        private IEnumerable<IGradeEquipmentItem> _equipmentItems1;
-        private IEnumerable<IGradeEquipmentItem> _equipmentItems2;
+        private IEnumerable<IGradeOption> _options1;
+        private IEnumerable<IGradeOption> _options2;
+        private IEnumerable<IGradeAccessory> _accessories1;
+        private IEnumerable<IGradeAccessory> _accessories2;
         private Repository.Objects.Equipment.GradeEquipment _repositoryGradeEquipment;
-        private IGradeEquipmentService _gradeEquipmentService;
+        private IEquipmentService _gradeEquipmentService;
         private IGrade _grade;
 
         protected override void Arrange()
@@ -51,11 +53,11 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
             var gradeService = A.Fake<IGradeService>();
             A.CallTo(() => gradeService.GetGrades(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new List<Repository.Objects.Grade> { repoGrade });
 
-            _gradeEquipmentService = A.Fake<IGradeEquipmentService>(opt => opt.Strict());
+            _gradeEquipmentService = A.Fake<IEquipmentService>(opt => opt.Strict());
             A.CallTo(() => _gradeEquipmentService.GetGradeEquipment(publication.ID, publicationTimeFrame.ID, repoGrade.ID, context)).Returns(_repositoryGradeEquipment);
 
-            var gradeEquipmentFactory = new GradeEquipmentFactoryBuilder()
-                .WithGradeEquipmentService(_gradeEquipmentService)
+            var gradeEquipmentFactory = new EquipmentFactoryBuilder()
+                .WithEquipmentService(_gradeEquipmentService)
                 .Build();
 
             var gradeFactory = new GradeFactoryBuilder()
@@ -64,12 +66,14 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
                 .Build();
 
             _grade = gradeFactory.GetGrades(publication, context).Single();
-            _equipmentItems1 = _grade.Equipment;
+            _options1 = _grade.Equipment.Options;
+            _accessories1 = _grade.Equipment.Accessories;
         }
 
         protected override void Act()
         {
-            _equipmentItems2 = _grade.Equipment;
+            _options2 = _grade.Equipment.Options;
+            _accessories2 = _grade.Equipment.Accessories;
         }
 
         [Fact]
@@ -81,7 +85,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
         [Fact]
         public void ThenItShouldBeTheSameList()
         {
-            _equipmentItems1.Should().BeSameAs(_equipmentItems2);
+            _options1.Should().BeSameAs(_options2);
+            _accessories2.Should().BeSameAs(_accessories2);
         }
     }
 }

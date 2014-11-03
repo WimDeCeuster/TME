@@ -14,17 +14,17 @@ using TME.CarConfigurator.S3.Publisher.Interfaces;
 
 namespace TME.CarConfigurator.S3.Publisher
 {
-    public class GradeEquipmentPublisher : IGradeEquipmentPublisher
+    public class EquipmentPublisher : IEquipmentPublisher
     {
-        readonly IGradeEquipmentService _gradeEquipmentService;
+        readonly IEquipmentService _equipmentService;
         readonly ITimeFramePublishHelper _timeFramePublishHelper;
 
-        public GradeEquipmentPublisher(IGradeEquipmentService gradeEquipmentService, ITimeFramePublishHelper timeFramePublishHelper)
+        public EquipmentPublisher(IEquipmentService equipmentService, ITimeFramePublishHelper timeFramePublishHelper)
         {
-            if (gradeEquipmentService == null) throw new ArgumentNullException("gradeEquipmentService");
+            if (equipmentService == null) throw new ArgumentNullException("equipmentService");
             if (timeFramePublishHelper == null) throw new ArgumentNullException("timeFramePublishHelper");
 
-            _gradeEquipmentService = gradeEquipmentService;
+            _equipmentService = equipmentService;
             _timeFramePublishHelper = timeFramePublishHelper;
         }
 
@@ -36,6 +36,13 @@ namespace TME.CarConfigurator.S3.Publisher
                 context,
                 timeFrame => timeFrame.GradeEquipments,
                 Publish);
+        }
+
+        public async Task<IEnumerable<Result>> PublishCategoriesAsync(IContext context)
+        {
+            if (context == null) throw new ArgumentNullException("context");
+
+            return await _timeFramePublishHelper.PublishList(context, timeFrame => timeFrame.EquipmentCategories, _equipmentService.PutCategoriesAsync);
         }
 
         public async Task<IEnumerable<Result>> PublishSubModelGradeEquipmentAsync(IContext context)
@@ -50,7 +57,7 @@ namespace TME.CarConfigurator.S3.Publisher
         async Task<IEnumerable<Result>> Publish(string brand, string country, Guid publicationId, Guid timeFrameId, IReadOnlyDictionary<Guid, GradeEquipment> gradeEquipments)
         {
             return await Task.WhenAll(gradeEquipments.Select(entry =>
-                _gradeEquipmentService.Put(brand, country, publicationId, timeFrameId, entry.Key, SortGradeEquipment(entry.Value))));
+                _equipmentService.Put(brand, country, publicationId, timeFrameId, entry.Key, SortGradeEquipment(entry.Value))));
         }
 
         async Task<IEnumerable<Result>> PublishSubModelGradeEquipmentAsync(string brand, string country, Guid publicationId, Guid timeFrameId,Guid subModelID,List<Grade> applicableGrades ,IDictionary<Guid, IDictionary<Guid, GradeEquipment>> gradeEquipments)
@@ -63,7 +70,7 @@ namespace TME.CarConfigurator.S3.Publisher
                 foreach (var applicableGrade in applicableGrades)
                 {
                     if (entry.Key == applicableGrade.ID)
-                        tasks.Add(_gradeEquipmentService.PutPerSubModel(brand, country, publicationId, timeFrameId,subModelID,entry.Key, SortGradeEquipment(entry.Value)));
+                        tasks.Add(_equipmentService.PutPerSubModel(brand, country, publicationId, timeFrameId,subModelID,entry.Key, SortGradeEquipment(entry.Value)));
                 }
             }
             return await Task.WhenAll(tasks);
