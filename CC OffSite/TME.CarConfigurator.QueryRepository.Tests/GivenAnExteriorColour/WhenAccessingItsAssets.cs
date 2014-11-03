@@ -48,9 +48,6 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnExteriorColour
 
             var context = new ContextBuilder().Build();
 
-            var colourService = A.Fake<IColourService>();
-            A.CallTo(() => colourService.GetExteriorColours(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new [] { repoExteriorColour });
-
             _assetService = A.Fake<IAssetService>();
             A.CallTo(() => _assetService.GetAssets(publication.ID, repoExteriorColour.ID, context)).Returns(new List<Repository.Objects.Assets.Asset> { _asset1, _asset2 });
 
@@ -58,12 +55,11 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnExteriorColour
                 .WithAssetService(_assetService)
                 .Build();
 
-            var exteriorColourFactory = new ExteriorColourFactoryBuilder()
-                .WithExteriorColourService(colourService)
+            var colourFactory = new ColourFactoryBuilder()
                 .WithAssetFactory(assetFactory)
                 .Build();
 
-            _exteriorColour = exteriorColourFactory.GetExteriorColours(publication, context).Single();
+            _exteriorColour = colourFactory.GetExteriorColour(repoExteriorColour, publication, context);
         }
 
         protected override void Act()

@@ -1,0 +1,21 @@
+﻿@model IEnumerable<TME.CarConfigurator.Interfaces.ICarPart>
+
+@foreach (var model in Model)
+{
+    <div class="object" data-id="@Html.Raw(model.Code)">
+        <div class="title">
+            <strong>@Html.Raw(model.Name)</strong>
+        </div>
+        <div class="content">
+            <p class="property" data-id="Code">Code : @Html.Raw(model.Code)</p>
+            <p class="property" data-id="Name">Name : @Html.Raw(model.Name)</p>
+            <p class="property" data-id="actionlinks">
+                @foreach (var visibleInModeAndView in model.VisibleIn.Where(x=>x.Assets.Any()))
+                {
+                    @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View), "Index", "ModelCarPartVisibleInAssets", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, part = model.Code, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View }, new { })
+                    @Html.Raw(" | ")
+                }
+            </p>
+        </div>
+    </div>
+}

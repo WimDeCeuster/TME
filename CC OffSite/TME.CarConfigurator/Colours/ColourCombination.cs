@@ -42,7 +42,7 @@ namespace TME.CarConfigurator.Colours
 
         public IUpholstery Upholstery
         {
-            get { return _upholstery = _upholstery ?? _colourFactory.GetUpholstery(_repositoryColourCombination.Upholstery); }
+            get { return _upholstery = _upholstery ?? _colourFactory.GetUpholstery(_repositoryColourCombination.Upholstery, _publication, _context); }
         }
 
         public int SortIndex

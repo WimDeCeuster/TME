@@ -32,9 +32,9 @@ namespace TME.CarConfigurator.Factories
                                   .ToList();
         }
 
-        public IUpholstery GetUpholstery(Repository.Objects.Colours.Upholstery repositoryUpholstery)
+        public IUpholstery GetUpholstery(Repository.Objects.Colours.Upholstery repositoryUpholstery, Publication publication, Context context)
         {
-            return new Upholstery(repositoryUpholstery);
+            return new Upholstery(repositoryUpholstery, publication, context, _assetFactory);
         }
 
         public IExteriorColour GetExteriorColour(Repository.Objects.Colours.ExteriorColour repositoryExteriorColour, Publication publication, Context context)

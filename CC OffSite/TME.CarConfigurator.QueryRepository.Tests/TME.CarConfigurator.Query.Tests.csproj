@@ -169,8 +169,16 @@
     <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />
+    <Compile Include="GivenAnExteriorColour\WhenAccessingItsAssets.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GivenAnExteriorColour\WhenAccessingItsAssetsASecondTime.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GivenAnExteriorColour\WhenAccessingItsExteriorColourTypeForTheFirstTime.cs" />
     <Compile Include="GivenAnExteriorColour\WhenAccessingItsExteriorColourTypeForTheSecondTime.cs" />
+    <Compile Include="GivenAnUpholstery\WhenAccessingItsAssets.cs" />
+    <Compile Include="GivenAnUpholstery\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenAnUpholstery\WhenAccessingItsUpholsteryTypeForTheFirstTime.cs" />
     <Compile Include="GivenAnUpholstery\WhenAccessingItsUpholsteryTypeForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheFirstTime.cs" />

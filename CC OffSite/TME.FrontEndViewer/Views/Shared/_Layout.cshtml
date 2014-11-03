@@ -25,7 +25,8 @@
             })
         }
 
-        $('.object').each(function () {
+        // link objects and find mismatches
+        $('.object:not(.ignore-compare)').each(function () {
             var object = $(this)
             if (object.data('linked-item'))
                 return
@@ -54,17 +55,6 @@
                 }
                 return
             }
-
-            if (object.index() !== linkedObject.index()) {
-                object.addClass('wrong-order')
-                linkedObject.addClass('wrong-order')
-                if (!parentObjects.is(object)) {
-                    parentObjects.each(function (i, parent) {
-                        $(parent).addClass('wrong-order-sub-item')
-                    })
-                }
-            }
-
 
             object.data('linked-item', linkedObject)
             linkedObject.data('linked-item', object)
@@ -102,6 +92,28 @@
                         object.addClass('mismatch')
                 }
             })
+        })
+
+        //move missing objects down
+        $('.object.missing:not(.ignore-compare)').each(function () {
+            var object = $(this)
+            object.appendTo(object.parent())
+        })
+
+        //compare order of non-missing objects
+        $('.object:not(.missing, .ignore-compare)').each(function () {
+            var object = $(this)
+            var linkedObject = object.data('linked-item')
+
+            if (object.index() !== linkedObject.index()) {
+                object.addClass('wrong-order')
+                linkedObject.addClass('wrong-order')
+                if (!parentObjects.is(object)) {
+                    parentObjects.each(function (i, parent) {
+                        $(parent).addClass('wrong-order-sub-item')
+                    })
+                }
+            }
         })
 
         function findMatchingObject(object, linkedSelector) {

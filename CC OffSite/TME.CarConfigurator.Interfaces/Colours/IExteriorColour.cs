@@ -10,6 +10,6 @@ namespace TME.CarConfigurator.Interfaces.Colours
         IColourTransformation Transformation { get; }
         IExteriorColourType Type { get; }
 
-        IEnumerable<IAsset> Assets { get; }
+        IReadOnlyList<IAsset> Assets { get; }
     }
 }

@@ -37,7 +37,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
             get { return new ExteriorColourType(Adaptee.Type); }
         }
 
-        public IEnumerable<IAsset> Assets
+        public IReadOnlyList<IAsset> Assets
         {
             get { return Adaptee.Assets.GetPlainAssets(); }
         }

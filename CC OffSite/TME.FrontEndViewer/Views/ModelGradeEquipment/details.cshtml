@@ -1,56 +1,62 @@
 ﻿@model TME.FrontEndViewer.Models.GradeEquipmentModel
 
 <h3>Accessories</h3>
-@foreach (var model in Model.Accessories.OrderBy(x=>x.SortIndex).ThenBy(x=>x.Name).ThenBy(x=>x.InternalCode))
-{
-    <div class="object" data-id="@(model.ID)">
-        <div class="title">
-            <strong>@Html.Raw(model.Name)</strong>
+<div>
+    @foreach (var model in Model.Accessories.OrderBy(x => x.SortIndex).ThenBy(x => x.Name).ThenBy(x => x.InternalCode))
+    {
+        <div class="object" data-id="@(model.ID)">
+            <div class="title">
+                <strong>@Html.Raw(model.Name)</strong>
+            </div>
+            <div class="content">
+                @Html.Partial("Equipment/_gradeEquipmentItem", model)
+            </div>
         </div>
-        <div class="content">
-            @Html.Partial("Equipment/_gradeEquipmentItem", model)
-        </div>
-    </div>
-}
+    }
+</div>
 
 <h3>Options</h3>
-@foreach (var model in Model.Options.OrderBy(x=>x.SortIndex).ThenBy(x=>x.Name).ThenBy(x=>x.InternalCode))
-{
-    <div class="object" data-id="@(model.ID)">
-        <div class="title">
-            <strong>@Html.Raw(model.Name)</strong>
-        </div>
-        <div class="content">
-            <p class="property allow-mismatch" data-id="TechnologyItem">TechnologyItem : @Html.Raw(model.TechnologyItem)</p>
-            @Html.Partial("Equipment/_gradeEquipmentItem", model)
-            @if(model.ParentOption != null)
-            { 
-                <div class="object" data-id="@(model.ID)">
-                    <div class="title">
-                        <strong>@Html.Raw(model.Name)</strong>
+<div>
+    @foreach (var model in Model.Options.OrderBy(x => x.SortIndex).ThenBy(x => x.Name).ThenBy(x => x.InternalCode))
+    {
+        <div class="object" data-id="@(model.ID)">
+            <div class="title">
+                <strong>@Html.Raw(model.Name)</strong>
+            </div>
+            <div class="content">
+                <p class="property allow-mismatch" data-id="TechnologyItem">TechnologyItem : @Html.Raw(model.TechnologyItem)</p>
+                @Html.Partial("Equipment/_gradeEquipmentItem", model)
+                @if (model.ParentOption != null)
+                {
+                    <div class="object" data-id="@(model.ID)">
+                        <div class="title">
+                            <strong>@Html.Raw(model.Name)</strong>
+                        </div>
+                        <div class="content">
+                            @Html.Partial("Equipment/_optionInfo", model.ParentOption)
+                        </div>
                     </div>
-                    <div class="content">
-                        @Html.Partial("Equipment/_optionInfo", model.ParentOption)
-                    </div>
-                </div>
-            }
-            else
-            {
-                <p class="property" data-id="ParentOption">ParentOption : @Html.Raw(model.ParentOption)</p>
-            }
+                }
+                else
+                {
+                    <p class="property" data-id="ParentOption">ParentOption : @Html.Raw(model.ParentOption)</p>
+                }
+            </div>
         </div>
-    </div>
-}
+    }
+</div>
 
 <h3>Rest</h3>
-@foreach (var model in Model.Rest.OrderBy(x => x.SortIndex).ThenBy(x => x.Name).ThenBy(x => x.InternalCode))
-{
-    <div class="object" data-id="@(model.ID)">
-        <div class="title">
-            <strong>@Html.Raw(model.Name)</strong>
+<div>
+    @foreach (var model in Model.Rest.OrderBy(x => x.SortIndex).ThenBy(x => x.Name).ThenBy(x => x.InternalCode))
+    {
+        <div class="object" data-id="@(model.ID)">
+            <div class="title">
+                <strong>@Html.Raw(model.Name)</strong>
+            </div>
+            <div class="content">
+                @Html.Partial("Equipment/_gradeEquipmentItem", model)
+            </div>
         </div>
-        <div class="content">
-            @Html.Partial("Equipment/_gradeEquipmentItem", model)
-        </div>
-    </div>
-}
+    }
+</div>
