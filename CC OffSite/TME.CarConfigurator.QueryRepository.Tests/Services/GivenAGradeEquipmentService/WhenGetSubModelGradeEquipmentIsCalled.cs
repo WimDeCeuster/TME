@@ -16,7 +16,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAGradeEquipmentService
     {
         private Repository.Objects.Equipment.GradeEquipment _actualGradeEquipment;
         private Repository.Objects.Equipment.GradeEquipment _expectedSubModelGradeEquipment;
-        private IEquipmentService _gradeEquipmentService;
+        private IEquipmentService _equipmentService;
         private Context _context;
 
         protected override void Arrange()
@@ -41,12 +41,12 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAGradeEquipmentService
                 .WithSerializer(serialiser)
                 .WithKeyManager(keyManager);
 
-            _gradeEquipmentService = serviceFacade.CreateGradeEquipmentService();
+            _equipmentService = serviceFacade.CreateEquipmentService();
         }
 
         protected override void Act()
         {
-            _actualGradeEquipment = _gradeEquipmentService.GetSubModelGradeEquipment(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),Guid.NewGuid(), _context);
+            _actualGradeEquipment = _equipmentService.GetSubModelGradeEquipment(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),Guid.NewGuid(), _context);
         }
 
         [Fact]

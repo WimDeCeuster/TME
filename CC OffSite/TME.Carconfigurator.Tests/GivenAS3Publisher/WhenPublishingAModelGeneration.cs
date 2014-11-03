@@ -39,6 +39,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         private ICarPublisher _carPublisher;
         private ISubModelPublisher _subModelPublisher;
         private IEquipmentPublisher _equipmentPublisher;
+        private ISpecificationsPublisher _specificationsPublisher;
         private IColourPublisher _colourCombinationPublisher;
         private IAssetPublisher _assetPublisher;
         private IGradePackPublisher _gradePackPublisher;
@@ -58,6 +59,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             _assetPublisher = A.Fake<IAssetPublisher>(x => x.Strict());
             _subModelPublisher = A.Fake<ISubModelPublisher>(x => x.Strict());
             _equipmentPublisher = A.Fake<IEquipmentPublisher>(x => x.Strict());
+            _specificationsPublisher = A.Fake<ISpecificationsPublisher>(x => x.Strict());
             _gradePackPublisher = A.Fake<IGradePackPublisher>(x => x.Strict());
             _colourCombinationPublisher = A.Fake<IColourPublisher>(x => x.Strict());
 
@@ -80,6 +82,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
                 .WithAssetPublisher(_assetPublisher)
                 .WithSubModelPublisher(_subModelPublisher)
                 .WithEquipmentPublisher(_equipmentPublisher)
+                .WithSpecificationsPublisher(_specificationsPublisher)
                 .WithGradePackPublisher(_gradePackPublisher)
                 .WithColourCombinationPublisher(_colourCombinationPublisher)
                 .Build();
@@ -148,6 +151,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => _equipmentPublisher.PublishAsync(_context)).Returns(successFullTasks);
             A.CallTo(() => _equipmentPublisher.PublishCategoriesAsync(_context)).Returns(successFullTasks);
             A.CallTo(() => _equipmentPublisher.PublishSubModelGradeEquipmentAsync(_context)).Returns(successFullTasks);
+            A.CallTo(() => _specificationsPublisher.PublishCategoriesAsync(_context)).Returns(successFullTasks);
             A.CallTo(() => _gradePackPublisher.PublishAsync(_context)).Returns(successFullTasks);
             A.CallTo(() => _colourCombinationPublisher.PublishGenerationColourCombinations(_context)).Returns(successFullTasks);
         }
@@ -246,6 +250,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         public void ThenItShouldPublishEquipmentCategories()
         {
             A.CallTo(() => _equipmentPublisher.PublishCategoriesAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
+        public void ThenItShouldPublishSpecificationCategories()
+        {
+            A.CallTo(() => _specificationsPublisher.PublishCategoriesAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
     }
 }

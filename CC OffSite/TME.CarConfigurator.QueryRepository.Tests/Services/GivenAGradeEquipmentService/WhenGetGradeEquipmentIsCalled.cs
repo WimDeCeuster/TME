@@ -42,7 +42,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAGradeEquipmentService
                 .WithSerializer(serialiser)
                 .WithKeyManager(keyManager);
 
-            _gradeEquipmentService = serviceFacade.CreateGradeEquipmentService();
+            _gradeEquipmentService = serviceFacade.CreateEquipmentService();
         }
 
         protected override void Act()

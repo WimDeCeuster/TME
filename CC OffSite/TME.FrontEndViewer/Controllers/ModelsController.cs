@@ -80,7 +80,7 @@ namespace TME.FrontEndViewer.Controllers
             {
                 list = CarConfigurator.DI.Models.GetModels(context).ToList();
             }
-            catch (CountryLanguageCombinationDoesNotExistException e)
+            catch (CountryLanguageCombinationDoesNotExistException)
             {
                 list = new List<IModel>();
             }

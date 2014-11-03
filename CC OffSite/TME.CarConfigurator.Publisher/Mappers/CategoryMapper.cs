@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Repository.Objects.Equipment;
+using EquipmentCategoryInfo = TME.CarConfigurator.Repository.Objects.Equipment.CategoryInfo;
+using EquipmentCategory = TME.CarConfigurator.Repository.Objects.Equipment.Category;
+using SpecificationCategory = TME.CarConfigurator.Repository.Objects.TechnicalSpecifications.Category;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
@@ -20,25 +22,37 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _baseMapper = baseMapper;
         }
 
-        public CategoryInfo MapEquipmentCategoryInfo(Administration.EquipmentCategoryInfo categoryInfo, Administration.EquipmentCategories categories)
+        public EquipmentCategoryInfo MapEquipmentCategoryInfo(Administration.EquipmentCategoryInfo categoryInfo, Administration.EquipmentCategories categories)
         {
             var category = categories.Find(categoryInfo.ID);
 
-            return new CategoryInfo
+            return new EquipmentCategoryInfo
             {
                 ID = category.ID,
-                Path = GetPath(category).ToLowerInvariant(),
-                SortIndex = GetSortIndex(category)
+                Path = GetPath(category, cat => cat.ParentCategory),
+                SortIndex = GetSortIndex(category, cat => cat.ParentCategory, cat => cat.Categories)
             };
         }
 
-        public Category MapEquipmentCategory(Administration.EquipmentCategory category)
+        public EquipmentCategory MapEquipmentCategory(Administration.EquipmentCategory category)
         {
-            var mappedCategory = new Category
+            var mappedCategory = new EquipmentCategory
             {
                 ParentCategoryID = category.ParentCategory == null ? null : (Guid?)category.ParentCategory.ID,
-                Path = GetPath(category).ToLowerInvariant(),
-                SortIndex = GetSortIndex(category)
+                Path = GetPath(category, cat => cat.ParentCategory),
+                SortIndex = GetSortIndex(category, cat => cat.ParentCategory, cat => cat.Categories)
+            };
+
+            return _baseMapper.MapDefaults(mappedCategory, category);
+        }
+
+        public SpecificationCategory MapSpecificationCategory(Administration.SpecificationCategory category)
+        {
+            var mappedCategory = new SpecificationCategory
+            {
+                ParentCategoryID = category.ParentCategory == null ? null : (Guid?)category.ParentCategory.ID,
+                Path = GetPath(category, cat => cat.ParentCategory),
+                SortIndex = GetSortIndex(category, cat => cat.ParentCategory, cat => cat.Categories) - 1
             };
 
             return _baseMapper.MapDefaults(mappedCategory, category);
@@ -47,36 +61,44 @@ namespace TME.CarConfigurator.Publisher.Mappers
         /// <summary>
         /// Get the translated path
         /// </summary>
-        static String GetPath(Administration.EquipmentCategory category)
+        static String GetPath<T>(T category, Func<T, T> getParent)
+            where T : Administration.BaseObjects.TranslateableBusinessBase
         {
-            var name = category.Translation.Name.DefaultIfEmpty(category.Name) ;
-            var parentPath = category.ParentCategory == null ? "" : GetPath(category.ParentCategory);
-            return String.IsNullOrWhiteSpace(parentPath) ? name : String.Format("{0}/{1}", GetPath(category.ParentCategory), name);
+            var name = category.Translation.Name.DefaultIfEmpty(category.BaseName);
+            var parent = getParent(category);
+            var parentPath = parent == null ? "" : GetPath(parent, getParent);
+            var fullPath = String.IsNullOrWhiteSpace(parentPath) ? name : String.Format("{0}/{1}", GetPath(parent, getParent), name);
+            return fullPath.ToLowerInvariant();
         }
 
         /// <summary>
         /// Get the flattened index
         /// </summary>
-        static Int32 GetSortIndex(Administration.EquipmentCategory category)
+        static Int32 GetSortIndex<T>(T category, Func<T, T> getParent, Func<T, IReadOnlyList<T>> getDescendants)
+            where T : Administration.BaseObjects.ISortedIndex
         {
-            var siblingDescendantCount = GetPreviousSiblings(category).Sum(sibling => GetDescendantCount(sibling));
+            var siblingDescendantCount = GetPreviousSiblings(category, getParent(category), getDescendants).Sum(sibling => GetDescendantCount(sibling, getDescendants));
 
             var index = category.Index + siblingDescendantCount;
+            var parentCategory = getParent(category);
 
-            return category.ParentCategory == null ? index : index + GetSortIndex(category.ParentCategory) + 1;
+            return parentCategory == null ? index : index + GetSortIndex(parentCategory, getParent, getDescendants) + 1;
         }
 
-        static IEnumerable<Administration.EquipmentCategory> GetPreviousSiblings(Administration.EquipmentCategory category)
+        static IEnumerable<T> GetPreviousSiblings<T>(T category, T parent, Func<T, IReadOnlyList<T>> getDescendants)
+            where T : Administration.BaseObjects.ISortedIndex
         {
-            if (category.ParentCategory == null)
-                return new List<Administration.EquipmentCategory>();
+            if (parent == null)
+                return new List<T>();
             else
-                return category.ParentCategory.Categories.Where(sibling => sibling.Index < category.Index);
+                return getDescendants(parent).Where(sibling => sibling.Index < category.Index);
         }
 
-        static Int32 GetDescendantCount(Administration.EquipmentCategory category)
+        static Int32 GetDescendantCount<T>(T category, Func<T, IReadOnlyList<T>> getDescendants)
+            where T : Administration.BaseObjects.ISortedIndex
         {
-            return category.Categories.Count + category.Categories.Sum(child => GetDescendantCount(child));
+            var descendants = getDescendants(category);
+            return descendants.Count + descendants.Sum(child => GetDescendantCount(child, getDescendants));
         }
     }
 }

@@ -61,6 +61,7 @@
     <Compile Include="Extensions\VisibilityExtensions.cs" />
     <Compile Include="Colours\ExteriorColour.cs" />
     <Compile Include="Colours\ExteriorColourType.cs" />
+    <Compile Include="Factories\SpecificationsFactory.cs" />
     <Compile Include="Factories\EquipmentFactory.cs" />
     <Compile Include="Factories\ColourFactory.cs" />
     <Compile Include="Factories\GradeFactory.cs" />
@@ -76,6 +77,8 @@
     <Compile Include="Packs\GradePack.cs" />
     <Compile Include="Equipment\OptionInfo.cs" />
     <Compile Include="SubModel.cs" />
+    <Compile Include="TechnicalSpecifications\Category.cs" />
+    <Compile Include="TechnicalSpecifications\ModelTechnicalSpecifications.cs" />
     <Compile Include="SubModelGrade.cs" />
     <Compile Include="SubModelGradeEquipment.cs" />
     <Compile Include="TransmissionType.cs" />
