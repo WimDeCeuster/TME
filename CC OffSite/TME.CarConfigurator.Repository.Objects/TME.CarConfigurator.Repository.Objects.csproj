@@ -53,6 +53,7 @@
     <Compile Include="Assets\Enums\Scope.cs" />
     <Compile Include="Assets\FileType.cs" />
     <Compile Include="Assets\VisibleInModeAndView.cs" />
+    <Compile Include="CarPart.cs" />
     <Compile Include="Colours\ColourCombination.cs" />
     <Compile Include="Colours\ColourTransformation.cs" />
     <Compile Include="Colours\Upholstery.cs" />
@@ -77,6 +78,8 @@
     <Compile Include="Packs\Pack.cs" />
     <Compile Include="Steering.cs" />
     <Compile Include="SubModel.cs" />
+    <Compile Include="TechnicalSpecifications\Category.cs" />
+    <Compile Include="TechnicalSpecifications\CategoryInfo.cs" />
     <Compile Include="TransmissionType.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="Core\Label.cs" />

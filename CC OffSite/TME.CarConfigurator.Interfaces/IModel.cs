@@ -3,6 +3,7 @@ using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.Interfaces.TechnicalSpecifications;
 
 namespace TME.CarConfigurator.Interfaces
 {
@@ -28,5 +29,6 @@ namespace TME.CarConfigurator.Interfaces
         IReadOnlyList<IColourCombination> ColourCombinations { get; }
         // ReSharper restore ReturnTypeCanBeEnumerable.Global
         IModelEquipment Equipment { get; }
+        IModelTechnicalSpecifications TechnicalSpecifications { get; }
     }
 }

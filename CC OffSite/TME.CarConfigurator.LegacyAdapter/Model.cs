@@ -5,7 +5,9 @@ using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.Interfaces.TechnicalSpecifications;
 using TME.CarConfigurator.LegacyAdapter.Equipment;
+using TME.CarConfigurator.LegacyAdapter.TechnicalSpecifications;
 using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter
@@ -127,6 +129,11 @@ namespace TME.CarConfigurator.LegacyAdapter
         public IModelEquipment Equipment
         {
             get { return new ModelEquipment();}
+        }
+
+        public IModelTechnicalSpecifications TechnicalSpecifications
+        {
+            get { return new ModelTechnicalSpecifications(); }
         }
     }
 }
