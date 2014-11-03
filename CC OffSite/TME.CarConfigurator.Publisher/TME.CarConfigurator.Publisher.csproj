@@ -96,6 +96,7 @@
     <Compile Include="Interfaces\IBaseMapper.cs" />
     <Compile Include="Interfaces\IEngineCategoryMapper.cs" />
     <Compile Include="Interfaces\IEngineMapper.cs" />
+    <Compile Include="Interfaces\ISpecificationPublisher.cs" />
     <Compile Include="Interfaces\IEquipmentPublisher.cs" />
     <Compile Include="Interfaces\IEquipmentMapper.cs" />
     <Compile Include="Interfaces\IGradePackPublisher.cs" />

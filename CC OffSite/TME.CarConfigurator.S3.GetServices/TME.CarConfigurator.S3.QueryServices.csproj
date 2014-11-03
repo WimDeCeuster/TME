@@ -43,6 +43,7 @@
     <Compile Include="BodyTypeService.cs" />
     <Compile Include="ColourService.cs" />
     <Compile Include="CarService.cs" />
+    <Compile Include="SpecificationsService.cs" />
     <Compile Include="EquipmentService.cs" />
     <Compile Include="GradeService.cs" />
     <Compile Include="PackService.cs" />

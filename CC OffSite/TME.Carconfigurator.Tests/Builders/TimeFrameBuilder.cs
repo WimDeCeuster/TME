@@ -6,6 +6,8 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Packs;
+using EquipmentCategory = TME.CarConfigurator.Repository.Objects.Equipment.Category;
+using SpecificationCategory = TME.CarConfigurator.Repository.Objects.TechnicalSpecifications.Category;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
@@ -24,7 +26,8 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         private List<Transmission> _transmissions = new List<Transmission>();
         private List<SubModel> _subModels = new List<SubModel>();
         private List<ColourCombination> _colourCombinations = new List<ColourCombination>();
-        private List<Category> _equipmentCategories = new List<Category>();
+        private List<EquipmentCategory> _equipmentCategories = new List<EquipmentCategory>();
+        private List<SpecificationCategory> _specificationCategories = new List<SpecificationCategory>();
 
         public TimeFrameBuilder WithDateRange(DateTime from, DateTime until)
         {
@@ -100,9 +103,15 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
-        public TimeFrameBuilder WithEquipmentCategories(params Category[] categories)
+        public TimeFrameBuilder WithEquipmentCategories(params EquipmentCategory[] categories)
         {
             _equipmentCategories = categories.ToList();
+            return this;
+        }
+
+        public TimeFrameBuilder WithSpecificationCategories(params SpecificationCategory[] categories)
+        {
+            _specificationCategories = categories.ToList();
             return this;
         }
 
@@ -122,7 +131,8 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
                 _gradePacks,
                 _subModels,
                 _colourCombinations,
-                _equipmentCategories);
+                _equipmentCategories,
+                _specificationCategories);
         }
     }
 }

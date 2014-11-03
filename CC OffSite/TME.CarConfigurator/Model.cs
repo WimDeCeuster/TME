@@ -26,6 +26,7 @@ namespace TME.CarConfigurator
         private readonly ISubModelFactory _subModelFactory;
         private readonly IColourFactory _colourFactory;
         private readonly IEquipmentFactory _equipmentFactory;
+        private readonly ISpecificationsFactory _specificationsFactory;
 
         private Repository.Objects.Publication _repositoryPublication;
         private IReadOnlyList<IAsset> _assets;
@@ -40,6 +41,7 @@ namespace TME.CarConfigurator
         private IReadOnlyList<ISubModel> _subModels;
         private IReadOnlyList<IColourCombination> _colourCombinations;
         private IModelEquipment _equipment;
+        private IModelTechnicalSpecifications _specifications;
 
         private CarConfiguratorVersion _carConfiguratorVersion;
 
@@ -86,10 +88,7 @@ namespace TME.CarConfigurator
 
         public IModelEquipment Equipment { get { return _equipment = _equipment ?? _equipmentFactory.GetModelEquipment(RepositoryPublication, _repositoryContext); } }
 
-        public IModelTechnicalSpecifications TechnicalSpecifications
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public IModelTechnicalSpecifications TechnicalSpecifications { get { return _specifications = _specifications ?? _specificationsFactory.GetModelSpecifications(RepositoryPublication, _repositoryContext); } }
 
         public Model(
             Repository.Objects.Model repositoryModel,
@@ -104,7 +103,8 @@ namespace TME.CarConfigurator
             ICarFactory carFactory,
             ISubModelFactory subModelFactory,
             IColourFactory colourFactory,
-            IEquipmentFactory equipmentFactory)
+            IEquipmentFactory equipmentFactory,
+            ISpecificationsFactory specificationsFactory)
             : base(repositoryModel)
         {
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
@@ -119,6 +119,7 @@ namespace TME.CarConfigurator
             if (subModelFactory == null) throw new ArgumentNullException("subModelFactory");
             if (colourFactory == null) throw new ArgumentNullException("colourFactory");
             if (equipmentFactory == null) throw new ArgumentNullException("equipmentFactory");
+            if (specificationsFactory == null) throw new ArgumentNullException("specificationsFactory");
 
             _repositoryContext = repositoryContext;
             _publicationFactory = publicationFactory;
@@ -132,6 +133,7 @@ namespace TME.CarConfigurator
             _subModelFactory = subModelFactory;
             _colourFactory = colourFactory;
             _equipmentFactory = equipmentFactory;
+            _specificationsFactory = specificationsFactory;
         }
     }
 }

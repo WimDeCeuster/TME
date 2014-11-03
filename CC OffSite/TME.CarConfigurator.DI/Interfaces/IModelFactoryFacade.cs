@@ -13,6 +13,10 @@ namespace TME.CarConfigurator.DI.Interfaces
         IModelFactoryFacade WithSteeringFactory(ISteeringFactory steeringFactory);
         IModelFactoryFacade WithGradeFactory(IGradeFactory gradeFactory);
         IModelFactoryFacade WithCarFactory(ICarFactory carFactory);
+        IModelFactoryFacade WithEquipmentFactory(IEquipmentFactory equipmentFactory);
+        IModelFactoryFacade WithSpecificationsFactory(ISpecificationsFactory specificationsFactory);
+        IModelFactoryFacade WithColourFactory(IColourFactory colourFactory);
+        IModelFactoryFacade WithPackFactory(IPackFactory packFactory);
 
         IModelFactory Create();
     }

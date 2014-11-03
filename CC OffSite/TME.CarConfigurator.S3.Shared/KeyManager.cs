@@ -70,6 +70,11 @@ namespace TME.CarConfigurator.S3.Shared
             return string.Format("{0}/equipment-categories", GetTimeFrameKey(publicationID, timeFrameID));
         }
 
+        public string GetSpecificationCategoriesKey(Guid publicationID, Guid timeFrameID)
+        {
+            return string.Format("{0}/specification-categories", GetTimeFrameKey(publicationID, timeFrameID));
+        }
+
         public string GetSubModelsKey(Guid publicationID, Guid timeFrameID)
         {
             return string.Format("{0}/submodels", GetTimeFrameKey(publicationID, timeFrameID));

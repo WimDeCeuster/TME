@@ -88,7 +88,8 @@
   <ItemGroup>
     <Compile Include="Builders\AssetTypeBuilder.cs" />
     <Compile Include="Builders\ColourCombinationPublisherBuilder.cs" />
-    <Compile Include="Builders\GradeEquipmentPublisherBuilder.cs" />
+    <Compile Include="Builders\SpecificationPublisherBuilder.cs" />
+    <Compile Include="Builders\EquipmentPublisherBuilder.cs" />
     <Compile Include="Builders\GradePacksPublisherBuilder.cs" />
     <Compile Include="Builders\GradePublisherBuilder.cs" />
     <Compile Include="Builders\TransmissionPublisherBuilder.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Builders\PublisherBuilder.cs" />
     <Compile Include="Builders\TimeFrameBuilder.cs" />
     <Compile Include="Builders\SubModelPublisherBuilder.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingASpecificationCategoriesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAnEquipmentCategoriesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingABodyTypesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarAssetsKey.cs" />
@@ -147,6 +149,7 @@
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatAlreadyHadAPublicationAndTheModelPropertiesHaveChanged.cs" />
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatDoesntHaveAPublicationYet.cs" />
     <Compile Include="GivenAS3Publisher\WhenPublishingAModelGeneration.cs" />
+    <Compile Include="GivenASpecificationPublisher\WhenPublishingSpecificationCategories.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
