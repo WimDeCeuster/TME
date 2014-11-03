@@ -408,7 +408,7 @@ namespace TME.CarConfigurator.Publisher
                                                    modelGenerationGrades.ToDictionary(modelGenerationGrade => 
                                                                                             modelGenerationGrade.ID, 
                                                                                       modelGenerationGrade => 
-                                                                                            GetGradeEquipment(modelGenerationGrade, modelGenerationGrade.Cars()
+                                                                                            GetGradeEquipment(modelGenerationGrade, modelGenerationGrade.Cars().Filter(isPreview)
                                                                                                                                             .Where(car => car.SubModelID == modelGenerationSubModel.ID)
                                                                                                                                             .ToList(), 
                                                                                                               modelGenerationSubModel.Generation, 
@@ -419,7 +419,7 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var grade in grades)
             {
-                var gradeCars = grade.Cars().ToList();
+                var gradeCars = grade.Cars().Filter(isPreview).ToList();
 
                 var gradeEquipment = GetGradeEquipment(grade,gradeCars,modelGeneration,isPreview);
 
