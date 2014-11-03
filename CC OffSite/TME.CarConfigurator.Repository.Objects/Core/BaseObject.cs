@@ -6,6 +6,10 @@ namespace TME.CarConfigurator.Repository.Objects.Core
     
     public class BaseObject
     {
+        public BaseObject()
+        {
+            Labels = new List<Label>();
+        }
         
         public Guid ID { get; set; }
         

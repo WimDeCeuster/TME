@@ -12,11 +12,11 @@ namespace TME.CarConfigurator.Interfaces
         IPrice StartingPrice { get; }
         IGrade BasedUpon { get; }
 
-        IEnumerable<IVisibleInModeAndView> VisibleIn { get; }
-        IEnumerable<IAsset> Assets { get; }
+        IReadOnlyList<IVisibleInModeAndView> VisibleIn { get; }
+        IReadOnlyList<IAsset> Assets { get; }
         
-        IEnumerable<IGradeEquipmentItem> Equipment { get; }
-        IEnumerable<IGradePack> Packs { get; }
+        IGradeEquipment Equipment { get; }
+        IReadOnlyList<IGradePack> Packs { get; }
         
     }
 }

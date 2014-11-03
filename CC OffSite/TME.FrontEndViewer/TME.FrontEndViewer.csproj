@@ -195,7 +195,6 @@
     </Compile>
     <Compile Include="Models\CompareView.cs" />
     <Compile Include="Models\BaseObjectWithPrefix.cs" />
-    <Compile Include="Models\GradeEquipmentModel.cs" />
     <Compile Include="Models\ModelCompare.cs" />
     <Compile Include="Models\ModelWithMetrics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

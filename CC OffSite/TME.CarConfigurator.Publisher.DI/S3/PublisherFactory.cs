@@ -83,9 +83,9 @@ namespace TME.CarConfigurator.Publisher.DI.S3
             return new SubModelPublisher(service, _timeFramePublishHelper);
         }
 
-        private IGradeEquipmentPublisher GetGradeEquipmentPublisher(IGradeEquipmentService service)
+        private IEquipmentPublisher GetGradeEquipmentPublisher(IEquipmentService service)
         {
-            return new GradeEquipmentPublisher(service, _timeFramePublishHelper);
+            return new EquipmentPublisher(service, _timeFramePublishHelper);
         }
 
         private IGradePackPublisher GetGradePackPublisher(IGradePackService service)

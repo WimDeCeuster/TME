@@ -2,6 +2,7 @@
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Interfaces.Equipment;
 using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter
@@ -101,6 +102,11 @@ namespace TME.CarConfigurator.LegacyAdapter
         public IReadOnlyList<ICarPart> Parts
         {
             get { return Adaptee.Parts.Cast<Legacy.CarPart>().Select(x => new CarPart(x)).ToList(); }
+        }
+
+        public ICarEquipment Equipment
+        {
+            get { throw new System.NotImplementedException(); }
         }
     }
 }

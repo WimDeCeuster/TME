@@ -17,6 +17,7 @@
     <constructor-arg ref="EquipmentMapper" />
     <constructor-arg ref="PackMapper" />
     <constructor-arg ref="ColourMapper" />
+    <constructor-arg ref="CategoryMapper" />
   </object>
   
   <object name="ModelMapper" type="TME.CarConfigurator.Publisher.Mappers.ModelMapper, TME.CarConfigurator.Publisher">
@@ -37,7 +38,7 @@
     <constructor-arg ref="LabelMapper" />
     <constructor-arg ref="LinkMapper" />
     <constructor-arg ref="VisibilityMapper" />
-    <constructor-arg ref="CategoryInfoMapper" />
+    <constructor-arg ref="CategoryMapper" />
     <constructor-arg ref="ColourMapper" />
   </object>
   <object name="BodyTypeMapper" type="TME.CarConfigurator.Publisher.Mappers.BodyTypeMapper, TME.CarConfigurator.Publisher">
@@ -46,7 +47,8 @@
   </object>
   <object name="VisibilityMapper" type="TME.CarConfigurator.Publisher.Mappers.VisibilityMapper, TME.CarConfigurator.Publisher">
   </object>
-  <object name="CategoryInfoMapper" type="TME.CarConfigurator.Publisher.Mappers.CategoryInfoMapper, TME.CarConfigurator.Publisher">
+  <object name="CategoryMapper" type="TME.CarConfigurator.Publisher.Mappers.CategoryMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="BaseMapper" />
   </object>
   <object name="EngineMapper" type="TME.CarConfigurator.Publisher.Mappers.EngineMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />

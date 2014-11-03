@@ -93,7 +93,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                         contextData.GradeEquipment.ToDictionary(),
                         contextData.GradePacks.ToDictionary(),
                         contextData.SubModels.ToList(),
-                        contextData.ColourCombinations.ToList());
+                        contextData.ColourCombinations.ToList(),
+                        contextData.EquipmentCategories.ToList());
         }
 
         static TimeFrame GetTimeFrame(DateTime openDate, DateTime closeDate, IReadOnlyList<Administration.Car> timeFrameCars, ContextData contextData)
@@ -109,6 +110,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var gradeEquipments = FilterGradeEquipments(contextData.GradeEquipment, timeFrameCars);
             var colourCombinations = contextData.ColourCombinations.Where(ColourCombinationIsPresentOn(timeFrameCars)).ToList();
             var gradePacks = FilterGradePacks(contextData.GradePacks, timeFrameCars);
+            var equipmentCategories = contextData.EquipmentCategories.ToList();
 
             return new TimeFrame(
                 openDate,
@@ -123,7 +125,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 gradeEquipments,
                 gradePacks,
                 subModels,
-                colourCombinations);
+                colourCombinations,
+                equipmentCategories);
         }
 
         private static IReadOnlyDictionary<Guid, IList<GradePack>> FilterGradePacks(IEnumerable<KeyValuePair<Guid, IList<GradePack>>> gradePacks, IEnumerable<Administration.Car> cars)
