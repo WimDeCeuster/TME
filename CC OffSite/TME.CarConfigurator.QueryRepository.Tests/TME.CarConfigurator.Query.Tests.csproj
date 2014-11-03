@@ -124,8 +124,10 @@
     <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheFirstTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsBasedUponGradeForTheSecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
+    <Compile Include="GivenAModelEquipment\WhenAccessingItsCategoriesForTheSecondTime.cs" />
     <Compile Include="GivenAModelSpecifications\WhenAccessingItsCategoriesForTheFirstTime.cs" />
     <Compile Include="GivenAModelEquipment\WhenAccessingItsCategoriesForTheFirstTime.cs" />
+    <Compile Include="GivenAModelSpecifications\WhenAccessingItsCategoriesForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarsForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarsForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsSpecificationsForTheFirstTime.cs" />
@@ -230,8 +232,9 @@
     <Compile Include="Services\GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
     <Compile Include="Services\GivenACarService\WhenGetCarsIsCalled.cs" />
     <Compile Include="Services\GivenAColourService\WhenGetColourCombinationsIsCalled.cs" />
-    <Compile Include="Services\GivenAGradeEquipmentService\WhenGetGradeEquipmentIsCalled.cs" />
-    <Compile Include="Services\GivenAGradeEquipmentService\WhenGetSubModelGradeEquipmentIsCalled.cs" />
+    <Compile Include="Services\GivenAnEquipmentService\WhenGetEquipmentCategoriesIsCalled.cs" />
+    <Compile Include="Services\GivenAnEquipmentService\WhenGetGradeEquipmentIsCalled.cs" />
+    <Compile Include="Services\GivenAnEquipmentService\WhenGetSubModelGradeEquipmentIsCalled.cs" />
     <Compile Include="Services\GivenAGradeService\WhenGetGradesIsCalled.cs" />
     <Compile Include="Services\GivenAGradeService\WhenGetSubModelGradeIsCalled.cs" />
     <Compile Include="Services\GivenAModelService\WhenGeGetModelsByLanguageIsCalled.cs" />
@@ -244,6 +247,7 @@
     <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenAPackService\WhenGetGradePacksIsCalled.cs" />
+    <Compile Include="Services\GivenASpecificationsService\WhenGetSpecificationCategoriesIsCalled.cs" />
     <Compile Include="Services\GivenASteeringService\WhenGetSteeringsIsCalled.cs" />
     <Compile Include="Services\GivenASubModelService\WhenGetSubModelIsCalled.cs" />
     <Compile Include="Services\GivenAWheelDriveService\WhenGetWheelDrivesIsCalled.cs" />
