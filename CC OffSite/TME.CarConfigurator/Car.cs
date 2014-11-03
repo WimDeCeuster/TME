@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Core;
@@ -51,5 +52,10 @@ namespace TME.CarConfigurator
         public ISteering Steering { get { throw new NotImplementedException(); } }
         public IGrade Grade { get { throw new NotImplementedException(); }}
         public ISubModel SubModel { get { throw new NotImplementedException(); }}
+
+        public IReadOnlyList<ICarPart> Parts
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

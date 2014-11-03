@@ -1,4 +1,6 @@
-﻿using TME.CarConfigurator.Interfaces;
+﻿using System.Collections.Generic;
+using System.Linq;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Core;
 using Legacy = TMME.CarConfigurator;
 
@@ -94,6 +96,11 @@ namespace TME.CarConfigurator.LegacyAdapter
                     ? new SubModel(Adaptee.SubModel)
                     : null;
             }
+        }
+
+        public IReadOnlyList<ICarPart> Parts
+        {
+            get { return Adaptee.Parts.Cast<Legacy.CarPart>().Select(x => new CarPart(x)).ToList(); }
         }
     }
 }

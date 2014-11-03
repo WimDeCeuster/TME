@@ -83,6 +83,7 @@
     <Compile Include="Factories\IEngineFactory.cs" />
     <Compile Include="Factories\IModelFactory.cs" />
     <Compile Include="Factories\IPublicationFactory.cs" />
+    <Compile Include="ICarPart.cs" />
     <Compile Include="IFuelType.cs" />
     <Compile Include="IGrade.cs" />
     <Compile Include="ISubModel.cs" />

@@ -53,6 +53,7 @@
     <Compile Include="Assets\Enums\Scope.cs" />
     <Compile Include="Assets\FileType.cs" />
     <Compile Include="Assets\VisibleInModeAndView.cs" />
+    <Compile Include="CarPart.cs" />
     <Compile Include="Colours\ColourCombination.cs" />
     <Compile Include="Colours\ColourTransformation.cs" />
     <Compile Include="Colours\Upholstery.cs" />

@@ -72,6 +72,10 @@
                     }
                 </div>
                 -->*@
+        
+            <p class="property" data-id="actionlinks">
+                @Html.ActionLink("Parts", "Index", "ModelCarParts", new { modelID = ViewBag.ModelID, carID = model.ID }, new { })
+            </p>
         </div>
     </div>
 }
