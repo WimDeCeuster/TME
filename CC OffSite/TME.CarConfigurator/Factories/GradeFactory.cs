@@ -38,9 +38,28 @@ namespace TME.CarConfigurator.Factories
             return repoGrades.Select(repoGrade => GetGrade(repoGrade, repoGrades, grades, publication, context)).ToArray();
         }
 
-        public IGrade GetSubModelGrade(RepoGrade repoGrade,Guid subModelID,Publication publication,Context context)
+        public IReadOnlyList<IGrade> GetSubModelGrades(Guid subModelID,Publication publication,Context context)
         {
-            return new SubModelGrade(repoGrade,publication,context,subModelID,null,_assetFactory,_gradeEquipmentFactory,_packFactory);
+            var repoGrades = _gradeService.GetSubModelGrades(publication.ID, publication.GetCurrentTimeFrame().ID,
+                subModelID, context).ToList();
+            var grades = new List<IGrade>();
+
+
+            return
+                repoGrades.Select(repoGrade => GetSubModelGrade(repoGrade, repoGrades, grades, publication, context,subModelID)).ToArray();
+        }
+
+        private IGrade GetSubModelGrade(RepoGrade repoGrade, List<RepoGrade> repoGrades, List<IGrade> grades, Publication publication, Context context, Guid subModelID)
+        {
+            var foundGrade = grades.SingleOrDefault(grd => grd.ID == repoGrade.ID);
+            if (foundGrade != null)
+                return foundGrade;
+
+            var parent = FindParentGrade(repoGrade, repoGrades, grades, publication, context);
+
+            var subModelGrade = new SubModelGrade(repoGrade,publication,context,subModelID,parent,_assetFactory,_gradeEquipmentFactory,_packFactory);
+            grades.Add(subModelGrade);
+            return subModelGrade;
         }
 
         // ReSharper disable once ParameterTypeCanBeEnumerable.Local => no, because that would cause a multiple enumeration for repoGrades...
@@ -50,14 +69,21 @@ namespace TME.CarConfigurator.Factories
             if (foundGrade != null)
                 return foundGrade;
 
-            var parentGrade = repoGrade.BasedUponGradeID == Guid.Empty 
-                ? null 
-                : GetGrade(repoGrades.Single(grd => grd.ID == repoGrade.BasedUponGradeID), repoGrades, grades, publication, context);
+            var parentGrade = FindParentGrade(repoGrade, repoGrades, grades, publication, context);
 
             var grade = new Grade(repoGrade, publication, context, parentGrade, _assetFactory, _gradeEquipmentFactory, _packFactory);
             grades.Add(grade);
 
             return grade;
+        }
+
+        private IGrade FindParentGrade(RepoGrade repoGrade, IList<RepoGrade> repoGrades, ICollection<IGrade> grades, Publication publication,
+            Context context)
+        {
+            return repoGrade.BasedUponGradeID == Guid.Empty
+                ? null
+                : GetGrade(repoGrades.Single(grd => grd.ID == repoGrade.BasedUponGradeID), repoGrades, grades, publication,
+                    context);
         }
     }
 }

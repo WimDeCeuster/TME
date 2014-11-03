@@ -55,6 +55,7 @@ namespace TME.CarConfigurator.S3.Publisher
 
         async Task<IEnumerable<Result>> PublishSubModelGradeEquipmentAsync(string brand, string country, Guid publicationId, Guid timeFrameId,Guid subModelID,List<Grade> applicableGrades ,IDictionary<Guid, IDictionary<Guid, GradeEquipment>> gradeEquipments)
         {
+            //todo refactor
             var tasks = new List<Task<Result>>();
             var gradeEquipmentsPerGrade = gradeEquipments.Where(entry => entry.Key == subModelID).SelectMany(entry => entry.Value).ToList();
             foreach (var entry in gradeEquipmentsPerGrade)

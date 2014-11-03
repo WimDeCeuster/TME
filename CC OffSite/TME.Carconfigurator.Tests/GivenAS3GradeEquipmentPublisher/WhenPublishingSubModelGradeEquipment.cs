@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Threading.Tasks;
 using FakeItEasy;
-using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
-using TME.CarConfigurator.Publisher.Common.Result;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.S3.CommandServices;
-using TME.CarConfigurator.S3.Publisher.Interfaces;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.Carconfigurator.Tests.GivenAS3SubModelGradeEquipmentPublisher
+namespace TME.Carconfigurator.Tests.GivenAS3GradeEquipmentPublisher
 {
     public class WhenPublishingSubModelGradeEquipment : TestBase
     {

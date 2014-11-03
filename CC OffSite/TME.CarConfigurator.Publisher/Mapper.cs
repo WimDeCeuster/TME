@@ -333,14 +333,24 @@ namespace TME.CarConfigurator.Publisher
             {
                 var subModelId = modelGenerationSubModel.ID;
 
-                var mappedSubModel = _subModelMapper.MapSubModel(grades, modelGenerationSubModel, contextData, isPreview);
-                
+                FillSubModelGrades(grades,modelGenerationSubModel,contextData);
+
+                var mappedSubModel = _subModelMapper.MapSubModel(modelGenerationSubModel, contextData, isPreview);
+
                 contextData.SubModels.Add(mappedSubModel);
 
                 FillSubModelGradeEquipment(modelGenerationSubModel,contextData);
 
                 AddSubModelToCar(cars, contextData, subModelId, mappedSubModel);
             }
+        }
+
+        private void FillSubModelGrades(IEnumerable<ModelGenerationGrade> generationGrades, ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+        {
+            contextData.SubModelGrades.Add(modelGenerationSubModel.ID, generationGrades
+                .Where(generationGrade => modelGenerationSubModel.Cars()
+                                                              .Any(car => car.GradeID == generationGrade.ID))
+                .Select(grade => _gradeMapper.MapSubModelGrade(grade,modelGenerationSubModel,contextData.Cars)).ToList());
         }
 
         private void FillSubModelGradeEquipment(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)

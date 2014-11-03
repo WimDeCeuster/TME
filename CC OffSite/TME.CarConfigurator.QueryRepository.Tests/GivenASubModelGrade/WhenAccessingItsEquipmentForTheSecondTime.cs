@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.Interfaces;
@@ -58,9 +59,12 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModelGrade
             var gradeEquipmentFactory =
                 new GradeEquipmentFactoryBuilder().WithGradeEquipmentService(_gradeEquipmentService).Build();
 
-            var gradeFactory = new GradeFactoryBuilder().WithGradeEquipmentFactory(gradeEquipmentFactory).Build();
+            var gradeService = A.Fake<IGradeService>();
+            A.CallTo(() => gradeService.GetSubModelGrades(publication.ID, publicationTimeFrame.ID, subModelID, context)).Returns(new[] { repoGrade });
 
-            _subModelGrade = gradeFactory.GetSubModelGrade(repoGrade, subModelID, publication, context);
+            var gradeFactory = new GradeFactoryBuilder().WithGradeService(gradeService).WithGradeEquipmentFactory(gradeEquipmentFactory).Build();
+
+            _subModelGrade = gradeFactory.GetSubModelGrades(subModelID, publication, context).First();
 
             _firstEquipment = _subModelGrade.Equipment;
         }

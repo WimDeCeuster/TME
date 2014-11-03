@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Equipment;
+using TME.CarConfigurator.S3.QueryServices;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
@@ -57,9 +60,12 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModelGrade
             var gradeEquipmentFactory =
                 new GradeEquipmentFactoryBuilder().WithGradeEquipmentService(_gradeEquipmentService).Build();
 
-            var gradeFactory = new GradeFactoryBuilder().WithGradeEquipmentFactory(gradeEquipmentFactory).Build();
+            var gradeService = A.Fake<IGradeService>();
+            A.CallTo(() => gradeService.GetSubModelGrades(publication.ID, publicationTimeFrame.ID, subModelID, context)).Returns(new [] {repoGrade});
 
-            _subModelGrade = gradeFactory.GetSubModelGrade(repoGrade, subModelID, publication, context);
+            var gradeFactory = new GradeFactoryBuilder().WithGradeService(gradeService).WithGradeEquipmentFactory(gradeEquipmentFactory).Build();
+
+            _subModelGrade = gradeFactory.GetSubModelGrades(subModelID, publication, context).First();
         }
 
         protected override void Act()

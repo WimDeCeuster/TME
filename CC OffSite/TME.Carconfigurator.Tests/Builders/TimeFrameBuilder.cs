@@ -21,6 +21,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         private List<Grade> _grades = new List<Grade>();
         private readonly Dictionary<Guid, GradeEquipment> _gradeEquipments = new Dictionary<Guid, GradeEquipment>();
         private readonly Dictionary<Guid, IList<GradePack>> _gradePacks = new Dictionary<Guid, IList<GradePack>>();
+        private readonly Dictionary<Guid, IList<Grade>> _subModelGrades = new Dictionary<Guid, IList<Grade>>();
         private readonly Dictionary<Guid, IDictionary<Guid, GradeEquipment>> _subModelGradeEquipments = new Dictionary<Guid, IDictionary<Guid, GradeEquipment>>();
         private List<Transmission> _transmissions = new List<Transmission>();
         private List<SubModel> _subModels = new List<SubModel>();
@@ -106,6 +107,12 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public TimeFrameBuilder WithSubModelGrades(SubModel subModel, IEnumerable<Grade> grades)
+        {
+            _subModelGrades.Add(subModel.ID, grades.ToList());
+            return this;
+        }
+
         public TimeFrame Build()
         {
             return new TimeFrame(
@@ -119,6 +126,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
                 _steerings,
                 _grades,
                 _gradeEquipments,
+                _subModelGrades,
                 _gradePacks,
                 _subModels,
                 _colourCombinations,

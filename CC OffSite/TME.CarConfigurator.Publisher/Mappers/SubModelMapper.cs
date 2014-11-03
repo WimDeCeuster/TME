@@ -35,7 +35,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _gradeMapper = gradeMapper;
         }
 
-        public SubModel MapSubModel(ModelGenerationGrade[] generationGrades, ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
+        public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
         {
             var cheapestCar = GetTheCheapestCar(modelGenerationSubModel, contextData.Cars);
 
@@ -48,18 +48,15 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 },
                 Assets = GetMappedAssetsForSubModel(modelGenerationSubModel),
                 Links = GetMappedLinksForSubModel(modelGenerationSubModel, isPreview),
-                Grades = GetSubModelGrades(generationGrades, modelGenerationSubModel, contextData)
+                Grades = GetSubModelGrades(modelGenerationSubModel,contextData)
             };
 
             return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel,modelGenerationSubModel);
         }
         
-        private List<Grade> GetSubModelGrades(IEnumerable<ModelGenerationGrade> generationGrades, ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+        private List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
         {
-            return generationGrades
-                .Where(generationGrade => modelGenerationSubModel.Cars()
-                                                              .Any(car => car.GradeID == generationGrade.ID))
-                .Select(grade => _gradeMapper.MapSubModelGrade(grade,modelGenerationSubModel,contextData.Cars)).ToList();
+            return contextData.SubModelGrades.First(entry => entry.Key == modelGenerationSubModel.ID).Value.ToList();
         }
 
         private List<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)

@@ -26,6 +26,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IReadOnlyList<Steering> Steerings { get; private set; }
         public IReadOnlyList<Grade> Grades { get; private set; }
         public IReadOnlyDictionary<Guid, GradeEquipment> GradeEquipments { get; private set; }
+        public IReadOnlyDictionary<Guid, IList<Grade>> SubModelGrades { get; private set; }
         public IDictionary<Guid, IDictionary<Guid, GradeEquipment>> SubModelGradeEquipments { get; private set; }
         public IReadOnlyDictionary<Guid, IList<GradePack>> GradePacks { get; private set; }
         public IReadOnlyList<SubModel> SubModels { get; private set; }
@@ -44,6 +45,7 @@ namespace TME.CarConfigurator.Publisher.Common
             IReadOnlyList<Steering> steerings,
             IReadOnlyList<Grade> grades,
             IReadOnlyDictionary<Guid, GradeEquipment> gradeEquipments,
+            IReadOnlyDictionary<Guid, IList<Grade>> subModelGrades,
             IReadOnlyDictionary<Guid, IList<GradePack>> gradePacks,
             IReadOnlyList<SubModel> subModels,
             IReadOnlyList<ColourCombination> colourCombinations,
@@ -57,6 +59,7 @@ namespace TME.CarConfigurator.Publisher.Common
             if (steerings == null) throw new ArgumentNullException("steerings");
             if (grades == null) throw new ArgumentNullException("grades");
             if (gradeEquipments == null) throw new ArgumentNullException("gradeEquipments");
+            if (subModelGrades == null) throw new ArgumentNullException("subModelGrades");
             if (gradePacks == null) throw new ArgumentNullException("gradePacks");
             if (subModels == null) throw new ArgumentNullException("subModels");
             if (colourCombinations == null) throw new ArgumentNullException("colourCombinations");
@@ -73,6 +76,7 @@ namespace TME.CarConfigurator.Publisher.Common
             Transmissions = transmissions;
             Steerings = steerings;
             Grades = grades;
+            SubModelGrades = subModelGrades;
             GradeEquipments = gradeEquipments;
             SubModels = subModels;
             SubModelGradeEquipments = subModelGradeEquipments;

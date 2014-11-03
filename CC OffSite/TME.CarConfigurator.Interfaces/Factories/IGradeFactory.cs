@@ -7,6 +7,6 @@ namespace TME.CarConfigurator.Interfaces.Factories
     public interface IGradeFactory
     {
         IReadOnlyList<IGrade> GetGrades(Publication publication, Context context);
-        IGrade GetSubModelGrade(Grade grade,Guid subModelID,Publication publication,Context context);
+        IReadOnlyList<IGrade> GetSubModelGrades(Guid subModelID,Publication publication,Context context);
     }
 }

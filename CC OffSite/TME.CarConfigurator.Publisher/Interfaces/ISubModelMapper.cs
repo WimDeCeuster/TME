@@ -6,6 +6,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface ISubModelMapper
     {
-        SubModel MapSubModel(ModelGenerationGrade[] generationSubModel, ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview);
+        SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview);
     }
 }
