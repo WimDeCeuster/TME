@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Administration.Enums;
+using TME.CarConfigurator.Publisher.Exceptions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Packs;
@@ -26,6 +27,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         public GradePack MapGradePack(ModelGenerationGradePack gradePack, ModelGenerationPack generationPack, IReadOnlyCollection<Car> gradeCars)
         {
+
+            if (!gradePack.ShortID.HasValue)
+                throw new CorruptDataException(String.Format("Please supply a ShortID for grade pack {0}", gradePack.ID));
+
             var mappedGradePack = new GradePack
             {
                 Standard = gradePack.Availability == Availability.Standard,
@@ -36,7 +41,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 OptionalOn = FindCarsOnWhichPackHasCorrectAvailability(gradeCars, gradePack.ID, Availability.Optional),
                 NotAvailableOn = FindCarsOnWhichPackHasCorrectAvailability(gradeCars, gradePack.ID, Availability.NotAvailable),
 
-                ShortID = 0, // TODO: map shortid when it is in admin library
+                ShortID = gradePack.ShortID.Value,
                 GradeFeature = gradePack.GradeFeature,
                 OptionalGradeFeature = gradePack.OptionalGradeFeature,
             };
