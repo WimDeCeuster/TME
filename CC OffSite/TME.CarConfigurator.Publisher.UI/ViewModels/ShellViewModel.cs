@@ -8,6 +8,7 @@ using TME.CarConfigurator.Publisher.Common.Enums;
 
 using TME.CarConfigurator.Publisher.Interfaces;
 using System.Windows;
+using TME.CarConfigurator.Publisher.Progress;
 
 namespace TME.CarConfigurator.Publisher.UI.ViewModels
 {
@@ -113,22 +114,24 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
                 NotifyOfPropertyChange(() => Messages);
             }
         }
+        
+        public Progress<PublishProgress> Progress { get; private set; }
 
         public async Task PublishLiveAsync()
         {
-            var generation = SelectedModel.Generations.Single(g => g.Approved);
+            var generationId = SelectedModel.Generations.Single(g => g.Approved).ID;
 
-            await PublishAsync(generation, PublicationDataSubset.Live);
+            await PublishAsync(generationId, PublicationDataSubset.Live);
         }
 
         public async Task PublishPreviewAsync()
         {
-            var generation = SelectedModel.Generations.Single(g => g.Preview);
+            var generationId = SelectedModel.Generations.Single(g => g.Preview).ID;
 
-            await PublishAsync(generation, PublicationDataSubset.Preview);
+            await PublishAsync(generationId, PublicationDataSubset.Preview);
         }
 
-        private async Task PublishAsync(ModelGeneration generation, PublicationDataSubset publicationDataSubset)
+        private async Task PublishAsync(Guid generationId, PublicationDataSubset publicationDataSubset)
         {
             try
             {
@@ -140,7 +143,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
                 StartPublishing();
 
-                await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, publicationDataSubset);
+                await CarConfiguratorPublisher.PublishAsync(generationId, SelectedEnvironment, Target, Brand, Country, publicationDataSubset, Progress);
 
                 PublishingDone("Success!");
             }
@@ -162,7 +165,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
                 StartPublishing();
 
-                var modelsThatHaveApprovedGenerations = Models.Where(m => m.Approved && m.Generations.Any(g => g.Approved)).ToList();
+                var modelsThatHaveApprovedGenerations = Models.Where(m => m.Approved && m.Generations.Any(g => g.Preview)).ToList();
                 var modelsInRandomOrder = modelsThatHaveApprovedGenerations.OrderBy(m => Guid.NewGuid()).ToList();
                 var first5Models = modelsInRandomOrder.Take(5).ToList();
                 var generations = first5Models.Select(m => m.Generations.Single(g => g.Preview)).ToList();
@@ -173,7 +176,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
                 {
                     Messages.Add(string.Format("Publishing {0} for {1}", generation, Country));
 
-                    await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview);
+                    await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview, Progress);
                 }
 
                 PublishingDone("Success!");
@@ -194,10 +197,21 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
             IsPublishing = true;
 
             Messages.Clear();
+
+            Progress = new Progress<PublishProgress>();
+            Progress.ProgressChanged += ProgressChanged;
+        }
+
+        private void ProgressChanged(object sender, PublishProgress progress)
+        {
+            Messages.Add(progress.Message);
         }
 
         private void PublishingDone(string result)
         {
+            Progress.ProgressChanged -= ProgressChanged;
+            Progress = null;
+
             IsPublishing = false;
 
             MessageBox.Show(result);

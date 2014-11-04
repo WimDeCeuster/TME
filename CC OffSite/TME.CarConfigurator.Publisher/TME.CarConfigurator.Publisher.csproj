@@ -159,6 +159,7 @@
     <Compile Include="Mappers\WheelDriveMapper.cs" />
     <Compile Include="Mappers\TransmissionMapper.cs" />
     <Compile Include="Mappers\TransmissionTypeMapper.cs" />
+    <Compile Include="Progress\PublishProgress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publisher.cs" />
     <Compile Include="Services\AssetFileService.cs" />

@@ -14,7 +14,7 @@ using TME.CarConfigurator.Interfaces.Equipment;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAGrade
 {
-    public class WhenAccessingItsGradeEquipmentForTheSecondTime : TestBase
+    public class WhenAccessingItsEquipmentForTheSecondTime : TestBase
     {
         private IEnumerable<IGradeOption> _options1;
         private IEnumerable<IGradeOption> _options2;
