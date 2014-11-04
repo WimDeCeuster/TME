@@ -14,7 +14,7 @@ using TME.CarConfigurator.Interfaces.Equipment;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAGrade
 {
-    public class WhenAccessingItsGradeEquipment : TestBase
+    public class WhenAccessingItsEquipment : TestBase
     {
         private IEnumerable<IGradeEquipmentItem> _equipment;
         private Repository.Objects.Equipment.GradeEquipment _repositoryGradeEquipment;
