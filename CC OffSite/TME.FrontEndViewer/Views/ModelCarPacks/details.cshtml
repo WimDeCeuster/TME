@@ -31,6 +31,9 @@
                     Html.Raw(String.Join(",", list));
                 }
             </p>
+            <p class="property" data-id="actionlinks">
+                @Html.ActionLink("Assets", "Index", "ModelCarPackAssets", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, packID= model.ID }, new { })
+            </p>
         </div>
     </div>
 }
