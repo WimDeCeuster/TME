@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Exceptions;
+using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
@@ -16,15 +17,18 @@ namespace TME.CarConfigurator.Publisher.Mappers
     public class ColourMapper : IColourMapper
     {
         readonly IBaseMapper _baseMapper;
+        readonly IAssetSetMapper _assetSetMapper;
         readonly IAssetFileService _assetFileService;
 
 
-        public ColourMapper(IBaseMapper baseMapper, IAssetFileService assetFileService)
+        public ColourMapper(IBaseMapper baseMapper, IAssetSetMapper assetSetMapper, IAssetFileService assetFileService)
         {
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
+            if (assetSetMapper == null) throw new ArgumentNullException("assetSetMapper");
             if (assetFileService == null) throw new ArgumentNullException("assetFileService");
 
             _baseMapper = baseMapper;
+            _assetSetMapper = assetSetMapper;
             _assetFileService = assetFileService;
         }
 
@@ -37,7 +41,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Promoted = colour.Promoted,
                 SortIndex = colour.Index,
                 Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview),
-                Type = MapExteriorColourType(colour.Type)
+                Type = MapExteriorColourType(colour.Type),
+                VisibleIn = _assetSetMapper.GetVisibility(colour.AssetSet).ToList()
             };
 
             return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
@@ -52,7 +57,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Promoted = false,
                 SortIndex = 0,
                 Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview),
-                Type = MapExteriorColourType(colour.Type)
+                Type = MapExteriorColourType(colour.Type),
+                VisibleIn = _assetSetMapper.GetVisibility(colour.Assets).ToList()
             };
 
             _baseMapper.MapTranslateableDefaults(mappedColour, colour);
@@ -95,7 +101,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 LocalCode = String.Empty,
                 InteriorColourCode = modelGenerationUpholstery.InteriorColour.Code,
                 TrimCode = modelGenerationUpholstery.Trim.Code,
-                Type = MapUpholsteryType(modelGenerationUpholstery.Type)
+                Type = MapUpholsteryType(modelGenerationUpholstery.Type),
+                VisibleIn = _assetSetMapper.GetVisibility(modelGenerationUpholstery.AssetSet).ToList()
             };
 
             return _baseMapper.MapTranslateableDefaultsWithSort(mappedUpholstery, modelGenerationUpholstery);

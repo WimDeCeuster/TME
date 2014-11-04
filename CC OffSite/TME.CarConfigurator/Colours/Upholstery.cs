@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using TME.CarConfigurator.Assets;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
@@ -16,6 +18,7 @@ namespace TME.CarConfigurator.Colours
 
         private UpholsteryType _type;
         private IReadOnlyList<IAsset> _assets;
+        private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
 
         public Upholstery(Repository.Objects.Colours.Upholstery repositoryUpholstery, Publication publication, Context context, IAssetFactory assetFactory)
             : base(repositoryUpholstery)
@@ -48,8 +51,7 @@ namespace TME.CarConfigurator.Colours
         {
             get
             {
-                //TODO: provide implementation
-                return new List<IVisibleInModeAndView>();
+                return _fetchedVisibleInModeAndViews = _fetchedVisibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, _publication, _context, _assetFactory)).ToList();
             }
         }
 

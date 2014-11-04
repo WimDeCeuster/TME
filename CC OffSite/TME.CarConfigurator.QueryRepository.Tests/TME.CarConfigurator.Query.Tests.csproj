@@ -177,6 +177,12 @@
     <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />
+    <Compile Include="GivenAnExteriorColour\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenAnExteriorColour\WhenAccessingIts3DAssets.cs" />
+    <Compile Include="GivenAnExteriorColour\WhenAccessingIts3DAssetsASecondTime.cs" />
+    <Compile Include="GivenAnUpholstery\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenAnUpholstery\WhenAccessingIts3DAssets.cs" />
+    <Compile Include="GivenAnUpholstery\WhenAccessingIts3DAssetsASecondTime.cs" />
     <Compile Include="GivenASpecificationCategory\WhenAccessingItsNonExistentParent.cs" />
     <Compile Include="GivenASpecificationCategory\WhenAccessingItsParentForTheFirstTime.cs" />
     <Compile Include="GivenASpecificationCategory\WhenAccessingItsParentForTheSecondTime.cs" />
