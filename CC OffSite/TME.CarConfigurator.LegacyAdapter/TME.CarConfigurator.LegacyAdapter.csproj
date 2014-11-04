@@ -81,9 +81,11 @@
     <Compile Include="Equipment\CarOption.cs" />
     <Compile Include="Equipment\Category.cs" />
     <Compile Include="Equipment\CarEquipment.cs" />
+    <Compile Include="Colours\ExteriorColourInfo.cs" />
     <Compile Include="Equipment\GradeEquipment.cs" />
     <Compile Include="Equipment\ModelEquipment.cs" />
     <Compile Include="Equipment\MountingCosts.cs" />
+    <Compile Include="Colours\UpholsteryInfo.cs" />
     <Compile Include="Grade.cs" />
     <Compile Include="CarInfo.cs" />
     <Compile Include="Equipment\CategoryInfo.cs" />

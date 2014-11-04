@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
-using TME.CarConfigurator.Interfaces.Core;
-using TME.CarConfigurator.Interfaces.Enums;
 using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.LegacyAdapter.Colours;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
+using TMME.CarConfigurator;
+using CarExteriorColour = TME.CarConfigurator.LegacyAdapter.Colours.CarExteriorColour;
+using IPrice = TME.CarConfigurator.Interfaces.Core.IPrice;
+using Visibility = TME.CarConfigurator.Interfaces.Enums.Visibility;
 
 namespace TME.CarConfigurator.LegacyAdapter.Equipment
 {
@@ -121,5 +125,39 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
         }
 
         public abstract IPrice TotalPrice { get; }
+
+        public IReadOnlyList<IVisibleInModeAndView> VisibleIn
+        {
+            get { return Adaptee.Assets.GetVisibleInModeAndViews(); }
+        }
+
+        public IReadOnlyList<IAsset> Assets
+        {
+            get { return Adaptee.Assets.GetPlainAssets(); }
+        }
+
+        public IReadOnlyList<IExteriorColourInfo> AvailableForExteriorColours
+        {
+            get
+            {
+                if (Adaptee.AvailableForExteriorColours == null) return null;
+                return
+                    Adaptee.AvailableForExteriorColours.Cast<CarExteriorColour>()
+                        .Select(x => new ExteriorColourInfo(x))
+                        .ToList();
+            }
+        }
+
+        public IReadOnlyList<IUpholsteryInfo> AvailableForUpholsteries
+        {
+            get
+            {
+                if (Adaptee.AvailableForUpholsteries == null) return null;
+                return
+                    Adaptee.AvailableForUpholsteries.Cast<CarUpholstery>()
+                        .Select(x => new UpholsteryInfo(x))
+                        .ToList();
+            }
+        }
     }
 }
