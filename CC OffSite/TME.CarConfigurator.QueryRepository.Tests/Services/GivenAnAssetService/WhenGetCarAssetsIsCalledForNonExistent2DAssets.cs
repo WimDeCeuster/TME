@@ -32,7 +32,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAnAssetService
             var service = A.Fake<IService>();
             var keyManager = A.Fake<IKeyManager>();
 
-            A.CallTo(() => keyManager.GetDefaultAssetsKey(A<Guid>._, A<Guid>._, A<Guid>._)).Returns(s3Key);
+            A.CallTo(() => keyManager.GetDefaultCarAssetsKey(A<Guid>._, A<Guid>._, A<Guid>._)).Returns(s3Key);
             A.CallTo(() => service.GetObject(_context.Brand, _context.Country, s3Key)).Throws(new ObjectNotFoundException(null, s3Key));
 
             var serviceFacade = new S3ServiceFacade()

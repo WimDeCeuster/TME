@@ -6,9 +6,9 @@ namespace TME.CarConfigurator.S3.Shared
 {
     public class KeyManager : IKeyManager
     {
-        private const string PublicationKeyTemplate = "publication/{0}";
-        private const string PublicationTimeFrameKeyTemplate = "publication/{0}/time-frame/{1}";
-        private const string PublicationAssetsKeyTemplate = "publication/{0}/assets";
+        private const string PUBLICATION_KEY_TEMPLATE = "publication/{0}";
+        private const string PUBLICATION_TIME_FRAME_KEY_TEMPLATE = "publication/{0}/time-frame/{1}";
+        private const string PUBLICATION_ASSETS_KEY_TEMPLATE = "publication/{0}/assets";
 
         public string GetModelsKey()
         {
@@ -17,12 +17,12 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetPublicationKey(Guid publicationID)
         {
-            return string.Format(PublicationKeyTemplate, publicationID);
+            return string.Format(PUBLICATION_KEY_TEMPLATE, publicationID);
         }
 
         private static string GetTimeFrameKey(Guid publicationID, Guid timeFrameID)
         {
-            return string.Format(PublicationTimeFrameKeyTemplate, publicationID, timeFrameID);
+            return string.Format(PUBLICATION_TIME_FRAME_KEY_TEMPLATE, publicationID, timeFrameID);
         }
 
         public string GetBodyTypesKey(Guid publicationID, Guid timeFrameID)
@@ -87,13 +87,12 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetSubModelGradeEquipmentsKey(Guid publicationID, Guid timeFrameID, Guid gradeID, Guid subModelID)
         {
-            return string.Format("{0}/submodel/{1}/grade/{2}/equipment", GetTimeFrameKey(publicationID, timeFrameID),
-                subModelID, gradeID);
+            return string.Format("{0}/grade/{1}/equipment", GetSubModelKey(publicationID , timeFrameID, subModelID),gradeID);
         }
 
         public string GetSubModelGradesKey(Guid publicationID, Guid timeFrameID,Guid subModelID)
         {
-            return string.Format("{0}/submodel/{1}/grades",GetTimeFrameKey(publicationID,timeFrameID),subModelID);
+            return string.Format("{0}/grades",GetSubModelKey(publicationID, timeFrameID, subModelID));
         }
 
         public string GetGradeEquipmentsKey(Guid publicationID, Guid timeFrameID, Guid gradeID)
@@ -106,21 +105,11 @@ namespace TME.CarConfigurator.S3.Shared
             return string.Format("{0}/packs", GetGradeKey(publicationID, timeFrameID, gradeID));
         }
 
-        private string GetCarKey(Guid publicationID, Guid carID)
-        {
-            return string.Format("{0}/car/{1}", GetPublicationKey(publicationID), carID);
-        }
-
         private static string GetAssetsKeyPrefix(Guid publicationId, Guid objectId)
         {
-            var publicationAssetsKey = string.Format(PublicationAssetsKeyTemplate, publicationId);
+            var publicationAssetsKey = string.Format(PUBLICATION_ASSETS_KEY_TEMPLATE, publicationId);
 
             return string.Format("{0}/{1}", publicationAssetsKey, objectId);
-        }
-
-        private string GetAssetsKey(Guid publicationId, Guid carId, Guid objectId)
-        {
-            return string.Format("{0}/assets/{1}", GetCarKey(publicationId, carId), objectId);
         }
 
         public string GetDefaultAssetsKey(Guid publicationId, Guid objectId)
@@ -130,9 +119,16 @@ namespace TME.CarConfigurator.S3.Shared
             return GetDefaultAssetsKey(assetsKey);
         }
 
-        public string GetDefaultAssetsKey(Guid publicationID, Guid carID, Guid objectID)
+        public string GetDefaultCarAssetsKey(Guid publicationID, Guid carID, Guid objectID)
         {
-            var assetsKey = GetAssetsKey(publicationID, carID, objectID);
+            var assetsKey = GetCarAssetsKey(publicationID, carID, objectID);
+
+            return GetDefaultAssetsKey(assetsKey);
+        }
+
+        public string GetDefaultSubModelAssetsKey(Guid publicationID, Guid timeFrameID, Guid subModelID, Guid objectID)
+        {
+            var assetsKey = GetSubModelAssetsKey(publicationID, subModelID, objectID, timeFrameID);
 
             return GetDefaultAssetsKey(assetsKey);
         }
@@ -147,9 +143,34 @@ namespace TME.CarConfigurator.S3.Shared
             return GetAssetsKeyWithViewAndMode(GetAssetsKeyPrefix(publicationId, objectId), view, mode);
         }
 
-        public string GetAssetsKey(Guid publicationID, Guid carID, Guid objectID, string view, string mode)
+        public string GetSubModelAssetsKey(Guid publicationID, Guid timeFrameID, Guid subModelID, Guid objectID, string view, string mode)
         {
-            return GetAssetsKeyWithViewAndMode(GetAssetsKey(publicationID, carID, objectID), view, mode);
+            return GetAssetsKeyWithViewAndMode(GetSubModelAssetsKey(publicationID, subModelID, timeFrameID,objectID), view, mode);
+        }
+
+        private string GetSubModelAssetsKey(Guid publicationID, Guid subModelID, Guid objectID, Guid timeFrameID)
+        {
+            return string.Format("{0}/assets/{1}", GetSubModelKey(publicationID, timeFrameID, subModelID), objectID);
+        }
+
+        public string GetSubModelKey(Guid publicationID, Guid timeFrameID,Guid subModelID)
+        {
+            return string.Format("{0}/submodel/{1}", GetTimeFrameKey(publicationID, timeFrameID),subModelID);
+        }
+
+        public string GetCarAssetsKey(Guid publicationID, Guid carID, Guid objectID, string view, string mode)
+        {
+            return GetAssetsKeyWithViewAndMode(GetCarAssetsKey(publicationID, carID, objectID), view, mode);
+        }
+
+        private string GetCarAssetsKey(Guid publicationId, Guid carId, Guid objectId)
+        {
+            return string.Format("{0}/assets/{1}", GetCarKey(publicationId, carId), objectId);
+        }
+
+        private string GetCarKey(Guid publicationID, Guid carID)
+        {
+            return string.Format("{0}/car/{1}", GetPublicationKey(publicationID), carID);
         }
 
         private string GetAssetsKeyWithViewAndMode(string assetsKey, string view, string mode)

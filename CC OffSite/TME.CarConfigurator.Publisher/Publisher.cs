@@ -94,16 +94,15 @@ namespace TME.CarConfigurator.Publisher
 
         private async Task PublishAsync(IContext context, IEnumerable<string> languageCodes)
         {
-
             foreach (var lanuageCode in languageCodes)
             {
                 var data = context.ContextData[lanuageCode];
                 var timeFrames = context.TimeFrames[lanuageCode];
                 CreateAndAddPublication(data, timeFrames);
             }
-
             var tasks = new List<Task>
             {
+                _assetPublisher.PublishSubModelAssetsAsync(context),
                 _publicationPublisher.PublishPublicationsAsync(context),
                 _bodyTypePublisher.PublishGenerationBodyTypesAsync(context),
                 _enginePublisher.PublishGenerationEnginesAsync(context),
@@ -122,6 +121,7 @@ namespace TME.CarConfigurator.Publisher
                 _gradePackPublisher.PublishAsync(context),
                 _assetPublisher.PublishAssetsAsync(context),
                 _assetPublisher.PublishCarAssetsAsync(context)
+                
             };
 
             await Task.WhenAll(tasks);

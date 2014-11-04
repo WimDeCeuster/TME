@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using FakeItEasy;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
@@ -9,6 +10,7 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.S3.CommandServices;
 using TME.CarConfigurator.S3.Publisher;
+using TME.CarConfigurator.S3.Publisher.Interfaces;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
@@ -61,6 +63,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
 
             _s3Service = A.Fake<IService>();
 
+            var timeFramePublishHelper = A.Fake<ITimeFramePublishHelper>();
             var serialiser = A.Fake<ISerialiser>();
             A.CallTo(() => serialiser.Serialise(A<IEnumerable<Asset>>._)).Returns(SERIALIZEDASSETS);
             var keymanager = A.Fake<IKeyManager>();
@@ -70,7 +73,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
                 .Returns(BODYTYPE_ASSETKEY);
 
             _assetService = new AssetsService(_s3Service, serialiser, keymanager);
-            _publisher = new AssetPublisher(_assetService);
+            _publisher = new AssetPublisher(_assetService,timeFramePublishHelper);
         }
 
         protected override void Act()

@@ -1,24 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
+using TME.CarConfigurator.S3.Publisher.Interfaces;
 
 namespace TME.CarConfigurator.S3.Publisher
 {
     public class AssetPublisher : IAssetPublisher
     {
         private readonly IAssetService _assetService;
+        private readonly ITimeFramePublishHelper _timeFramePublishHelper;
 
-        public AssetPublisher(IAssetService assetService)
+        public AssetPublisher(IAssetService assetService, ITimeFramePublishHelper timeFramePublishHelper)
         {
             if (assetService == null) throw new ArgumentNullException("assetService");
+            if (timeFramePublishHelper == null) throw new ArgumentNullException("timeFramePublishHelper");
 
             _assetService = assetService;
+            _timeFramePublishHelper = timeFramePublishHelper;
         }
 
         public async Task PublishAssetsAsync(IContext context)
@@ -73,33 +79,61 @@ namespace TME.CarConfigurator.S3.Publisher
 
         public async Task PublishCarAssetsAsync(IContext context)
         {
-            var tasks = context.ContextData.Keys.Select(languageCode => PublishAssets(context.Brand, context.Country, context.ContextData[languageCode].Publication.ID, context.ContextData[languageCode].CarAssets));
+            var tasks = context.ContextData.Keys.Select(languageCode => PublishCarAssets(context.Brand, context.Country, context.ContextData[languageCode].Publication.ID, context.ContextData[languageCode].CarAssets));
             await Task.WhenAll(tasks);
         }
 
-        private async Task PublishAssets(string brand, string country, Guid publicationID, IDictionary<Guid, IDictionary<Guid, IList<Asset>>> carAssets)
+        public async Task PublishSubModelAssetsAsync(IContext context)
         {
-            await Task.WhenAll(carAssets.Keys.Select(carId => PublishAssets(brand, country, publicationID, carId, carAssets[carId])));
-        }
-        private async Task PublishAssets(string brand, string country, Guid publicationID, Guid carId, IDictionary<Guid, IList<Asset>> assetsPerObjectID)
-        {
-            await Task.WhenAll(assetsPerObjectID.Keys.Select(objectID => PublishAssets(assetsPerObjectID[objectID],
-                async assets => await PublishAssetsByModeAndView(brand, country, publicationID, carId, objectID, assets),
-                async assets => await PublishDefaultAssets(brand, country, publicationID, carId, objectID, assets))));
+            await _timeFramePublishHelper.PublishObjectsPerSubModel(context, timeFrame => timeFrame.SubModels, timeFrame => timeFrame.SubModelAssets, SubModelPublish);
         }
 
-        private async Task PublishDefaultAssets(string brand, string country, Guid publicationID, Guid carId, Guid objectID, IEnumerable<Asset> assets)
+        private async Task SubModelPublish(string brand, string country, Guid publicationID, Guid timeFrameID, Guid subModelID, List<Grade> grades, IReadOnlyDictionary<Guid, IDictionary<Guid, IList<Asset>>> subModelAssetsPerObject)
+        {
+            var assetsPerObject =
+                subModelAssetsPerObject.Where(entry => entry.Key == subModelID)
+                    .SelectMany(entry => entry.Value)
+                    .ToList();
+
+            var tasks = new List<IEnumerable<Task>>();
+            var task = new List<Task>();
+            
+            foreach (var entry in assetsPerObject)
+            {
+                var assetsByModeAndView = GetAssetsGroupedByModeAndView(entry.Value);
+                tasks.Add(assetsByModeAndView.Select(grouping => _assetService.PutSubModelAssetsByModeAndView(brand, country, publicationID, timeFrameID, subModelID, entry.Key, grouping.Key.Mode, grouping.Key.View, grouping)));
+                var assetsByDefault = GetDefaultAssets(entry.Value);
+                task.Add(_assetService.PutSubModelDefaultAssets(brand, country, publicationID, timeFrameID, subModelID, entry.Key, assetsByDefault));
+                tasks.Add(task);
+            }
+            
+            await Task.WhenAll(tasks.SelectMany(t => t));
+        }
+
+        private async Task PublishCarAssets(string brand, string country, Guid publicationID, IDictionary<Guid, IDictionary<Guid, IList<Asset>>> carAssets)
+        {
+            await Task.WhenAll(carAssets.Keys.Select(carId => PublishCarAssets(brand, country, publicationID, carId, carAssets[carId])));
+        }
+
+        private async Task PublishCarAssets(string brand, string country, Guid publicationID, Guid objectID, IDictionary<Guid, IList<Asset>> assetsPerObjectID)
+        {
+            await Task.WhenAll(assetsPerObjectID.Keys.Select(subObjectID => PublishAssets(assetsPerObjectID[subObjectID],
+                async assets => await PublishCarAssetsByModeAndView(brand, country, publicationID, objectID, subObjectID, assets),
+                async assets => await PublishCarDefaultAssets(brand, country, publicationID, objectID, subObjectID, assets))));
+        }
+
+        private async Task PublishCarDefaultAssets(string brand, string country, Guid publicationID, Guid carId, Guid objectID, IEnumerable<Asset> assets)
         {
             var defaultAssets = GetDefaultAssets(assets);
 
-            await _assetService.PutDefaultAssets(brand, country, publicationID, carId, objectID, defaultAssets);
+            await _assetService.PutCarDefaultAssets(brand, country, publicationID, carId, objectID, defaultAssets);
         }
 
-        private async Task PublishAssetsByModeAndView(string brand, string country, Guid publicationID, Guid carId, Guid objectID, IEnumerable<Asset> assets)
+        private async Task PublishCarAssetsByModeAndView(string brand, string country, Guid publicationID, Guid carId, Guid objectID, IEnumerable<Asset> assets)
         {
             var assetsByModeAndView = GetAssetsGroupedByModeAndView(assets);
 
-            var tasks = assetsByModeAndView.Select(grouping => _assetService.PutAssetsByModeAndView(brand, country, publicationID, carId, objectID, grouping.Key.Mode, grouping.Key.View, grouping));
+            var tasks = assetsByModeAndView.Select(grouping => _assetService.PutCarAssetsByModeAndView(brand, country, publicationID, carId, objectID, grouping.Key.Mode, grouping.Key.View, grouping));
 
             await Task.WhenAll(tasks);
         }
