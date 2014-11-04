@@ -72,7 +72,6 @@
     <Compile Include="Equipment\ICarEquipmentItem.cs" />
     <Compile Include="Equipment\ICarOption.cs" />
     <Compile Include="Equipment\ICategoryInfo.cs" />
-    <Compile Include="Equipment\IEquipmentCompare.cs" />
     <Compile Include="Equipment\IEquipmentItem.cs" />
     <Compile Include="Equipment\IGradeEquipmentItem.cs" />
     <Compile Include="Equipment\IMountingCosts.cs" />
@@ -110,7 +109,6 @@
     <Compile Include="IWheelDrive.cs" />
     <Compile Include="Packs\IGradePack.cs" />
     <Compile Include="Packs\IPack.cs" />
-    <Compile Include="Packs\IPackCompare.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TechnicalSpecifications\ICategory.cs" />
     <Compile Include="TechnicalSpecifications\ICategoryInfo.cs" />
