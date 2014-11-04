@@ -1,4 +1,7 @@
 ﻿
+using System.Collections.Generic;
+using TME.CarConfigurator.Interfaces.Assets;
+using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Core;
 
 namespace TME.CarConfigurator.Interfaces.Equipment
@@ -9,5 +12,11 @@ namespace TME.CarConfigurator.Interfaces.Equipment
         bool Optional { get; }
 
         IPrice TotalPrice { get; }
+        
+        IReadOnlyList<IVisibleInModeAndView> VisibleIn { get; }
+        IReadOnlyList<IAsset> Assets { get; }
+
+        IReadOnlyList<IExteriorColourInfo> AvailableForExteriorColours { get; }
+        IReadOnlyList<IUpholsteryInfo> AvailableForUpholsteries { get; }
     }
 }

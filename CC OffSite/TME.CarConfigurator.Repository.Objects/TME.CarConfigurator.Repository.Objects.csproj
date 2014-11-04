@@ -56,6 +56,8 @@
     <Compile Include="CarPart.cs" />
     <Compile Include="Colours\ColourCombination.cs" />
     <Compile Include="Colours\ColourTransformation.cs" />
+    <Compile Include="Colours\ExteriorColourInfo.cs" />
+    <Compile Include="Colours\UpholsteryInfo.cs" />
     <Compile Include="Colours\Upholstery.cs" />
     <Compile Include="Colours\UpholsteryType.cs" />
     <Compile Include="Colours\ExteriorColour.cs" />
