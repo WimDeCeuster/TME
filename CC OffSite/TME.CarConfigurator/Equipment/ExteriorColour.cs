@@ -17,7 +17,7 @@ namespace TME.CarConfigurator.Equipment
 
         public IColourTransformation Transformation
         {
-            get { return _transformation = _transformation ?? new ColourTransformation(RepositoryObject.Transformation); }
+            get { return RepositoryObject.Transformation == null ? null : _transformation = _transformation ?? new ColourTransformation(RepositoryObject.Transformation); }
         }
     }
 }

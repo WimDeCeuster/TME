@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using TME.CarConfigurator.Administration.Assets;
 using TME.CarConfigurator.Publisher.Exceptions;
+using TME.CarConfigurator.Repository.Objects.Colours;
 
 namespace TME.CarConfigurator.Publisher.Extensions
 {
@@ -11,6 +12,16 @@ namespace TME.CarConfigurator.Publisher.Extensions
         public static IEnumerable<AssetSetAsset> GetGenerationAssets(this IEnumerable<AssetSetAsset> assets)
         {
             return assets.Where(asset => !asset.IsDeviation() && asset.AlwaysInclude);
+        }
+
+        public static IEnumerable<AssetSetAsset> GetExteriorColourAssets(this IEnumerable<AssetSetAsset> assets)
+        {
+            return assets.Where(asset => asset.Upholstery.IsEmpty());
+        }
+
+        public static IEnumerable<AssetSetAsset> GetUpholsteryAssets(this IEnumerable<AssetSetAsset> assets)
+        {
+            return assets.Where(asset => asset.ExteriorColour.IsEmpty());
         }
 
         public static IEnumerable<AssetSetAsset> Filter(this IList<AssetSetAsset> assets, Administration.Car car)

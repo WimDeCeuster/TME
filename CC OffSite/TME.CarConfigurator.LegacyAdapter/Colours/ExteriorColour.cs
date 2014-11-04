@@ -34,7 +34,6 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
         {
             get
             {
-
                 try
                 {
                     return new ColourTransformation(Adaptee.Transformation);
@@ -43,8 +42,6 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
                 {
                     return null;
                 }
-
-               
             }
         }
 

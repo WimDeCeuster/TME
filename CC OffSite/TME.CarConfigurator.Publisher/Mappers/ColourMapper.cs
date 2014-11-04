@@ -119,7 +119,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
             var colourSchemaAsset = GetColourSchemaAsset(generation, isPreview);
             if (colourSchemaAsset == null)
-                return new ColourTransformation();
+                return null;
 
             var fileContent = _assetFileService.GetFileContent(colourSchemaAsset.FileName);
 
@@ -131,7 +131,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var item = root.Elements("item").FirstOrDefault(el => el.Attribute("name").Value.Equals(colourCode, StringComparison.InvariantCultureIgnoreCase));
 
             if (item == null)
-                return new ColourTransformation();
+                return null;
 
             var invariantCulture = CultureInfo.GetCultureInfo(String.Empty);
 

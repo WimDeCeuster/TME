@@ -129,3 +129,29 @@ table td { vertical-align: top;}
 .toggle-all {
     cursor: pointer;
 }
+
+#validated, #validating {
+    padding-left: 20px;
+    background-size: 16px;
+    background-repeat: no-repeat;
+}
+
+#validated, #valid, #invalid {
+    display: none;
+}
+
+#validated.valid, #validated.invalid, #validated.valid #valid, #validated.invalid #invalid {
+    display: inherit;
+}
+
+#validated.valid {
+    background-image: url('images/valid.gif');
+}
+
+#validated.invalid {
+    background-image: url('images/invalid.gif');
+}
+
+#validating {
+    background-image: url('images/loading.gif');
+}
