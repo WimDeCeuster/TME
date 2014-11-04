@@ -14,7 +14,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
         #endregion
 
         #region Constructor
-        public CarAccessory(TMME.CarConfigurator.CarAccessory adaptee, TMME.CarConfigurator.Car carOfAdaptee)
+        public CarAccessory(TMME.CarConfigurator.CarAccessory adaptee)
             : base(adaptee)
         {
             Adaptee = adaptee;
@@ -22,18 +22,28 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
         #endregion
 
 
-        public override IPrice TotalPrice
+        public override IPrice Price
         {
-            get { return new Price(Adaptee); }
+            get
+            {
+                return new Price
+                {
+                    PriceExVat = Adaptee.TotalPriceExVat,
+                    PriceInVat = Adaptee.TotalPriceInVat
+                }; 
+            }
         }
 
         public IPrice BasePrice
         {
-            get { return new Price
-                            {
-                                PriceExVat = Adaptee.PriceExVat,
-                                PriceInVat =  Adaptee.PriceInVat
-                            }; 
+            get 
+            
+            { 
+                return new Price
+                {
+                    PriceExVat = Adaptee.PriceExVat,
+                    PriceInVat =  Adaptee.PriceInVat
+                }; 
             }
         }
 

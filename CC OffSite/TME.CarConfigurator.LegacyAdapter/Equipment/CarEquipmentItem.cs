@@ -116,7 +116,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
             get { return Adaptee.Optional; }
         }
 
-        public abstract IPrice TotalPrice { get; }
+        public abstract IPrice Price { get; }
 
         public IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {

@@ -23,7 +23,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
         }
         #endregion
 
-        public override IPrice TotalPrice
+        public override IPrice Price
         {
             get { return new Price(Adaptee);}
         }

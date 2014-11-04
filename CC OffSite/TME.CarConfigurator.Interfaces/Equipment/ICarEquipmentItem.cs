@@ -11,7 +11,7 @@ namespace TME.CarConfigurator.Interfaces.Equipment
         bool Standard { get; }
         bool Optional { get; }
 
-        IPrice TotalPrice { get; }
+        IPrice Price { get; }
         
         IReadOnlyList<IVisibleInModeAndView> VisibleIn { get; }
         IReadOnlyList<IAsset> Assets { get; }
