@@ -84,6 +84,7 @@
     <Compile Include="Equipment\Option.cs" />
     <Compile Include="CarInfo.cs" />
     <Compile Include="Interfaces\IAvailabilityProperties.cs" />
+    <Compile Include="Packs\CarPack.cs" />
     <Compile Include="Packs\GradePack.cs" />
     <Compile Include="Packs\Pack.cs" />
     <Compile Include="Steering.cs" />

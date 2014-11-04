@@ -107,6 +107,7 @@
     <Compile Include="IModel.cs" />
     <Compile Include="ISteering.cs" />
     <Compile Include="IWheelDrive.cs" />
+    <Compile Include="Packs\ICarPack.cs" />
     <Compile Include="Packs\IGradePack.cs" />
     <Compile Include="Packs\IPack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

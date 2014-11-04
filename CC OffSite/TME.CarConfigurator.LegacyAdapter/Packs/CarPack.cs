@@ -1,23 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
-using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.Interfaces.Packs;
 using TME.CarConfigurator.LegacyAdapter.Colours;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
-using TMME.CarConfigurator;
-using IExteriorColour = TME.CarConfigurator.Interfaces.Equipment.IExteriorColour;
 using IPrice = TME.CarConfigurator.Interfaces.Core.IPrice;
-using Visibility = TME.CarConfigurator.Interfaces.Enums.Visibility;
 
-namespace TME.CarConfigurator.LegacyAdapter.Equipment
+namespace TME.CarConfigurator.LegacyAdapter.Packs
 {
-    public abstract class CarEquipmentItem : BaseObject, ICarEquipmentItem
+    public class CarPack : BaseObject, ICarPack
     {
-
+        
         #region Dependencies (Adaptee)
-        private TMME.CarConfigurator.CarEquipmentItem Adaptee
+        private TMME.CarConfigurator.CarPack Adaptee
         {
             get;
             set;
@@ -25,39 +21,16 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
         #endregion
 
         #region Constructor
-        protected CarEquipmentItem(TMME.CarConfigurator.CarEquipmentItem adaptee)
+        public CarPack(TMME.CarConfigurator.CarPack adaptee)
             : base(adaptee)
         {
             Adaptee = adaptee;
         }
-
-
-
         #endregion
 
         public int ShortID
         {
             get { return Adaptee.ShortID; }
-        }
-
-        public string InternalName
-        {
-            get { return Adaptee.InternalName; }
-        }
-
-        public string PartNumber
-        {
-            get { return Adaptee.PartNumber; }
-        }
-
-        public string Path
-        {
-            get { return Adaptee.Path; }
-        }
-
-        public bool KeyFeature
-        {
-            get { return Adaptee.KeyFeature; }
         }
 
         public bool GradeFeature
@@ -70,42 +43,6 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
             get { return Adaptee.OptionalGradeFeature; }
         }
 
-        public bool Brochure
-        {
-            get { return Adaptee.Brochure; }
-        }
-
-        public Visibility Visibility
-        {
-            get { return Adaptee.Visibility.ToVisibility(); }
-        }
-
-        public IBestVisibleIn BestVisibleIn
-        {
-            get { return new BestVisibleIn(Adaptee.BestVisibleIn); }
-        }
-
-        public ICategoryInfo Category
-        {
-            get { return new CategoryInfo(Adaptee.Category); }
-        }
-
-     
-        public IExteriorColour ExteriorColour
-        {
-            get
-            {
-                var colour = Adaptee.Colour;
-                return colour.IsEmpty() ? null : new ExteriorColour(colour);
-            }
-        }
-
-
-        public IEnumerable<ILink> Links
-        {
-            get { return Adaptee.Links.Cast<TMME.CarConfigurator.Link>().Select(x => new Link(x)); }
-        }
-
         public bool Standard
         {
             get { return Adaptee.Standard; }
@@ -116,11 +53,9 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
             get { return Adaptee.Optional; }
         }
 
-        public abstract IPrice TotalPrice { get; }
-
-        public IReadOnlyList<IVisibleInModeAndView> VisibleIn
+        public IPrice Price
         {
-            get { return Adaptee.Assets.GetVisibleInModeAndViews(); }
+            get { return new Price(Adaptee); }
         }
 
         public IReadOnlyList<IAsset> Assets

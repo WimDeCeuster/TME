@@ -1,0 +1,36 @@
+﻿@model IEnumerable<TME.CarConfigurator.Interfaces.Packs.ICarPack>
+
+
+@foreach (var model in Model)
+{
+    <div class="object" data-id="@(model.Name)">
+        <div class="title">
+            <strong>@Html.Raw(model.Name)</strong>
+        </div>
+        <div class="content">
+            @Html.Partial("_baseObject", model)
+            <p class="property" data-id="GradeFeature">GradeFeature : @Html.Raw(model.GradeFeature)</p>
+            <p class="property" data-id="OptionalGradeFeature">OptionalGradeFeature : @Html.Raw(model.OptionalGradeFeature)</p>
+            <p class="property" data-id="PricePriceExVat">Price.PriceExVat : @Html.Raw(model.Price.PriceExVat)</p>
+            <p class="property" data-id="PricePriceInVat">Price.PriceInVat : @Html.Raw(model.Price.PriceInVat)</p>
+            <p class="property" data-id="Standard">Standard : @Html.Raw(model.Standard)</p>
+            <p class="property" data-id="Optional">Optional : @Html.Raw(model.Optional)</p>
+            <p class="property" data-id="AvailableForExteriorColours">
+                AvailableForExteriorColours : 
+                @if (model.AvailableForExteriorColours != null)
+                {
+                    var list = model.AvailableForExteriorColours.Select(x => x.InternalCode).OrderBy(x => x);
+                    Html.Raw(String.Join(",", list));
+                }
+            </p>
+            <p class="property" data-id="AvailableForUpholsteries">
+                AvailableForUpholsteries : 
+                @if (model.AvailableForUpholsteries != null)
+                {
+                    var list = model.AvailableForUpholsteries.Select(x => x.InternalCode).OrderBy(x => x);
+                    Html.Raw(String.Join(",", list));
+                }
+            </p>
+        </div>
+    </div>
+}

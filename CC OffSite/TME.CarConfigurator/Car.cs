@@ -5,6 +5,7 @@ using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Interfaces.Packs;
 
 namespace TME.CarConfigurator
 {
@@ -60,6 +61,11 @@ namespace TME.CarConfigurator
         }
 
         public ICarEquipment Equipment
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IReadOnlyList<ICarPack> Packs
         {
             get { throw new NotImplementedException(); }
         }

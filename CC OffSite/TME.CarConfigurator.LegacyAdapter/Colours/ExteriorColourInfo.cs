@@ -5,7 +5,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
 {
     public class ExteriorColourInfo : IExteriorColourInfo
     {
-        public ExteriorColourInfo(CarExteriorColour carExteriorColour)
+        public ExteriorColourInfo(TMME.CarConfigurator.CarExteriorColour carExteriorColour)
         {
             ID = carExteriorColour.ID;
             InternalCode = carExteriorColour.InternalCode;
