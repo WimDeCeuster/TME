@@ -9,6 +9,7 @@ using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Publisher.Progress;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Extensions;
@@ -89,13 +90,15 @@ namespace TME.CarConfigurator.Publisher
             _categoryMapper = categoryMapper;
         }
 
-        public Task MapAsync(IContext context)
+        public Task MapAsync(IContext context, IProgress<PublishProgress> progress)
         {
-            return Task.Run(() => Map(context));
+            return Task.Run(() => Map(context, progress));
         }
 
-        private void Map(IContext context)
+        private void Map(IContext context, IProgress<PublishProgress> progress)
         {
+            progress.Report(new PublishProgress("Retrieving generation for every language"));
+
             var data = GetModelGenerationForEachLanguage(context.Brand, context.Country, context.GenerationID);
             var isPreview = context.DataSubset == PublicationDataSubset.Preview;
 
@@ -112,29 +115,52 @@ namespace TME.CarConfigurator.Publisher
                 context.ContextData[language] = contextData;
 
                 // fill contextData
-                var generation = _generationMapper.MapGeneration(model, modelGeneration, isPreview);
-                contextData.Generations.Add(generation);
+
+                progress.Report(new PublishProgress(String.Format("Fill context data for language {0}", language)));
+
+                progress.Report(new PublishProgress("Map generation"));
+                contextData.Generations.Add(_generationMapper.MapGeneration(model, modelGeneration, isPreview));
+                progress.Report(new PublishProgress("Map model"));
                 contextData.Models.Add(_modelMapper.MapModel(model));
 
+
+                progress.Report(new PublishProgress("Get generation cars"));
                 var cars = modelGeneration.Cars.Where(car => isPreview ? car.Preview : car.Approved).ToList();
+                progress.Report(new PublishProgress("Get generation grades"));
                 var grades = modelGeneration.Grades.Where(grade => cars.Any(car => car.GradeID == grade.ID)).ToArray();
 
+                progress.Report(new PublishProgress("Fill generation assets"));
                 FillAssets(modelGeneration, contextData);
+                progress.Report(new PublishProgress("Fill generation body types"));
                 FillBodyTypes(cars, modelGeneration, contextData);
+                progress.Report(new PublishProgress("Fill generation engines"));
                 FillEngines(cars, modelGeneration, contextData);
+                progress.Report(new PublishProgress("Fill generation transmissions"));
                 FillTransmissions(cars, modelGeneration, contextData);
+                progress.Report(new PublishProgress("Fill generation wheeldrives"));
                 FillWheelDrives(cars, modelGeneration, contextData);
+                progress.Report(new PublishProgress("Fill generation steerings"));
                 FillSteerings(cars, contextData);
+                progress.Report(new PublishProgress("Fill generation colour combinations"));
                 FillColourCombinations(cars, modelGeneration, contextData, isPreview);
+                progress.Report(new PublishProgress("Fill generation cars"));
                 FillCars(cars, contextData);
+                progress.Report(new PublishProgress("Fill generation grades"));
                 FillGrades(cars, modelGeneration, contextData);
+                progress.Report(new PublishProgress("Fill generation car assets"));
                 FillCarAssets(cars, contextData, modelGeneration);
+                progress.Report(new PublishProgress("Fill grade equipment"));
                 FillGradeEquipment(grades, modelGeneration, contextData, isPreview);
+                progress.Report(new PublishProgress("Fill generation submodels"));
                 FillSubModels(grades, cars, modelGeneration, contextData, isPreview);
+                progress.Report(new PublishProgress("Fill generation grade packs"));
                 FillGradePacks(grades, contextData, isPreview);
+                progress.Report(new PublishProgress("Fill generation equipment categories"));
                 FillEquipmentCategories(contextData);
+                progress.Report(new PublishProgress("Fill generation specification categories"));
                 FillSpecificationCategories(contextData);
 
+                progress.Report(new PublishProgress("Fill publication timeframes"));
                 context.TimeFrames[language] = _timeFrameMapper.GetTimeFrames(language, context);
             }
         }
