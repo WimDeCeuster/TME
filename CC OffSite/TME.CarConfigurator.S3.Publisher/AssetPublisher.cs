@@ -74,7 +74,7 @@ namespace TME.CarConfigurator.S3.Publisher
 
         private static IEnumerable<Asset> GetDefaultAssets(IEnumerable<Asset> assets)
         {
-            return assets.Where(a => String.IsNullOrEmpty(a.AssetType.Mode) || String.IsNullOrEmpty(a.AssetType.View));
+            return assets.Where(a => String.IsNullOrEmpty(a.AssetType.Mode) && String.IsNullOrEmpty(a.AssetType.View));
         }
 
         public async Task PublishCarAssetsAsync(IContext context)
