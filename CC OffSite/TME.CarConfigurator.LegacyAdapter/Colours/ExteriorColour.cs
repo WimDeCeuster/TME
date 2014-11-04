@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
-using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.LegacyAdapter.Extensions;
 
 namespace TME.CarConfigurator.LegacyAdapter.Colours
 {
-    public class ExteriorColour :  IExteriorColour
+    public class ExteriorColour :  BaseObject, IExteriorColour
     {
         #region Dependencies (Adaptee)
-        private TMME.CarConfigurator.ExteriorColour Adaptee
+        private TMME.CarConfigurator.CarExteriorColour Adaptee
         {
             get;
             set;
@@ -18,67 +17,17 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
         #endregion
 
         #region Constructor
-        public ExteriorColour(TMME.CarConfigurator.ExteriorColour adaptee) 
+        public ExteriorColour(TMME.CarConfigurator.CarExteriorColour adaptee)
+            : base(adaptee)
         {
             Adaptee = adaptee;
         }
         #endregion
 
-        public Guid ID
-        {
-            get { return Adaptee.ID; }
-        }
-
-        public string InternalCode
-        {
-            get { return Adaptee.Code; }
-        }
-
-        public string LocalCode
-        {
-            get { return string.Empty; }
-        }
-
-        public string Name
-        {
-            get
-            {
-                try
-                {
-                    return Adaptee.Name;
-                }
-                catch (Exception)
-                {
-                    return string.Empty;
-                }
-    
-            }
-        }
-
-        public string Description
-        {
-            get { return string.Empty; }
-        }
-
-        public string FootNote
-        {
-            get { return string.Empty; }
-        }
-
-        public string ToolTip
-        {
-            get { return string.Empty; }
-        }
-
-        public int SortIndex
-        {
-            get { return 0; }
-        }
-
-
+     
         public bool Promoted
         {
-            get { return false; }
+            get { return Adaptee.IsPromoted; }
         }
 
         public IColourTransformation Transformation
@@ -101,29 +50,19 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
 
         public IExteriorColourType Type
         {
-            get { return null; }
+            get { return new ExteriorColourType(Adaptee.Type); }
+        }
+
+        public IReadOnlyList<IVisibleInModeAndView> VisibleIn
+        {
+            get { return Adaptee.Assets.GetVisibleInModeAndViews(); }
         }
 
         public IReadOnlyList<IAsset> Assets
         {
-            get { return new List<IAsset>(); }
+            get { return Adaptee.Assets.GetPlainAssets(); }
         }
 
 
-        public IEnumerable<ILabel> Labels
-        {
-            get
-            {
-
-                try
-                {
-                    return Adaptee.Labels.Cast<TMME.CarConfigurator.Label>().Select(x => new Label(x)).ToList(); 
-                }
-                catch (Exception)
-                {
-                    return new List<ILabel>();
-                }
-            }
-        }
     }
 }
