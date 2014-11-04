@@ -8,6 +8,7 @@ using TME.CarConfigurator.LegacyAdapter.Colours;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
 using TMME.CarConfigurator;
 using CarExteriorColour = TME.CarConfigurator.LegacyAdapter.Colours.CarExteriorColour;
+using IExteriorColour = TME.CarConfigurator.Interfaces.Equipment.IExteriorColour;
 using IPrice = TME.CarConfigurator.Interfaces.Core.IPrice;
 using Visibility = TME.CarConfigurator.Interfaces.Enums.Visibility;
 
@@ -22,19 +23,13 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
             get;
             set;
         }
-        private TMME.CarConfigurator.Car CarOfAdaptee
-        {
-            get;
-            set;
-        }
         #endregion
 
         #region Constructor
-        protected CarEquipmentItem(TMME.CarConfigurator.CarEquipmentItem adaptee, TMME.CarConfigurator.Car carOfAdaptee)
+        protected CarEquipmentItem(TMME.CarConfigurator.CarEquipmentItem adaptee)
             : base(adaptee)
         {
             Adaptee = adaptee;
-            CarOfAdaptee = carOfAdaptee;
         }
 
 
@@ -96,19 +91,17 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
             get { return new CategoryInfo(Adaptee.Category); }
         }
 
+     
         public IExteriorColour ExteriorColour
         {
             get
             {
                 var colour = Adaptee.Colour;
-                if (colour.IsEmpty()) return null;
-
-                var carColour = CarOfAdaptee.Colours.ExteriorColours[colour.ID];
-                return carColour == null
-                    ? (IExteriorColour)new Colours.ExteriorColour(colour)
-                    : new Colours.CarExteriorColour(carColour);
+                return colour.IsEmpty() ? null : new ExteriorColour(colour);
             }
         }
+
+
         public IEnumerable<ILink> Links
         {
             get { return Adaptee.Links.Cast<TMME.CarConfigurator.Link>().Select(x => new Link(x)); }

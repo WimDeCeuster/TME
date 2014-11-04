@@ -4,20 +4,13 @@ using System.Linq;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Equipment;
-using TME.CarConfigurator.Interfaces.Factories;
-using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.Equipment
 {
     public abstract class GradeEquipmentItem<T> : BaseObject<T>, IGradeEquipmentItem
         where T : Repository.Objects.Equipment.GradeEquipmentItem
     {
-        readonly IColourFactory _colourFactory;
-        readonly Context _context;
-        readonly Publication _publication;
-
         IExteriorColour _exteriorColour;
         ICategoryInfo _categoryInfo;
         IReadOnlyList<ILink> _links;
@@ -26,16 +19,10 @@ namespace TME.CarConfigurator.Equipment
         IReadOnlyList<ICarInfo> _notAvailableOn;
         BestVisibleIn _bestVisibleIn;
 
-        protected GradeEquipmentItem(T repositoryEquipmentItem, Publication publication, Context context, IColourFactory colourFactory)
+        protected GradeEquipmentItem(T repositoryEquipmentItem)
             : base(repositoryEquipmentItem)
         {
-            if (publication == null) throw new ArgumentNullException("publication");
-            if (context == null) throw new ArgumentNullException("context");
-            if (colourFactory == null) throw new ArgumentNullException("colourFactory");
 
-            _publication = publication;
-            _context = context;
-            _colourFactory = colourFactory;
         }
 
         public int ShortID { get { return RepositoryObject.ShortID; } }
@@ -70,11 +57,9 @@ namespace TME.CarConfigurator.Equipment
 
         public ICategoryInfo Category { get { return _categoryInfo = _categoryInfo ?? new CategoryInfo(RepositoryObject.Category); } }
 
-        public Interfaces.Colours.IExteriorColour ExteriorColour { get { return RepositoryObject.ExteriorColour == null ? null : _exteriorColour = _exteriorColour ?? _colourFactory.GetExteriorColour(RepositoryObject.ExteriorColour, _publication, _context); } }
+        public IExteriorColour ExteriorColour { get { return RepositoryObject.ExteriorColour == null ? null : _exteriorColour = _exteriorColour ?? new ExteriorColour(RepositoryObject.ExteriorColour); } }
 
-        public IEnumerable<Interfaces.Assets.IAsset> Assets { get { throw new NotImplementedException(); } }
-
-        public IEnumerable<Interfaces.ILink> Links { get { return _links = _links ?? RepositoryObject.Links.Select(link => new Link(link)).ToList(); } }
+        public IEnumerable<ILink> Links { get { return _links = _links ?? RepositoryObject.Links.Select(link => new Link(link)).ToList(); } }
 
         public IReadOnlyList<ICarInfo> StandardOn { get { return _standardOn = _standardOn ?? RepositoryObject.StandardOn.Select(carInfo => new CarInfo(carInfo)).ToList(); } }
 

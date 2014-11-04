@@ -57,6 +57,7 @@
     <Compile Include="Colours\ColourTransformation.cs" />
     <Compile Include="Core\BaseObject.cs" />
     <Compile Include="CarEngine.cs" />
+    <Compile Include="Equipment\ExteriorColour.cs" />
     <Compile Include="Equipment\ModelEquipment.cs" />
     <Compile Include="Extensions\VisibilityExtensions.cs" />
     <Compile Include="Colours\ExteriorColour.cs" />

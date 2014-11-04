@@ -9,8 +9,9 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Interfaces;
+using TME.CarConfigurator.S3.QueryServices;
 using Car = TME.CarConfigurator.Administration.Car;
-using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
+using ExteriorColour = TME.CarConfigurator.Repository.Objects.Equipment.ExteriorColour;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
@@ -104,13 +105,37 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         ExteriorColour GetColour(ModelGenerationEquipmentItem generationEquipmentItem, Boolean isPreview)
         {
-            var colour = generationEquipmentItem.Generation.ColourCombinations.ExteriorColours().FirstOrDefault(clr => clr.ID == generationEquipmentItem.Colour.ID);
+            var mappedExteriorColour = GetMappedExteriorColour(generationEquipmentItem, isPreview);
+
+            return new ExteriorColour()
+            {
+                ID = mappedExteriorColour.ID,
+                InternalCode = mappedExteriorColour.InternalCode,
+                LocalCode = mappedExteriorColour.LocalCode,
+                Name = mappedExteriorColour.Name,
+                Description = mappedExteriorColour.Description,
+                FootNote = mappedExteriorColour.FootNote,
+                ToolTip = mappedExteriorColour.ToolTip,
+                Labels = mappedExteriorColour.Labels,
+                SortIndex = mappedExteriorColour.SortIndex,
+                Transformation = mappedExteriorColour.Transformation
+            };
+        }
+
+        private Repository.Objects.Colours.ExteriorColour GetMappedExteriorColour(ModelGenerationEquipmentItem generationEquipmentItem, bool isPreview)
+        {
+            var colour =
+                generationEquipmentItem.Generation.ColourCombinations.ExteriorColours()
+                    .FirstOrDefault(clr => clr.ID == generationEquipmentItem.Colour.ID);
+            Repository.Objects.Colours.ExteriorColour mappedExteriorColour = null;
 
             if (colour != null)
-                return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, colour, isPreview);
+                mappedExteriorColour = _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, colour, isPreview);
 
             var crossModelColour = ExteriorColours.GetExteriorColours()[generationEquipmentItem.Colour.ID];
-            return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, crossModelColour, isPreview);
+            mappedExteriorColour = _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, crossModelColour,
+                isPreview);
+            return mappedExteriorColour;
         }
 
         IReadOnlyList<CarInfo> GetAvailabilityInfo(ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, Availability availability, IEnumerable<Car> cars)

@@ -17,7 +17,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
 
         #region Constructor
         public CarOption(TMME.CarConfigurator.CarOption adaptee, TMME.CarConfigurator.Car carOfAdaptee)
-            : base(adaptee, carOfAdaptee)
+            : base(adaptee)
         {
             Adaptee = adaptee;
         }
