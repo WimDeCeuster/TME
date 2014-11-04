@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
-using TME.CarConfigurator.Publisher.Common.Result;
+
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.S3.Shared.Interfaces;
@@ -22,7 +22,7 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keyManager = keyManager;
         }
 
-        public async Task<Result> Put(String brand, String country, Guid publicationID, Guid timeFrameID, Guid gradeID, GradeEquipment gradeEquipment)
+        public async Task Put(String brand, String country, Guid publicationID, Guid timeFrameID, Guid gradeID, GradeEquipment gradeEquipment)
         {
             if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand");
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
@@ -31,10 +31,10 @@ namespace TME.CarConfigurator.S3.CommandServices
             var path = _keyManager.GetGradeEquipmentsKey(publicationID, timeFrameID, gradeID);
             var value = _serialiser.Serialise(gradeEquipment);
 
-            return await _service.PutObjectAsync(brand, country, path, value);
+            await _service.PutObjectAsync(brand, country, path, value);
         }
         
-        public async Task<Result> PutCategoriesAsync(String brand, String country, Guid publicationID, Guid timeFrameID, IEnumerable<Category> categories)
+        public async Task PutCategoriesAsync(String brand, String country, Guid publicationID, Guid timeFrameID, IEnumerable<Category> categories)
         {
             if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand");
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
@@ -43,10 +43,10 @@ namespace TME.CarConfigurator.S3.CommandServices
             var path = _keyManager.GetEquipmentCategoriesKey(publicationID, timeFrameID);
             var value = _serialiser.Serialise(categories);
 
-            return await _service.PutObjectAsync(brand, country, path, value);
+            await _service.PutObjectAsync(brand, country, path, value);
         }
 
-        public async Task<Result> PutPerSubModel(String brand, String country, Guid publicationID, Guid timeFrameID, Guid subModelID, Guid gradeID,
+        public async Task PutPerSubModel(String brand, String country, Guid publicationID, Guid timeFrameID, Guid subModelID, Guid gradeID,
             GradeEquipment gradeEquipment)
         {
             if (brand == null) throw new ArgumentNullException("brand");
@@ -56,7 +56,7 @@ namespace TME.CarConfigurator.S3.CommandServices
             var path = _keyManager.GetSubModelGradeEquipmentsKey(publicationID, timeFrameID, gradeID, subModelID);
             var value = _serialiser.Serialise(gradeEquipment);
 
-            return await _service.PutObjectAsync(brand, country, path, value);
+            await _service.PutObjectAsync(brand, country, path, value);
         }
     }
 }

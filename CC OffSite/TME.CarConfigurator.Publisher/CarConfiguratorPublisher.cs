@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
-using TME.CarConfigurator.Publisher.Common.Result;
+
 using TME.CarConfigurator.Publisher.Interfaces;
 
 namespace TME.CarConfigurator.Publisher
@@ -21,7 +21,7 @@ namespace TME.CarConfigurator.Publisher
             _mapper = mapper;
         }
 
-        public async Task<Result> PublishAsync(Guid generationID, String environment, String target, String brand, String country, PublicationDataSubset dataSubset)
+        public async Task PublishAsync(Guid generationID, String environment, String target, String brand, String country, PublicationDataSubset dataSubset)
         {
             if (String.IsNullOrWhiteSpace(environment)) throw new ArgumentNullException("environment");
             if (String.IsNullOrWhiteSpace(target)) throw new ArgumentNullException("target");
@@ -34,7 +34,7 @@ namespace TME.CarConfigurator.Publisher
 
             var publisher = _publisherFactory.GetPublisher(target, environment, dataSubset);
 
-            return await publisher.PublishAsync(context);
+            await publisher.PublishAsync(context);
         }
     }
 }

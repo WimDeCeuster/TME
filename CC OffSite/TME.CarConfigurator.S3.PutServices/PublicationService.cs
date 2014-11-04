@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
-using TME.CarConfigurator.Publisher.Common.Result;
+
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
@@ -20,7 +20,7 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keyManager = keyManager;
         }
 
-        public async Task<Result> PutPublication(String brand, String country, Publication publication)
+        public async Task PutPublication(String brand, String country, Publication publication)
         {
             if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand");
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
@@ -29,7 +29,7 @@ namespace TME.CarConfigurator.S3.CommandServices
             var path = _keyManager.GetPublicationKey(publication.ID);
             var value = _serialiser.Serialise(publication);
 
-            return await _service.PutObjectAsync(brand, country, path, value);
+            await _service.PutObjectAsync(brand, country, path, value);
         }
     }
 }

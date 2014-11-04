@@ -101,7 +101,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3SpecificationsPublisher
 
         protected override void Act()
         {
-            var result = _publisher.PublishCategoriesAsync(_context).Result;
+             _publisher.PublishCategoriesAsync(_context).Wait();
         }
 
         [Fact]

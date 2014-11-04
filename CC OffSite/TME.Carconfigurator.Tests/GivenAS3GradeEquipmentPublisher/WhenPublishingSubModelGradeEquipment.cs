@@ -120,7 +120,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradeEquipmentPublisher
 
         protected override void Act()
         {
-            var result = _subModelGradeEquipmentPublisher.PublishSubModelGradeEquipmentAsync(_context).Result;
+            _subModelGradeEquipmentPublisher.PublishSubModelGradeEquipmentAsync(_context).Wait();
         }
 
         [Fact]

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
-using TME.CarConfigurator.Publisher.Common.Result;
+
 using TME.CarConfigurator.Repository.Objects.Packs;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
@@ -25,12 +25,12 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keyManager = keyManager;
         }
 
-        public async Task<Result> PutAsync(string brand, string country, Guid publicationId, Guid timeFrameId, Guid gradeId, IList<GradePack> packs)
+        public async Task PutAsync(string brand, string country, Guid publicationId, Guid timeFrameId, Guid gradeId, IList<GradePack> packs)
         {
             var key = _keyManager.GetGradePacksKey(publicationId, timeFrameId, gradeId);
             var serializedPacks = _serialiser.Serialise(packs);
 
-            return await _service.PutObjectAsync(brand, country, key, serializedPacks);
+            await _service.PutObjectAsync(brand, country, key, serializedPacks);
         }
     }
 }

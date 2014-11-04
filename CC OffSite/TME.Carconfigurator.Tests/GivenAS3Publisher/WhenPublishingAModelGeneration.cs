@@ -6,7 +6,7 @@ using FakeItEasy;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
-using TME.CarConfigurator.Publisher.Common.Result;
+
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Publisher.Interfaces;
@@ -62,9 +62,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             _specificationsPublisher = A.Fake<ISpecificationsPublisher>(x => x.Strict());
             _gradePackPublisher = A.Fake<IGradePackPublisher>(x => x.Strict());
             _colourCombinationPublisher = A.Fake<IColourPublisher>(x => x.Strict());
-
-            var successFullTask = Task.FromResult((Result)new Successfull());
-            var successFullTasks = Task.FromResult((IEnumerable<Result>)new[] { new Successfull() });
 
             _serialiser = A.Fake<ISerialiser>();
 
@@ -128,37 +125,38 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
                 contextBuilder.WithModel(language, new Model());
             }
 
+            var task = Task.Run(() => { });
             _context = contextBuilder.Build();
 
             A.CallTo(() => _serialiser.Serialise(null)).WithAnyArguments().ReturnsLazily(args => args.Arguments.First().GetType().Name);
             A.CallTo(() => _serialiser.Serialise(A<Publication>._)).ReturnsLazily(args => SerialisedData);
 
-            A.CallTo(() => _modelPublisher.PublishModelsByLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
+            A.CallTo(() => _modelPublisher.PublishModelsByLanguage(null, null)).WithAnyArguments().Returns(task);
             A.CallTo(() => _modelService.GetModelsByLanguage(_context.Brand, _context.Country)).Returns(new Languages());
 
-            A.CallTo(() => _publicationPublisher.PublishPublicationsAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _bodyTypePublisher.PublishGenerationBodyTypesAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _enginePublisher.PublishGenerationEnginesAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _transmissionPublisher.PublishGenerationTransmissionsAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _wheelDrivePublisher.PublishGenerationWheelDrivesAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _steeringPublisher.PublishGenerationSteeringsAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _gradePublisher.PublishGenerationGradesAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _gradePublisher.PublishSubModelGradesAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _carPublisher.PublishGenerationCarsAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _assetPublisher.PublishAssetsAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _assetPublisher.PublishCarAssetsAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _subModelPublisher.PublishGenerationSubModelsAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _equipmentPublisher.PublishAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _equipmentPublisher.PublishCategoriesAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _equipmentPublisher.PublishSubModelGradeEquipmentAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _specificationsPublisher.PublishCategoriesAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _gradePackPublisher.PublishAsync(_context)).Returns(successFullTasks);
-            A.CallTo(() => _colourCombinationPublisher.PublishGenerationColourCombinations(_context)).Returns(successFullTasks);
+            A.CallTo(() => _publicationPublisher.PublishPublicationsAsync(_context)).Returns(task);
+            A.CallTo(() => _bodyTypePublisher.PublishGenerationBodyTypesAsync(_context)).Returns(task);
+            A.CallTo(() => _enginePublisher.PublishGenerationEnginesAsync(_context)).Returns(task);
+            A.CallTo(() => _transmissionPublisher.PublishGenerationTransmissionsAsync(_context)).Returns(task);
+            A.CallTo(() => _wheelDrivePublisher.PublishGenerationWheelDrivesAsync(_context)).Returns(task);
+            A.CallTo(() => _steeringPublisher.PublishGenerationSteeringsAsync(_context)).Returns(task);
+            A.CallTo(() => _gradePublisher.PublishGenerationGradesAsync(_context)).Returns(task);
+            A.CallTo(() => _gradePublisher.PublishSubModelGradesAsync(_context)).Returns(task);
+            A.CallTo(() => _carPublisher.PublishGenerationCarsAsync(_context)).Returns(task);
+            A.CallTo(() => _assetPublisher.PublishAssetsAsync(_context)).Returns(task);
+            A.CallTo(() => _assetPublisher.PublishCarAssetsAsync(_context)).Returns(task);
+            A.CallTo(() => _subModelPublisher.PublishGenerationSubModelsAsync(_context)).Returns(task);
+            A.CallTo(() => _equipmentPublisher.PublishAsync(_context)).Returns(task);
+            A.CallTo(() => _equipmentPublisher.PublishCategoriesAsync(_context)).Returns(task);
+            A.CallTo(() => _equipmentPublisher.PublishSubModelGradeEquipmentAsync(_context)).Returns(task);
+            A.CallTo(() => _specificationsPublisher.PublishCategoriesAsync(_context)).Returns(task);
+            A.CallTo(() => _gradePackPublisher.PublishAsync(_context)).Returns(task);
+            A.CallTo(() => _colourCombinationPublisher.PublishGenerationColourCombinations(_context)).Returns(task);
         }
 
         protected override void Act()
         {
-            var result = _publisher.PublishAsync(_context).Result;
+            _publisher.PublishAsync(_context).Wait();
         }
 
         [Fact]

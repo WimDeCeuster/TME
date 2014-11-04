@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
-using TME.CarConfigurator.Publisher.Common.Result;
+
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.S3.Publisher.Interfaces;
 
@@ -23,11 +23,11 @@ namespace TME.CarConfigurator.S3.Publisher
             _timeFramePublishHelper = timeFramePublishHelper;
         }
 
-        public async Task<IEnumerable<Result>> PublishGenerationSubModelsAsync(IContext context)
+        public async Task PublishGenerationSubModelsAsync(IContext context)
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            return await _timeFramePublishHelper.PublishBaseObjectList(context, timeFrame => timeFrame.SubModels, _subModelService.PutTimeFrameGenerationSubModelsAsync);
+            await _timeFramePublishHelper.PublishBaseObjectList(context, timeFrame => timeFrame.SubModels, _subModelService.PutTimeFrameGenerationSubModelsAsync);
         }
     }
 }

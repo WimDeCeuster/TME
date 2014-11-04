@@ -87,7 +87,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePublisher
 
         protected override void Act()
         {
-            var result = _submodelGradePublisher.PublishSubModelGradesAsync(_context).Result;
+            _submodelGradePublisher.PublishSubModelGradesAsync(_context).Wait();
         }
 
         [Fact]

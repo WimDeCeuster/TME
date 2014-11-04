@@ -14,7 +14,6 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
         private string _actualKey;
         private Guid _publicationID;
         private Guid _timeFrameID;
-        private Guid _gradeID;
         private Guid _submodelID;
 
         protected override void Arrange()

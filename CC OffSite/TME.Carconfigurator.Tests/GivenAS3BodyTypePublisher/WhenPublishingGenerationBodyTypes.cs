@@ -109,7 +109,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3BodyTypePublisher
 
         protected override void Act()
         {
-            var result = _publisher.PublishGenerationBodyTypesAsync(_context).Result;
+             _publisher.PublishGenerationBodyTypesAsync(_context).Wait();
         }
 
         [Fact]

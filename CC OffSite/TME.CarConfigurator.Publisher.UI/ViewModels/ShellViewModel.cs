@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Common.Enums;
-using TME.CarConfigurator.Publisher.Common.Result;
+
 using TME.CarConfigurator.Publisher.Interfaces;
 using System.Windows;
 
@@ -134,17 +134,19 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
             {
                 if (IsPublishing)
                 {
-                    PublishingDone(new Failed { Reason = "Already publishing" });
+                    PublishingDone("Already publishing");
                     return;
                 }
 
                 StartPublishing();
 
-                PublishingDone(await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, publicationDataSubset));
+                await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, publicationDataSubset);
+
+                PublishingDone("Success!");
             }
             catch (Exception e)
             {
-                DisplayResult(new Failed{Exception = e});
+                PublishingDone(e.ToString());
             }
         }
 
@@ -154,7 +156,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
             {
                 if (IsPublishing)
                 {
-                    PublishingDone(new Failed { Reason = "Already publishing" });
+                    PublishingDone("Already publishing");
                     return;
                 }
 
@@ -163,7 +165,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
                 var modelsThatHaveApprovedGenerations = Models.Where(m => m.Approved && m.Generations.Any(g => g.Approved)).ToList();
                 var modelsInRandomOrder = modelsThatHaveApprovedGenerations.OrderBy(m => Guid.NewGuid()).ToList();
                 var first5Models = modelsInRandomOrder.Take(5).ToList();
-                var generations = first5Models.Select(m => m.Generations.Single(g => g.Approved)).ToList();
+                var generations = first5Models.Select(m => m.Generations.Single(g => g.Preview)).ToList();
 
                 Messages.Add(String.Format("Starting publish for {0}", string.Join(", ", generations)));
 
@@ -171,20 +173,14 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
                 {
                     Messages.Add(string.Format("Publishing {0} for {1}", generation, Country));
 
-                    var result = await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview);
-
-                    if (result is Successfull)
-                        continue;
-
-                    PublishingDone(result);
-                    return;
+                    await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview);
                 }
 
-                PublishingDone(new Successfull());
+                PublishingDone("Success!");
             }
             catch (Exception e)
             {
-                DisplayResult(new Failed { Exception = e });
+                PublishingDone(e.ToString());
             }
         }
 
@@ -200,16 +196,11 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
             Messages.Clear();
         }
 
-        private void PublishingDone(Result result)
+        private void PublishingDone(string result)
         {
             IsPublishing = false;
 
-            DisplayResult(result);
-        }
-
-        private static void DisplayResult(Result result)
-        {
-            MessageBox.Show(result is Successfull ? "Success!" : string.Format("Failure! {0}", ((Failed)result).Reason ?? ((Failed)result).Exception.ToString()));
+            MessageBox.Show(result);
         }
     }
 }
