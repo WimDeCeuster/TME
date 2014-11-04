@@ -40,16 +40,17 @@ namespace TME.CarConfigurator.Factories
 
         public IReadOnlyList<IGrade> GetSubModelGrades(Guid subModelID,Publication publication,Context context)
         {
-            var repoGrades = _gradeService.GetSubModelGrades(publication.ID, publication.GetCurrentTimeFrame().ID,
+            var repoSubModelGrades = _gradeService.GetSubModelGrades(publication.ID, publication.GetCurrentTimeFrame().ID,
                 subModelID, context).ToList();
+            var repoGenerationGrades = _gradeService.GetGrades(publication.ID, publication.GetCurrentTimeFrame().ID, context).ToList();
             var grades = new List<IGrade>();
 
 
             return
-                repoGrades.Select(repoGrade => GetSubModelGrade(repoGrade, repoGrades, grades, publication, context,subModelID)).ToArray();
+                repoSubModelGrades.Select(repoGrade => GetSubModelGrade(repoGrade, repoGenerationGrades, grades, publication, context,subModelID)).ToArray();
         }
 
-        private IGrade GetSubModelGrade(RepoGrade repoGrade, List<RepoGrade> repoGrades, List<IGrade> grades, Publication publication, Context context, Guid subModelID)
+        private IGrade GetSubModelGrade(RepoGrade repoGrade, IList<RepoGrade> repoGrades, ICollection<IGrade> grades, Publication publication, Context context, Guid subModelID)
         {
             var foundGrade = grades.SingleOrDefault(grd => grd.ID == repoGrade.ID);
             if (foundGrade != null)
