@@ -55,7 +55,11 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Type = MapExteriorColourType(colour.Type)
             };
 
-            return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
+            _baseMapper.MapTranslateableDefaults(mappedColour, colour);
+
+            mappedColour.Name = String.Empty;
+
+            return mappedColour;
         }
 
         public ColourCombination MapColourCombination(ModelGeneration modelGeneration, ModelGenerationColourCombination colourCombination, Boolean isPreview)
