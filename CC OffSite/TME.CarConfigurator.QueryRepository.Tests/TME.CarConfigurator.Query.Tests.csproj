@@ -111,8 +111,8 @@
     <Compile Include="GivenAGrade\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenAGrade\WhenAccessingIts3DAssets.cs" />
     <Compile Include="GivenAGrade\WhenAccessingIts3DAssetsASecondTime.cs" />
-    <Compile Include="GivenAGrade\WhenAccessingItsGradeEquipmentForTheSecondTime.cs" />
-    <Compile Include="GivenAGrade\WhenAccessingItsGradeEquipment.cs" />
+    <Compile Include="GivenAGrade\WhenAccessingItsEquipmentForTheSecondTime.cs" />
+    <Compile Include="GivenAGrade\WhenAccessingItsEquipment.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsAssets.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsNonExistentBasedUponGrade.cs" />

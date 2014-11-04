@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Packs\CarPack.cs" />
     <Compile Include="CarPart.cs" />
     <Compile Include="Colours\ColourCombination.cs" />
     <Compile Include="Colours\ExteriorColour.cs" />

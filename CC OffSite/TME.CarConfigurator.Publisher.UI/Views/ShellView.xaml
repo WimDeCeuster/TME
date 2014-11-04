@@ -36,7 +36,7 @@
             <Button x:Name="PublishForReviewAsync">Publish for review</Button>
         </StackPanel>
         <StackPanel Margin="3">
-            <ListBox x:Name="Messages"></ListBox>
+            <ListBox x:Name="Messages" MaxHeight="500"></ListBox>
         </StackPanel>
     </StackPanel>
 </UserControl>
