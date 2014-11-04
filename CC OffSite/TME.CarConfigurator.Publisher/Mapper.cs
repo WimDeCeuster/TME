@@ -157,6 +157,7 @@ namespace TME.CarConfigurator.Publisher
                 progress.Report(new PublishProgress("Fill generation equipment categories"));
                 FillEquipmentCategories(contextData);
                 progress.Report(new PublishProgress("Fill generation specification categories"));
+                FillSubModelAssets(grades,modelGeneration,contextData);
                 FillSpecificationCategories(contextData);
 
                 progress.Report(new PublishProgress("Fill publication timeframes"));
@@ -210,6 +211,24 @@ namespace TME.CarConfigurator.Publisher
             var allCarAssetsForThisObject = objectAssetsOnCarLevel.Concat(objectAssetsOnGenerationLevel).ToList();
 
             contextData.CarAssets[car.ID].Add(objectWithAssetSet.GetObjectID(), allCarAssetsForThisObject);
+        }
+
+        private void FillSubModelAssets(IEnumerable<ModelGenerationGrade> grades, ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var subModel in modelGeneration.SubModels)
+            {
+                FillSubModelGradeAssets(grades, subModel, contextData, modelGeneration);
+            }
+        }
+
+        private void FillSubModelGradeAssets(IEnumerable<ModelGenerationGrade> grades, ModelGenerationSubModel subModel, ContextData contextData, ModelGeneration modelGeneration)
+        {
+            var assetsPerGrade = grades.Where(grade => grade.SubModels.Contains(subModel))
+                                       .ToDictionary<ModelGenerationGrade, Guid, IList<Asset>>(grade => grade.ID, 
+                                                                                               grade => grade.AssetSet.Assets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration))
+                                                                                                                              .ToList());
+            
+            contextData.SubModelAssets.Add(subModel.ID,assetsPerGrade);
         }
 
         private IEnumerable<Asset> GetObjectAssetsOnCarLevel(Car car, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
@@ -470,7 +489,7 @@ namespace TME.CarConfigurator.Publisher
                             isPreview)).ToList();
 
            var options = grade.Equipment.OfType<ModelGenerationGradeOption>()
-                    .Where(option => gradeCars.Any(car => car.Equipment[option.ID] != null && car.Equipment[option.ID].Availability != Administration.Enums.Availability.NotAvailable))
+                    .Where(option => gradeCars.Any(car => car.Equipment[option.ID] != null && car.Equipment[option.ID].Availability != Administration.Enums.Availability.NotAvailable && option.Visible))
                     .Select(option =>
                         _equipmentMapper.MapGradeOption(
                             option,

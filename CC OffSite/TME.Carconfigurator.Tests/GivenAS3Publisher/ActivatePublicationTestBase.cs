@@ -97,6 +97,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => CarPublisher.PublishGenerationCarsAsync(null)).WithAnyArguments().Returns(task);
             A.CallTo(() => AssetPublisher.PublishAssetsAsync(null)).WithAnyArguments().Returns(task);
             A.CallTo(() => AssetPublisher.PublishCarAssetsAsync(null)).WithAnyArguments().Returns(task);
+            A.CallTo(() => AssetPublisher.PublishSubModelAssetsAsync(null)).WithAnyArguments().Returns(task);
 
             Publisher = new PublisherBuilder()
                 .WithPublicationPublisher(PublicationPublisher)

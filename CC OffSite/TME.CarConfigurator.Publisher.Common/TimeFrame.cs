@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Packs;
-using BodyType = TME.CarConfigurator.Repository.Objects.BodyType;
-using Car = TME.CarConfigurator.Repository.Objects.Car;
-using Engine = TME.CarConfigurator.Repository.Objects.Engine;
-using Steering = TME.CarConfigurator.Repository.Objects.Steering;
-using Transmission = TME.CarConfigurator.Repository.Objects.Transmission;
-using WheelDrive = TME.CarConfigurator.Repository.Objects.WheelDrive;
 using EquipmentCategory = TME.CarConfigurator.Repository.Objects.Equipment.Category;
 using SpecificationCategory = TME.CarConfigurator.Repository.Objects.TechnicalSpecifications.Category;
 
@@ -29,12 +24,13 @@ namespace TME.CarConfigurator.Publisher.Common
         public IReadOnlyList<Grade> Grades { get; private set; }
         public IReadOnlyDictionary<Guid, GradeEquipment> GradeEquipments { get; private set; }
         public IReadOnlyDictionary<Guid, IList<Grade>> SubModelGrades { get; private set; }
-        public IDictionary<Guid, IDictionary<Guid, GradeEquipment>> SubModelGradeEquipments { get; private set; }
         public IReadOnlyDictionary<Guid, IList<GradePack>> GradePacks { get; private set; }
         public IReadOnlyList<SubModel> SubModels { get; private set; }
         public IReadOnlyList<ColourCombination> ColourCombinations { get; private set; }
         public IReadOnlyList<EquipmentCategory> EquipmentCategories { get; private set; }
         public IReadOnlyList<SpecificationCategory> SpecificationCategories { get; set; }
+        public IReadOnlyDictionary<Guid,IDictionary<Guid,IList<Asset>>> SubModelAssets { get; set; }
+        public IDictionary<Guid, IDictionary<Guid, GradeEquipment>> SubModelGradeEquipments { get; set; }
 
         public readonly Guid ID;
 
@@ -55,7 +51,8 @@ namespace TME.CarConfigurator.Publisher.Common
             IReadOnlyList<ColourCombination> colourCombinations,
             IReadOnlyList<EquipmentCategory> equipmentCategories,
             IDictionary<Guid, IDictionary<Guid, GradeEquipment>> subModelGradeEquipments,
-            IReadOnlyList<SpecificationCategory> specificationCategories)
+            IReadOnlyList<SpecificationCategory> specificationCategories,
+            IReadOnlyDictionary<Guid, IDictionary<Guid, IList<Asset>>> subModelAssets)
         {
             if (cars == null) throw new ArgumentNullException("cars");
             if (bodyTypes == null) throw new ArgumentNullException("bodyTypes");
@@ -72,6 +69,7 @@ namespace TME.CarConfigurator.Publisher.Common
             if (subModelGradeEquipments == null) throw new ArgumentNullException("subModelGradeEquipments");
             if (equipmentCategories == null) throw new ArgumentNullException("equipmentCategories");
             if (specificationCategories == null) throw new ArgumentNullException("specificationCategories");
+            if (subModelAssets == null) throw new ArgumentNullException("subModelAssets");
 
             From = from;
             Until = until;
@@ -86,6 +84,7 @@ namespace TME.CarConfigurator.Publisher.Common
             Grades = grades;
             SubModelGrades = subModelGrades;
             GradeEquipments = gradeEquipments;
+            SubModelAssets = subModelAssets;
             SubModels = subModels;
             SubModelGradeEquipments = subModelGradeEquipments;
             EquipmentCategories = equipmentCategories;

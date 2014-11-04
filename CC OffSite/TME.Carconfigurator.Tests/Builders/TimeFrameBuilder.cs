@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Packs;
@@ -30,6 +31,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         private List<ColourCombination> _colourCombinations = new List<ColourCombination>();
         private List<EquipmentCategory> _equipmentCategories = new List<EquipmentCategory>();
         private List<SpecificationCategory> _specificationCategories = new List<SpecificationCategory>();
+        private readonly Dictionary<Guid, IDictionary<Guid, IList<Asset>>> _subModelAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
 
         public TimeFrameBuilder WithDateRange(DateTime from, DateTime until)
         {
@@ -80,10 +82,16 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             _gradeEquipments.Add(gradeId, gradeEquipment);
             return this;
         }
-        
+
         public TimeFrameBuilder WithSubModelGradeEquipment(Guid submodelID,Guid gradeId, GradeEquipment gradeEquipment)
         {
             _subModelGradeEquipments.Add(submodelID,new Dictionary<Guid, GradeEquipment>(){{gradeId,gradeEquipment}});
+            return this;
+        }
+
+        public TimeFrameBuilder WithSubModelAssets(Guid subModelID, Guid objectID, IEnumerable<Asset> assets)
+        {
+            _subModelAssets.Add(subModelID,new Dictionary<Guid, IList<Asset>>(){{objectID,assets.ToList()}});
             return this;
         }
 
@@ -150,7 +158,8 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
                 _colourCombinations,
                 _equipmentCategories,
                 _subModelGradeEquipments,
-                _specificationCategories);
+                _specificationCategories,
+                _subModelAssets);
         }
     }
 }

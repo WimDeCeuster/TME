@@ -13,6 +13,7 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.S3.CommandServices;
 using TME.CarConfigurator.S3.Publisher;
+using TME.CarConfigurator.S3.Publisher.Interfaces;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
@@ -85,6 +86,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
 
             _s3Service = A.Fake<IService>();
 
+            var timeFramePublishHelper = A.Fake<ITimeFramePublishHelper>();
             var serialiser = A.Fake<ISerialiser>();
             A.CallTo(() => serialiser.Serialise(A<Object>._)).Returns(VALUE);
             var keyManager = A.Fake<IKeyManager>();
@@ -92,7 +94,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
             A.CallTo(() => keyManager.GetDefaultAssetsKey(A<Guid>._, A<Guid>._)).Returns(ASSETS_DEFAULT_KEY);
 
             _assetService = new AssetsService(_s3Service,serialiser,keyManager);
-            _assetPublisher = new AssetPublisher(_assetService);
+            _assetPublisher = new AssetPublisher(_assetService,timeFramePublishHelper);
         }
 
         protected override void Act()

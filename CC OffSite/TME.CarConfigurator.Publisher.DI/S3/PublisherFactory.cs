@@ -70,7 +70,7 @@ namespace TME.CarConfigurator.Publisher.DI.S3
 
         private IAssetPublisher GetAssetPublisher(IAssetService service)
         {
-            return new AssetPublisher(service);
+            return new AssetPublisher(service, _timeFramePublishHelper);
         }
 
         private IColourPublisher GetColourCombinationPublisher(IColourService service)

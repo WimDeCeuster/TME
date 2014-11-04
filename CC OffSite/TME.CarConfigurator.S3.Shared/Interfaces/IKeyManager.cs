@@ -18,13 +18,14 @@ namespace TME.CarConfigurator.S3.Shared.Interfaces
         String GetGradeEquipmentsKey(Guid publicationID, Guid timeFrameID, Guid gradeID);
         String GetGradePacksKey(Guid publicationID, Guid timeFrameID, Guid gradeID);
         String GetDefaultAssetsKey(Guid publicationID, Guid objectID);
-        String GetDefaultAssetsKey(Guid publicationID, Guid carID, Guid objectID);
         String GetAssetsKey(Guid publicationID, Guid objectID, String view, String mode);
-        String GetAssetsKey(Guid publicationID, Guid carID, Guid objectID, String view, String mode);
+        String GetCarAssetsKey(Guid publicationID, Guid carID, Guid objectID, String view, String mode);
         String GetSubModelGradeEquipmentsKey(Guid publicationID, Guid timeFrameID, Guid gradeID, Guid subModelID);
         String GetSubModelGradesKey(Guid publicationID, Guid timeFrameID,Guid subModelID);
         String GetEquipmentCategoriesKey(Guid publicationID, Guid timeFrameID);
         String GetSpecificationCategoriesKey(Guid publicationID, Guid timeFrameID);
-
+        String GetSubModelAssetsKey(Guid publicationID, Guid timeFrameID, Guid subModelID, Guid objectID, String view, String mode);
+        String GetDefaultCarAssetsKey(Guid publicationID, Guid carID, Guid objectID);
+        String GetDefaultSubModelAssetsKey(Guid publicationID,Guid timeFrameID, Guid subModelID, Guid objectID);
     }
 }
