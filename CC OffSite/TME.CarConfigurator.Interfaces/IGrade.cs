@@ -12,11 +12,13 @@ namespace TME.CarConfigurator.Interfaces
         IPrice StartingPrice { get; }
         IGrade BasedUpon { get; }
 
+// ReSharper disable ReturnTypeCanBeEnumerable.Global
         IReadOnlyList<IVisibleInModeAndView> VisibleIn { get; }
         IReadOnlyList<IAsset> Assets { get; }
         
         IGradeEquipment Equipment { get; }
         IReadOnlyList<IGradePack> Packs { get; }
+ // ReSharper restore ReturnTypeCanBeEnumerable.Global
         
     }
 }
