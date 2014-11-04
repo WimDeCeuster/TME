@@ -115,7 +115,6 @@ namespace TME.CarConfigurator.Publisher
                 context.ContextData[language] = contextData;
 
                 // fill contextData
-
                 progress.Report(new PublishProgress(String.Format("Fill context data for language {0}", language)));
 
                 progress.Report(new PublishProgress("Map generation"));
