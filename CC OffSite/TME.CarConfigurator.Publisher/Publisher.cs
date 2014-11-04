@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
-using TME.CarConfigurator.Publisher.Common.Result;
+
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
@@ -31,18 +31,18 @@ namespace TME.CarConfigurator.Publisher
         private readonly IGradePackPublisher _gradePackPublisher;
         private readonly IColourPublisher _colourCombinationPublisher;
 
-        public Publisher(IPublicationPublisher publicationPublisher, 
-        	IModelPublisher modelPublisher, 
-        	IModelService modelService, 
-        	IBodyTypePublisher bodyTypePublisher, 
-        	IEnginePublisher enginePublisher, 
-        	ITransmissionPublisher transmissionPublisher, 
-        	IWheelDrivePublisher wheelDrivePublisher, 
-        	ISteeringPublisher steeringPublisher, 
-        	IGradePublisher gradePublisher,
-        	ICarPublisher carPublisher, 
-        	IAssetPublisher assetPublisher, 
-        	ISubModelPublisher subModelPublisher,
+        public Publisher(IPublicationPublisher publicationPublisher,
+            IModelPublisher modelPublisher,
+            IModelService modelService,
+            IBodyTypePublisher bodyTypePublisher,
+            IEnginePublisher enginePublisher,
+            ITransmissionPublisher transmissionPublisher,
+            IWheelDrivePublisher wheelDrivePublisher,
+            ISteeringPublisher steeringPublisher,
+            IGradePublisher gradePublisher,
+            ICarPublisher carPublisher,
+            IAssetPublisher assetPublisher,
+            ISubModelPublisher subModelPublisher,
             IEquipmentPublisher equipmentPublisher,
             ISpecificationsPublisher specificationsPublisher,
             IGradePackPublisher gradePackPublisher,
@@ -83,34 +83,26 @@ namespace TME.CarConfigurator.Publisher
             _specificationsPublisher = specificationsPublisher;
         }
 
-        public async Task<Result> PublishAsync(IContext context)
+        public async Task PublishAsync(IContext context)
         {
             var languageCodes = context.ContextData.Keys;
 
-            var result = await PublishAsync(context, languageCodes);
+            await PublishAsync(context, languageCodes);
 
-            if (result is Failed) return result;
-
-            return await ActivateAsync(context, languageCodes);
+            await ActivateAsync(context, languageCodes);
         }
 
-        private async Task<Result> PublishAsync(IContext context, IEnumerable<string> languageCodes)
+        private async Task PublishAsync(IContext context, IEnumerable<string> languageCodes)
         {
-            var results = await PublishPublicationForAllLanguages(context, languageCodes);
 
-            return FindFirstFailure(results) ?? new Successfull();
-        }
-
-        private async Task<IEnumerable<Result>> PublishPublicationForAllLanguages(IContext context, IEnumerable<String> languages)
-        {
-            foreach (var language in languages)
+            foreach (var lanuageCode in languageCodes)
             {
-                var data = context.ContextData[language];
-                var timeFrames = context.TimeFrames[language];
+                var data = context.ContextData[lanuageCode];
+                var timeFrames = context.TimeFrames[lanuageCode];
                 CreateAndAddPublication(data, timeFrames);
             }
 
-            var tasks = new List<Task<IEnumerable<Result>>>
+            var tasks = new List<Task>
             {
                 _publicationPublisher.PublishPublicationsAsync(context),
                 _bodyTypePublisher.PublishGenerationBodyTypesAsync(context),
@@ -132,38 +124,31 @@ namespace TME.CarConfigurator.Publisher
                 _assetPublisher.PublishCarAssetsAsync(context)
             };
 
-            var results = await Task.WhenAll(tasks);
-
-            return results.SelectMany(xs => xs);
+            await Task.WhenAll(tasks);
         }
 
         private static void CreateAndAddPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames)
         {
-           data.Publication = new Publication
-            {
-                ID = Guid.NewGuid(),
-                Generation = data.Generations.Single(),
-                LineOffFrom = timeFrames.First().From,
-                LineOffTo = timeFrames.Last().Until,
-                TimeFrames = timeFrames.Select(timeFrame => new PublicationTimeFrame
-                {
-                    ID = timeFrame.ID,
-                    LineOffFrom = timeFrame.From,
-                    LineOffTo = timeFrame.Until
-                })
-                    .ToList(),
-                PublishedOn = DateTime.Now
-            };
+            data.Publication = new Publication
+             {
+                 ID = Guid.NewGuid(),
+                 Generation = data.Generations.Single(),
+                 LineOffFrom = timeFrames.First().From,
+                 LineOffTo = timeFrames.Last().Until,
+                 TimeFrames = timeFrames.Select(timeFrame => new PublicationTimeFrame
+                 {
+                     ID = timeFrame.ID,
+                     LineOffFrom = timeFrame.From,
+                     LineOffTo = timeFrame.Until
+                 })
+                     .ToList(),
+                 PublishedOn = DateTime.Now
+             };
 
             data.Models.Single().Publications.Add(new PublicationInfo(data.Publication));
         }
 
-        private static Result FindFirstFailure(IEnumerable<Result> results)
-        {
-            return results.FirstOrDefault(result => result is Failed);
-        }
-
-        private async Task<Result> ActivateAsync(IContext context, IEnumerable<String> languageCodes)
+        private async Task ActivateAsync(IContext context, IEnumerable<String> languageCodes)
         {
             var languages = _modelService.GetModelsByLanguage(context.Brand, context.Country);
 
@@ -172,7 +157,7 @@ namespace TME.CarConfigurator.Publisher
                 SetPublicationAsActiveForLanguage(context, language);
             }
 
-            return await _modelPublisher.PublishModelsByLanguage(context, languages);
+            await _modelPublisher.PublishModelsByLanguage(context, languages);
         }
 
         private static Language FindOrCreateLanguage(Languages languages, String languageCode)

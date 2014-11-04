@@ -6,11 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Colours;
+
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
@@ -21,12 +22,12 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGradeEquipmentItem
     {
         IExteriorColour _firstColour;
         IExteriorColour _secondColour;
-        Repository.Objects.Colours.ExteriorColour _repoColour;
+        ExteriorColour _repoColour;
         IGradeEquipmentItem _accessory;
 
         protected override void Arrange()
         {
-            _repoColour = new CarConfigurator.Tests.Shared.TestBuilders.ExteriorColourBuilder()
+            _repoColour = new CarConfigurator.Tests.Shared.TestBuilders.EquipmentExteriorColourBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
 

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
-using TME.CarConfigurator.Publisher.Common.Result;
+
 using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
@@ -25,7 +25,7 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keymanager = keymanager;
         }
 
-        public async Task<Result> PutTimeFrameGenerationColourCombinations(string brand, string country, Guid publicationID, Guid timeFrameID,
+        public async Task PutTimeFrameGenerationColourCombinations(string brand, string country, Guid publicationID, Guid timeFrameID,
             IEnumerable<ColourCombination> colourCombinations)
         {
             if (brand == null) throw new ArgumentNullException("brand");
@@ -35,7 +35,7 @@ namespace TME.CarConfigurator.S3.CommandServices
             var path = _keymanager.GetColourCombinationsKey(publicationID, timeFrameID);
             var value = _serialiser.Serialise(colourCombinations);
 
-            return await _s3Service.PutObjectAsync(brand, country, path, value);
+            await _s3Service.PutObjectAsync(brand, country, path, value);
         }
     }
 }

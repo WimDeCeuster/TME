@@ -97,7 +97,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3ColourCombinationPublisher
 
         protected override void Act()
         {
-            var result = _colourPublisher.PublishGenerationColourCombinations(_context).Result;
+            _colourPublisher.PublishGenerationColourCombinations(_context).Wait();
         }
 
         [Fact]

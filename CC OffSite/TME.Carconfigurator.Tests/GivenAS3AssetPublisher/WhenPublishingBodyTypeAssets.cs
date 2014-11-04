@@ -75,7 +75,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
 
         protected override void Act()
         {
-            var result = _publisher.PublishAssetsAsync(_context).Result;
+            _publisher.PublishAssetsAsync(_context).Wait();
         }
 
         [Fact]

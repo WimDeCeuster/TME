@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
-using TME.CarConfigurator.Publisher.Common.Result;
+
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
@@ -21,7 +21,7 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keyManager = keyManager;
         }        
 
-        public async Task<Result> PutTimeFrameGenerationWheelDrives(String brand, String country, Guid publicationID, Guid timeFrameID, IEnumerable<WheelDrive> wheelDrives)
+        public async Task PutTimeFrameGenerationWheelDrives(String brand, String country, Guid publicationID, Guid timeFrameID, IEnumerable<WheelDrive> wheelDrives)
         {
             if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand");
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
@@ -30,7 +30,7 @@ namespace TME.CarConfigurator.S3.CommandServices
             var path = _keyManager.GetWheelDrivesKey(publicationID, timeFrameID);
             var value = _serialiser.Serialise(wheelDrives);
 
-            return await _service.PutObjectAsync(brand, country, path, value);
+            await _service.PutObjectAsync(brand, country, path, value);
         }
     }
 }

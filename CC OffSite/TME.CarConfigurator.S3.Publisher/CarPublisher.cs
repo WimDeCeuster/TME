@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
-using TME.CarConfigurator.Publisher.Common.Result;
+
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.S3.Publisher.Extensions;
 using TME.CarConfigurator.S3.Publisher.Interfaces;
@@ -26,11 +26,11 @@ namespace TME.CarConfigurator.S3.Publisher
             _timeFramePublishHelper = timeFramePublishHelper;
         }
 
-        public async Task<IEnumerable<Result>> PublishGenerationCarsAsync(IContext context)
+        public async Task PublishGenerationCarsAsync(IContext context)
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            return await _timeFramePublishHelper.PublishBaseObjectList(context, timeFrame => timeFrame.Cars, _carService.PutTimeFrameGenerationCars);
+            await _timeFramePublishHelper.PublishBaseObjectList(context, timeFrame => timeFrame.Cars, _carService.PutTimeFrameGenerationCars);
         }
     }
 }

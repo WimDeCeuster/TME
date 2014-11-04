@@ -1,7 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
-
-namespace TME.CarConfigurator.Repository.Objects.Assets
+﻿namespace TME.CarConfigurator.Repository.Objects.Assets
 {
     
     public class VisibleInModeAndView
@@ -32,14 +29,6 @@ namespace TME.CarConfigurator.Repository.Objects.Assets
         }
         #endregion
 
-        public bool HasMode(string mode)
-        {
-            return Mode.Equals(mode, StringComparison.InvariantCultureIgnoreCase);
-        }
 
-        public bool HasView(string view)
-        {
-            return View.Equals(view, StringComparison.InvariantCultureIgnoreCase);
-        }
     }
 }

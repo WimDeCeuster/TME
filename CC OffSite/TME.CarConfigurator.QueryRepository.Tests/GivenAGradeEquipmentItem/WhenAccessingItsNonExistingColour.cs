@@ -11,7 +11,6 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 using TME.CarConfigurator.Interfaces.Equipment;
-using TME.CarConfigurator.Interfaces.Colours;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAGradeEquipmentItem
 {

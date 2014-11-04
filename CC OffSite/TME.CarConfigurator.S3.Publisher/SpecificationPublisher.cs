@@ -5,7 +5,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
-using TME.CarConfigurator.Publisher.Common.Result;
+
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.TechnicalSpecifications;
@@ -28,11 +28,11 @@ namespace TME.CarConfigurator.S3.Publisher
             _timeFramePublishHelper = timeFramePublishHelper;
         }
 
-        public async Task<IEnumerable<Result>> PublishCategoriesAsync(IContext context)
+        public async Task PublishCategoriesAsync(IContext context)
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            return await _timeFramePublishHelper.PublishList(context, timeFrame => timeFrame.SpecificationCategories, _specificationsService.PutCategoriesAsync);
+            await _timeFramePublishHelper.PublishList(context, timeFrame => timeFrame.SpecificationCategories, _specificationsService.PutCategoriesAsync);
         }
     }
 }

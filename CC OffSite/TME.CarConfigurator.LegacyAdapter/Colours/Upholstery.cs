@@ -38,6 +38,11 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
             get { return new UpholsteryType(Adaptee.Type); }
         }
 
+        public IReadOnlyList<IVisibleInModeAndView> VisibleIn
+        {
+            get { return Adaptee.Assets.GetVisibleInModeAndViews(); }
+        }
+
         public IReadOnlyList<IAsset> Assets
         {
             get { return Adaptee.Assets.GetPlainAssets(); }

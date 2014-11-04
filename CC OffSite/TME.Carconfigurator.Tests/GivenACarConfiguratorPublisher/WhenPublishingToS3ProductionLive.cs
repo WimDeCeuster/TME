@@ -35,7 +35,7 @@ namespace TME.Carconfigurator.Tests.GivenACarConfiguratorPublisher
 
         protected override void Act()
         {
-            var result = _carConfiguratorPublisher.PublishAsync(_generationId, Environment, Target, Brand, Country, DataSubset).Result;
+            _carConfiguratorPublisher.PublishAsync(_generationId, Environment, Target, Brand, Country, DataSubset).Wait();
         }
 
         [Fact]

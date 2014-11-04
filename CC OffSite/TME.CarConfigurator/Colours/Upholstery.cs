@@ -44,6 +44,15 @@ namespace TME.CarConfigurator.Colours
             get { return _type = _type ?? new UpholsteryType(RepositoryObject.Type); }
         }
 
+        public IReadOnlyList<IVisibleInModeAndView> VisibleIn
+        {
+            get
+            {
+                //TODO: provide implementation
+                return new List<IVisibleInModeAndView>();
+            }
+        }
+
         public IReadOnlyList<IAsset> Assets
         {
             get { return _assets = _assets ?? _assetFactory.GetAssets(_publication, RepositoryObject.ID, _context); }

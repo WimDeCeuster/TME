@@ -50,9 +50,22 @@ namespace TME.CarConfigurator.Colours
             get { return _repositoryColourCombination.SortIndex; }
         }
 
+        public IReadOnlyList<IVisibleInModeAndView> VisibleIn
+        {
+            get
+            {
+                //TODO: provide implementation
+                return new List<IVisibleInModeAndView>();
+            }
+        }
+
         public IReadOnlyList<IAsset> Assets
         {
-	        get { throw new NotImplementedException(); }
+            get
+            {
+                //TODO: provide implementation
+                return new List<IAsset>();
+            }
         }
     }
 }

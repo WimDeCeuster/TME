@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
 using Visibility = TME.CarConfigurator.Interfaces.Enums.Visibility;
@@ -97,12 +96,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
             get
             {
                 var colour = GetCarEquipmentItem().Colour;
-                if (colour.IsEmpty()) return null;
-
-                var carColour = GetCar().Colours.ExteriorColours[colour.ID];
-                return carColour == null
-                    ? (IExteriorColour) new Colours.ExteriorColour(colour)
-                    : new Colours.CarExteriorColour(carColour);
+                return colour.IsEmpty() ? null : new ExteriorColour(colour);
             }
         }
         public IEnumerable<ILink> Links
