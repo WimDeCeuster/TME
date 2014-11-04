@@ -1,20 +1,12 @@
-﻿using FakeItEasy;
+﻿using System;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
-using TME.CarConfigurator.QueryServices;
-using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.GivenAExteriorColour
+namespace TME.CarConfigurator.Query.Tests.GivenAnExteriorColour
 {
     public class WhenAccessingItsExteriorColourTypeForTheFirstTime : TestBase
     {

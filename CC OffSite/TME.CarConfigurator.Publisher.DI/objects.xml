@@ -34,7 +34,6 @@
     <constructor-arg ref="LinkMapper" />
   </object>
   <object name="EquipmentMapper" type="TME.CarConfigurator.Publisher.Mappers.EquipmentMapper, TME.CarConfigurator.Publisher">
-    <constructor-arg ref="BaseMapper" />
     <constructor-arg ref="LabelMapper" />
     <constructor-arg ref="LinkMapper" />
     <constructor-arg ref="VisibilityMapper" />

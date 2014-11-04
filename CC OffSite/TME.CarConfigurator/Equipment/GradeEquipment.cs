@@ -7,8 +7,8 @@ namespace TME.CarConfigurator.Equipment
 {
     public class GradeEquipment : IGradeEquipment
     {
-        public IReadOnlyList<IGradeAccessory> Accessories { get; private set; }
-        public IReadOnlyList<IGradeOption> Options { get; private set; }
+        public virtual IReadOnlyList<IGradeAccessory> Accessories { get; set; }
+        public virtual IReadOnlyList<IGradeOption> Options { get; set; }
 
         public GradeEquipment(IEnumerable<IGradeAccessory> accessories, IEnumerable<IGradeOption> options)
         {

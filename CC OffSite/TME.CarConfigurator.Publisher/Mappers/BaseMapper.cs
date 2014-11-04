@@ -64,5 +64,24 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
             return MapSortDefaults(MapDefaults(baseObject, localizableObject, translateableAndSortableObject), translateableAndSortableObject);
         }
+
+        public T MapTranslateableDefaultsWithSort<T, TTranslateableAndSortable>(T baseObject, TTranslateableAndSortable translateableAndSortableObject)
+            where T : BaseObject
+            where TTranslateableAndSortable : TranslateableBusinessBase, ISortedIndex
+        {
+            return MapSortDefaults(MapTranslateableDefaults(baseObject, translateableAndSortableObject), translateableAndSortableObject);
+        }
+
+        public T MapDefaults<T>(T baseObject, LocalizeableBusinessBase localizableObject) where T : BaseObject
+        {
+            return MapDefaults(baseObject, localizableObject, localizableObject);
+        }
+
+        public T MapDefaultsWithSort<T, TLocalizeableAndSortable>(T baseObject, TLocalizeableAndSortable localizeableAndSortableObject)
+            where T : BaseObject
+            where TLocalizeableAndSortable : LocalizeableBusinessBase, ISortedIndex
+        {
+            return MapDefaultsWithSort(baseObject, localizeableAndSortableObject, localizeableAndSortableObject);
+        }
     }
 }

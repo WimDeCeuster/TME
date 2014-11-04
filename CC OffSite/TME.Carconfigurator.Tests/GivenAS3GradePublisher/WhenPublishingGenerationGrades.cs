@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using TME.CarConfigurator.CommandServices;
-using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Repository.Objects;
@@ -12,24 +11,23 @@ using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.S3.CommandServices;
-using TME.CarConfigurator.S3.Publisher;
 
 namespace TME.Carconfigurator.Tests.GivenAS3GradePublisher
 {
     public class WhenPublishingGenerationGrades : TestBase
     {
-        const String _brand = "Toyota";
-        const String _country = "DE";
-        const String _serialisedGrade1 = "serialised grade 1";
-        const String _serialisedGrade12 = "serialised grade 1+2";
-        const String _serialisedGrade34 = "serialised grade 3+4";
-        const String _serialisedGrade4 = "serialised grade 4";
-        const String _language1 = "lang 1";
-        const String _language2 = "lang 2";
-        const String _timeFrame1GradesKey = "time frame 1 grades key";
-        const String _timeFrame2GradesKey = "time frame 2 grades key";
-        const String _timeFrame3GradesKey = "time frame 3 grades key";
-        const String _timeFrame4GradesKey = "time frame 4 grades key";
+        const String BRAND = "Toyota";
+        const String COUNTRY = "DE";
+        const String SERIALISED_GRADE1 = "serialised grade 1";
+        const String SERIALISED_GRADE12 = "serialised grade 1+2";
+        const String SERIALISED_GRADE34 = "serialised grade 3+4";
+        const String SERIALISED_GRADE4 = "serialised grade 4";
+        const String LANGUAGE1 = "lang 1";
+        const String LANGUAGE2 = "lang 2";
+        const String TIME_FRAME1_GRADES_KEY = "time frame 1 grades key";
+        const String TIME_FRAME2_GRADES_KEY = "time frame 2 grades key";
+        const String TIME_FRAME3_GRADES_KEY = "time frame 3 grades key";
+        const String TIME_FRAME4_GRADES_KEY = "time frame 4 grades key";
         IService _s3Service;
         IGradeService _service;
         IGradePublisher _publisher;
@@ -75,13 +73,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePublisher
                                                  .Build();
 
             _context = new ContextBuilder()
-                        .WithBrand(_brand)
-                        .WithCountry(_country)
-                        .WithLanguages(_language1, _language2)
-                        .WithPublication(_language1, publication1)
-                        .WithPublication(_language2, publication2)
-                        .WithTimeFrames(_language1, timeFrame1, timeFrame2)
-                        .WithTimeFrames(_language2, timeFrame3, timeFrame4)
+                        .WithBrand(BRAND)
+                        .WithCountry(COUNTRY)
+                        .WithLanguages(LANGUAGE1, LANGUAGE2)
+                        .WithPublication(LANGUAGE1, publication1)
+                        .WithPublication(LANGUAGE2, publication2)
+                        .WithTimeFrames(LANGUAGE1, timeFrame1, timeFrame2)
+                        .WithTimeFrames(LANGUAGE2, timeFrame3, timeFrame4)
                         .Build();
 
             _s3Service = A.Fake<IService>();
@@ -93,18 +91,18 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePublisher
             _publisher = new GradePublisherBuilder().WithService(_service).Build();
 
             A.CallTo(() => serialiser.Serialise(A<IEnumerable<Grade>>.That.IsSameSequenceAs(new[] { grade1 })))
-                .Returns(_serialisedGrade1);
+                .Returns(SERIALISED_GRADE1);
             A.CallTo(() => serialiser.Serialise(A<IEnumerable<Grade>>.That.IsSameSequenceAs(new[] { grade1, grade2 })))
-                .Returns(_serialisedGrade12);
+                .Returns(SERIALISED_GRADE12);
             A.CallTo(() => serialiser.Serialise(A<IEnumerable<Grade>>.That.IsSameSequenceAs(new[] { grade3, grade4 })))
-                .Returns(_serialisedGrade34);
+                .Returns(SERIALISED_GRADE34);
             A.CallTo(() => serialiser.Serialise(A<IEnumerable<Grade>>.That.IsSameSequenceAs(new[] { grade4 })))
-                .Returns(_serialisedGrade4);
+                .Returns(SERIALISED_GRADE4);
 
-            A.CallTo(() => keyManager.GetGradesKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1GradesKey);
-            A.CallTo(() => keyManager.GetGradesKey(publication1.ID, publicationTimeFrame2.ID)).Returns(_timeFrame2GradesKey);
-            A.CallTo(() => keyManager.GetGradesKey(publication2.ID, publicationTimeFrame3.ID)).Returns(_timeFrame3GradesKey);
-            A.CallTo(() => keyManager.GetGradesKey(publication2.ID, publicationTimeFrame4.ID)).Returns(_timeFrame4GradesKey);
+            A.CallTo(() => keyManager.GetGradesKey(publication1.ID, publicationTimeFrame1.ID)).Returns(TIME_FRAME1_GRADES_KEY);
+            A.CallTo(() => keyManager.GetGradesKey(publication1.ID, publicationTimeFrame2.ID)).Returns(TIME_FRAME2_GRADES_KEY);
+            A.CallTo(() => keyManager.GetGradesKey(publication2.ID, publicationTimeFrame3.ID)).Returns(TIME_FRAME3_GRADES_KEY);
+            A.CallTo(() => keyManager.GetGradesKey(publication2.ID, publicationTimeFrame4.ID)).Returns(TIME_FRAME4_GRADES_KEY);
         }
 
         protected override void Act()
@@ -122,28 +120,28 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePublisher
         [Fact]
         public void ThenGenerationGradesShouldBePutForTimeFrame1()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame1GradesKey, _serialisedGrade1))
+            A.CallTo(() => _s3Service.PutObjectAsync(BRAND, COUNTRY, TIME_FRAME1_GRADES_KEY, SERIALISED_GRADE1))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenGenerationGradesShouldBePutForTimeFrame2()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame2GradesKey, _serialisedGrade12))
+            A.CallTo(() => _s3Service.PutObjectAsync(BRAND, COUNTRY, TIME_FRAME2_GRADES_KEY, SERIALISED_GRADE12))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenGenerationGradesShouldBePutForTimeFrame3()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame3GradesKey, _serialisedGrade34))
+            A.CallTo(() => _s3Service.PutObjectAsync(BRAND, COUNTRY, TIME_FRAME3_GRADES_KEY, SERIALISED_GRADE34))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenGenerationGradesShouldBePutForTimeFrame4()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame4GradesKey, _serialisedGrade4))
+            A.CallTo(() => _s3Service.PutObjectAsync(BRAND, COUNTRY, TIME_FRAME4_GRADES_KEY, SERIALISED_GRADE4))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
     }

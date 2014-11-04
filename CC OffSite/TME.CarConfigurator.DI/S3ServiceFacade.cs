@@ -26,7 +26,8 @@ namespace TME.CarConfigurator.DI
         private IGradeService _gradeService;
         private ICarService _carService;
         private ISubModelService _subModelService;
-        private IEquipmentService _gradeEquipmentService;
+        private IEquipmentService _equipmentService;
+        private ISpecificationsService _specificationsService;
         private IColourService _colourService;
         private IPackService _packService;
 
@@ -150,9 +151,16 @@ namespace TME.CarConfigurator.DI
             return this;
         }
 
-        public IServiceFacade WithGradeEquipmentService(IEquipmentService gradeEquipmentService)
+        public IServiceFacade WithEquipmentService(IEquipmentService equipmentService)
         {
-            _gradeEquipmentService = gradeEquipmentService;
+            _equipmentService = equipmentService;
+
+            return this;
+        }
+        
+        public IServiceFacade WithSpecificationsService(ISpecificationsService specificationsService)
+        {
+            _specificationsService = specificationsService;
 
             return this;
         }
@@ -226,9 +234,14 @@ namespace TME.CarConfigurator.DI
             return _subModelService ?? new SubModelService(Serializer, Service, KeyManager);
         }
 
-        public IEquipmentService CreateGradeEquipmentService()
+        public IEquipmentService CreateEquipmentService()
         {
-            return _gradeEquipmentService ?? new EquipmentService(Serializer, Service, KeyManager);
+            return _equipmentService ?? new EquipmentService(Serializer, Service, KeyManager);
+        }
+
+        public ISpecificationsService CreateSpecificationsService()
+        {
+            return _specificationsService ?? new SpecificationsService(Serializer, Service, KeyManager);
         }
 
         public IColourService CreateColourService()

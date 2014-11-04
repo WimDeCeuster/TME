@@ -14,19 +14,20 @@ namespace TME.CarConfigurator.Publisher
 {
     public class Publisher : IPublisher
     {
-        readonly IPublicationPublisher _publicationPublisher;
-        readonly IModelPublisher _modelPublisher;
+        private readonly IPublicationPublisher _publicationPublisher;
+        private readonly IModelPublisher _modelPublisher;
         private readonly QueryServices.IModelService _modelService;
-        readonly IBodyTypePublisher _bodyTypePublisher;
-        readonly IEnginePublisher _enginePublisher;
-        readonly ITransmissionPublisher _transmissionPublisher;
-        readonly IWheelDrivePublisher _wheelDrivePublisher;
-        readonly ISteeringPublisher _steeringPublisher;
-        readonly IGradePublisher _gradePublisher;
-        readonly ICarPublisher _carPublisher;
-        readonly IAssetPublisher _assetPublisher;
-        readonly ISubModelPublisher _subModelPublisher;
-        readonly IEquipmentPublisher _equipmentPublisher;
+        private readonly IBodyTypePublisher _bodyTypePublisher;
+        private readonly IEnginePublisher _enginePublisher;
+        private readonly ITransmissionPublisher _transmissionPublisher;
+        private readonly IWheelDrivePublisher _wheelDrivePublisher;
+        private readonly ISteeringPublisher _steeringPublisher;
+        private readonly IGradePublisher _gradePublisher;
+        private readonly ICarPublisher _carPublisher;
+        private readonly IAssetPublisher _assetPublisher;
+        private readonly ISubModelPublisher _subModelPublisher;
+        private readonly IEquipmentPublisher _equipmentPublisher;
+        private readonly ISpecificationsPublisher _specificationsPublisher;
         private readonly IGradePackPublisher _gradePackPublisher;
         private readonly IColourPublisher _colourCombinationPublisher;
 
@@ -41,9 +42,10 @@ namespace TME.CarConfigurator.Publisher
         	IGradePublisher gradePublisher,
         	ICarPublisher carPublisher, 
         	IAssetPublisher assetPublisher, 
-        	ISubModelPublisher subModelPublisher, 
-        	IEquipmentPublisher equipmentPublisher, 
-        	IGradePackPublisher gradePackPublisher,
+        	ISubModelPublisher subModelPublisher,
+            IEquipmentPublisher equipmentPublisher,
+            ISpecificationsPublisher specificationsPublisher,
+            IGradePackPublisher gradePackPublisher,
             IColourPublisher colourCombinationPublisher)
         {
             if (publicationPublisher == null) throw new ArgumentNullException("publicationPublisher");
@@ -61,6 +63,7 @@ namespace TME.CarConfigurator.Publisher
             if (equipmentPublisher == null) throw new ArgumentNullException("equipmentPublisher");
             if (gradePackPublisher == null) throw new ArgumentNullException("gradePackPublisher");
             if (colourCombinationPublisher == null) throw new ArgumentNullException("colourCombinationPublisher");
+            if (specificationsPublisher == null) throw new ArgumentNullException("specificationsPublisher");
 
             _publicationPublisher = publicationPublisher;
             _modelPublisher = modelPublisher;
@@ -77,6 +80,7 @@ namespace TME.CarConfigurator.Publisher
             _equipmentPublisher = equipmentPublisher;
             _gradePackPublisher = gradePackPublisher;
             _colourCombinationPublisher = colourCombinationPublisher;
+            _specificationsPublisher = specificationsPublisher;
         }
 
         public async Task<Result> PublishAsync(IContext context)
@@ -118,9 +122,11 @@ namespace TME.CarConfigurator.Publisher
                 _subModelPublisher.PublishGenerationSubModelsAsync(context),
                 _carPublisher.PublishGenerationCarsAsync(context),
                 _colourCombinationPublisher.PublishGenerationColourCombinations(context),
+                _gradePublisher.PublishSubModelGradesAsync(context),
                 _equipmentPublisher.PublishAsync(context),
                 _equipmentPublisher.PublishCategoriesAsync(context),
                 _equipmentPublisher.PublishSubModelGradeEquipmentAsync(context),
+                _specificationsPublisher.PublishCategoriesAsync(context),
                 _gradePackPublisher.PublishAsync(context),
                 _assetPublisher.PublishAssetsAsync(context),
                 _assetPublisher.PublishCarAssetsAsync(context)

@@ -70,7 +70,7 @@
     <Compile Include="Equipment\CarEquipment.cs" />
     <Compile Include="Equipment\CarAccessory.cs" />
     <Compile Include="Equipment\GradeEquipment.cs" />
-    <Compile Include="Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Equipment\MountingCosts.cs" />
     <Compile Include="Grade.cs" />
     <Compile Include="Enums\Visibility.cs" />
@@ -82,6 +82,7 @@
     <Compile Include="Equipment\GradeOption.cs" />
     <Compile Include="Equipment\Option.cs" />
     <Compile Include="CarInfo.cs" />
+    <Compile Include="Interfaces\IAvailabilityProperties.cs" />
     <Compile Include="Packs\GradePack.cs" />
     <Compile Include="Packs\Pack.cs" />
     <Compile Include="Steering.cs" />

@@ -32,5 +32,18 @@ namespace TME.CarConfigurator.S3.CommandServices
 
             return await _service.PutObjectAsync(brand, country, path, value);
         }
+
+        public async Task<Result> PutGradesPerSubModel(string brand, string country, Guid publicationID, Guid timeFrameID, Guid subModelID,
+            List<Grade> gradesPerSubModel)
+        {
+            if (brand == null) throw new ArgumentNullException("brand");
+            if (country == null) throw new ArgumentNullException("country");
+            if (gradesPerSubModel == null) throw new ArgumentNullException("gradesPerSubModel");
+
+            var path = _keyManager.GetSubModelGradesKey(publicationID, timeFrameID,subModelID);
+            var value = _serialiser.Serialise(gradesPerSubModel);
+
+            return await _service.PutObjectAsync(brand, country, path, value);
+        }
     }
 }

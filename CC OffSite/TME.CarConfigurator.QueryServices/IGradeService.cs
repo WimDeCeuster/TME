@@ -11,5 +11,6 @@ namespace TME.CarConfigurator.QueryServices
     public interface IGradeService
     {
         IEnumerable<Grade> GetGrades(Guid publicationId, Guid publicationTimeFrameId, Context context);
+        IEnumerable<Grade> GetSubModelGrades(Guid publicationID, Guid publicationTimeFrameID, Guid subModelID, Context context);
     }
 }

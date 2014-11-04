@@ -47,7 +47,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
                 {
                     return Adaptee.Name;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return string.Empty;
                 }
@@ -90,7 +90,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
                 {
                     return new ColourTransformation(Adaptee.Transformation);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return null;
                 }
@@ -119,7 +119,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
                 {
                     return Adaptee.Labels.Cast<TMME.CarConfigurator.Label>().Select(x => new Label(x)).ToList(); 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return new List<ILabel>();
                 }

@@ -8,9 +8,9 @@ namespace TME.CarConfigurator.Tests.Shared
     public class GradePackBuilder
     {
         private Guid _id;
-        private readonly IList<CarInfo> _notAvailableOn = new List<CarInfo>();
-        private readonly IList<CarInfo> _optionalOn = new List<CarInfo>();
-        private readonly IList<CarInfo> _standardOn = new List<CarInfo>();
+        private readonly List<CarInfo> _notAvailableOn = new List<CarInfo>();
+        private readonly List<CarInfo> _optionalOn = new List<CarInfo>();
+        private readonly List<CarInfo> _standardOn = new List<CarInfo>();
 
         public GradePackBuilder WithID(Guid id)
         {

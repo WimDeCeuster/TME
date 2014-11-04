@@ -27,6 +27,17 @@ namespace TME.CarConfigurator.Factories
             _colourFactory = colourFactory;
         }
 
+        public IGradeEquipment GetSubModelGradeEquipment(Publication publication, Guid subModelID, Context context,
+            Guid gradeID)
+        {
+            var gradeEquipment = _equipmentService.GetSubModelGradeEquipment(publication.ID,
+                publication.GetCurrentTimeFrame().ID, gradeID, subModelID, context);
+
+            return new GradeEquipment(
+                gradeEquipment.Accessories.Select(accessory => GetGradeAccessory(accessory, publication, context)),
+                gradeEquipment.Options.Select(option => GetGradeOption(option, gradeEquipment.Options, publication, context)));
+        }
+
         public IGradeEquipment GetGradeEquipment(Publication publication, Context context, Guid gradeId)
         {
             var gradeEquipment = _equipmentService.GetGradeEquipment(publication.ID, publication.GetCurrentTimeFrame().ID, gradeId, context);
@@ -41,12 +52,11 @@ namespace TME.CarConfigurator.Factories
             return new GradeAccessory(accessory, publication, context, _colourFactory);
         }
 
-        // ReSharper disable once ParameterTypeCanBeEnumerable.Local => no, because that would cause a multiple enumeration for repoGrades...
-        IGradeOption GetGradeOption(RepoGradeOption repoGradeOption, IReadOnlyList<RepoGradeOption> repoGrades, Publication publication, Context context)
+        IGradeOption GetGradeOption(RepoGradeOption repoGradeOption, IEnumerable<RepoGradeOption> repoGradeOptions, Publication publication, Context context)
         {
             var parentGradeOption = repoGradeOption.ParentOptionShortID == 0
                 ? null
-                : repoGrades.Single(grd => grd.ShortID == repoGradeOption.ParentOptionShortID);
+                : repoGradeOptions.Single(grd => grd.ShortID == repoGradeOption.ParentOptionShortID);
 
             var parentOptionInfo = parentGradeOption == null ? null : new OptionInfo(parentGradeOption.ShortID, parentGradeOption.Name);
 
