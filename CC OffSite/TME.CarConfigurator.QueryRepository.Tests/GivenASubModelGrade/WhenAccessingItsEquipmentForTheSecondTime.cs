@@ -51,10 +51,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModelGrade
             var context = new ContextBuilder().Build();
 
             _gradeEquipmentService = A.Fake<IEquipmentService>();
-            A.CallTo(
-                () =>
-                    _gradeEquipmentService.GetSubModelGradeEquipment(publication.ID, publicationTimeFrame.ID,
-                        repoGrade.ID, subModelID, context)).Returns(gradeEquipment);
+            A.CallTo(() => _gradeEquipmentService.GetSubModelGradeEquipment(publication.ID, publicationTimeFrame.ID, repoGrade.ID, subModelID, context)).Returns(gradeEquipment);
 
             var gradeEquipmentFactory =
                 new EquipmentFactoryBuilder().WithEquipmentService(_gradeEquipmentService).Build();

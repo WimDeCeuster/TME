@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
@@ -20,7 +21,12 @@ namespace TME.CarConfigurator
 
         public override IGradeEquipment Equipment
         {
-            get { return _equipment = _equipment ?? _gradeEquipmentFactory.GetSubModelGradeEquipment(_repositoryPublication,_subModelID, _repositoryContext, ID); }
+            get { return FetchedEquipment = FetchedEquipment ?? GradeEquipmentFactory.GetSubModelGradeEquipment(RepositoryPublication, _subModelID, RepositoryContext, ID); }
+        }
+
+        public override IReadOnlyList<Interfaces.Packs.IGradePack> Packs
+        {
+            get { return FetchedPacks = FetchedPacks ?? PackFactory.GetSubModelGradePacks(RepositoryPublication, RepositoryContext, RepositoryObject.ID, _subModelID); }
         }
     }
 }

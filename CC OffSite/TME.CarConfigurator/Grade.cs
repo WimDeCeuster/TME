@@ -14,16 +14,17 @@ namespace TME.CarConfigurator
 {
     public class Grade : BaseObject<Repository.Objects.Grade>, IGrade
     {
-        public readonly Repository.Objects.Publication _repositoryPublication;
-        public readonly Repository.Objects.Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
-        public readonly IEquipmentFactory _gradeEquipmentFactory;
-        private readonly IPackFactory _packFactory;
+        protected readonly Repository.Objects.Publication RepositoryPublication;
+        protected readonly Repository.Objects.Context RepositoryContext;
+        protected readonly IPackFactory PackFactory;
+        protected readonly IEquipmentFactory GradeEquipmentFactory;
+
         private IReadOnlyList<IAsset> _fetchedAssets;
         private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
-        public IGradeEquipment _equipment;
-        private IReadOnlyList<IGradePack> _packs;
-        public IReadOnlyList<IGradeEquipmentItem> _equipmentItems;
+        protected IReadOnlyList<IGradePack> FetchedPacks;
+        protected IGradeEquipment FetchedEquipment;
+        protected IReadOnlyList<IGradeEquipmentItem> EquipmentItems;
 
         Price _price;
         readonly IGrade _basedUponGrade;
@@ -36,12 +37,12 @@ namespace TME.CarConfigurator
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
             if (packFactory == null) throw new ArgumentNullException("packFactory");
 
-            _repositoryPublication = repositoryPublication;
-            _repositoryContext = repositoryContext;
+            RepositoryPublication = repositoryPublication;
+            RepositoryContext = repositoryContext;
             _basedUponGrade = basedUponGrade;
             _assetFactory = assetFactory;
-            _gradeEquipmentFactory = gradeEquipmentFactory;
-            _packFactory = packFactory;
+            GradeEquipmentFactory = gradeEquipmentFactory;
+            PackFactory = packFactory;
         }
 
         public bool Special { get { return RepositoryObject.Special; } }
@@ -54,21 +55,21 @@ namespace TME.CarConfigurator
         {
             get
             {
-                return _fetchedVisibleInModeAndViews = _fetchedVisibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, _repositoryPublication, _repositoryContext, _assetFactory)).ToList();
+                return _fetchedVisibleInModeAndViews = _fetchedVisibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, RepositoryPublication, RepositoryContext, _assetFactory)).ToList();
             }
         }
 
-        public virtual IReadOnlyList<IAsset> Assets { get { return _fetchedAssets = _fetchedAssets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
+        public virtual IReadOnlyList<IAsset> Assets { get { return _fetchedAssets = _fetchedAssets ?? _assetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext); } }
 
         public virtual IGradeEquipment Equipment
         {
-            get { return _equipment = _equipment ?? _gradeEquipmentFactory.GetGradeEquipment(_repositoryPublication, _repositoryContext, ID); }
+            get { return FetchedEquipment = FetchedEquipment ?? GradeEquipmentFactory.GetGradeEquipment(RepositoryPublication, RepositoryContext, ID); }
         }
 
 
-        public IReadOnlyList<IGradePack> Packs
+        public virtual IReadOnlyList<IGradePack> Packs
         {
-            get { return _packs = _packs ?? _packFactory.GetGradePacks(_repositoryPublication, _repositoryContext, RepositoryObject.ID); }
+            get { return FetchedPacks = FetchedPacks ?? PackFactory.GetGradePacks(RepositoryPublication, RepositoryContext, RepositoryObject.ID); }
         }
     }
 }

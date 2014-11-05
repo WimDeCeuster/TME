@@ -14,25 +14,17 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
 {
     public class TimeFramePublishHelper : ITimeFramePublishHelper
     {
-        public async Task PublishObjects<T>(IContext context, Func<TimeFrame, T> objectsGetter, Func<String, String, Guid, Guid, T, Task> publish)
+        private delegate Task PublishPerTimeFrame(String country, String brand, IReadOnlyList<TimeFrame> timeFrames, Guid publicationId);
+
+        public async Task PublishObjects<T>(IContext context, Func<TimeFrame, T> objectsGetter, PublishGenerationItem<T> publish)
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            var tasks = new List<Task>();
-
-            foreach (var entry in context.ContextData)
-            {
-                var language = entry.Key;
-                var data = entry.Value;
-                var timeFrames = context.TimeFrames[language];
-
-                tasks.Add(Publish(context.Brand, context.Country, timeFrames, data.Publication.ID, objectsGetter, publish));
-            }
-
-            await Task.WhenAll(tasks);
+            await PerTimeFrame(context, async (brand, country, timeFrames, publicationId) =>
+                await Publish(brand, country, timeFrames, publicationId, objectsGetter, publish));
         }
 
-        public async Task PublishBaseObjectList<T>(IContext context, Func<TimeFrame, IEnumerable<T>> objectsGetter, Func<String, String, Guid, Guid, IEnumerable<T>, Task> publish)
+        public async Task PublishBaseObjectList<T>(IContext context, Func<TimeFrame, IEnumerable<T>> objectsGetter, PublishGenerationItem<IEnumerable<T>> publish)
             where T : BaseObject
         {
             if (context == null) throw new ArgumentNullException("context");
@@ -43,7 +35,7 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
                 async (brand, country, pubId, tfId, x) => await Task.WhenAll(publish(brand, country, pubId, tfId, x)));
         }
 
-        public async Task PublishList<T>(IContext context, Func<TimeFrame, IEnumerable<T>> objectsGetter, Func<string, string, Guid, Guid, IEnumerable<T>, Task> publish)
+        public async Task PublishList<T>(IContext context, Func<TimeFrame, IEnumerable<T>> objectsGetter, PublishGenerationItem<IEnumerable<T>> publish)
         {
             if (context == null) throw new ArgumentNullException("context");
 
@@ -51,13 +43,23 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
                 context,
                 objectsGetter,
                 async (brand, country, pubId, tfId, x) => await Task.WhenAll(publish(brand, country, pubId, tfId, x)));
-
         }
 
-        public async Task PublishObjectsPerSubModel<T>(IContext context, Func<TimeFrame, IReadOnlyList<SubModel>> subModelGetter, Func<TimeFrame, T> objectsGetter, Func<string, string, Guid, Guid, Guid, List<Grade>, T, Task> publish)
+        public async Task PublishPerParent<TParent, TItem>(
+            IContext context,
+            Func<TimeFrame, IEnumerable<TParent>> parentsGetter,
+            Func<TimeFrame, TParent, TItem> itemGetter,
+            PublishGenerationSubItem<TItem> publish)
+            where TParent : BaseObject
         {
             if (context == null) throw new ArgumentNullException("context");
 
+            await PerTimeFrame(context,  async (brand, country, timeFrames, publicationId) =>
+                await PublishPerParent(brand, country, timeFrames, publicationId, parentsGetter, itemGetter, publish));
+        }
+        
+        async Task PerTimeFrame(IContext context, PublishPerTimeFrame publishPerTimeFrame)
+        {
             var tasks = new List<Task>();
 
             foreach (var entry in context.ContextData)
@@ -66,28 +68,32 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
                 var data = entry.Value;
                 var timeFrames = context.TimeFrames[language];
 
-                tasks.Add(PublishPerSubModel(context.Brand, context.Country, timeFrames, data.Publication.ID, subModelGetter, objectsGetter, publish));
+                tasks.Add(publishPerTimeFrame(context.Brand, context.Country, timeFrames, data.Publication.ID));
             }
 
             await Task.WhenAll(tasks);
         }
 
-        async Task Publish<T>(String brand, String country, IEnumerable<TimeFrame> timeFrames, Guid publicationID, Func<TimeFrame, T> objectsGetter, Func<String, String, Guid, Guid, T, Task> publish)
+        async Task Publish<T>(String brand, String country, IEnumerable<TimeFrame> timeFrames, Guid publicationID, Func<TimeFrame, T> objectsGetter, PublishGenerationItem<T> publish)
         {
             var tasks = timeFrames.Select(timeFrame => publish(brand, country, publicationID, timeFrame.ID, objectsGetter(timeFrame)));
 
             await Task.WhenAll(tasks);
         }
 
-        async Task PublishPerSubModel<T>(String brand, String country, IEnumerable<TimeFrame> timeFrames, Guid publicationID, Func<TimeFrame, IReadOnlyList<SubModel>> subModelGetter, Func<TimeFrame, T> objectsGetter, Func<String, String, Guid, Guid, Guid,List<Grade>, T, Task> publish)
+        async Task PublishPerParent<TParent, TItem>(String brand, String country, IEnumerable<TimeFrame> timeFrames, Guid publicationID,
+            Func<TimeFrame, IEnumerable<TParent>> parentsGetter,
+            Func<TimeFrame, TParent, TItem> itemGetter,
+            PublishGenerationSubItem<TItem> publish)
+            where TParent : BaseObject
         {
             var tasks = new List<Task>();
 
             foreach (var timeFrame in timeFrames)
             {
-                var submodels = subModelGetter(timeFrame);
-                
-                tasks.AddRange(submodels.Select(submodel => publish(brand, country, publicationID, timeFrame.ID, submodel.ID,submodel.Grades,objectsGetter(timeFrame))));
+                var parents = parentsGetter(timeFrame);
+              
+                tasks.AddRange(parents.Select(parent => publish(brand, country, publicationID, timeFrame.ID, parent.ID, itemGetter(timeFrame, parent))));
             }
 
             await Task.WhenAll(tasks);

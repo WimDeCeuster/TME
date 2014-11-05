@@ -15,7 +15,7 @@ using Xunit;
 
 namespace TME.Carconfigurator.Tests.GivenAS3GradePackPublisher
 {
-    public class WhenPublishingGradePacks : TestBase
+    public class WhenPublishingSubModelGradePacks : TestBase
     {
         const String Brand = "Toyota";
         const String Country = "DE";
@@ -39,6 +39,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePackPublisher
 
         protected override void Arrange()
         {
+            var subModel = new SubModelBuilder().WithID(Guid.NewGuid()).Build();
+
             var gradeId1 = Guid.NewGuid();
             var gradeId2 = Guid.NewGuid();
             var gradeId3 = Guid.NewGuid();
@@ -51,21 +53,25 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePackPublisher
 
             var timeFrame1 = new TimeFrameBuilder()
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
-                .WithGradePacks(gradeId1, packs1)
+                .WithSubModels(new [] { subModel })
+                .WithSubModelGradePacks(subModel.ID, gradeId1, packs1)
                 .Build();
             var timeFrame2 = new TimeFrameBuilder()
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
-                .WithGradePacks(gradeId1, packs1)
-                .WithGradePacks(gradeId2, packs2)
+                .WithSubModels(new[] { subModel })
+                .WithSubModelGradePacks(subModel.ID, gradeId1, packs1)
+                .WithSubModelGradePacks(subModel.ID, gradeId2, packs2)
                 .Build();
             var timeFrame3 = new TimeFrameBuilder()
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
-                .WithGradePacks(gradeId3, packs3)
-                .WithGradePacks(gradeId4, packs4)
+                .WithSubModels(new[] { subModel })
+                .WithSubModelGradePacks(subModel.ID, gradeId3, packs3)
+                .WithSubModelGradePacks(subModel.ID, gradeId4, packs4)
                 .Build();
             var timeFrame4 = new TimeFrameBuilder()
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
-                .WithGradePacks(gradeId4, packs4)
+                .WithSubModels(new[] { subModel })
+                .WithSubModelGradePacks(subModel.ID, gradeId4, packs4)
                 .Build();
 
             var publicationTimeFrame1 = new PublicationTimeFrame { ID = timeFrame1.ID };
@@ -110,17 +116,17 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePackPublisher
             A.CallTo(() => serialiser.Serialise(packs4))
                 .Returns(SerialisedObject4);
 
-            A.CallTo(() => keyManager.GetGradePacksKey(publication1.ID, publicationTimeFrame1.ID, gradeId1)).Returns(TimeFrame1Grade1Key);
-            A.CallTo(() => keyManager.GetGradePacksKey(publication1.ID, publicationTimeFrame2.ID, gradeId1)).Returns(TimeFrame2Grade1Key);
-            A.CallTo(() => keyManager.GetGradePacksKey(publication1.ID, publicationTimeFrame2.ID, gradeId2)).Returns(TimeFrame2Grade2Key);
-            A.CallTo(() => keyManager.GetGradePacksKey(publication2.ID, publicationTimeFrame3.ID, gradeId3)).Returns(TimeFrame3Grade3Key);
-            A.CallTo(() => keyManager.GetGradePacksKey(publication2.ID, publicationTimeFrame3.ID, gradeId4)).Returns(TimeFrame3Grade4Key);
-            A.CallTo(() => keyManager.GetGradePacksKey(publication2.ID, publicationTimeFrame4.ID, gradeId4)).Returns(TimeFrame4Grade4Key);
+            A.CallTo(() => keyManager.GetSubModelGradePacksKey(publication1.ID, publicationTimeFrame1.ID, gradeId1, subModel.ID)).Returns(TimeFrame1Grade1Key);
+            A.CallTo(() => keyManager.GetSubModelGradePacksKey(publication1.ID, publicationTimeFrame2.ID, gradeId1, subModel.ID)).Returns(TimeFrame2Grade1Key);
+            A.CallTo(() => keyManager.GetSubModelGradePacksKey(publication1.ID, publicationTimeFrame2.ID, gradeId2, subModel.ID)).Returns(TimeFrame2Grade2Key);
+            A.CallTo(() => keyManager.GetSubModelGradePacksKey(publication2.ID, publicationTimeFrame3.ID, gradeId3, subModel.ID)).Returns(TimeFrame3Grade3Key);
+            A.CallTo(() => keyManager.GetSubModelGradePacksKey(publication2.ID, publicationTimeFrame3.ID, gradeId4, subModel.ID)).Returns(TimeFrame3Grade4Key);
+            A.CallTo(() => keyManager.GetSubModelGradePacksKey(publication2.ID, publicationTimeFrame4.ID, gradeId4, subModel.ID)).Returns(TimeFrame4Grade4Key);
         }
 
         protected override void Act()
         {
-            _publisher.PublishAsync(_context).Wait();
+            _publisher.PublishSubModelGradePacksAsync(_context).Wait();
         }
 
         [Fact]
