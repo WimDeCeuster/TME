@@ -262,7 +262,7 @@ namespace TME.CarConfigurator.Publisher
                                   .ExteriorColours()
                                   .ToDictionary(
                                     colour => colour.ID,
-                                    colour => colour.AssetSet.Assets.GetGenerationAssets().GetExteriorColourAssets()
+                                    colour => colour.AssetSet.Assets.GetExteriorColourAssets()
                                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
@@ -272,7 +272,7 @@ namespace TME.CarConfigurator.Publisher
                                   .Upholsteries()
                                   .ToDictionary(
                                     upholstery => upholstery.ID,
-                                    upholstery => upholstery.AssetSet.Assets.GetGenerationAssets().GetUpholsteryAssets()
+                                    upholstery => upholstery.AssetSet.Assets.GetUpholsteryAssets()
                                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
