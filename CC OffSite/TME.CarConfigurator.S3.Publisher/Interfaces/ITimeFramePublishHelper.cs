@@ -10,7 +10,7 @@ using TME.CarConfigurator.Repository.Objects.Core;
 namespace TME.CarConfigurator.S3.Publisher.Interfaces
 {
     public delegate Task PublishGenerationItem<T>(String brand, String country, Guid publicationId, Guid timeFrameId, T item);
-    public delegate Task PublishGenerationSubItem<T>(String brand, String country, Guid publicationId, Guid timeFrameId, Guid parentId, T item);
+    public delegate Task PublishGenerationSubItem<TParent, TItem>(String brand, String country, Guid publicationId, Guid timeFrameId, TParent parent, TItem item);
 
     public interface ITimeFramePublishHelper
     {
@@ -22,7 +22,6 @@ namespace TME.CarConfigurator.S3.Publisher.Interfaces
         Task PublishPerParent<TParent, TItem>(IContext context,
             Func<TimeFrame, IEnumerable<TParent>> parentsGetter,
             Func<TimeFrame, TParent, TItem> itemGetter,
-            PublishGenerationSubItem<TItem> publish)
-            where TParent : BaseObject;
+            PublishGenerationSubItem<TParent, TItem> publish);
     }
 }

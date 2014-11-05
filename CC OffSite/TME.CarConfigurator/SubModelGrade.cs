@@ -26,7 +26,7 @@ namespace TME.CarConfigurator
 
         public override IReadOnlyList<Interfaces.Packs.IGradePack> Packs
         {
-            get { return FetchedPacks = FetchedPacks ?? PackFactory.GetSubModelGradePacks(RepositoryPublication, RepositoryContext, RepositoryObject.ID, _subModelID); }
+            get { return FetchedPacks = FetchedPacks ?? PackFactory.GetSubModelGradePacks(RepositoryPublication, RepositoryContext, _subModelID, RepositoryObject.ID); }
         }
     }
 }

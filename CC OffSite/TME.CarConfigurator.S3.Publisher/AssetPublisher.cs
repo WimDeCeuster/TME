@@ -43,7 +43,6 @@ namespace TME.CarConfigurator.S3.Publisher
             await Task.WhenAll(assetsPerObjectID.Keys.Select(objectID => PublishAsync(assetsPerObjectID[objectID],
                 async assets => await PublishAssetsByModeAndViewAsync(brand, country, publicationID, objectID, assets),
                 async assets => await PublishDefaultAssetsAsync(brand, country, publicationID, objectID, assets))));
-            return assets.Where(a => String.IsNullOrEmpty(a.AssetType.Mode) && String.IsNullOrEmpty(a.AssetType.View));
         }
 
         private static async Task PublishAsync(string brand, string country, Guid publicationID, IDictionary<Guid, IDictionary<Guid, IList<Asset>>> objectAssets, PublishAssetsByModeAndViewDelegate publishAssetsByModeAndViewDelegate, PublishDefaultAssetsDelegate publishDefaultAssetsDelegate)

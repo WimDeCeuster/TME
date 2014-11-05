@@ -150,6 +150,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => _equipmentPublisher.PublishSubModelGradeEquipmentAsync(_context)).Returns(task);
             A.CallTo(() => _specificationsPublisher.PublishCategoriesAsync(_context)).Returns(task);
             A.CallTo(() => _gradePackPublisher.PublishAsync(_context)).Returns(task);
+            A.CallTo(() => _gradePackPublisher.PublishSubModelGradePacksAsync(_context)).Returns(task);
             A.CallTo(() => _colourCombinationPublisher.PublishGenerationColourCombinations(_context)).Returns(task);
         }
 
@@ -247,6 +248,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         public void ThenItShouldPublishSpecificationCategories()
         {
             A.CallTo(() => _specificationsPublisher.PublishCategoriesAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
+        public void ThenItShouldPublishSubModelGradePacks()
+        {
+            A.CallTo(() => _gradePackPublisher.PublishSubModelGradePacksAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
     }
 }

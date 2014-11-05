@@ -49,8 +49,7 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
             IContext context,
             Func<TimeFrame, IEnumerable<TParent>> parentsGetter,
             Func<TimeFrame, TParent, TItem> itemGetter,
-            PublishGenerationSubItem<TItem> publish)
-            where TParent : BaseObject
+            PublishGenerationSubItem<TParent, TItem> publish)
         {
             if (context == null) throw new ArgumentNullException("context");
 
@@ -84,8 +83,7 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
         async Task PublishPerParent<TParent, TItem>(String brand, String country, IEnumerable<TimeFrame> timeFrames, Guid publicationID,
             Func<TimeFrame, IEnumerable<TParent>> parentsGetter,
             Func<TimeFrame, TParent, TItem> itemGetter,
-            PublishGenerationSubItem<TItem> publish)
-            where TParent : BaseObject
+            PublishGenerationSubItem<TParent, TItem> publish)
         {
             var tasks = new List<Task>();
 
@@ -93,7 +91,7 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
             {
                 var parents = parentsGetter(timeFrame);
               
-                tasks.AddRange(parents.Select(parent => publish(brand, country, publicationID, timeFrame.ID, parent.ID, itemGetter(timeFrame, parent))));
+                tasks.AddRange(parents.Select(parent => publish(brand, country, publicationID, timeFrame.ID, parent, itemGetter(timeFrame, parent))));
             }
 
             await Task.WhenAll(tasks);

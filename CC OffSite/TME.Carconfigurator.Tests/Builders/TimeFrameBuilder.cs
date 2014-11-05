@@ -167,8 +167,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
                 _colourCombinations,
                 _equipmentCategories,
                 _subModelGradeEquipments,
-                _specificationCategories),
-                _subModelAssets,
+                _specificationCategories,
                 _subModelGradePacks.ToDictionary(
                     entry => entry.Key,
                     entry => (IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>>)entry.Value.ToDictionary()

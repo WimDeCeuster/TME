@@ -38,8 +38,8 @@ namespace TME.CarConfigurator.S3.Publisher
         {
             await _timeFramePublishHelper.PublishPerParent(
                 context,
-                timeFrame => timeFrame.SubModels,
-                (timeFrame, subModel) => timeFrame.SubModelGradePacks[subModel.ID],
+                timeFrame => timeFrame.SubModelGradePacks.Keys,
+                (timeFrame, subModelId) => timeFrame.SubModelGradePacks[subModelId],
                 Publish);
         }
 

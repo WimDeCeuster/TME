@@ -37,8 +37,8 @@ namespace TME.CarConfigurator.S3.Publisher
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            await _timeFramePublishHelper.PublishPerParent(context, timeFrame => timeFrame.SubModels,
-                (timeFrame, subModel) => timeFrame.SubModelGrades[subModel.ID], _gradeService.PutGradesPerSubModel);
+            await _timeFramePublishHelper.PublishPerParent(context, timeFrame => timeFrame.SubModelGrades.Keys,
+                (timeFrame, subModelId) => timeFrame.SubModelGrades[subModelId], _gradeService.PutGradesPerSubModel);
         }
     }
 }

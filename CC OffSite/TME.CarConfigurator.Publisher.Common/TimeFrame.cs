@@ -52,7 +52,6 @@ namespace TME.CarConfigurator.Publisher.Common
             IReadOnlyList<EquipmentCategory> equipmentCategories,
             IReadOnlyDictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>> subModelGradeEquipments,
             IReadOnlyList<SpecificationCategory> specificationCategories,
-            IReadOnlyDictionary<Guid, IDictionary<Guid, IList<Asset>>> subModelAssets,
             IReadOnlyDictionary<Guid, IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>>> subModelGradePacks)
         {
             if (cars == null) throw new ArgumentNullException("cars");

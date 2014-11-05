@@ -105,8 +105,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 contextData.ColourCombinations.ToList(),
                 contextData.EquipmentCategories.ToList(),
                 contextData.SubModelGradeEquipment.ToDictionary(),
-                contextData.SpecificationCategories.ToList()),
-                contextData.SubModelAssets.ToDictionary(),
+                contextData.SpecificationCategories.ToList(),
                 contextData.SubModelGradePacks.ToDictionary());
         }
 
@@ -146,8 +145,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 colourCombinations,
                 equipmentCategories,
                 subModelGradeEquipments,
-                specificationCategories),
-                subModelAssets,
+                specificationCategories,
                 subModelGradePacks);
         }
 
