@@ -16,6 +16,9 @@ namespace TME.CarConfigurator.Factories
         private readonly IAssetFactory _assetFactory;
         private readonly IEquipmentFactory _gradeEquipmentFactory;
         private readonly IPackFactory _packFactory;
+        private List<RepoGrade> _repoGenerationGrades;
+        private List<RepoGrade> _repoSubModelGrades;
+
 
         public GradeFactory(IGradeService gradeService, IAssetFactory assetFactory, IEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
         {
@@ -32,7 +35,7 @@ namespace TME.CarConfigurator.Factories
 
         public IReadOnlyList<IGrade> GetGrades(Publication publication, Context context)
         {
-            var repoGrades = _gradeService.GetGrades(publication.ID, publication.GetCurrentTimeFrame().ID, context).ToList();
+            var repoGrades = GetRepoGrades(publication, context);
             var grades = new List<IGrade>();
 
             return repoGrades.Select(repoGrade => GetGrade(repoGrade, repoGrades, grades, publication, context)).ToArray();
@@ -40,17 +43,24 @@ namespace TME.CarConfigurator.Factories
 
         public IReadOnlyList<IGrade> GetSubModelGrades(Guid subModelID,Publication publication,Context context)
         {
-            var repoSubModelGrades = _gradeService.GetSubModelGrades(publication.ID, publication.GetCurrentTimeFrame().ID,
+            _repoSubModelGrades = _repoSubModelGrades ?? _gradeService.GetSubModelGrades(publication.ID, publication.GetCurrentTimeFrame().ID,
                 subModelID, context).ToList();
-            var repoGenerationGrades = _gradeService.GetGrades(publication.ID, publication.GetCurrentTimeFrame().ID, context).ToList();
+            var repoGenerationGrades = GetRepoGrades(publication, context);
             var grades = new List<IGrade>();
 
 
-            return
-                repoSubModelGrades.Select(repoGrade => GetSubModelGrade(repoGrade, repoGenerationGrades, grades, publication, context,subModelID)).ToArray();
+            return _repoSubModelGrades.Select(repoGrade => 
+                                                GetSubModelGrade(repoGrade, repoGenerationGrades, grades, publication, context,subModelID))
+                                                .ToArray();
         }
 
-        private IGrade GetSubModelGrade(RepoGrade repoGrade, IList<RepoGrade> repoGrades, ICollection<IGrade> grades, Publication publication, Context context, Guid subModelID)
+        private List<RepoGrade> GetRepoGrades(Publication publication, Context context)
+        {
+            return _repoGenerationGrades = _repoGenerationGrades ??
+                                 _gradeService.GetGrades(publication.ID, publication.GetCurrentTimeFrame().ID, context).ToList();
+        }
+
+        private IGrade GetSubModelGrade(RepoGrade repoGrade, List<RepoGrade> repoGrades, ICollection<IGrade> grades, Publication publication, Context context, Guid subModelID)
         {
             var foundGrade = grades.SingleOrDefault(grd => grd.ID == repoGrade.ID);
             if (foundGrade != null)

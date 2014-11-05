@@ -96,15 +96,10 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
                 return colour.IsEmpty() ? null : new ExteriorColour(colour);
             }
         }
-
-        public IEnumerable<IAsset> Assets
+        
+        public IReadOnlyList<ILink> Links
         {
-            get { return Adaptee.Assets.GetPlainAssets(); }
-        }
-
-        public IEnumerable<ILink> Links
-        {
-            get { return Adaptee.Links.Cast<TMME.CarConfigurator.Link>().Select(x => new Link(x)); }
+            get { return Adaptee.Links.Cast<TMME.CarConfigurator.Link>().Select(x => new Link(x)).ToList(); }
         }
     }
 }

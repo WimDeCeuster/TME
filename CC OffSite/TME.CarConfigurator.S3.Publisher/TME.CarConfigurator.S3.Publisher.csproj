@@ -42,6 +42,8 @@
     <Compile Include="AssetPublisher.cs" />
     <Compile Include="BodyTypePublisher.cs" />
     <Compile Include="CarPublisher.cs" />
+    <Compile Include="Extensions\AssetExtensions.cs" />
+    <Compile Include="Helpers\ModeAndView.cs" />
     <Compile Include="SpecificationPublisher.cs" />
     <Compile Include="Extensions\EquipmentItemExtensions.cs" />
     <Compile Include="ColourPublisher.cs" />

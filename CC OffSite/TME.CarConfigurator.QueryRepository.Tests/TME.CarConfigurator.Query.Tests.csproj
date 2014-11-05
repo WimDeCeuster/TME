@@ -77,6 +77,8 @@
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheSecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsTransmissionForTheFirstTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsTransmissionsForTheSecondTime.cs" />
     <Compile Include="GivenAColourCombination\WhenAccessingItsUpholsteryForTheFirstTime.cs" />
     <Compile Include="GivenAColourCombination\WhenAccessingItsExteriorColourForTheFirstTime.cs" />
     <Compile Include="GivenAColourCombination\WhenAccessingItsUpholsteryForTheSecondTime.cs" />

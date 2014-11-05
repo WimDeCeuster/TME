@@ -21,10 +21,22 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keyManager = keyManager;
         }
 
+        public async Task PutDefaultAssets(string brand, string country, Guid publicationID, Guid objectID, IEnumerable<Asset> assets)
+        {
+            var path = _keyManager.GetDefaultAssetsKey(publicationID, objectID);
+            await PutAssets(brand, country, path, assets);
+        }
+
         public async Task PutAssetsByModeAndView(string brand, string country, Guid publicationID, Guid objectID, string mode, string view, IEnumerable<Asset> assets)
         {
             var path = _keyManager.GetAssetsKey(publicationID, objectID, view, mode);
 
+            await PutAssets(brand, country, path, assets);
+        }
+
+        public async Task PutDefaultCarAssets(string brand, string country, Guid publicationID, Guid carID, Guid objectID, IEnumerable<Asset> assets)
+        {
+            var path = _keyManager.GetDefaultCarAssetsKey(publicationID, carID, objectID);
             await PutAssets(brand, country, path, assets);
         }
 
@@ -35,29 +47,17 @@ namespace TME.CarConfigurator.S3.CommandServices
             await PutAssets(brand, country, path, assets);
         }
 
-        public async Task PutSubModelAssetsByModeAndView(string brand, string country, Guid publicationID, Guid timeFrameID, Guid subModelID, Guid objectID, string mode, string view, IEnumerable<Asset> assets)
+        public async Task PutDefaultSubModelAssets(string brand, string country, Guid publicationID, Guid subModelID, Guid objectID, IEnumerable<Asset> assets)
         {
-            var path = _keyManager.GetSubModelAssetsKey(publicationID, timeFrameID, subModelID, objectID, view, mode);
+            var path = _keyManager.GetDefaultSubModelAssetsKey(publicationID, subModelID, objectID);
+            await PutAssets(brand, country, path, assets);
+        }
+
+        public async Task PutSubModelAssetsByModeAndView(string brand, string country, Guid publicationID, Guid subModelID, Guid objectID, string mode, string view, IEnumerable<Asset> assets)
+        {
+            var path = _keyManager.GetSubModelAssetsKey(publicationID, subModelID, objectID, view, mode);
 
             await PutAssets(brand, country, path,assets);
-        }
-
-        public async Task PutDefaultAssets(string brand, string country, Guid publicationID, Guid objectID, IEnumerable<Asset> assets)
-        {
-            var path = _keyManager.GetDefaultAssetsKey(publicationID, objectID);
-            await PutAssets(brand, country, path, assets);
-        }
-
-        public async Task PutCarDefaultAssets(string brand, string country, Guid publicationID, Guid carID, Guid objectID, IEnumerable<Asset> assets)
-        {
-            var path = _keyManager.GetDefaultCarAssetsKey(publicationID, carID, objectID);
-            await PutAssets(brand, country, path, assets);
-        }
-
-        public async Task PutSubModelDefaultAssets(string brand, string country, Guid publicationID, Guid timeFrameID, Guid subModelID, Guid objectID, IEnumerable<Asset> assets)
-        {
-            var path = _keyManager.GetDefaultSubModelAssetsKey(publicationID, timeFrameID, subModelID, objectID);
-            await PutAssets(brand, country, path, assets);
         }
 
         private async Task PutAssets(string brand, string country, string path, IEnumerable<Asset> assets)

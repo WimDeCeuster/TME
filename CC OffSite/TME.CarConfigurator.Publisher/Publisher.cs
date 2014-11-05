@@ -119,8 +119,7 @@ namespace TME.CarConfigurator.Publisher
                 _equipmentPublisher.PublishSubModelGradeEquipmentAsync(context),
                 _specificationsPublisher.PublishCategoriesAsync(context),
                 _gradePackPublisher.PublishAsync(context),
-                _assetPublisher.PublishAssetsAsync(context),
-                _assetPublisher.PublishCarAssetsAsync(context)
+                _assetPublisher.PublishAsync(context),
             };
 
             await Task.WhenAll(tasks);

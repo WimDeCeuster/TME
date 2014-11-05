@@ -1,6 +1,5 @@
 ﻿using System;
 using TME.CarConfigurator.CommandServices;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.DI.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
@@ -70,7 +69,7 @@ namespace TME.CarConfigurator.Publisher.DI.S3
 
         private IAssetPublisher GetAssetPublisher(IAssetService service)
         {
-            return new AssetPublisher(service, _timeFramePublishHelper);
+            return new AssetPublisher(service);
         }
 
         private IColourPublisher GetColourCombinationPublisher(IColourService service)

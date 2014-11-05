@@ -13,8 +13,9 @@ namespace TME.CarConfigurator.Interfaces.Packs
         IPrice Price { get; }
 
         IReadOnlyList<IAsset> Assets { get; }
-
+        
         IReadOnlyList<IExteriorColourInfo> AvailableForExteriorColours { get; }
         IReadOnlyList<IUpholsteryInfo> AvailableForUpholsteries { get; }
+        ICarPackEquipment Equipment { get; }
     }
 }

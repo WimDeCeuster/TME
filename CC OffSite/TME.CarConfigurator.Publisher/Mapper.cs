@@ -156,8 +156,9 @@ namespace TME.CarConfigurator.Publisher
                 FillGradePacks(grades, contextData, isPreview);
                 progress.Report(new PublishProgress("Fill generation equipment categories"));
                 FillEquipmentCategories(contextData);
-                progress.Report(new PublishProgress("Fill generation specification categories"));
+                progress.Report(new PublishProgress("Fill submodel assets"));
                 FillSubModelAssets(grades,modelGeneration,contextData);
+                progress.Report(new PublishProgress("Fill generation specification categories"));
                 FillSpecificationCategories(contextData);
 
                 progress.Report(new PublishProgress("Fill publication timeframes"));
@@ -200,6 +201,7 @@ namespace TME.CarConfigurator.Publisher
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.BodyTypes[car.BodyTypeID]);
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.Engines[car.EngineID]);
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.Grades[car.GradeID]);
+                FillCarAssets(car, contextData, modelGeneration, car.Generation.Transmissions[car.TransmissionID]);
             }
         }
 

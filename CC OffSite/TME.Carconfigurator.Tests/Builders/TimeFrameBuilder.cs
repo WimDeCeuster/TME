@@ -26,7 +26,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         private readonly Dictionary<Guid, GradeEquipment> _gradeEquipments = new Dictionary<Guid, GradeEquipment>();
         private readonly Dictionary<Guid, IReadOnlyList<GradePack>> _gradePacks = new Dictionary<Guid, IReadOnlyList<GradePack>>();
         private readonly Dictionary<Guid, IList<Grade>> _subModelGrades = new Dictionary<Guid, IList<Grade>>();
-        private readonly Dictionary<Guid, IDictionary<Guid, GradeEquipment>> _subModelGradeEquipments = new Dictionary<Guid, IDictionary<Guid, GradeEquipment>>();
+        private readonly Dictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>> _subModelGradeEquipments = new Dictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>>();
         private readonly Dictionary<Guid, IDictionary<Guid, IReadOnlyList<GradePack>>> _subModelGradePacks = new Dictionary<Guid, IDictionary<Guid, IReadOnlyList<GradePack>>>();
         private List<Transmission> _transmissions = new List<Transmission>();
         private List<SubModel> _subModels = new List<SubModel>();
@@ -167,7 +167,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
                 _colourCombinations,
                 _equipmentCategories,
                 _subModelGradeEquipments,
-                _specificationCategories,
+                _specificationCategories),
                 _subModelAssets,
                 _subModelGradePacks.ToDictionary(
                     entry => entry.Key,

@@ -63,7 +63,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
 
             _s3Service = A.Fake<IService>();
 
-            var timeFramePublishHelper = A.Fake<ITimeFramePublishHelper>();
             var serialiser = A.Fake<ISerialiser>();
             A.CallTo(() => serialiser.Serialise(A<IEnumerable<Asset>>._)).Returns(SERIALIZEDASSETS);
             var keymanager = A.Fake<IKeyManager>();
@@ -73,12 +72,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
                 .Returns(BODYTYPE_ASSETKEY);
 
             _assetService = new AssetsService(_s3Service, serialiser, keymanager);
-            _publisher = new AssetPublisher(_assetService,timeFramePublishHelper);
+            _publisher = new AssetPublisher(_assetService);
         }
 
         protected override void Act()
         {
-            _publisher.PublishAssetsAsync(_context).Wait();
+            _publisher.PublishAsync(_context).Wait();
         }
 
         [Fact]
