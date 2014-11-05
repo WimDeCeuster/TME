@@ -7,14 +7,14 @@ using TME.CarConfigurator.DI;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.S3.Shared.Exceptions;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
-using TME.CarConfigurator.S3.Shared.Exceptions;
 
 namespace TME.CarConfigurator.Query.Tests.Services.GivenAnAssetService
 {
-    public class WhenGetAssetsIsCalledForNonExistent2DAssets : TestBase
+    public class WhenGetSubModelAssetsIsCalledForNonExistent3DAssets : TestBase
     {
         private IEnumerable<Repository.Objects.Assets.Asset> _assets;
         private IAssetService _assetService;
@@ -23,6 +23,9 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAnAssetService
 
         protected override void Arrange()
         {
+            var view = "the view";
+            var mode = "the mode";
+
             _context = new ContextBuilder().Build();
 
             const string s3Key = "fake s3 key";
@@ -31,7 +34,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAnAssetService
             var service = A.Fake<IService>();
             var keyManager = A.Fake<IKeyManager>();
 
-            A.CallTo(() => keyManager.GetDefaultAssetsKey(A<Guid>._, A<Guid>._)).Returns(s3Key);
+            A.CallTo(() => keyManager.GetSubModelAssetsKey(A<Guid>._, A<Guid>._, A<Guid>._, view, mode)).Returns(s3Key);
             A.CallTo(() => service.GetObject(_context.Brand, _context.Country, s3Key)).Throws(new ObjectNotFoundException(null, s3Key));
 
             var serviceFacade = new S3ServiceFacade()
@@ -44,7 +47,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAnAssetService
 
         protected override void Act()
         {
-            _assets = _assetService.GetAssets(Guid.NewGuid(), Guid.NewGuid(), _context);
+            _assets = _assetService.GetSubModelAssets(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), _context);
         }
 
         [Fact]
@@ -52,7 +55,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAnAssetService
         {
             _assets.Should().BeEmpty();
         }
-        
+
         [Fact]
         public void ThenDeserialiseShouldNotHappen()
         {

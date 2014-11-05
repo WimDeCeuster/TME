@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Assets;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
