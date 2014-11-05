@@ -13,6 +13,7 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.S3.CommandServices;
 using TME.CarConfigurator.S3.Publisher;
+using TME.CarConfigurator.S3.Publisher.Interfaces;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
@@ -97,7 +98,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
 
         protected override void Act()
         {
-             _assetPublisher.PublishAssetsAsync(_context).Wait();
+             _assetPublisher.PublishAsync(_context).Wait();
         }
 
         [Fact]

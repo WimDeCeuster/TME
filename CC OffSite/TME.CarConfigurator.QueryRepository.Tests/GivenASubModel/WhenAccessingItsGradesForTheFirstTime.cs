@@ -70,6 +70,20 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
         }
 
         [Fact]
+        public void ThenItShouldHaveCalledGetSubModelGrades()
+        {
+            A.CallTo(() => _gradeService.GetSubModelGrades(A<Guid>._,A<Guid>._,A<Guid>._,A<Context>._))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
+        
+        [Fact]
+        public void ThenItShouldHaveCalledGetGrades()
+        {
+            A.CallTo(() => _gradeService.GetGrades(A<Guid>._,A<Guid>._,A<Context>._))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
         public void ThenItShouldHaveTheGrades()
         {
             _grades.Count().Should().Be(2);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using FakeItEasy;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
@@ -9,6 +10,7 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.S3.CommandServices;
 using TME.CarConfigurator.S3.Publisher;
+using TME.CarConfigurator.S3.Publisher.Interfaces;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
@@ -75,7 +77,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
 
         protected override void Act()
         {
-            _publisher.PublishAssetsAsync(_context).Wait();
+            _publisher.PublishAsync(_context).Wait();
         }
 
         [Fact]

@@ -143,8 +143,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => _gradePublisher.PublishGenerationGradesAsync(_context)).Returns(task);
             A.CallTo(() => _gradePublisher.PublishSubModelGradesAsync(_context)).Returns(task);
             A.CallTo(() => _carPublisher.PublishGenerationCarsAsync(_context)).Returns(task);
-            A.CallTo(() => _assetPublisher.PublishAssetsAsync(_context)).Returns(task);
-            A.CallTo(() => _assetPublisher.PublishCarAssetsAsync(_context)).Returns(task);
+            A.CallTo(() => _assetPublisher.PublishAsync(_context)).Returns(task);
             A.CallTo(() => _subModelPublisher.PublishGenerationSubModelsAsync(_context)).Returns(task);
             A.CallTo(() => _equipmentPublisher.PublishAsync(_context)).Returns(task);
             A.CallTo(() => _equipmentPublisher.PublishCategoriesAsync(_context)).Returns(task);
@@ -210,13 +209,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldPublishGenerationAssets()
         {
-            A.CallTo(() => _assetPublisher.PublishAssetsAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
-        }
-
-        [Fact]
-        public void ThenItShouldPublishCarAssets()
-        {
-            A.CallTo(() => _assetPublisher.PublishCarAssetsAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _assetPublisher.PublishAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
