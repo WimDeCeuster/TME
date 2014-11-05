@@ -6,7 +6,6 @@ using FakeItEasy;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.S3.Publisher;
-using TME.CarConfigurator.S3.Publisher.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit.Extensions;
@@ -23,8 +22,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
         {
             // arrange
             var assetService = A.Fake<IAssetService>();
-            var timeFramePublishHelper = A.Fake<ITimeFramePublishHelper>();
-            var assetPublisher = new AssetPublisher(assetService,timeFramePublishHelper);
+            var assetPublisher = new AssetPublisher(assetService);
 
             var carId = Guid.NewGuid();
             var objectId = Guid.NewGuid();
@@ -51,7 +49,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
                 .Build();
 
             // act
-            await assetPublisher.PublishCarAssetsAsync(context);
+            await assetPublisher.PublishAsync(context);
 
             // assert
             A.CallTo(() => assetService.PutCarAssetsByModeAndView(A<string>._, A<string>._, A<Guid>._, A<Guid>._, A<Guid>._, A<string>._, A<string>._, A<IEnumerable<Asset>>._))
@@ -73,7 +71,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
             A.CallTo(() => assetService.PutCarAssetsByModeAndView(A<string>._, A<string>._, A<Guid>._, A<Guid>._, A<Guid>._, incorrectAssetType.Mode, incorrectAssetType.View, A<IEnumerable<Asset>>._))
                 .MustHaveHappened(Repeated.Exactly.Once);
 
-            A.CallTo(() => assetService.PutCarDefaultAssets(A<string>._, A<string>._, A<Guid>._, A<Guid>._, A<Guid>._, A<IEnumerable<Asset>>._))
+            A.CallTo(() => assetService.PutDefaultCarAssets(A<string>._, A<string>._, A<Guid>._, A<Guid>._, A<Guid>._, A<IEnumerable<Asset>>._))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
     }

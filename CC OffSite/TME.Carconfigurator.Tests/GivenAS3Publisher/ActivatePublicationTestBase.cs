@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using FakeItEasy;
-using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
@@ -95,9 +94,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => BodyTypePublisher.PublishGenerationBodyTypesAsync(null)).WithAnyArguments().Returns(task);
             A.CallTo(() => EnginePublisher.PublishGenerationEnginesAsync(null)).WithAnyArguments().Returns(task);
             A.CallTo(() => CarPublisher.PublishGenerationCarsAsync(null)).WithAnyArguments().Returns(task);
-            A.CallTo(() => AssetPublisher.PublishAssetsAsync(null)).WithAnyArguments().Returns(task);
-            A.CallTo(() => AssetPublisher.PublishCarAssetsAsync(null)).WithAnyArguments().Returns(task);
-            A.CallTo(() => AssetPublisher.PublishSubModelAssetsAsync(null)).WithAnyArguments().Returns(task);
+            A.CallTo(() => AssetPublisher.PublishAsync(null)).WithAnyArguments().Returns(task);
 
             Publisher = new PublisherBuilder()
                 .WithPublicationPublisher(PublicationPublisher)
