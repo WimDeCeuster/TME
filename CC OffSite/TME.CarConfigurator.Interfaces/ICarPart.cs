@@ -8,6 +8,7 @@ namespace TME.CarConfigurator.Interfaces
          string Code { get; }
          string Name { get; }
 
+// ReSharper disable once ReturnTypeCanBeEnumerable.Global
          IReadOnlyList<IVisibleInModeAndView> VisibleIn { get; }
     }
 }

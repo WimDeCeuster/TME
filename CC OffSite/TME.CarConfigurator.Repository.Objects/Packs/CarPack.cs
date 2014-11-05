@@ -12,7 +12,8 @@ namespace TME.CarConfigurator.Repository.Objects.Packs
 
         public Price Price { get; set; }
 
-        List<ExteriorColourInfo> AvailableForExteriorColours { get; set; }
-        List<UpholsteryInfo> AvailableForUpholsteries { get; set; }
+        public List<ExteriorColourInfo> AvailableForExteriorColours { get; set; }
+        public List<UpholsteryInfo> AvailableForUpholsteries { get; set; }
+        public CarPackEquipment Equipment { get; set; }
     }
 }

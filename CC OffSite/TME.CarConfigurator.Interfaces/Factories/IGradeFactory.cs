@@ -6,7 +6,9 @@ namespace TME.CarConfigurator.Interfaces.Factories
 {
     public interface IGradeFactory
     {
+        // ReSharper disable ReturnTypeCanBeEnumerable.Global
         IReadOnlyList<IGrade> GetGrades(Publication publication, Context context);
         IReadOnlyList<IGrade> GetSubModelGrades(Guid subModelID,Publication publication,Context context);
+        // ReSharper restore ReturnTypeCanBeEnumerable.Global
     }
 }

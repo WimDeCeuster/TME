@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace TME.CarConfigurator.Repository.Objects.Core
 {
     
-    public class BaseObject
+    public abstract class BaseObject
     {
-        public BaseObject()
+        protected BaseObject()
         {
             Labels = new List<Label>();
         }
