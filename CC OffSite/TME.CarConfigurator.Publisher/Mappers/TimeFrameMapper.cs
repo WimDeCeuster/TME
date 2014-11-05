@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
@@ -10,6 +11,13 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Packs;
+using BodyType = TME.CarConfigurator.Repository.Objects.BodyType;
+using Car = TME.CarConfigurator.Repository.Objects.Car;
+using Engine = TME.CarConfigurator.Repository.Objects.Engine;
+using EquipmentItem = TME.CarConfigurator.Repository.Objects.Equipment.EquipmentItem;
+using Steering = TME.CarConfigurator.Repository.Objects.Steering;
+using Transmission = TME.CarConfigurator.Repository.Objects.Transmission;
+using WheelDrive = TME.CarConfigurator.Repository.Objects.WheelDrive;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
@@ -97,8 +105,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 contextData.ColourCombinations.ToList(),
                 contextData.EquipmentCategories.ToList(),
                 contextData.SubModelGradeEquipment.ToDictionary(),
-                contextData.SpecificationCategories.ToList(),
-                contextData.SubModelAssets.ToDictionary());
+                contextData.SpecificationCategories.ToList());
         }
 
         static TimeFrame GetTimeFrame(DateTime openDate, DateTime closeDate, IReadOnlyList<Administration.Car> timeFrameCars, ContextData contextData)
@@ -111,10 +118,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var steerings = contextData.Steerings.Where(SteeringIsPresentOn(timeFrameCars)).ToList();
             var grades = contextData.Grades.Where(GradeIsPresentOn(timeFrameCars)).ToList();
             var subModels = contextData.SubModels.Where(SubModelIsPresentOn(timeFrameCars)).ToList();
-            var gradeEquipments = FilterGradeEquipments(contextData.GradeEquipment, timeFrameCars);
-            var subModelGradeEquipments = contextData.SubModelGradeEquipment; //todo needs Filtering
-            var subModelGrades = contextData.SubModelGrades.ToDictionary(); //todo needs Filtering
-            var subModelAssets = contextData.SubModelAssets.ToDictionary(); //todo needs Filtering
+            var gradeEquipments = FilterGradeEquipments(contextData.GradeEquipment.ToDictionary(), timeFrameCars);
+            var subModelGradeEquipments = FilterSubModelGradeEquipment(contextData.SubModelGradeEquipment,timeFrameCars);
+            var subModelGrades = FilterSubModelGrades(contextData.SubModelGrades,timeFrameCars);
             var colourCombinations = contextData.ColourCombinations.Where(ColourCombinationIsPresentOn(timeFrameCars)).ToList();
             var gradePacks = FilterGradePacks(contextData.GradePacks, timeFrameCars);
             var equipmentCategories = contextData.EquipmentCategories.ToList();
@@ -137,8 +143,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 colourCombinations,
                 equipmentCategories,
                 subModelGradeEquipments,
-                specificationCategories,
-                subModelAssets);
+                specificationCategories);
         }
 
         private static IReadOnlyDictionary<Guid, IList<GradePack>> FilterGradePacks(IEnumerable<KeyValuePair<Guid, IList<GradePack>>> gradePacks, IEnumerable<Administration.Car> cars)
@@ -161,6 +166,13 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return gradeEquipmentItems.Where(ItemIsPresentOnA(cars)).Cast<T>().ToList();
         }
 
+        private static IReadOnlyDictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>> FilterSubModelGradeEquipment(IEnumerable<KeyValuePair<Guid, IReadOnlyDictionary<Guid, GradeEquipment>>> subModelGradeEquipment, IReadOnlyList<Administration.Car> cars)
+        {
+            return subModelGradeEquipment.Where(entry => cars.Any(car => car.SubModelID == entry.Key))
+                .ToDictionary(entry => entry.Key,
+                    entry => FilterGradeEquipments(entry.Value,cars));
+        }
+
         static GradeEquipment GetFilteredGradeEquipment(GradeEquipment gradeEquipment, IReadOnlyList<Administration.Car> cars)
         {
             return new GradeEquipment
@@ -170,7 +182,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
         }
 
-        static IReadOnlyDictionary<Guid, GradeEquipment> FilterGradeEquipments(IDictionary<Guid, GradeEquipment> gradeEquipments, IReadOnlyList<Administration.Car> cars)
+        static IReadOnlyDictionary<Guid, GradeEquipment> FilterGradeEquipments(IEnumerable<KeyValuePair<Guid, GradeEquipment>> gradeEquipments, IReadOnlyList<Administration.Car> cars)
         {
             return gradeEquipments.Where(entry => cars.Any(dbCar => dbCar.GradeID == entry.Key))
                                   .ToDictionary(
@@ -183,7 +195,20 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return item => cars.Any(car => car.Equipment.Any(equipment => equipment.ID == item.ID && equipment.Availability != Administration.Enums.Availability.NotAvailable));
         }
 
-        static Func<Car, Boolean> CarMatches(IReadOnlyList<Administration.Car> timeFrameCars)
+        static IReadOnlyDictionary<Guid,IList<Grade>> FilterSubModelGrades(IEnumerable<KeyValuePair<Guid, IList<Grade>>> subModelGrades, IEnumerable<Administration.Car> cars)
+        {
+            return subModelGrades.Where(entry => cars.Any(dbCar => dbCar.SubModelID == entry.Key))
+                .ToDictionary(
+                    entry => entry.Key,
+                    entry => GetFilteredSubModelGrades(entry.Value, cars));
+        }
+
+        private static IList<Grade> GetFilteredSubModelGrades(IEnumerable<Grade> grades, IEnumerable<Administration.Car> cars)
+        {
+            return grades.Where(GradeIsPresentOn(cars)).ToList();
+        }
+
+        static Func<Car, Boolean> CarMatches(IEnumerable<Administration.Car> timeFrameCars)
         {
             return car => timeFrameCars.Any(timeFrameCar => timeFrameCar.ID == car.ID);
         }
