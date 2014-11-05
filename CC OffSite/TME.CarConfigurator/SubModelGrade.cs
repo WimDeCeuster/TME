@@ -13,8 +13,8 @@ namespace TME.CarConfigurator
     {
         private readonly Guid _subModelID;
 
-        public SubModelGrade(Repository.Objects.Grade repositoryGrade, Publication repositoryPublication, Context repositoryContext,Guid subModelID, IGrade basedUponGrade, IAssetFactory assetFactory, IEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory) 
-            : base(repositoryGrade, repositoryPublication, repositoryContext, basedUponGrade, assetFactory, gradeEquipmentFactory, packFactory)
+        public SubModelGrade(Repository.Objects.Grade repositoryGrade, Publication repositoryPublication, Context repositoryContext,Guid subModelID, IAssetFactory assetFactory, IEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory) 
+            : base(repositoryGrade, repositoryPublication, repositoryContext, assetFactory, gradeEquipmentFactory, packFactory)
         {
             _subModelID = subModelID;
         }

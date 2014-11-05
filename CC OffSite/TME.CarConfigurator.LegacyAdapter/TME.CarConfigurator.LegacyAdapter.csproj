@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Colours\ColourCombinationInfo.cs" />
+    <Compile Include="GradeInfo.cs" />
     <Compile Include="Extensions\ColouringModesExtensions.cs" />
     <Compile Include="Packs\CarPack.cs" />
     <Compile Include="CarPart.cs" />
@@ -134,10 +135,6 @@
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
       <Project>{efdb033c-66a8-40bb-b596-561f45e6c7f7}</Project>
       <Name>TME.CarConfigurator.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TME.CarConfigurator\TME.CarConfigurator.csproj">
-      <Project>{89489B1E-DFAA-4164-93C3-A79859368CF8}</Project>
-      <Name>TME.CarConfigurator</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

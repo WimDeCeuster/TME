@@ -14,16 +14,26 @@ namespace TME.CarConfigurator
 {
     public class Grade : BaseObject<Repository.Objects.Grade>, IGrade
     {
+<<<<<<< HEAD
         protected readonly Repository.Objects.Publication RepositoryPublication;
         protected readonly Repository.Objects.Context RepositoryContext;
         protected readonly IAssetFactory AssetFactory;
         protected readonly IEquipmentFactory GradeEquipmentFactory;
+=======
+        protected readonly Repository.Objects.Publication _repositoryPublication;
+        protected readonly Repository.Objects.Context _repositoryContext;
+        private readonly IAssetFactory _assetFactory;
+        protected readonly IEquipmentFactory _gradeEquipmentFactory;
+>>>>>>> 1b80d85859173b7c50759f17a3655b90c9a5d54f
         private readonly IPackFactory _packFactory;
         protected IReadOnlyList<IAsset> FetchedAssets;
         private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
         protected IGradeEquipment _equipment;
         private IReadOnlyList<IGradePack> _packs;
+<<<<<<< HEAD
         protected IReadOnlyList<IGradeEquipmentItem> EquipmentItems;
+=======
+>>>>>>> 1b80d85859173b7c50759f17a3655b90c9a5d54f
 
         Price _price;
 
@@ -35,10 +45,18 @@ namespace TME.CarConfigurator
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
             if (packFactory == null) throw new ArgumentNullException("packFactory");
 
+<<<<<<< HEAD
             RepositoryPublication = repositoryPublication;
             RepositoryContext = repositoryContext;
+            _basedUponGrade = basedUponGrade;
             AssetFactory = assetFactory;
             GradeEquipmentFactory = gradeEquipmentFactory;
+=======
+            _repositoryPublication = repositoryPublication;
+            _repositoryContext = repositoryContext;
+            _assetFactory = assetFactory;
+            _gradeEquipmentFactory = gradeEquipmentFactory;
+>>>>>>> 1b80d85859173b7c50759f17a3655b90c9a5d54f
             _packFactory = packFactory;
         }
 

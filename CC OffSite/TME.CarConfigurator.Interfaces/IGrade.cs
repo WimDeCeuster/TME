@@ -10,7 +10,7 @@ namespace TME.CarConfigurator.Interfaces
     {
         bool Special { get; }
         IPrice StartingPrice { get; }
-        IGrade BasedUpon { get; }
+        IGradeInfo BasedUpon { get; }
 
 // ReSharper disable ReturnTypeCanBeEnumerable.Global
         IReadOnlyList<IVisibleInModeAndView> VisibleIn { get; }

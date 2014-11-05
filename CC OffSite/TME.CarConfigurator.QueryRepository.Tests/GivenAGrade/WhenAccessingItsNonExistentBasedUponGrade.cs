@@ -15,7 +15,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
     public class WhenAccessingItsNonExistentBasedUponGrade : TestBase
     {
         IGrade _grade;
-        IGrade _basedUponGrade;
+        IGradeInfo _basedUponGrade;
         IGradeService _gradeService;
         
         protected override void Arrange()
