@@ -48,10 +48,7 @@ namespace TME.CarConfigurator
 
         public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication,ID,_repositoryContext); } }
 
-        public IEnumerable<ILink> Links
-        {
-            get { return _links = _links ?? RepositoryObject.Links.Select(l => new Link(l)).ToArray(); }
-        }
+        public IEnumerable<ILink> Links { get { return _links = _links ?? RepositoryObject.Links.Select(l => new Link(l)).ToArray(); } }
 
 
     }

@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Assets\Asset.cs" />
     <Compile Include="Assets\AssetType.cs" />
+    <Compile Include="Assets\SubModelVisibleInModeAndView.cs" />
     <Compile Include="BodyType.cs" />
     <Compile Include="Car.cs" />
     <Compile Include="CarBodyType.cs" />

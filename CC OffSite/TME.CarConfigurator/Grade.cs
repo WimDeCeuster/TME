@@ -22,7 +22,7 @@ namespace TME.CarConfigurator
         protected IReadOnlyList<IAsset> FetchedAssets;
         protected IGradeEquipment _equipment;
         protected IReadOnlyList<IGradeEquipmentItem> EquipmentItems;
-        private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
+        protected IReadOnlyList<IVisibleInModeAndView> FetchedVisibleInModeAndViews;
         private IReadOnlyList<IGradePack> _packs;
 
         Price _price;
@@ -60,7 +60,7 @@ namespace TME.CarConfigurator
         {
             get
             {
-                return _fetchedVisibleInModeAndViews = _fetchedVisibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
+                return FetchedVisibleInModeAndViews = FetchedVisibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
             }
         }
 

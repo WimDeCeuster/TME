@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TME.CarConfigurator.Assets;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Equipment;
@@ -17,6 +18,20 @@ namespace TME.CarConfigurator
             : base(repositoryGrade, repositoryPublication, repositoryContext, assetFactory, gradeEquipmentFactory, packFactory)
         {
             _subModelID = subModelID;
+        }
+
+        public override IReadOnlyList<IVisibleInModeAndView> VisibleIn
+        {
+            get
+            {
+                return
+                    FetchedVisibleInModeAndViews =
+                        FetchedVisibleInModeAndViews ??
+                        RepositoryObject.VisibleIn.Select(
+                            visibleIn =>
+                                new SubModelVisibleInModeAndView(_subModelID, RepositoryObject.ID, visibleIn,
+                                    RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
+            }
         }
 
         public override IReadOnlyList<IAsset> Assets
