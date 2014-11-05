@@ -90,6 +90,11 @@ namespace TME.CarConfigurator.S3.Shared
             return string.Format("{0}/grade/{1}/equipment", GetSubModelKey(publicationID, timeFrameID, subModelID), gradeID);
         }
 
+        public string GetSubModelGradePacksKey(Guid publicationID, Guid timeFrameID, Guid gradeID, Guid subModelID)
+        {
+            return string.Format("{0}/grade/{1}/packs", GetSubModelKey(publicationID, timeFrameID, subModelID), gradeID);
+        }
+
         public string GetSubModelGradesKey(Guid publicationID, Guid timeFrameID, Guid subModelID)
         {
             return string.Format("{0}/grades", GetSubModelKey(publicationID, timeFrameID, subModelID));

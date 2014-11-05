@@ -26,5 +26,12 @@ namespace TME.CarConfigurator.Factories
                 .Select(repoPack => new GradePack(repoPack))
                 .ToList();
         }
+
+        public IReadOnlyList<IGradePack> GetSubModelGradePacks(Publication publication, Context context, Guid subModelId, Guid gradeId)
+        {
+            return _packService.GetSubModelGradePacks(publication.ID, publication.GetCurrentTimeFrame().ID, gradeId, subModelId, context)
+                .Select(repoPack => new GradePack(repoPack))
+                .ToList();
+        }
     }
 }

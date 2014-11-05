@@ -202,6 +202,9 @@
     <Compile Include="GivenAnUpholstery\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenAnUpholstery\WhenAccessingItsUpholsteryTypeForTheFirstTime.cs" />
     <Compile Include="GivenAnUpholstery\WhenAccessingItsUpholsteryTypeForTheSecondTime.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
     <Compile Include="GivenASubModelGrade\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenASubModelGrade\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenASubModelGrade\WhenAccessingItsEquipmentForTheFirstTime.cs" />
@@ -241,6 +244,10 @@
     <Compile Include="Services\GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
     <Compile Include="Services\GivenACarService\WhenGetCarsIsCalled.cs" />
     <Compile Include="Services\GivenAColourService\WhenGetColourCombinationsIsCalled.cs" />
+    <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledFor2DAssets.cs" />
+    <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledFor3DAssets.cs" />
+    <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledForNonExistent2DAssets.cs" />
+    <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledForNonExistent3DAssets.cs" />
     <Compile Include="Services\GivenAnEquipmentService\WhenGetEquipmentCategoriesIsCalled.cs" />
     <Compile Include="Services\GivenAnEquipmentService\WhenGetGradeEquipmentIsCalled.cs" />
     <Compile Include="Services\GivenAnEquipmentService\WhenGetSubModelGradeEquipmentIsCalled.cs" />

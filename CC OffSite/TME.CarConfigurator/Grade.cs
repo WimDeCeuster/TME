@@ -14,16 +14,16 @@ namespace TME.CarConfigurator
 {
     public class Grade : BaseObject<Repository.Objects.Grade>, IGrade
     {
-        private readonly IPackFactory _packFactory;
         protected readonly Repository.Objects.Publication RepositoryPublication;
         protected readonly Repository.Objects.Context RepositoryContext;
         protected readonly IAssetFactory AssetFactory;
+        protected readonly IPackFactory PackFactory;
         protected readonly IEquipmentFactory GradeEquipmentFactory;
         protected IReadOnlyList<IAsset> FetchedAssets;
-        protected IGradeEquipment _equipment;
+        protected IGradeEquipment FetchedEquipment;
         protected IReadOnlyList<IGradeEquipmentItem> EquipmentItems;
+        protected IReadOnlyList<IGradePack> FetchedPacks;
         protected IReadOnlyList<IVisibleInModeAndView> FetchedVisibleInModeAndViews;
-        private IReadOnlyList<IGradePack> _packs;
 
         Price _price;
 
@@ -39,7 +39,7 @@ namespace TME.CarConfigurator
             RepositoryContext = repositoryContext;
             AssetFactory = assetFactory;
             GradeEquipmentFactory = gradeEquipmentFactory;
-            _packFactory = packFactory;
+            PackFactory = packFactory;
         }
 
         public bool Special { get { return RepositoryObject.Special; } }
@@ -68,13 +68,13 @@ namespace TME.CarConfigurator
 
         public virtual IGradeEquipment Equipment
         {
-            get { return _equipment = _equipment ?? GradeEquipmentFactory.GetGradeEquipment(RepositoryPublication, RepositoryContext, ID); }
+            get { return FetchedEquipment = FetchedEquipment ?? GradeEquipmentFactory.GetGradeEquipment(RepositoryPublication, RepositoryContext, ID); }
         }
 
 
-        public IReadOnlyList<IGradePack> Packs
+        public virtual IReadOnlyList<IGradePack> Packs
         {
-            get { return _packs = _packs ?? _packFactory.GetGradePacks(RepositoryPublication, RepositoryContext, RepositoryObject.ID); }
+            get { return FetchedPacks = FetchedPacks ?? PackFactory.GetGradePacks(RepositoryPublication, RepositoryContext, RepositoryObject.ID); }
         }
     }
 }

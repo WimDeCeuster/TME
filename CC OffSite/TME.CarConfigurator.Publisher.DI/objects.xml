@@ -112,6 +112,7 @@
   </object>
   <object name="ColourMapper" type="TME.CarConfigurator.Publisher.Mappers.ColourMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />
+    <constructor-arg ref="AssetSetMapper" />
     <constructor-arg ref="AssetFileService" />
   </object>
   

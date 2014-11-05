@@ -9,15 +9,19 @@ using TME.CarConfigurator.Repository.Objects.Core;
 
 namespace TME.CarConfigurator.S3.Publisher.Interfaces
 {
+    public delegate Task PublishGenerationItem<T>(String brand, String country, Guid publicationId, Guid timeFrameId, T item);
+    public delegate Task PublishGenerationSubItem<TParent, TItem>(String brand, String country, Guid publicationId, Guid timeFrameId, TParent parent, TItem item);
+
     public interface ITimeFramePublishHelper
     {
-        Task PublishObjects<T>(IContext context, Func<TimeFrame, T> objectsGetter, Func<String, String, Guid, Guid, T, Task> publish);
-        Task PublishBaseObjectList<T>(IContext context, Func<TimeFrame, IEnumerable<T>> objectsGetter, Func<String, String, Guid, Guid, IEnumerable<T>, Task> publish)
+        Task PublishObjects<T>(IContext context, Func<TimeFrame, T> objectsGetter, PublishGenerationItem<T> publish);
+        Task PublishBaseObjectList<T>(IContext context, Func<TimeFrame, IEnumerable<T>> objectsGetter, PublishGenerationItem<IEnumerable<T>> publish)
             where T : BaseObject;
-        Task PublishList<T>(IContext context, Func<TimeFrame, IEnumerable<T>> objectsGetter, Func<String, String, Guid, Guid, IEnumerable<T>, Task> publish);
+        Task PublishList<T>(IContext context, Func<TimeFrame, IEnumerable<T>> objectsGetter, PublishGenerationItem<IEnumerable<T>> publish);
 
-        Task PublishObjectsPerSubModel<T>(IContext context,
-            Func<TimeFrame, IReadOnlyList<SubModel>> subModelGetter, Func<TimeFrame, T> objectsGetter,
-            Func<String, String, Guid, Guid,Guid,List<Grade>, T, Task> publish);
+        Task PublishPerParent<TParent, TItem>(IContext context,
+            Func<TimeFrame, IEnumerable<TParent>> parentsGetter,
+            Func<TimeFrame, TParent, TItem> itemGetter,
+            PublishGenerationSubItem<TParent, TItem> publish);
     }
 }

@@ -25,9 +25,17 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keyManager = keyManager;
         }
 
-        public async Task PutAsync(string brand, string country, Guid publicationId, Guid timeFrameId, Guid gradeId, IList<GradePack> packs)
+        public async Task PutAsync(string brand, string country, Guid publicationId, Guid timeFrameId, Guid gradeId, IEnumerable<GradePack> packs)
         {
             var key = _keyManager.GetGradePacksKey(publicationId, timeFrameId, gradeId);
+            var serializedPacks = _serialiser.Serialise(packs);
+
+            await _service.PutObjectAsync(brand, country, key, serializedPacks);
+        }
+
+        public async Task PutSubModelGradePacksAsync(string brand, string country, Guid publicationId, Guid timeFrameId, Guid subModelId, Guid gradeId, IEnumerable<GradePack> packs)
+        {
+            var key = _keyManager.GetSubModelGradePacksKey(publicationId, timeFrameId, gradeId, subModelId);
             var serializedPacks = _serialiser.Serialise(packs);
 
             await _service.PutObjectAsync(brand, country, key, serializedPacks);

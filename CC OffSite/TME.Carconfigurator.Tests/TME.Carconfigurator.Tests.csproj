@@ -117,6 +117,8 @@
     <Compile Include="GivenAKeyManager\WhenRequestingAnAssetsKeyWithoutMode.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASteeringsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAGradesKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingASubModelAssetsKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingASubModelAssetsKeyWithoutMode.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASubModelGradeEquipmentKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASubModelGradesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASubModelsKey.cs" />
@@ -127,6 +129,7 @@
     <Compile Include="GivenAKeyManager\WhenRequestingTheDefaultAssetsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingTheDefaultCarAssetsKey.cs" />
     <Compile Include="GivenACarConfiguratorPublisher\WhenPublishingToS3ProductionLive.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingTheDefaultSubModelAssetsKey.cs" />
     <Compile Include="GivenAS3AssetPublisher\WhenPublishingBodyTypeAssets.cs" />
     <Compile Include="GivenAS3AssetPublisher\WhenPublishingCarAssets.cs" />
     <Compile Include="GivenAS3AssetPublisher\WhenPublishingTransmissionAssetsForAModelGeneration.cs" />

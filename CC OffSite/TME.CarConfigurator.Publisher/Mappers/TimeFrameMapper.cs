@@ -103,7 +103,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 contextData.ColourCombinations.ToList(),
                 contextData.EquipmentCategories.ToList(),
                 contextData.SubModelGradeEquipment.ToDictionary(),
-                contextData.SpecificationCategories.ToList());
+                contextData.SpecificationCategories.ToList(),
+                contextData.SubModelGradePacks.ToDictionary());
         }
 
         static TimeFrame GetTimeFrame(DateTime openDate, DateTime closeDate, IReadOnlyList<Administration.Car> timeFrameCars, ContextData contextData)
@@ -119,6 +120,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var gradeEquipments = FilterGradeEquipments(contextData.GradeEquipment.ToDictionary(), timeFrameCars);
             var subModelGradeEquipments = FilterSubModelGradeEquipment(contextData.SubModelGradeEquipment,timeFrameCars);
             var subModelGrades = FilterSubModelGrades(contextData.SubModelGrades,timeFrameCars);
+            var subModelGradePacks = FilterSubModelGradePacks(contextData.SubModelGradePacks, timeFrameCars);
             var colourCombinations = contextData.ColourCombinations.Where(ColourCombinationIsPresentOn(timeFrameCars)).ToList();
             var gradePacks = FilterGradePacks(contextData.GradePacks, timeFrameCars);
             var equipmentCategories = contextData.EquipmentCategories.ToList();
@@ -141,17 +143,27 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 colourCombinations,
                 equipmentCategories,
                 subModelGradeEquipments,
-                specificationCategories);
+                specificationCategories,
+                subModelGradePacks);
         }
 
-        private static IReadOnlyDictionary<Guid, IList<GradePack>> FilterGradePacks(IEnumerable<KeyValuePair<Guid, IList<GradePack>>> gradePacks, IEnumerable<Administration.Car> cars)
+        private static IReadOnlyDictionary<Guid, IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>>> FilterSubModelGradePacks(IDictionary<Guid, IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>>> subModelGradePacks, IReadOnlyList<Administration.Car> cars)
+        {
+            return subModelGradePacks
+                .Where(entry => cars.Any(car => car.SubModelID == entry.Key))
+                .ToDictionary(
+                    entry => entry.Key,
+                    entry => FilterGradePacks(entry.Value, cars.Where(car => car.SubModelID == entry.Key).ToList()));
+        }
+
+        private static IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>> FilterGradePacks(IEnumerable<KeyValuePair<Guid, IReadOnlyList<GradePack>>> gradePacks, IReadOnlyList<Administration.Car> cars)
         {
             return gradePacks
                 .Where(entry => cars.Any(c => c.GradeID == entry.Key))
                 .ToDictionary(entry => entry.Key, entry => GetFilteredGradePacks(entry.Value, cars));
         }
 
-        private static IList<GradePack> GetFilteredGradePacks(IEnumerable<GradePack> gradePacks, IEnumerable<Administration.Car> cars)
+        private static IReadOnlyList<GradePack> GetFilteredGradePacks(IEnumerable<GradePack> gradePacks, IReadOnlyList<Administration.Car> cars)
         {
             return gradePacks
                 .Where(gradePack => cars.Any(c => c.Packs[gradePack.ID] != null))
