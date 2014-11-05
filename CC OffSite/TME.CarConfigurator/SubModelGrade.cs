@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Repository.Objects;
@@ -18,9 +19,13 @@ namespace TME.CarConfigurator
             _subModelID = subModelID;
         }
 
+        public override IReadOnlyList<IAsset> Assets
+        {
+            get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetSubModelAssets(RepositoryPublication, _subModelID, ID, RepositoryContext); } }
+
         public override IGradeEquipment Equipment
         {
-            get { return _equipment = _equipment ?? _gradeEquipmentFactory.GetSubModelGradeEquipment(_repositoryPublication,_subModelID, _repositoryContext, ID); }
+            get { return _equipment = _equipment ?? GradeEquipmentFactory.GetSubModelGradeEquipment(RepositoryPublication,_subModelID, RepositoryContext, ID); }
         }
     }
 }

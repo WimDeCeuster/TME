@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
@@ -26,7 +25,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
         public IReadOnlyList<TimeFrame> GetTimeFrames(String language, IContext context)
         {
             var contextData = context.ContextData[language];
-            var cars = contextData.Cars;
 
             //For preview, return only 1 Min/Max TimeFrame with all data
             if (context.DataSubset == PublicationDataSubset.Preview)

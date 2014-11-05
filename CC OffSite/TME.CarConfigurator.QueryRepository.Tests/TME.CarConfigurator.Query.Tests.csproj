@@ -197,6 +197,7 @@
     <Compile Include="GivenAnUpholstery\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenAnUpholstery\WhenAccessingItsUpholsteryTypeForTheFirstTime.cs" />
     <Compile Include="GivenAnUpholstery\WhenAccessingItsUpholsteryTypeForTheSecondTime.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenASubModelGrade\WhenAccessingItsEquipmentForTheFirstTime.cs" />
     <Compile Include="GivenASubModelGrade\WhenAccessingItsEquipmentForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheFirstTime.cs" />
@@ -324,7 +325,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="NewFolder1\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
