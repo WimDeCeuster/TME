@@ -14,21 +14,19 @@ namespace TME.CarConfigurator
 {
     public class Grade : BaseObject<Repository.Objects.Grade>, IGrade
     {
-        public readonly Repository.Objects.Publication _repositoryPublication;
-        public readonly Repository.Objects.Context _repositoryContext;
+        protected readonly Repository.Objects.Publication _repositoryPublication;
+        protected readonly Repository.Objects.Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
-        public readonly IEquipmentFactory _gradeEquipmentFactory;
+        protected readonly IEquipmentFactory _gradeEquipmentFactory;
         private readonly IPackFactory _packFactory;
         private IReadOnlyList<IAsset> _fetchedAssets;
         private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
-        public IGradeEquipment _equipment;
+        protected IGradeEquipment _equipment;
         private IReadOnlyList<IGradePack> _packs;
-        public IReadOnlyList<IGradeEquipmentItem> _equipmentItems;
 
         Price _price;
-        readonly IGrade _basedUponGrade;
 
-        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IGrade basedUponGrade, IAssetFactory assetFactory, IEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
+        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory, IEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
             : base(repositoryGrade)
         {
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
@@ -38,7 +36,6 @@ namespace TME.CarConfigurator
 
             _repositoryPublication = repositoryPublication;
             _repositoryContext = repositoryContext;
-            _basedUponGrade = basedUponGrade;
             _assetFactory = assetFactory;
             _gradeEquipmentFactory = gradeEquipmentFactory;
             _packFactory = packFactory;
@@ -46,9 +43,17 @@ namespace TME.CarConfigurator
 
         public bool Special { get { return RepositoryObject.Special; } }
 
-        public IGrade BasedUpon { get { return _basedUponGrade; } }
+   
 
         public IPrice StartingPrice { get { return _price = _price ?? new Price(RepositoryObject.StartingPrice); } }
+
+        public IGradeInfo BasedUpon
+        {
+            get
+            {
+                return RepositoryObject.BasedUpon == null ? null : new GradeInfo(RepositoryObject.BasedUpon);
+            }
+        }
 
         public virtual IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
