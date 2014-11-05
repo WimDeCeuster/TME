@@ -13,14 +13,14 @@ namespace TME.CarConfigurator
 {
     public class Transmission : BaseObject<Repository.Objects.Transmission>, ITransmission
     {
-        private readonly Publication _repositoryPublication;
-        private readonly Context _repositoryContext;
-        private readonly IAssetFactory _assetFactory;
+        protected readonly Publication RepositoryPublication;
+        protected readonly Context RepositoryContext;
+        protected readonly IAssetFactory AssetFactory;
+
+        protected IEnumerable<IAsset> FetchedAssets;
+        protected IEnumerable<IVisibleInModeAndView> FetchedVisibleInModeAndViews;
 
         private ITransmissionType _type;
-
-        private IEnumerable<IVisibleInModeAndView> _visibleInModeAndViews;
-        private IEnumerable<IAsset> _assets;
 
         public Transmission(Repository.Objects.Transmission transmission, Publication repositoryPublication, Context repositoryContext, IAssetFactory assetFactory)
             : base(transmission)
@@ -29,9 +29,9 @@ namespace TME.CarConfigurator
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
-            _repositoryPublication = repositoryPublication;
-            _repositoryContext = repositoryContext;
-            _assetFactory = assetFactory;
+            RepositoryPublication = repositoryPublication;
+            RepositoryContext = repositoryContext;
+            AssetFactory = assetFactory;
         }
 
         public ITransmissionType Type { get { return _type = _type ?? new TransmissionType(RepositoryObject.Type); } }
@@ -39,15 +39,15 @@ namespace TME.CarConfigurator
         public Boolean Brochure { get { return RepositoryObject.Brochure; } }
         public Int32 NumberOfGears { get { return RepositoryObject.NumberOfGears; } }
 
-        public IEnumerable<IVisibleInModeAndView> VisibleIn
+        public virtual IEnumerable<IVisibleInModeAndView> VisibleIn
         {
             get
             {
-                return _visibleInModeAndViews = _visibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, _repositoryPublication, _repositoryContext, _assetFactory)).ToList();
+                return FetchedVisibleInModeAndViews = FetchedVisibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
             }
         }
 
-        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
+        public virtual IEnumerable<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext); } }
 
         [Obsolete("Use the new VisibleIn property instead")]
         public bool VisibleInExteriorSpin { get { return VisibleIn.VisibleInExteriorSpin(); } }

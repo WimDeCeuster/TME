@@ -1,7 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
-using System;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
@@ -12,20 +12,20 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenACar
 {
-    public class WhenAccessingItsEngineForTheFirstTime : TestBase
+    public class WhenAccessingItsTransmissionForTheFirstTime : TestBase
     {
         ICar _car;
-        IEngine _Engine;
-        Repository.Objects.Engine _repoEngine;
+        private Repository.Objects.Transmission _repoTransmission;
+        private ITransmission _transmission;
 
         protected override void Arrange()
         {
-            _repoEngine = new CarConfigurator.Tests.Shared.TestBuilders.EngineBuilder()
+            _repoTransmission = new TransmissionBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
 
             var repoCar = new CarBuilder()
-                .WithEngine(_repoEngine)
+                .WithTransmission(_repoTransmission)
                 .Build();
 
             var publicationTimeFrame = new PublicationTimeFrameBuilder()
@@ -40,13 +40,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenACar
             var context = new ContextBuilder().Build();
 
             var carService = A.Fake<ICarService>();
-            A.CallTo(() => carService.GetCars(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new [] { repoCar });
+            A.CallTo(() => carService.GetCars(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new[] { repoCar });
 
-            var engineFactory = new EngineFactoryBuilder().Build();
+            var transmissionFactory = new TransmissionFactoryBuilder().Build();
 
             var carFactory = new CarFactoryBuilder()
                 .WithCarService(carService)
-                .WithEngineFactory(engineFactory)
+                .WithTransmissionFactory(transmissionFactory)
                 .Build();
 
             _car = carFactory.GetCars(publication, context).Single();
@@ -54,13 +54,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenACar
 
         protected override void Act()
         {
-            _Engine = _car.Engine;
+            _transmission = _car.Transmission;
         }
 
         [Fact]
-        public void ThenTheEngineShouldBeCorrect()
+        public void ThenTheTransmissionShouldBeCorrect()
         {
-            _Engine.ID.Should().Be(_repoEngine.ID);
+            _transmission.ID.Should().Be(_repoTransmission.ID);
         }
     }
 }

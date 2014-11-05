@@ -4,6 +4,7 @@ using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
@@ -20,6 +21,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
         private Repository.Objects.Grade _grade2;
         private Repository.Objects.Grade _grade1;
         private IEnumerable<IGrade> _firstGrades;
+        private IGradeService _gradeService;
 
         protected override void Arrange()
         {
@@ -46,7 +48,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
             A.CallTo(() => subModelService.GetSubModels(A<Guid>._, A<Guid>._, A<Context>._))
                 .Returns(new List<Repository.Objects.SubModel> { repositorySubModel });
 
+            _gradeService = A.Fake<IGradeService>();
+            A.CallTo(
+                () => _gradeService.GetSubModelGrades(publication.ID, publicationTimeFrame.ID, repositorySubModel.ID, context))
+                .Returns(new[] {_grade1, _grade2});
+
             var gradeFactory = new GradeFactoryBuilder()
+                .WithGradeService(_gradeService)
                 .Build();
 
             var subModelFactory = new SubModelFactoryBuilder()
@@ -62,6 +70,20 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
         protected override void Act()
         {
             _secondGrades = _subModel.Grades;
+        }
+
+        [Fact]
+        public void ThenItShouldStillHaveCalledGetSubModelGradesOnlyOnce()
+        {
+            A.CallTo(() => _gradeService.GetSubModelGrades(A<Guid>._,A<Guid>._,A<Guid>._,A<Context>._))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
+        
+        [Fact]
+        public void ThenItShouldStillHaveCalledGetGradesOnlyOnce()
+        {
+            A.CallTo(() => _gradeService.GetGrades(A<Guid>._,A<Guid>._,A<Context>._))
+                .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]

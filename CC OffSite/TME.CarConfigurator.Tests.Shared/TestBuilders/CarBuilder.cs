@@ -72,6 +72,12 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public CarBuilder WithTransmission(Transmission transmission)
+        {
+            _car.Transmission = transmission;
+            return this;
+        }
+
         public Car Build()
         {
             return _car;
