@@ -3,20 +3,30 @@ using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
+using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Interfaces.Enums;
 using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.Interfaces.Packs;
 using TME.CarConfigurator.LegacyAdapter.Colours;
+using TME.CarConfigurator.LegacyAdapter.Equipment;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
+using ExteriorColour = TME.CarConfigurator.LegacyAdapter.Equipment.ExteriorColour;
 using IExteriorColour = TME.CarConfigurator.Interfaces.Equipment.IExteriorColour;
-using IPrice = TME.CarConfigurator.Interfaces.Core.IPrice;
-using Visibility = TME.CarConfigurator.Interfaces.Enums.Visibility;
+using Legacy = TMME.CarConfigurator;
 
-namespace TME.CarConfigurator.LegacyAdapter.Equipment
+namespace TME.CarConfigurator.LegacyAdapter.Packs
 {
-    public abstract class CarEquipmentItem : BaseObject, ICarEquipmentItem
+
+    public abstract class CarPackEquipmentItem : BaseObject, ICarPackEquipmentItem
     {
 
         #region Dependencies (Adaptee)
-        private TMME.CarConfigurator.CarEquipmentItem Adaptee
+        private Legacy.CarPackEquipmentItem Adaptee
+        {
+            get;
+            set;
+        }
+        private Legacy.CarEquipmentItem StandAloneItemOfTheAdaptee
         {
             get;
             set;
@@ -24,14 +34,12 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
         #endregion
 
         #region Constructor
-        protected CarEquipmentItem(TMME.CarConfigurator.CarEquipmentItem adaptee)
+        protected CarPackEquipmentItem(Legacy.CarPackEquipmentItem adaptee, Legacy.CarEquipmentItem standAloneItemOfTheAdaptee)
             : base(adaptee)
         {
             Adaptee = adaptee;
+            StandAloneItemOfTheAdaptee = standAloneItemOfTheAdaptee;
         }
-
-
-
         #endregion
 
         public int ShortID
@@ -56,17 +64,26 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
 
         public bool KeyFeature
         {
-            get { return Adaptee.KeyFeature; }
+            get
+            {
+                return StandAloneItemOfTheAdaptee != null && StandAloneItemOfTheAdaptee.KeyFeature;
+            }
         }
 
         public bool GradeFeature
         {
-            get { return Adaptee.GradeFeature; }
+            get
+            {
+                return StandAloneItemOfTheAdaptee != null && StandAloneItemOfTheAdaptee.GradeFeature;
+            }
         }
 
         public bool OptionalGradeFeature
         {
-            get { return Adaptee.OptionalGradeFeature; }
+            get
+            {
+                return StandAloneItemOfTheAdaptee != null && StandAloneItemOfTheAdaptee.OptionalGradeFeature;
+            }
         }
 
         public bool Brochure
@@ -81,7 +98,10 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
 
         public IBestVisibleIn BestVisibleIn
         {
-            get { return new BestVisibleIn(Adaptee.BestVisibleIn); }
+            get
+            {
+                return StandAloneItemOfTheAdaptee==null ? new BestVisibleIn() : new BestVisibleIn(StandAloneItemOfTheAdaptee.BestVisibleIn);
+            }
         }
 
         public ICategoryInfo Category
@@ -89,7 +109,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
             get { return new CategoryInfo(Adaptee.Category); }
         }
 
-     
+
         public IExteriorColour ExteriorColour
         {
             get
@@ -99,10 +119,13 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
             }
         }
 
-
         public IReadOnlyList<ILink> Links
         {
-            get { return Adaptee.Links.Cast<TMME.CarConfigurator.Link>().Select(x => new Link(x)).ToList(); }
+            get
+            {
+                if (StandAloneItemOfTheAdaptee==null) return  new List<ILink>();
+                return StandAloneItemOfTheAdaptee.Links.Cast<TMME.CarConfigurator.Link>().Select(x => new Link(x)).ToList();
+            }
         }
 
         public bool Standard
@@ -115,7 +138,11 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
             get { return Adaptee.Optional; }
         }
 
-        public abstract IPrice Price { get; }
+        public IPrice Price
+        {
+            get { return new Price(Adaptee); }
+        }
+
 
         public IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
@@ -131,9 +158,10 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
         {
             get
             {
-                if (Adaptee.AvailableForExteriorColours == null) return null;
+                if (StandAloneItemOfTheAdaptee == null) return null;
+                if (StandAloneItemOfTheAdaptee.AvailableForExteriorColours == null) return null;
                 return
-                    Adaptee.AvailableForExteriorColours.Cast<TMME.CarConfigurator.CarExteriorColour>()
+                    StandAloneItemOfTheAdaptee.AvailableForExteriorColours.Cast<TMME.CarConfigurator.CarExteriorColour>()
                         .Select(x => new ExteriorColourInfo(x))
                         .ToList();
             }
@@ -143,11 +171,27 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
         {
             get
             {
-                if (Adaptee.AvailableForUpholsteries == null) return null;
+                if (StandAloneItemOfTheAdaptee == null) return null;
+                if (StandAloneItemOfTheAdaptee.AvailableForUpholsteries == null) return null;
                 return
-                    Adaptee.AvailableForUpholsteries.Cast<TMME.CarConfigurator.CarUpholstery>()
+                    StandAloneItemOfTheAdaptee.AvailableForUpholsteries.Cast<TMME.CarConfigurator.CarUpholstery>()
                         .Select(x => new UpholsteryInfo(x))
                         .ToList();
+            }
+        }
+
+        public ColouringModes ColouringModes
+        {
+            get { return Adaptee.ColouringModes.ToColouringModes(); }
+        }
+
+
+        IReadOnlyList<ILink> IEquipmentItem.Links
+        {
+            get
+            {
+                if (StandAloneItemOfTheAdaptee == null) return new List<ILink>();
+                return StandAloneItemOfTheAdaptee.Links.Cast<TMME.CarConfigurator.Link>().Select(x => new Link(x)).ToList();
             }
         }
     }

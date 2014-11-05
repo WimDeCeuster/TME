@@ -4,29 +4,21 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
 {
     public class OptionInfo : IOptionInfo
     {
-        #region Dependencies (Adaptee)
-        private TMME.CarConfigurator.CarOption Adaptee
-        {
-            get;
-            set;
-        }
-        #endregion
-
+  
         #region Constructor
         public OptionInfo(TMME.CarConfigurator.CarOption adaptee)
         {
-            Adaptee = adaptee;
+            ShortID = adaptee.ShortID;
+            Name = adaptee.Name;
+        }
+        public OptionInfo(TMME.CarConfigurator.CarPackOption adaptee)
+        {
+            ShortID = adaptee.ShortID;
+            Name = adaptee.Name;
         }
         #endregion
 
-        public int ShortID
-        {
-            get { return Adaptee.ShortID; }
-        }
-
-        public string Name
-        {
-            get { return Adaptee.Name; }
-        }
+        public int ShortID { get; private set; }
+        public string Name { get; private set; }
     }
 }

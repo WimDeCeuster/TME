@@ -62,6 +62,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Colours\ColourCombinationInfo.cs" />
+    <Compile Include="Extensions\ColouringModesExtensions.cs" />
     <Compile Include="Packs\CarPack.cs" />
     <Compile Include="CarPart.cs" />
     <Compile Include="Colours\ColourCombination.cs" />
@@ -101,6 +103,12 @@
     <Compile Include="Equipment\GradeOption.cs" />
     <Compile Include="Equipment\Option.cs" />
     <Compile Include="Equipment\OptionInfo.cs" />
+    <Compile Include="Packs\CarPackAccessory.cs" />
+    <Compile Include="Packs\CarPackEquipment.cs" />
+    <Compile Include="Packs\CarPackEquipmentItem.cs" />
+    <Compile Include="Packs\CarPackOption.cs" />
+    <Compile Include="Packs\CarPackExteriorColourType.cs" />
+    <Compile Include="Packs\CarPackUpholsteryType.cs" />
     <Compile Include="Packs\GradePack.cs" />
     <Compile Include="Steering.cs" />
     <Compile Include="SubModel.cs" />

@@ -43,12 +43,17 @@
     <Compile Include="Assets\IAssetType.cs" />
     <Compile Include="Assets\IFileType.cs" />
     <Compile Include="Assets\IVisibleInModeAndView.cs" />
+    <Compile Include="Colours\IColourCombinationInfo.cs" />
     <Compile Include="Colours\IUpholsteryInfo.cs" />
     <Compile Include="Colours\IColourCombination.cs" />
     <Compile Include="Colours\IColourTransformation.cs" />
     <Compile Include="Colours\IExteriorColour.cs" />
     <Compile Include="Colours\IExteriorColourInfo.cs" />
+    <Compile Include="Enums\ColouringModes.cs" />
     <Compile Include="Equipment\ICarEquipment.cs" />
+    <Compile Include="Packs\ICarPackEquipment.cs" />
+    <Compile Include="Packs\ICarPackExteriorColourType.cs" />
+    <Compile Include="Packs\ICarPackAccessory.cs" />
     <Compile Include="Packs\ICarPackEquipmentItem.cs" />
     <Compile Include="Equipment\IExteriorColour.cs" />
     <Compile Include="Equipment\IModelEquipment.cs" />
@@ -109,6 +114,8 @@
     <Compile Include="ISteering.cs" />
     <Compile Include="IWheelDrive.cs" />
     <Compile Include="Packs\ICarPack.cs" />
+    <Compile Include="Packs\ICarPackOption.cs" />
+    <Compile Include="Packs\ICarPackUpholsteryType.cs" />
     <Compile Include="Packs\IGradePack.cs" />
     <Compile Include="Packs\IPack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -130,9 +137,7 @@
       <Name>TME.CarConfigurator.Repository.Objects</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Facades\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

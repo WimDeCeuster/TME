@@ -8,6 +8,8 @@ namespace TME.CarConfigurator.Interfaces.TechnicalSpecifications
          * 
         IReadOnlyList<ITechnicalSpecification> TechnicalSpecifications { get; }
          */
+// ReSharper disable ReturnTypeCanBeEnumerable.Global
         IReadOnlyList<ICategory> Categories { get; }
+// ReSharper restore ReturnTypeCanBeEnumerable.Global
     }
 }

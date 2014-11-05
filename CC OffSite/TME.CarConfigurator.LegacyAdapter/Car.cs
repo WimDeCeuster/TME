@@ -114,7 +114,7 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IReadOnlyList<ICarPack> Packs
         {
-            get { return Adaptee.Packs.Cast<Legacy.CarPack>().Select(x => new CarPack(x)).ToList(); }
+            get { return Adaptee.Packs.Cast<Legacy.CarPack>().Select(x => new CarPack(x, Adaptee)).ToList(); }
         }
     }
 }
