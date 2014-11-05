@@ -15,7 +15,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
     public class WhenAccessingItsBasedUponGradeForTheFirstTime : TestBase
     {
         IGrade _grade;
-        IGrade _basedUponGrade;
+        IGradeInfo _basedUponGrade;
         Repository.Objects.Grade _repoBasedUponGrade;
 
         protected override void Arrange()

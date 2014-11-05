@@ -15,8 +15,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
     public class WhenAccessingItsStartingPriceForTheSecondTime : TestBase
     {
         IGrade _grade;
-        IGrade _firstGrade;
-        IGrade _secondGrade;
+        IGradeInfo _firstGrade;
+        IGradeInfo _secondGrade;
         Repository.Objects.Grade _repoBasedUponGrade;
 
         protected override void Arrange()
@@ -58,11 +58,6 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
             _secondGrade = _grade.BasedUpon;
         }
 
-        [Fact]
-        public void ThenItShouldNotRecalculateTheGrade()
-        {
-            _secondGrade.Should().Be(_firstGrade);
-        }
 
         [Fact]
         public void ThenTheGradeShouldBeCorrect()

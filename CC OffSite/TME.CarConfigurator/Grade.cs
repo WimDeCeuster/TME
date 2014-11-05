@@ -22,14 +22,12 @@ namespace TME.CarConfigurator
 
         private IReadOnlyList<IAsset> _fetchedAssets;
         private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
-        protected IReadOnlyList<IGradePack> FetchedPacks;
         protected IGradeEquipment FetchedEquipment;
-        protected IReadOnlyList<IGradeEquipmentItem> EquipmentItems;
+        protected IReadOnlyList<IGradePack> FetchedPacks;
 
         Price _price;
-        readonly IGrade _basedUponGrade;
 
-        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IGrade basedUponGrade, IAssetFactory assetFactory, IEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
+        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory, IEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
             : base(repositoryGrade)
         {
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
@@ -39,7 +37,6 @@ namespace TME.CarConfigurator
 
             RepositoryPublication = repositoryPublication;
             RepositoryContext = repositoryContext;
-            _basedUponGrade = basedUponGrade;
             _assetFactory = assetFactory;
             GradeEquipmentFactory = gradeEquipmentFactory;
             PackFactory = packFactory;
@@ -47,9 +44,17 @@ namespace TME.CarConfigurator
 
         public bool Special { get { return RepositoryObject.Special; } }
 
-        public IGrade BasedUpon { get { return _basedUponGrade; } }
+   
 
         public IPrice StartingPrice { get { return _price = _price ?? new Price(RepositoryObject.StartingPrice); } }
+
+        public IGradeInfo BasedUpon
+        {
+            get
+            {
+                return RepositoryObject.BasedUpon == null ? null : new GradeInfo(RepositoryObject.BasedUpon);
+            }
+        }
 
         public virtual IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
