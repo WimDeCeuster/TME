@@ -102,7 +102,6 @@ namespace TME.CarConfigurator.Publisher
             }
             var tasks = new List<Task>
             {
-                _assetPublisher.PublishSubModelAssetsAsync(context),
                 _publicationPublisher.PublishPublicationsAsync(context),
                 _bodyTypePublisher.PublishGenerationBodyTypesAsync(context),
                 _enginePublisher.PublishGenerationEnginesAsync(context),
@@ -120,7 +119,6 @@ namespace TME.CarConfigurator.Publisher
                 _specificationsPublisher.PublishCategoriesAsync(context),
                 _gradePackPublisher.PublishAsync(context),
                 _assetPublisher.PublishAssetsAsync(context),
-                _assetPublisher.PublishCarAssetsAsync(context)
                 
             };
 
