@@ -69,6 +69,10 @@
     <Compile Include="GivenACarBodyType\WhenAccessingIts3DAssetsASecondTime.cs" />
     <Compile Include="GivenACarBodyType\WhenAccessingItsAssets.cs" />
     <Compile Include="GivenACarBodyType\WhenAccessingItsAssetsASecondTime.cs" />
+    <Compile Include="GivenACarTransmission\WhenAccessingIts3DAssetsForASecondTime.cs" />
+    <Compile Include="GivenACarTransmission\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarTransmission\WhenAccessingItsAssets.cs" />
+    <Compile Include="GivenACarTransmission\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsEngineForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBodyTypeForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsEngineForTheSecondTime.cs" />
@@ -198,6 +202,7 @@
     <Compile Include="GivenAnUpholstery\WhenAccessingItsUpholsteryTypeForTheFirstTime.cs" />
     <Compile Include="GivenAnUpholstery\WhenAccessingItsUpholsteryTypeForTheSecondTime.cs" />
     <Compile Include="GivenASubModelGrade\WhenAccessingItsAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenASubModelGrade\WhenAccessingItsEquipmentForTheFirstTime.cs" />
     <Compile Include="GivenASubModelGrade\WhenAccessingItsEquipmentForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheFirstTime.cs" />
@@ -325,9 +330,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

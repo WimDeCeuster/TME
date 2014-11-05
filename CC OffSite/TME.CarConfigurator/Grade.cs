@@ -14,16 +14,16 @@ namespace TME.CarConfigurator
 {
     public class Grade : BaseObject<Repository.Objects.Grade>, IGrade
     {
+        private readonly IPackFactory _packFactory;
         protected readonly Repository.Objects.Publication RepositoryPublication;
         protected readonly Repository.Objects.Context RepositoryContext;
         protected readonly IAssetFactory AssetFactory;
         protected readonly IEquipmentFactory GradeEquipmentFactory;
-        private readonly IPackFactory _packFactory;
         protected IReadOnlyList<IAsset> FetchedAssets;
-        private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
         protected IGradeEquipment _equipment;
-        private IReadOnlyList<IGradePack> _packs;
         protected IReadOnlyList<IGradeEquipmentItem> EquipmentItems;
+        private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
+        private IReadOnlyList<IGradePack> _packs;
 
         Price _price;
 
