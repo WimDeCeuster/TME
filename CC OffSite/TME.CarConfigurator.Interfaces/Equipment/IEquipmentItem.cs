@@ -22,6 +22,7 @@ namespace TME.CarConfigurator.Interfaces.Equipment
         ICategoryInfo Category { get; }
         IExteriorColour ExteriorColour { get; }
 
-        IEnumerable<ILink> Links { get; }
+// ReSharper disable once ReturnTypeCanBeEnumerable.Global
+        IReadOnlyList<ILink> Links { get; }
     }
 }

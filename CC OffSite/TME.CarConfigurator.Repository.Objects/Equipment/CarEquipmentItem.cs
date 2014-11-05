@@ -9,7 +9,7 @@ namespace TME.CarConfigurator.Repository.Objects.Equipment
         public bool Standard { get; set; }
         public bool Optional { get; set; }
 
-        List<ExteriorColourInfo> AvailableForExteriorColours { get; set; }
+        public List<ExteriorColourInfo> AvailableForExteriorColours { get; set; }
         List<UpholsteryInfo> AvailableForUpholsteries { get; set; }
 
         public List<VisibleInModeAndView> VisibleIn { get; set; }

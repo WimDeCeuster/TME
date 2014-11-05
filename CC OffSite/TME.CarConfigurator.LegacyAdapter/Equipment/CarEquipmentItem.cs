@@ -6,7 +6,6 @@ using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.LegacyAdapter.Colours;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
-using TMME.CarConfigurator;
 using IExteriorColour = TME.CarConfigurator.Interfaces.Equipment.IExteriorColour;
 using IPrice = TME.CarConfigurator.Interfaces.Core.IPrice;
 using Visibility = TME.CarConfigurator.Interfaces.Enums.Visibility;
@@ -101,9 +100,9 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
         }
 
 
-        public IEnumerable<ILink> Links
+        public IReadOnlyList<ILink> Links
         {
-            get { return Adaptee.Links.Cast<TMME.CarConfigurator.Link>().Select(x => new Link(x)); }
+            get { return Adaptee.Links.Cast<TMME.CarConfigurator.Link>().Select(x => new Link(x)).ToList(); }
         }
 
         public bool Standard

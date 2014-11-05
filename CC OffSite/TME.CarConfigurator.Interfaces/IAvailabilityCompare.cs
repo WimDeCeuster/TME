@@ -8,8 +8,10 @@ namespace TME.CarConfigurator.Interfaces
         bool Optional { get; }
         bool NotAvailable { get; }
 
+        // ReSharper disable ReturnTypeCanBeEnumerable.Global
         IReadOnlyList<ICarInfo> StandardOn { get; }
         IReadOnlyList<ICarInfo> OptionalOn { get; }
         IReadOnlyList<ICarInfo> NotAvailableOn { get; }
+        // ReSharper restore ReturnTypeCanBeEnumerable.Global
     }
 }

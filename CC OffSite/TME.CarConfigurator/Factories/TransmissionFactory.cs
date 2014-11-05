@@ -29,5 +29,11 @@ namespace TME.CarConfigurator.Factories
                                  .Select(transmission => new Transmission(transmission,publication,context,_assetFactory))
                                  .ToArray();
         }
+
+        public ITransmission GetCarTransmission(Repository.Objects.Transmission transmission, Guid carID, Publication repositoryPublication,
+            Context repositoryContext)
+        {
+            return new CarTransmission(transmission, repositoryPublication, carID, repositoryContext, _assetFactory);
+        }
     }
 }

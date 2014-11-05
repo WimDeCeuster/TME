@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
 using System;
@@ -10,8 +9,6 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
-using TME.CarConfigurator.Interfaces.Core;
-using TME.CarConfigurator.Interfaces.Factories;
 
 namespace TME.CarConfigurator.Query.Tests.GivenACar
 {

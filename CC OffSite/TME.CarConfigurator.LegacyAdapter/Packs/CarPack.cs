@@ -5,6 +5,7 @@ using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Packs;
 using TME.CarConfigurator.LegacyAdapter.Colours;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
+using Legacy = TMME.CarConfigurator;
 using IPrice = TME.CarConfigurator.Interfaces.Core.IPrice;
 
 namespace TME.CarConfigurator.LegacyAdapter.Packs
@@ -13,19 +14,28 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
     {
         
         #region Dependencies (Adaptee)
-        private TMME.CarConfigurator.CarPack Adaptee
+        private Legacy.CarPack Adaptee
         {
             get;
+            set;
+        }
+        private Legacy.Car CarOfAdaptee
+        {
+            get; 
             set;
         }
         #endregion
 
         #region Constructor
-        public CarPack(TMME.CarConfigurator.CarPack adaptee)
+        public CarPack(Legacy.CarPack adaptee, Legacy.Car carOfAdaptee)
             : base(adaptee)
         {
             Adaptee = adaptee;
+            CarOfAdaptee = carOfAdaptee;
         }
+
+  
+
         #endregion
 
         public int ShortID
@@ -69,7 +79,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
             {
                 if (Adaptee.AvailableForExteriorColours == null) return null;
                 return
-                    Adaptee.AvailableForExteriorColours.Cast<TMME.CarConfigurator.CarExteriorColour>()
+                    Adaptee.AvailableForExteriorColours.Cast<Legacy.CarExteriorColour>()
                         .Select(x => new ExteriorColourInfo(x))
                         .ToList();
             }
@@ -81,10 +91,20 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
             {
                 if (Adaptee.AvailableForUpholsteries == null) return null;
                 return
-                    Adaptee.AvailableForUpholsteries.Cast<TMME.CarConfigurator.CarUpholstery>()
+                    Adaptee.AvailableForUpholsteries.Cast<Legacy.CarUpholstery>()
                         .Select(x => new UpholsteryInfo(x))
                         .ToList();
             }
         }
+
+        public ICarPackEquipment Equipment
+        {
+            get
+            {
+                return new CarPackEquipment(Adaptee, CarOfAdaptee);
+            }
+        }
     }
+
+
 }
