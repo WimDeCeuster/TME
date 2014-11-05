@@ -10,13 +10,13 @@ namespace TME.CarConfigurator.S3.Publisher.Extensions
     {
         public static IEnumerable<Asset> DefaultAssets(this IEnumerable<Asset> assets)
         {
-            return assets.Where(a => String.IsNullOrEmpty(a.AssetType.Mode) && String.IsNullOrEmpty(a.AssetType.View));
+            return assets.Where(a => String.IsNullOrEmpty(a.AssetType.View));
         }
 
         public static IEnumerable<IGrouping<ModeAndView, Asset>> GroupedByModeAndView(this IEnumerable<Asset> assets)
         {
             return assets
-                .Where(a => !String.IsNullOrEmpty(a.AssetType.Mode) || !String.IsNullOrEmpty(a.AssetType.View))
+                .Where(a => !String.IsNullOrEmpty(a.AssetType.View))
                 .GroupBy(a => new ModeAndView(a.AssetType));
         }
     }

@@ -29,8 +29,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IReadOnlyList<ColourCombination> ColourCombinations { get; private set; }
         public IReadOnlyList<EquipmentCategory> EquipmentCategories { get; private set; }
         public IReadOnlyList<SpecificationCategory> SpecificationCategories { get; set; }
-        public IReadOnlyDictionary<Guid,IDictionary<Guid,IList<Asset>>> SubModelAssets { get; set; }
-        public IDictionary<Guid, IDictionary<Guid, GradeEquipment>> SubModelGradeEquipments { get; set; }
+        public IReadOnlyDictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>> SubModelGradeEquipments { get; set; }
 
         public readonly Guid ID;
 
@@ -50,9 +49,8 @@ namespace TME.CarConfigurator.Publisher.Common
             IReadOnlyList<SubModel> subModels,
             IReadOnlyList<ColourCombination> colourCombinations,
             IReadOnlyList<EquipmentCategory> equipmentCategories,
-            IDictionary<Guid, IDictionary<Guid, GradeEquipment>> subModelGradeEquipments,
-            IReadOnlyList<SpecificationCategory> specificationCategories,
-            IReadOnlyDictionary<Guid, IDictionary<Guid, IList<Asset>>> subModelAssets)
+            IReadOnlyDictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>> subModelGradeEquipments,
+            IReadOnlyList<SpecificationCategory> specificationCategories)
         {
             if (cars == null) throw new ArgumentNullException("cars");
             if (bodyTypes == null) throw new ArgumentNullException("bodyTypes");
@@ -69,7 +67,6 @@ namespace TME.CarConfigurator.Publisher.Common
             if (subModelGradeEquipments == null) throw new ArgumentNullException("subModelGradeEquipments");
             if (equipmentCategories == null) throw new ArgumentNullException("equipmentCategories");
             if (specificationCategories == null) throw new ArgumentNullException("specificationCategories");
-            if (subModelAssets == null) throw new ArgumentNullException("subModelAssets");
 
             From = from;
             Until = until;
@@ -84,7 +81,6 @@ namespace TME.CarConfigurator.Publisher.Common
             Grades = grades;
             SubModelGrades = subModelGrades;
             GradeEquipments = gradeEquipments;
-            SubModelAssets = subModelAssets;
             SubModels = subModels;
             SubModelGradeEquipments = subModelGradeEquipments;
             EquipmentCategories = equipmentCategories;
