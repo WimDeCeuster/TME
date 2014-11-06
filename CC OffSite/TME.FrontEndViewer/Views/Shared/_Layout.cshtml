@@ -95,8 +95,11 @@
             $('.object:not(.missing, .ignore-compare)').each(function () {
                 var object = $(this)
                 var linkedObject = object.data('linked-item')
+                var parentObjects = object.parents('.object')
+                if (!parentObjects.length)
+                    parentObjects = object
 
-                if (object.index() !== linkedObject.index()) {
+                if (object.parent().children('.object').index(object) !== linkedObject.parent().children('.object').index(linkedObject)) {
                     object.addClass('wrong-order')
                     linkedObject.addClass('wrong-order')
                     if (!parentObjects.is(object)) {

@@ -27,6 +27,6 @@ namespace TME.CarConfigurator.Repository.Objects.Core
         
         public int SortIndex { get; set; }
         
-        public List<Label> Labels { get; set; }
+        public IReadOnlyList<Label> Labels { get; set; }
     }
 }

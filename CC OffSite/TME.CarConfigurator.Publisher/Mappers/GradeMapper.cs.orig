@@ -100,8 +100,15 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedGradeForSubModelWithDefaults.Labels = _labelMapper.MapLabels(generationGradeSubModel.Translation.Labels);
 
             if (mappedGradeForSubModelWithDefaults.Labels.Count == 0)
-                mappedGradeForSubModelWithDefaults.Labels = _labelMapper.MapLabels(grade.Translation.Labels);
+<<<<<<< HEAD
+                mappedGradeForSubModelWithDefaults.Labels = grade.Translation.Labels.Select(_labelMapper.MapLabel)
+                    .Where(adminLabel => !String.IsNullOrWhiteSpace(adminLabel.Value)).ToList();
             
+=======
+            {
+                mappedGradeForSubModelWithDefaults.Labels = _labelMapper.MapLabels(grade.Translation.Labels);
+            }
+>>>>>>> 44d47da1ac08cd8d91917d019b3328add7557e68
         }
 
         private static String SetTheCorrectSubModelGradeName(ModelGenerationGradeSubModel subModel, ModelGenerationGrade grade)
