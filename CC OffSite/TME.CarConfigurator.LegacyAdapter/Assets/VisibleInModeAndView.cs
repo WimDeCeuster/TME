@@ -17,6 +17,11 @@ namespace TME.CarConfigurator.LegacyAdapter.Assets
             internal set;
         }
 
+        public bool HasMode
+        {
+            get { return !string.IsNullOrWhiteSpace(Mode); }
+        }
+
         public IReadOnlyList<IAsset> Assets
         {
             get;
