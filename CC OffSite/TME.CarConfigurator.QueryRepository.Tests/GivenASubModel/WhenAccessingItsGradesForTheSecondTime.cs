@@ -78,13 +78,6 @@ namespace TME.CarConfigurator.Query.Tests.GivenASubModel
             A.CallTo(() => _gradeService.GetSubModelGrades(A<Guid>._,A<Guid>._,A<Guid>._,A<Context>._))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
-        
-        [Fact]
-        public void ThenItShouldStillHaveCalledGetGradesOnlyOnce()
-        {
-            A.CallTo(() => _gradeService.GetGrades(A<Guid>._,A<Guid>._,A<Context>._))
-                .MustHaveHappened(Repeated.Exactly.Once);
-        }
 
         [Fact]
         public void ThenItShouldReferToTheSameGradesAsTheFirstTime()
