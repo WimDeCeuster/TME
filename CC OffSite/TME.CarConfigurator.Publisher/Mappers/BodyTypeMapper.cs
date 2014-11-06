@@ -30,7 +30,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 VisibleIn = _assetSetMapper.GetVisibility(generationBodyType.AssetSet).ToList()
             };
 
-            return (BodyType)_baseMapper.MapDefaultsWithSort(mappedBodyType, crossModelBodyType, generationBodyType);
+            return _baseMapper.MapDefaultsWithSort(mappedBodyType, crossModelBodyType, generationBodyType);
         }
     }
 }
