@@ -488,7 +488,7 @@ namespace TME.CarConfigurator.Publisher
                      .Select(option => _equipmentMapper.MapGradeOption(option, crossModelEquipment[option.ID], categories, gradeCars, isPreview))
                      .ToList();
 
-            return new GradeEquipment { Accessories = accessories, Options = options };
+            return new GradeEquipment {Accessories = accessories, Options = options};
         }
 
         private void FillGradePacks(IEnumerable<ModelGenerationGrade> grades, ContextData contextData, bool isPreview)
@@ -520,12 +520,12 @@ namespace TME.CarConfigurator.Publisher
         {
             var gradePacks = grades.ToDictionary(
                 grade => grade.ID,
-                grade => GetSubModelGradePacks(grade, subModel, contextData, isPreview));
+                grade => GetSubModelGradePacks(grade, subModel, isPreview));
 
             contextData.SubModelGradePacks.Add(subModel.ID, gradePacks);
         }
 
-        private IReadOnlyList<Repository.Objects.Packs.GradePack> GetSubModelGradePacks(ModelGenerationGrade grade, ModelGenerationSubModel subModel, ContextData contextData, Boolean isPreview)
+        private IReadOnlyList<Repository.Objects.Packs.GradePack> GetSubModelGradePacks(ModelGenerationGrade grade, ModelGenerationSubModel subModel, Boolean isPreview)
         {
             var subModelGradeCars = grade.Cars().Filter(isPreview).Where(car => car.SubModelID == subModel.ID).ToList();
             var gradePacks = grade.Packs;
@@ -550,7 +550,7 @@ namespace TME.CarConfigurator.Publisher
 
         private void FillSpecificationCategories(ContextData contextData)
         {
-            var mappedCategories = Administration.SpecificationCategories.GetSpecificationCategories()
+            var mappedCategories = SpecificationCategories.GetSpecificationCategories()
                                                                          .Flatten(category => category.Categories)
                                                                          .Select(_categoryMapper.MapSpecificationCategory)
                                                                          .ToList();
