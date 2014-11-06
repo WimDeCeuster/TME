@@ -81,10 +81,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.ID = generationGradeEquipmentItem.ID;
             mappedEquipmentItem.InternalName = generationEquipmentItem.BaseName;
             mappedEquipmentItem.KeyFeature = generationEquipmentItem.KeyFeature;
-            mappedEquipmentItem.Labels = generationGradeEquipmentItem.Translation.Labels
-                                                                                 .Select(_labelMapper.MapLabel)
-                                                                                 .Where(label => !String.IsNullOrWhiteSpace(label.Value))
-                                                                                 .ToList();
+
+            mappedEquipmentItem.Labels = _labelMapper.MapLabels(generationGradeEquipmentItem.Translation.Labels, generationEquipmentItem.Translation.Labels, crossModelEquipmentItem.Translation.Labels);
+
             mappedEquipmentItem.Links = crossModelEquipmentItem.Links.Select(link => _linkMapper.MapLink(link, isPreview)).ToList();
             mappedEquipmentItem.Name = generationGradeEquipmentItem.Translation.Name.DefaultIfEmpty(generationGradeEquipmentItem.Name);
             mappedEquipmentItem.NotAvailableOn = GetAvailabilityInfo(generationGradeEquipmentItem, Availability.NotAvailable, cars);
@@ -149,5 +148,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
                        })
                        .ToList();
         }
+
     }
 }

@@ -57,8 +57,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedGradeForSubModelWithDefaults.LocalCode = String.Empty;
             mappedGradeForSubModelWithDefaults.InternalCode = grade.Code + "-" + subModel.Code;
 
-            SetTheCorrectSubModelGradeLabels(grade, mappedGradeForSubModelWithDefaults, generationGradeSubModel);
+            mappedGradeForSubModelWithDefaults.Labels = _labelMapper.MapLabels(generationGradeSubModel.Translation.Labels, grade.Translation.Labels);
 
+            SetTheCorrectSubModelGradeLabels(grade, mappedGradeForSubModelWithDefaults, generationGradeSubModel);
 
             return mappedGradeForSubModelWithDefaults;
         }
@@ -96,15 +97,11 @@ namespace TME.CarConfigurator.Publisher.Mappers
             Grade mappedGradeForSubModelWithDefaults,
             ModelGenerationGradeSubModel generationGradeSubModel)
         {
-            mappedGradeForSubModelWithDefaults.Labels =
-                generationGradeSubModel.Translation.Labels.Select(_labelMapper.MapLabel)
-                    .Where(adminLabel => !String.IsNullOrWhiteSpace(adminLabel.Value))
-                    .ToList();
+            mappedGradeForSubModelWithDefaults.Labels = _labelMapper.MapLabels(generationGradeSubModel.Translation.Labels);
 
             if (mappedGradeForSubModelWithDefaults.Labels.Count == 0)
             {
-                mappedGradeForSubModelWithDefaults.Labels = grade.Translation.Labels.Select(_labelMapper.MapLabel)
-                    .Where(adminLabel => !String.IsNullOrWhiteSpace(adminLabel.Value)).ToList();
+                mappedGradeForSubModelWithDefaults.Labels = _labelMapper.MapLabels(grade.Translation.Labels);
             }
         }
 
