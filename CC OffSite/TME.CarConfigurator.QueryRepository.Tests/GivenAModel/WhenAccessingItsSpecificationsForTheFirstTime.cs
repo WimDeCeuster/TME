@@ -21,8 +21,6 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
 
         protected override void Arrange()
         {
-            var specificationsFactory = new SpecificationsFactoryBuilder().Build();
-
             var generation = new GenerationBuilder().Build();
 
             var timeFrame = new PublicationTimeFrameBuilder()
