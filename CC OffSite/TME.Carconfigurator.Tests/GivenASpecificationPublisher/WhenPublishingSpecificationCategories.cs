@@ -112,28 +112,28 @@ namespace TME.Carconfigurator.Tests.GivenAS3SpecificationsPublisher
         }
 
         [Fact]
-        public void ThenGenerationSpecificationCategoriesShouldBePutForTimeFrame1()
+        public void ThenGenerationSpecificationsShouldBePutForTimeFrame1()
         {
             A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame1SpecificationsKey, _serialisedSpecificationCategories))
                 .MustHaveHappened(Repeated.Exactly.Once);                                                   
         }                                                                                                   
                                                                                                             
         [Fact]                                                                                              
-        public void ThenGenerationGradeSpecificationsShouldBePutForTimeFrame2()                                 
+        public void ThenGenerationSpecificationsShouldBePutForTimeFrame2()                                 
         {
             A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame2SpecificationsKey, _serialisedSpecificationCategories))
                 .MustHaveHappened(Repeated.Exactly.Once);                                                   
         }                                                                                                   
                                                                                                             
         [Fact]                                                                                              
-        public void ThenGenerationGradeSpecificationsShouldBePutForTimeFrame3()                                 
+        public void ThenGenerationSpecificationsShouldBePutForTimeFrame3()                                 
         {
             A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame3SpecificationsKey, _serialisedSpecificationCategories))
                 .MustHaveHappened(Repeated.Exactly.Once);                                                   
         }                                                                                                   
                                                                                                             
         [Fact]                                                                                              
-        public void ThenGenerationGradeSpecificationsShouldBePutForTimeFrame4()                                 
+        public void ThenGenerationSpecificationsShouldBePutForTimeFrame4()                                 
         {
             A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame4SpecificationsKey, _serialisedSpecificationCategories))
                 .MustHaveHappened(Repeated.Exactly.Once);

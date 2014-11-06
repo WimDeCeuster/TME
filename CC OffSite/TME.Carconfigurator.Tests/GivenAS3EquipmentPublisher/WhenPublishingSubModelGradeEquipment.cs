@@ -10,7 +10,7 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.Carconfigurator.Tests.GivenAS3GradeEquipmentPublisher
+namespace TME.Carconfigurator.Tests.GivenAS3EquipmentPublisher
 {
     public class WhenPublishingSubModelGradeEquipment : TestBase
     {
