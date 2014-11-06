@@ -208,7 +208,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         }
 
         [Fact]
-        public void ThenItShouldPublishGenerationAssets()
+        public void ThenItShouldPublishAllAssets()
         {
             A.CallTo(() => _assetPublisher.PublishAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
