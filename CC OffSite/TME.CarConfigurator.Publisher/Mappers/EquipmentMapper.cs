@@ -11,6 +11,7 @@ using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Interfaces;
 using TME.CarConfigurator.S3.QueryServices;
 using Car = TME.CarConfigurator.Administration.Car;
+using EquipmentItem = TME.CarConfigurator.Administration.EquipmentItem;
 using ExteriorColour = TME.CarConfigurator.Repository.Objects.Equipment.ExteriorColour;
 
 namespace TME.CarConfigurator.Publisher.Mappers
@@ -20,7 +21,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         readonly ILabelMapper _labelMapper;
         readonly ILinkMapper _linkMapper;
         readonly IVisibilityMapper _visibilityMapper;
-        ICategoryMapper _categoryInfoMapper;
+        readonly ICategoryMapper _categoryInfoMapper;
         readonly IColourMapper _colourMapper;
 
         public EquipmentMapper(ILabelMapper labelMapper, ILinkMapper linkMapper, IVisibilityMapper visibilityMapper, ICategoryMapper categoryInfoMapper, IColourMapper colourMapper)
@@ -38,17 +39,20 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _colourMapper = colourMapper;
         }
 
-        public GradeAccessory MapGradeAccessory(ModelGenerationGradeAccessory generationGradeAccessory, ModelGenerationAccessory generationAccessory, Administration.Accessory crossModelAccessory, EquipmentCategories categories, IReadOnlyList<Car> cars, Boolean isPreview)
+        public GradeAccessory MapGradeAccessory(ModelGenerationGradeAccessory generationGradeAccessory, Administration.EquipmentItem crossModelAccessory, EquipmentCategories categories, IReadOnlyList<Car> cars, Boolean isPreview)
         {
             var mappedGradeEquipmentItem = new GradeAccessory();
 
+            var generationAccessory = generationGradeAccessory.Grade.Generation.Equipment[generationGradeAccessory.ID];
             return MapGradeEquipmentItem(mappedGradeEquipmentItem, generationGradeAccessory, generationAccessory, crossModelAccessory, categories, cars, isPreview);
         }
 
-        public GradeOption MapGradeOption(ModelGenerationGradeOption generationGradeOption, ModelGenerationOption generationOption, Administration.Option crossModelOption, EquipmentCategories categories, IReadOnlyList<Car> cars, Boolean isPreview)
+        public GradeOption MapGradeOption(ModelGenerationGradeOption generationGradeOption, EquipmentItem crossModelOption, EquipmentCategories categories, IReadOnlyList<Car> cars, bool isPreview)
         {
             if (generationGradeOption.HasParentOption && !generationGradeOption.ParentOption.ShortID.HasValue)
                 throw new CorruptDataException(String.Format("Please supply a ShortID for grade option {0}", generationGradeOption.ParentOption.ID));
+
+            var generationOption = (ModelGenerationOption)generationGradeOption.Grade.Generation.Equipment[generationGradeOption.ID];
 
             var mappedGradeEquipmentItem = new GradeOption
             {
@@ -135,7 +139,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, crossModelColour, isPreview);
         }
 
-        IReadOnlyList<CarInfo> GetAvailabilityInfo(ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, Availability availability, IEnumerable<Car> cars)
+        static IReadOnlyList<CarInfo> GetAvailabilityInfo(ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, Availability availability, IEnumerable<Car> cars)
         {
             return cars.Where(car => car.Equipment[generationGradeEquipmentItem.ID] != null ? car.Equipment[generationGradeEquipmentItem.ID].Availability == availability : availability == Availability.NotAvailable)
                        .Select(car => new CarInfo

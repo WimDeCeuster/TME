@@ -120,6 +120,7 @@
     <Compile Include="GivenAKeyManager\WhenRequestingASubModelAssetsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASubModelAssetsKeyWithoutMode.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASubModelGradeEquipmentKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingASubModelGradePacksKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASubModelGradesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASubModelsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAWheelDrivesKey.cs" />

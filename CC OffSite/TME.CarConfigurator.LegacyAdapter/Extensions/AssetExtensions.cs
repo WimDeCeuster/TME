@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-
 using TME.CarConfigurator.Interfaces.Assets;
+using TME.CarConfigurator.LegacyAdapter.Assets;
 using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter.Extensions
@@ -18,7 +17,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Extensions
                     {
                         Mode = group.Key.Mode,
                         View = group.Key.View,
-                        Assets = group.Select(legacyAsset => new Asset(legacyAsset))
+                        Assets = group.Select(legacyAsset => new Asset(legacyAsset)).ToList()
 
                     })
                     .ToList();

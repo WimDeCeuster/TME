@@ -7,6 +7,6 @@ namespace TME.CarConfigurator.Interfaces.Assets
         string Mode { get;  }
         string View { get;  }
 
-        IEnumerable<IAsset> Assets { get; }
+        IReadOnlyList<IAsset> Assets { get; }
     }
 }

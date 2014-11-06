@@ -54,12 +54,12 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel);
         }
         
-        private List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+        private IList<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
         {
-            return contextData.SubModelGrades.First(entry => entry.Key == modelGenerationSubModel.ID).Value.ToList();
+            return contextData.SubModelGrades[modelGenerationSubModel.ID].ToList();
         }
 
-        private List<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)
+        private IList<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)
         {
             return modelGenerationSubModel.Links
                 .Where(link => link.IsApplicableFor(modelGenerationSubModel.Generation))
@@ -67,7 +67,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 .ToList();
         }
 
-        private List<Asset> GetMappedAssetsForSubModel(ModelGenerationSubModel modelGenerationSubModel)
+        private IList<Asset> GetMappedAssetsForSubModel(ModelGenerationSubModel modelGenerationSubModel)
         {
             return modelGenerationSubModel.AssetSet.Assets
                 .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGenerationSubModel.Generation))
