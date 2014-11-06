@@ -485,13 +485,13 @@ namespace TME.CarConfigurator.Publisher
             
             foreach (var gradeAccessory in accessories)
             {
-                //todo mapper
+                //todo refactor
                 gradeAccessory.KeyFeature = modelGenerationSubModel.Equipment[gradeAccessory.ID].KeyFeature;
             }
 
             foreach (var gradeOption in options)
             {
-                //todo mapper
+                //todo refactor
                 gradeOption.KeyFeature = modelGenerationSubModel.Equipment[gradeOption.ID].KeyFeature;
             }
 
