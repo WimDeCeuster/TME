@@ -10,18 +10,20 @@ namespace TME.CarConfigurator.Publisher.Mappers
     {
         public IEnumerable<VisibleInModeAndView> GetVisibility(Administration.Assets.AssetSet assetSet)
         {
-            return assetSet.Assets.Select(asset => Tuple.Create(asset.AssetType.Details.Mode, asset.AssetType.Details.View))
-                                  .Distinct()
-                                  .Select(info => new VisibleInModeAndView { Mode = info.Item1, View = info.Item2 })
-                                  .Where(info => !String.IsNullOrWhiteSpace(info.View));
+            return GetVisibility(assetSet.Assets.Select(asset => asset.AssetType));
         }
 
         public IEnumerable<VisibleInModeAndView> GetVisibility(Administration.Assets.LinkedAssets linkedAssets)
         {
-            return linkedAssets.Select(asset => Tuple.Create(asset.AssetType.Details.Mode, asset.AssetType.Details.View))
-                               .Distinct()
-                               .Select(info => new VisibleInModeAndView { Mode = info.Item1, View = info.Item2 })
-                               .Where(info => !String.IsNullOrWhiteSpace(info.View));
+            return GetVisibility(linkedAssets.Select(asset => asset.AssetType));
+        }
+
+        private static IEnumerable<VisibleInModeAndView> GetVisibility(IEnumerable<Administration.Assets.AssetType> assetTypes)
+        {
+            return assetTypes.Where(assetType => !String.IsNullOrWhiteSpace(assetType.Details.View))
+                             .Select(assetType => Tuple.Create(assetType.Details.Mode, assetType.Details.View))
+                             .Distinct()
+                             .Select(info => new VisibleInModeAndView { Mode = info.Item1, View = info.Item2 });
         }
     }
 }
