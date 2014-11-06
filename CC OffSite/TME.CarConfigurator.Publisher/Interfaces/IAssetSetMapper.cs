@@ -10,5 +10,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
     public interface IAssetSetMapper
     {
         IEnumerable<VisibleInModeAndView> GetVisibility(Administration.Assets.AssetSet assetSet);
+        IEnumerable<VisibleInModeAndView> GetVisibility(Administration.Assets.LinkedAssets linkedAssets);
     }
 }

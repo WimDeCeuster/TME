@@ -46,6 +46,20 @@ namespace TME.CarConfigurator.S3.QueryServices
             return GetAssets(context, key);
         }
 
+        public IEnumerable<Asset> GetSubModelAssets(Guid publicationID, Guid subModelID, Guid objectID, Context context)
+        {
+            var key = _keyManager.GetDefaultSubModelAssetsKey(publicationID, subModelID, objectID);
+
+            return GetAssets(context, key);
+        }
+
+        public IEnumerable<Asset> GetSubModelAssets(Guid publicationID, Guid subModelID, Guid objectID, Context context, string view, string mode)
+        {
+            var key = _keyManager.GetSubModelAssetsKey(publicationID, subModelID, objectID, view, mode);
+
+            return GetAssets(context, key);
+        }
+
         public IEnumerable<Asset> GetCarAssets(Guid publicationId, Guid carId, Guid objectId, Context context, String view, string mode)
         {
             var key = _keyManager.GetCarAssetsKey(publicationId, carId, objectId, view, mode);

@@ -44,28 +44,28 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePackPublisher
             var gradeId3 = Guid.NewGuid();
             var gradeId4 = Guid.NewGuid();
 
-            var pack1 = new[] { new GradePack(), new GradePack(), new GradePack() };
-            var pack2 = new[] { new GradePack() };
-            var pack3 = new[] { new GradePack(), new GradePack() };
-            var pack4 = new[] { new GradePack() };
+            var packs1 = new[] { new GradePack(), new GradePack(), new GradePack() };
+            var packs2 = new[] { new GradePack() };
+            var packs3 = new[] { new GradePack(), new GradePack() };
+            var packs4 = new[] { new GradePack() };
 
             var timeFrame1 = new TimeFrameBuilder()
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
-                .WithGradePacks(gradeId1, pack1)
+                .WithGradePacks(gradeId1, packs1)
                 .Build();
             var timeFrame2 = new TimeFrameBuilder()
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
-                .WithGradePacks(gradeId1, pack1)
-                .WithGradePacks(gradeId2, pack2)
+                .WithGradePacks(gradeId1, packs1)
+                .WithGradePacks(gradeId2, packs2)
                 .Build();
             var timeFrame3 = new TimeFrameBuilder()
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
-                .WithGradePacks(gradeId3, pack3)
-                .WithGradePacks(gradeId4, pack4)
+                .WithGradePacks(gradeId3, packs3)
+                .WithGradePacks(gradeId4, packs4)
                 .Build();
             var timeFrame4 = new TimeFrameBuilder()
                 .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
-                .WithGradePacks(gradeId4, pack4)
+                .WithGradePacks(gradeId4, packs4)
                 .Build();
 
             var publicationTimeFrame1 = new PublicationTimeFrame { ID = timeFrame1.ID };
@@ -101,13 +101,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePackPublisher
             _service = new GradePackService(_s3Service, serialiser, keyManager);
             _publisher = new GradePacksPublisherBuilder().WithService(_service).Build();
 
-            A.CallTo(() => serialiser.Serialise(pack1))
+            A.CallTo(() => serialiser.Serialise(packs1))
                 .Returns(SerialisedObject1);
-            A.CallTo(() => serialiser.Serialise(pack2))
+            A.CallTo(() => serialiser.Serialise(packs2))
                 .Returns(SerialisedObject2);
-            A.CallTo(() => serialiser.Serialise(pack3))
+            A.CallTo(() => serialiser.Serialise(packs3))
                 .Returns(SerialisedObject3);
-            A.CallTo(() => serialiser.Serialise(pack4))
+            A.CallTo(() => serialiser.Serialise(packs4))
                 .Returns(SerialisedObject4);
 
             A.CallTo(() => keyManager.GetGradePacksKey(publication1.ID, publicationTimeFrame1.ID, gradeId1)).Returns(TimeFrame1Grade1Key);
@@ -124,21 +124,21 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePackPublisher
         }
 
         [Fact]
-        public void ThenGenerationGradeEquipmentsShouldBePutForAllLanguagesAndTimeFrames()
+        public void ThenGenerationGradePacksShouldBePutForAllLanguagesAndTimeFrames()
         {
             A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
                 .MustHaveHappened(Repeated.Exactly.Times(6));
         }
 
         [Fact]
-        public void ThenGenerationGradeEquipmentsShouldBePutForTimeFrame1()
+        public void ThenGenerationGradePacksShouldBePutForTimeFrame1()
         {
             A.CallTo(() => _s3Service.PutObjectAsync(Brand, Country, TimeFrame1Grade1Key, SerialisedObject1))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
-        public void ThenGenerationGradeEquipmentsShouldBePutForTimeFrame2()
+        public void ThenGenerationGradePacksShouldBePutForTimeFrame2()
         {
             A.CallTo(() => _s3Service.PutObjectAsync(Brand, Country, TimeFrame2Grade1Key, SerialisedObject1))
                 .MustHaveHappened(Repeated.Exactly.Once);
@@ -147,7 +147,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePackPublisher
         }
 
         [Fact]
-        public void ThenGenerationGradeEquipmentsShouldBePutForTimeFrame3()
+        public void ThenGenerationGradePacksShouldBePutForTimeFrame3()
         {
             A.CallTo(() => _s3Service.PutObjectAsync(Brand, Country, TimeFrame3Grade3Key, SerialisedObject3))
                 .MustHaveHappened(Repeated.Exactly.Once);
@@ -156,7 +156,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePackPublisher
         }
 
         [Fact]
-        public void ThenGenerationGradeEquipmentsShouldBePutForTimeFrame4()
+        public void ThenGenerationGradePacksShouldBePutForTimeFrame4()
         {
             A.CallTo(() => _s3Service.PutObjectAsync(Brand, Country, TimeFrame4Grade4Key, SerialisedObject4))
                 .MustHaveHappened(Repeated.Exactly.Once);

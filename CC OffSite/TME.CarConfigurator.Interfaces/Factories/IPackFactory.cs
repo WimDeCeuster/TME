@@ -8,5 +8,6 @@ namespace TME.CarConfigurator.Interfaces.Factories
     public interface IPackFactory
     {
         IReadOnlyList<IGradePack> GetGradePacks(Publication publication, Context context, Guid gradeId);
+        IReadOnlyList<IGradePack> GetSubModelGradePacks(Publication publication, Context context, Guid subModelID, Guid gradeId);
     }
 }

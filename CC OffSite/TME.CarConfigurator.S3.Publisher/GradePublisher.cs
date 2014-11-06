@@ -37,18 +37,8 @@ namespace TME.CarConfigurator.S3.Publisher
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            await _timeFramePublishHelper.PublishObjectsPerSubModel(context,timeFrame => timeFrame.SubModels, timeFrame => timeFrame.SubModelGrades,
-                        PublishSubModelGradeAsync);
-        }
-
-        private async Task PublishSubModelGradeAsync(string brand, string country, Guid publicationID, Guid timeFrameID, Guid subModelID, List<Grade> applicableGrades, IReadOnlyDictionary<Guid, IList<Grade>> subModelGrades)
-        {
-            var tasks = new List<Task>();
-            var gradesPerSubModel = subModelGrades.Where(entry => entry.Key == subModelID).SelectMany(entry => entry.Value).ToList();
-
-            tasks.Add(_gradeService.PutGradesPerSubModel(brand,country,publicationID,timeFrameID,subModelID,gradesPerSubModel));
-
-            await Task.WhenAll(tasks);
+            await _timeFramePublishHelper.PublishPerParent(context, timeFrame => timeFrame.SubModelGrades.Keys,
+                (timeFrame, subModelId) => timeFrame.SubModelGrades[subModelId], _gradeService.PutGradesPerSubModel);
         }
     }
 }

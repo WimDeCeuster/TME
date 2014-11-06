@@ -42,11 +42,11 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return new StartingPrice(Adaptee); }
         }
 
-        public IGrade BasedUpon
+        public IGradeInfo BasedUpon
         {
             get
             {
-                return Adaptee.BasedUpon==null ? null : new Grade(Adaptee.BasedUpon);
+                return Adaptee.BasedUpon==null ? null : new GradeInfo(Adaptee.BasedUpon);
             }
         }
 
@@ -71,4 +71,5 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return Adaptee.Packs.Cast<Legacy.PackCompareItem>().Select(x => new GradePack(x)).ToList(); }
         }
     }
+
 }

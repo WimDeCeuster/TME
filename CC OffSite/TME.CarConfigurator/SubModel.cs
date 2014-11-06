@@ -44,20 +44,11 @@ namespace TME.CarConfigurator
             get { throw new NotImplementedException(); }
         }
 
-        public IEnumerable<IGrade> Grades
-        {
-            get
-            {
-                return _grades = _grades ?? _gradeFactory.GetSubModelGrades(RepositoryObject.ID, _repositoryPublication, _repositoryContext);
-            }
-        }
+        public IEnumerable<IGrade> Grades { get { return _grades = _grades ?? _gradeFactory.GetSubModelGrades(RepositoryObject.ID, _repositoryPublication, _repositoryContext); } }
 
-        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
+        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication,ID,_repositoryContext); } }
 
-        public IEnumerable<ILink> Links
-        {
-            get { return _links = _links ?? RepositoryObject.Links.Select(l => new Link(l)).ToArray(); }
-        }
+        public IEnumerable<ILink> Links { get { return _links = _links ?? RepositoryObject.Links.Select(l => new Link(l)).ToArray(); } }
 
 
     }

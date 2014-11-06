@@ -34,9 +34,23 @@ namespace TME.CarConfigurator.S3.Publisher
                 Publish);
         }
 
-        private async Task Publish(string brand, string country, Guid publicationId, Guid timeFrameId, IReadOnlyDictionary<Guid, IList<GradePack>> gradePacks)
+        public async Task PublishSubModelGradePacksAsync(IContext context)
+        {
+            await _timeFramePublishHelper.PublishPerParent(
+                context,
+                timeFrame => timeFrame.SubModelGradePacks.Keys,
+                (timeFrame, subModelId) => timeFrame.SubModelGradePacks[subModelId],
+                Publish);
+        }
+
+        private async Task Publish(string brand, string country, Guid publicationId, Guid timeFrameId, IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>> gradePacks)
         {
             await Task.WhenAll(gradePacks.Select(entry => _service.PutAsync(brand, country, publicationId, timeFrameId, entry.Key, entry.Value)));
+        }
+
+        private async Task Publish(string brand, string country, Guid publicationId, Guid timeFrameId, Guid subModelId, IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>> gradePacks)
+        {
+            await Task.WhenAll(gradePacks.Select(entry => _service.PutSubModelGradePacksAsync(brand, country, publicationId, timeFrameId, subModelId, entry.Key, entry.Value)));
         }
     }
 }

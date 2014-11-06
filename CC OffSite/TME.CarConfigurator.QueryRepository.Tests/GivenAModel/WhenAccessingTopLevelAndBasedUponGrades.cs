@@ -19,7 +19,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         private Repository.Objects.Grade _grade1;
         private Repository.Objects.Grade _grade2;
         private IEnumerable<IGrade> _grades;
-        private IGrade _basedUponGrade;
+        private IGradeInfo _basedUponGrade;
         private IModel _model;
         private IGradeService _gradeService;
 
@@ -90,7 +90,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModel
         [Fact]
         public void ThenTheBasedUponGradeShouldBeTheSame()
         {
-            _basedUponGrade.Should().Be(_grades.First());
+            _basedUponGrade.ID.Should().Be(_grades.First().ID);
         }
     }
 }

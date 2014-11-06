@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Colours;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders
@@ -26,6 +27,16 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         public ExteriorColourBuilder WithExteriorColourType(ExteriorColourType type)
         {
             _colour.Type = type;
+
+            return this;
+        }
+
+        public ExteriorColourBuilder AddVisibleIn(String mode, String view)
+        {
+            if (_colour.VisibleIn == null)
+                _colour.VisibleIn = new List<VisibleInModeAndView>();
+
+            _colour.VisibleIn.Add(new VisibleInModeAndView { Mode = mode, View = view });
 
             return this;
         }

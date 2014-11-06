@@ -24,12 +24,13 @@ namespace TME.CarConfigurator.Publisher.Common
         public IReadOnlyList<Grade> Grades { get; private set; }
         public IReadOnlyDictionary<Guid, GradeEquipment> GradeEquipments { get; private set; }
         public IReadOnlyDictionary<Guid, IList<Grade>> SubModelGrades { get; private set; }
-        public IReadOnlyDictionary<Guid, IList<GradePack>> GradePacks { get; private set; }
+        public IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>> GradePacks { get; private set; }
         public IReadOnlyList<SubModel> SubModels { get; private set; }
         public IReadOnlyList<ColourCombination> ColourCombinations { get; private set; }
         public IReadOnlyList<EquipmentCategory> EquipmentCategories { get; private set; }
         public IReadOnlyList<SpecificationCategory> SpecificationCategories { get; set; }
         public IReadOnlyDictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>> SubModelGradeEquipments { get; set; }
+        public IReadOnlyDictionary<Guid, IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>>> SubModelGradePacks { get; set; }
 
         public readonly Guid ID;
 
@@ -45,12 +46,13 @@ namespace TME.CarConfigurator.Publisher.Common
             IReadOnlyList<Grade> grades,
             IReadOnlyDictionary<Guid, GradeEquipment> gradeEquipments,
             IReadOnlyDictionary<Guid, IList<Grade>> subModelGrades,
-            IReadOnlyDictionary<Guid, IList<GradePack>> gradePacks,
+            IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>> gradePacks,
             IReadOnlyList<SubModel> subModels,
             IReadOnlyList<ColourCombination> colourCombinations,
             IReadOnlyList<EquipmentCategory> equipmentCategories,
             IReadOnlyDictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>> subModelGradeEquipments,
-            IReadOnlyList<SpecificationCategory> specificationCategories)
+            IReadOnlyList<SpecificationCategory> specificationCategories,
+            IReadOnlyDictionary<Guid, IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>>> subModelGradePacks)
         {
             if (cars == null) throw new ArgumentNullException("cars");
             if (bodyTypes == null) throw new ArgumentNullException("bodyTypes");
@@ -67,6 +69,7 @@ namespace TME.CarConfigurator.Publisher.Common
             if (subModelGradeEquipments == null) throw new ArgumentNullException("subModelGradeEquipments");
             if (equipmentCategories == null) throw new ArgumentNullException("equipmentCategories");
             if (specificationCategories == null) throw new ArgumentNullException("specificationCategories");
+            if (subModelGradePacks == null) throw new ArgumentNullException("subModelGradePacks");
 
             From = from;
             Until = until;
@@ -85,9 +88,11 @@ namespace TME.CarConfigurator.Publisher.Common
             SubModelGradeEquipments = subModelGradeEquipments;
             EquipmentCategories = equipmentCategories;
             SpecificationCategories = specificationCategories;
+            SubModelGradePacks = subModelGradePacks;
 
             ID = Guid.NewGuid();
         }
+
 
     }
 }

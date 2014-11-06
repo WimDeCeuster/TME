@@ -8,6 +8,7 @@ namespace TME.CarConfigurator.CommandServices
 {
     public interface IGradePackService
     {
-        Task PutAsync(string brand, string country, Guid publicationId, Guid timeFrameId, Guid gradeId, IList<GradePack> packs);
+        Task PutAsync(string brand, string country, Guid publicationId, Guid timeFrameId, Guid gradeId, IEnumerable<GradePack> packs);
+        Task PutSubModelGradePacksAsync(string brand, string country, Guid publicationId, Guid timeFrameId, Guid subModelId, Guid gradeId, IEnumerable<GradePack> packs);
     }
 }

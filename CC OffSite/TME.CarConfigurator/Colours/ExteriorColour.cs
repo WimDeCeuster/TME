@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using TME.CarConfigurator.Assets;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
@@ -17,6 +19,7 @@ namespace TME.CarConfigurator.Colours
         private ColourTransformation _transformation;
         private ExteriorColourType _type;
         private IReadOnlyList<IAsset> _assets;
+        private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
 
         public ExteriorColour(Repository.Objects.Colours.ExteriorColour repoColor, Publication publication, Context context, IAssetFactory assetFactory)
             : base(repoColor)
@@ -49,8 +52,7 @@ namespace TME.CarConfigurator.Colours
         {
             get
             {
-                //TODO: provide implementation
-                return new List<IVisibleInModeAndView>();
+                return _fetchedVisibleInModeAndViews = _fetchedVisibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, _publication, _context, _assetFactory)).ToList();
             }
         }
 

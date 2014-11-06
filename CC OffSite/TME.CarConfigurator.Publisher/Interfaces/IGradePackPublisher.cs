@@ -8,5 +8,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
     public interface IGradePackPublisher
     {
         Task PublishAsync(IContext context);
+        Task PublishSubModelGradePacksAsync(IContext context);
     }
 }

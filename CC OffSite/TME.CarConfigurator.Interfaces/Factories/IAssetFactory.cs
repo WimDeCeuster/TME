@@ -12,6 +12,8 @@ namespace TME.CarConfigurator.Interfaces.Factories
         IReadOnlyList<IAsset> GetAssets(Publication publication, Guid objectId, Context context, string view, string mode);
         IReadOnlyList<IAsset> GetCarAssets(Publication publication, Guid carId, Guid objectId, Context context);
         IReadOnlyList<IAsset> GetCarAssets(Publication publication, Guid carId, Guid objectId, Context context, string view, string mode);
+        IReadOnlyList<IAsset> GetSubModelAssets(Publication publication, Guid subModelID, Guid objectID, Context context);
+        IReadOnlyList<IAsset> GetSubModelAssets(Publication publication, Guid subModelID, Guid objectID, Context context, string view, string mode);
         // ReSharper restore ReturnTypeCanBeEnumerable.Global
     }
 }

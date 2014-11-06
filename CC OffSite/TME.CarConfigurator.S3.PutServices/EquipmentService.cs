@@ -46,8 +46,7 @@ namespace TME.CarConfigurator.S3.CommandServices
             await _service.PutObjectAsync(brand, country, path, value);
         }
 
-        public async Task PutPerSubModel(String brand, String country, Guid publicationID, Guid timeFrameID, Guid subModelID, Guid gradeID,
-            GradeEquipment gradeEquipment)
+        public async Task PutPerSubModel(String brand, String country, Guid publicationID, Guid timeFrameID, Guid subModelID, Guid gradeID, GradeEquipment gradeEquipment)
         {
             if (brand == null) throw new ArgumentNullException("brand");
             if (country == null) throw new ArgumentNullException("country");

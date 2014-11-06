@@ -134,5 +134,26 @@ namespace TME.Carconfigurator.Tests.Builders
         {
             return _context;
         }
+
+        public ContextBuilder AddSubModelAsset(string language, Guid subModelID, Guid objectId, Asset asset)
+        {
+            var data = _context.ContextData[language];
+
+            var subModelAssets = data.SubModelAssets;
+
+            if(!subModelAssets.ContainsKey(subModelID))
+                subModelAssets.Add(subModelID,new Dictionary<Guid, IList<Asset>>());
+
+            var objectAssets = subModelAssets[subModelID];
+
+            if (!objectAssets.ContainsKey(objectId))
+                objectAssets.Add(objectId,new List<Asset>());
+
+            var assets = objectAssets[objectId];
+
+            assets.Add(asset);
+
+            return this;
+        }
     }
 }

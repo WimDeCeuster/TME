@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Assets\Asset.cs" />
     <Compile Include="Assets\AssetType.cs" />
+    <Compile Include="Assets\SubModelVisibleInModeAndView.cs" />
     <Compile Include="BodyType.cs" />
     <Compile Include="Car.cs" />
     <Compile Include="CarBodyType.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Equipment\GradeAccessory.cs" />
     <Compile Include="Equipment\GradeEquipment.cs" />
     <Compile Include="Equipment\GradeEquipmentItem.cs" />
+    <Compile Include="GradeInfo.cs" />
     <Compile Include="Packs\GradePack.cs" />
     <Compile Include="Equipment\OptionInfo.cs" />
     <Compile Include="SubModel.cs" />
