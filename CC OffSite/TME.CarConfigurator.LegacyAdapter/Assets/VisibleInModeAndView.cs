@@ -18,6 +18,11 @@ namespace TME.CarConfigurator.LegacyAdapter
             internal set;
         }
 
+        public bool HasMode
+        {
+            get { return !string.IsNullOrWhiteSpace(Mode); }
+        }
+
         public IEnumerable<IAsset> Assets
         {
             get;

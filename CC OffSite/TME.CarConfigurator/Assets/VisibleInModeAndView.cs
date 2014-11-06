@@ -34,14 +34,19 @@ namespace TME.CarConfigurator.Assets
             AssetFactory = assetFactory;
         }
 
-
         public string Mode
         {
             get { return _repositoryVisibleInModeAndView.Mode; }
         }
+
         public string View
         {
             get { return _repositoryVisibleInModeAndView.View; }
+        }
+
+        public bool HasMode
+        {
+            get { return !String.IsNullOrWhiteSpace(Mode); }
         }
 
         public virtual IEnumerable<IAsset> Assets
