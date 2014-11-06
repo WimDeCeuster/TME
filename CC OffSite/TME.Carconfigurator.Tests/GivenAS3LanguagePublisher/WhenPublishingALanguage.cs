@@ -49,7 +49,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3LanguagePublisher
 
         protected override void Act()
         {
-            var result = _publisher.PublishModelsByLanguage(_context, _languages).Result;
+           _publisher.PublishModelsByLanguage(_context, _languages).Wait();
         }
 
         [Fact]

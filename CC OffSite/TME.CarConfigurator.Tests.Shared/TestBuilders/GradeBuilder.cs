@@ -40,7 +40,13 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 
         public GradeBuilder WithBasedUponGradeID(Guid guid)
         {
-            _grade.BasedUponGradeID = guid;
+            if (guid == Guid.Empty)
+            {
+                _grade.BasedUpon = null;
+                return this;
+            }
+
+            _grade.BasedUpon = new GradeInfo() {ID = guid};
 
             return this;
         }

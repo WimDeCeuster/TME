@@ -2,8 +2,9 @@ using System;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
-using TME.CarConfigurator.Publisher.Common.Result;
+using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Publisher.Progress;
 
 namespace TME.CarConfigurator.Publisher
 {
@@ -21,20 +22,42 @@ namespace TME.CarConfigurator.Publisher
             _mapper = mapper;
         }
 
-        public async Task<Result> PublishAsync(Guid generationID, String environment, String target, String brand, String country, PublicationDataSubset dataSubset)
+        public async Task PublishAsync(Guid generationID, string environment, string target, string brand, string country, PublicationDataSubset dataSubset, IProgress<PublishProgress> progress)
         {
             if (String.IsNullOrWhiteSpace(environment)) throw new ArgumentNullException("environment");
             if (String.IsNullOrWhiteSpace(target)) throw new ArgumentNullException("target");
             if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand");
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
-            
+
             var context = new Context(brand, country, generationID, dataSubset);
 
-            await _mapper.MapAsync(context);
+            await MapAsync(progress, context);
 
+            await PublishAsync(environment, target, dataSubset, context, progress);
+        }
+
+        private async Task MapAsync(IProgress<PublishProgress> progress, Context context)
+        {
+            var startOfMapping = DateTime.Now;
+
+            progress.Report(new PublishProgress("Mapping started"));
+
+            await _mapper.MapAsync(context, progress);
+
+            progress.Report(new PublishProgress(string.Format("Mapping completed after {0} seconds", DateTime.Now.Subtract(startOfMapping).TotalSeconds)));
+        }
+
+        private async Task PublishAsync(string environment, string target, PublicationDataSubset dataSubset, IContext context, IProgress<PublishProgress> progress)
+        {
             var publisher = _publisherFactory.GetPublisher(target, environment, dataSubset);
 
-            return await publisher.PublishAsync(context);
+            var startOfPublishing = DateTime.Now;
+
+            progress.Report(new PublishProgress("Publishing started"));
+
+            await publisher.PublishAsync(context);
+
+            progress.Report(new PublishProgress(string.Format("Publishing completed after {0} seconds", DateTime.Now.Subtract(startOfPublishing).TotalSeconds)));
         }
     }
 }

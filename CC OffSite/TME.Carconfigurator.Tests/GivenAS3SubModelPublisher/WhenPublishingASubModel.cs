@@ -105,7 +105,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3SubModelPublisher
 
         protected override void Act()
         {
-            var result = _subModelPublisher.PublishGenerationSubModelsAsync(_context).Result;
+             _subModelPublisher.PublishGenerationSubModelsAsync(_context).Wait();
         }
 
         [Fact]

@@ -14,21 +14,19 @@ namespace TME.CarConfigurator
 {
     public class Grade : BaseObject<Repository.Objects.Grade>, IGrade
     {
-        private readonly Repository.Objects.Publication _repositoryPublication;
-        private readonly Repository.Objects.Context _repositoryContext;
-        private readonly IAssetFactory _assetFactory;
-        private readonly IGradeEquipmentFactory _gradeEquipmentFactory;
-        private readonly IPackFactory _packFactory;
-        private IEnumerable<IAsset> _fetchedAssets;
-        private IEnumerable<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
-        private IReadOnlyList<IGradeEquipmentItem> _equipmentItems;
-        private IGradeEquipment _gradeEquipment;
-        private IEnumerable<IGradePack> _packs;
+        private IReadOnlyList<IAsset> _fetchedAssets;
+        private IGradeEquipment _fetchedEquipment;
+        private IReadOnlyList<IGradePack> _fetchedPacks;
+        private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
+        private Price _price;
 
-        Price _price;
-        readonly IGrade _basedUponGrade;
+        protected readonly Repository.Objects.Publication RepositoryPublication;
+        protected readonly Repository.Objects.Context RepositoryContext;
+        protected readonly IAssetFactory AssetFactory;
+        protected readonly IPackFactory PackFactory;
+        protected readonly IEquipmentFactory EquipmentFactory;
 
-        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IGrade basedUponGrade, IAssetFactory assetFactory, IGradeEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
+        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory, IEquipmentFactory equipmentFactory, IPackFactory packFactory)
             : base(repositoryGrade)
         {
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
@@ -36,43 +34,66 @@ namespace TME.CarConfigurator
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
             if (packFactory == null) throw new ArgumentNullException("packFactory");
 
-            _repositoryPublication = repositoryPublication;
-            _repositoryContext = repositoryContext;
-            _basedUponGrade = basedUponGrade;
-            _assetFactory = assetFactory;
-            _gradeEquipmentFactory = gradeEquipmentFactory;
-            _packFactory = packFactory;
+            RepositoryPublication = repositoryPublication;
+            RepositoryContext = repositoryContext;
+            AssetFactory = assetFactory;
+            EquipmentFactory = equipmentFactory;
+            PackFactory = packFactory;
         }
 
         public bool Special { get { return RepositoryObject.Special; } }
 
-        public IGrade BasedUpon { get { return _basedUponGrade; } }
+   
 
         public IPrice StartingPrice { get { return _price = _price ?? new Price(RepositoryObject.StartingPrice); } }
 
-        public virtual IEnumerable<IVisibleInModeAndView> VisibleIn
+        public IGradeInfo BasedUpon
         {
             get
             {
-                return _fetchedVisibleInModeAndViews = _fetchedVisibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, _repositoryPublication, _repositoryContext, _assetFactory)).ToList();
+                return RepositoryObject.BasedUpon == null ? null : new GradeInfo(RepositoryObject.BasedUpon);
             }
         }
 
-        public virtual IEnumerable<IAsset> Assets { get { return _fetchedAssets = _fetchedAssets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
-
-        public IGradeEquipment GradeEquipment
+        public virtual IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
-            get { return _gradeEquipment = _gradeEquipment ?? _gradeEquipmentFactory.GetGradeEquipment(_repositoryPublication, _repositoryContext, ID); }
+            get
+            {
+                return _fetchedVisibleInModeAndViews = _fetchedVisibleInModeAndViews ?? FetchVisibleInModeAndViews();
+            }
         }
 
-        public IEnumerable<IGradeEquipmentItem> Equipment
+        public IReadOnlyList<IAsset> Assets { get { return _fetchedAssets = _fetchedAssets ?? FetchAssets(); } }
+
+        public IGradeEquipment Equipment
         {
-            get { return _equipmentItems = _equipmentItems ?? GradeEquipment.Accessories.Cast<IGradeEquipmentItem>().Concat(GradeEquipment.Options).ToList(); }
+            get { return _fetchedEquipment = _fetchedEquipment ?? FetchEquipment(); }
         }
 
-        public IEnumerable<IGradePack> Packs
+
+        public IReadOnlyList<IGradePack> Packs
         {
-            get { return _packs = _packs ?? _packFactory.GetGradePacks(_repositoryPublication, _repositoryContext, RepositoryObject.ID); }
+            get { return _fetchedPacks = _fetchedPacks ?? FetchPacks(); }
+        }
+
+        protected virtual IReadOnlyList<VisibleInModeAndView> FetchVisibleInModeAndViews()
+        {
+            return RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
+        }
+
+        protected virtual IReadOnlyList<IAsset> FetchAssets()
+        {
+            return AssetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext);
+        }
+
+        protected virtual IGradeEquipment FetchEquipment()
+        {
+            return EquipmentFactory.GetGradeEquipment(RepositoryPublication, RepositoryContext, ID);
+        }
+
+        protected virtual IReadOnlyList<IGradePack> FetchPacks()
+        {
+            return PackFactory.GetGradePacks(RepositoryPublication, RepositoryContext, RepositoryObject.ID);
         }
     }
 }

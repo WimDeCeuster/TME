@@ -22,8 +22,16 @@ namespace TME.CarConfigurator.S3.QueryServices
 
         public IEnumerable<GradePack> GetGradePacks(Guid publicationId, Guid publicationTimeFrameId, Guid gradeId, Context context)
         {
-            var key = _keyManager.GetGradePacksKey(publicationId, publicationTimeFrameId, gradeId);
+            return GetGradePacks(context, _keyManager.GetGradePacksKey(publicationId, publicationTimeFrameId, gradeId));
+        }
 
+        public IEnumerable<GradePack> GetSubModelGradePacks(Guid publicationId, Guid publicationTimeFrameId, Guid gradeId, Guid subModelId, Context context)
+        {
+            return GetGradePacks(context, _keyManager.GetSubModelGradePacksKey(publicationId, publicationTimeFrameId, gradeId, subModelId));
+        }
+
+        private IEnumerable<GradePack> GetGradePacks(Context context, string key)
+        {
             var serializedPacks = _service.GetObject(context.Brand, context.Country, key);
 
             return _serializer.Deserialise<IEnumerable<GradePack>>(serializedPacks);

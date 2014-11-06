@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Assets;
-using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
-using ExteriorColour = TME.CarConfigurator.LegacyAdapter.Colours.ExteriorColour;
 using Visibility = TME.CarConfigurator.Interfaces.Enums.Visibility;
 
 namespace TME.CarConfigurator.LegacyAdapter.Equipment
@@ -86,7 +83,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
 
         public IBestVisibleIn BestVisibleIn
         {
-            get { throw new System.NotImplementedException(); }
+            get { return new BestVisibleIn(GetCarEquipmentItem().BestVisibleIn); }
         }
 
         public ICategoryInfo Category
@@ -99,16 +96,12 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
             get
             {
                 var colour = GetCarEquipmentItem().Colour;
-                if (colour.IsEmpty()) return null;
-
-                var carColour = GetCar().Colours.ExteriorColours[colour.ID];
-                if (carColour == null) return null;
-                return new Colours.ExteriorColour(carColour);
+                return colour.IsEmpty() ? null : new ExteriorColour(colour);
             }
         }
-        public IEnumerable<ILink> Links
+        public IReadOnlyList<ILink> Links
         {
-            get { return GetCarEquipmentItem().Links.Cast<TMME.CarConfigurator.Link>().Select(x => new Link(x)); }
+            get { return GetCarEquipmentItem().Links.Cast<TMME.CarConfigurator.Link>().Select(x => new Link(x)).ToList(); }
         }
 
         public bool Standard

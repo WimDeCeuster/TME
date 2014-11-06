@@ -44,11 +44,12 @@
     <Compile Include="ICarService.cs" />
     <Compile Include="IColourService.cs" />
     <Compile Include="IColourCombinationService.cs" />
-    <Compile Include="IGradeEquipmentService.cs" />
+    <Compile Include="IEquipmentService.cs" />
     <Compile Include="IGradePackService.cs" />
     <Compile Include="ISteeringService.cs" />
     <Compile Include="IGradeService.cs" />
     <Compile Include="ISubModelService.cs" />
+    <Compile Include="ISpecificationService.cs" />
     <Compile Include="IWheelDriveService.cs" />
     <Compile Include="ITransmissionService.cs" />
     <Compile Include="IEngineService.cs" />

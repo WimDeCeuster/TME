@@ -76,6 +76,8 @@
     <Compile Include="CarConfiguratorPublisher.cs" />
     <Compile Include="Exceptions\UnrecognisedItemVisibilityException.cs" />
     <Compile Include="Extensions\AssetSetAssetExtensions.cs" />
+    <Compile Include="Extensions\AvailabilityPropertiesExtensions.cs" />
+    <Compile Include="Extensions\CarsExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\LinkExtensions.cs" />
     <Compile Include="Interfaces\IAssetFileService.cs" />
@@ -90,13 +92,14 @@
     <Compile Include="Interfaces\ICarConfiguratorVersionMapper.cs" />
     <Compile Include="Interfaces\ICarMapper.cs" />
     <Compile Include="Interfaces\ICarPublisher.cs" />
-    <Compile Include="Interfaces\ICategoryInfoMapper.cs" />
+    <Compile Include="Interfaces\ICategoryMapper.cs" />
     <Compile Include="Interfaces\IColourCombinationPublisher.cs" />
     <Compile Include="Interfaces\IColourMapper.cs" />
     <Compile Include="Interfaces\IBaseMapper.cs" />
     <Compile Include="Interfaces\IEngineCategoryMapper.cs" />
     <Compile Include="Interfaces\IEngineMapper.cs" />
-    <Compile Include="Interfaces\IGradeEquipmentPublisher.cs" />
+    <Compile Include="Interfaces\ISpecificationPublisher.cs" />
+    <Compile Include="Interfaces\IEquipmentPublisher.cs" />
     <Compile Include="Interfaces\IEquipmentMapper.cs" />
     <Compile Include="Interfaces\IGradePackPublisher.cs" />
     <Compile Include="Interfaces\IPackMapper.cs" />
@@ -133,7 +136,7 @@
     <Compile Include="Mappers\CarConfiguratorVersionMapper.cs" />
     <Compile Include="Mappers\CarMapper.cs" />
     <Compile Include="Mappers\BaseMapper.cs" />
-    <Compile Include="Mappers\CategoryInfoMapper.cs" />
+    <Compile Include="Mappers\CategoryMapper.cs" />
     <Compile Include="Mappers\ColourMapper.cs" />
     <Compile Include="Mappers\EngineCategoryMapper.cs" />
     <Compile Include="Mappers\EngineMapper.cs" />
@@ -156,6 +159,7 @@
     <Compile Include="Mappers\WheelDriveMapper.cs" />
     <Compile Include="Mappers\TransmissionMapper.cs" />
     <Compile Include="Mappers\TransmissionTypeMapper.cs" />
+    <Compile Include="Progress\PublishProgress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publisher.cs" />
     <Compile Include="Services\AssetFileService.cs" />

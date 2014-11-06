@@ -2,10 +2,8 @@
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
-using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
-using ExteriorColour = TME.CarConfigurator.LegacyAdapter.Colours.ExteriorColour;
 using Visibility = TME.CarConfigurator.Interfaces.Enums.Visibility;
 
 namespace TME.CarConfigurator.LegacyAdapter.Equipment
@@ -95,23 +93,13 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
             get
             {
                 var colour = Adaptee.Colour;
-                if (colour.IsEmpty()) return null;
-
-                
-                var carColour = GenerationOfAdaptee.ExteriorColours[colour.ID];
-                if (carColour == null) return null;
-                return new Colours.ExteriorColour(carColour);
+                return colour.IsEmpty() ? null : new ExteriorColour(colour);
             }
         }
-
-        public IEnumerable<IAsset> Assets
+        
+        public IReadOnlyList<ILink> Links
         {
-            get { return Adaptee.Assets.GetPlainAssets(); }
-        }
-
-        public IEnumerable<ILink> Links
-        {
-            get { return Adaptee.Links.Cast<TMME.CarConfigurator.Link>().Select(x => new Link(x)); }
+            get { return Adaptee.Links.Cast<TMME.CarConfigurator.Link>().Select(x => new Link(x)).ToList(); }
         }
     }
 }

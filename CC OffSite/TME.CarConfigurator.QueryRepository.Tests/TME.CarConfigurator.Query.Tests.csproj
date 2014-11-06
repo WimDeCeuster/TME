@@ -69,6 +69,11 @@
     <Compile Include="GivenACarBodyType\WhenAccessingIts3DAssetsASecondTime.cs" />
     <Compile Include="GivenACarBodyType\WhenAccessingItsAssets.cs" />
     <Compile Include="GivenACarBodyType\WhenAccessingItsAssetsASecondTime.cs" />
+    <Compile Include="GivenACarTransmission\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenACarTransmission\WhenAccessingIts3DAssetsForASecondTime.cs" />
+    <Compile Include="GivenACarTransmission\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarTransmission\WhenAccessingItsAssets.cs" />
+    <Compile Include="GivenACarTransmission\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsEngineForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBodyTypeForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsEngineForTheSecondTime.cs" />
@@ -77,6 +82,8 @@
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheSecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsTransmissionForTheFirstTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsTransmissionsForTheSecondTime.cs" />
     <Compile Include="GivenAColourCombination\WhenAccessingItsUpholsteryForTheFirstTime.cs" />
     <Compile Include="GivenAColourCombination\WhenAccessingItsExteriorColourForTheFirstTime.cs" />
     <Compile Include="GivenAColourCombination\WhenAccessingItsUpholsteryForTheSecondTime.cs" />
@@ -111,8 +118,8 @@
     <Compile Include="GivenAGrade\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenAGrade\WhenAccessingIts3DAssets.cs" />
     <Compile Include="GivenAGrade\WhenAccessingIts3DAssetsASecondTime.cs" />
-    <Compile Include="GivenAGrade\WhenAccessingItsGradeEquipmentForTheSecondTime.cs" />
-    <Compile Include="GivenAGrade\WhenAccessingItsGradeEquipment.cs" />
+    <Compile Include="GivenAGrade\WhenAccessingItsEquipmentForTheSecondTime.cs" />
+    <Compile Include="GivenAGrade\WhenAccessingItsEquipment.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsAssets.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsNonExistentBasedUponGrade.cs" />
@@ -124,9 +131,17 @@
     <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheFirstTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsBasedUponGradeForTheSecondTime.cs" />
     <Compile Include="GivenAGrade\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
+    <Compile Include="GivenAModelEquipment\WhenAccessingItsCategoriesForTheSecondTime.cs" />
+    <Compile Include="GivenAModelSpecifications\WhenAccessingItsCategoriesForTheFirstTime.cs" />
+    <Compile Include="GivenAModelEquipment\WhenAccessingItsCategoriesForTheFirstTime.cs" />
+    <Compile Include="GivenAModelSpecifications\WhenAccessingItsCategoriesForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarsForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsCarsForTheSecondTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsSpecificationsForTheFirstTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsEquipmentForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsColourCombinationsForTheFirstTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsSpecificationsForTheSecondTime.cs" />
+    <Compile Include="GivenAModel\WhenAccessingItsEquipmentForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsColourCombinationsForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsSteeringsForTheFirstTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsGradesForTheFirstTime.cs" />
@@ -169,10 +184,31 @@
     <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />
+    <Compile Include="GivenASpecificationCategory\WhenAccessingItsNonExistentParent.cs" />
+    <Compile Include="GivenASpecificationCategory\WhenAccessingItsParentForTheFirstTime.cs" />
+    <Compile Include="GivenASpecificationCategory\WhenAccessingItsParentForTheSecondTime.cs" />
+    <Compile Include="GivenAnEquipmentCategory\WhenAccessingItsNonExistentParent.cs" />
+    <Compile Include="GivenAnEquipmentCategory\WhenAccessingItsParentForTheFirstTime.cs" />
+    <Compile Include="GivenAnEquipmentCategory\WhenAccessingItsParentForTheSecondTime.cs" />
+    <Compile Include="GivenAnExteriorColour\WhenAccessingItsAssets.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GivenAnExteriorColour\WhenAccessingItsAssetsASecondTime.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GivenAnExteriorColour\WhenAccessingItsExteriorColourTypeForTheFirstTime.cs" />
     <Compile Include="GivenAnExteriorColour\WhenAccessingItsExteriorColourTypeForTheSecondTime.cs" />
+    <Compile Include="GivenAnUpholstery\WhenAccessingItsAssets.cs" />
+    <Compile Include="GivenAnUpholstery\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenAnUpholstery\WhenAccessingItsUpholsteryTypeForTheFirstTime.cs" />
     <Compile Include="GivenAnUpholstery\WhenAccessingItsUpholsteryTypeForTheSecondTime.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessingItsAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessingItsAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessingItsEquipmentForTheFirstTime.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessingItsEquipmentForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsGradesForTheFirstTime.cs" />
@@ -208,8 +244,15 @@
     <Compile Include="Services\GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
     <Compile Include="Services\GivenACarService\WhenGetCarsIsCalled.cs" />
     <Compile Include="Services\GivenAColourService\WhenGetColourCombinationsIsCalled.cs" />
-    <Compile Include="Services\GivenAGradeEquipmentService\WhenGetGradeEquipmentIsCalled.cs" />
+    <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledFor2DAssets.cs" />
+    <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledFor3DAssets.cs" />
+    <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledForNonExistent2DAssets.cs" />
+    <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledForNonExistent3DAssets.cs" />
+    <Compile Include="Services\GivenAnEquipmentService\WhenGetEquipmentCategoriesIsCalled.cs" />
+    <Compile Include="Services\GivenAnEquipmentService\WhenGetGradeEquipmentIsCalled.cs" />
+    <Compile Include="Services\GivenAnEquipmentService\WhenGetSubModelGradeEquipmentIsCalled.cs" />
     <Compile Include="Services\GivenAGradeService\WhenGetGradesIsCalled.cs" />
+    <Compile Include="Services\GivenAGradeService\WhenGetSubModelGradeIsCalled.cs" />
     <Compile Include="Services\GivenAModelService\WhenGeGetModelsByLanguageIsCalled.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledForNonExistent3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledForNonExistent2DAssets.cs" />
@@ -220,6 +263,7 @@
     <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenAPackService\WhenGetGradePacksIsCalled.cs" />
+    <Compile Include="Services\GivenASpecificationsService\WhenGetSpecificationCategoriesIsCalled.cs" />
     <Compile Include="Services\GivenASteeringService\WhenGetSteeringsIsCalled.cs" />
     <Compile Include="Services\GivenASubModelService\WhenGetSubModelIsCalled.cs" />
     <Compile Include="Services\GivenAWheelDriveService\WhenGetWheelDrivesIsCalled.cs" />
@@ -234,7 +278,8 @@
     <Compile Include="TestBuilders\ContextBuilder.cs" />
     <Compile Include="TestBuilders\EngineCategoryBuilder.cs" />
     <Compile Include="TestBuilders\ColourFactoryBuilder.cs" />
-    <Compile Include="TestBuilders\GradeEquipmentFactoryBuilder.cs" />
+    <Compile Include="TestBuilders\SpecificationFactoryBuilder.cs" />
+    <Compile Include="TestBuilders\EquipmentFactoryBuilder.cs" />
     <Compile Include="TestBuilders\GradeFactoryBuilder.cs" />
     <Compile Include="TestBuilders\PackFactoryBuilder.cs" />
     <Compile Include="TestBuilders\SteeringFactoryBuilder.cs" />

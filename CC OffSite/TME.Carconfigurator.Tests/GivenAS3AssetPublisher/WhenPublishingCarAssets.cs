@@ -49,10 +49,10 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
                 .Build();
 
             // act
-            await assetPublisher.PublishCarAssetsAsync(context);
+            await assetPublisher.PublishAsync(context);
 
             // assert
-            A.CallTo(() => assetService.PutAssetsByModeAndView(A<string>._, A<string>._, A<Guid>._, A<Guid>._, A<Guid>._, A<string>._, A<string>._, A<IEnumerable<Asset>>._))
+            A.CallTo(() => assetService.PutCarAssetsByModeAndView(A<string>._, A<string>._, A<Guid>._, A<Guid>._, A<Guid>._, A<string>._, A<string>._, A<IEnumerable<Asset>>._))
                 .WhenArgumentsMatch(args =>
                 {
                     var passedMode = (string)args[5];
@@ -68,10 +68,10 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
                 })
                 .MustHaveHappened(Repeated.Exactly.Once);
 
-            A.CallTo(() => assetService.PutAssetsByModeAndView(A<string>._, A<string>._, A<Guid>._, A<Guid>._, A<Guid>._, incorrectAssetType.Mode, incorrectAssetType.View, A<IEnumerable<Asset>>._))
+            A.CallTo(() => assetService.PutCarAssetsByModeAndView(A<string>._, A<string>._, A<Guid>._, A<Guid>._, A<Guid>._, incorrectAssetType.Mode, incorrectAssetType.View, A<IEnumerable<Asset>>._))
                 .MustHaveHappened(Repeated.Exactly.Once);
 
-            A.CallTo(() => assetService.PutDefaultAssets(A<string>._, A<string>._, A<Guid>._, A<Guid>._, A<Guid>._, A<IEnumerable<Asset>>._))
+            A.CallTo(() => assetService.PutDefaultCarAssets(A<string>._, A<string>._, A<Guid>._, A<Guid>._, A<Guid>._, A<IEnumerable<Asset>>._))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
     }

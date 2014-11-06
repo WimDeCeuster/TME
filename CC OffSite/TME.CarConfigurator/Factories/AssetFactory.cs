@@ -48,6 +48,21 @@ namespace TME.CarConfigurator.Factories
             return TransformIntoNonRepoAssets(repoAssets);
         }
 
+        public IReadOnlyList<IAsset> GetSubModelAssets(Publication publication, Guid subModelID, Guid objectID, Context context)
+        {
+            var repoAssets = _assetService.GetSubModelAssets(publication.ID, subModelID, objectID, context);
+
+            return TransformIntoNonRepoAssets(repoAssets);
+        }
+
+        public IReadOnlyList<IAsset> GetSubModelAssets(Publication publication, Guid subModelID, Guid objectID, Context context, string view,
+            string mode)
+        {
+            var repoAssets = _assetService.GetSubModelAssets(publication.ID, subModelID, objectID, context, view, mode);
+
+            return TransformIntoNonRepoAssets(repoAssets);
+        }
+
         private static IReadOnlyList<Asset> TransformIntoNonRepoAssets(IEnumerable<Repository.Objects.Assets.Asset> repoAssets)
         {
             return repoAssets.Select(a => new Asset(a)).ToArray();

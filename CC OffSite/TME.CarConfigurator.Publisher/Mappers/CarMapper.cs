@@ -66,7 +66,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
 
 
-            return _baseMapper.MapDefaults(mappedCar, car, car);
+            return _baseMapper.MapDefaults(mappedCar, car);
         }
 
         public CarInfo MapCarInfo(Administration.Car car)

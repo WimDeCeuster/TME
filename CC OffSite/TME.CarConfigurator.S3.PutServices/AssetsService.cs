@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
-using TME.CarConfigurator.Publisher.Common.Result;
+
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
@@ -21,36 +21,49 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keyManager = keyManager;
         }
 
-        public async Task<Result> PutAssetsByModeAndView(string brand, string country, Guid publicationID, Guid objectID, string mode, string view, IEnumerable<Asset> assets)
+        public async Task PutDefaultAssets(string brand, string country, Guid publicationID, Guid objectID, IEnumerable<Asset> assets)
+        {
+            var path = _keyManager.GetDefaultAssetsKey(publicationID, objectID);
+            await PutAssets(brand, country, path, assets);
+        }
+
+        public async Task PutAssetsByModeAndView(string brand, string country, Guid publicationID, Guid objectID, string mode, string view, IEnumerable<Asset> assets)
         {
             var path = _keyManager.GetAssetsKey(publicationID, objectID, view, mode);
 
-            return await PutAssets(brand, country, path, assets);
+            await PutAssets(brand, country, path, assets);
         }
 
-        public async Task<Result> PutAssetsByModeAndView(string brand, string country, Guid publicationID, Guid carID, Guid objectID, string mode, string view, IEnumerable<Asset> assets)
+        public async Task PutDefaultCarAssets(string brand, string country, Guid publicationID, Guid carID, Guid objectID, IEnumerable<Asset> assets)
         {
-            var path = _keyManager.GetAssetsKey(publicationID, carID, objectID, view, mode);
-
-            return await PutAssets(brand, country, path, assets);
+            var path = _keyManager.GetDefaultCarAssetsKey(publicationID, carID, objectID);
+            await PutAssets(brand, country, path, assets);
         }
 
-        public async Task<Result> PutDefaultAssets(string brand, string country, Guid publicationID, Guid objectID, IEnumerable<Asset> assets)
+        public async Task PutCarAssetsByModeAndView(string brand, string country, Guid publicationID, Guid carID, Guid objectID, string mode, string view, IEnumerable<Asset> assets)
         {
-            var path = _keyManager.GetDefaultAssetsKey(publicationID, objectID);
-            return await PutAssets(brand, country, path, assets);
+            var path = _keyManager.GetCarAssetsKey(publicationID, carID, objectID, view, mode);
+
+            await PutAssets(brand, country, path, assets);
         }
 
-        public async Task<Result> PutDefaultAssets(string brand, string country, Guid publicationID, Guid carID, Guid objectID, IEnumerable<Asset> assets)
+        public async Task PutDefaultSubModelAssets(string brand, string country, Guid publicationID, Guid subModelID, Guid objectID, IEnumerable<Asset> assets)
         {
-            var path = _keyManager.GetDefaultAssetsKey(publicationID, carID, objectID);
-            return await PutAssets(brand, country, path, assets);
+            var path = _keyManager.GetDefaultSubModelAssetsKey(publicationID, subModelID, objectID);
+            await PutAssets(brand, country, path, assets);
         }
 
-        private async Task<Result> PutAssets(string brand, string country, string path, IEnumerable<Asset> assets)
+        public async Task PutSubModelAssetsByModeAndView(string brand, string country, Guid publicationID, Guid subModelID, Guid objectID, string mode, string view, IEnumerable<Asset> assets)
+        {
+            var path = _keyManager.GetSubModelAssetsKey(publicationID, subModelID, objectID, view, mode);
+
+            await PutAssets(brand, country, path,assets);
+        }
+
+        private async Task PutAssets(string brand, string country, string path, IEnumerable<Asset> assets)
         {
             var value = _serialiser.Serialise(assets);
-            return await _service.PutObjectAsync(brand, country, path, value);
+            await _service.PutObjectAsync(brand, country, path, value);
         }
     }
 }

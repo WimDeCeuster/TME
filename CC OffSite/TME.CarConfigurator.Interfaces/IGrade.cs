@@ -10,13 +10,15 @@ namespace TME.CarConfigurator.Interfaces
     {
         bool Special { get; }
         IPrice StartingPrice { get; }
-        IGrade BasedUpon { get; }
+        IGradeInfo BasedUpon { get; }
 
-        IEnumerable<IVisibleInModeAndView> VisibleIn { get; }
-        IEnumerable<IAsset> Assets { get; }
+// ReSharper disable ReturnTypeCanBeEnumerable.Global
+        IReadOnlyList<IVisibleInModeAndView> VisibleIn { get; }
+        IReadOnlyList<IAsset> Assets { get; }
         
-        IEnumerable<IGradeEquipmentItem> Equipment { get; }
-        IEnumerable<IGradePack> Packs { get; }
+        IGradeEquipment Equipment { get; }
+        IReadOnlyList<IGradePack> Packs { get; }
+ // ReSharper restore ReturnTypeCanBeEnumerable.Global
         
     }
 }

@@ -4,8 +4,12 @@ using System.Collections.Generic;
 namespace TME.CarConfigurator.Repository.Objects.Core
 {
     
-    public class BaseObject
+    public abstract class BaseObject
     {
+        protected BaseObject()
+        {
+            Labels = new List<Label>();
+        }
         
         public Guid ID { get; set; }
         
@@ -23,6 +27,6 @@ namespace TME.CarConfigurator.Repository.Objects.Core
         
         public int SortIndex { get; set; }
         
-        public List<Label> Labels { get; set; }
+        public IReadOnlyList<Label> Labels { get; set; }
     }
 }

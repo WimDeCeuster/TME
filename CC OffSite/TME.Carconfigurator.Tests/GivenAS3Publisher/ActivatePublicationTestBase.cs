@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using FakeItEasy;
-using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
-using TME.CarConfigurator.Publisher.Common.Result;
+
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
@@ -60,8 +59,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             AssetPublisher = A.Fake<IAssetPublisher>(x => x.Strict());
 
             Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
-            var successFullTask = Task.FromResult((Result)new Successfull());
-            var successFullTasks = Task.FromResult((IEnumerable<Result>)new[] { new Successfull() });
 
             var contextDataForLanguage1 = new ContextData();
             contextDataForLanguage1.Models.Add(new Model
@@ -90,13 +87,14 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             Context.TimeFrames.Add(Language1, timeFrames);
             Context.TimeFrames.Add(Language2, timeFrames);
 
-            A.CallTo(() => PutModelPublisher.PublishModelsByLanguage(null, null)).WithAnyArguments().Returns(successFullTask);
-            A.CallTo(() => PublicationPublisher.PublishPublicationsAsync(null)).WithAnyArguments().Returns(successFullTasks);
-            A.CallTo(() => BodyTypePublisher.PublishGenerationBodyTypesAsync(null)).WithAnyArguments().Returns(successFullTasks);
-            A.CallTo(() => EnginePublisher.PublishGenerationEnginesAsync(null)).WithAnyArguments().Returns(successFullTasks);
-            A.CallTo(() => CarPublisher.PublishGenerationCarsAsync(null)).WithAnyArguments().Returns(successFullTasks);
-            A.CallTo(() => AssetPublisher.PublishAssetsAsync(null)).WithAnyArguments().Returns(successFullTasks);
-            A.CallTo(() => AssetPublisher.PublishCarAssetsAsync(null)).WithAnyArguments().Returns(successFullTasks);
+            var task = Task.Run(() => { });
+
+            A.CallTo(() => PutModelPublisher.PublishModelsByLanguage(null, null)).WithAnyArguments().Returns(task);
+            A.CallTo(() => PublicationPublisher.PublishPublicationsAsync(null)).WithAnyArguments().Returns(task);
+            A.CallTo(() => BodyTypePublisher.PublishGenerationBodyTypesAsync(null)).WithAnyArguments().Returns(task);
+            A.CallTo(() => EnginePublisher.PublishGenerationEnginesAsync(null)).WithAnyArguments().Returns(task);
+            A.CallTo(() => CarPublisher.PublishGenerationCarsAsync(null)).WithAnyArguments().Returns(task);
+            A.CallTo(() => AssetPublisher.PublishAsync(null)).WithAnyArguments().Returns(task);
 
             Publisher = new PublisherBuilder()
                 .WithPublicationPublisher(PublicationPublisher)
@@ -111,7 +109,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 
         protected override void Act()
         {
-            var result = Publisher.PublishAsync(Context).Result;
+            Publisher.PublishAsync(Context).Wait();
         }
 
         protected Model GetModel(string modelName, string internalCode, string localCode, string oldDescriptionForLanguage1,string footNote,string tooltip,int sortIndex,List<Label> labels)

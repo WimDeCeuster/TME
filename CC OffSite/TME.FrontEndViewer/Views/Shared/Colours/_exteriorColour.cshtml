@@ -1,10 +1,27 @@
 ﻿@using TME.FrontEndViewer.Models
 @model TME.CarConfigurator.Interfaces.Colours.IExteriorColour
-@Html.Partial("_baseObject", Model)
+<p class="property" data-id="ID">ID : @Html.Raw(Model.ID)</p>
+<p class="property" data-id="InternalCode">InternalCode : @Html.Raw(Model.InternalCode)</p>
+<p class="property" data-id="LocalCode">LocalCode : @Html.Raw(Model.LocalCode)</p>
+<p class="property" data-id="Name">Name : @Html.Raw(Model.Name)</p>
+<p class="property" data-id="Description">Description : @Html.Encode(Model.Description)</p>
+<p class="property" data-id="ToolTip">ToolTip : @Html.Raw(Model.ToolTip)</p>
+<p class="property" data-id="FootNote">FootNote : @Html.Raw(Model.FootNote)</p>
+<p class="property allow-mismatch" data-id="SortIndex">SortIndex : @Html.Raw(Model.SortIndex)</p>
+@foreach (var label in Model.Labels)
+{
+    <p class="property" data-id="Label@(label.Code)Code"><b>Code : @Html.Raw(label.Code)</b></p>    
+    <p class="property" data-id="Label@(label.Code)Value">Value : @Html.Raw(label.Value)</p>    
+}
 <p class="property" data-id="Promoted">Promoted : @Html.Raw(Model.Promoted)</p>
-<p class="property" data-id="Alpha">Alpha : @Html.Raw(Model.Transformation.Alpha.ToString("f"))</p>
-<p class="property" data-id="Brightness">Brightness : @Html.Raw(Model.Transformation.Brightness.ToString("f"))</p>
-<p class="property" data-id="Contrast">Contrast : @Html.Raw(Model.Transformation.Contrast.ToString("f"))</p>
-<p class="property" data-id="Hue">Hue : @Html.Raw(Model.Transformation.Hue.ToString("f"))</p>
-<p class="property" data-id="RGB">RGB : @Html.Raw(Model.Transformation.RGB)</p>
-@Html.Partial("_baseObjectWithPrefix", new BaseObjectWithPrefix() { BaseObject = Model.Type, Prefix = "Type" })
+@if (Model.Transformation != null)
+{
+    <p class="property" data-id="Alpha">Alpha : @Html.Raw(Model.Transformation.Alpha.ToString("f"))</p>
+    <p class="property" data-id="Brightness">Brightness : @Html.Raw(Model.Transformation.Brightness.ToString("f"))</p>
+    <p class="property" data-id="Contrast">Contrast : @Html.Raw(Model.Transformation.Contrast.ToString("f"))</p>
+    <p class="property" data-id="Hue">Hue : @Html.Raw(Model.Transformation.Hue.ToString("f"))</p>
+    <p class="property" data-id="RGB">RGB : @Html.Raw(Model.Transformation.RGB)</p>
+}
+@if (Model.Type != null) {
+    @Html.Partial("_baseObjectWithPrefix", new BaseObjectWithPrefix() { BaseObject = Model.Type, Prefix = "Type" })
+}

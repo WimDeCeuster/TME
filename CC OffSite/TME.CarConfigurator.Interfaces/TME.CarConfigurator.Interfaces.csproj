@@ -43,11 +43,23 @@
     <Compile Include="Assets\IAssetType.cs" />
     <Compile Include="Assets\IFileType.cs" />
     <Compile Include="Assets\IVisibleInModeAndView.cs" />
+    <Compile Include="Colours\IColourCombinationInfo.cs" />
+    <Compile Include="Colours\IUpholsteryInfo.cs" />
     <Compile Include="Colours\IColourCombination.cs" />
     <Compile Include="Colours\IColourTransformation.cs" />
     <Compile Include="Colours\IExteriorColour.cs" />
+    <Compile Include="Colours\IExteriorColourInfo.cs" />
+    <Compile Include="Enums\ColouringModes.cs" />
+    <Compile Include="Equipment\ICarEquipment.cs" />
+    <Compile Include="IGradeInfo.cs" />
+    <Compile Include="Packs\ICarPackEquipment.cs" />
+    <Compile Include="Packs\ICarPackExteriorColourType.cs" />
+    <Compile Include="Packs\ICarPackAccessory.cs" />
+    <Compile Include="Packs\ICarPackEquipmentItem.cs" />
+    <Compile Include="Equipment\IExteriorColour.cs" />
     <Compile Include="Equipment\IModelEquipment.cs" />
     <Compile Include="Equipment\ICategory.cs" />
+    <Compile Include="Factories\ISpecificationsFactory.cs" />
     <Compile Include="Factories\IPackFactory.cs" />
     <Compile Include="Colours\IExteriorColourType.cs" />
     <Compile Include="Colours\IUpholsteryType.cs" />
@@ -59,7 +71,7 @@
     <Compile Include="Equipment\IGradeEquipment.cs" />
     <Compile Include="Equipment\IGradeOption.cs" />
     <Compile Include="Equipment\IOptionInfo.cs" />
-    <Compile Include="Factories\IGradeEquipmentFactory.cs" />
+    <Compile Include="Factories\IEquipmentFactory.cs" />
     <Compile Include="ICarInfo.cs" />
     <Compile Include="Enums\Visibility.cs" />
     <Compile Include="Equipment\IAccessory.cs" />
@@ -67,7 +79,6 @@
     <Compile Include="Equipment\ICarEquipmentItem.cs" />
     <Compile Include="Equipment\ICarOption.cs" />
     <Compile Include="Equipment\ICategoryInfo.cs" />
-    <Compile Include="Equipment\IEquipmentCompare.cs" />
     <Compile Include="Equipment\IEquipmentItem.cs" />
     <Compile Include="Equipment\IGradeEquipmentItem.cs" />
     <Compile Include="Equipment\IMountingCosts.cs" />
@@ -83,6 +94,7 @@
     <Compile Include="Factories\IEngineFactory.cs" />
     <Compile Include="Factories\IModelFactory.cs" />
     <Compile Include="Factories\IPublicationFactory.cs" />
+    <Compile Include="ICarPart.cs" />
     <Compile Include="IFuelType.cs" />
     <Compile Include="IGrade.cs" />
     <Compile Include="ISubModel.cs" />
@@ -102,10 +114,15 @@
     <Compile Include="IModel.cs" />
     <Compile Include="ISteering.cs" />
     <Compile Include="IWheelDrive.cs" />
+    <Compile Include="Packs\ICarPack.cs" />
+    <Compile Include="Packs\ICarPackOption.cs" />
+    <Compile Include="Packs\ICarPackUpholsteryType.cs" />
     <Compile Include="Packs\IGradePack.cs" />
     <Compile Include="Packs\IPack.cs" />
-    <Compile Include="Packs\IPackCompare.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TechnicalSpecifications\ICategory.cs" />
+    <Compile Include="TechnicalSpecifications\ICategoryInfo.cs" />
+    <Compile Include="TechnicalSpecifications\IModelTechnicalSpecifications.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj">
@@ -121,9 +138,7 @@
       <Name>TME.CarConfigurator.Repository.Objects</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Facades\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

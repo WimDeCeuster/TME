@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
 
 namespace TME.CarConfigurator.LegacyAdapter.Colours
 {
-    public class ExteriorColour : BaseObject, IExteriorColour
+    public class ExteriorColour :  BaseObject, IExteriorColour
     {
         #region Dependencies (Adaptee)
         private TMME.CarConfigurator.CarExteriorColour Adaptee
@@ -16,12 +17,14 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
         #endregion
 
         #region Constructor
-        public ExteriorColour(TMME.CarConfigurator.CarExteriorColour adaptee) : base(adaptee)
+        public ExteriorColour(TMME.CarConfigurator.CarExteriorColour adaptee)
+            : base(adaptee)
         {
             Adaptee = adaptee;
         }
         #endregion
 
+     
         public bool Promoted
         {
             get { return Adaptee.IsPromoted; }
@@ -29,7 +32,17 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
 
         public IColourTransformation Transformation
         {
-            get { return new ColourTransformation(Adaptee.Transformation);}
+            get
+            {
+                try
+                {
+                    return new ColourTransformation(Adaptee.Transformation);
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
         }
 
         public IExteriorColourType Type
@@ -37,9 +50,16 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
             get { return new ExteriorColourType(Adaptee.Type); }
         }
 
-        public IEnumerable<IAsset> Assets
+        public IReadOnlyList<IVisibleInModeAndView> VisibleIn
+        {
+            get { return Adaptee.Assets.GetVisibleInModeAndViews(); }
+        }
+
+        public IReadOnlyList<IAsset> Assets
         {
             get { return Adaptee.Assets.GetPlainAssets(); }
         }
+
+
     }
 }

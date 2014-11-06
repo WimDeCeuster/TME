@@ -1,18 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using TME.CarConfigurator.Assets;
 using TME.CarConfigurator.Core;
+using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
+using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.Colours
 {
     public class Upholstery : BaseObject<Repository.Objects.Colours.Upholstery>, IUpholstery
     {
-        private UpholsteryType _type;
+        private readonly Publication _publication;
+        private readonly Context _context;
+        private readonly IAssetFactory _assetFactory;
 
-        public Upholstery(Repository.Objects.Colours.Upholstery repositoryUpholstery)
+        private UpholsteryType _type;
+        private IReadOnlyList<IAsset> _assets;
+        private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
+
+        public Upholstery(Repository.Objects.Colours.Upholstery repositoryUpholstery, Publication publication, Context context, IAssetFactory assetFactory)
             : base(repositoryUpholstery)
         {
+            if (publication == null) throw new ArgumentNullException("publication");
+            if (context == null) throw new ArgumentNullException("context");
+            if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
+            _publication = publication;
+            _context = context;
+            _assetFactory = assetFactory;
         }
 
         public string InteriorColourCode
@@ -30,9 +47,17 @@ namespace TME.CarConfigurator.Colours
             get { return _type = _type ?? new UpholsteryType(RepositoryObject.Type); }
         }
 
-        public IEnumerable<Interfaces.Assets.IAsset> Assets
+        public IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return _fetchedVisibleInModeAndViews = _fetchedVisibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, _publication, _context, _assetFactory)).ToList();
+            }
+        }
+
+        public IReadOnlyList<IAsset> Assets
+        {
+            get { return _assets = _assets ?? _assetFactory.GetAssets(_publication, RepositoryObject.ID, _context); }
         }
     }
 }

@@ -10,6 +10,9 @@ namespace TME.CarConfigurator.Interfaces.Colours
         string TrimCode { get; }
         IUpholsteryType Type { get; }
 
-        IEnumerable<IAsset> Assets { get; }
+        // ReSharper disable ReturnTypeCanBeEnumerable.Global
+        IReadOnlyList<IVisibleInModeAndView> VisibleIn { get; }
+        IReadOnlyList<IAsset> Assets { get; }
+        // ReSharper restore ReturnTypeCanBeEnumerable.Global
    }
 }

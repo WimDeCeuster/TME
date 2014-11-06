@@ -22,6 +22,8 @@ namespace TME.CarConfigurator.Factories
         private readonly ICarFactory _carFactory;
         private readonly ISubModelFactory _subModelFactory;
         private readonly IColourFactory _colourFactory;
+        private readonly IEquipmentFactory _equipmentFactory;
+        private readonly ISpecificationsFactory _specificationsFactory;
 
         public ModelFactory(
             IModelService modelService,
@@ -34,7 +36,9 @@ namespace TME.CarConfigurator.Factories
             IGradeFactory gradeFactory,
             ICarFactory carFactory,
             ISubModelFactory subModelFactory,
-            IColourFactory colourFactory)
+            IColourFactory colourFactory,
+            IEquipmentFactory equipmentFactory,
+            ISpecificationsFactory specificationsFactory)
         {
             if (modelService == null) throw new ArgumentNullException("modelService");
             if (publicationFactory == null) throw new ArgumentNullException("publicationFactory");
@@ -47,6 +51,8 @@ namespace TME.CarConfigurator.Factories
             if (carFactory == null) throw new ArgumentNullException("carFactory");
             if (subModelFactory == null) throw new ArgumentNullException("subModelFactory");
             if (colourFactory == null) throw new ArgumentNullException("colourFactory");
+            if (equipmentFactory == null) throw new ArgumentNullException("equipmentFactory");
+            if (specificationsFactory == null) throw new ArgumentNullException("specificationsFactory");
 
             _modelService = modelService;
             _publicationFactory = publicationFactory;
@@ -59,6 +65,8 @@ namespace TME.CarConfigurator.Factories
             _carFactory = carFactory;
             _subModelFactory = subModelFactory;
             _colourFactory = colourFactory;
+            _equipmentFactory = equipmentFactory;
+            _specificationsFactory = specificationsFactory;
         }
 
         public IReadOnlyList<IModel> GetModels(Context context)
@@ -77,7 +85,21 @@ namespace TME.CarConfigurator.Factories
 
         private IModel CreateModel(Repository.Objects.Model repositoryModel, Context context)
         {
-            return new Model(repositoryModel, context, _publicationFactory, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _steeringFactory, _gradeFactory, _carFactory, _subModelFactory, _colourFactory);
+            return new Model(
+                repositoryModel,
+                context,
+                _publicationFactory,
+                _bodyTypeFactory,
+                _engineFactory,
+                _transmissionFactory,
+                _wheelDriveFactory,
+                _steeringFactory,
+                _gradeFactory,
+                _carFactory,
+                _subModelFactory,
+                _colourFactory,
+                _equipmentFactory,
+                _specificationsFactory);
         }
     }
 }

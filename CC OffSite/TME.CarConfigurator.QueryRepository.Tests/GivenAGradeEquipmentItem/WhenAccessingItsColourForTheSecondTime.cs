@@ -6,11 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Colours;
+
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
@@ -21,12 +22,12 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGradeEquipmentItem
     {
         IExteriorColour _firstColour;
         IExteriorColour _secondColour;
-        Repository.Objects.Colours.ExteriorColour _repoColour;
+        ExteriorColour _repoColour;
         IGradeEquipmentItem _accessory;
 
         protected override void Arrange()
         {
-            _repoColour = new CarConfigurator.Tests.Shared.TestBuilders.ExteriorColourBuilder()
+            _repoColour = new CarConfigurator.Tests.Shared.TestBuilders.EquipmentExteriorColourBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
 
@@ -49,13 +50,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGradeEquipmentItem
 
             var context = new ContextBuilder().Build();
 
-            var gradeEquipmentService = A.Fake<IGradeEquipmentService>();
+            var gradeEquipmentService = A.Fake<IEquipmentService>();
             A.CallTo(() => gradeEquipmentService.GetGradeEquipment(A<Guid>._, A<Guid>._, A<Guid>._, A<Context>._)).Returns(repoGradeEquipment);
 
             var colourFactory = new ColourFactoryBuilder().Build();
 
-            var gradeEquipmentFactory = new GradeEquipmentFactoryBuilder()
-                .WithGradeEquipmentService(gradeEquipmentService)
+            var gradeEquipmentFactory = new EquipmentFactoryBuilder()
+                .WithEquipmentService(gradeEquipmentService)
                 .WithColourFactory(colourFactory)
                 .Build();
 

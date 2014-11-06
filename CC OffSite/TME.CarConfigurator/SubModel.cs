@@ -19,11 +19,11 @@ namespace TME.CarConfigurator
         private readonly IGradeFactory _gradeFactory;
 
         private IEnumerable<IAsset> _assets;
-        private IEnumerable<IGrade> _grades; 
+        private IEnumerable<IGrade> _grades;
         private IEnumerable<ILink> _links;
         private IPrice _startingPrice;
 
-        public SubModel(Repository.Objects.SubModel repositorySubModel,Publication repositoryPublication,Context repositoryContext,IAssetFactory assetFactory,IGradeFactory gradeFactory) 
+        public SubModel(Repository.Objects.SubModel repositorySubModel, Publication repositoryPublication, Context repositoryContext, IAssetFactory assetFactory, IGradeFactory gradeFactory)
             : base(repositorySubModel)
         {
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
@@ -44,26 +44,12 @@ namespace TME.CarConfigurator
             get { throw new NotImplementedException(); }
         }
 
-        public IEnumerable<IGrade> Grades
-        {
-            get
-            {
-                return
-                    _grades =
-                        _grades ??
-                        RepositoryObject.Grades.Select(
-                            grade => _gradeFactory.GetSubModelGrade(grade,_repositoryPublication,_repositoryContext));
-//                        _gradeFactory.GetSubModelGrades(_repositoryPublication, _repositoryContext, RepositoryObject);
-            }
-        }
+        public IEnumerable<IGrade> Grades { get { return _grades = _grades ?? _gradeFactory.GetSubModelGrades(RepositoryObject.ID, _repositoryPublication, _repositoryContext); } }
 
-        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
+        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication,ID,_repositoryContext); } }
 
-        public IEnumerable<ILink> Links
-        {
-            get { return _links = _links ?? RepositoryObject.Links.Select(l => new Link(l)).ToArray(); }
-        }
+        public IEnumerable<ILink> Links { get { return _links = _links ?? RepositoryObject.Links.Select(l => new Link(l)).ToArray(); } }
 
- 
+
     }
 }

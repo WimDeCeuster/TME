@@ -1,20 +1,12 @@
-﻿using FakeItEasy;
+﻿using System;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
-using TME.CarConfigurator.QueryServices;
-using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.GivenAUpholstery
+namespace TME.CarConfigurator.Query.Tests.GivenAnUpholstery
 {
     public class WhenAccessingItsUpholsteryTypeForTheFirstTime : TestBase
     {
@@ -46,7 +38,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAUpholstery
             var colourFactory = new ColourFactoryBuilder()
                 .Build();
 
-            _upholstery = colourFactory.GetUpholstery(repoUpholstery);
+            _upholstery = colourFactory.GetUpholstery(repoUpholstery, publication, context);
         }
 
         protected override void Act()

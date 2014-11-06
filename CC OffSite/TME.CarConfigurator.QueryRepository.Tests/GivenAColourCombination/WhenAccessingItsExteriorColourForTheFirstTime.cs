@@ -59,7 +59,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAColourCombination
         }
 
         [Fact]
-        public void ThenItShouldHaveTheType()
+        public void ThenItShouldHaveTheExteriorColour()
         {
             _exteriorColour.ID.Should().Be(_repoExteriorColour.ID);
         }

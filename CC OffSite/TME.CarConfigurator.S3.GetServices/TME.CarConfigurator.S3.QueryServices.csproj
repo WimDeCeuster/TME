@@ -43,7 +43,8 @@
     <Compile Include="BodyTypeService.cs" />
     <Compile Include="ColourService.cs" />
     <Compile Include="CarService.cs" />
-    <Compile Include="GradeEquipmentService.cs" />
+    <Compile Include="SpecificationsService.cs" />
+    <Compile Include="EquipmentService.cs" />
     <Compile Include="GradeService.cs" />
     <Compile Include="PackService.cs" />
     <Compile Include="SteeringService.cs" />
@@ -57,6 +58,10 @@
     <Compile Include="PublicationService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
+      <Project>{EFDB033C-66A8-40BB-B596-561F45E6C7F7}</Project>
+      <Name>TME.CarConfigurator.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.QueryServices\TME.CarConfigurator.QueryServices.csproj">
       <Project>{37F53701-A371-44CC-B2F5-886910FBA751}</Project>
       <Name>TME.CarConfigurator.QueryServices</Name>

@@ -9,8 +9,10 @@ using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Publisher.Progress;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Equipment;
+using TME.CarConfigurator.Repository.Objects.Extensions;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
 using Car = TME.CarConfigurator.Administration.Car;
 using Model = TME.CarConfigurator.Administration.Model;
@@ -34,6 +36,7 @@ namespace TME.CarConfigurator.Publisher
         readonly IEquipmentMapper _equipmentMapper;
         readonly IPackMapper _packMapper;
         readonly IColourMapper _colourMapper;
+        readonly ICategoryMapper _categoryMapper;
 
         public Mapper(
             ITimeFrameMapper timeFrameMapper,
@@ -50,7 +53,8 @@ namespace TME.CarConfigurator.Publisher
             ISubModelMapper subModelMapper,
             IEquipmentMapper equipmentMapper,
             IPackMapper packMapper,
-            IColourMapper colourMapper)
+            IColourMapper colourMapper,
+            ICategoryMapper categoryMapper)
         {
             if (timeFrameMapper == null) throw new ArgumentNullException("timeFrameMapper");
             if (modelMapper == null) throw new ArgumentNullException("modelMapper");
@@ -66,6 +70,7 @@ namespace TME.CarConfigurator.Publisher
             if (subModelMapper == null) throw new ArgumentNullException("subModelMapper");
             if (equipmentMapper == null) throw new ArgumentNullException("equipmentMapper");
             if (packMapper == null) throw new ArgumentNullException("packMapper");
+            if (categoryMapper == null) throw new ArgumentNullException("categoryMapper");
 
             _timeFrameMapper = timeFrameMapper;
             _modelMapper = modelMapper;
@@ -82,15 +87,18 @@ namespace TME.CarConfigurator.Publisher
             _equipmentMapper = equipmentMapper;
             _packMapper = packMapper;
             _colourMapper = colourMapper;
+            _categoryMapper = categoryMapper;
         }
 
-        public Task MapAsync(IContext context)
+        public Task MapAsync(IContext context, IProgress<PublishProgress> progress)
         {
-            return Task.Run(() => Map(context));
+            return Task.Run(() => Map(context, progress));
         }
 
-        private void Map(IContext context)
+        private void Map(IContext context, IProgress<PublishProgress> progress)
         {
+            progress.Report(new PublishProgress("Retrieving generation for every language"));
+
             var data = GetModelGenerationForEachLanguage(context.Brand, context.Country, context.GenerationID);
             var isPreview = context.DataSubset == PublicationDataSubset.Preview;
 
@@ -107,36 +115,61 @@ namespace TME.CarConfigurator.Publisher
                 context.ContextData[language] = contextData;
 
                 // fill contextData
-                var generation = _generationMapper.MapGeneration(model, modelGeneration, isPreview);
-                contextData.Generations.Add(generation);
+                progress.Report(new PublishProgress(String.Format("Fill context data for language {0}", language)));
+
+                progress.Report(new PublishProgress("Map generation"));
+                contextData.Generations.Add(_generationMapper.MapGeneration(model, modelGeneration, isPreview));
+                progress.Report(new PublishProgress("Map model"));
                 contextData.Models.Add(_modelMapper.MapModel(model));
 
+
+                progress.Report(new PublishProgress("Get generation cars"));
                 var cars = modelGeneration.Cars.Where(car => isPreview ? car.Preview : car.Approved).ToList();
+                progress.Report(new PublishProgress("Get generation grades"));
                 var grades = modelGeneration.Grades.Where(grade => cars.Any(car => car.GradeID == grade.ID)).ToArray();
 
+                progress.Report(new PublishProgress("Fill generation assets"));
                 FillAssets(modelGeneration, contextData);
+                progress.Report(new PublishProgress("Fill generation body types"));
                 FillBodyTypes(cars, modelGeneration, contextData);
+                progress.Report(new PublishProgress("Fill generation engines"));
                 FillEngines(cars, modelGeneration, contextData);
+                progress.Report(new PublishProgress("Fill generation transmissions"));
                 FillTransmissions(cars, modelGeneration, contextData);
+                progress.Report(new PublishProgress("Fill generation wheeldrives"));
                 FillWheelDrives(cars, modelGeneration, contextData);
+                progress.Report(new PublishProgress("Fill generation steerings"));
                 FillSteerings(cars, contextData);
-                FillColourCombinations(cars,modelGeneration, contextData, isPreview);
+                progress.Report(new PublishProgress("Fill generation colour combinations"));
+                FillColourCombinations(cars, modelGeneration, contextData, isPreview);
+                progress.Report(new PublishProgress("Fill generation cars"));
                 FillCars(cars, contextData);
+                progress.Report(new PublishProgress("Fill generation grades"));
                 FillGrades(cars, modelGeneration, contextData);
+                progress.Report(new PublishProgress("Fill generation car assets"));
                 FillCarAssets(cars, contextData, modelGeneration);
-                FillGradeEquipment(grades, modelGeneration, contextData, isPreview);
-                FillSubModels(grades,cars, modelGeneration, contextData, isPreview);
-                FillGradePacks(grades, contextData);
+                progress.Report(new PublishProgress("Fill grade equipment"));
+                FillGradeEquipment(grades, contextData, isPreview);
+                progress.Report(new PublishProgress("Fill generation submodels"));
+                FillSubModels(grades, cars, modelGeneration, contextData, isPreview);
+                progress.Report(new PublishProgress("Fill generation grade packs"));
+                FillGradePacks(grades, contextData, isPreview);
+                progress.Report(new PublishProgress("Fill generation equipment categories"));
+                FillEquipmentCategories(contextData);
+                progress.Report(new PublishProgress("Fill submodel assets"));
+                FillSubModelAssets(grades, modelGeneration, contextData);
+                progress.Report(new PublishProgress("Fill submodel grade packs"));
+                FillSubModelGradePacks(grades, modelGeneration, contextData, isPreview);
+                progress.Report(new PublishProgress("Fill generation specification categories"));
+                FillSpecificationCategories(contextData);
 
+                progress.Report(new PublishProgress("Fill publication timeframes"));
                 context.TimeFrames[language] = _timeFrameMapper.GetTimeFrames(language, context);
             }
         }
 
-        private  IEnumerable<KeyValuePair<string, Tuple<ModelGeneration, Model>>> GetModelGenerationForEachLanguage(String brand, String countryCode, Guid generationID)
+        private static IEnumerable<KeyValuePair<string, Tuple<ModelGeneration, Model>>> GetModelGenerationForEachLanguage(String brand, String countryCode, Guid generationID)
         {
-            // Is ensuring a context can be retrieved by setting to the know global context necessary?
-            MyContext.SetSystemContext("Toyota", "ZZ", "en");
-
             var country = MyContext.GetContext().Countries.Single(ctry => ctry.Code == countryCode);
             return country.Languages.ToDictionary(lang => lang.Code, lang =>
             {
@@ -157,9 +190,10 @@ namespace TME.CarConfigurator.Publisher
                 .Concat(GetWheelDriveAssets(modelGeneration))
                 .Concat(GetGradeAssets(modelGeneration))
                 .Concat(GetSubModelAssets(modelGeneration))
+                .Concat(GetColourCombinationAssets(modelGeneration))
                 .ToDictionary(
                     entry => entry.Key,
-                    entry => entry.Value);
+                    entry => (IList<Asset>)entry.Value);
         }
 
         private void FillCarAssets(IEnumerable<Car> cars, ContextData contextData, ModelGeneration modelGeneration)
@@ -169,6 +203,7 @@ namespace TME.CarConfigurator.Publisher
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.BodyTypes[car.BodyTypeID]);
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.Engines[car.EngineID]);
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.Grades[car.GradeID]);
+                FillCarAssets(car, contextData, modelGeneration, car.Generation.Transmissions[car.TransmissionID]);
             }
         }
 
@@ -180,6 +215,22 @@ namespace TME.CarConfigurator.Publisher
             var allCarAssetsForThisObject = objectAssetsOnCarLevel.Concat(objectAssetsOnGenerationLevel).ToList();
 
             contextData.CarAssets[car.ID].Add(objectWithAssetSet.GetObjectID(), allCarAssetsForThisObject);
+        }
+
+        private void FillSubModelAssets(IList<ModelGenerationGrade> grades, ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var subModel in modelGeneration.SubModels)
+            {
+                FillSubModelGradeAssets(grades, subModel, contextData, modelGeneration);
+            }
+        }
+
+        private void FillSubModelGradeAssets(IEnumerable<ModelGenerationGrade> grades, ModelGenerationSubModel subModel, ContextData contextData, ModelGeneration modelGeneration)
+        {
+            var assetsPerGrade = grades.Where(grade => grade.SubModels.Contains(subModel))
+                                       .ToDictionary(grade => grade.ID,
+                                                     grade => (IList<Asset>)grade.AssetSet.Assets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
+            contextData.SubModelAssets.Add(subModel.ID, assetsPerGrade);
         }
 
         private IEnumerable<Asset> GetObjectAssetsOnCarLevel(Car car, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
@@ -194,52 +245,77 @@ namespace TME.CarConfigurator.Publisher
             return assets.ContainsKey(objectId) ? assets[objectId] : new List<Asset>();
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetSubModelAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetSubModelAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.SubModels.ToDictionary(
                 subModel => subModel.ID,
-                subModel => (IList<Asset>)subModel.AssetSet.Assets.GetGenerationAssets()
+                subModel => subModel.AssetSet.Assets.GetGenerationAssets()
                     .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetGradeAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetColourCombinationAssets(ModelGeneration modelGeneration)
+        {
+            return GetExteriorColourAssets(modelGeneration).Concat(GetUpholsteryAssets(modelGeneration));
+        }
+
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetExteriorColourAssets(ModelGeneration modelGeneration)
+        {
+            return modelGeneration.ColourCombinations
+                                  .ExteriorColours()
+                                  .ToDictionary(
+                                    colour => colour.ID,
+                                    colour => colour.AssetSet.Assets.GetGenerationAssets()
+                                        .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
+        }
+
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetUpholsteryAssets(ModelGeneration modelGeneration)
+        {
+            return modelGeneration.ColourCombinations
+                                  .Upholsteries()
+                                  .ToDictionary(
+                                    upholstery => upholstery.ID,
+                                    upholstery => upholstery.AssetSet.Assets.GetGenerationAssets()
+                                        .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
+        }
+
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetGradeAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.Grades.ToDictionary(
                 grade => grade.ID,
-                grade => (IList<Asset>)grade.AssetSet.Assets.GetGenerationAssets()
+                grade => grade.AssetSet.Assets.GetGenerationAssets()
                     .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetTransmissionAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetTransmissionAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.Transmissions.ToDictionary(
                 transmission => transmission.ID,
-                transmission => (IList<Asset>)transmission.AssetSet.Assets.GetGenerationAssets()
+                transmission => transmission.AssetSet.Assets.GetGenerationAssets()
                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetBodyTypeAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetBodyTypeAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.BodyTypes.ToDictionary(
                 bodytype => bodytype.ID,
-                bodytype => (IList<Asset>)bodytype.AssetSet.Assets.GetGenerationAssets()
+                bodytype => bodytype.AssetSet.Assets.GetGenerationAssets()
                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetEngineAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetEngineAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.Engines.ToDictionary(
                 engine => engine.ID,
-                engine => (IList<Asset>)engine.AssetSet.Assets
+                engine => engine.AssetSet.Assets
                                          .GetGenerationAssets()
                                          .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        private IEnumerable<KeyValuePair<Guid, IList<Asset>>> GetWheelDriveAssets(ModelGeneration modelGeneration)
+        private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetWheelDriveAssets(ModelGeneration modelGeneration)
         {
             return modelGeneration.WheelDrives.ToDictionary(
                 wheelDrive => wheelDrive.ID,
-                wheelDrive => (IList<Asset>)wheelDrive.AssetSet.Assets
+                wheelDrive => wheelDrive.AssetSet.Assets
                                          .GetGenerationAssets()
                                          .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
@@ -278,10 +354,22 @@ namespace TME.CarConfigurator.Publisher
 
         private void FillColourCombinations(IEnumerable<Car> cars, ModelGeneration modelGeneration, ContextData contextData, Boolean isPreview)
         {
-            foreach (var colourCombination in modelGeneration.ColourCombinations.Where(
+            var colourCombinations = modelGeneration.ColourCombinations.Where(
                 colourCombination => cars.Any(
-                    car => car.ColourCombinations[colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID] != null && car.ColourCombinations[colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID].Approved)))
-                contextData.ColourCombinations.Add(_colourMapper.MapColourCombination(modelGeneration, colourCombination, isPreview));
+                    car => car.ColourCombinations[colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID] != null && car.ColourCombinations[colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID].Approved))
+                    .Select(colourCombination => _colourMapper.MapColourCombination(modelGeneration, colourCombination, isPreview))
+                    .OrderBy(combination => combination.ExteriorColour.Type.SortIndex)
+                    .ThenBy(combination => combination.ExteriorColour.SortIndex)
+                    .ThenBy(combination => combination.Upholstery.Type.SortIndex)
+                    .ThenBy(combination => combination.Upholstery.SortIndex)
+                    .ToList();
+
+            var index = 0;
+            foreach (var colourCombination in colourCombinations)
+            {
+                colourCombination.SortIndex = index++;
+                contextData.ColourCombinations.Add(colourCombination);
+            }
         }
 
         void FillWheelDrives(IEnumerable<Car> cars, ModelGeneration modelGeneration, ContextData contextData)
@@ -293,17 +381,29 @@ namespace TME.CarConfigurator.Publisher
         private void FillSubModels(ModelGenerationGrade[] grades, IList<Car> cars, ModelGeneration modelGeneration, ContextData contextData, bool isPreview)
         {
             var applicableSubModels = modelGeneration.SubModels.Where(submodel => cars.Any(car => car.SubModelID == submodel.ID));
-            
+
             foreach (var modelGenerationSubModel in applicableSubModels)
             {
                 var subModelId = modelGenerationSubModel.ID;
 
-                var mappedSubModel = _subModelMapper.MapSubModel(grades, modelGenerationSubModel, contextData, isPreview);
-                
+                FillSubModelGrades(grades, modelGenerationSubModel, contextData);
+
+                var mappedSubModel = _subModelMapper.MapSubModel(modelGenerationSubModel, contextData, isPreview);
+
                 contextData.SubModels.Add(mappedSubModel);
+
+                FillSubModelGradeEquipment(grades, modelGenerationSubModel, contextData, isPreview);
 
                 AddSubModelToCar(cars, contextData, subModelId, mappedSubModel);
             }
+        }
+
+        private void FillSubModelGrades(IEnumerable<ModelGenerationGrade> generationGrades, ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+        {
+            contextData.SubModelGrades.Add(modelGenerationSubModel.ID, generationGrades
+                .Where(generationGrade => modelGenerationSubModel.Cars()
+                                                              .Any(car => car.GradeID == generationGrade.ID))
+                .Select(grade => _gradeMapper.MapSubModelGrade(grade, modelGenerationSubModel, contextData.Cars)).ToList());
         }
 
         private static void AddSubModelToCar(IEnumerable<Car> cars, ContextData contextData, Guid subModelId, SubModel mappedSubModel)
@@ -320,25 +420,29 @@ namespace TME.CarConfigurator.Publisher
         {
             var applicableGrades = modelGeneration.Grades.Where(grade => cars.Any(car => car.GradeID == grade.ID)).ToArray();
 
-            foreach (var grade in applicableGrades)
-                contextData.Grades.Add(_gradeMapper.MapGenerationGrade(grade, contextData.Cars));
+            var mappedGrades = new List<Repository.Objects.Grade>();
 
-            PutGradesOnApplicableCars(cars, contextData, applicableGrades);
-        }
-
-        private static void PutGradesOnApplicableCars(IList<Car> cars, ContextData contextData, IEnumerable<ModelGenerationGrade> applicableGrades)
-        {
             foreach (var grade in applicableGrades)
             {
-                var gradeID = grade.ID;
+                var mappedGrade = _gradeMapper.MapGenerationGrade(grade, contextData.Cars);
 
-                var mappedGrade = contextData.Grades.Single(contextGrade => gradeID == contextGrade.ID);
+                if (mappedGrade.BasedUpon != null && !applicableGrades.Any(grd => grd.ID == mappedGrade.BasedUpon.ID))
+                    mappedGrade.BasedUpon = null;
 
-                var applicableCars = cars.Where(car => car.GradeID == gradeID)
-                    .Select(car => contextData.Cars.Single(contextCar => contextCar.ID == car.ID));
-                foreach (var applicableCar in applicableCars)
-                    applicableCar.Grade = mappedGrade;
+                contextData.Grades.Add(mappedGrade);
+
+                AddGradeToCar(cars, contextData, grade, mappedGrade);
             }
+        }
+
+        private static void AddGradeToCar(IEnumerable<Car> cars, ContextData contextData, ModelGenerationGrade grade, Grade mappedGrade)
+        {
+            var gradeID = grade.ID;
+            var applicableCars = cars.Where(car => car.GradeID == gradeID)
+                .Select(car => contextData.Cars.Single(contextCar => contextCar.ID == car.ID));
+
+            foreach (var applicableCar in applicableCars)
+                applicableCar.Grade = mappedGrade;
         }
 
         void FillSteerings(IEnumerable<Car> cars, ContextData contextData)
@@ -349,51 +453,53 @@ namespace TME.CarConfigurator.Publisher
                 contextData.Steerings.Add(_steeringMapper.MapSteering(steering));
         }
 
-        void FillGradeEquipment(IEnumerable<ModelGenerationGrade> grades, ModelGeneration modelGeneration, ContextData data, Boolean isPreview)
+        private void FillSubModelGradeEquipment(IEnumerable<ModelGenerationGrade> modelGenerationGrades, ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
         {
-            var crossModelAccessories = EquipmentItems.GetEquipmentItems(Administration.Enums.EquipmentType.Accessory);
-            var crossModelOptions = EquipmentItems.GetEquipmentItems(Administration.Enums.EquipmentType.Option);
-            var categories = EquipmentCategories.GetEquipmentCategories();
+            contextData.SubModelGradeEquipment.Add(modelGenerationSubModel.ID,
+                                                   modelGenerationGrades.ToDictionary(modelGenerationGrade =>
+                                                                                            modelGenerationGrade.ID,
+                                                                                      modelGenerationGrade =>
+                                                                                            GetGradeEquipment(modelGenerationGrade, modelGenerationGrade.Cars().Filter(isPreview)
+                                                                                                                                            .Where(car => car.SubModelID == modelGenerationSubModel.ID)
+                                                                                                                                            .ToList(),
+                                                                                                              isPreview)));
+        }
 
+        void FillGradeEquipment(IEnumerable<ModelGenerationGrade> grades, ContextData data, Boolean isPreview)
+        {
             foreach (var grade in grades)
             {
-                var gradeCars = grade.Cars().ToList();
+                var gradeCars = grade.Cars().Filter(isPreview).ToList();
 
-                var accessories = grade.Equipment.OfType<ModelGenerationGradeAccessory>()
-                    .Where(accessory => gradeCars.Any(car => car.Equipment[accessory.ID] != null && car.Equipment[accessory.ID].Availability != Administration.Enums.Availability.NotAvailable))
-                    .Select(accessory =>
-                        _equipmentMapper.MapGradeAccessory(
-                            accessory,
-                            (ModelGenerationAccessory)modelGeneration.Equipment[accessory.ID],
-                            (Administration.Accessory)crossModelAccessories[accessory.ID],
-                            categories,
-                            gradeCars,
-                            isPreview)).ToList();
+                var gradeEquipment = GetGradeEquipment(grade, gradeCars, isPreview);
 
-                var options = grade.Equipment.OfType<ModelGenerationGradeOption>()
-                        .Where(option => gradeCars.Any(car => car.Equipment[option.ID] != null && car.Equipment[option.ID].Availability != Administration.Enums.Availability.NotAvailable))
-                        .Select(option =>
-                            _equipmentMapper.MapGradeOption(
-                            option,
-                            (Administration.ModelGenerationOption)modelGeneration.Equipment[option.ID],
-                            (Administration.Option)crossModelOptions[option.ID],
-                            categories,
-                            gradeCars,
-                            isPreview)).ToList();
-
-                data.GradeEquipment.Add(grade.ID, new GradeEquipment
-                {
-                    Accessories = accessories,
-                    Options = options
-                });
+                data.GradeEquipment.Add(grade.ID, gradeEquipment);
             }
         }
 
-        private void FillGradePacks(IEnumerable<ModelGenerationGrade> grades, ContextData contextData)
+        private GradeEquipment GetGradeEquipment(ModelGenerationGrade grade, IReadOnlyList<Car> gradeCars, bool isPreview)
+        {
+            var crossModelEquipment = EquipmentItems.GetEquipmentItems();
+            var categories = EquipmentCategories.GetEquipmentCategories();
+
+            var accessories = grade.Equipment.OfType<ModelGenerationGradeAccessory>()
+                    .Where(accessory => gradeCars.Any(car => car.Equipment[accessory.ID] != null && car.Equipment[accessory.ID].Availability != Administration.Enums.Availability.NotAvailable))
+                    .Select(accessory => _equipmentMapper.MapGradeAccessory(accessory, crossModelEquipment[accessory.ID], categories, gradeCars, isPreview))
+                    .ToList();
+
+            var options = grade.Equipment.OfType<ModelGenerationGradeOption>()
+                     .Where(option => gradeCars.Any(car => car.Equipment[option.ID] != null && car.Equipment[option.ID].Availability != Administration.Enums.Availability.NotAvailable && option.Visible))
+                     .Select(option => _equipmentMapper.MapGradeOption(option, crossModelEquipment[option.ID], categories, gradeCars, isPreview))
+                     .ToList();
+
+            return new GradeEquipment {Accessories = accessories, Options = options};
+        }
+
+        private void FillGradePacks(IEnumerable<ModelGenerationGrade> grades, ContextData contextData, bool isPreview)
         {
             foreach (var grade in grades)
             {
-                var gradeCars = grade.Cars().ToList();
+                var gradeCars = grade.Cars().Filter(isPreview).ToList();
                 var gradePacks = grade.Packs;
                 var generationPacks = grade.Generation.Packs;
 
@@ -404,6 +510,56 @@ namespace TME.CarConfigurator.Publisher
 
                 contextData.GradePacks.Add(grade.ID, mappedGradePacks);
             }
+        }
+
+        private void FillSubModelGradePacks(IList<ModelGenerationGrade> grades, ModelGeneration modelGeneration, ContextData contextData, Boolean isPreview)
+        {
+            foreach (var subModel in modelGeneration.SubModels)
+            {
+                FillSubModelGradePacks(grades, subModel, contextData, isPreview);
+            }
+        }
+
+        private void FillSubModelGradePacks(IEnumerable<ModelGenerationGrade> grades, ModelGenerationSubModel subModel, ContextData contextData, Boolean isPreview)
+        {
+            var gradePacks = grades.ToDictionary(
+                grade => grade.ID,
+                grade => GetSubModelGradePacks(grade, subModel, isPreview));
+
+            contextData.SubModelGradePacks.Add(subModel.ID, gradePacks);
+        }
+
+        private IReadOnlyList<Repository.Objects.Packs.GradePack> GetSubModelGradePacks(ModelGenerationGrade grade, ModelGenerationSubModel subModel, Boolean isPreview)
+        {
+            var subModelGradeCars = grade.Cars().Filter(isPreview).Where(car => car.SubModelID == subModel.ID).ToList();
+            var gradePacks = grade.Packs;
+            var generationPacks = grade.Generation.Packs;
+
+            var mappedGradePacks = gradePacks
+                                    .Select(gradePack => _packMapper.MapGradePack(gradePack, generationPacks[gradePack.ID], subModelGradeCars))
+                                    .Where(gradePack => gradePack.OptionalOn.Any() || gradePack.StandardOn.Any()); // do not publish packs that are not available on any car
+
+            return mappedGradePacks.ToList();
+        }
+
+        private void FillEquipmentCategories(ContextData contextData)
+        {
+            var mappedCategories = EquipmentCategories.GetEquipmentCategories()
+                .Flatten(category => category.Categories)
+                .Select(_categoryMapper.MapEquipmentCategory);
+
+            foreach (var mappedCategory in mappedCategories)
+                contextData.EquipmentCategories.Add(mappedCategory);
+        }
+
+        private void FillSpecificationCategories(ContextData contextData)
+        {
+            var mappedCategories = SpecificationCategories.GetSpecificationCategories()
+                                                                         .Flatten(category => category.Categories)
+                                                                         .Select(_categoryMapper.MapSpecificationCategory);
+
+            foreach (var mappedCategory in mappedCategories)
+                contextData.SpecificationCategories.Add(mappedCategory);
         }
     }
 }

@@ -42,42 +42,34 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return new StartingPrice(Adaptee); }
         }
 
-        public IGrade BasedUpon
+        public IGradeInfo BasedUpon
         {
             get
             {
-                return Adaptee.BasedUpon==null ? null : new Grade(Adaptee.BasedUpon);
+                return Adaptee.BasedUpon==null ? null : new GradeInfo(Adaptee.BasedUpon);
             }
         }
 
-        public IEnumerable<IVisibleInModeAndView> VisibleIn
+        public IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
             get { return Adaptee.Assets.GetVisibleInModeAndViews(); }
         }
 
-        public IEnumerable<IAsset> Assets
+        public IReadOnlyList<IAsset> Assets
         {
             get { return Adaptee.Assets.GetPlainAssets(); }
         }
 
-        public IEnumerable<IGradeEquipmentItem> Equipment
+        public IGradeEquipment Equipment
         {
-            get
-            {
-                return Adaptee.Equipment
-                        .Cast<Legacy.EquipmentCompareItem>()
-                        .Select(x => 
-                            (   x.Type == Legacy.EquipmentType.Accessory 
-                                    ?  (IGradeEquipmentItem)new GradeAccesory((Legacy.EquipmentCompareAccessory)x)
-                                    : (IGradeEquipmentItem)new Equipment.GradeOption((Legacy.EquipmentCompareOption)x)
-                            )
-                          );
-            }
+            get { return new GradeEquipment(Adaptee); }
         }
 
-        public IEnumerable<IGradePack> Packs
+
+        public IReadOnlyList<IGradePack> Packs
         {
-            get { return Adaptee.Packs.Cast<Legacy.PackCompareItem>().Select(x => new Packs.GradePack(x)); }
+            get { return Adaptee.Packs.Cast<Legacy.PackCompareItem>().Select(x => new GradePack(x)).ToList(); }
         }
     }
+
 }

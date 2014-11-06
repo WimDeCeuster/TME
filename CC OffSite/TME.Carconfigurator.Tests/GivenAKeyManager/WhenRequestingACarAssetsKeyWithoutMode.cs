@@ -34,7 +34,7 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
 
         protected override void Act()
         {
-            _actualKey = _keyManager.GetAssetsKey(_publicationId, _carId, _objectId, _view, _mode);
+            _actualKey = _keyManager.GetCarAssetsKey(_publicationId, _carId, _objectId, _view, _mode);
         }
 
         [Fact]

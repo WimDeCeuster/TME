@@ -12,7 +12,7 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.ColourConfigurator.Query.Tests.Services.GivenAColourService
+namespace TME.CarConfigurator.Query.Tests.Services.GivenAColourService
 {
     public class WhenGetColourCombinationsIsCalled : TestBase
     {

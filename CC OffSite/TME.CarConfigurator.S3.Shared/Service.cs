@@ -4,7 +4,6 @@ using Amazon.S3.Model;
 using System.Threading.Tasks;
 using System.IO;
 using System;
-using TME.CarConfigurator.Publisher.Common.Result;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.S3.Shared.Exceptions;
 
@@ -26,7 +25,7 @@ namespace TME.CarConfigurator.S3.Shared
             _bucketNameTemplate = bucketNameTemplate;
         }
 
-        public async Task<Result> PutObjectAsync(String brand, String country, String key, String item)
+        public async Task PutObjectAsync(String brand, String country, String key, String item)
         {
             if (brand == null) throw new ArgumentNullException("brand");
             if (country == null) throw new ArgumentNullException("country");
@@ -48,12 +47,12 @@ namespace TME.CarConfigurator.S3.Shared
             if (!DoesBucketExist(brand, country))
                 CreateBucket(brand, country);
 
-            var result = await _client.PutObjectAsync(request);
+            var response = await _client.PutObjectAsync(request);
 
-            if (result.HttpStatusCode == System.Net.HttpStatusCode.OK)
-                return new Successfull();
+            if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
+                return;
 
-            return new Failed{Reason = string.Format("Could not put object for request {0}\\{1}, response status code was {2}", request.BucketName, request.Key, result.HttpStatusCode)};
+            throw new PutObjectFailedException(request, response);
         }
 
         private string GetBucketName(String brand, String country)

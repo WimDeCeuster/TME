@@ -5,7 +5,10 @@ using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.Interfaces.TechnicalSpecifications;
+using TME.CarConfigurator.LegacyAdapter.Assets;
 using TME.CarConfigurator.LegacyAdapter.Equipment;
+using TME.CarConfigurator.LegacyAdapter.TechnicalSpecifications;
 using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter
@@ -111,17 +114,27 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get
             {
-                return Adaptee.Cars.Cast<Legacy.Car>()
-                        .SelectMany(car => car.Colours.Cast<Legacy.CarColourCombination>())
-                        .GroupBy(colourCombination => Tuple.Create(colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID))
-                        .Select(group => new Colours.ColourCombination(group.First()))
-                        .ToList();
+                return Adaptee.Cars
+                              .Cast<Legacy.Car>()
+                              .SelectMany(car => car.Colours.Cast<Legacy.CarColourCombination>())
+                              .GroupBy(colourCombination => Tuple.Create(colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID))
+                              .Select(group => new Colours.ColourCombination(group.First()))
+                              .OrderBy(combination => combination.ExteriorColour.Type.SortIndex)
+                              .ThenBy(combination => combination.ExteriorColour.SortIndex)
+                              .ThenBy(combination => combination.Upholstery.Type.SortIndex)
+                              .ThenBy(combination => combination.Upholstery.SortIndex)
+                              .ToList();
             }
         }
 
         public IModelEquipment Equipment
         {
             get { return new ModelEquipment();}
+        }
+
+        public IModelTechnicalSpecifications TechnicalSpecifications
+        {
+            get { return new ModelTechnicalSpecifications(); }
         }
     }
 }

@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
-using TME.CarConfigurator.Publisher.Common.Result;
+
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Publisher.Interfaces;
 
 namespace TME.CarConfigurator.S3.Publisher
@@ -25,11 +26,19 @@ namespace TME.CarConfigurator.S3.Publisher
             _timeFramePublishHelper = timeFramePublishHelper;
         }
 
-        public async Task<IEnumerable<Result>> PublishGenerationGradesAsync(IContext context)
+        public async Task PublishGenerationGradesAsync(IContext context)
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            return await _timeFramePublishHelper.PublishBaseObjectList(context, timeFrame => timeFrame.Grades, _gradeService.PutTimeFrameGenerationGrades);
+            await _timeFramePublishHelper.PublishBaseObjectList(context, timeFrame => timeFrame.Grades, _gradeService.PutTimeFrameGenerationGrades);
+        }
+
+        public async Task PublishSubModelGradesAsync(IContext context)
+        {
+            if (context == null) throw new ArgumentNullException("context");
+
+            await _timeFramePublishHelper.PublishPerParent(context, timeFrame => timeFrame.SubModelGrades.Keys,
+                (timeFrame, subModelId) => timeFrame.SubModelGrades[subModelId], _gradeService.PutGradesPerSubModel);
         }
     }
 }

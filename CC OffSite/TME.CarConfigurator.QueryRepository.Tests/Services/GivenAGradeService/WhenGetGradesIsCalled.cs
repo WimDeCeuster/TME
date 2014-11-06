@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using FakeItEasy;
+﻿using FakeItEasy;
 using FluentAssertions;
+using System;
+using System.Collections.Generic;
 using TME.CarConfigurator.DI;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;

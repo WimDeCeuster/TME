@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Core;
 using Car = TME.CarConfigurator.Repository.Objects.Car;
+using GradeInfo = TME.CarConfigurator.Repository.Objects.GradeInfo;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
@@ -33,57 +35,73 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 .OrderBy(car => car.StartingPrice.IncludingVat)
                 .First();
 
-            var mappedGrade = new Grade
-            {
-                BasedUponGradeID = generationGrade.BasedUpon.ID,
-                Special = generationGrade.Special,
-                StartingPrice = new Price
-                {
-                    ExcludingVat = cheapestCar.BasePrice.ExcludingVat,
-                    IncludingVat = cheapestCar.BasePrice.IncludingVat
-                },
-                VisibleIn = _assetSetMapper.GetVisibility(generationGrade.AssetSet).ToList()
-            };
+            var mappedGrade = GetMappedGrade(generationGrade, cheapestCar);
 
-            return _baseMapper.MapDefaultsWithSort(mappedGrade, generationGrade, generationGrade);
+            return _baseMapper.MapDefaultsWithSort(mappedGrade, generationGrade);
         }
 
-        public Grade MapSubModelGrade(ModelGenerationGrade grade, ModelGenerationSubModel subModel)
+        public Grade MapSubModelGrade(ModelGenerationGrade grade, ModelGenerationSubModel subModel,IEnumerable<Car> cars)
         {
             var generationGradeSubModel = grade.SubModels.Where(s => s.Name == subModel.Name).Single(s => s.SubModel.ID == subModel.ID);
-            
-            var mappedGrade = new Grade
-            {
-                BasedUponGradeID = grade.BasedUpon.ID,
-                Special = grade.Special,
-                VisibleIn = _assetSetMapper.GetVisibility(grade.AssetSet).ToList()
-            };
+            var gradeCars = grade.Cars().Where(car => subModel.Cars().Any(subModelCar => subModelCar.ID == car.ID)).ToArray();
+            var cheapestCar = cars.Where(car => gradeCars.Any(gradeCar => gradeCar.ID == car.ID))
+                .OrderBy(car => car.StartingPrice.IncludingVat)
+                .First();
 
-            var mappedGradeForSubModelWithDefaults = _baseMapper.MapDefaultsWithSort(mappedGrade,grade,grade);
+
+            var mappedGrade = GetMappedGrade(grade, cheapestCar);
+
+            var mappedGradeForSubModelWithDefaults = _baseMapper.MapDefaultsWithSort(mappedGrade, grade);
 
             mappedGradeForSubModelWithDefaults.Name = SetTheCorrectSubModelGradeName(generationGradeSubModel, grade);
             mappedGradeForSubModelWithDefaults.LocalCode = String.Empty;
             mappedGradeForSubModelWithDefaults.InternalCode = grade.Code + "-" + subModel.Code;
 
+            mappedGradeForSubModelWithDefaults.Labels = _labelMapper.MapLabels(generationGradeSubModel.Translation.Labels, grade.Translation.Labels);
+
             SetTheCorrectSubModelGradeLabels(grade, mappedGradeForSubModelWithDefaults, generationGradeSubModel);
 
-
             return mappedGradeForSubModelWithDefaults;
+        }
+
+        private Grade GetMappedGrade(ModelGenerationGrade grade, Car cheapestCar)
+        {
+            var mappedGrade = new Grade
+            {
+                BasedUpon = GetBasedUponGradeInfo(grade),
+                Special = grade.Special,
+                StartingPrice = new Price()
+                {
+                    ExcludingVat = cheapestCar.BasePrice.ExcludingVat,
+                    IncludingVat = cheapestCar.BasePrice.IncludingVat
+                },
+                VisibleIn = _assetSetMapper.GetVisibility(grade.AssetSet).ToList()
+            };
+            return mappedGrade;
+        }
+
+        private static GradeInfo GetBasedUponGradeInfo(ModelGenerationGrade grade)
+        {
+            var basedUponGrade = grade.Generation.Grades.FirstOrDefault(x => x.ID == grade.BasedUpon.ID);
+            var basedUponGradeInfo = (basedUponGrade == null
+                ? null
+                : new GradeInfo
+                {
+                    ID = (basedUponGrade.ID),
+                    Name = (basedUponGrade.Translation.Name.DefaultIfEmpty(basedUponGrade.Name))
+                });
+            return basedUponGradeInfo;
         }
 
         private void SetTheCorrectSubModelGradeLabels(ModelGenerationGrade grade, 
             Grade mappedGradeForSubModelWithDefaults,
             ModelGenerationGradeSubModel generationGradeSubModel)
         {
-            mappedGradeForSubModelWithDefaults.Labels =
-                generationGradeSubModel.Translation.Labels.Select(_labelMapper.MapLabel)
-                    .Where(adminLabel => !String.IsNullOrWhiteSpace(adminLabel.Value))
-                    .ToList();
+            mappedGradeForSubModelWithDefaults.Labels = _labelMapper.MapLabels(generationGradeSubModel.Translation.Labels);
 
             if (mappedGradeForSubModelWithDefaults.Labels.Count == 0)
             {
-                mappedGradeForSubModelWithDefaults.Labels = grade.Translation.Labels.Select(_labelMapper.MapLabel)
-                    .Where(adminLabel => !String.IsNullOrWhiteSpace(adminLabel.Value)).ToList();
+                mappedGradeForSubModelWithDefaults.Labels = _labelMapper.MapLabels(grade.Translation.Labels);
             }
         }
 

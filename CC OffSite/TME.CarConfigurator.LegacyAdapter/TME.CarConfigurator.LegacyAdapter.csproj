@@ -62,7 +62,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Colours\ColourCombinationInfo.cs" />
+    <Compile Include="GradeInfo.cs" />
+    <Compile Include="Extensions\ColouringModesExtensions.cs" />
+    <Compile Include="Packs\CarPack.cs" />
+    <Compile Include="CarPart.cs" />
     <Compile Include="Colours\ColourCombination.cs" />
+    <Compile Include="Colours\ExteriorColour.cs" />
     <Compile Include="Colours\Upholstery.cs" />
     <Compile Include="Colours\UpholsteryType.cs" />
     <Compile Include="Colours\ExteriorColourType.cs" />
@@ -74,8 +80,17 @@
     <Compile Include="BodyType.cs" />
     <Compile Include="Car.cs" />
     <Compile Include="CarConfiguratorVersion.cs" />
+    <Compile Include="Equipment\CarAccessory.cs" />
+    <Compile Include="Equipment\CarEquipmentItem.cs" />
+    <Compile Include="Equipment\CarOption.cs" />
     <Compile Include="Equipment\Category.cs" />
+    <Compile Include="Equipment\CarEquipment.cs" />
+    <Compile Include="Colours\ExteriorColourInfo.cs" />
+    <Compile Include="Equipment\ExteriorColour.cs" />
+    <Compile Include="Equipment\GradeEquipment.cs" />
     <Compile Include="Equipment\ModelEquipment.cs" />
+    <Compile Include="Equipment\MountingCosts.cs" />
+    <Compile Include="Colours\UpholsteryInfo.cs" />
     <Compile Include="Grade.cs" />
     <Compile Include="CarInfo.cs" />
     <Compile Include="Equipment\CategoryInfo.cs" />
@@ -83,15 +98,23 @@
     <Compile Include="Equipment\EquipmentItem.cs" />
     <Compile Include="Extensions\AssetExtensions.cs" />
     <Compile Include="Extensions\VisibilityExtensions.cs" />
-    <Compile Include="Colours\ExteriorColour.cs" />
+    <Compile Include="Colours\CarExteriorColour.cs" />
     <Compile Include="Equipment\GradeAccesory.cs" />
     <Compile Include="Equipment\GradeEquipmentItem.cs" />
     <Compile Include="Equipment\GradeOption.cs" />
     <Compile Include="Equipment\Option.cs" />
     <Compile Include="Equipment\OptionInfo.cs" />
+    <Compile Include="Packs\CarPackAccessory.cs" />
+    <Compile Include="Packs\CarPackEquipment.cs" />
+    <Compile Include="Packs\CarPackEquipmentItem.cs" />
+    <Compile Include="Packs\CarPackOption.cs" />
+    <Compile Include="Packs\CarPackExteriorColourType.cs" />
+    <Compile Include="Packs\CarPackUpholsteryType.cs" />
     <Compile Include="Packs\GradePack.cs" />
     <Compile Include="Steering.cs" />
     <Compile Include="SubModel.cs" />
+    <Compile Include="TechnicalSpecifications\Category.cs" />
+    <Compile Include="TechnicalSpecifications\ModelTechnicalSpecifications.cs" />
     <Compile Include="WheelDrive.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="TransmissionType.cs" />
@@ -112,14 +135,6 @@
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
       <Project>{efdb033c-66a8-40bb-b596-561f45e6c7f7}</Project>
       <Name>TME.CarConfigurator.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
-      <Project>{2154EAAA-3D11-4654-BEA6-7B147451DBA8}</Project>
-      <Name>TME.CarConfigurator.Repository.Objects</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TME.CarConfigurator\TME.CarConfigurator.csproj">
-      <Project>{89489B1E-DFAA-4164-93C3-A79859368CF8}</Project>
-      <Name>TME.CarConfigurator</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

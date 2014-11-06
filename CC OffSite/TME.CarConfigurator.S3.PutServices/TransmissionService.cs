@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
-using TME.CarConfigurator.Publisher.Common.Result;
+
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
@@ -21,7 +21,7 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keyManager = keyManager;
         }        
 
-        public async Task<Result> PutTimeFrameGenerationTransmissions(String brand, String country, Guid publicationID, Guid timeFrameID, IEnumerable<Transmission> transmissions)
+        public async Task PutTimeFrameGenerationTransmissions(String brand, String country, Guid publicationID, Guid timeFrameID, IEnumerable<Transmission> transmissions)
         {
             if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand");
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
@@ -30,7 +30,7 @@ namespace TME.CarConfigurator.S3.CommandServices
             var path = _keyManager.GetTransmissionsKey(publicationID, timeFrameID);
             var value = _serialiser.Serialise(transmissions);
 
-            return await _service.PutObjectAsync(brand, country, path, value);
+            await _service.PutObjectAsync(brand, country, path, value);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _gradeMapper = gradeMapper;
         }
 
-        public SubModel MapSubModel(ModelGenerationGrade[] generationGrades, ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
+        public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
         {
             var cheapestCar = GetTheCheapestCar(modelGenerationSubModel, contextData.Cars);
 
@@ -48,49 +48,18 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 },
                 Assets = GetMappedAssetsForSubModel(modelGenerationSubModel),
                 Links = GetMappedLinksForSubModel(modelGenerationSubModel, isPreview),
-                Grades = GetSubModelGrades(generationGrades, modelGenerationSubModel, contextData)
+                Grades = GetSubModelGrades(modelGenerationSubModel,contextData)
             };
 
-            return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel,modelGenerationSubModel);
+            return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel);
+        }
+        
+        private IList<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+        {
+            return contextData.SubModelGrades[modelGenerationSubModel.ID].ToList();
         }
 
-/*        private static GradeEquipment GetSubModelEquipment(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
-        {
-            var accesories =  contextData.GradeEquipments.Values.SelectMany(equipment => equipment.Accessories)
-                .ToList()
-                .Where(
-                    accessory => 
-                        modelGenerationSubModel.Equipment.Any(generationSubModelEquipmentItem => generationSubModelEquipmentItem.ID == accessory.ID));
-            
-            var options = contextData.GradeEquipments.Values.SelectMany(equipment => equipment.Options)
-                    .ToList()
-                    .Where(
-                        option =>
-                            modelGenerationSubModel.Equipment.Any(
-                                generationSubModelEquipmentItem => generationSubModelEquipmentItem.ID == option.ID));
-
-            return new GradeEquipment(){Accessories = accesories,Options = options};
-        }*/
-
-        private List<Grade> GetSubModelGrades(IEnumerable<ModelGenerationGrade> generationGrades, ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
-        {
-          /*  return generationGrades.Where(
-                    genGrade => genGrade.SubModels.Any(submodel => submodel.ID == modelGenerationSubModel.ID))
-                    .Select(generationGrade => _gradeMapper.MapSubModelGrade(generationGrade)).ToList();*/
-
-
-            return generationGrades
-                .Where(generationGrade => modelGenerationSubModel.Cars()
-                                                              .Any(car => car.GradeID == generationGrade.ID))
-                .Select(grade => _gradeMapper.MapSubModelGrade(grade,modelGenerationSubModel)).ToList();
-
-            return contextData.Grades
-                .Where(contextGrade => modelGenerationSubModel.Cars()
-                                                              .Any(car => car.GradeID == contextGrade.ID))
-                .ToList();
-        }
-
-        private List<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)
+        private IList<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)
         {
             return modelGenerationSubModel.Links
                 .Where(link => link.IsApplicableFor(modelGenerationSubModel.Generation))
@@ -98,7 +67,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 .ToList();
         }
 
-        private List<Asset> GetMappedAssetsForSubModel(ModelGenerationSubModel modelGenerationSubModel)
+        private IList<Asset> GetMappedAssetsForSubModel(ModelGenerationSubModel modelGenerationSubModel)
         {
             return modelGenerationSubModel.AssetSet.Assets
                 .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGenerationSubModel.Generation))

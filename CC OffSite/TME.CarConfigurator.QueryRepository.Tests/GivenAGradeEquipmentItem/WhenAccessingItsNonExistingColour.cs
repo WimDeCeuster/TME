@@ -11,7 +11,6 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 using TME.CarConfigurator.Interfaces.Equipment;
-using TME.CarConfigurator.Interfaces.Colours;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAGradeEquipmentItem
 {
@@ -41,11 +40,11 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGradeEquipmentItem
 
             var context = new ContextBuilder().Build();
 
-            var gradeEquipmentService = A.Fake<IGradeEquipmentService>();
+            var gradeEquipmentService = A.Fake<IEquipmentService>();
             A.CallTo(() => gradeEquipmentService.GetGradeEquipment(A<Guid>._, A<Guid>._, A<Guid>._, A<Context>._)).Returns(repoGradeEquipment);
 
-            var gradeEquipmentFactory = new GradeEquipmentFactoryBuilder()
-                .WithGradeEquipmentService(gradeEquipmentService)
+            var gradeEquipmentFactory = new EquipmentFactoryBuilder()
+                .WithEquipmentService(gradeEquipmentService)
                 .Build();
 
             _accessory = gradeEquipmentFactory.GetGradeEquipment(publication, context, Guid.Empty).Accessories.Single();

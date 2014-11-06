@@ -2,6 +2,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2>Toyota Viewer</h2>
+<div id="validating">
+    Validating...
+</div>
+<div id="validated">
+    <span id="invalid">Invalid</span>
+    <span id="valid">Valid</span>
+</div>
 <div>
     <span class="toggle-all">[<span class="symbol"></span>] <span class="action"></span> all</span>
     @RenderBody()

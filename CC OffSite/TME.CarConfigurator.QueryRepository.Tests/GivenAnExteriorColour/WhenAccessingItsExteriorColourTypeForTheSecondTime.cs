@@ -1,16 +1,12 @@
-﻿using FakeItEasy;
+﻿using System;
 using FluentAssertions;
-using System;
-using System.Linq;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
-using TME.CarConfigurator.QueryServices;
-using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.GivenAExteriorColour
+namespace TME.CarConfigurator.Query.Tests.GivenAnExteriorColour
 {
     public class WhenAccessingItsExteriorColourTypeForTheSecondTime : TestBase
     {
@@ -43,7 +39,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAExteriorColour
             var colourFactory = new ColourFactoryBuilder()
                 .Build();
 
-            _exteriorColour = colourFactory.GetExteriorColour(repoExteriorColour);
+            _exteriorColour = colourFactory.GetExteriorColour(repoExteriorColour, publication, context);
 
             _firstExteriorColourType = _exteriorColour.Type;
         }

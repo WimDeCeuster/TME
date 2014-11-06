@@ -115,6 +115,18 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="TME.BusinessObjects, Version=4.0.11.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TME.BusinessObjects.dll</HintPath>
+    </Reference>
+    <Reference Include="TME.BusinessObjects.Templates, Version=2.2.4.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TME.BusinessObjects.Templates.dll</HintPath>
+    </Reference>
+    <Reference Include="TME.CarConfigurator.Administration, Version=7.1.4.1, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TME.CarConfigurator.Administration.dll</HintPath>
+    </Reference>
     <Reference Include="TME.Diagnostics">
       <HintPath>..\..\Libraries\TME.Diagnostics.dll</HintPath>
     </Reference>
@@ -148,8 +160,18 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AutoCompareController.cs" />
+    <Compile Include="Controllers\ModelCarPackAssetsController.cs" />
+    <Compile Include="Controllers\ModelCarPacksController.cs" />
+    <Compile Include="Controllers\ModelUpholsteryVisibleInAssetsController.cs" />
+    <Compile Include="Controllers\ModelExteriorColourVisibleInAssetsController.cs" />
+    <Compile Include="Controllers\ModelCarEquipmentController.cs" />
+    <Compile Include="Controllers\ModelCarPartsController.cs" />
+    <Compile Include="Controllers\ModelCarPartVisibleInAssetsController.cs" />
+    <Compile Include="Controllers\ModelTechnicalSpecificationCategoriesController.cs" />
     <Compile Include="Controllers\ModelEquipmentCategoriesController.cs" />
     <Compile Include="Controllers\ModelColourCombinationsController.cs" />
+    <Compile Include="Controllers\ModelUpholsteryAssetsController.cs" />
+    <Compile Include="Controllers\ModelExteriorColourAssetsController.cs" />
     <Compile Include="Controllers\ModelGradePacksController.cs" />
     <Compile Include="Controllers\ModelGradeVisibleInAssetsController.cs" />
     <Compile Include="Controllers\ModelGradeEquipmentController.cs" />
@@ -179,11 +201,13 @@
     </Compile>
     <Compile Include="Models\CompareView.cs" />
     <Compile Include="Models\BaseObjectWithPrefix.cs" />
-    <Compile Include="Models\GradeEquipmentModel.cs" />
+    <Compile Include="Models\ModelCompare.cs" />
     <Compile Include="Models\ModelWithMetrics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\invalid.gif" />
+    <Content Include="Content\images\loading.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -197,6 +221,7 @@
     <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\images\valid.gif" />
     <Content Include="Content\themes\base\jquery-ui.css" />
     <Content Include="Content\themes\base\jquery.ui.accordion.css" />
     <Content Include="Content\themes\base\jquery.ui.all.css" />
@@ -328,6 +353,16 @@
     <Content Include="Views\Shared\Colours\_upholstery.cshtml" />
     <Content Include="Views\ModelEquipmentCategories\details.cshtml" />
     <Content Include="Views\ModelEquipmentCategories\Index.cshtml" />
+    <Content Include="Views\ModelTechnicalSpecificationCategories\details.cshtml" />
+    <Content Include="Views\ModelTechnicalSpecificationCategories\Index.cshtml" />
+    <Content Include="Views\ModelCarParts\details.cshtml" />
+    <Content Include="Views\ModelCarParts\Index.cshtml" />
+    <Content Include="Views\ModelCarEquipment\details.cshtml" />
+    <Content Include="Views\ModelCarEquipment\Index.cshtml" />
+    <Content Include="Views\Shared\Equipment\_carEquipmentItem.cshtml" />
+    <Content Include="Views\Shared\Equipment\_exteriorColour.cshtml" />
+    <Content Include="Views\ModelCarPacks\details.cshtml" />
+    <Content Include="Views\ModelCarPacks\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -355,6 +390,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
       <Project>{2154EAAA-3D11-4654-BEA6-7B147451DBA8}</Project>
       <Name>TME.CarConfigurator.Repository.Objects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.QueryServices.csproj">
+      <Project>{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}</Project>
+      <Name>TME.CarConfigurator.S3.QueryServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator\TME.CarConfigurator.csproj">
       <Project>{89489B1E-DFAA-4164-93C3-A79859368CF8}</Project>

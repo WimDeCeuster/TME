@@ -40,7 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IColourService.cs" />
-    <Compile Include="IGradeOptionService.cs" />
+    <Compile Include="ISpecificationService.cs" />
+    <Compile Include="IEquipmentService.cs" />
     <Compile Include="IAssetService.cs" />
     <Compile Include="IBodyTypeService.cs" />
     <Compile Include="ICarService.cs" />

@@ -110,7 +110,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3WheelDrivePublisher
 
         protected override void Act()
         {
-            var result = _publisher.PublishGenerationWheelDrivesAsync(_context).Result;
+             _publisher.PublishGenerationWheelDrivesAsync(_context).Wait();
         }
 
         [Fact]

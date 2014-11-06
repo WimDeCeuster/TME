@@ -48,9 +48,11 @@
                     }
                 </div>
             </div>
-            @*<!--
-                <strong>Transmission</strong>
-                <div class="sub-item object" data-id="@Html.Raw(model.Transmission.ID)">
+            <div class="object sub-item" data-id="@Html.Raw(model.Transmission.ID)">
+                <div class="title">
+                    <strong>Transmission</strong>
+                </div>
+                <div class="content">
                     @Html.Partial("_transmission", model.Transmission)
                     <br/>
                     @Html.ActionLink("Assets", "Index", "ModelTransmissionAssets", new { modelID = ViewBag.ModelID, carID = model.ID }, new { })
@@ -60,18 +62,24 @@
                         @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View),"Index", "ModelTransmissionVisibleInAssets", new { modelID = ViewBag.ModelID, carID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View}, new { })
                     }
                 </div>
-                <strong>WheelDrive</strong>
-                <div class="sub-item object" data-id="@Html.Raw(model.WheelDrive.ID)">
-                    @Html.Partial("_wheelDrive", model.WheelDrive)
-                    <br/>
-                    @Html.ActionLink("Assets", "Index", "ModelWheelDriveAssets", new { modelID = ViewBag.ModelID, carID = model.ID }, new { })
-                    @foreach (var visibleInModeAndView in model.WheelDrive.VisibleIn.Where(x => x.Assets.Any()))
-                    {
-                        @Html.Raw(" | ")
-                        @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View),"Index", "ModelWheelDriveVisibleInAssets", new { modelID = ViewBag.ModelID, carID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View}, new { })
-                    }
-                </div>
-                -->*@
+            </div>
+           @* <strong>WheelDrive</strong>
+            <div class="sub-item object" data-id="@Html.Raw(model.WheelDrive.ID)">
+                @Html.Partial("_wheelDrive", model.WheelDrive)
+                <br/>
+                @Html.ActionLink("Assets", "Index", "ModelWheelDriveAssets", new { modelID = ViewBag.ModelID, carID = model.ID }, new { })
+                @foreach (var visibleInModeAndView in model.WheelDrive.VisibleIn.Where(x => x.Assets.Any()))
+                {
+                    @Html.Raw(" | ")
+                    @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View),"Index", "ModelWheelDriveVisibleInAssets", new { modelID = ViewBag.ModelID, carID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View}, new { })
+                }
+            </div>*@
+        
+            <p class="property" data-id="actionlinks">
+                @Html.ActionLink("Parts", "Index", "ModelCarParts", new { modelID = ViewBag.ModelID, carID = model.ID }, new { }) | 
+                @Html.ActionLink("Equipment", "Index", "ModelCarEquipment", new { modelID = ViewBag.ModelID, carID = model.ID }, new { }) | 
+                @Html.ActionLink("Packs", "Index", "ModelCarPacks", new { modelID = ViewBag.ModelID, carID = model.ID }, new { })
+
         </div>
     </div>
 }

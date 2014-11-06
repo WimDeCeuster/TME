@@ -2,10 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Publisher.Common;
+using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Packs;
+using EquipmentCategory = TME.CarConfigurator.Repository.Objects.Equipment.Category;
+using SpecificationCategory = TME.CarConfigurator.Repository.Objects.TechnicalSpecifications.Category;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
@@ -20,10 +24,16 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         private List<Steering> _steerings = new List<Steering>();
         private List<Grade> _grades = new List<Grade>();
         private readonly Dictionary<Guid, GradeEquipment> _gradeEquipments = new Dictionary<Guid, GradeEquipment>();
-        private readonly Dictionary<Guid, IList<GradePack>> _gradePacks = new Dictionary<Guid, IList<GradePack>>();
+        private readonly Dictionary<Guid, IReadOnlyList<GradePack>> _gradePacks = new Dictionary<Guid, IReadOnlyList<GradePack>>();
+        private readonly Dictionary<Guid, IList<Grade>> _subModelGrades = new Dictionary<Guid, IList<Grade>>();
+        private readonly Dictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>> _subModelGradeEquipments = new Dictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>>();
+        private readonly Dictionary<Guid, IDictionary<Guid, IReadOnlyList<GradePack>>> _subModelGradePacks = new Dictionary<Guid, IDictionary<Guid, IReadOnlyList<GradePack>>>();
         private List<Transmission> _transmissions = new List<Transmission>();
         private List<SubModel> _subModels = new List<SubModel>();
         private List<ColourCombination> _colourCombinations = new List<ColourCombination>();
+        private List<EquipmentCategory> _equipmentCategories = new List<EquipmentCategory>();
+        private List<SpecificationCategory> _specificationCategories = new List<SpecificationCategory>();
+        private readonly Dictionary<Guid, IDictionary<Guid, IList<Asset>>> _subModelAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
 
         public TimeFrameBuilder WithDateRange(DateTime from, DateTime until)
         {
@@ -75,6 +85,27 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public TimeFrameBuilder WithSubModelGradeEquipment(Guid submodelID,Guid gradeId, GradeEquipment gradeEquipment)
+        {
+            _subModelGradeEquipments.Add(submodelID,new Dictionary<Guid, GradeEquipment>(){{gradeId,gradeEquipment}});
+            return this;
+        }
+
+        public TimeFrameBuilder WithSubModelGradePacks(Guid submodelID, Guid gradeId, params GradePack[] packs)
+        {
+            if (!_subModelGradePacks.ContainsKey(submodelID))
+                _subModelGradePacks.Add(submodelID, new Dictionary<Guid, IReadOnlyList<GradePack>>());
+
+            _subModelGradePacks[submodelID].Add(gradeId, packs);
+            return this;
+        }
+
+        public TimeFrameBuilder WithSubModelAssets(Guid subModelID, Guid objectID, IEnumerable<Asset> assets)
+        {
+            _subModelAssets.Add(subModelID,new Dictionary<Guid, IList<Asset>>(){{objectID,assets.ToList()}});
+            return this;
+        }
+
         public TimeFrameBuilder WithTransmissions(IEnumerable<Transmission> transmissions)
         {
             _transmissions = transmissions.ToList();
@@ -87,7 +118,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
-        public TimeFrameBuilder WithGradePacks(Guid gradeId, IList<GradePack> gradePacks)
+        public TimeFrameBuilder WithGradePacks(Guid gradeId, IReadOnlyList<GradePack> gradePacks)
         {
             _gradePacks.Add(gradeId, gradePacks);
             return this;
@@ -96,6 +127,24 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         public TimeFrameBuilder WithColourCombinations(IEnumerable<ColourCombination> colourCombinations)
         {
             _colourCombinations = colourCombinations.ToList();
+            return this;
+        }
+
+        public TimeFrameBuilder WithSubModelGrades(SubModel subModel, IReadOnlyList<Grade> grades)
+        {
+            _subModelGrades.Add(subModel.ID, grades.ToList());
+            return this;
+        }
+               	
+	    public TimeFrameBuilder WithEquipmentCategories(params Category[] categories)
+        {
+            _equipmentCategories = categories.ToList();
+            return this;
+        }
+
+        public TimeFrameBuilder WithSpecificationCategories(params SpecificationCategory[] categories)
+        {
+            _specificationCategories = categories.ToList();
             return this;
         }
 
@@ -112,9 +161,17 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
                 _steerings,
                 _grades,
                 _gradeEquipments,
+                _subModelGrades,
                 _gradePacks,
                 _subModels,
-                _colourCombinations);
+                _colourCombinations,
+                _equipmentCategories,
+                _subModelGradeEquipments,
+                _specificationCategories,
+                _subModelGradePacks.ToDictionary(
+                    entry => entry.Key,
+                    entry => (IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>>)entry.Value.ToDictionary()
+                ));
         }
     }
 }

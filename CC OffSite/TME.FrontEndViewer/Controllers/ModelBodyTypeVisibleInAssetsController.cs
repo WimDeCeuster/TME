@@ -42,9 +42,6 @@ namespace TME.FrontEndViewer.Controllers
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
         }
-
-
-
         private static ModelWithMetrics<IReadOnlyList<IAsset>> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid? bodyTypeID, Guid? carID, string mode, string view)
         {
             var start = DateTime.Now;
@@ -57,6 +54,7 @@ namespace TME.FrontEndViewer.Controllers
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
         }
+
         private static List<IAsset> GetList(IModel model, Guid? bodyTypeID, Guid? carID, string mode, string view)
         {
             var bodyType = (carID == null

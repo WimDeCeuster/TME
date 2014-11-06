@@ -18,94 +18,154 @@
         Array.prototype.like = function (array2, comparer) {
             var array1 = this
 
-            comparer = comparer || function (x1, x2) { return x1 === x2 }
+            comparer = typeof comparer === 'function' ? comparer : function (x1, x2) { return x1 === x2 }
 
             return array2 && (array1.length === array2.length) && array1.every(function (x1, i) {
                 return comparer(x1, array2[i])
             })
         }
 
-        $('.object').each(function () {
-            var object = $(this)
-            if (object.data('linked-item'))
-                return
+        Array.prototype.unique = function (comparer) {
+            comparer = typeof comparer === 'function' ? comparer : function (x1, x2) { return x1 === x2 }
 
-            var isOld = !!object.parents('#oldarea').length
+            var result = []
 
-            var parents = object.parents('.object')
-
-            var linkedObject = findMatchingObject(object, isOld ? '#newarea' : '#oldarea')
-
-            var parentObjects = object.parents('.object')
-            if (!parentObjects.length)
-                parentObjects = object
-
-            var parentLinkedObjects = linkedObject.parents('.object')
-            if (!parentLinkedObjects.length)
-                parentLinkedObjects = linkedObject
-
-            if (!linkedObject.length) {
-                if (parentObjects.is(object))
-                    object.addClass('missing')
-                else {
-                    parentObjects.each(function (i, parent) {
-                        $(parent).addClass('missing-sub-item')
-                    })
-                    object.addClass('missing')
-                }
-                return
+            outer:
+            for (var i = 0, l = this.length; i < l; i++) {
+                for (var j = 0, k = result.length; j < k; j++)
+                    if (comparer(this[i], result[j]))
+                        continue outer
+                result.push(this[i])
             }
 
-            object.data('linked-item', linkedObject)
-            linkedObject.data('linked-item', object)
+            return result
+        }
 
-            object.find('.property').filter(isClosestTo(object))
-                                       .each(function () {
-                var property = $(this)
-                var id = getDataId(property)
-                var linkedProperty = linkedObject.find('.property[data-id="' + id + '"]')
-                                           .filter(isClosestTo(linkedObject))
+        $(function () {     
+            // link objects and find mismatches
+            $('.object:not(.ignore-compare)').each(function () {
+                var object = $(this)
+                if (object.data('linked-item'))
+                    return
 
-                var allowMismatch = linkedProperty.hasClass('allow-mismatch')
-                var isMismatch = linkedProperty.html() !== property.html()
-                var isUnique = linkedProperty.length === 1
+                var isOld = !!object.parents('#oldarea').length
 
-                if (isUnique && isMismatch && allowMismatch) {
-                    linkedProperty.addClass('allowed-mismatch')
-                    property.addClass('allowed-mismatch')
+                var parents = object.parents('.object')
+
+                var linkedObject = findMatchingObject(object, isOld ? '#newarea' : '#oldarea')
+
+                var parentObjects = object.parents('.object')
+                if (!parentObjects.length)
+                    parentObjects = object
+
+                var parentLinkedObjects = linkedObject.parents('.object')
+                if (!parentLinkedObjects.length)
+                    parentLinkedObjects = linkedObject
+
+                if (!linkedObject.length) {
+                    object.addClass('missing')
+                    if (!parentObjects.is(object)) {
+                        parentObjects.each(function (i, parent) {
+                            $(parent).addClass('missing-sub-item')
+                        })
+                        object.addClass('missing')
+                    }
+                    return
                 }
 
-                if (!isUnique || (isMismatch && !allowMismatch)) {
-                    parentLinkedObjects.each(function (i, parent) {
-                        $(parent).addClass('mismatch')
-                    })
-                    linkedProperty.addClass('mismatch')
-                    
-                    if (!parentLinkedObjects.is(linkedObject))
-                        linkedObject.addClass('mismatch')
+                object.data('linked-item', linkedObject)
+                linkedObject.data('linked-item', object)
 
-                    parentObjects.each(function (i, parent) {
-                        $(parent).addClass('mismatch')
-                    })
-                    property.addClass('mismatch')
-                    if (!parentObjects.is(object))
-                        object.addClass('mismatch')
+                var objectProperties = object.find('.property').filter(isClosestTo(object))
+                var linkedObjectProperties = linkedObject.find('.property').filter(isClosestTo(linkedObject))
+            
+                objectProperties.add(linkedObjectProperties)
+                                .toArray()
+                                .unique(sameDataId)
+                                .forEach(processProperty)
+            })
+
+            //move missing objects down
+            $('.object.missing:not(.ignore-compare)').each(function () {
+                var object = $(this)
+                object.appendTo(object.parent())
+            })
+
+            //compare order of non-missing objects
+            $('.object:not(.missing, .ignore-compare)').each(function () {
+                var object = $(this)
+                var linkedObject = object.data('linked-item')
+                var parentObjects = object.parents('.object')
+                if (!parentObjects.length)
+                    parentObjects = object
+
+                if (object.parent().children('.object').index(object) !== linkedObject.parent().children('.object').index(linkedObject)) {
+                    object.addClass('wrong-order')
+                    linkedObject.addClass('wrong-order')
+                    if (!parentObjects.is(object)) {
+                        parentObjects.each(function (i, parent) {
+                            $(parent).addClass('wrong-order-sub-item')
+                        })
+                    }
                 }
             })
+            
+            $('#validating').hide()
+
+            var allValid = !$('.missing, .mismatch, .wrong-order').length
+            $('#validated').addClass(allValid ? 'valid' : 'invalid')
+
         })
 
+        function processProperty(propertyElement) {
+            var property = $(propertyElement)
+            var object = property.parents('.object').eq(0)
+            var linkedObject = object.data('linked-item')
+            var id = getDataId(property)
+            var linkedProperty = linkedObject.find('.property[data-id="' + id + '"]')
+                                             .filter(isClosestTo(linkedObject))
+            var parentLinkedObjects = linkedObject.parents('.object')
+            var parentObjects = object.parents('.object')
+
+            var allowMismatch = linkedProperty.hasClass('allow-mismatch')
+            var isMismatch = linkedProperty.html() !== property.html()
+            var isUnique = linkedProperty.length === 1
+
+            if (isUnique && isMismatch && allowMismatch) {
+                linkedProperty.addClass('allowed-mismatch')
+                property.addClass('allowed-mismatch')
+            }
+
+            if (!isUnique || (isMismatch && !allowMismatch)) {
+                parentLinkedObjects.each(function (i, parent) {
+                    $(parent).addClass('mismatch')
+                })
+                linkedProperty.addClass('mismatch')
+                    
+                if (!parentLinkedObjects.is(linkedObject))
+                    linkedObject.addClass('mismatch')
+
+                parentObjects.each(function (i, parent) {
+                    $(parent).addClass('mismatch')
+                })
+                property.addClass('mismatch')
+                if (!parentObjects.is(object))
+                    object.addClass('mismatch')
+            }
+        }
+
         function findMatchingObject(object, linkedSelector) {
-            var parentsIds = object.parents('.object')
-                                         .toArray()
-                                         .map(getDataId)
+            var parentIds = object.parents('.object')
+                                  .toArray()
+                                  .map(getDataId)
 
             var id = getDataId(object)
             return $(linkedSelector + ' .object[data-id="' + id + '"]').filter(function () {
-                var candidateParentsIds = $(this).parents('.object')
-                                                 .toArray()
-                                                 .map(getDataId)
+                var candidateParentIds = $(this).parents('.object')
+                                                .toArray()
+                                                .map(getDataId)
 
-                return parentsIds.like(candidateParentsIds)
+                return parentIds.like(candidateParentIds)
             })
         }
 
@@ -119,6 +179,9 @@
             return $(element).attr('data-id').replace(/('|")/g, "\\$1")
         }
 
+        function sameDataId(el1, el2) {
+            return getDataId(el1) === getDataId(el2)
+        }
 
         //$("#oldarea .object").each(function () {
         //    var id = $(this).data('id');

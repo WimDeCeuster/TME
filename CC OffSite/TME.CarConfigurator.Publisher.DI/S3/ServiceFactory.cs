@@ -109,11 +109,18 @@ namespace TME.CarConfigurator.Publisher.DI.S3
             return new SubModelService(service, _serialiser, _keyManager);
         }
 
-        public IGradeEquipmentService GetGradeEquipmentService(String environment, PublicationDataSubset dataSubset)
+        public IEquipmentService GetEquipmentService(String environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
 
-            return new GradeEquipmentService(service, _serialiser, _keyManager);
+            return new EquipmentService(service, _serialiser, _keyManager);
+        }
+
+        public ISpecificationsService GetSpecificationsService(String environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return new SpecificationsService (service, _serialiser, _keyManager);
         }
 
         public IGradePackService GetGradePackService(string environment, PublicationDataSubset dataSubset)

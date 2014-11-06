@@ -42,9 +42,12 @@
     <Compile Include="AssetPublisher.cs" />
     <Compile Include="BodyTypePublisher.cs" />
     <Compile Include="CarPublisher.cs" />
+    <Compile Include="Extensions\AssetExtensions.cs" />
+    <Compile Include="Helpers\ModeAndView.cs" />
+    <Compile Include="SpecificationPublisher.cs" />
     <Compile Include="Extensions\EquipmentItemExtensions.cs" />
     <Compile Include="ColourPublisher.cs" />
-    <Compile Include="GradeEquipmentPublisher.cs" />
+    <Compile Include="EquipmentPublisher.cs" />
     <Compile Include="Extensions\BaseObjectExtensions.cs" />
     <Compile Include="GradePackPublisher.cs" />
     <Compile Include="Helpers\TimeFramePublishHelper.cs" />
@@ -63,6 +66,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.CommandServices\TME.CarConfigurator.CommandServices.csproj">
       <Project>{3db012ee-feb6-40f1-9c09-97212c142013}</Project>
       <Name>TME.CarConfigurator.CommandServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
+      <Project>{EFDB033C-66A8-40BB-B596-561F45E6C7F7}</Project>
+      <Name>TME.CarConfigurator.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj">
       <Project>{86bf7d2d-ef86-40dc-94a9-540a0ddcd68e}</Project>
