@@ -22,9 +22,9 @@ namespace TME.CarConfigurator.Assets
             _subModelID = subModelID;
         }
 
-        public override IEnumerable<IAsset> Assets
+        protected override IReadOnlyList<IAsset> FetchAssets()
         {
-            get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetSubModelAssets(RepositoryPublication, _subModelID, ObjectID, RepositoryContext, View, Mode); } 
+            return AssetFactory.GetSubModelAssets(RepositoryPublication, _subModelID, ObjectID, RepositoryContext, View, Mode);
         }
     }
 }

@@ -8,8 +8,8 @@ namespace TME.CarConfigurator.Repository.Objects
     {
         public Price StartingPrice { get; set; }
         
-        public List<Link> Links { get; set; }
-        public List<Asset> Assets { get; set; }
-        public List<Grade> Grades { get; set; } 
+        public IList<Link> Links { get; set; }
+        public IList<Asset> Assets { get; set; }
+        public IList<Grade> Grades { get; set; } 
     }
 }

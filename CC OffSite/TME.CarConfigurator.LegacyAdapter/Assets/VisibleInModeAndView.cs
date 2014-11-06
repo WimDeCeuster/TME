@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-
 using TME.CarConfigurator.Interfaces.Assets;
 
-namespace TME.CarConfigurator.LegacyAdapter
+namespace TME.CarConfigurator.LegacyAdapter.Assets
 {
     public class VisibleInModeAndView : IVisibleInModeAndView
     {
@@ -23,7 +22,7 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return !string.IsNullOrWhiteSpace(Mode); }
         }
 
-        public IEnumerable<IAsset> Assets
+        public IReadOnlyList<IAsset> Assets
         {
             get;
             internal set;

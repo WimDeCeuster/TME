@@ -9,6 +9,6 @@ namespace TME.CarConfigurator.Interfaces.Assets
 
         bool HasMode { get; }
 
-        IEnumerable<IAsset> Assets { get; }
+        IReadOnlyList<IAsset> Assets { get; }
     }
 }
