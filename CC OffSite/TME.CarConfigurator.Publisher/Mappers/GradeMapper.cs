@@ -102,10 +102,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
                     .ToList();
 
             if (mappedGradeForSubModelWithDefaults.Labels.Count == 0)
-            {
                 mappedGradeForSubModelWithDefaults.Labels = grade.Translation.Labels.Select(_labelMapper.MapLabel)
                     .Where(adminLabel => !String.IsNullOrWhiteSpace(adminLabel.Value)).ToList();
-            }
+            
         }
 
         private static String SetTheCorrectSubModelGradeName(ModelGenerationGradeSubModel subModel, ModelGenerationGrade grade)

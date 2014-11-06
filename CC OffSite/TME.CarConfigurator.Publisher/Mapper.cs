@@ -459,10 +459,43 @@ namespace TME.CarConfigurator.Publisher
                                                    modelGenerationGrades.ToDictionary(modelGenerationGrade =>
                                                                                             modelGenerationGrade.ID,
                                                                                       modelGenerationGrade =>
-                                                                                            GetGradeEquipment(modelGenerationGrade, modelGenerationGrade.Cars().Filter(isPreview)
+                                                                                            GetSubModelGradeEquipment(modelGenerationGrade, modelGenerationGrade.Cars().Filter(isPreview)
                                                                                                                                             .Where(car => car.SubModelID == modelGenerationSubModel.ID)
-                                                                                                                                            .ToList(),
+                                                                                                                                            .ToList(),modelGenerationSubModel,contextData,
                                                                                                               isPreview)));
+        }
+
+        private GradeEquipment GetSubModelGradeEquipment(ModelGenerationGrade modelGenerationGrade, List<Car> cars, ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
+        {
+            var accessories =
+                contextData.GradeEquipment[modelGenerationGrade.ID].Accessories.Where(
+                    accessory =>
+                        cars.Any(
+                            car =>
+                                car.Equipment[accessory.ID] != null &&
+                                car.Equipment[accessory.ID].Availability !=
+                                Administration.Enums.Availability.NotAvailable));
+
+            var options = contextData.GradeEquipment[modelGenerationGrade.ID].Options.Where(
+                option => cars.Any(
+                            car =>
+                                car.Equipment[option.ID] != null &&
+                                car.Equipment[option.ID].Availability !=
+                                Administration.Enums.Availability.NotAvailable));
+            
+            foreach (var gradeAccessory in accessories)
+            {
+                //todo mapper
+                gradeAccessory.KeyFeature = modelGenerationSubModel.Equipment[gradeAccessory.ID].KeyFeature;
+            }
+
+            foreach (var gradeOption in options)
+            {
+                //todo mapper
+                gradeOption.KeyFeature = modelGenerationSubModel.Equipment[gradeOption.ID].KeyFeature;
+            }
+
+            return new GradeEquipment {Accessories = accessories.ToList(),Options = options.ToList()};
         }
 
         void FillGradeEquipment(IEnumerable<ModelGenerationGrade> grades, ContextData data, Boolean isPreview)

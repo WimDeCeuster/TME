@@ -39,7 +39,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _colourMapper = colourMapper;
         }
 
-        public GradeAccessory MapGradeAccessory(ModelGenerationGradeAccessory generationGradeAccessory, Administration.EquipmentItem crossModelAccessory, EquipmentCategories categories, IReadOnlyList<Car> cars, Boolean isPreview)
+        public GradeAccessory MapGradeAccessory(ModelGenerationGradeAccessory generationGradeAccessory, EquipmentItem crossModelAccessory, EquipmentCategories categories, IReadOnlyList<Car> cars, Boolean isPreview)
         {
             var mappedGradeEquipmentItem = new GradeAccessory();
 
@@ -63,7 +63,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return MapGradeEquipmentItem(mappedGradeEquipmentItem, generationGradeOption, generationOption, crossModelOption, categories, cars, isPreview);
         }
 
-        T MapGradeEquipmentItem<T>(T mappedEquipmentItem, ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, ModelGenerationEquipmentItem generationEquipmentItem, Administration.EquipmentItem crossModelEquipmentItem, EquipmentCategories categories, IReadOnlyList<Car> cars, Boolean isPreview)
+        T MapGradeEquipmentItem<T>(T mappedEquipmentItem, ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, ModelGenerationEquipmentItem generationEquipmentItem, EquipmentItem crossModelEquipmentItem, EquipmentCategories categories, IReadOnlyList<Car> cars, Boolean isPreview)
             where T : GradeEquipmentItem, IAvailabilityProperties
         {
             if (!generationGradeEquipmentItem.ShortID.HasValue)

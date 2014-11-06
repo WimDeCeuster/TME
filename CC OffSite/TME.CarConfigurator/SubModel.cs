@@ -39,11 +39,6 @@ namespace TME.CarConfigurator
 
         public IPrice StartingPrice { get { return _startingPrice = _startingPrice ?? new Price(RepositoryObject.StartingPrice); } }
 
-        public IEnumerable<IEquipmentItem> Equipment
-        {
-            get { throw new NotImplementedException(); }
-        }
-
         public IEnumerable<IGrade> Grades { get { return _grades = _grades ?? _gradeFactory.GetSubModelGrades(RepositoryObject.ID, _repositoryPublication, _repositoryContext); } }
 
         public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication,ID,_repositoryContext); } }
