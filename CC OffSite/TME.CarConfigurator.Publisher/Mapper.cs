@@ -551,8 +551,7 @@ namespace TME.CarConfigurator.Publisher
         {
             var mappedCategories = SpecificationCategories.GetSpecificationCategories()
                                                                          .Flatten(category => category.Categories)
-                                                                         .Select(_categoryMapper.MapSpecificationCategory)
-                                                                         .ToList();
+                                                                         .Select(_categoryMapper.MapSpecificationCategory);
 
             foreach (var mappedCategory in mappedCategories)
                 contextData.SpecificationCategories.Add(mappedCategory);
