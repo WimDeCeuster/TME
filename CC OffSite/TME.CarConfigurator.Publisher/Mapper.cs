@@ -420,9 +420,14 @@ namespace TME.CarConfigurator.Publisher
         {
             var applicableGrades = modelGeneration.Grades.Where(grade => cars.Any(car => car.GradeID == grade.ID)).ToArray();
 
+            var mappedGrades = new List<Repository.Objects.Grade>();
+
             foreach (var grade in applicableGrades)
             {
                 var mappedGrade = _gradeMapper.MapGenerationGrade(grade, contextData.Cars);
+
+                if (mappedGrade.BasedUpon != null && !applicableGrades.Any(grd => grd.ID == mappedGrade.BasedUpon.ID))
+                    mappedGrade.BasedUpon = null;
 
                 contextData.Grades.Add(mappedGrade);
 

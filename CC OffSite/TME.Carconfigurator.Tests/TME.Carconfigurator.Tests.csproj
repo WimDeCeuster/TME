@@ -141,6 +141,7 @@
     <Compile Include="GivenAS3EquipmentPublisher\WhenPublishingEquipmentCategories.cs" />
     <Compile Include="GivenAS3EquipmentPublisher\WhenPublishingGradeEquipments.cs" />
     <Compile Include="GivenAS3GradePackPublisher\WhenPublishingGradePacks.cs" />
+    <Compile Include="GivenAS3GradePackPublisher\WhenPublishingSubModelGradePacks.cs" />
     <Compile Include="GivenAS3GradePublisher\WhenPublishingASubModelGrade.cs" />
     <Compile Include="GivenAS3SteeringPublisher\WhenPublishingGenerationWheelDrives.cs" />
     <Compile Include="GivenAS3GradePublisher\WhenPublishingGenerationGrades.cs" />
