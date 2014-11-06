@@ -43,7 +43,7 @@ namespace TME.CarConfigurator.Factories
 
         public IReadOnlyList<IGrade> GetSubModelGrades(Guid subModelID,Publication publication,Context context)
         {
-            _repoSubModelGrades = _repoSubModelGrades ?? _gradeService.GetSubModelGrades(publication.ID, publication.GetCurrentTimeFrame().ID,
+            _repoSubModelGrades = _gradeService.GetSubModelGrades(publication.ID, publication.GetCurrentTimeFrame().ID,
                 subModelID, context).ToList();
             var repoGenerationGrades = GetRepoGrades(publication, context);
             var grades = new List<IGrade>();
