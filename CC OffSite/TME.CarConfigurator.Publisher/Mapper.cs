@@ -495,13 +495,13 @@ namespace TME.CarConfigurator.Publisher
                     .Select(option =>
                         _equipmentMapper.MapGradeOption(
                             option,
-                            (Administration.ModelGenerationOption)modelGeneration.Equipment[option.ID],
+                            (ModelGenerationOption)modelGeneration.Equipment[option.ID],
                             (Administration.Option)crossModelOptions[option.ID],
                             categories,
                             gradeCars,
                             isPreview)).ToList();
 
-            return new GradeEquipment(){Accessories = accessories,Options = options};
+            return new GradeEquipment {Accessories = accessories,Options = options};
         }
 
         private void FillGradePacks(IEnumerable<ModelGenerationGrade> grades, ContextData contextData, bool isPreview)
