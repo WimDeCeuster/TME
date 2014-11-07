@@ -32,7 +32,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _assetFileService = assetFileService;
         }
 
-        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ModelGenerationExteriorColour colour, Boolean isPreview)
+        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, ModelGenerationExteriorColour colour, Boolean isPreview)
         {
             var mappedColour = new ExteriorColour
             {
@@ -135,7 +135,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             if (root == null)
                 throw new CorruptDataException(string.Format("Colour transformation file {0} does not haqve a root element", colourSchemaAsset.FileName));
             
-            var item = root.Elements("item").FirstOrDefault(el => el.Attribute("name").Value.Equals(colourCode, StringComparison.InvariantCultureIgnoreCase));
+            var item = root.Descendants("item").FirstOrDefault(el => el.Attribute("name").Value.Equals(colourCode, StringComparison.InvariantCultureIgnoreCase));
 
             if (item == null)
                 return null;
