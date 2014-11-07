@@ -170,7 +170,7 @@ namespace TME.CarConfigurator.Publisher
 
         private static IEnumerable<KeyValuePair<string, Tuple<ModelGeneration, Model>>> GetModelGenerationForEachLanguage(String brand, String countryCode, Guid generationID)
         {
-            var country = MyContext.GetContext().Countries.Single(ctry => ctry.Code == countryCode);
+            var country = MyContext.GetContext().Countries.Single(ctry => ctry.Code.Equals(countryCode, StringComparison.InvariantCultureIgnoreCase));
             return country.Languages.ToDictionary(lang => lang.Code, lang =>
             {
                 MyContext.SetSystemContext(brand, countryCode, lang.Code);

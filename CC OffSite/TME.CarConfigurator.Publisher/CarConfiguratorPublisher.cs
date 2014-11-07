@@ -29,6 +29,9 @@ namespace TME.CarConfigurator.Publisher
             if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand");
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
 
+            // create a progress object when client isn't interested in it, instead of doing nullchecks on progess object in further code
+            if (progress == null) progress = new Progress<PublishProgress>();
+
             var context = new Context(brand, country, generationID, dataSubset);
 
             await MapAsync(progress, context);
@@ -36,7 +39,7 @@ namespace TME.CarConfigurator.Publisher
             await PublishAsync(environment, target, dataSubset, context, progress);
         }
 
-        private async Task MapAsync(IProgress<PublishProgress> progress, Context context)
+        private async Task MapAsync(IProgress<PublishProgress> progress, IContext context)
         {
             var startOfMapping = DateTime.Now;
 
