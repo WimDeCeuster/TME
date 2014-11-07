@@ -216,6 +216,8 @@
     <Compile Include="GivenASubModelGrade\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenASubModelGrade\WhenAccessingItsEquipmentForTheFirstTime.cs" />
     <Compile Include="GivenASubModelGrade\WhenAccessingItsEquipmentForTheSecondTime.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessingItsPacksForTheFirstTime.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessingItsPacksForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsGradesForTheFirstTime.cs" />
@@ -270,6 +272,7 @@
     <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenAPackService\WhenGetGradePacksIsCalled.cs" />
+    <Compile Include="Services\GivenAPackService\WhenGetSubModelGradePacksIsCalled.cs" />
     <Compile Include="Services\GivenASpecificationsService\WhenGetSpecificationCategoriesIsCalled.cs" />
     <Compile Include="Services\GivenASteeringService\WhenGetSteeringsIsCalled.cs" />
     <Compile Include="Services\GivenASubModelService\WhenGetSubModelIsCalled.cs" />
