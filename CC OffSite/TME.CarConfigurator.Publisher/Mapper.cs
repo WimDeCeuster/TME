@@ -237,7 +237,7 @@ namespace TME.CarConfigurator.Publisher
         {
             var objectAssetsOnCarLevel = objectWithAssetSet.AssetSet.Assets.Filter(car);
 
-            return objectAssetsOnCarLevel.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
+            return objectAssetsOnCarLevel.Select(asset => _assetMapper.MapCarAssetSetAsset(asset, modelGeneration)).ToList();
         }
 
         private IEnumerable<Asset> GetObjectAssetsOnGenerationLevel(Guid objectId, IDictionary<Guid, IList<Asset>> assets)
