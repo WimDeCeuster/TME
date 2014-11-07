@@ -52,6 +52,7 @@
     <Compile Include="CarConfiguratorVersion.cs" />
     <Compile Include="CarInfo.cs" />
     <Compile Include="CarTransmission.cs" />
+    <Compile Include="CarWheelDrive.cs" />
     <Compile Include="Equipment\BestVisibleIn.cs" />
     <Compile Include="Equipment\Category.cs" />
     <Compile Include="Equipment\CategoryInfo.cs" />

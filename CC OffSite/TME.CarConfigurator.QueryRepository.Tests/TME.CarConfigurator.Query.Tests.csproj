@@ -74,6 +74,11 @@
     <Compile Include="GivenACarTransmission\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
     <Compile Include="GivenACarTransmission\WhenAccessingItsAssets.cs" />
     <Compile Include="GivenACarTransmission\WhenAccessingItsAssetsASecondTime.cs" />
+    <Compile Include="GivenACarWheelDrive\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenACarWheelDrive\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarWheelDrive\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenACarWheelDrive\WhenAccessingItsAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarWheelDrive\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsEngineForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBodyTypeForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsEngineForTheSecondTime.cs" />
@@ -84,6 +89,8 @@
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsTransmissionForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsTransmissionsForTheSecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsWheelDriveForTheFirstTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsWheelDriveForTheSecondTime.cs" />
     <Compile Include="GivenAColourCombination\WhenAccessingItsUpholsteryForTheFirstTime.cs" />
     <Compile Include="GivenAColourCombination\WhenAccessingItsExteriorColourForTheFirstTime.cs" />
     <Compile Include="GivenAColourCombination\WhenAccessingItsUpholsteryForTheSecondTime.cs" />

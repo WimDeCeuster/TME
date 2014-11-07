@@ -15,6 +15,7 @@ namespace TME.CarConfigurator
         readonly Repository.Objects.Context _repositoryContext;
         readonly IBodyTypeFactory _bodyTypeFactory;
         readonly ITransmissionFactory _transmissionFactory;
+        readonly IWheelDriveFactory _wheelDriveFactory;
         readonly IEngineFactory _engineFactory;
 
         IPrice _basePrice;
@@ -22,6 +23,7 @@ namespace TME.CarConfigurator
         IBodyType _bodyType;
         IEngine _engine;
         ITransmission _transmission;
+        IWheelDrive _wheelDrive;
 
         public Car(
             Repository.Objects.Car repositoryCar,
@@ -29,7 +31,8 @@ namespace TME.CarConfigurator
             Repository.Objects.Context repositoryContext,
             IBodyTypeFactory bodyTypeFactory,
             IEngineFactory engineFactory,
-            ITransmissionFactory transmissionFactory)
+            ITransmissionFactory transmissionFactory,
+            IWheelDriveFactory wheelDriveFactory)
             : base(repositoryCar)
         {
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
@@ -37,12 +40,14 @@ namespace TME.CarConfigurator
             if (bodyTypeFactory == null) throw new ArgumentNullException("bodyTypeFactory");
             if (engineFactory == null) throw new ArgumentNullException("engineFactory");
             if (transmissionFactory == null) throw new ArgumentNullException("transmissionFactory");
+            if (wheelDriveFactory == null) throw new ArgumentNullException("wheelDriveFactory");
 
             _repositoryPublication = repositoryPublication;
             _repositoryContext = repositoryContext;
             _bodyTypeFactory = bodyTypeFactory;
             _engineFactory = engineFactory;
             _transmissionFactory = transmissionFactory;
+            _wheelDriveFactory = wheelDriveFactory;
         }
 
         public int ShortID { get { return RepositoryObject.ShortID; } }
@@ -55,7 +60,7 @@ namespace TME.CarConfigurator
         public IBodyType BodyType { get { return _bodyType = _bodyType ?? _bodyTypeFactory.GetCarBodyType(RepositoryObject.BodyType, RepositoryObject.ID, _repositoryPublication, _repositoryContext); } }
         public IEngine Engine { get { return _engine = _engine ?? _engineFactory.GetCarEngine(RepositoryObject.Engine, RepositoryObject.ID, _repositoryPublication, _repositoryContext); } }
         public ITransmission Transmission { get { return _transmission = _transmission ?? _transmissionFactory.GetCarTransmission(RepositoryObject.Transmission, RepositoryObject.ID, _repositoryPublication, _repositoryContext);} }
-        public IWheelDrive WheelDrive { get { throw new NotImplementedException(); } }
+        public IWheelDrive WheelDrive { get { return _wheelDrive = _wheelDrive ?? _wheelDriveFactory.GetCarWheelDrive(RepositoryObject.WheelDrive, RepositoryObject.ID, _repositoryPublication, _repositoryContext); } }
         public ISteering Steering { get { throw new NotImplementedException(); } }
         public IGrade Grade { get { throw new NotImplementedException(); }}
         public ISubModel SubModel { get { throw new NotImplementedException(); }}

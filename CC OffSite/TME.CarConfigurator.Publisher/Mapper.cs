@@ -204,6 +204,7 @@ namespace TME.CarConfigurator.Publisher
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.Engines[car.EngineID]);
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.Grades[car.GradeID]);
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.Transmissions[car.TransmissionID]);
+                FillCarAssets(car, contextData, modelGeneration, car.Generation.WheelDrives[car.WheelDriveID]);
             }
         }
 
