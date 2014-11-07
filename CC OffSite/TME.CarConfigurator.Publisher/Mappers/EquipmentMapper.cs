@@ -75,7 +75,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.BestVisibleIn = new BestVisibleIn { Angle = generationEquipmentItem.BestVisibleInAngle, Mode = generationEquipmentItem.BestVisibleInMode, View = generationEquipmentItem.BestVisibleInView };
             mappedEquipmentItem.Category = _categoryInfoMapper.MapEquipmentCategoryInfo(generationGradeEquipmentItem.Category, categories); // ??
             mappedEquipmentItem.Description = generationGradeEquipmentItem.Translation.Description;
-            mappedEquipmentItem.ExteriorColour = hasColour ? GetColour(generationEquipmentItem, isPreview) : null;
+            mappedEquipmentItem.ExteriorColour = hasColour ? GetColour(generationEquipmentItem, generationGradeEquipmentItem, isPreview) : null;
             mappedEquipmentItem.FootNote = generationGradeEquipmentItem.Translation.FootNote;
             mappedEquipmentItem.GradeFeature = generationGradeEquipmentItem.GradeFeature;
             mappedEquipmentItem.ID = generationGradeEquipmentItem.ID;
@@ -106,9 +106,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return mappedEquipmentItem;
         }
 
-        ExteriorColour GetColour(ModelGenerationEquipmentItem generationEquipmentItem, Boolean isPreview)
+        ExteriorColour GetColour(ModelGenerationEquipmentItem generationEquipmentItem, ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, bool isPreview)
         {
-            var mappedExteriorColour = GetMappedExteriorColour(generationEquipmentItem, isPreview);
+            var mappedExteriorColour = GetMappedExteriorColour(generationEquipmentItem, generationGradeEquipmentItem, isPreview);
 
             return new ExteriorColour()
             {
@@ -125,14 +125,13 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
         }
 
-        private Repository.Objects.Colours.ExteriorColour GetMappedExteriorColour(ModelGenerationEquipmentItem generationEquipmentItem, bool isPreview)
+        private Repository.Objects.Colours.ExteriorColour GetMappedExteriorColour(ModelGenerationEquipmentItem generationEquipmentItem, ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, bool isPreview)
         {
-            var colour =
-                generationEquipmentItem.Generation.ColourCombinations.ExteriorColours()
+            var generationExteriorColour = generationEquipmentItem.Generation.ColourCombinations.ExteriorColours()
                     .FirstOrDefault(clr => clr.ID == generationEquipmentItem.Colour.ID);
 
-            if (colour != null)
-                return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, colour, isPreview);
+            if (generationExteriorColour != null)
+                return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, generationExteriorColour, isPreview);
 
             var crossModelColour = ExteriorColours.GetExteriorColours()[generationEquipmentItem.Colour.ID];
             return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, crossModelColour, isPreview);

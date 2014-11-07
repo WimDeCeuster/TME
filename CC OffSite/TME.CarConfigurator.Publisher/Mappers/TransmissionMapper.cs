@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.Administration.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Repository.Objects;
+using Transmission = TME.CarConfigurator.Repository.Objects.Transmission;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {

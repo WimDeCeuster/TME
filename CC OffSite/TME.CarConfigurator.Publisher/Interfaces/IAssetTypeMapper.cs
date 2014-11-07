@@ -9,5 +9,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
         AssetType MapGenerationAssetType(Administration.Assets.AssetType assetType);
 
         AssetType MapObjectAssetType(AssetSetAsset assetSetAsset, ModelGeneration modelGeneration);
+        AssetType MapCarAssetType(AssetSetAsset asset, ModelGeneration modelGeneration);
     }
 }

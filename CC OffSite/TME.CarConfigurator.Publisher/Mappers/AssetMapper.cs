@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Administration.Assets;
+using TME.CarConfigurator.Administration.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Exceptions;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
@@ -53,6 +54,20 @@ namespace TME.CarConfigurator.Publisher.Mappers
         }
 
         public Asset MapAssetSetAsset(AssetSetAsset assetSetAsset, ModelGeneration modelGeneration)
+        {
+            return MapGenerationAssetSetAsset(assetSetAsset,modelGeneration);
+        }
+
+        public Asset MapCarAssetSetAsset(AssetSetAsset assetSetAsset, ModelGeneration modelGeneration)
+        {
+            var asset = MapGenerationAssetSetAsset(assetSetAsset,modelGeneration);
+            //Custom mapping for car assets.
+            asset.AssetType = _assetTypeMapper.MapCarAssetType(assetSetAsset,modelGeneration);
+
+            return asset;
+        }
+
+        private Asset MapGenerationAssetSetAsset(AssetSetAsset assetSetAsset, ModelGeneration modelGeneration)
         {
             if (assetSetAsset.Asset.ShortID == null)
                 throw new CorruptDataException(String.Format("Please provide a shortID for assetSetAsset {0}", assetSetAsset.ID));
