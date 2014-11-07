@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.DI", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Publisher.DI", "TME.CarConfigurator.Publisher.DI\TME.CarConfigurator.Publisher.DI.csproj", "{6CB2E090-5694-4AFF-A503-5F59C25B37DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Publisher.Job", "TME.CarConfigurator.Publisher.Job\TME.CarConfigurator.Publisher.Job.csproj", "{02236A43-75E6-4CA0-8823-C1B55623D498}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,6 +130,10 @@ Global
 		{6CB2E090-5694-4AFF-A503-5F59C25B37DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CB2E090-5694-4AFF-A503-5F59C25B37DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CB2E090-5694-4AFF-A503-5F59C25B37DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02236A43-75E6-4CA0-8823-C1B55623D498}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02236A43-75E6-4CA0-8823-C1B55623D498}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02236A43-75E6-4CA0-8823-C1B55623D498}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02236A43-75E6-4CA0-8823-C1B55623D498}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
