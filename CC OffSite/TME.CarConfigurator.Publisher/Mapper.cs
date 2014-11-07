@@ -465,7 +465,7 @@ namespace TME.CarConfigurator.Publisher
                                                                                                               isPreview)));
         }
 
-        private GradeEquipment GetSubModelGradeEquipment(ModelGenerationGrade modelGenerationGrade, List<Car> cars, ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
+        private static GradeEquipment GetSubModelGradeEquipment(ModelGenerationGrade modelGenerationGrade, IEnumerable<Car> cars, ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
         {
             var accessories =
                 contextData.GradeEquipment[modelGenerationGrade.ID].Accessories.Where(
@@ -485,13 +485,11 @@ namespace TME.CarConfigurator.Publisher
             
             foreach (var gradeAccessory in accessories)
             {
-                //todo refactor
                 gradeAccessory.KeyFeature = modelGenerationSubModel.Equipment[gradeAccessory.ID].KeyFeature;
             }
 
             foreach (var gradeOption in options)
             {
-                //todo refactor
                 gradeOption.KeyFeature = modelGenerationSubModel.Equipment[gradeOption.ID].KeyFeature;
             }
 
