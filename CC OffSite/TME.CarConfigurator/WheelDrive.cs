@@ -14,12 +14,12 @@ namespace TME.CarConfigurator
 {
     public class WheelDrive : BaseObject<Repository.Objects.WheelDrive>, IWheelDrive
     {
-        readonly Repository.Objects.Publication _repositoryPublication;
-        readonly Repository.Objects.Context _repositoryContext;
-        readonly IAssetFactory _assetFactory;
+        protected readonly Repository.Objects.Publication RepositoryPublication;
+        protected readonly Repository.Objects.Context RepositoryContext;
+        protected readonly IAssetFactory AssetFactory;
 
-        private IEnumerable<IVisibleInModeAndView> _visibleInModeAndViews;
-        private IEnumerable<IAsset> _assets;
+        protected IEnumerable<IVisibleInModeAndView> FetchedVisibleInModeAndViews;
+        protected IEnumerable<IAsset> FetchedAssets;
 
         public WheelDrive(Repository.Objects.WheelDrive repositoryWheelDrive, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory)
             : base(repositoryWheelDrive)
@@ -28,24 +28,24 @@ namespace TME.CarConfigurator
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
-            _repositoryPublication = repositoryPublication;
-            _repositoryContext = repositoryContext;
-            _assetFactory = assetFactory;
+            RepositoryPublication = repositoryPublication;
+            RepositoryContext = repositoryContext;
+            AssetFactory = assetFactory;
         }
 
         public Boolean KeyFeature { get { return RepositoryObject.KeyFeature; } }
 
         public Boolean Brochure { get { return RepositoryObject.Brochure; } }
 
-        public IEnumerable<IVisibleInModeAndView> VisibleIn
+        public virtual IEnumerable<IVisibleInModeAndView> VisibleIn
         {
             get
             {
-                return _visibleInModeAndViews = _visibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, _repositoryPublication, _repositoryContext, _assetFactory)).ToList();
+                return FetchedVisibleInModeAndViews = FetchedVisibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
             }
         }
 
-        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication, ID, _repositoryContext); } }
+        public virtual IEnumerable<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext); } }
 
         [Obsolete("Use the new VisibleIn property instead")]
         public bool VisibleInExteriorSpin { get { return VisibleIn.VisibleInExteriorSpin(); } }

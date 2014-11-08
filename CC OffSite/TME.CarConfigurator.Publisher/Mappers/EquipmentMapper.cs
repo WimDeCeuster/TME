@@ -108,7 +108,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         ExteriorColour GetColour(ModelGenerationEquipmentItem generationEquipmentItem, ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, bool isPreview)
         {
-            var mappedExteriorColour = GetMappedExteriorColour(generationEquipmentItem, generationGradeEquipmentItem, isPreview);
+            var mappedExteriorColour = GetMappedExteriorColour(generationEquipmentItem, isPreview);
 
             return new ExteriorColour()
             {
@@ -125,7 +125,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
         }
 
-        private Repository.Objects.Colours.ExteriorColour GetMappedExteriorColour(ModelGenerationEquipmentItem generationEquipmentItem, ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, bool isPreview)
+        private Repository.Objects.Colours.ExteriorColour GetMappedExteriorColour(ModelGenerationEquipmentItem generationEquipmentItem, bool isPreview)
         {
             var generationExteriorColour = generationEquipmentItem.Generation.ColourCombinations.ExteriorColours()
                     .FirstOrDefault(clr => clr.ID == generationEquipmentItem.Colour.ID);
