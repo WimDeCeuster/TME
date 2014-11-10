@@ -69,6 +69,11 @@
     <Compile Include="GivenACarBodyType\WhenAccessingIts3DAssetsASecondTime.cs" />
     <Compile Include="GivenACarBodyType\WhenAccessingItsAssets.cs" />
     <Compile Include="GivenACarBodyType\WhenAccessingItsAssetsASecondTime.cs" />
+    <Compile Include="GivenACarGrade\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarGrade\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenACarGrade\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenACarGrade\WhenAccessingItsAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarGrade\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACarTransmission\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenACarTransmission\WhenAccessingIts3DAssetsForASecondTime.cs" />
     <Compile Include="GivenACarTransmission\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
@@ -83,6 +88,7 @@
     <Compile Include="GivenACar\WhenAccessingItsBodyTypeForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsEngineForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBodyTypeForTheSecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsGradeForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsStartingPriceForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsStartingPriceForTheSecondTime.cs" />

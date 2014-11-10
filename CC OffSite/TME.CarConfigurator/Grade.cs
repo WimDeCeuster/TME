@@ -14,10 +14,10 @@ namespace TME.CarConfigurator
 {
     public class Grade : BaseObject<Repository.Objects.Grade>, IGrade
     {
-        private IReadOnlyList<IAsset> _fetchedAssets;
+        protected IReadOnlyList<IAsset> FetchedAssets;
         private IGradeEquipment _fetchedEquipment;
         private IReadOnlyList<IGradePack> _fetchedPacks;
-        private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
+        protected IReadOnlyList<IVisibleInModeAndView> FetchedVisibleInModeAndViews;
         private Price _price;
 
         protected readonly Repository.Objects.Publication RepositoryPublication;
@@ -59,11 +59,11 @@ namespace TME.CarConfigurator
         {
             get
             {
-                return _fetchedVisibleInModeAndViews = _fetchedVisibleInModeAndViews ?? FetchVisibleInModeAndViews();
+                return FetchedVisibleInModeAndViews = FetchedVisibleInModeAndViews ?? FetchVisibleInModeAndViews();
             }
         }
 
-        public IReadOnlyList<IAsset> Assets { get { return _fetchedAssets = _fetchedAssets ?? FetchAssets(); } }
+        public virtual IReadOnlyList<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? FetchAssets(); } }
 
         public IGradeEquipment Equipment
         {

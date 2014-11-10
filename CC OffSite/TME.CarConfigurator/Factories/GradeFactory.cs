@@ -48,6 +48,12 @@ namespace TME.CarConfigurator.Factories
             return repoSubModelGrades.Select(repoGrade => GetSubModelGrade(repoGrade, grades, publication, context, subModelID)).ToArray();
         }
 
+        public IGrade GetCarGrades(RepoGrade repoGrade, Guid carID, Publication publication, Context context)
+        {
+            return new CarGrade(repoGrade, publication, carID, context, _assetFactory, _gradeEquipmentFactory,
+                _packFactory);
+        }
+
         private IEnumerable<RepoGrade> GetRepoGrades(Publication publication, Context context)
         {
             return _repoGenerationGrades = _repoGenerationGrades ??_gradeService.GetGrades(publication.ID, publication.GetCurrentTimeFrame().ID, context).ToList();

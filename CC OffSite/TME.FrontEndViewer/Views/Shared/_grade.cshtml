@@ -1,0 +1,6 @@
+﻿@model TME.CarConfigurator.Interfaces.IGrade
+@Html.Partial("_baseObject", Model)
+
+<p class="property" data-id="Special">Special : @Html.Raw(Model.Special)</p>
+<p class="property" data-id="StartingPriceExVat">StartingPrice ExVat : @Html.Raw(Model.StartingPrice.PriceExVat)</p>
+<p class="property" data-id="StartingPriceInVat">StartingPrice InVat : @Html.Raw(Model.StartingPrice.PriceInVat)</p>

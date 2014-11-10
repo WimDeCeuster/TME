@@ -16,7 +16,7 @@ namespace TME.CarConfigurator.Publisher
     {
         private readonly IPublicationPublisher _publicationPublisher;
         private readonly IModelPublisher _modelPublisher;
-        private readonly QueryServices.IModelService _modelService;
+        private readonly IModelService _modelService;
         private readonly IBodyTypePublisher _bodyTypePublisher;
         private readonly IEnginePublisher _enginePublisher;
         private readonly ITransmissionPublisher _transmissionPublisher;

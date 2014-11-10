@@ -50,6 +50,7 @@
     <Compile Include="Car.cs" />
     <Compile Include="CarBodyType.cs" />
     <Compile Include="CarConfiguratorVersion.cs" />
+    <Compile Include="CarGrade.cs" />
     <Compile Include="CarInfo.cs" />
     <Compile Include="CarTransmission.cs" />
     <Compile Include="CarWheelDrive.cs" />

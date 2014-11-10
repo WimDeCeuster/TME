@@ -5,7 +5,6 @@ using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
-using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Repository.Objects;
 
@@ -41,7 +40,7 @@ namespace TME.CarConfigurator
 
         public IEnumerable<IGrade> Grades { get { return _grades = _grades ?? _gradeFactory.GetSubModelGrades(RepositoryObject.ID, _repositoryPublication, _repositoryContext); } }
 
-        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication,ID,_repositoryContext); } }
+        public virtual IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication,ID, _repositoryContext); } }
 
         public IEnumerable<ILink> Links { get { return _links = _links ?? RepositoryObject.Links.Select(l => new Link(l)).ToArray(); } }
 
