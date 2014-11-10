@@ -17,8 +17,9 @@ namespace TME.CarConfigurator.Factories
         private readonly ITransmissionFactory _transmissionFactory;
         private readonly IWheelDriveFactory _wheelDriveFactory;
         private readonly IGradeFactory _gradeFactory;
+        private readonly ISubModelFactory _subModelFactory;
 
-        public CarFactory(ICarService carService, IBodyTypeFactory bodyTypeFactory, IEngineFactory engineFactory, ITransmissionFactory transmissionFactory, IWheelDriveFactory wheelDriveFactory, IGradeFactory gradeFactory)
+        public CarFactory(ICarService carService, IBodyTypeFactory bodyTypeFactory, IEngineFactory engineFactory, ITransmissionFactory transmissionFactory, IWheelDriveFactory wheelDriveFactory, IGradeFactory gradeFactory, ISubModelFactory subModelFactory)
         {
             if (carService == null) throw new ArgumentNullException("carService");
             if (bodyTypeFactory == null) throw new ArgumentNullException("bodyTypeFactory");
@@ -26,6 +27,7 @@ namespace TME.CarConfigurator.Factories
             if (transmissionFactory == null) throw new ArgumentNullException("transmissionFactory");
             if (wheelDriveFactory == null) throw new ArgumentNullException("wheelDriveFactory");
             if (gradeFactory == null) throw new ArgumentNullException("gradeFactory");
+            if (subModelFactory == null) throw new ArgumentNullException("subModelFactory");
 
             _carService = carService;
             _bodyTypeFactory = bodyTypeFactory;
@@ -33,12 +35,13 @@ namespace TME.CarConfigurator.Factories
             _transmissionFactory = transmissionFactory;
             _wheelDriveFactory = wheelDriveFactory;
             _gradeFactory = gradeFactory;
+            _subModelFactory = subModelFactory;
         }
 
         public IReadOnlyList<ICar> GetCars(Publication publication, Context context)
         {
             return _carService.GetCars(publication.ID, publication.GetCurrentTimeFrame().ID, context)
-                                 .Select(car => new Car(car, publication, context, _bodyTypeFactory, _engineFactory,_transmissionFactory,_wheelDriveFactory,_gradeFactory))
+                                 .Select(car => new Car(car, publication, context, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _gradeFactory, _subModelFactory))
                                  .ToArray();
         }
     }

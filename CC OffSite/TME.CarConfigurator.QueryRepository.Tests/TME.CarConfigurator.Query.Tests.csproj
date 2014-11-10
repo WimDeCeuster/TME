@@ -74,6 +74,8 @@
     <Compile Include="GivenACarGrade\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACarGrade\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenACarGrade\WhenAccessingItsAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenACarSubModel\WhenAccessingItsAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarSubModel\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACarTransmission\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenACarTransmission\WhenAccessingIts3DAssetsForASecondTime.cs" />
     <Compile Include="GivenACarTransmission\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
@@ -93,6 +95,8 @@
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheSecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsSubModelForTheFirstTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsSubModelForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsTransmissionForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsTransmissionsForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsWheelDriveForTheFirstTime.cs" />

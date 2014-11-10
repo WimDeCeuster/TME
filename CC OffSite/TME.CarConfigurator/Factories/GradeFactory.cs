@@ -48,7 +48,7 @@ namespace TME.CarConfigurator.Factories
             return repoSubModelGrades.Select(repoGrade => GetSubModelGrade(repoGrade, grades, publication, context, subModelID)).ToArray();
         }
 
-        public IGrade GetCarGrades(RepoGrade repoGrade, Guid carID, Publication publication, Context context)
+        public IGrade GetCarGrade(RepoGrade repoGrade, Guid carID, Publication publication, Context context)
         {
             return new CarGrade(repoGrade, publication, carID, context, _assetFactory, _gradeEquipmentFactory,
                 _packFactory);

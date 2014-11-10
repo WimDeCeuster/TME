@@ -10,7 +10,7 @@ namespace TME.CarConfigurator.Interfaces
         IPrice StartingPrice { get; }
         IEnumerable<IGrade> Grades { get; }
 
-        IEnumerable<IAsset> Assets { get; }
+        IReadOnlyList<IAsset> Assets { get; }
         IEnumerable<ILink> Links { get; }
     }
 }

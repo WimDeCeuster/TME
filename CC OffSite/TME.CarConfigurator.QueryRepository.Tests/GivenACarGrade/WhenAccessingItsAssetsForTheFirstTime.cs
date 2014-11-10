@@ -45,7 +45,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarGrade
 
             var gradeFactory = new GradeFactoryBuilder().WithAssetFactory(assetFactory).Build();
 
-            _grade = gradeFactory.GetCarGrades(repoGrade,carID,publication,context);
+            _grade = gradeFactory.GetCarGrade(repoGrade,carID,publication,context);
         }
 
         protected override void Act()

@@ -93,6 +93,16 @@
                     }
                 </div>
             </div>
+            <div class="object sub-item" data-id="@Html.Raw(model.SubModel.ID)">
+                <div class="title">
+                    <strong>SubModel</strong>
+                </div>
+                <div class="content">
+                    @Html.Partial("_subModel", model.SubModel)
+                    <br/>
+                    @Html.ActionLink("Assets", "Index", "ModelSubModelAssets", new { modelID = ViewBag.ModelID, carID = model.ID }, new { })
+                </div>
+            </div>
             
         
             <p class="property" data-id="actionlinks">

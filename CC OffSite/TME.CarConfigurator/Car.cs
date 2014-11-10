@@ -17,6 +17,7 @@ namespace TME.CarConfigurator
         readonly ITransmissionFactory _transmissionFactory;
         readonly IWheelDriveFactory _wheelDriveFactory;
         readonly IGradeFactory _gradeFactory;
+        readonly ISubModelFactory _subModelFactory;
         readonly IEngineFactory _engineFactory;
 
         IPrice _basePrice;
@@ -26,6 +27,7 @@ namespace TME.CarConfigurator
         ITransmission _transmission;
         IWheelDrive _wheelDrive;
         IGrade _grade;
+        ISubModel _subModel;
 
         public Car(
             Repository.Objects.Car repositoryCar,
@@ -35,7 +37,8 @@ namespace TME.CarConfigurator
             IEngineFactory engineFactory,
             ITransmissionFactory transmissionFactory,
             IWheelDriveFactory wheelDriveFactory,
-            IGradeFactory gradeFactory)
+            IGradeFactory gradeFactory,
+            ISubModelFactory subModelFactory)
             : base(repositoryCar)
         {
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
@@ -45,6 +48,7 @@ namespace TME.CarConfigurator
             if (transmissionFactory == null) throw new ArgumentNullException("transmissionFactory");
             if (wheelDriveFactory == null) throw new ArgumentNullException("wheelDriveFactory");
             if (gradeFactory == null) throw new ArgumentNullException("gradeFactory");
+            if (subModelFactory == null) throw new ArgumentNullException("subModelFactory");
 
             _repositoryPublication = repositoryPublication;
             _repositoryContext = repositoryContext;
@@ -53,6 +57,7 @@ namespace TME.CarConfigurator
             _transmissionFactory = transmissionFactory;
             _wheelDriveFactory = wheelDriveFactory;
             _gradeFactory = gradeFactory;
+            _subModelFactory = subModelFactory;
         }
 
         public int ShortID { get { return RepositoryObject.ShortID; } }
@@ -67,9 +72,8 @@ namespace TME.CarConfigurator
         public ITransmission Transmission { get { return _transmission = _transmission ?? _transmissionFactory.GetCarTransmission(RepositoryObject.Transmission, RepositoryObject.ID, _repositoryPublication, _repositoryContext);} }
         public IWheelDrive WheelDrive { get { return _wheelDrive = _wheelDrive ?? _wheelDriveFactory.GetCarWheelDrive(RepositoryObject.WheelDrive, RepositoryObject.ID, _repositoryPublication, _repositoryContext); } }
         public ISteering Steering { get { throw new NotImplementedException(); } }
-        public IGrade Grade { get { return _grade = _grade ??  _gradeFactory.GetCarGrades(RepositoryObject.Grade, RepositoryObject.ID, _repositoryPublication, _repositoryContext); } }
-        public ISubModel SubModel { get { throw new NotImplementedException(); }}
-
+        public IGrade Grade { get { return _grade = _grade ??  _gradeFactory.GetCarGrade(RepositoryObject.Grade, RepositoryObject.ID, _repositoryPublication, _repositoryContext); } }
+        public ISubModel SubModel { get { return _subModel = _subModel ?? _subModelFactory.GetCarSubModel(RepositoryObject.SubModel, RepositoryObject.ID, _repositoryPublication, _repositoryContext); } }
         public IReadOnlyList<ICarPart> Parts
         {
             get { throw new NotImplementedException(); }

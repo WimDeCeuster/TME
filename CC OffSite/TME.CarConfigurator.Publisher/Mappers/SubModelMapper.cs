@@ -17,22 +17,16 @@ namespace TME.CarConfigurator.Publisher.Mappers
         private readonly IBaseMapper _baseMapper;
         private readonly IAssetMapper _assetMapper;
         private readonly ILinkMapper _linkMapper;
-        private readonly IEquipmentMapper _equipmentMapper;
-        private readonly IGradeMapper _gradeMapper;
 
-        public SubModelMapper(IBaseMapper baseMapper, IAssetMapper assetMapper, ILinkMapper linkMapper,IEquipmentMapper equipmentMapper,IGradeMapper gradeMapper)
+        public SubModelMapper(IBaseMapper baseMapper, IAssetMapper assetMapper, ILinkMapper linkMapper)
         {
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
             if (assetMapper == null) throw new ArgumentNullException("assetMapper");
             if (linkMapper == null) throw new ArgumentNullException("linkMapper");
-            if (equipmentMapper == null) throw new ArgumentNullException("equipmentMapper");
-            if (gradeMapper == null) throw new ArgumentNullException("gradeMapper");
 
             _baseMapper = baseMapper;
             _assetMapper = assetMapper;
             _linkMapper = linkMapper;
-            _equipmentMapper = equipmentMapper;
-            _gradeMapper = gradeMapper;
         }
 
         public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
 using TME.CarConfigurator.Interfaces;
@@ -13,27 +12,22 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.GivenACarGrade
+namespace TME.CarConfigurator.Query.Tests.GivenACarSubModel
 {
-    public class WhenAccessingIts3DAssetsForTheFirstTime : TestBase
+    public class WhenAccessingItsAssetsForTheFirstTime : TestBase
     {
-        private IGrade _grade;
         private IReadOnlyList<IAsset> _assets;
         private Asset _asset1;
         private Asset _asset2;
         private IAssetService _assetService;
-        private string _mode;
-        private string _view;
+        private ISubModel _subModel;
 
         protected override void Arrange()
         {
-            _mode = "the mode";
-            _view = "the view";
-
             _asset1 = new AssetBuilder().WithId(Guid.NewGuid()).Build();
             _asset2 = new AssetBuilder().WithId(Guid.NewGuid()).Build();
 
-            var repoGrade = new GradeBuilder().WithId(Guid.NewGuid()).AddVisibleIn(_mode,_view).Build();
+            var repoSubModel = new SubModelBuilder().WithID(Guid.NewGuid()).Build();
 
             var publicationTimeFrame = new PublicationTimeFrameBuilder().WithDateRange(DateTime.MinValue, DateTime.MaxValue).WithID(Guid.NewGuid()).Build();
 
@@ -44,25 +38,25 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarGrade
             var context = new ContextBuilder().Build();
 
             _assetService = A.Fake<IAssetService>();
-            A.CallTo(() => _assetService.GetCarAssets(publication.ID, carID, repoGrade.ID, context,_view,_mode))
+            A.CallTo(() => _assetService.GetCarAssets(publication.ID, carID, repoSubModel.ID, context))
                 .Returns(new[] { _asset1, _asset2 });
 
             var assetFactory = new AssetFactoryBuilder().WithAssetService(_assetService).Build();
 
-            var gradeFactory = new GradeFactoryBuilder().WithAssetFactory(assetFactory).Build();
+            var subModelFactory = new SubModelFactoryBuilder().WithAssetFactory(assetFactory).Build();
 
-            _grade = gradeFactory.GetCarGrade(repoGrade, carID, publication, context);
+            _subModel = subModelFactory.GetCarSubModel(repoSubModel, carID, publication, context);
         }
 
         protected override void Act()
         {
-            _assets = _grade.VisibleIn.Single(visibleIn => visibleIn.Mode == _mode && visibleIn.View == _view).Assets;
+            _assets = _subModel.Assets;
         }
 
         [Fact]
         public void ThenItShouldFetchTheAssetsFromTheService()
         {
-            A.CallTo(() => _assetService.GetCarAssets(A<Guid>._, A<Guid>._, A<Guid>._, A<Context>._, A<String>._, A<String>._))
+            A.CallTo(() => _assetService.GetCarAssets(A<Guid>._, A<Guid>._, A<Guid>._, A<Context>._))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 

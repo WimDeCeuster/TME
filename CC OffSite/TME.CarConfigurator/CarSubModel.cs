@@ -16,9 +16,6 @@ namespace TME.CarConfigurator
             _carID = carID;
         }
 
-        public override IEnumerable<IAsset> Assets
-        {
-            get { return base.Assets; }
-        }
+        public override IReadOnlyList<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetCarAssets(RepositoryPublication, _carID, RepositoryObject.ID, RepositoryContext); } }
     }
 }
