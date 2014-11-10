@@ -57,7 +57,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarSubModel
         }
 
         [Fact]
-        public void ThenItShouldFetchTheAssetsFromTheService()
+        public void ThenItShouldNotFetchTheAssetsFromTheServiceAgain()
         {
             A.CallTo(() => _assetService.GetCarAssets(A<Guid>._, A<Guid>._, A<Guid>._, A<Context>._))
                 .MustHaveHappened(Repeated.Exactly.Once);
