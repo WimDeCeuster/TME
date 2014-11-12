@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Administration;
-using TME.CarConfigurator.Administration.Enums;
 using TME.CarConfigurator.Administration.Interfaces;
 using TME.CarConfigurator.Publisher.Common;
 using TME.CarConfigurator.Publisher.Common.Enums;
@@ -143,8 +142,6 @@ namespace TME.CarConfigurator.Publisher
                 FillSteerings(cars, contextData);
                 progress.Report(new PublishProgress("Fill generation colour combinations"));
                 FillColourCombinations(cars, modelGeneration, contextData, isPreview);
-                progress.Report(new PublishProgress("Fill generation submodels"));
-                FillSubModels(grades, cars, modelGeneration, contextData, isPreview);
                 progress.Report(new PublishProgress("Fill generation cars"));
                 FillCars(cars, contextData);
                 progress.Report(new PublishProgress("Fill generation grades"));
@@ -155,6 +152,8 @@ namespace TME.CarConfigurator.Publisher
                 FillGradePacks(grades, contextData, isPreview);
                 progress.Report(new PublishProgress("Fill generation equipment categories"));
                 FillEquipmentCategories(contextData);
+                progress.Report(new PublishProgress("Fill generation submodels"));
+                FillSubModels(grades, cars, modelGeneration, contextData, isPreview);
                 progress.Report(new PublishProgress("Fill submodel assets"));
                 FillSubModelAssets(grades, modelGeneration, contextData);
                 progress.Report(new PublishProgress("Fill generation car assets"));
@@ -334,9 +333,8 @@ namespace TME.CarConfigurator.Publisher
                 var transmission = contextData.Transmissions.Single(trans => trans.ID == car.TransmissionID);
                 var wheelDrive = contextData.WheelDrives.Single(drive => drive.ID == car.WheelDriveID);
                 var steering = contextData.Steerings.Single(steer => steer.ID == car.SteeringID);
-                var subModel = contextData.SubModels.SingleOrDefault(submodel => submodel.ID == car.SubModelID);
                 contextData.CarAssets.Add(car.ID, new Dictionary<Guid, IList<Asset>>());
-                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering,subModel));
+                contextData.Cars.Add(_carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering));
             }
         }
 
@@ -467,11 +465,10 @@ namespace TME.CarConfigurator.Publisher
                                                                                       modelGenerationGrade =>
                                                                                             GetSubModelGradeEquipment(modelGenerationGrade, modelGenerationGrade.Cars().Filter(isPreview)
                                                                                                                                             .Where(car => car.SubModelID == modelGenerationSubModel.ID)
-                                                                                                                                            .ToList(),modelGenerationSubModel,contextData,
-                                                                                                              isPreview)));
+                                                                                                                                            .ToList(),modelGenerationSubModel,contextData)));
         }
 
-        private static GradeEquipment GetSubModelGradeEquipment(ModelGenerationGrade modelGenerationGrade, IEnumerable<Car> cars, ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
+        private static GradeEquipment GetSubModelGradeEquipment(ModelGenerationGrade modelGenerationGrade, IEnumerable<Car> cars, ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
         {
             var accessories =
                 contextData.GradeEquipment[modelGenerationGrade.ID].Accessories.Where(

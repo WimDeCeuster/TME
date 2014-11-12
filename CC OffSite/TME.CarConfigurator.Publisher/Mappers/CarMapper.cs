@@ -24,8 +24,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             Engine engine,
             Transmission transmission,
             WheelDrive wheelDrive,
-            Steering steering,
-            SubModel subModel)
+            Steering steering)
         {
             if (car == null) throw new ArgumentNullException("car");
             if (bodyType == null) throw new ArgumentNullException("bodyType");
@@ -64,7 +63,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Transmission = transmission,
                 WebVisible = car.WebVisible,
                 WheelDrive = wheelDrive,
-                SubModel = subModel
             };
 
 
