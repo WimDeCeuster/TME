@@ -147,8 +147,6 @@ namespace TME.CarConfigurator.Publisher
                 FillCars(cars, contextData);
                 progress.Report(new PublishProgress("Fill generation grades"));
                 FillGrades(cars, modelGeneration, contextData);
-                progress.Report(new PublishProgress("Fill generation car assets"));
-                FillCarAssets(cars, contextData, modelGeneration);
                 progress.Report(new PublishProgress("Fill grade equipment"));
                 FillGradeEquipment(grades, contextData, isPreview);
                 progress.Report(new PublishProgress("Fill generation submodels"));
@@ -159,6 +157,8 @@ namespace TME.CarConfigurator.Publisher
                 FillEquipmentCategories(contextData);
                 progress.Report(new PublishProgress("Fill submodel assets"));
                 FillSubModelAssets(grades, modelGeneration, contextData);
+                progress.Report(new PublishProgress("Fill generation car assets"));
+                FillCarAssets(cars, contextData, modelGeneration);
                 progress.Report(new PublishProgress("Fill submodel grade packs"));
                 FillSubModelGradePacks(grades, modelGeneration, contextData, isPreview);
                 progress.Report(new PublishProgress("Fill generation specification categories"));
@@ -212,8 +212,10 @@ namespace TME.CarConfigurator.Publisher
 
         private void FillCarAssets(Car car, ContextData contextData, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
         {
+            if (objectWithAssetSet == null) return;
             var objectAssetsOnCarLevel = GetObjectAssetsOnCarLevel(car, modelGeneration, objectWithAssetSet);
-            var objectAssetsOnGenerationLevel = GetObjectAssetsOnGenerationLevel(objectWithAssetSet.GetObjectID(), contextData.Assets);
+            var objectAssetsOnGenerationLevel = GetObjectAssetsOnGenerationLevel(objectWithAssetSet.GetObjectID(),
+                contextData.Assets);
 
             var allCarAssetsForThisObject = objectAssetsOnCarLevel.Concat(objectAssetsOnGenerationLevel).ToList();
 
