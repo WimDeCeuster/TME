@@ -93,18 +93,23 @@
                     }
                 </div>
             </div>
-            <div class="object sub-item" data-id="@Html.Raw(model.SubModel.ID)">
-                <div class="title">
-                    <strong>SubModel</strong>
-                </div>
-                <div class="content">
-                    @Html.Partial("_subModel", model.SubModel)
-                    <br/>
-                    @Html.ActionLink("Assets", "Index", "ModelSubModelAssets", new { modelID = ViewBag.ModelID, carID = model.ID }, new { })
-                </div>
-            </div>
-            
-        
+            @if (model.SubModel != null)
+            {
+                if (model.SubModel.ID != Guid.Empty)
+                 {
+                     <div class="object sub-item" data-id="@Html.Raw(model.SubModel.ID)">
+                         <div class="title">
+                             <strong>SubModel</strong>
+                         </div>
+                         <div class="content">
+                             @Html.Partial("_subModel", model.SubModel)
+                             <br/>
+                             @Html.ActionLink("Assets", "Index", "ModelSubModelAssets", new {modelID = ViewBag.ModelID, carID = model.ID}, new {})
+                         </div>
+                     </div>
+                 }
+            }
+
             <p class="property" data-id="actionlinks">
                 @Html.ActionLink("Parts", "Index", "ModelCarParts", new { modelID = ViewBag.ModelID, carID = model.ID }, new { }) | 
                 @Html.ActionLink("Equipment", "Index", "ModelCarEquipment", new { modelID = ViewBag.ModelID, carID = model.ID }, new { }) | 

@@ -24,7 +24,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
             Engine engine,
             Transmission transmission,
             WheelDrive wheelDrive,
-            Steering steering)
+            Steering steering,
+            SubModel subModel)
         {
             if (car == null) throw new ArgumentNullException("car");
             if (bodyType == null) throw new ArgumentNullException("bodyType");
@@ -32,7 +33,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             if (transmission == null) throw new ArgumentNullException("transmission");
             if (wheelDrive == null) throw new ArgumentNullException("wheelDrive");
             if (steering == null) throw new ArgumentNullException("steering");
-
+            
             if (car.ShortID == null)
                 throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.ID));
 
@@ -62,7 +63,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Steering = steering,
                 Transmission = transmission,
                 WebVisible = car.WebVisible,
-                WheelDrive = wheelDrive
+                WheelDrive = wheelDrive,
+                SubModel = subModel
             };
 
 
