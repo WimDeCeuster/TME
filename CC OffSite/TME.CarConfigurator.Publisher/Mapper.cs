@@ -37,6 +37,7 @@ namespace TME.CarConfigurator.Publisher
         readonly IPackMapper _packMapper;
         readonly IColourMapper _colourMapper;
         readonly ICategoryMapper _categoryMapper;
+        private readonly ICarPartMapper _carPartMapper;
 
         public Mapper(
             ITimeFrameMapper timeFrameMapper,
@@ -54,7 +55,8 @@ namespace TME.CarConfigurator.Publisher
             IEquipmentMapper equipmentMapper,
             IPackMapper packMapper,
             IColourMapper colourMapper,
-            ICategoryMapper categoryMapper)
+            ICategoryMapper categoryMapper,
+            ICarPartMapper carPartMapper)
         {
             if (timeFrameMapper == null) throw new ArgumentNullException("timeFrameMapper");
             if (modelMapper == null) throw new ArgumentNullException("modelMapper");
@@ -71,6 +73,7 @@ namespace TME.CarConfigurator.Publisher
             if (equipmentMapper == null) throw new ArgumentNullException("equipmentMapper");
             if (packMapper == null) throw new ArgumentNullException("packMapper");
             if (categoryMapper == null) throw new ArgumentNullException("categoryMapper");
+            if (carPartMapper == null) throw new ArgumentNullException("carPartMapper");
 
             _timeFrameMapper = timeFrameMapper;
             _modelMapper = modelMapper;
@@ -88,6 +91,7 @@ namespace TME.CarConfigurator.Publisher
             _packMapper = packMapper;
             _colourMapper = colourMapper;
             _categoryMapper = categoryMapper;
+            _carPartMapper = carPartMapper;
         }
 
         public Task MapAsync(IContext context, IProgress<PublishProgress> progress)
@@ -144,6 +148,8 @@ namespace TME.CarConfigurator.Publisher
                 FillColourCombinations(cars, modelGeneration, contextData, isPreview);
                 progress.Report(new PublishProgress("Fill generation cars"));
                 FillCars(cars, contextData);
+                progress.Report(new PublishProgress("Fill car carparts"));
+                FilCarCarParts(cars, modelGeneration, contextData);
                 progress.Report(new PublishProgress("Fill generation grades"));
                 FillGrades(cars, modelGeneration, contextData);
                 progress.Report(new PublishProgress("Fill grade equipment"));
@@ -165,6 +171,14 @@ namespace TME.CarConfigurator.Publisher
 
                 progress.Report(new PublishProgress("Fill publication timeframes"));
                 context.TimeFrames[language] = _timeFrameMapper.GetTimeFrames(language, context);
+            }
+        }
+
+        private void FilCarCarParts(IEnumerable<Car> cars, ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var car in cars)
+            {
+                contextData.CarCarParts.Add(car.ID,modelGeneration.CarParts.Select(carPart => _carPartMapper.MapCarPart(carPart)).ToList());
             }
         }
 

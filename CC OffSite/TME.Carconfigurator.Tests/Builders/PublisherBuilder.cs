@@ -25,6 +25,7 @@ namespace TME.Carconfigurator.Tests.Builders
         private IColourPublisher _colourCombinationPublisher = A.Fake<IColourPublisher>();
         private IGradePackPublisher _gradePackPublisher = A.Fake<IGradePackPublisher>();
         private ISpecificationsPublisher _specificationsPublisher = A.Fake<ISpecificationsPublisher>();
+        private ICarPartPublisher _carPartPublisher = A.Fake<ICarPartPublisher>();
 
         public PublisherBuilder WithPublicationPublisher(IPublicationPublisher publicationPublisher)
         {
@@ -36,6 +37,12 @@ namespace TME.Carconfigurator.Tests.Builders
         public PublisherBuilder WithColourCombinationPublisher(IColourPublisher colourCombinationPublisher)
         {
             _colourCombinationPublisher = colourCombinationPublisher;
+            return this;
+        }
+
+        public PublisherBuilder WithCarPartPublisher(ICarPartPublisher carPartPublisher)
+        {
+            _carPartPublisher = carPartPublisher;
             return this;
         }
 
@@ -148,7 +155,8 @@ namespace TME.Carconfigurator.Tests.Builders
                 _equipmentPublisher,
                 _specificationsPublisher,
                 _gradePackPublisher, 
-                _colourCombinationPublisher);
+                _colourCombinationPublisher,
+                _carPartPublisher);
         }
 
         public PublisherBuilder WithGradePackPublisher(IGradePackPublisher gradePackPublisher)

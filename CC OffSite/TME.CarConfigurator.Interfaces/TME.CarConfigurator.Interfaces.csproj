@@ -51,6 +51,7 @@
     <Compile Include="Colours\IExteriorColourInfo.cs" />
     <Compile Include="Enums\ColouringModes.cs" />
     <Compile Include="Equipment\ICarEquipment.cs" />
+    <Compile Include="Factories\ICarPartFactory.cs" />
     <Compile Include="IGradeInfo.cs" />
     <Compile Include="Packs\ICarPackEquipment.cs" />
     <Compile Include="Packs\ICarPackExteriorColourType.cs" />

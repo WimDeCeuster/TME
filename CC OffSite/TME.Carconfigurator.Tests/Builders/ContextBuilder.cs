@@ -155,5 +155,21 @@ namespace TME.Carconfigurator.Tests.Builders
 
             return this;
         }
+
+        public ContextBuilder WithCarParts(string language, Guid carID, CarPart[] carParts)
+        {
+            var data = _context.ContextData[language];
+            var carCarParts = data.CarCarParts;
+
+            if (!carCarParts.ContainsKey(carID))
+                carCarParts.Add(carID,new List<CarPart>());
+
+            foreach (var carPart in carParts)
+            {
+                carCarParts[carID].Add(carPart);    
+            }
+
+            return this;
+        }
     }
 }

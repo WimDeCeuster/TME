@@ -37,8 +37,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TME.CarConfigurator.Interfaces">
+      <HintPath>..\TME.CarConfigurator.Interfaces\bin\Debug\TME.CarConfigurator.Interfaces.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICarPartService.cs" />
     <Compile Include="IColourService.cs" />
     <Compile Include="ISpecificationService.cs" />
     <Compile Include="IEquipmentService.cs" />

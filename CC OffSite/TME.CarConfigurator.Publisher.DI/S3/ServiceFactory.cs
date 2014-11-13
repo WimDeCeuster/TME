@@ -136,5 +136,12 @@ namespace TME.CarConfigurator.Publisher.DI.S3
 
             return new ColourCombinationService(service,_serialiser,_keyManager);
         }
+
+        public ICarPartService GetCarPartService(string environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return new CarPartService(service,_serialiser,_keyManager);
+        }
     }
 }

@@ -97,6 +97,11 @@ namespace TME.CarConfigurator.Publisher.DI.S3
             return new GradePackPublisher(service, _timeFramePublishHelper);
         }
 
+        private ICarPartPublisher GetCarPartPublisher(ICarPartService service)
+        {
+            return new CarPartPublisher(service);
+        }
+
         public IPublisher GetPublisher(string environment, PublicationDataSubset dataSubset)
         {
             return new Publisher(
@@ -115,7 +120,8 @@ namespace TME.CarConfigurator.Publisher.DI.S3
                 GetEquipmentPublisher(_serviceFactory.GetEquipmentService(environment, dataSubset)),
                 GetSpecificationsPublisher(_serviceFactory.GetSpecificationsService(environment, dataSubset)),
                 GetGradePackPublisher(_serviceFactory.GetGradePackService(environment, dataSubset)),
-                GetColourCombinationPublisher(_serviceFactory.GetColourCombinationService(environment,dataSubset))
+                GetColourCombinationPublisher(_serviceFactory.GetColourCombinationService(environment,dataSubset)),
+                GetCarPartPublisher(_serviceFactory.GetCarPartService(environment,dataSubset))
             );
         }
     }

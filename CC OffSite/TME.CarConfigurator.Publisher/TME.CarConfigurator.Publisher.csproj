@@ -91,6 +91,8 @@
     <Compile Include="Interfaces\ICarConfiguratorPublisher.cs" />
     <Compile Include="Interfaces\ICarConfiguratorVersionMapper.cs" />
     <Compile Include="Interfaces\ICarMapper.cs" />
+    <Compile Include="Interfaces\ICarPartMapper.cs" />
+    <Compile Include="Interfaces\ICarPartPublisher.cs" />
     <Compile Include="Interfaces\ICarPublisher.cs" />
     <Compile Include="Interfaces\ICategoryMapper.cs" />
     <Compile Include="Interfaces\IColourCombinationPublisher.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="Mappers\CarConfiguratorVersionMapper.cs" />
     <Compile Include="Mappers\CarMapper.cs" />
     <Compile Include="Mappers\BaseMapper.cs" />
+    <Compile Include="Mappers\CarPartMapper.cs" />
     <Compile Include="Mappers\CategoryMapper.cs" />
     <Compile Include="Mappers\ColourMapper.cs" />
     <Compile Include="Mappers\EngineCategoryMapper.cs" />

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Factories;
 using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Query.Tests.GivenACar;
 using TME.CarConfigurator.QueryServices;
 
 namespace TME.CarConfigurator.Query.Tests.TestBuilders
@@ -19,6 +20,7 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
         private IWheelDriveFactory _wheelDriveFactory = A.Fake<IWheelDriveFactory>();
         private IGradeFactory _gradeFactory = A.Fake<IGradeFactory>();
         private ISubModelFactory _subModelFactory = A.Fake<ISubModelFactory>();
+        private ICarPartFactory _carPartFactory = A.Fake<ICarPartFactory>();
 
         public CarFactoryBuilder WithCarService(ICarService carService)
         {
@@ -66,9 +68,15 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
             return this;
         }
 
+        public CarFactoryBuilder WithCarPartFactory(ICarPartFactory carPartFactory)
+        {
+            _carPartFactory = carPartFactory;
+            return this;
+        }
+
         public ICarFactory Build()
         {
-            return new CarFactory(_carService, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _gradeFactory, _subModelFactory);
+            return new CarFactory(_carService, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _gradeFactory, _subModelFactory, _carPartFactory);
         }
     }
 }

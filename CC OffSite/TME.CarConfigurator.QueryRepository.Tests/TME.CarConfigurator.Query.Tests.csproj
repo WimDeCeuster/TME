@@ -91,6 +91,9 @@
     <Compile Include="GivenACar\WhenAccessingItsEngineForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBodyTypeForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsGradeForTheFirstTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsGradeForTheSecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsPartsForTheFirstTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsPartsForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsStartingPriceForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
@@ -261,6 +264,7 @@
     <Compile Include="GivenModels\WhenRequestingTheListOfActiveModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
+    <Compile Include="Services\GivenACarPartService\WhenGetCarPartsIsCalled.cs" />
     <Compile Include="Services\GivenACarService\WhenGetCarsIsCalled.cs" />
     <Compile Include="Services\GivenAColourService\WhenGetColourCombinationsIsCalled.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledFor2DAssets.cs" />
@@ -294,6 +298,7 @@
     <Compile Include="TestBuilders\Base\ServiceBuilderBase.cs" />
     <Compile Include="TestBuilders\BodyTypeFactoryBuilder.cs" />
     <Compile Include="TestBuilders\CarFactoryBuilder.cs" />
+    <Compile Include="TestBuilders\CarPartFactoryBuilder.cs" />
     <Compile Include="TestBuilders\ConfigurationManagerBuilder.cs" />
     <Compile Include="TestBuilders\ContextBuilder.cs" />
     <Compile Include="TestBuilders\EngineCategoryBuilder.cs" />

@@ -52,6 +52,7 @@
     <Compile Include="CarConfiguratorVersion.cs" />
     <Compile Include="CarGrade.cs" />
     <Compile Include="CarInfo.cs" />
+    <Compile Include="CarPart.cs" />
     <Compile Include="CarSubModel.cs" />
     <Compile Include="CarTransmission.cs" />
     <Compile Include="CarWheelDrive.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Extensions\VisibilityExtensions.cs" />
     <Compile Include="Colours\ExteriorColour.cs" />
     <Compile Include="Colours\ExteriorColourType.cs" />
+    <Compile Include="Factories\CarPartFactory.cs" />
     <Compile Include="Factories\SpecificationsFactory.cs" />
     <Compile Include="Factories\EquipmentFactory.cs" />
     <Compile Include="Factories\ColourFactory.cs" />

@@ -1,4 +1,5 @@
 ﻿using TME.CarConfigurator.DI.Interfaces;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.S3.QueryServices;
 using TME.CarConfigurator.S3.Shared;
@@ -30,6 +31,7 @@ namespace TME.CarConfigurator.DI
         private ISpecificationsService _specificationsService;
         private IColourService _colourService;
         private IPackService _packService;
+        private ICarPartService _carPartService;
 
         public IService Service
         {
@@ -78,6 +80,12 @@ namespace TME.CarConfigurator.DI
         {
             _modelService = modelService;
 
+            return this;
+        }
+
+        public IServiceFacade WithCarPartService(ICarPartService carPartService)
+        {
+            _carPartService = carPartService;
             return this;
         }
 
@@ -252,6 +260,11 @@ namespace TME.CarConfigurator.DI
         public IPackService CreatePackService()
         {
             return _packService ?? new PackService(Serializer, Service, KeyManager);
+        }
+
+        public ICarPartService CreateCarPartService()
+        {
+            return _carPartService ?? new CarPartService(Serializer, KeyManager, Service);
         }
     }
 }

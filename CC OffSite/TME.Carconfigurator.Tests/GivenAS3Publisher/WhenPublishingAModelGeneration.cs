@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FakeItEasy;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.S3.Publisher.Interfaces;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
@@ -43,6 +40,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         private IColourPublisher _colourCombinationPublisher;
         private IAssetPublisher _assetPublisher;
         private IGradePackPublisher _gradePackPublisher;
+        private ICarPartPublisher _carPartPublisher;
 
         protected override void Arrange()
         {
@@ -62,6 +60,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             _specificationsPublisher = A.Fake<ISpecificationsPublisher>(x => x.Strict());
             _gradePackPublisher = A.Fake<IGradePackPublisher>(x => x.Strict());
             _colourCombinationPublisher = A.Fake<IColourPublisher>(x => x.Strict());
+            _carPartPublisher = A.Fake<ICarPartPublisher>(x => x.Strict());
 
             _serialiser = A.Fake<ISerialiser>();
 
@@ -82,6 +81,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
                 .WithSpecificationsPublisher(_specificationsPublisher)
                 .WithGradePackPublisher(_gradePackPublisher)
                 .WithColourCombinationPublisher(_colourCombinationPublisher)
+                .WithCarPartPublisher(_carPartPublisher)
                 .Build();
 
             var contextBuilder = new ContextBuilder()
@@ -152,6 +152,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => _gradePackPublisher.PublishAsync(_context)).Returns(task);
             A.CallTo(() => _gradePackPublisher.PublishSubModelGradePacksAsync(_context)).Returns(task);
             A.CallTo(() => _colourCombinationPublisher.PublishGenerationColourCombinations(_context)).Returns(task);
+            A.CallTo(() => _carPartPublisher.PublishCarPartsAsync(_context)).Returns(task);
         }
 
         protected override void Act()
@@ -169,6 +170,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         public void ThenAPublishGenerationBodyTypesShouldHappen()
         {
             A.CallTo(() => _bodyTypePublisher.PublishGenerationBodyTypesAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
+        public void ThenAPublishCarPartsShouldHappen()
+        {
+            A.CallTo(() => _carPartPublisher.PublishCarPartsAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]

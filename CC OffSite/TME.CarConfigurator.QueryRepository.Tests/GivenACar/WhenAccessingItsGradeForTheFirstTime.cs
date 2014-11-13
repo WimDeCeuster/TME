@@ -58,7 +58,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenACar
         }
 
         [Fact]
-        public void ThenTheEngineShouldBeCorrect()
+        public void ThenTheGradeShouldBeCorrect()
         {
             _grade.ID.Should().Be(_repoGrade.ID);
         }
