@@ -36,7 +36,7 @@ namespace TME.CarConfigurator.Factories
             LinkParents(mappedCategories, repoCategories);
             LinkChildren(mappedCategories);
 
-            var rootCategory = new Category(new RepoCategory());
+            var rootCategory = GetRootCategory();
             var topLevelCategories = mappedCategories.Where(category => category.Parent == null).ToList(); 
             rootCategory.Categories = topLevelCategories;
             foreach (var category in topLevelCategories)
@@ -59,6 +59,20 @@ namespace TME.CarConfigurator.Factories
         {
             foreach (var category in mappedCategories)
                 category.Categories = mappedCategories.Where(mappedCategory => mappedCategory.Parent == category).ToList();
+        }
+
+        static Category GetRootCategory()
+        {
+            return new Category(new RepoCategory
+            {
+                Description = "",
+                FootNote = "",
+                InternalCode = "",
+                LocalCode = "",
+                Name = "",
+                ToolTip = "",
+                Path = ""
+            });
         }
     }
 }

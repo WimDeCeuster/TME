@@ -16,33 +16,35 @@ namespace TME.FrontEndViewer.Controllers
         public ActionResult Index()
         {
             var brand = "Toyota";
-            var country = "DE";
-            var language = "DE";
+            var country = "FR";
+            var language = "FR";
 
             var context = new Context()
             {
                 Brand = brand,
                 Country = country,
-                Language = language,
+                Language = language
             };
 
             var oldContext = MyContext.NewContext(context.Brand, context.Country, context.Language);
 
-            var newModel = CarConfigurator.DI.Models.GetModels(context).First();
+            var newModels = CarConfigurator.DI.Models.GetModels(context).ToList();
+            var oldModels = TMME.CarConfigurator.Models.GetModels(oldContext)
+                                                       .Cast<TMME.CarConfigurator.Model>()
+                                                       .Select(x => new CarConfigurator.LegacyAdapter.Model(x))
+                                                       .ToList();
 
-            var oldModel = TMME.CarConfigurator.Models.GetModels(oldContext)
-                .Cast<TMME.CarConfigurator.Model>()
-                .Select(x => new CarConfigurator.LegacyAdapter.Model(x))
+            var newModel = newModels.First();
+            
+            var oldModel = oldModels
                 .First(x => x.ID == newModel.ID);
 
-            var compareResult = new TME.CarConfigurator.Comparer.Comparer().Compare(oldModel, newModel);
 
 
-            return Content(compareResult.Result);
+            var compareResult = new TME.CarConfigurator.Comparer.Comparer().Compare(oldModels, newModels);
 
-            //return Json(compareResult, JsonRequestBehavior.AllowGet);
 
-            //return View();
+            return View(compareResult);
         }
 
     }

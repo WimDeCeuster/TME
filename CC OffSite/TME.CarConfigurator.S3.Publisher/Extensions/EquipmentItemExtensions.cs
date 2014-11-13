@@ -11,7 +11,8 @@ namespace TME.CarConfigurator.S3.Publisher.Extensions
         {
             return equipmentItems.OrderBy(equipmentItem => equipmentItem.Category.SortIndex)
                                  .ThenBy(equipmentItem => equipmentItem.SortIndex)
-                                 .ThenBy(equipmentItem => equipmentItem.Name);
+                                 .ThenBy(equipmentItem => equipmentItem.Name)
+                                 .ThenBy(equipmentItem => equipmentItem.InternalCode);
         }
 
     }

@@ -56,5 +56,11 @@ namespace TME.CarConfigurator.LegacyAdapter.TechnicalSpecifications
                 return Adaptee.Categories.Cast<TMME.CarConfigurator.TechnicalSpecifications.Category>().Select(x => new Category(x)).ToList();
             }
         }
+
+        public override int GetHashCode()
+        {
+            return ID.GetHashCode() * 29 + this.GetType().GetHashCode();
+        }
+
     }
 }

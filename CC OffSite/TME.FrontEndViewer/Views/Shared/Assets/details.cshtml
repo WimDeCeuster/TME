@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<TME.CarConfigurator.Interfaces.Assets.IAsset>
 
 
-@foreach (var model in Model.OrderBy(x=> x.Name).ThenBy(x=>x.AssetType.Name))
+@foreach (var model in Model)
 {
     <div class="object" data-id="@(String.Format("{0}-{1}-{2}-{3}-{4}", model.ID, model.AssetType.Code, model.AssetType.ExteriorColourCode, model.AssetType.UpholsteryCode, model.AssetType.EquipmentCode))">
         <div class="title">

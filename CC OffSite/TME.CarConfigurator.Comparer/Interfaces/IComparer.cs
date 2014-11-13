@@ -9,6 +9,6 @@ namespace TME.CarConfigurator.Comparer.Interfaces
 {
     public interface IComparer
     {
-        ICompareResult Compare(IModel modelA, IModel modelB);
+        ICompareResult Compare(object modelA, object modelB);
     }
 }

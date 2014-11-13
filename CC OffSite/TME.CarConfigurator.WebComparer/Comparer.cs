@@ -11,10 +11,11 @@ namespace TME.CarConfigurator.WebComparer
 {
     public class Comparer
     {
-        private static ConcurrentStack<String> _links;
-        private static ConcurrentBag<String> _visited;
-        private static List<CompareWindow> _windows;
+        private ConcurrentStack<String> _links;
+        private ConcurrentBag<String> _visited;
+        private List<CompareWindow> _windows;
         private string _startUrl;
+        private object _finishLock = new object();
 
         public Result Result { get; private set; }
         public event EventHandler Finished;
@@ -62,22 +63,27 @@ namespace TME.CarConfigurator.WebComparer
 
         void FinishedHandler(object sender, EventArgs e)
         {
-            if (_windows.All(window => window.IsFinished))
-            {
-                Watch.Stop();
+            lock (_finishLock)
+            { 
+                if (IsFinished)
+                    return;
 
-                IsFinished = true;
-
-                Result = new Result
-                {
-                    FailedPages = _windows.SelectMany(window => window.Result.FailedPages).ToList(),
-                    ProcessedPages = _windows.SelectMany(window => window.Result.ProcessedPages).ToList()
-                };
-
-                var handler = Finished;
-                if (handler != null)
-                    handler(sender, new EventArgs());
+                IsFinished = _windows.All(window => window.IsFinished);
+                if (!IsFinished)
+                    return;
             }
+
+            Watch.Stop();
+                
+            Result = new Result
+            {
+                FailedPages = _windows.SelectMany(window => window.Result.FailedPages).ToList(),
+                ProcessedPages = _windows.SelectMany(window => window.Result.ProcessedPages).ToList()
+            };
+
+            var handler = Finished;
+            if (handler != null)
+                handler(sender, new EventArgs());
         }
     }
 }

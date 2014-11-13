@@ -10,7 +10,7 @@ namespace TME.CarConfigurator.WebComparer
 {
     public class CompareWindow
     {
-        private static object _naviationLock = new Object();
+        private static object _navigationLock = new Object();
 
         private WebView _window;
         private System.Collections.Concurrent.ConcurrentBag<String> _visited;
@@ -39,7 +39,7 @@ namespace TME.CarConfigurator.WebComparer
         }
 
         public void Start() {
-            lock (_naviationLock)
+            lock (_navigationLock)
             {
                 if (IsCrashed || !IsFinished)
                     return;
@@ -86,7 +86,7 @@ namespace TME.CarConfigurator.WebComparer
                 if (!_links.TryPop(out nextUrl))
                     break;
 
-                lock (_naviationLock) { 
+                lock (_navigationLock) { 
                     if (_visited.Contains(nextUrl))
                         continue;
 
@@ -123,7 +123,7 @@ namespace TME.CarConfigurator.WebComparer
             Result.ProcessedPages.Add(pageResult);
 
             var pageLinks = GetPageLinks();
-            lock (_naviationLock)
+            lock (_navigationLock)
             {
                 var hadLinks = pageLinks.Count > 0;
 
