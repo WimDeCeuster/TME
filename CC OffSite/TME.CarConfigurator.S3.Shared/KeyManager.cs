@@ -168,7 +168,7 @@ namespace TME.CarConfigurator.S3.Shared
             return GetAssetsKeyWithViewAndMode(GetPublicationAssetsKey(publicationID, subModelID, "submodel", objectID), view, mode);
         }
 
-        public string GetCarPartsKey(Guid publicationID, Guid carID)
+        public string GetCarCarPartsKey(Guid publicationID, Guid carID)
         {
             return String.Format("{0}/car/{1}/carparts", GetPublicationKey(publicationID), carID);
         }

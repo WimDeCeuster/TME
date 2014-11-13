@@ -178,13 +178,14 @@ namespace TME.CarConfigurator.Publisher
         {
             foreach (var car in cars)
             {
-                var carPartsWithAssets = modelGeneration.CarParts.Where(carPart => carPart.AssetSet.NumberOfAssets != 0).ToList();
+                var carPartsWithValidAssets = modelGeneration.CarParts.Where(carPart => carPart.AssetSet.NumberOfAssets != 0).ToList();
 
-                contextData.CarCarParts.Add(car.ID,carPartsWithAssets.Select(carPart => _carPartMapper.MapCarPart(carPart)).ToList());
+                contextData.CarCarParts.Add(car.ID,carPartsWithValidAssets.Select(carPart => _carPartMapper.MapCarPart(carPart)).ToList());
 
-                foreach (var carPart in carPartsWithAssets)
+                foreach (var carPart in carPartsWithValidAssets)
                 {
-                    contextData.CarAssets[car.ID].Add(carPart.ID, new List<Asset>(carPart.AssetSet.Assets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList()));
+                    var validAssetsPerCarPart = carPart.AssetSet.Assets.Where(assetSetAsset => assetSetAsset.BodyType.ID == car.BodyTypeID && assetSetAsset.Steering.ID == car.SteeringID);
+                    contextData.CarAssets[car.ID].Add(carPart.ID, new List<Asset>(validAssetsPerCarPart.Select(asset => _assetMapper.MapCarAssetSetAsset(asset, modelGeneration)).ToList()));
                 }
             }
         }

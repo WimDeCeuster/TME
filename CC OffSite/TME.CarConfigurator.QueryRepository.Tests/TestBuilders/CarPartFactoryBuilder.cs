@@ -9,15 +9,23 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
     {
         private ICarPartService _carPartService = A.Fake<ICarPartService>();
 
-        public ICarPartFactory Build()
+        private IAssetFactory _assetFactory = A.Fake<IAssetFactory>();
+
+        public CarPartFactoryBuilder WithAssetFactory(IAssetFactory assetFactory)
         {
-            return new CarPartFactory(_carPartService);
+            _assetFactory = assetFactory;
+            return this;
         }
 
         public CarPartFactoryBuilder WithCarPartService(ICarPartService carPartService)
         {
             _carPartService = carPartService;
             return this;
+        }
+
+        public ICarPartFactory Build()
+        {
+            return new CarPartFactory(_carPartService,_assetFactory);
         }
     }
 }

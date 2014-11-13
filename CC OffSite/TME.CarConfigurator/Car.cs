@@ -90,8 +90,7 @@ namespace TME.CarConfigurator
                 return
                     _carParts =
                         _carParts ??
-                        _carPartFactory.GetCarCarParts(RepositoryObject.ID, _repositoryPublication, _repositoryContext)
-                        .Select(carPart => new CarCarPart(carPart)).ToList();
+                        _carPartFactory.GetCarCarParts(RepositoryObject.ID, _repositoryPublication, _repositoryContext);
             }
         }
 
@@ -104,9 +103,5 @@ namespace TME.CarConfigurator
         {
             get { throw new NotImplementedException(); }
         }
-    }
-
-    public class CarCarPart : CarPart
-    {
     }
 }

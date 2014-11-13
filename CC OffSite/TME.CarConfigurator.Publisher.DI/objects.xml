@@ -21,7 +21,9 @@
     <constructor-arg ref="CarPartMapper" />
   </object>
 
-  <object name="CarPartMapper" type="TME.CarConfigurator.Publisher.Mappers.CarPartMapper, TME.CarConfigurator.Publisher"/>
+  <object name="CarPartMapper" type="TME.CarConfigurator.Publisher.Mappers.CarPartMapper, TME.CarConfigurator.Publisher">
+    <constructor-arg ref="AssetSetMapper"/>
+  </object>
   <object name="ModelMapper" type="TME.CarConfigurator.Publisher.Mappers.ModelMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />
   </object>

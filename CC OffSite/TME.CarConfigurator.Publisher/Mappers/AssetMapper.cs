@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Administration.Assets;
-using TME.CarConfigurator.Administration.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Exceptions;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;

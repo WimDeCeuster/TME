@@ -157,8 +157,8 @@ namespace TME.CarConfigurator.DI
             _modelService = _modelService ?? _serviceFacade.CreateModelService();
 
             _publicationFactory = _publicationFactory ?? new PublicationFactory(_serviceFacade.CreatePublicationService());
-            _carPartFactory = _carPartFactory ?? new CarPartFactory(_serviceFacade.CreateCarPartService());
             _assetFactory = _assetFactory ?? new AssetFactory(_serviceFacade.CreateAssetService());
+            _carPartFactory = _carPartFactory ?? new CarPartFactory(_serviceFacade.CreateCarPartService(),_assetFactory);
             _bodyTypeFactory = _bodyTypeFactory ?? new BodyTypeFactory(_serviceFacade.CreateBodyTypeService(), _assetFactory);
             _engineFactory = _engineFactory ?? new EngineFactory(_serviceFacade.CreateEngineService(), _assetFactory);
             _transmissionFactory = _transmissionFactory ?? new TransmissionFactory(_serviceFacade.CreateTransmissionService(),_assetFactory);

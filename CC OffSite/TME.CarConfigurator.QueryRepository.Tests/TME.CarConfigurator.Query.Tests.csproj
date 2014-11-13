@@ -59,6 +59,9 @@
     <Compile Include="GivenABodyType\WhenAccessingIts3DAssetsASecondTime.cs" />
     <Compile Include="GivenABodyType\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenABodyType\WhenAccessingIts3DAssets.cs" />
+    <Compile Include="GivenACarCarPart\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenACarCarPart\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarCarPart\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACarEngine\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenACarEngine\WhenAccessingIts3DAssets.cs" />
     <Compile Include="GivenACarEngine\WhenAccessingIts3DAssetsASecondTime.cs" />

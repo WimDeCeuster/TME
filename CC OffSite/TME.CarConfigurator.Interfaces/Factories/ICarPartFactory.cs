@@ -6,6 +6,6 @@ namespace TME.CarConfigurator.Interfaces.Factories
 {
     public interface ICarPartFactory
     {
-        IReadOnlyList<CarPart> GetCarCarParts(Guid carID, Publication publication, Context context);
+        IReadOnlyList<ICarPart> GetCarCarParts(Guid carID, Publication publication, Context context);
     }
 }

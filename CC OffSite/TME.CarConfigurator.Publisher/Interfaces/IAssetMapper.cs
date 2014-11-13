@@ -1,6 +1,5 @@
 ﻿using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Administration.Assets;
-using TME.CarConfigurator.Administration.Interfaces;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
 
 namespace TME.CarConfigurator.Publisher.Interfaces
