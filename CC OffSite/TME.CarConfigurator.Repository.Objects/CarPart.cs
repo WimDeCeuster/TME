@@ -1,4 +1,6 @@
-﻿namespace TME.CarConfigurator.Repository.Objects
+﻿using System;
+
+namespace TME.CarConfigurator.Repository.Objects
 {
     public class CarPart
     {

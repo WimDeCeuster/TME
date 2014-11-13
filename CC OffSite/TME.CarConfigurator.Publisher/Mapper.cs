@@ -148,8 +148,8 @@ namespace TME.CarConfigurator.Publisher
                 FillColourCombinations(cars, modelGeneration, contextData, isPreview);
                 progress.Report(new PublishProgress("Fill generation cars"));
                 FillCars(cars, contextData);
-                progress.Report(new PublishProgress("Fill car carparts"));
-                FilCarCarParts(cars, modelGeneration, contextData);
+                progress.Report(new PublishProgress("Fill carparts"));
+                FilCarParts(cars, modelGeneration, contextData);
                 progress.Report(new PublishProgress("Fill generation grades"));
                 FillGrades(cars, modelGeneration, contextData);
                 progress.Report(new PublishProgress("Fill grade equipment"));
@@ -174,11 +174,18 @@ namespace TME.CarConfigurator.Publisher
             }
         }
 
-        private void FilCarCarParts(IEnumerable<Car> cars, ModelGeneration modelGeneration, ContextData contextData)
+        private void FilCarParts(IEnumerable<Car> cars, ModelGeneration modelGeneration, ContextData contextData)
         {
             foreach (var car in cars)
             {
-                contextData.CarCarParts.Add(car.ID,modelGeneration.CarParts.Select(carPart => _carPartMapper.MapCarPart(carPart)).ToList());
+                var carPartsWithAssets = modelGeneration.CarParts.Where(carPart => carPart.AssetSet.NumberOfAssets != 0).ToList();
+
+                contextData.CarCarParts.Add(car.ID,carPartsWithAssets.Select(carPart => _carPartMapper.MapCarPart(carPart)).ToList());
+
+                foreach (var carPart in carPartsWithAssets)
+                {
+                    contextData.CarAssets[car.ID].Add(carPart.ID, new List<Asset>(carPart.AssetSet.Assets.Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList()));
+                }
             }
         }
 
