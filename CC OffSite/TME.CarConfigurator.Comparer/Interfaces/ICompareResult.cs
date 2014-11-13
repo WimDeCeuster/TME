@@ -16,6 +16,6 @@ namespace TME.CarConfigurator.Comparer.Interfaces
         IReadOnlyList<Difference> NotImplemented { get; }
         IReadOnlyList<Difference> Exceptions { get; }
 
-        bool Valid { get; }
+        bool IsValid { get; }
     }
 }

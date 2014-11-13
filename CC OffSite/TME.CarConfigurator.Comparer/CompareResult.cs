@@ -17,7 +17,7 @@ namespace TME.CarConfigurator.Comparer
         public IReadOnlyList<Difference> NotImplemented { get; private set; }
         public IReadOnlyList<Difference> Exceptions { get; private set; }
 
-        public bool Valid { get; private set; }
+        public bool IsValid { get; private set; }
 
         public CompareResult(IEnumerable<Difference> differences)
         {
@@ -29,7 +29,7 @@ namespace TME.CarConfigurator.Comparer
             NotImplemented = Differences.Where(difference => difference.Type == DifferenceType.NotImplemented).ToList();
             Exceptions = Differences.Where(difference => difference.Type == DifferenceType.Exception).ToList();
 
-            Valid = Mismatches.Count + Misorders.Count + Missing.Count + NotImplemented.Count + Exceptions.Count == 0;
+            IsValid = Mismatches.Count + Misorders.Count + Missing.Count + NotImplemented.Count + Exceptions.Count == 0;
         }
     }
 }
