@@ -62,10 +62,10 @@ namespace TME.CarConfigurator.Equipment
         public IReadOnlyList<ILink> Links { get { return _links = _links ?? RepositoryObject.Links.Select(link => new Link(link)).ToList(); } }
 
         //restjes
-        public abstract IPrice Price { get;  }
-        public abstract IReadOnlyList<IVisibleInModeAndView> VisibleIn { get; }
-        public abstract IReadOnlyList<IAsset> Assets { get; }
-        public abstract IReadOnlyList<IExteriorColourInfo> AvailableForExteriorColours { get;  }
-        public abstract IReadOnlyList<IUpholsteryInfo> AvailableForUpholsteries { get; }
+        public IPrice Price { get{throw new NotImplementedException();}  }
+        public IReadOnlyList<IVisibleInModeAndView> VisibleIn { get { throw new NotImplementedException(); } }
+        public IReadOnlyList<IAsset> Assets { get { throw new NotImplementedException(); } }
+        public IReadOnlyList<IExteriorColourInfo> AvailableForExteriorColours { get { throw new NotImplementedException(); } }
+        public IReadOnlyList<IUpholsteryInfo> AvailableForUpholsteries { get { throw new NotImplementedException(); } }
     }
 }
