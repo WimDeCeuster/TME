@@ -17,8 +17,9 @@ namespace TME.CarConfigurator.LegacyAdapter.Extensions
                     {
                         Mode = group.Key.Mode,
                         View = group.Key.View,
-                        Assets = group.Select(legacyAsset => new Asset(legacyAsset)).ToList()
-
+                        Assets = group.Select(legacyAsset => new Asset(legacyAsset))
+                                      .OrderBy(x => x.Name).ThenBy(x => x.AssetType.Name)
+                                      .ToList()
                     })
                     .ToList();
             return groups;
@@ -29,6 +30,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Extensions
              return assets.Cast<Legacy.Asset>()
                     .Where(x => x.AssetType.Details.View != "EXT" && x.AssetType.Details.View != "INT")
                     .Select(x => new Asset(x))
+                    .OrderBy(x => x.Name).ThenBy(x => x.AssetType.Name)
                     .ToList(); 
         }
      }

@@ -1,0 +1,51 @@
+﻿@model TME.CarConfigurator.Comparer.CompareResult
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AutoCompare</title>
+</head>
+<body>
+    <h1>@(Model.Valid ? "Valid" : "Invalid")</h1>
+    <h2>Mismatches (@(Model.Mismatches.Count))</h2>
+    <div>
+        @foreach (var mismatch in Model.Mismatches)
+        {
+            <p>@mismatch.ToString()</p>
+        }
+    </div>
+    <h2>Missing (@(Model.Missing.Count))</h2>
+    <div>
+        @foreach (var missing in Model.Missing)
+        {
+            <p>@missing.ToString()</p>
+        }
+    </div>
+    <h2>Misordered (@(Model.Misorders.Count))</h2>
+    <div>
+        @foreach (var misorder in Model.Misorders)
+        {
+            <p>@misorder.ToString()</p>
+        }
+    </div>
+    <h2>Exceptions (@(Model.Exceptions.Count))</h2>
+    <div>
+        @foreach (var exception in Model.Exceptions)
+        {
+            <p>@exception.ToString()</p>
+        }
+    </div>
+    <h2>Not Implemented (@(Model.NotImplemented.Count))</h2>
+    <div>
+        @foreach (var notImplemented in Model.NotImplemented)
+        {
+            <p>@notImplemented.ToString()</p>
+        }
+    </div>
+</body>
+</html>
