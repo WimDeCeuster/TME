@@ -64,7 +64,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Users\gorisru\Downloads\Compare-NET-Objects-Distribution3.01.0.0\Compare-NET-Objects-Distribution\Source\Compare-NET-Objects\Compare-NET-Objects.csproj">
+    <ProjectReference Include="..\..\Compare-NET-Objects\Compare-NET-Objects.csproj">
       <Project>{94f1f5f2-6bc4-464b-ac51-fbdb4fa3f3ad}</Project>
       <Name>Compare-NET-Objects</Name>
     </ProjectReference>

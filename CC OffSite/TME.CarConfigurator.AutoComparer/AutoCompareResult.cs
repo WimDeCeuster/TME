@@ -10,8 +10,6 @@ namespace TME.CarConfigurator.AutoComparer
     public class AutoCompareResult
     {
         public String Brand { get; private set; }
-        public String Environment { get; private set; }
-        public String Target { get; private set; }
         public PublicationDataSubset DataSubset { get; private set; }
 
         public IReadOnlyList<CountryCompareResult> CountryCompareResults { get; private set; }
@@ -23,11 +21,9 @@ namespace TME.CarConfigurator.AutoComparer
         public int TotalNotImplemented { get; private set; }
         public bool IsValid { get; private set; }
 
-        public AutoCompareResult(String brand, String environment, String target, PublicationDataSubset dataSubset, IEnumerable<CountryCompareResult> countryCompareResults)
+        public AutoCompareResult(String brand, PublicationDataSubset dataSubset, IEnumerable<CountryCompareResult> countryCompareResults)
         {
             Brand = brand;
-            Environment = environment;
-            Target = target;
             DataSubset = dataSubset;
             CountryCompareResults = countryCompareResults.ToList();
 

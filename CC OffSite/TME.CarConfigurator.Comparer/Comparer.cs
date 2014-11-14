@@ -32,41 +32,44 @@ namespace TME.CarConfigurator.Comparer
                 model => model.Engines.First().Type.Code,
                 model => model.ColourCombinations.First().ID,
                 model => model.ColourCombinations.First().SortIndex,
-                model => model.Grades.First().Equipment.Options.First().TechnologyItem,
-
-                model => model.Assets,
-                model => model.BodyTypes,
-                model => model.Brand,
-                model => model.CarConfiguratorVersion,
-                model => model.Cars,
+                model => model.Grades.First().Equipment.Options.First().TechnologyItem
+                //model => model.Assets,
+                //model => model.BodyTypes,
+                //model => model.Brand,
+                //model => model.CarConfiguratorVersion,
+                //model => model.Cars,
                 //model => model.ColourCombinations,
-                model => model.Description,
-                model => model.Engines,
-                model => model.Equipment,
-                model => model.FootNote,
-                model => model.FuelTypes,
-                model => model.Grades,
-                model => model.ID,
-                model => model.InternalCode,
-                model => model.Labels,
-                model => model.Links,
-                model => model.LocalCode,
-                model => model.Name,
-                model => model.Promoted,
-                model => model.SortIndex,
-                model => model.SSN,
-                model => model.Steerings,
-                model => model.SubModels,
-                model => model.TechnicalSpecifications,
-                model => model.ToolTip,
-                model => model.Transmissions,
-                model => model.WheelDrives
+                //model => model.Description,
+                //model => model.Engines,
+                //model => model.Equipment,
+                //model => model.FootNote,
+                //model => model.FuelTypes,
+                //model => model.Grades,
+                //model => model.ID,
+                //model => model.InternalCode,
+                //model => model.Labels,
+                //model => model.Links,
+                //model => model.LocalCode,
+                //model => model.Name,
+                //model => model.Promoted,
+                //model => model.SortIndex,
+                //model => model.SSN,
+                //model => model.Steerings,
+                //model => model.SubModels,
+                //model => model.TechnicalSpecifications,
+                //model => model.ToolTip,
+                //model => model.Transmissions,
+                //model => model.WheelDrives
             );
 
             config.PathsToIgnore = new List<String>
             { 
                 ".Grades[].Equipment.Accessories[].ExteriorColour.SortIndex",
-                ".Grades[].Equipment.Options[].ExteriorColour.SortIndex"
+                ".Grades[].Equipment.Options[].ExteriorColour.SortIndex",
+                ".Cars[].Grade.Equipment.Accessories[].ExteriorColour.SortIndex",
+                ".Cars[].Grade.Equipment.Options[].ExteriorColour.SortIndex",
+                ".SubModels[].Grades[].Equipment.Accessories[].ExteriorColour.SortIndex",
+                ".SubModels[].Grades[].Equipment.Options[].ExteriorColour.SortIndex"
             };
 
             config.IgnoreOrderFor = new List<String>

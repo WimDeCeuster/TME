@@ -15,14 +15,6 @@ namespace TME.CarConfigurator.AutoComparer
             HelpText = "The brand of the publication.")]
         public string Brand { get; set; }
 
-        [Option('e', "environment", DefaultValue = "Development",
-            HelpText = "Environment to look in for publications.")]
-        public string Environment { get; set; }
-
-        [Option('t', "target", DefaultValue = "S3",
-            HelpText = "Target to look in forpublications.")]
-        public string Target { get; set; }
-
         [Option('d', "datasubset", DefaultValue = PublicationDataSubset.Live,
             HelpText = "The data subset of the publication.")]
         public PublicationDataSubset DataSubset { get; set; }

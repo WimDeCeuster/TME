@@ -9,12 +9,12 @@ namespace TME.CarConfigurator.Comparer.Interfaces
 {
     public interface ICompareResult
     {
-        IReadOnlyList<Difference> Differences { get; }
-        IReadOnlyList<Difference> Mismatches { get; }
-        IReadOnlyList<Difference> Misorders { get; }
-        IReadOnlyList<Difference> Missing { get; }
-        IReadOnlyList<Difference> NotImplemented { get; }
-        IReadOnlyList<Difference> Exceptions { get; }
+        IReadOnlyList<String> Differences { get; }
+        IReadOnlyList<String> Mismatches { get; }
+        IReadOnlyList<String> Misorders { get; }
+        IReadOnlyList<String> Missing { get; }
+        IReadOnlyList<String> NotImplemented { get; }
+        IReadOnlyList<String> Exceptions { get; }
 
         bool IsValid { get; }
     }
