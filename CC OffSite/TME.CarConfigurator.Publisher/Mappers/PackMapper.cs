@@ -67,7 +67,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return matchingCars.Select(c => _carMapper.MapCarInfo(c)).ToList();
         }
 
-
         public CarPack MapCarPack(Administration.CarPack carPack)
         {
             if (carPack.ShortID == null)
@@ -90,7 +89,21 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 SortIndex = carPack.Index,
                 Optional = carPack.Availability == Availability.Optional,
                 Standard = carPack.Availability == Availability.Standard,
-                OptionalGradeFeature = gradePack.GradeFeature && carPack.Availability == Availability.Optional
+                OptionalGradeFeature = gradePack.GradeFeature && carPack.Availability == Availability.Optional,
+                AvailableForExteriorColours = carPack.ExteriorColourApplicabilities.Select(x =>
+                    new Repository.Objects.Colours.ExteriorColourInfo
+                    {
+                        ID = x.ID,
+                        InternalCode = x.Code
+                    }
+                ).ToList(),
+                AvailableForUpholsteries = carPack.UpholsteryApplicabilities.Select(x =>
+                    new Repository.Objects.Colours.UpholsteryInfo
+                    {
+                        ID = x.ID,
+                        InternalCode = x.Code
+                    }
+                ).ToList()
             };
 
             return _baseMapper.MapTranslation(mappedCarPack, carPack.Translation, carPack.Name);

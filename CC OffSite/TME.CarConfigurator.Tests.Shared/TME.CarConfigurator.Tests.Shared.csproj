@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestBuilders\UpholsteryInfoBuilder.cs" />
     <Compile Include="TestBuilders\GradePackBuilder.cs" />
     <Compile Include="TestBuilders\CarPackBuilder.cs" />
     <Compile Include="TestBuilders\CarPartBuilder.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="TestBase.cs" />
     <Compile Include="TestBuilders\ColourCombinationBuilder.cs" />
     <Compile Include="TestBuilders\EquipmentExteriorColourBuilder.cs" />
+    <Compile Include="TestBuilders\ExteriorColourInfoBuilder.cs" />
     <Compile Include="TestBuilders\SpecificationCategoryBuilder.cs" />
     <Compile Include="TestBuilders\EquipmentCategoryBuilder.cs" />
     <Compile Include="TestBuilders\ExteriorTypeColourBuilder.cs" />

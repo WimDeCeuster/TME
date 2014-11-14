@@ -15,10 +15,11 @@ using TME.CarConfigurator.Interfaces.Packs;
 
 namespace TME.CarConfigurator.Query.Tests.GivenACarPack
 {
-    public class WhenAccessingItsStartingPriceForTheFirstTime : TestBase
+    public class WhenAccessingItsPriceTheSecondTime : TestBase
     {
         ICarPack _carPack;
-        IPrice _price;
+        IPrice _firstPrice;
+        IPrice _secondPrice;
         Price _repoPrice;
 
         protected override void Arrange()
@@ -39,25 +40,33 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarPack
             var context = new ContextBuilder().Build();
 
             var packService = A.Fake<IPackService>();
-            A.CallTo(() => packService.GetCarPacks(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new [] { repoCarPack });
+            A.CallTo(() => packService.GetCarPacks(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new[] { repoCarPack });
 
             var packFactory = new PackFactoryBuilder()
                 .WithPackService(packService)
                 .Build();
 
             _carPack = packFactory.GetCarPacks(publication, context, Guid.Empty).Single();
+
+            _firstPrice = _carPack.Price;
         }
 
         protected override void Act()
         {
-            _price = _carPack.Price;
+            _secondPrice = _carPack.Price;
+        }
+
+        [Fact]
+        public void ThenItShouldNotRecalculateThePrice()
+        {
+            _secondPrice.Should().Be(_firstPrice);
         }
 
         [Fact]
         public void ThenThePriceShouldBeCorrect()
         {
-            _price.PriceExVat.Should().Be(_repoPrice.ExcludingVat);
-            _price.PriceInVat.Should().Be(_repoPrice.IncludingVat);
+            _secondPrice.PriceExVat.Should().Be(_repoPrice.ExcludingVat);
+            _secondPrice.PriceInVat.Should().Be(_repoPrice.IncludingVat);
         }
     }
 }

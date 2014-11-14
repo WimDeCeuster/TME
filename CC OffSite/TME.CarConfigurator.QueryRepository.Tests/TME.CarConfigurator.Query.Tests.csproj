@@ -95,9 +95,13 @@
     <Compile Include="GivenACarGrade\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACarGrade\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenACarGrade\WhenAccessingItsAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsAvailableForUpholsteriesForTheFirstTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsAvailableForUpholsteriesForTheSecondTime.cs" />
     <Compile Include="GivenACarPack\WhenAccessingItsLabels.cs" />
-    <Compile Include="GivenACarPack\WhenAccessingItsStartingPriceForTheFirstTime.cs" />
-    <Compile Include="GivenACarPack\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsAvailableForExteriorColoursForTheFirstTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsAvailableForExteriorColoursForTheSecondTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsPriceForTheFirstTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsPriceForTheSecondTime.cs" />
     <Compile Include="GivenACarSubModel\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenACarSubModel\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACarTransmission\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
