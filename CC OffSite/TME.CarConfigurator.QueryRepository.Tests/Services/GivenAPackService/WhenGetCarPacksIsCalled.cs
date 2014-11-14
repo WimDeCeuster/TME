@@ -9,15 +9,16 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
+using TME.CarConfigurator.Repository.Objects.Packs;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 
 namespace TME.CarConfigurator.Query.Tests.Services.GivenAPackService
 {
-    public class WhenGetGradePacksIsCalled : TestBase
+    public class WhenGetCarPacksIsCalled : TestBase
     {
         private IPackService _packService;
-        private IEnumerable<Repository.Objects.Packs.GradePack> _expectedPacks;
-        private IEnumerable<Repository.Objects.Packs.GradePack> _actualPacks;
+        private IEnumerable<Repository.Objects.Packs.CarPack> _expectedPacks;
+        private IEnumerable<Repository.Objects.Packs.CarPack> _actualPacks;
         private Context _context;
 
         protected override void Arrange()
@@ -33,10 +34,10 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAPackService
             const string s3Key = "fake s3 key";
             const string serializedObject = "this object is serialized";
 
-            _expectedPacks = new List<Repository.Objects.Packs.GradePack>
+            _expectedPacks = new List<CarPack>
             {
-                new GradePackBuilder()
-                    .WithID(Guid.NewGuid())
+                new CarPackBuilder()
+                    .WithId(Guid.NewGuid())
                     .Build()
             };
 
@@ -44,9 +45,9 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAPackService
             var service = A.Fake<IService>();
             var keyManager = A.Fake<IKeyManager>();
 
-            A.CallTo(() => keyManager.GetGradePacksKey(A<Guid>._, A<Guid>._, A<Guid>._)).Returns(s3Key);
+            A.CallTo(() => keyManager.GetCarPacksKey(A<Guid>._, A<Guid>._)).Returns(s3Key);
             A.CallTo(() => service.GetObject(brand, country, s3Key)).Returns(serializedObject);
-            A.CallTo(() => serialiser.Deserialise<IEnumerable<Repository.Objects.Packs.GradePack>>(serializedObject)).Returns(_expectedPacks);
+            A.CallTo(() => serialiser.Deserialise<IEnumerable<CarPack>>(serializedObject)).Returns(_expectedPacks);
 
             var serviceFacade = new S3ServiceFacade()
                 .WithSerializer(serialiser)
@@ -58,7 +59,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAPackService
 
         protected override void Act()
         {
-            _actualPacks = _packService.GetGradePacks(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), _context);
+            _actualPacks = _packService.GetCarPacks(Guid.NewGuid(), Guid.NewGuid(), _context);
         }
 
         [Fact]

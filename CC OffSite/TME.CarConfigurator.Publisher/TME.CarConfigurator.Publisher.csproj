@@ -121,7 +121,7 @@
     <Compile Include="Interfaces\ISpecificationPublisher.cs" />
     <Compile Include="Interfaces\IEquipmentPublisher.cs" />
     <Compile Include="Interfaces\IEquipmentMapper.cs" />
-    <Compile Include="Interfaces\IGradePackPublisher.cs" />
+    <Compile Include="Interfaces\IPackPublisher.cs" />
     <Compile Include="Interfaces\IPackMapper.cs" />
     <Compile Include="Interfaces\ISteeringMapper.cs" />
     <Compile Include="Interfaces\IGradeMapper.cs" />

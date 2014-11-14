@@ -68,7 +68,7 @@
     <Compile Include="ColourPublisher.cs" />
     <Compile Include="EquipmentPublisher.cs" />
     <Compile Include="Extensions\BaseObjectExtensions.cs" />
-    <Compile Include="GradePackPublisher.cs" />
+    <Compile Include="PackPublisher.cs" />
     <Compile Include="Helpers\TimeFramePublishHelper.cs" />
     <Compile Include="Interfaces\ITimeFramePublishHelper.cs" />
     <Compile Include="SteeringPublisher.cs" />

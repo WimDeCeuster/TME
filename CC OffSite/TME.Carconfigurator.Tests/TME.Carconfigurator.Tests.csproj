@@ -109,7 +109,7 @@
     <Compile Include="Builders\ColourCombinationPublisherBuilder.cs" />
     <Compile Include="Builders\SpecificationPublisherBuilder.cs" />
     <Compile Include="Builders\EquipmentPublisherBuilder.cs" />
-    <Compile Include="Builders\GradePacksPublisherBuilder.cs" />
+    <Compile Include="Builders\PackPublisherBuilder.cs" />
     <Compile Include="Builders\GradePublisherBuilder.cs" />
     <Compile Include="Builders\TransmissionPublisherBuilder.cs" />
     <Compile Include="Builders\WheelDrivePublisherBuilder.cs" />
@@ -123,6 +123,7 @@
     <Compile Include="Builders\TimeFrameBuilder.cs" />
     <Compile Include="Builders\SubModelPublisherBuilder.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarPartsKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingACarPacksKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASpecificationCategoriesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAnEquipmentCategoriesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingABodyTypesKey.cs" />
@@ -161,8 +162,9 @@
     <Compile Include="GivenAS3EquipmentPublisher\WhenPublishingSubModelGradeEquipment.cs" />
     <Compile Include="GivenAS3EquipmentPublisher\WhenPublishingEquipmentCategories.cs" />
     <Compile Include="GivenAS3EquipmentPublisher\WhenPublishingGradeEquipments.cs" />
-    <Compile Include="GivenAS3GradePackPublisher\WhenPublishingGradePacks.cs" />
-    <Compile Include="GivenAS3GradePackPublisher\WhenPublishingSubModelGradePacks.cs" />
+    <Compile Include="GivenAS3PackPublisher\WhenPublishingCarPacks.cs" />
+    <Compile Include="GivenAS3PackPublisher\WhenPublishingGradePacks.cs" />
+    <Compile Include="GivenAS3PackPublisher\WhenPublishingSubModelGradePacks.cs" />
     <Compile Include="GivenAS3GradePublisher\WhenPublishingASubModelGrade.cs" />
     <Compile Include="GivenAS3SteeringPublisher\WhenPublishingGenerationWheelDrives.cs" />
     <Compile Include="GivenAS3GradePublisher\WhenPublishingGenerationGrades.cs" />

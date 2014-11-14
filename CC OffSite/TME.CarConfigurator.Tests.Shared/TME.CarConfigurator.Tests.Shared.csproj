@@ -63,7 +63,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GradePackBuilder.cs" />
+    <Compile Include="TestBuilders\GradePackBuilder.cs" />
+    <Compile Include="TestBuilders\CarPackBuilder.cs" />
     <Compile Include="TestBuilders\CarPartBuilder.cs" />
     <Compile Include="TestBuilders\CategoryInfoBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

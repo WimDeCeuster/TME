@@ -23,6 +23,7 @@ namespace TME.CarConfigurator
         readonly ISubModelFactory _subModelFactory;
         readonly IEngineFactory _engineFactory;
         readonly ICarPartFactory _carPartFactory;
+        readonly IPackFactory _packFactory;
 
         IPrice _basePrice;
         IPrice _startingPrice;
@@ -33,6 +34,7 @@ namespace TME.CarConfigurator
         IGrade _grade;
         ISubModel _subModel;
         IReadOnlyList<ICarPart> _carParts;
+        IReadOnlyList<ICarPack> _carPacks;
 
         public Car(
             Repository.Objects.Car repositoryCar,
@@ -44,7 +46,8 @@ namespace TME.CarConfigurator
             IWheelDriveFactory wheelDriveFactory,
             IGradeFactory gradeFactory,
             ISubModelFactory subModelFactory,
-            ICarPartFactory carPartFactory)
+            ICarPartFactory carPartFactory,
+            IPackFactory packFactory)
             : base(repositoryCar)
         {
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
@@ -56,6 +59,7 @@ namespace TME.CarConfigurator
             if (gradeFactory == null) throw new ArgumentNullException("gradeFactory");
             if (subModelFactory == null) throw new ArgumentNullException("subModelFactory");
             if (carPartFactory == null) throw new ArgumentNullException("carPartFactory");
+            if (packFactory == null) throw new ArgumentNullException("packFactory");
 
             _repositoryPublication = repositoryPublication;
             _repositoryContext = repositoryContext;
@@ -66,6 +70,7 @@ namespace TME.CarConfigurator
             _gradeFactory = gradeFactory;
             _subModelFactory = subModelFactory;
             _carPartFactory = carPartFactory;
+            _packFactory = packFactory;
         }
 
         public int ShortID { get { return RepositoryObject.ShortID; } }
@@ -101,7 +106,7 @@ namespace TME.CarConfigurator
 
         public IReadOnlyList<ICarPack> Packs
         {
-            get { throw new NotImplementedException(); }
+            get { return _carPacks = _carPacks ?? _packFactory.GetCarPacks(_repositoryPublication, _repositoryContext, ID); }
         }
     }
 }

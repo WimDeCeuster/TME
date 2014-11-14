@@ -41,7 +41,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
 
             var context = new ContextBuilder()
                 .WithLanguages(language)
-                .WithPublication(language, PublicationBuilder.Initialize().Build())
+                .WithPublication(language, new PublicationBuilder().Build())
                 .AddCarAsset(language, carId, objectId, asset1)
                 .AddCarAsset(language, carId, objectId, incorrectAsset)
                 .AddCarAsset(language, carId, objectId, defaultAsset)

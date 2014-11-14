@@ -102,6 +102,7 @@
     <Compile Include="Equipment\GradeEquipment.cs" />
     <Compile Include="Equipment\GradeEquipmentItem.cs" />
     <Compile Include="GradeInfo.cs" />
+    <Compile Include="Packs\CarPack.cs" />
     <Compile Include="Packs\GradePack.cs" />
     <Compile Include="Equipment\OptionInfo.cs" />
     <Compile Include="SubModel.cs" />

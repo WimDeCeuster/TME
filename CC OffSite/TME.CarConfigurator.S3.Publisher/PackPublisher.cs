@@ -10,12 +10,12 @@ using TME.CarConfigurator.S3.Publisher.Interfaces;
 
 namespace TME.CarConfigurator.S3.Publisher
 {
-    public class GradePackPublisher : IGradePackPublisher
+    public partial class PackPublisher : IPackPublisher
     {
-        private readonly IGradePackService _service;
+        private readonly IPackService _service;
         private readonly ITimeFramePublishHelper _timeFramePublishHelper;
 
-        public GradePackPublisher(IGradePackService service, ITimeFramePublishHelper timeFramePublishHelper)
+        public PackPublisher(IPackService service, ITimeFramePublishHelper timeFramePublishHelper)
         {
             if (service == null) throw new ArgumentNullException("service");
             if (timeFramePublishHelper == null) throw new ArgumentNullException("timeFramePublishHelper");
@@ -24,7 +24,7 @@ namespace TME.CarConfigurator.S3.Publisher
             _timeFramePublishHelper = timeFramePublishHelper;
         }
 
-        public async Task PublishAsync(IContext context)
+        public async Task PublishGradePacksAsync(IContext context)
         {
             await _timeFramePublishHelper.PublishObjects(
                 context,
@@ -41,14 +41,25 @@ namespace TME.CarConfigurator.S3.Publisher
                 Publish);
         }
 
+        public async Task PublishCarPacksAsync(IContext context)
+        {
+            var tasks = context.ContextData.Values.Select(contextData => Publish(context.Brand, context.Country, contextData.Publication.ID, contextData.CarPacks));
+            await Task.WhenAll(tasks);
+        }
+
         private async Task Publish(string brand, string country, Guid publicationId, Guid timeFrameId, IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>> gradePacks)
         {
-            await Task.WhenAll(gradePacks.Select(entry => _service.PutAsync(brand, country, publicationId, timeFrameId, entry.Key, entry.Value)));
+            await Task.WhenAll(gradePacks.Select(entry => _service.PutGradePacksAsync(brand, country, publicationId, timeFrameId, entry.Key, entry.Value)));
         }
 
         private async Task Publish(string brand, string country, Guid publicationId, Guid timeFrameId, Guid subModelId, IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>> gradePacks)
         {
             await Task.WhenAll(gradePacks.Select(entry => _service.PutSubModelGradePacksAsync(brand, country, publicationId, timeFrameId, subModelId, entry.Key, entry.Value)));
+        }
+
+        private async Task Publish(string brand, string country, Guid id, IDictionary<Guid, IReadOnlyList<CarPack>> carPacks)
+        {
+            await Task.WhenAll(carPacks.Select(entry => _service.PutCarPacksAsync(brand, country, id, entry.Key, entry.Value.OrderBy(carPack => carPack.SortIndex))));
         }
     }
 }

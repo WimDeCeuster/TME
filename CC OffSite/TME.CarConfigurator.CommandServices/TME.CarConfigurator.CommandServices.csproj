@@ -64,7 +64,7 @@
     <Compile Include="IColourService.cs" />
     <Compile Include="IColourCombinationService.cs" />
     <Compile Include="IEquipmentService.cs" />
-    <Compile Include="IGradePackService.cs" />
+    <Compile Include="IPackService.cs" />
     <Compile Include="ISteeringService.cs" />
     <Compile Include="IGradeService.cs" />
     <Compile Include="ISubModelService.cs" />

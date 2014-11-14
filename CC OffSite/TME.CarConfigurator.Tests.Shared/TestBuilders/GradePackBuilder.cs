@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Packs;
 
-namespace TME.CarConfigurator.Tests.Shared
+namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
     public class GradePackBuilder
     {

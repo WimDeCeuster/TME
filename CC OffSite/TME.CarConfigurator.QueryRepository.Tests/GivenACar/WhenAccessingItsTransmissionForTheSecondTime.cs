@@ -12,7 +12,7 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenACar
 {
-    public class WhenAccessingItsTransmissionsForTheSecondTime : TestBase
+    public class WhenAccessingItsTransmissionForTheSecondTime : TestBase
     {
         ICar _car;
         private Repository.Objects.Transmission _repoTransmission;

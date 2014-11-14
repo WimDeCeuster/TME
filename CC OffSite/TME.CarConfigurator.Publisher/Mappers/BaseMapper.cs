@@ -34,17 +34,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
         public T MapTranslateableDefaults<T>(T baseObject, TranslateableBusinessBase translateableObject, params IEnumerable<AdministrationLabel>[] additionalLabelSources)
             where T : BaseObject
         {
-            baseObject.Description = translateableObject.Translation.Description;
-            baseObject.FootNote = translateableObject.Translation.FootNote;
             baseObject.ID = translateableObject.ID;
 
-            var labelSets = new[] { translateableObject.Translation.Labels }.Concat(additionalLabelSources).ToArray();
-
-            baseObject.Labels = _labelMapper.MapLabels(labelSets);
-            baseObject.Name = translateableObject.Translation.Name.DefaultIfEmpty(translateableObject.BaseName);
-            baseObject.ToolTip = translateableObject.Translation.ToolTip;
-
-            return baseObject;
+            return MapTranslation(baseObject, translateableObject.Translation, translateableObject.BaseName, additionalLabelSources);
         }
 
         public T MapSortDefaults<T>(T baseObject, ISortedIndex sortableObject)
@@ -84,6 +76,20 @@ namespace TME.CarConfigurator.Publisher.Mappers
             where TLocalizeableAndSortable : LocalizeableBusinessBase, ISortedIndex
         {
             return MapDefaultsWithSort(baseObject, localizeableAndSortableObject, localizeableAndSortableObject, additionalLabelSources);
+        }
+
+        public T MapTranslation<T>(T baseObject, Translation translation, string defaultName, params IEnumerable<AdministrationLabel>[] additionalLabelSources) where T : BaseObject
+        {
+            baseObject.Description = translation.Description;
+            baseObject.FootNote = translation.FootNote;
+            
+            var labelSets = new[] { translation.Labels }.Concat(additionalLabelSources).ToArray();
+
+            baseObject.Labels = _labelMapper.MapLabels(labelSets);
+            baseObject.Name = translation.Name.DefaultIfEmpty(defaultName);
+            baseObject.ToolTip = translation.ToolTip;
+
+            return baseObject;
         }
     }
 }

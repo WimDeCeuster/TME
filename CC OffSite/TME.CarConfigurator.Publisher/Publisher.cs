@@ -28,7 +28,7 @@ namespace TME.CarConfigurator.Publisher
         private readonly ISubModelPublisher _subModelPublisher;
         private readonly IEquipmentPublisher _equipmentPublisher;
         private readonly ISpecificationsPublisher _specificationsPublisher;
-        private readonly IGradePackPublisher _gradePackPublisher;
+        private readonly IPackPublisher _packPublisher;
         private readonly IColourPublisher _colourCombinationPublisher;
         private readonly ICarPartPublisher _carPartPublisher;
 
@@ -46,7 +46,7 @@ namespace TME.CarConfigurator.Publisher
             ISubModelPublisher subModelPublisher,
             IEquipmentPublisher equipmentPublisher,
             ISpecificationsPublisher specificationsPublisher,
-            IGradePackPublisher gradePackPublisher,
+            IPackPublisher packPublisher,
             IColourPublisher colourCombinationPublisher,
             ICarPartPublisher carPartPublisher)
         {
@@ -63,11 +63,11 @@ namespace TME.CarConfigurator.Publisher
             if (assetPublisher == null) throw new ArgumentNullException("assetPublisher");
             if (subModelPublisher == null) throw new ArgumentNullException("subModelPublisher");
             if (equipmentPublisher == null) throw new ArgumentNullException("equipmentPublisher");
-            if (gradePackPublisher == null) throw new ArgumentNullException("gradePackPublisher");
+            if (packPublisher == null) throw new ArgumentNullException("packPublisher");
             if (colourCombinationPublisher == null) throw new ArgumentNullException("colourCombinationPublisher");
             if (carPartPublisher == null) throw new ArgumentNullException("carPartPublisher");
             if (specificationsPublisher == null) throw new ArgumentNullException("specificationsPublisher");
-
+            
             _publicationPublisher = publicationPublisher;
             _modelPublisher = modelPublisher;
             _modelService = modelService;
@@ -81,7 +81,7 @@ namespace TME.CarConfigurator.Publisher
             _assetPublisher = assetPublisher;
             _subModelPublisher = subModelPublisher;
             _equipmentPublisher = equipmentPublisher;
-            _gradePackPublisher = gradePackPublisher;
+            _packPublisher = packPublisher;
             _colourCombinationPublisher = colourCombinationPublisher;
             _carPartPublisher = carPartPublisher;
             _specificationsPublisher = specificationsPublisher;
@@ -121,8 +121,9 @@ namespace TME.CarConfigurator.Publisher
                 _equipmentPublisher.PublishCategoriesAsync(context),
                 _equipmentPublisher.PublishSubModelGradeEquipmentAsync(context),
                 _specificationsPublisher.PublishCategoriesAsync(context),
-                _gradePackPublisher.PublishAsync(context),
-                _gradePackPublisher.PublishSubModelGradePacksAsync(context),
+                _packPublisher.PublishGradePacksAsync(context),
+                _packPublisher.PublishCarPacksAsync(context),
+                _packPublisher.PublishSubModelGradePacksAsync(context),
                 _carPartPublisher.PublishCarPartsAsync(context),
                 _assetPublisher.PublishAsync(context)
             };

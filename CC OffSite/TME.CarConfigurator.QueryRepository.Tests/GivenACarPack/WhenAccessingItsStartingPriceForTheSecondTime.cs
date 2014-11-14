@@ -11,12 +11,13 @@ using TME.CarConfigurator.Repository.Objects.Core;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
+using TME.CarConfigurator.Interfaces.Packs;
 
-namespace TME.CarConfigurator.Query.Tests.GivenAGrade
+namespace TME.CarConfigurator.Query.Tests.GivenACarPack
 {
-    public class WhenAccessingItsStartingPriceForTheSecondTime : TestBase
+    public class WhenAccessingItsStartingPriceTheSecondTime : TestBase
     {
-        IGrade _grade;
+        ICarPack _carPack;
         IPrice _firstPrice;
         IPrice _secondPrice;
         Price _repoPrice;
@@ -28,36 +29,31 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
                 .WithPriceExVat(10)
                 .Build();
 
-            var repoGrade = new GradeBuilder()
-                .WithStartingPrice(_repoPrice)
-                .Build();
-
-            var publicationTimeFrame = new PublicationTimeFrameBuilder()
-                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
+            var repoCarPack = new CarPackBuilder()
+                .WithPrice(_repoPrice)
                 .Build();
 
             var publication = new PublicationBuilder()
                 .WithID(Guid.NewGuid())
-                .AddTimeFrame(publicationTimeFrame)
                 .Build();
 
             var context = new ContextBuilder().Build();
 
-            var gradeService = A.Fake<IGradeService>();
-            A.CallTo(() => gradeService.GetGrades(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new[] { repoGrade });
+            var packService = A.Fake<IPackService>();
+            A.CallTo(() => packService.GetCarPacks(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new[] { repoCarPack });
 
-            var carFactory = new GradeFactoryBuilder()
-                .WithGradeService(gradeService)
+            var packFactory = new PackFactoryBuilder()
+                .WithPackService(packService)
                 .Build();
 
-            _grade = carFactory.GetGrades(publication, context).Single();
+            _carPack = packFactory.GetCarPacks(publication, context, Guid.Empty).Single();
 
-            _firstPrice = _grade.StartingPrice;
+            _firstPrice = _carPack.Price;
         }
 
         protected override void Act()
         {
-            _secondPrice = _grade.StartingPrice;
+            _secondPrice = _carPack.Price;
         }
 
         [Fact]
@@ -72,7 +68,5 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
             _secondPrice.PriceExVat.Should().Be(_repoPrice.ExcludingVat);
             _secondPrice.PriceInVat.Should().Be(_repoPrice.IncludingVat);
         }
-
-
     }
 }

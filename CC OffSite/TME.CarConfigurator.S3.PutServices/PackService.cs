@@ -8,13 +8,13 @@ using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.S3.CommandServices
 {
-    public class GradePackService : IGradePackService
+    public partial class PackService : IPackService
     {
         private readonly IService _service;
         private readonly ISerialiser _serialiser;
         private readonly IKeyManager _keyManager;
 
-        public GradePackService(IService service, ISerialiser serialiser, IKeyManager keyManager)
+        public PackService(IService service, ISerialiser serialiser, IKeyManager keyManager)
         {
             if (service == null) throw new ArgumentNullException("service");
             if (serialiser == null) throw new ArgumentNullException("serialiser");
@@ -25,7 +25,7 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keyManager = keyManager;
         }
 
-        public async Task PutAsync(string brand, string country, Guid publicationId, Guid timeFrameId, Guid gradeId, IEnumerable<GradePack> packs)
+        public async Task PutGradePacksAsync(string brand, string country, Guid publicationId, Guid timeFrameId, Guid gradeId, IEnumerable<GradePack> packs)
         {
             var key = _keyManager.GetGradePacksKey(publicationId, timeFrameId, gradeId);
             var serializedPacks = _serialiser.Serialise(packs);
@@ -39,6 +39,18 @@ namespace TME.CarConfigurator.S3.CommandServices
             var serializedPacks = _serialiser.Serialise(packs);
 
             await _service.PutObjectAsync(brand, country, key, serializedPacks);
+        }
+
+        public async Task PutCarPacksAsync(String brand, String country, Guid publicationID, Guid carID, IEnumerable<CarPack> carPacks)
+        {
+            if (carPacks == null) throw new ArgumentNullException("carPacks");
+            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand");
+            if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
+
+            var path = _keyManager.GetCarPacksKey(publicationID, carID);
+            var value = _serialiser.Serialise(carPacks);
+
+            await _service.PutObjectAsync(brand, country, path, value);
         }
     }
 }

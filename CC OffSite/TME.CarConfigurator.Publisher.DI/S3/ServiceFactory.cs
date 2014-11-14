@@ -123,25 +123,25 @@ namespace TME.CarConfigurator.Publisher.DI.S3
             return new SpecificationsService (service, _serialiser, _keyManager);
         }
 
-        public IGradePackService GetGradePackService(string environment, PublicationDataSubset dataSubset)
+        public IPackService GetPackService(string environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
 
-            return new GradePackService(service, _serialiser, _keyManager);
+            return new PackService(service, _serialiser, _keyManager);
         }
         
         public IColourService GetColourCombinationService(String environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
 
-            return new ColourCombinationService(service,_serialiser,_keyManager);
+            return new ColourCombinationService(service, _serialiser, _keyManager);
         }
 
         public ICarPartService GetCarPartService(string environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);
 
-            return new CarPartService(service,_serialiser,_keyManager);
+            return new CarPartService(service, _serialiser, _keyManager);
         }
     }
 }

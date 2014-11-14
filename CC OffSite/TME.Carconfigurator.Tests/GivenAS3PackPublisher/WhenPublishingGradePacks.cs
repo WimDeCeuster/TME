@@ -13,7 +13,7 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.Carconfigurator.Tests.GivenAS3GradePackPublisher
+namespace TME.Carconfigurator.Tests.GivenAS3PackPublisher
 {
     public class WhenPublishingGradePacks : TestBase
     {
@@ -33,8 +33,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePackPublisher
         const String TimeFrame4Grade4Key = "time frame 1 grade 4 equipments key";
 
         IService _s3Service;
-        IGradePackService _service;
-        IGradePackPublisher _publisher;
+        IPackService _service;
+        IPackPublisher _publisher;
         IContext _context;
 
         protected override void Arrange()
@@ -73,12 +73,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePackPublisher
             var publicationTimeFrame3 = new PublicationTimeFrame { ID = timeFrame3.ID };
             var publicationTimeFrame4 = new PublicationTimeFrame { ID = timeFrame4.ID };
 
-            var publication1 = PublicationBuilder.Initialize()
+            var publication1 = new PublicationBuilder()
                 .WithTimeFrames(publicationTimeFrame1,
                     publicationTimeFrame2)
                 .Build();
 
-            var publication2 = PublicationBuilder.Initialize()
+            var publication2 = new PublicationBuilder()
                 .WithTimeFrames(publicationTimeFrame3,
                     publicationTimeFrame4)
                 .Build();
@@ -98,8 +98,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePackPublisher
             var serialiser = A.Fake<ISerialiser>();
             var keyManager = A.Fake<IKeyManager>();
 
-            _service = new GradePackService(_s3Service, serialiser, keyManager);
-            _publisher = new GradePacksPublisherBuilder().WithService(_service).Build();
+            _service = new PackService(_s3Service, serialiser, keyManager);
+            _publisher = new PackPublisherBuilder().WithService(_service).Build();
 
             A.CallTo(() => serialiser.Serialise(packs1))
                 .Returns(SerialisedObject1);
@@ -120,7 +120,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePackPublisher
 
         protected override void Act()
         {
-            _publisher.PublishAsync(_context).Wait();
+            _publisher.PublishGradePacksAsync(_context).Wait();
         }
 
         [Fact]

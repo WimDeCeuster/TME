@@ -13,23 +13,23 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.GivenAGrade
+namespace TME.CarConfigurator.Query.Tests.GivenACar
 {
     public class WhenAccessingItsPacksForTheSecondTime : TestBase
     {
-        private Repository.Objects.Packs.GradePack _pack1;
-        private Repository.Objects.Packs.GradePack _pack2;
-        private IGrade _grade;
-        private IEnumerable<IGradePack> _firstPacks;
-        private IEnumerable<IGradePack> _secondPacks;
+        private Repository.Objects.Packs.CarPack _pack1;
+        private Repository.Objects.Packs.CarPack _pack2;
+        private ICar _car;
+        private IEnumerable<ICarPack> _firstPacks;
+        private IEnumerable<ICarPack> _secondPacks;
         private IPackService _packService;
 
         protected override void Arrange()
         {
-            _pack1 = new GradePackBuilder().WithID(Guid.NewGuid()).Build();
-            _pack2 = new GradePackBuilder().WithID(Guid.NewGuid()).Build();
+            _pack1 = new CarPackBuilder().Build();
+            _pack2 = new CarPackBuilder().Build();
 
-            var repoGrade = new GradeBuilder()
+            var repoCar = new CarBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
 
@@ -44,35 +44,35 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
 
             var context = new ContextBuilder().Build();
 
-            var gradeService = A.Fake<IGradeService>();
-            A.CallTo(() => gradeService.GetGrades(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new List<Repository.Objects.Grade> { repoGrade });
+            var carService = A.Fake<ICarService>();
+            A.CallTo(() => carService.GetCars(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new [] { repoCar });
 
             _packService = A.Fake<IPackService>();
-            A.CallTo(() => _packService.GetGradePacks(A<Guid>._, A<Guid>._, repoGrade.ID, A<Context>._)).Returns(new List<Repository.Objects.Packs.GradePack> { _pack1, _pack2 });
+            A.CallTo(() => _packService.GetCarPacks(A<Guid>._, repoCar.ID, A<Context>._)).Returns(new [] { _pack1, _pack2 });
 
             var packFactory = new PackFactoryBuilder()
                 .WithPackService(_packService)
                 .Build();
 
-            var gradeFactory = new GradeFactoryBuilder()
-                .WithGradeService(gradeService)
+            var carFactory = new CarFactoryBuilder()
+                .WithCarService(carService)
                 .WithPackFactory(packFactory)
                 .Build();
 
-            _grade = gradeFactory.GetGrades(publication, context).Single();
+            _car = carFactory.GetCars(publication, context).Single();
 
-            _firstPacks = _grade.Packs;
+            _firstPacks = _car.Packs;
         }
 
         protected override void Act()
         {
-            _secondPacks = _grade.Packs;
+            _secondPacks = _car.Packs;
         }
 
         [Fact]
         public void ThenItShouldNotFetchThePacksFromTheServiceAgain()
         {
-            A.CallTo(() => _packService.GetGradePacks(A<Guid>._, A<Guid>._, A<Guid>._, A<Context>._)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _packService.GetCarPacks(A<Guid>._, A<Guid>._, A<Context>._)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
