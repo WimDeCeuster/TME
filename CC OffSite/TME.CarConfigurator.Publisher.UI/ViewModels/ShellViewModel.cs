@@ -16,6 +16,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
     {
         private const string Brand = "Toyota";
         private const string Target = "S3";
+        private const string PublishedBy = "UIPublisher";
 
         private string _country = "DE";
         private Model _selectedModel;
@@ -167,7 +168,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
                 StartPublishing();
 
-                await CarConfiguratorPublisher.PublishAsync(generationId, SelectedEnvironment, Target, Brand, Country, publicationDataSubset, Progress);
+                await CarConfiguratorPublisher.PublishAsync(generationId, SelectedEnvironment, Target, Brand, Country, publicationDataSubset, PublishedBy, Progress);
 
                 PublishingDone("Success!");
             }
@@ -200,7 +201,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
                 {
                     Messages.Add(string.Format("Publishing {0} for {1}", generation, Country));
 
-                    await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview, Progress);
+                    await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview, PublishedBy, Progress);
                 }
 
                 PublishingDone("Success!");

@@ -52,6 +52,7 @@ namespace TME.CarConfigurator.Publisher.Job
                     configuration.Brand,
                     countryCode,
                     configuration.Datasubset,
+                    configuration.PublishedBy,
                     null);
 
                 Console.WriteLine(" - {0}", DateTime.Now.Subtract(startTime).ToString("h'h 'm'm 's's'"));

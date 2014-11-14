@@ -26,6 +26,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected ICarPublisher CarPublisher;
         protected IAssetPublisher AssetPublisher;
         protected IPublisher Publisher;
+        protected const string PublishedBy = "test";
         protected const string Brand = "Toyota";
         protected const string Country = "BE";
         protected const string Language1 = "nl";
@@ -109,7 +110,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 
         protected override void Act()
         {
-            Publisher.PublishAsync(Context).Wait();
+            Publisher.PublishAsync(Context, PublishedBy).Wait();
         }
 
         protected Model GetModel(string modelName, string internalCode, string localCode, string oldDescriptionForLanguage1,string footNote,string tooltip,int sortIndex,List<Label> labels)

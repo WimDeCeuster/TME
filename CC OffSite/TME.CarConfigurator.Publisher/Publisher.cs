@@ -87,22 +87,22 @@ namespace TME.CarConfigurator.Publisher
             _specificationsPublisher = specificationsPublisher;
         }
 
-        public async Task PublishAsync(IContext context)
+        public async Task PublishAsync(IContext context, string publishedBy)
         {
             var languageCodes = context.ContextData.Keys;
 
-            await PublishAsync(context, languageCodes);
+            await PublishAsync(context, languageCodes, publishedBy);
 
             await ActivateAsync(context, languageCodes);
         }
 
-        private async Task PublishAsync(IContext context, IEnumerable<string> languageCodes)
+        private async Task PublishAsync(IContext context, IEnumerable<string> languageCodes, string publishedBy)
         {
             foreach (var lanuageCode in languageCodes)
             {
                 var data = context.ContextData[lanuageCode];
                 var timeFrames = context.TimeFrames[lanuageCode];
-                CreateAndAddPublication(data, timeFrames);
+                CreateAndAddPublication(data, timeFrames, publishedBy);
             }
             var tasks = new List<Task>
             {
@@ -130,7 +130,7 @@ namespace TME.CarConfigurator.Publisher
             await Task.WhenAll(tasks);
         }
 
-        private static void CreateAndAddPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames)
+        private static void CreateAndAddPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames, string publishedBy)
         {
             data.Publication = new Publication
              {
@@ -143,9 +143,9 @@ namespace TME.CarConfigurator.Publisher
                      ID = timeFrame.ID,
                      LineOffFrom = timeFrame.From,
                      LineOffTo = timeFrame.Until
-                 })
-                     .ToList(),
-                 PublishedOn = DateTime.Now
+                 }).ToList(),
+                 PublishedOn = DateTime.Now,
+                 PublishedBy = publishedBy
              };
 
             data.Models.Single().Publications.Add(new PublicationInfo(data.Publication));
