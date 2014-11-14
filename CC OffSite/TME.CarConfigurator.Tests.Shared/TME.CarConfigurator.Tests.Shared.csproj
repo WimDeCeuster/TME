@@ -46,6 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GradePackBuilder.cs" />
+    <Compile Include="TestBuilders\CarAccessoryBuilder.cs" />
+    <Compile Include="TestBuilders\CarEquipmentBuilder.cs" />
+    <Compile Include="TestBuilders\CarOptionBuilder.cs" />
     <Compile Include="TestBuilders\CarPartBuilder.cs" />
     <Compile Include="TestBuilders\CategoryInfoBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

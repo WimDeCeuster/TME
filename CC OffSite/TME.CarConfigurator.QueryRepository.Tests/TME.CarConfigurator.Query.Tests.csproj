@@ -59,9 +59,9 @@
     <Compile Include="GivenABodyType\WhenAccessingIts3DAssetsASecondTime.cs" />
     <Compile Include="GivenABodyType\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenABodyType\WhenAccessingIts3DAssets.cs" />
-    <Compile Include="GivenACarCarPart\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
-    <Compile Include="GivenACarCarPart\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
-    <Compile Include="GivenACarCarPart\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenACarPart\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenACarPart\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarPart\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACarEngine\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenACarEngine\WhenAccessingIts3DAssets.cs" />
     <Compile Include="GivenACarEngine\WhenAccessingIts3DAssetsASecondTime.cs" />
@@ -93,6 +93,8 @@
     <Compile Include="GivenACar\WhenAccessingItsBodyTypeForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsEngineForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBodyTypeForTheSecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsEquipmentForTheFirstTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsEquipmentForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsGradeForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsGradeForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsPartsForTheFirstTime.cs" />
@@ -274,6 +276,7 @@
     <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledForNonExistent2DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledForNonExistent3DAssets.cs" />
+    <Compile Include="Services\GivenAnEquipmentService\WhenGetCarEquipmentIsCalled.cs" />
     <Compile Include="Services\GivenAnEquipmentService\WhenGetEquipmentCategoriesIsCalled.cs" />
     <Compile Include="Services\GivenAnEquipmentService\WhenGetGradeEquipmentIsCalled.cs" />
     <Compile Include="Services\GivenAnEquipmentService\WhenGetSubModelGradeEquipmentIsCalled.cs" />

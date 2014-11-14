@@ -12,7 +12,7 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.GivenACarCarPart
+namespace TME.CarConfigurator.Query.Tests.GivenACarPart
 {
     public class WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode : TestBase
     {
@@ -85,7 +85,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarCarPart
                 .WithCarPartService(carPartService)
                 .Build();
 
-            _carPart = carPartFactory.GetCarCarParts(carId, publication, context).Single();
+            _carPart = carPartFactory.GetCarParts(carId, publication, context).Single();
 
             _fetchedAssets1 = _carPart.VisibleIn.Single(v => v.Mode == _mode1 && v.View == _view1).Assets;
         }

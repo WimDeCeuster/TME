@@ -31,6 +31,7 @@ namespace TME.CarConfigurator.Publisher
         private readonly IGradePackPublisher _gradePackPublisher;
         private readonly IColourPublisher _colourCombinationPublisher;
         private readonly ICarPartPublisher _carPartPublisher;
+        private readonly ICarEquipmentPublisher _carEquipmentPublisher;
 
         public Publisher(IPublicationPublisher publicationPublisher,
             IModelPublisher modelPublisher,
@@ -48,7 +49,8 @@ namespace TME.CarConfigurator.Publisher
             ISpecificationsPublisher specificationsPublisher,
             IGradePackPublisher gradePackPublisher,
             IColourPublisher colourCombinationPublisher,
-            ICarPartPublisher carPartPublisher)
+            ICarPartPublisher carPartPublisher,
+            ICarEquipmentPublisher carEquipmentPublisher)
         {
             if (publicationPublisher == null) throw new ArgumentNullException("publicationPublisher");
             if (modelPublisher == null) throw new ArgumentNullException("modelPublisher");
@@ -66,6 +68,7 @@ namespace TME.CarConfigurator.Publisher
             if (gradePackPublisher == null) throw new ArgumentNullException("gradePackPublisher");
             if (colourCombinationPublisher == null) throw new ArgumentNullException("colourCombinationPublisher");
             if (carPartPublisher == null) throw new ArgumentNullException("carPartPublisher");
+            if (carEquipmentPublisher == null) throw new ArgumentNullException("carEquipmentPublisher");
             if (specificationsPublisher == null) throw new ArgumentNullException("specificationsPublisher");
 
             _publicationPublisher = publicationPublisher;
@@ -84,6 +87,7 @@ namespace TME.CarConfigurator.Publisher
             _gradePackPublisher = gradePackPublisher;
             _colourCombinationPublisher = colourCombinationPublisher;
             _carPartPublisher = carPartPublisher;
+            _carEquipmentPublisher = carEquipmentPublisher;
             _specificationsPublisher = specificationsPublisher;
         }
 
@@ -124,6 +128,7 @@ namespace TME.CarConfigurator.Publisher
                 _gradePackPublisher.PublishAsync(context),
                 _gradePackPublisher.PublishSubModelGradePacksAsync(context),
                 _carPartPublisher.PublishCarPartsAsync(context),
+                _carEquipmentPublisher.PublishCarEquipmentAsync(context),
                 _assetPublisher.PublishAsync(context)
             };
 

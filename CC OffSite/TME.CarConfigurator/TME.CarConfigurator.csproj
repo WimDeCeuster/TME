@@ -58,6 +58,10 @@
     <Compile Include="CarTransmission.cs" />
     <Compile Include="CarWheelDrive.cs" />
     <Compile Include="Equipment\BestVisibleIn.cs" />
+    <Compile Include="Equipment\CarAccessory.cs" />
+    <Compile Include="Equipment\CarEquipment.cs" />
+    <Compile Include="Equipment\CarEquipmentItem.cs" />
+    <Compile Include="Equipment\CarOption.cs" />
     <Compile Include="Equipment\Category.cs" />
     <Compile Include="Equipment\CategoryInfo.cs" />
     <Compile Include="Colours\ColourCombination.cs" />
@@ -66,6 +70,7 @@
     <Compile Include="CarEngine.cs" />
     <Compile Include="Equipment\ExteriorColour.cs" />
     <Compile Include="Equipment\ModelEquipment.cs" />
+    <Compile Include="Equipment\MountingCosts.cs" />
     <Compile Include="Extensions\VisibilityExtensions.cs" />
     <Compile Include="Colours\ExteriorColour.cs" />
     <Compile Include="Colours\ExteriorColourType.cs" />

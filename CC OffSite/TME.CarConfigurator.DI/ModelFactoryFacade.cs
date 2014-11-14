@@ -1,5 +1,6 @@
 using TME.CarConfigurator.DI.Interfaces;
 using TME.CarConfigurator.Factories;
+using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.QueryServices;
 
@@ -169,7 +170,7 @@ namespace TME.CarConfigurator.DI
             _packFactory = _packFactory ?? new PackFactory(_serviceFacade.CreatePackService());
             _gradeFactory = _gradeFactory ?? new GradeFactory(_serviceFacade.CreateGradeService(), _assetFactory, _equipmentFactory, _packFactory);
             _subModelFactory = _subModelFactory ?? new SubModelFactory(_serviceFacade.CreateSubModelService(), _assetFactory, _gradeFactory);
-            _carFactory = _carFactory ?? new CarFactory(_serviceFacade.CreateCarService(), _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _gradeFactory, _subModelFactory, _carPartFactory);
+            _carFactory = _carFactory ?? new CarFactory(_serviceFacade.CreateCarService(), _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _gradeFactory, _subModelFactory, _carPartFactory,_equipmentFactory);
             _specificationsFactory = _specificationsFactory ?? new SpecificationsFactory(_serviceFacade.CreateSpecificationsService());
         }
     }

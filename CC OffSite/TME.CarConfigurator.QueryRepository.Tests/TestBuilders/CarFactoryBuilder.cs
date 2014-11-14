@@ -1,12 +1,6 @@
 ﻿using FakeItEasy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Factories;
 using TME.CarConfigurator.Interfaces.Factories;
-using TME.CarConfigurator.Query.Tests.GivenACar;
 using TME.CarConfigurator.QueryServices;
 
 namespace TME.CarConfigurator.Query.Tests.TestBuilders
@@ -21,6 +15,7 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
         private IGradeFactory _gradeFactory = A.Fake<IGradeFactory>();
         private ISubModelFactory _subModelFactory = A.Fake<ISubModelFactory>();
         private ICarPartFactory _carPartFactory = A.Fake<ICarPartFactory>();
+        private IEquipmentFactory _equipmentFactory = A.Fake<IEquipmentFactory>();
 
         public CarFactoryBuilder WithCarService(ICarService carService)
         {
@@ -73,10 +68,16 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
             _carPartFactory = carPartFactory;
             return this;
         }
+        
+        public CarFactoryBuilder WithEquipmentFactory(IEquipmentFactory equipmentFactory)
+        {
+            _equipmentFactory = equipmentFactory;
+            return this;
+        }
 
         public ICarFactory Build()
         {
-            return new CarFactory(_carService, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _gradeFactory, _subModelFactory, _carPartFactory);
+            return new CarFactory(_carService, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _gradeFactory, _subModelFactory, _carPartFactory,_equipmentFactory);
         }
     }
 }

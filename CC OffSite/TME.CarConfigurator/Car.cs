@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Core;
@@ -14,8 +12,8 @@ namespace TME.CarConfigurator
 {
     public class Car : BaseObject<Repository.Objects.Car>, ICar
     {
-        readonly Repository.Objects.Publication _repositoryPublication;
-        readonly Repository.Objects.Context _repositoryContext;
+        readonly Publication _repositoryPublication;
+        readonly Context _repositoryContext;
         readonly IBodyTypeFactory _bodyTypeFactory;
         readonly ITransmissionFactory _transmissionFactory;
         readonly IWheelDriveFactory _wheelDriveFactory;
@@ -23,6 +21,7 @@ namespace TME.CarConfigurator
         readonly ISubModelFactory _subModelFactory;
         readonly IEngineFactory _engineFactory;
         readonly ICarPartFactory _carPartFactory;
+        readonly IEquipmentFactory _equipmentFactory;
 
         IPrice _basePrice;
         IPrice _startingPrice;
@@ -33,18 +32,9 @@ namespace TME.CarConfigurator
         IGrade _grade;
         ISubModel _subModel;
         IReadOnlyList<ICarPart> _carParts;
+        ICarEquipment _carEquipment;
 
-        public Car(
-            Repository.Objects.Car repositoryCar,
-            Repository.Objects.Publication repositoryPublication,
-            Repository.Objects.Context repositoryContext,
-            IBodyTypeFactory bodyTypeFactory,
-            IEngineFactory engineFactory,
-            ITransmissionFactory transmissionFactory,
-            IWheelDriveFactory wheelDriveFactory,
-            IGradeFactory gradeFactory,
-            ISubModelFactory subModelFactory,
-            ICarPartFactory carPartFactory)
+        public Car(Repository.Objects.Car repositoryCar, Publication repositoryPublication, Context repositoryContext, IBodyTypeFactory bodyTypeFactory, IEngineFactory engineFactory, ITransmissionFactory transmissionFactory, IWheelDriveFactory wheelDriveFactory, IGradeFactory gradeFactory, ISubModelFactory subModelFactory, ICarPartFactory carPartFactory, IEquipmentFactory equipmentFactory)
             : base(repositoryCar)
         {
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
@@ -56,6 +46,7 @@ namespace TME.CarConfigurator
             if (gradeFactory == null) throw new ArgumentNullException("gradeFactory");
             if (subModelFactory == null) throw new ArgumentNullException("subModelFactory");
             if (carPartFactory == null) throw new ArgumentNullException("carPartFactory");
+            if (equipmentFactory == null) throw new ArgumentNullException("equipmentFactory");
 
             _repositoryPublication = repositoryPublication;
             _repositoryContext = repositoryContext;
@@ -66,6 +57,7 @@ namespace TME.CarConfigurator
             _gradeFactory = gradeFactory;
             _subModelFactory = subModelFactory;
             _carPartFactory = carPartFactory;
+            _equipmentFactory = equipmentFactory;
         }
 
         public int ShortID { get { return RepositoryObject.ShortID; } }
@@ -90,13 +82,20 @@ namespace TME.CarConfigurator
                 return
                     _carParts =
                         _carParts ??
-                        _carPartFactory.GetCarCarParts(RepositoryObject.ID, _repositoryPublication, _repositoryContext);
+                        _carPartFactory.GetCarParts(RepositoryObject.ID, _repositoryPublication, _repositoryContext);
             }
         }
 
         public ICarEquipment Equipment
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return
+                    _carEquipment =
+                        _carEquipment ??
+                        _equipmentFactory.GetCarEquipment(RepositoryObject.ID, _repositoryPublication,
+                            _repositoryContext);
+            }
         }
 
         public IReadOnlyList<ICarPack> Packs

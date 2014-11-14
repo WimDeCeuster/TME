@@ -90,6 +90,7 @@
     <Compile Include="Interfaces\IBodyTypePublisher.cs" />
     <Compile Include="Interfaces\ICarConfiguratorPublisher.cs" />
     <Compile Include="Interfaces\ICarConfiguratorVersionMapper.cs" />
+    <Compile Include="Interfaces\ICarEquipmentPublisher.cs" />
     <Compile Include="Interfaces\ICarMapper.cs" />
     <Compile Include="Interfaces\ICarPartMapper.cs" />
     <Compile Include="Interfaces\ICarPartPublisher.cs" />

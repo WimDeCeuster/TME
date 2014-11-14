@@ -30,5 +30,6 @@ namespace TME.CarConfigurator.S3.Shared.Interfaces
         String GetDefaultSubModelAssetsKey(Guid publicationID, Guid subModelID, Guid objectID);
         String GetSubModelAssetsKey(Guid publicationID, Guid subModelID, Guid objectID, String view, String mode);
         String GetCarCarPartsKey(Guid publicationID, Guid carID);
+        String GetCarEquipmentKey(Guid publicationID, Guid carID);
     }
 }

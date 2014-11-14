@@ -68,7 +68,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3CarPartPublisher
         public void ThenCarPartsShouldBePutForAllCars()
         {
             A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
-                .MustHaveHappened(Repeated.Exactly.Times(2));
+                .MustHaveHappened(Repeated.Exactly.Twice);
         }
 
         [Fact]

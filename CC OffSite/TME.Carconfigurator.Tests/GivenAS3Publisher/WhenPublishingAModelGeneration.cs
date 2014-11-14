@@ -41,6 +41,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         private IAssetPublisher _assetPublisher;
         private IGradePackPublisher _gradePackPublisher;
         private ICarPartPublisher _carPartPublisher;
+        private ICarEquipmentPublisher _carEquipmentPublisher;
 
         protected override void Arrange()
         {
@@ -61,6 +62,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             _gradePackPublisher = A.Fake<IGradePackPublisher>(x => x.Strict());
             _colourCombinationPublisher = A.Fake<IColourPublisher>(x => x.Strict());
             _carPartPublisher = A.Fake<ICarPartPublisher>(x => x.Strict());
+            _carEquipmentPublisher = A.Fake<ICarEquipmentPublisher>(x => x.Strict());
 
             _serialiser = A.Fake<ISerialiser>();
 
@@ -75,6 +77,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
                 .WithSteeringPublisher(_steeringPublisher)
                 .WithGradePublisher(_gradePublisher)
                 .WithCarPublisher(_carPublisher)
+                .WithCarEquipmentPublisher(_carEquipmentPublisher)
                 .WithAssetPublisher(_assetPublisher)
                 .WithSubModelPublisher(_subModelPublisher)
                 .WithEquipmentPublisher(_equipmentPublisher)
@@ -153,6 +156,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => _gradePackPublisher.PublishSubModelGradePacksAsync(_context)).Returns(task);
             A.CallTo(() => _colourCombinationPublisher.PublishGenerationColourCombinations(_context)).Returns(task);
             A.CallTo(() => _carPartPublisher.PublishCarPartsAsync(_context)).Returns(task);
+            A.CallTo(() => _carEquipmentPublisher.PublishCarEquipmentAsync(_context)).Returns(task);
         }
 
         protected override void Act()
@@ -164,6 +168,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         public void ThenAPublicationShouldBePublished()
         {
             A.CallTo(() => _publicationPublisher.PublishPublicationsAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
+        public void ThenAPublishCarEquipmentShouldHappen()
+        {
+            A.CallTo(() => _carEquipmentPublisher.PublishCarEquipmentAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]

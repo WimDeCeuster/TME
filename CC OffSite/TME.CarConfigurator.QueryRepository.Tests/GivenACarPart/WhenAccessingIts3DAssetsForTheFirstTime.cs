@@ -14,16 +14,15 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenACarCarPart
 {
-    public class WhenAccessingIts3DAssetsForTheSecondTime : TestBase
+    public class WhenAccessingIts3DAssetsForTheFirstTime : TestBase
     {
-        private IEnumerable<IAsset> _secondAssets;
+        private IEnumerable<IAsset> _assets;
         private string _view;
         private string _mode;
         private Repository.Objects.Assets.Asset _asset1;
         private Repository.Objects.Assets.Asset _asset2;
         private IAssetService _assetService;
         private ICarPart _carPart;
-        private IReadOnlyList<IAsset> _firstAssets;
 
         protected override void Arrange()
         {
@@ -65,25 +64,23 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarCarPart
                 .Build();
 
             var carPartService = A.Fake<ICarPartService>();
-            A.CallTo(() => carPartService.GetCarParts(publication.ID, carId, context)).Returns(new[] { repoCarPart });
+            A.CallTo(() => carPartService.GetCarParts(publication.ID, carId, context)).Returns(new[] {repoCarPart});
 
             var carPartFactory = new CarPartFactoryBuilder()
                 .WithAssetFactory(assetFactory)
                 .WithCarPartService(carPartService)
                 .Build();
 
-            _carPart = carPartFactory.GetCarCarParts(carId, publication, context).Single();
-
-            _firstAssets = _carPart.VisibleIn.Single(v => v.Mode == _mode && v.View == _view).Assets;
+            _carPart = carPartFactory.GetCarParts(carId, publication, context).Single();
         }
 
         protected override void Act()
         {
-            _secondAssets = _carPart.VisibleIn.Single(v => v.Mode == _mode && v.View == _view).Assets;
+            _assets = _carPart.VisibleIn.Single(v => v.Mode == _mode && v.View == _view).Assets;
         }
 
         [Fact]
-        public void ThenItShouldNotFetchTheAssetsFromTheServiceAgain()
+        public void ThenItShouldFetchTheAssetsFromTheService()
         {
             A.CallTo(() => _assetService.GetCarAssets(A<Guid>._, A<Guid>._, A<Guid>._, A<Context>._, A<string>._, A<string>._)).MustHaveHappened(Repeated.Exactly.Once);
         }
@@ -91,11 +88,10 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarCarPart
         [Fact]
         public void ThenItShouldHaveTheCorrectAssets()
         {
-            _secondAssets.Should().BeSameAs(_firstAssets);
-            _secondAssets.Should().HaveCount(2);
+            _assets.Should().HaveCount(2);
 
-            _secondAssets.Should().Contain(a => a.ID == _asset1.ID);
-            _secondAssets.Should().Contain(a => a.ID == _asset2.ID);
+            _assets.Should().Contain(a => a.ID == _asset1.ID);
+            _assets.Should().Contain(a => a.ID == _asset2.ID);
         }
     }
 }

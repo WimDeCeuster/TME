@@ -11,5 +11,6 @@ namespace TME.CarConfigurator.Interfaces.Factories
         IGradeEquipment GetSubModelGradeEquipment(Publication publication, Guid subModelID, Context context, Guid gradeID);
         IModelEquipment GetModelEquipment(Publication publication, Context context);
         IReadOnlyList<ICategory> GetCategories(Publication publication, Context context);
+        ICarEquipment GetCarEquipment(Guid carID, Publication publication, Context repositoryContext);
     }
 }

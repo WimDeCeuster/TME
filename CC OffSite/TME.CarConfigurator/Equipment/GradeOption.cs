@@ -8,8 +8,8 @@ namespace TME.CarConfigurator.Equipment
     {
         readonly IOptionInfo _parentOptionInfo;
 
-        public GradeOption(Repository.Objects.Equipment.GradeOption repoOption, IOptionInfo parentOptionInfo, Publication publication, Context context, IColourFactory colourFactory)
-            : base(repoOption)
+        public GradeOption(Repository.Objects.Equipment.GradeOption repositoryObject, IOptionInfo parentOptionInfo, Publication publication, Context context, IColourFactory colourFactory)
+            : base(repositoryObject)
         {
             _parentOptionInfo = parentOptionInfo;
         }

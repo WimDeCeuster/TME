@@ -4,25 +4,26 @@ using System.Linq;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Interfaces.Assets;
+using TME.CarConfigurator.Interfaces.Colours;
+using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Interfaces.Enums;
 using TME.CarConfigurator.Interfaces.Equipment;
+using IExteriorColour = TME.CarConfigurator.Interfaces.Equipment.IExteriorColour;
 
 namespace TME.CarConfigurator.Equipment
 {
-    public abstract class GradeEquipmentItem<T> : BaseObject<T>, IGradeEquipmentItem
-        where T : Repository.Objects.Equipment.GradeEquipmentItem
+    public abstract class CarEquipmentItem<T> : BaseObject<T>, ICarEquipmentItem
+        where T  : Repository.Objects.Equipment.CarEquipmentItem
     {
-        IExteriorColour _exteriorColour;
-        ICategoryInfo _categoryInfo;
-        IReadOnlyList<ILink> _links;
-        IReadOnlyList<ICarInfo> _standardOn;
-        IReadOnlyList<ICarInfo> _optionalOn;
-        IReadOnlyList<ICarInfo> _notAvailableOn;
-        BestVisibleIn _bestVisibleIn;
+        private BestVisibleIn _bestVisibleIn;
+        private CategoryInfo _categoryInfo;
+        private List<Link> _links;
+        private ExteriorColour _exteriorColour;
 
-        protected GradeEquipmentItem(T repositoryObject)
+        protected CarEquipmentItem(T repositoryObject) 
             : base(repositoryObject)
         {
-
         }
 
         public int ShortID { get { return RepositoryObject.ShortID; } }
@@ -46,9 +47,8 @@ namespace TME.CarConfigurator.Equipment
 
         public bool Optional { get { return RepositoryObject.Optional; } }
 
-        public bool NotAvailable { get { return RepositoryObject.NotAvailable; } }
 
-        public Interfaces.Enums.Visibility Visibility { get { return RepositoryObject.Visibility.ToVisibility(); } }
+        public Visibility Visibility { get { return RepositoryObject.Visibility.ToVisibility(); } }
 
         public IBestVisibleIn BestVisibleIn
         {
@@ -61,10 +61,11 @@ namespace TME.CarConfigurator.Equipment
 
         public IReadOnlyList<ILink> Links { get { return _links = _links ?? RepositoryObject.Links.Select(link => new Link(link)).ToList(); } }
 
-        public IReadOnlyList<ICarInfo> StandardOn { get { return _standardOn = _standardOn ?? RepositoryObject.StandardOn.Select(carInfo => new CarInfo(carInfo)).ToList(); } }
-
-        public IReadOnlyList<ICarInfo> OptionalOn { get { return _optionalOn = _optionalOn ?? RepositoryObject.OptionalOn.Select(carInfo => new CarInfo(carInfo)).ToList(); } }
-
-        public IReadOnlyList<ICarInfo> NotAvailableOn { get { return _notAvailableOn = _notAvailableOn ?? RepositoryObject.NotAvailableOn.Select(carInfo => new CarInfo(carInfo)).ToList(); } }
+        //restjes
+        public abstract IPrice Price { get;  }
+        public abstract IReadOnlyList<IVisibleInModeAndView> VisibleIn { get; }
+        public abstract IReadOnlyList<IAsset> Assets { get; }
+        public abstract IReadOnlyList<IExteriorColourInfo> AvailableForExteriorColours { get;  }
+        public abstract IReadOnlyList<IUpholsteryInfo> AvailableForUpholsteries { get; }
     }
 }

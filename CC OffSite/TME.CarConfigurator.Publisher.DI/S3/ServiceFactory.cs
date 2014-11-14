@@ -1,7 +1,6 @@
 ﻿using System;
 using Spring.Context.Support;
 using TME.CarConfigurator.CommandServices;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.DI.Interfaces;
 using TME.CarConfigurator.S3.CommandServices;
@@ -22,7 +21,7 @@ namespace TME.CarConfigurator.Publisher.DI.S3
 
         private static IService GetService(String environment, PublicationDataSubset dataSubset)
         {
-            return (IService)ContextRegistry.GetContext().GetObject(String.Format((string) "{0}{1}S3Service", (object) environment, (object) dataSubset));
+            return (IService)ContextRegistry.GetContext().GetObject(String.Format("{0}{1}S3Service", environment, dataSubset));
         }
 
         public QueryServices.IModelService GetGetModelService(String environment, PublicationDataSubset dataSubset)
@@ -142,6 +141,13 @@ namespace TME.CarConfigurator.Publisher.DI.S3
             var service = GetService(environment, dataSubset);
 
             return new CarPartService(service,_serialiser,_keyManager);
+        }
+
+        public ICarEquipmentService GetCarEquipmentService(string environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return new CarEquipmentService(service,_serialiser,_keyManager);
         }
     }
 }
