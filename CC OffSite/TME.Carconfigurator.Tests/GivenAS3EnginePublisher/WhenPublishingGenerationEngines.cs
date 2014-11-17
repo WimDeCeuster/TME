@@ -64,15 +64,15 @@ namespace TME.Carconfigurator.Tests.GivenAS3EnginePublisher
             var publicationTimeFrame3 = new PublicationTimeFrame { ID = timeFrame3.ID };
             var publicationTimeFrame4 = new PublicationTimeFrame { ID = timeFrame4.ID };
 
-            var publication1 = PublicationBuilder.Initialize()
-                                                 .WithTimeFrames(publicationTimeFrame1,
-                                                                 publicationTimeFrame2)
-                                                 .Build();
+            var publication1 = new PublicationBuilder()
+                                .WithTimeFrames(publicationTimeFrame1,
+                                                publicationTimeFrame2)
+                                .Build();
 
-            var publication2 = PublicationBuilder.Initialize()
-                                                 .WithTimeFrames(publicationTimeFrame3,
-                                                                 publicationTimeFrame4)
-                                                 .Build();
+            var publication2 = new PublicationBuilder()
+                                .WithTimeFrames(publicationTimeFrame3,
+                                                publicationTimeFrame4)
+                                .Build();
 
             _context = new ContextBuilder()
                         .WithBrand(_brand)

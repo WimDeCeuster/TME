@@ -16,6 +16,7 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
         private ISubModelFactory _subModelFactory = A.Fake<ISubModelFactory>();
         private ICarPartFactory _carPartFactory = A.Fake<ICarPartFactory>();
         private IEquipmentFactory _equipmentFactory = A.Fake<IEquipmentFactory>();
+        private IPackFactory _packFactory = A.Fake<IPackFactory>();
 
         public CarFactoryBuilder WithCarService(ICarService carService)
         {
@@ -71,13 +72,19 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
         
         public CarFactoryBuilder WithEquipmentFactory(IEquipmentFactory equipmentFactory)
         {
-            _equipmentFactory = equipmentFactory;
+        	_equipmentFactory = equipmentFactory;
+        	return this;
+        }
+        
+        public CarFactoryBuilder WithPackFactory(IPackFactory packFactory)
+        {
+            _packFactory = packFactory;
             return this;
         }
 
         public ICarFactory Build()
         {
-            return new CarFactory(_carService, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _gradeFactory, _subModelFactory, _carPartFactory,_equipmentFactory);
+            return new CarFactory(_carService, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _gradeFactory, _subModelFactory, _carPartFactory,_equipmentFactory,_packFactory);
         }
     }
 }

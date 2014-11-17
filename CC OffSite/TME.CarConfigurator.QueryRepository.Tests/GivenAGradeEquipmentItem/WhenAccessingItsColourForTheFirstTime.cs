@@ -1,18 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
 using System;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Equipment;
+using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 using TME.CarConfigurator.Interfaces.Equipment;
-using TME.CarConfigurator.Interfaces.Factories;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAGradeEquipmentItem
 {
@@ -24,7 +21,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGradeEquipmentItem
 
         protected override void Arrange()
         {
-            _repoColour = new CarConfigurator.Tests.Shared.TestBuilders.EquipmentExteriorColourBuilder()
+            _repoColour = new EquipmentExteriorColourBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
 

@@ -9,6 +9,7 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.Tests.Shared;
 using Xunit;
+using TME.CarConfigurator.Tests.Shared.TestBuilders;
 
 namespace TME.CarConfigurator.Query.Tests.Services.GivenAPackService
 {

@@ -22,7 +22,7 @@ namespace TME.CarConfigurator.Publisher
             _mapper = mapper;
         }
 
-        public async Task PublishAsync(Guid generationID, string environment, string target, string brand, string country, PublicationDataSubset dataSubset, IProgress<PublishProgress> progress)
+        public async Task PublishAsync(Guid generationID, string environment, string target, string brand, string country, PublicationDataSubset dataSubset, string publishedBy, IProgress<PublishProgress> progress)
         {
             if (String.IsNullOrWhiteSpace(environment)) throw new ArgumentNullException("environment");
             if (String.IsNullOrWhiteSpace(target)) throw new ArgumentNullException("target");
@@ -36,7 +36,7 @@ namespace TME.CarConfigurator.Publisher
 
             await MapAsync(progress, context);
 
-            await PublishAsync(environment, target, dataSubset, context, progress);
+            await PublishAsync(environment, target, dataSubset, publishedBy, context, progress);
         }
 
         private async Task MapAsync(IProgress<PublishProgress> progress, IContext context)
@@ -50,7 +50,7 @@ namespace TME.CarConfigurator.Publisher
             progress.Report(new PublishProgress(string.Format("Mapping completed after {0} seconds", DateTime.Now.Subtract(startOfMapping).TotalSeconds)));
         }
 
-        private async Task PublishAsync(string environment, string target, PublicationDataSubset dataSubset, IContext context, IProgress<PublishProgress> progress)
+        private async Task PublishAsync(string environment, string target, PublicationDataSubset dataSubset, string publishedBy, IContext context, IProgress<PublishProgress> progress)
         {
             var publisher = _publisherFactory.GetPublisher(target, environment, dataSubset);
 
@@ -58,7 +58,7 @@ namespace TME.CarConfigurator.Publisher
 
             progress.Report(new PublishProgress("Publishing started"));
 
-            await publisher.PublishAsync(context);
+            await publisher.PublishAsync(context, publishedBy);
 
             progress.Report(new PublishProgress(string.Format("Publishing completed after {0} seconds", DateTime.Now.Subtract(startOfPublishing).TotalSeconds)));
         }

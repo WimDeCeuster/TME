@@ -62,7 +62,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             _baseMapper.MapTranslateableDefaults(mappedColour, colour);
 
-            mappedColour.Name = String.Empty;
+            //mappedColour.Name = colour.Translation.Name; //String.Empty;
 
             return mappedColour;
         }

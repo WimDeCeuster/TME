@@ -15,8 +15,8 @@ namespace TME.CarConfigurator
         protected readonly Repository.Objects.Publication RepositoryPublication;
         protected readonly Repository.Objects.Context RepositoryContext;
         protected readonly IAssetFactory AssetFactory;
-        protected IEnumerable<IAsset> FetchedAssets;
-        protected IEnumerable<IVisibleInModeAndView> FetchedVisibleInModeAndViews;
+        protected IReadOnlyList<IAsset> FetchedAssets;
+        protected IReadOnlyList<IVisibleInModeAndView> FetchedVisibleInModeAndViews;
 
         private IEngineCategory _category;
         private IEngineType _type;
@@ -38,7 +38,7 @@ namespace TME.CarConfigurator
         public bool KeyFeature { get { return RepositoryObject.KeyFeature; } }
         public bool Brochure { get { return RepositoryObject.Brochure; } }
 
-        public virtual IEnumerable<IVisibleInModeAndView> VisibleIn
+        public virtual IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
             get
             {
@@ -46,7 +46,7 @@ namespace TME.CarConfigurator
             }
         }
 
-        public virtual IEnumerable<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext); } }
+        public virtual IReadOnlyList<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext); } }
 
         [Obsolete("Use the new VisibleIn property instead")]
         public bool VisibleInExteriorSpin { get { return VisibleIn.VisibleInExteriorSpin(); } }

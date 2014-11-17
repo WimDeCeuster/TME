@@ -37,10 +37,19 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return Adaptee.NumberOfSeats; }
         }
 
-        public IEnumerable<IVisibleInModeAndView> VisibleIn
+
+        private IReadOnlyList<IVisibleInModeAndView> _visibleIn = null;
+        public IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
-            get { return Adaptee.Assets.GetVisibleInModeAndViews(); }
+            get { return _visibleIn ?? (_visibleIn = Adaptee.Assets.GetVisibleInModeAndViews()); }
         }
+
+        private IReadOnlyList<IAsset> _assets = null;
+        public IReadOnlyList<IAsset> Assets
+        {
+            get { return _assets ?? (_assets =Adaptee.Assets.GetPlainAssets()); }
+        }
+
 
         public bool VisibleInExteriorSpin
         {
@@ -67,9 +76,6 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return Adaptee.VisibleInXRaySafetySpin; }
         }
 
-        public IEnumerable<IAsset> Assets
-        {
-            get { return Adaptee.Assets.GetPlainAssets(); }
-        }
+ 
     }
 }

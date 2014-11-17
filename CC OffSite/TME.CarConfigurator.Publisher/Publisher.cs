@@ -28,7 +28,7 @@ namespace TME.CarConfigurator.Publisher
         private readonly ISubModelPublisher _subModelPublisher;
         private readonly IEquipmentPublisher _equipmentPublisher;
         private readonly ISpecificationsPublisher _specificationsPublisher;
-        private readonly IGradePackPublisher _gradePackPublisher;
+        private readonly IPackPublisher _packPublisher;
         private readonly IColourPublisher _colourCombinationPublisher;
         private readonly ICarPartPublisher _carPartPublisher;
         private readonly ICarEquipmentPublisher _carEquipmentPublisher;
@@ -47,7 +47,7 @@ namespace TME.CarConfigurator.Publisher
             ISubModelPublisher subModelPublisher,
             IEquipmentPublisher equipmentPublisher,
             ISpecificationsPublisher specificationsPublisher,
-            IGradePackPublisher gradePackPublisher,
+            IPackPublisher packPublisher,
             IColourPublisher colourCombinationPublisher,
             ICarPartPublisher carPartPublisher,
             ICarEquipmentPublisher carEquipmentPublisher)
@@ -65,12 +65,12 @@ namespace TME.CarConfigurator.Publisher
             if (assetPublisher == null) throw new ArgumentNullException("assetPublisher");
             if (subModelPublisher == null) throw new ArgumentNullException("subModelPublisher");
             if (equipmentPublisher == null) throw new ArgumentNullException("equipmentPublisher");
-            if (gradePackPublisher == null) throw new ArgumentNullException("gradePackPublisher");
+            if (packPublisher == null) throw new ArgumentNullException("packPublisher");
             if (colourCombinationPublisher == null) throw new ArgumentNullException("colourCombinationPublisher");
             if (carPartPublisher == null) throw new ArgumentNullException("carPartPublisher");
             if (carEquipmentPublisher == null) throw new ArgumentNullException("carEquipmentPublisher");
             if (specificationsPublisher == null) throw new ArgumentNullException("specificationsPublisher");
-
+            
             _publicationPublisher = publicationPublisher;
             _modelPublisher = modelPublisher;
             _modelService = modelService;
@@ -84,29 +84,29 @@ namespace TME.CarConfigurator.Publisher
             _assetPublisher = assetPublisher;
             _subModelPublisher = subModelPublisher;
             _equipmentPublisher = equipmentPublisher;
-            _gradePackPublisher = gradePackPublisher;
+            _packPublisher = packPublisher;
             _colourCombinationPublisher = colourCombinationPublisher;
             _carPartPublisher = carPartPublisher;
             _carEquipmentPublisher = carEquipmentPublisher;
             _specificationsPublisher = specificationsPublisher;
         }
 
-        public async Task PublishAsync(IContext context)
+        public async Task PublishAsync(IContext context, string publishedBy)
         {
             var languageCodes = context.ContextData.Keys;
 
-            await PublishAsync(context, languageCodes);
+            await PublishAsync(context, languageCodes, publishedBy);
 
             await ActivateAsync(context, languageCodes);
         }
 
-        private async Task PublishAsync(IContext context, IEnumerable<string> languageCodes)
+        private async Task PublishAsync(IContext context, IEnumerable<string> languageCodes, string publishedBy)
         {
             foreach (var lanuageCode in languageCodes)
             {
                 var data = context.ContextData[lanuageCode];
                 var timeFrames = context.TimeFrames[lanuageCode];
-                CreateAndAddPublication(data, timeFrames);
+                CreateAndAddPublication(data, timeFrames, publishedBy);
             }
             var tasks = new List<Task>
             {
@@ -125,8 +125,9 @@ namespace TME.CarConfigurator.Publisher
                 _equipmentPublisher.PublishCategoriesAsync(context),
                 _equipmentPublisher.PublishSubModelGradeEquipmentAsync(context),
                 _specificationsPublisher.PublishCategoriesAsync(context),
-                _gradePackPublisher.PublishAsync(context),
-                _gradePackPublisher.PublishSubModelGradePacksAsync(context),
+                _packPublisher.PublishGradePacksAsync(context),
+                _packPublisher.PublishCarPacksAsync(context),
+                _packPublisher.PublishSubModelGradePacksAsync(context),
                 _carPartPublisher.PublishCarPartsAsync(context),
                 _carEquipmentPublisher.PublishCarEquipmentAsync(context),
                 _assetPublisher.PublishAsync(context)
@@ -135,7 +136,7 @@ namespace TME.CarConfigurator.Publisher
             await Task.WhenAll(tasks);
         }
 
-        private static void CreateAndAddPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames)
+        private static void CreateAndAddPublication(ContextData data, IReadOnlyList<TimeFrame> timeFrames, string publishedBy)
         {
             data.Publication = new Publication
              {
@@ -148,9 +149,9 @@ namespace TME.CarConfigurator.Publisher
                      ID = timeFrame.ID,
                      LineOffFrom = timeFrame.From,
                      LineOffTo = timeFrame.Until
-                 })
-                     .ToList(),
-                 PublishedOn = DateTime.Now
+                 }).ToList(),
+                 PublishedOn = DateTime.Now,
+                 PublishedBy = publishedBy
              };
 
             data.Models.Single().Publications.Add(new PublicationInfo(data.Publication));

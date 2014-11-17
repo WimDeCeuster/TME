@@ -15,7 +15,8 @@ using CarAccessory = TME.CarConfigurator.Repository.Objects.Equipment.CarAccesso
 using CarEquipmentItem = TME.CarConfigurator.Repository.Objects.Equipment.CarEquipmentItem;
 using CarOption = TME.CarConfigurator.Repository.Objects.Equipment.CarOption;
 using EquipmentItem = TME.CarConfigurator.Administration.EquipmentItem;
-using ExteriorColour = TME.CarConfigurator.Repository.Objects.Equipment.ExteriorColour;
+using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
+
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
@@ -232,7 +233,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
         }
 
-        private Repository.Objects.Colours.ExteriorColour GetMappedExteriorColour(ModelGenerationEquipmentItem generationEquipmentItem, bool isPreview)
+        private ExteriorColour GetMappedExteriorColour(ModelGenerationEquipmentItem generationEquipmentItem, bool isPreview)
         {
             var generationExteriorColour = generationEquipmentItem.Generation.ColourCombinations.ExteriorColours()
                     .FirstOrDefault(clr => clr.ID == generationEquipmentItem.Colour.ID);

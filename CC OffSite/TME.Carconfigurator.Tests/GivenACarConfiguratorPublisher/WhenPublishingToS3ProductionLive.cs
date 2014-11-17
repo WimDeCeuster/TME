@@ -16,6 +16,7 @@ namespace TME.Carconfigurator.Tests.GivenACarConfiguratorPublisher
         const String Brand = "Toyota";
         const String Country = "BE";
         const String Target = "S3";
+        const String PublishedBy = "test";
         const PublicationDataSubset DataSubset = PublicationDataSubset.Live;
         IPublisherFactory _publisherFactory;
         ICarConfiguratorPublisher _carConfiguratorPublisher;
@@ -36,13 +37,13 @@ namespace TME.Carconfigurator.Tests.GivenACarConfiguratorPublisher
 
         protected override void Act()
         {
-            _carConfiguratorPublisher.PublishAsync(_generationId, Environment, Target, Brand, Country, DataSubset, new Progress<PublishProgress>()).Wait();
+            _carConfiguratorPublisher.PublishAsync(_generationId, Environment, Target, Brand, Country, DataSubset, PublishedBy, new Progress<PublishProgress>()).Wait();
         }
 
         [Fact]
         public void ThenACallToPublisherPublishHappens()
         {
-            A.CallTo(() => _publisher.PublishAsync(A<Context>.That.Matches(c => c.Brand == Brand && c.Country == Country && c.GenerationID == _generationId)))
+            A.CallTo(() => _publisher.PublishAsync(A<Context>.That.Matches(c => c.Brand == Brand && c.Country == Country && c.GenerationID == _generationId), PublishedBy))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 

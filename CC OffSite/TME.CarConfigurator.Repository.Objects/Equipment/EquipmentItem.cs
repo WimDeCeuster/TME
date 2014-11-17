@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Core;
 using TME.CarConfigurator.Repository.Objects.Enums;
 

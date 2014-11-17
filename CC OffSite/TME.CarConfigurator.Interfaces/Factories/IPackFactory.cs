@@ -9,5 +9,7 @@ namespace TME.CarConfigurator.Interfaces.Factories
     {
         IReadOnlyList<IGradePack> GetGradePacks(Publication publication, Context context, Guid gradeId);
         IReadOnlyList<IGradePack> GetSubModelGradePacks(Publication publication, Context context, Guid subModelID, Guid gradeId);
+        IReadOnlyList<ICarPack> GetCarPacks(Publication publication, Context context, Guid carId);
+
     }
 }

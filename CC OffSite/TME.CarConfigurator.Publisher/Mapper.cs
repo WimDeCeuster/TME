@@ -41,7 +41,7 @@ namespace TME.CarConfigurator.Publisher
         readonly IPackMapper _packMapper;
         readonly IColourMapper _colourMapper;
         readonly ICategoryMapper _categoryMapper;
-        private readonly ICarPartMapper _carPartMapper;
+        readonly ICarPartMapper _carPartMapper;
 
         public Mapper(
             ITimeFrameMapper timeFrameMapper,
@@ -152,6 +152,10 @@ namespace TME.CarConfigurator.Publisher
                 FillColourCombinations(cars, modelGeneration, contextData, isPreview);
                 progress.Report(new PublishProgress("Fill generation cars"));
                 FillCars(cars, contextData, isPreview);
+                progress.Report(new PublishProgress("Fill car parts"));
+                FillCarParts(cars, modelGeneration, contextData);
+                progress.Report(new PublishProgress("Fill car packs"));
+                FillCarPacks(cars, modelGeneration, contextData);
                 progress.Report(new PublishProgress("Fill generation grades"));
                 FillGrades(cars, modelGeneration, contextData);
                 progress.Report(new PublishProgress("Fill grade equipment"));
@@ -173,6 +177,31 @@ namespace TME.CarConfigurator.Publisher
 
                 progress.Report(new PublishProgress("Fill publication timeframes"));
                 context.TimeFrames[language] = _timeFrameMapper.GetTimeFrames(language, context);
+            }
+        }
+
+        private void FillCarParts(IEnumerable<Car> cars, ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var car in cars)
+            {
+                var carPartsWithValidAssets = modelGeneration.CarParts.Where(carPart => carPart.AssetSet.NumberOfAssets != 0).ToList();
+
+                contextData.CarCarParts.Add(car.ID,carPartsWithValidAssets.Select(carPart => _carPartMapper.MapCarPart(carPart)).ToList());
+
+                foreach (var carPart in carPartsWithValidAssets)
+                {
+                    var validAssetsPerCarPart = carPart.AssetSet.Assets.Where(assetSetAsset => assetSetAsset.BodyType.ID == car.BodyTypeID && assetSetAsset.Steering.ID == car.SteeringID);
+                    contextData.CarAssets[car.ID].Add(carPart.ID, new List<Asset>(validAssetsPerCarPart.Select(asset => _assetMapper.MapCarAssetSetAsset(asset, modelGeneration)).ToList()));
+                }
+            }
+        }
+        
+        private void FillCarPacks(IEnumerable<Car> cars, ModelGeneration modelGeneration, ContextData contextData)
+        {
+            foreach (var car in cars)
+            {
+                var packs = car.Packs.Where(pack => pack.Availability != Administration.Enums.Availability.NotAvailable).Select(_packMapper.MapCarPack).ToList();
+                contextData.CarPacks.Add(car.ID, packs);
             }
         }
 
@@ -302,7 +331,7 @@ namespace TME.CarConfigurator.Publisher
                                   .Upholsteries()
                                   .ToDictionary(
                                     upholstery => upholstery.ID,
-                                    upholstery => upholstery.AssetSet.Assets.GetGenerationAssets()
+                                    upholstery => upholstery.AssetSet.Assets.GetUpholsteryAssets()
                                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 

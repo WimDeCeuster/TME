@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0C21F2A1-B002-4667-B905-F2E5F4D31AA8}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TME.CarConfigurator.AutoComparer</RootNamespace>
+    <AssemblyName>TME.CarConfigurator.AutoComparer</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommandLine">
+      <HintPath>..\packages\CommandLineParser.1.9.71\lib\net45\CommandLine.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TME.BusinessObjects, Version=4.0.11.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TME.BusinessObjects.dll</HintPath>
+    </Reference>
+    <Reference Include="TME.BusinessObjects.Templates, Version=2.2.4.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TME.BusinessObjects.Templates.dll</HintPath>
+    </Reference>
+    <Reference Include="TME.BusinessObjects.ValidationRules, Version=2.2.1.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TME.BusinessObjects.ValidationRules.dll</HintPath>
+    </Reference>
+    <Reference Include="TME.CarConfigurator.Administration, Version=7.1.4.1, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TME.CarConfigurator.Administration.dll</HintPath>
+    </Reference>
+    <Reference Include="TME.Common, Version=1.5.0.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TME.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="TME.Diagnostics">
+      <HintPath>..\..\Libraries\TME.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="TMME.BusinessObjects">
+      <HintPath>..\..\Libraries\TMME.BusinessObjects.dll</HintPath>
+    </Reference>
+    <Reference Include="TMME.BusinessObjects.Core, Version=1.6.0.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TMME.BusinessObjects.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="TMME.BusinessObjects.Server.DataPortal">
+      <HintPath>..\..\Libraries\TMME.BusinessObjects.Server.DataPortal.dll</HintPath>
+    </Reference>
+    <Reference Include="TMME.CarConfigurator">
+      <HintPath>..\..\Libraries\TMME.CarConfigurator.dll</HintPath>
+    </Reference>
+    <Reference Include="TMME.Common">
+      <HintPath>..\..\Libraries\TMME.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="TMME.Security.Library">
+      <HintPath>..\..\Libraries\TMME.Security.Library.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutoComparer.cs" />
+    <Compile Include="AutoCompareResult.cs" />
+    <Compile Include="CountryCompareResult.cs" />
+    <Compile Include="Extensions\StringBuilderExtensions.cs" />
+    <Compile Include="IAutoComparer.cs" />
+    <Compile Include="IReporter.cs" />
+    <Compile Include="LanguageCompareResult.cs" />
+    <Compile Include="ModelCompareResult.cs" />
+    <Compile Include="Options.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="C:\Toyota\S3Service.config">
+      <Link>S3Service.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Compare-NET-Objects\Compare-NET-Objects.csproj">
+      <Project>{94f1f5f2-6bc4-464b-ac51-fbdb4fa3f3ad}</Project>
+      <Name>Compare-NET-Objects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Comparer\TME.CarConfigurator.Comparer.csproj">
+      <Project>{d8d351d9-c23d-46ef-a679-49e0bd1c8a9b}</Project>
+      <Name>TME.CarConfigurator.Comparer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.DI\TME.CarConfigurator.DI.csproj">
+      <Project>{4d5eb607-e56d-47ba-8e67-e196ae1cb19b}</Project>
+      <Name>TME.CarConfigurator.DI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
+      <Project>{efdb033c-66a8-40bb-b596-561f45e6c7f7}</Project>
+      <Name>TME.CarConfigurator.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.LegacyAdapter\TME.CarConfigurator.LegacyAdapter.csproj">
+      <Project>{1d44f515-45aa-428a-91b5-3e0f227cd253}</Project>
+      <Name>TME.CarConfigurator.LegacyAdapter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj">
+      <Project>{86bf7d2d-ef86-40dc-94a9-540a0ddcd68e}</Project>
+      <Name>TME.CarConfigurator.Publisher.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
+      <Project>{2154eaaa-3d11-4654-bea6-7b147451dba8}</Project>
+      <Name>TME.CarConfigurator.Repository.Objects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.GetServices\TME.CarConfigurator.S3.QueryServices.csproj">
+      <Project>{5f4575a4-88db-4b32-bc1e-cd6fed06ca12}</Project>
+      <Name>TME.CarConfigurator.S3.QueryServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.S3.Shared\TME.CarConfigurator.S3.Shared.csproj">
+      <Project>{07be5767-abba-4dc4-bb09-f1ce85cac7fc}</Project>
+      <Name>TME.CarConfigurator.S3.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator\TME.CarConfigurator.csproj">
+      <Project>{89489b1e-dfaa-4164-93c3-a79859368cf8}</Project>
+      <Name>TME.CarConfigurator</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

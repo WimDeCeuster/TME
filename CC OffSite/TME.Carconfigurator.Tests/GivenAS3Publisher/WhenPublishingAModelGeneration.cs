@@ -39,9 +39,9 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         private ISpecificationsPublisher _specificationsPublisher;
         private IColourPublisher _colourCombinationPublisher;
         private IAssetPublisher _assetPublisher;
-        private IGradePackPublisher _gradePackPublisher;
         private ICarPartPublisher _carPartPublisher;
         private ICarEquipmentPublisher _carEquipmentPublisher;
+        private IPackPublisher _packPublisher;
 
         protected override void Arrange()
         {
@@ -59,10 +59,10 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             _subModelPublisher = A.Fake<ISubModelPublisher>(x => x.Strict());
             _equipmentPublisher = A.Fake<IEquipmentPublisher>(x => x.Strict());
             _specificationsPublisher = A.Fake<ISpecificationsPublisher>(x => x.Strict());
-            _gradePackPublisher = A.Fake<IGradePackPublisher>(x => x.Strict());
             _colourCombinationPublisher = A.Fake<IColourPublisher>(x => x.Strict());
             _carPartPublisher = A.Fake<ICarPartPublisher>(x => x.Strict());
             _carEquipmentPublisher = A.Fake<ICarEquipmentPublisher>(x => x.Strict());
+            _packPublisher = A.Fake<IPackPublisher>(x => x.Strict());
 
             _serialiser = A.Fake<ISerialiser>();
 
@@ -82,7 +82,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
                 .WithSubModelPublisher(_subModelPublisher)
                 .WithEquipmentPublisher(_equipmentPublisher)
                 .WithSpecificationsPublisher(_specificationsPublisher)
-                .WithGradePackPublisher(_gradePackPublisher)
+                .WithPackPublisher(_packPublisher)
                 .WithColourCombinationPublisher(_colourCombinationPublisher)
                 .WithCarPartPublisher(_carPartPublisher)
                 .Build();
@@ -152,8 +152,9 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => _equipmentPublisher.PublishCategoriesAsync(_context)).Returns(task);
             A.CallTo(() => _equipmentPublisher.PublishSubModelGradeEquipmentAsync(_context)).Returns(task);
             A.CallTo(() => _specificationsPublisher.PublishCategoriesAsync(_context)).Returns(task);
-            A.CallTo(() => _gradePackPublisher.PublishAsync(_context)).Returns(task);
-            A.CallTo(() => _gradePackPublisher.PublishSubModelGradePacksAsync(_context)).Returns(task);
+            A.CallTo(() => _packPublisher.PublishGradePacksAsync(_context)).Returns(task);
+            A.CallTo(() => _packPublisher.PublishCarPacksAsync(_context)).Returns(task);
+            A.CallTo(() => _packPublisher.PublishSubModelGradePacksAsync(_context)).Returns(task);
             A.CallTo(() => _colourCombinationPublisher.PublishGenerationColourCombinations(_context)).Returns(task);
             A.CallTo(() => _carPartPublisher.PublishCarPartsAsync(_context)).Returns(task);
             A.CallTo(() => _carEquipmentPublisher.PublishCarEquipmentAsync(_context)).Returns(task);
@@ -161,7 +162,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
 
         protected override void Act()
         {
-            _publisher.PublishAsync(_context).Wait();
+            _publisher.PublishAsync(_context, String.Empty).Wait();
         }
 
         [Fact]
@@ -245,7 +246,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldPublishTheGradePacks()
         {
-            A.CallTo(() => _gradePackPublisher.PublishAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _packPublisher.PublishGradePacksAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
@@ -270,7 +271,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         [Fact]
         public void ThenItShouldPublishSubModelGradePacks()
         {
-            A.CallTo(() => _gradePackPublisher.PublishSubModelGradePacksAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _packPublisher.PublishSubModelGradePacksAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
+        public void ThenItShouldPublishCarPacks()
+        {
+            A.CallTo(() => _packPublisher.PublishCarPacksAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
     }
 }

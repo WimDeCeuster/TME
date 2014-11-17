@@ -26,8 +26,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
 
         protected override void Arrange()
         {
-            _pack1 = new GradePackBuilder().Build();
-            _pack2 = new GradePackBuilder().Build();
+            _pack1 = new GradePackBuilder().WithID(Guid.NewGuid()).Build();
+            _pack2 = new GradePackBuilder().WithID(Guid.NewGuid()).Build();
 
             var repoGrade = new GradeBuilder()
                 .WithId(Guid.NewGuid())
@@ -70,7 +70,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
         }
 
         [Fact]
-        public void ThenItShouldNotFetchTheAssetsFromTheServiceAgain()
+        public void ThenItShouldNotFetchThePacksFromTheServiceAgain()
         {
             A.CallTo(() => _packService.GetGradePacks(A<Guid>._, A<Guid>._, A<Guid>._, A<Context>._)).MustHaveHappened(Repeated.Exactly.Once);
         }

@@ -22,6 +22,7 @@ namespace TME.CarConfigurator
         readonly IEngineFactory _engineFactory;
         readonly ICarPartFactory _carPartFactory;
         readonly IEquipmentFactory _equipmentFactory;
+        readonly IPackFactory _packFactory;
 
         IPrice _basePrice;
         IPrice _startingPrice;
@@ -33,8 +34,20 @@ namespace TME.CarConfigurator
         ISubModel _subModel;
         IReadOnlyList<ICarPart> _carParts;
         ICarEquipment _carEquipment;
+        IReadOnlyList<ICarPack> _carPacks;
 
-        public Car(Repository.Objects.Car repositoryCar, Publication repositoryPublication, Context repositoryContext, IBodyTypeFactory bodyTypeFactory, IEngineFactory engineFactory, ITransmissionFactory transmissionFactory, IWheelDriveFactory wheelDriveFactory, IGradeFactory gradeFactory, ISubModelFactory subModelFactory, ICarPartFactory carPartFactory, IEquipmentFactory equipmentFactory)
+        public Car(Repository.Objects.Car repositoryCar,
+        	Publication repositoryPublication, 
+        	Context repositoryContext, 
+        	IBodyTypeFactory bodyTypeFactory, 
+        	IEngineFactory engineFactory, 
+        	ITransmissionFactory transmissionFactory, 
+        	IWheelDriveFactory wheelDriveFactory, 
+        	IGradeFactory gradeFactory,       
+        	ISubModelFactory subModelFactory, 
+            ICarPartFactory carPartFactory,
+            IEquipmentFactory equipmentFactory,
+            IPackFactory packFactory)
             : base(repositoryCar)
         {
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
@@ -47,6 +60,7 @@ namespace TME.CarConfigurator
             if (subModelFactory == null) throw new ArgumentNullException("subModelFactory");
             if (carPartFactory == null) throw new ArgumentNullException("carPartFactory");
             if (equipmentFactory == null) throw new ArgumentNullException("equipmentFactory");
+            if (packFactory == null) throw new ArgumentNullException("packFactory");
 
             _repositoryPublication = repositoryPublication;
             _repositoryContext = repositoryContext;
@@ -58,6 +72,7 @@ namespace TME.CarConfigurator
             _subModelFactory = subModelFactory;
             _carPartFactory = carPartFactory;
             _equipmentFactory = equipmentFactory;
+            _packFactory = packFactory;
         }
 
         public int ShortID { get { return RepositoryObject.ShortID; } }
@@ -100,7 +115,7 @@ namespace TME.CarConfigurator
 
         public IReadOnlyList<ICarPack> Packs
         {
-            get { throw new NotImplementedException(); }
+            get { return _carPacks = _carPacks ?? _packFactory.GetCarPacks(_repositoryPublication, _repositoryContext, ID); }
         }
     }
 }

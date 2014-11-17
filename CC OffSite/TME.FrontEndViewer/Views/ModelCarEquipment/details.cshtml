@@ -18,6 +18,14 @@
                 <p class="property" data-id="MountingCostsOnUsedVehiclePriceExVat">MountingCostsOnUsedVehicle.PriceExVat : @Html.Raw(model.MountingCostsOnUsedVehicle.Price.PriceExVat)</p>
                 <p class="property" data-id="MountingCostsOnUsedVehiclePriceInVat">MountingCostsOnUsedVehicle.PriceInVat : @Html.Raw(model.MountingCostsOnUsedVehicle.Price.PriceInVat)</p>
                 <p class="property" data-id="MountingCostsOnUsedVehicleTime">MountingCostsOnUsedVehicle.Time : @Html.Raw(model.MountingCostsOnUsedVehicle.Time)</p>
+                <p class="property" data-id="actionlinks">
+                    @Html.ActionLink("Assets", "Index", "ModelCarEquipmentAssets", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, equipmentID = model.ID }, new { })
+                    @foreach (var visibleInModeAndView in model.VisibleIn.Where(x => x.Assets.Any()))
+                    {
+                        @Html.Raw(" | ")
+                        @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View), "Index", "ModelCarEquipmentVisibleInAssets", new {modelID = ViewBag.ModelID, carID = ViewBag.CarID, equipmentID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View}, new {})
+                    }
+                </p>
             </div>
         </div>
     }
@@ -38,19 +46,17 @@
                 <p class="property" data-id="PostProductionOption">PostProductionOption : @Html.Raw(model.PostProductionOption)</p>*@
                 @if (model.ParentOption != null)
                 {
-                    <div class="object" data-id="@(model.ID)">
-                        <div class="title">
-                            <strong>@Html.Raw(model.Name)</strong>
-                        </div>
-                        <div class="content">
-                            @Html.Partial("Equipment/_optionInfo", model.ParentOption)
-                        </div>
-                    </div>
+                    <p class="property" data-id="ParentOptionShortID">ParentOption.ShortID : @Html.Raw(model.ParentOption.ShortID)</p>
+                    <p class="property" data-id="ParentOptionName">ParentOption.Name : @Html.Raw(model.ParentOption.Name)</p>
                 }
-                else
-                {
-                    <p class="property" data-id="ParentOption">ParentOption : @Html.Raw(model.ParentOption)</p>
-                }
+                <p class="property" data-id="actionlinks">
+                    @Html.ActionLink("Assets", "Index", "ModelCarEquipmentAssets", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, equipmentID = model.ID }, new { })
+                    @foreach (var visibleInModeAndView in model.VisibleIn.Where(x => x.Assets.Any()))
+                    {
+                        @Html.Raw(" | ")
+                        @Html.ActionLink(String.Format("Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View), "Index", "ModelCarEquipmentVisibleInAssets", new {modelID = ViewBag.ModelID, carID = ViewBag.CarID, equipmentID = model.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View}, new {})
+                    }
+                </p>
             </div>
         </div>
     }

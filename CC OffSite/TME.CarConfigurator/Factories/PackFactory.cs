@@ -34,5 +34,10 @@ namespace TME.CarConfigurator.Factories
         {
             return repoPacks.Select(repoPack => new GradePack(repoPack)).ToList();
         }
+
+        public IReadOnlyList<ICarPack> GetCarPacks(Publication publication, Context context, Guid carId)
+        {
+            return _packService.GetCarPacks(publication.ID, carId, context).Select(pack => new CarPack(pack)).ToList();
+        }
     }
 }
