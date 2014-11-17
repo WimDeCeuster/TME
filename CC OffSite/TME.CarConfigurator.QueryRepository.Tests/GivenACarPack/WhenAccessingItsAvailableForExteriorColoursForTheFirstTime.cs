@@ -58,7 +58,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarPack
         }
 
         [Fact]
-        public void ThenItShouldHaveTheLabels()
+        public void ThenItShouldHaveTheItems()
         {
             _exteriorColourInfos.Count().Should().Be(2);
 
