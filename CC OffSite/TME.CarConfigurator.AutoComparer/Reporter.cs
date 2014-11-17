@@ -10,13 +10,13 @@ namespace TME.CarConfigurator.AutoComparer
 {
     class Reporter : IReporter
     {
-        private static string _dirName = "Report";
+        private const string DirName = "Report";
 
         public void WriteReport(AutoCompareResult result, string path = "")
         {
             path = path ?? "";
 
-            Directory.Delete("Report", true);
+            if (Directory.Exists(DirName)) Directory.Delete(DirName, true);
 
             var output = new StringBuilder();
 
@@ -36,7 +36,7 @@ namespace TME.CarConfigurator.AutoComparer
                 output.AppendLine();
             }
 
-            File.WriteAllText(Path.Combine(path, _dirName, "report.txt"), output.ToString());
+            File.WriteAllText(Path.Combine(path, DirName, "report.txt"), output.ToString());
         }
 
         private void WriteCountryReport(CountryCompareResult result, StringBuilder output, string path)
@@ -67,7 +67,7 @@ namespace TME.CarConfigurator.AutoComparer
                 countryOutput.AppendLine();
             }
 
-            var dir = Path.Combine(path, _dirName, result.Country);
+            var dir = Path.Combine(path, DirName, result.Country);
             File.WriteAllText(Path.Combine(dir, String.Format("report-{0}.txt", result.Country)), countryOutput.ToString());
         }
 
@@ -97,7 +97,7 @@ namespace TME.CarConfigurator.AutoComparer
                 languageOutput.AppendLine();
             }
 
-            var dir = Path.Combine(path, _dirName, country, result.Language);
+            var dir = Path.Combine(path, DirName, country, result.Language);
             File.WriteAllText(Path.Combine(dir, String.Format("report-{0}-{1}.txt", country, result.Language)), languageOutput.ToString());
         }
 
@@ -156,7 +156,7 @@ namespace TME.CarConfigurator.AutoComparer
                 modelOutput.AppendLine();
             }
 
-            var dir = Path.Combine(path, _dirName, country, language);
+            var dir = Path.Combine(path, DirName, country, language);
             Directory.CreateDirectory(dir);
             File.WriteAllText(Path.Combine(dir, String.Format("report-{0}-{1}-{2}.txt", country, language, result.ModelName)), modelOutput.ToString());
         }
