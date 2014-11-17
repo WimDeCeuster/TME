@@ -13,7 +13,7 @@ namespace TME.CarConfigurator.Assets
         protected readonly Repository.Objects.Publication RepositoryPublication;
         protected readonly Repository.Objects.Context RepositoryContext;
         protected readonly IAssetFactory AssetFactory;
-        protected IEnumerable<IAsset> FetchedAssets;
+        private IReadOnlyList<IAsset> _fetchedAssets;
 
         public VisibleInModeAndView(
             Guid objectID,
@@ -34,19 +34,29 @@ namespace TME.CarConfigurator.Assets
             AssetFactory = assetFactory;
         }
 
-
         public string Mode
         {
             get { return _repositoryVisibleInModeAndView.Mode; }
         }
+
         public string View
         {
             get { return _repositoryVisibleInModeAndView.View; }
         }
 
-        public virtual IEnumerable<IAsset> Assets
+        public bool HasMode
         {
-            get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetAssets(RepositoryPublication, ObjectID, RepositoryContext, View, Mode); }
+            get { return !String.IsNullOrWhiteSpace(Mode); }
+        }
+
+        public virtual IReadOnlyList<IAsset> Assets
+        {
+            get { return _fetchedAssets = _fetchedAssets ?? FetchAssets(); }
+        }
+
+        protected virtual IReadOnlyList<IAsset> FetchAssets()
+        {
+            return AssetFactory.GetAssets(RepositoryPublication, ObjectID, RepositoryContext, View, Mode);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Factories;
 using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Query.Tests.GivenACar;
 using TME.CarConfigurator.QueryServices;
 
 namespace TME.CarConfigurator.Query.Tests.TestBuilders
@@ -16,6 +17,11 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
         private IBodyTypeFactory _bodyTypeFactory = A.Fake<IBodyTypeFactory>();
         private IEngineFactory _engineFactory = A.Fake<IEngineFactory>();
         private ITransmissionFactory _transmissionFactory = A.Fake<ITransmissionFactory>();
+        private IWheelDriveFactory _wheelDriveFactory = A.Fake<IWheelDriveFactory>();
+        private IGradeFactory _gradeFactory = A.Fake<IGradeFactory>();
+        private ISubModelFactory _subModelFactory = A.Fake<ISubModelFactory>();
+        private ICarPartFactory _carPartFactory = A.Fake<ICarPartFactory>();
+        private IPackFactory _packFactory = A.Fake<IPackFactory>();
 
         public CarFactoryBuilder WithCarService(ICarService carService)
         {
@@ -45,9 +51,39 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
             return this;
         }
 
+        public CarFactoryBuilder WithWheelDriveFactory(IWheelDriveFactory wheelDriveFactory)
+        {
+            _wheelDriveFactory = wheelDriveFactory;
+            return this;
+        }
+
+        public CarFactoryBuilder WithGradeFactory(IGradeFactory gradeFactory)
+        {
+            _gradeFactory = gradeFactory;
+            return this;
+        }
+
+        public CarFactoryBuilder WithSubModelFactory(ISubModelFactory subModelFactory)
+        {
+            _subModelFactory = subModelFactory;
+            return this;
+        }
+
+        public CarFactoryBuilder WithCarPartFactory(ICarPartFactory carPartFactory)
+        {
+            _carPartFactory = carPartFactory;
+            return this;
+        }
+
+        public CarFactoryBuilder WithPackFactory(IPackFactory packFactory)
+        {
+            _packFactory = packFactory;
+            return this;
+        }
+
         public ICarFactory Build()
         {
-            return new CarFactory(_carService, _bodyTypeFactory, _engineFactory,_transmissionFactory);
+            return new CarFactory(_carService, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _gradeFactory, _subModelFactory, _carPartFactory,  _packFactory);
         }
     }
 }

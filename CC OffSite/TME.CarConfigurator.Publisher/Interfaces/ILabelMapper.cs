@@ -5,7 +5,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface ILabelMapper
     {
-        Label MapLabel(Administration.Translations.Label label);
-        List<Label> MapLabels(IEnumerable<Administration.Translations.Label> label);
+        IReadOnlyList<Label> MapLabels(params IEnumerable<Administration.Translations.Label>[] labelSets);
     }
 }

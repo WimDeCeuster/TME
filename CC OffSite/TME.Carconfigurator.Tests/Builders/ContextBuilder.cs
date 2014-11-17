@@ -7,6 +7,7 @@ using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
+using TME.CarConfigurator.Repository.Objects.Packs;
 
 
 namespace TME.Carconfigurator.Tests.Builders
@@ -152,6 +153,32 @@ namespace TME.Carconfigurator.Tests.Builders
             var assets = objectAssets[objectId];
 
             assets.Add(asset);
+
+            return this;
+        }
+
+        public ContextBuilder WithCarParts(string language, Guid carID, CarPart[] carParts)
+        {
+            var data = _context.ContextData[language];
+            var carCarParts = data.CarCarParts;
+
+            if (!carCarParts.ContainsKey(carID))
+                carCarParts.Add(carID, new List<CarPart>());
+
+            foreach (var carPart in carParts)
+            {
+                carCarParts[carID].Add(carPart);    
+            }
+
+            return this;
+        }
+
+        public ContextBuilder WithCarPacks(string language, Guid carId, params CarPack[] packs)
+        {
+            var data = _context.ContextData[language];
+            var carPacks = data.CarPacks;
+
+            carPacks.Add(carId, packs.ToList());
 
             return this;
         }

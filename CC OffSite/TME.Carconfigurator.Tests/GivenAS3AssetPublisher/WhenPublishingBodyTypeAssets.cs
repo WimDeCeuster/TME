@@ -39,7 +39,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
 
         protected override void Arrange()
         {
-            _publication = PublicationBuilder.Initialize().WithID(Guid.NewGuid()).Build();
+            _publication = new PublicationBuilder().WithID(Guid.NewGuid()).Build();
             _bodyTypes = new List<BodyType>{
                 new BodyTypeBuilder().WithId(Guid.NewGuid()).Build(),
                 new BodyTypeBuilder().WithId(Guid.NewGuid()).Build()

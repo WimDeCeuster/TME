@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
@@ -34,6 +35,8 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get { return Adaptee.Name; }
         }
+
+        public Guid ID { get { return Adaptee.ID; } }
 
         private IReadOnlyList<IVisibleInModeAndView> _visibleIn = null;
         public IReadOnlyList<IVisibleInModeAndView> VisibleIn

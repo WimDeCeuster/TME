@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
 using System;
@@ -22,7 +21,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenACar
 
         protected override void Arrange()
         {
-            _repoPrice = new CarConfigurator.Tests.Shared.TestBuilders.PriceBuilder()
+            _repoPrice = new PriceBuilder()
                 .WithPriceExVat(5)
                 .WithPriceExVat(10)
                 .Build();

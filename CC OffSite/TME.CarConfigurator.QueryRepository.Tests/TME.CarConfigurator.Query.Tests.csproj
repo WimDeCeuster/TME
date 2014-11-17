@@ -29,6 +29,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AWSSDK, Version=2.3.1.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -59,6 +77,9 @@
     <Compile Include="GivenABodyType\WhenAccessingIts3DAssetsASecondTime.cs" />
     <Compile Include="GivenABodyType\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenABodyType\WhenAccessingIts3DAssets.cs" />
+    <Compile Include="GivenACarCarPart\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenACarCarPart\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarCarPart\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACarEngine\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenACarEngine\WhenAccessingIts3DAssets.cs" />
     <Compile Include="GivenACarEngine\WhenAccessingIts3DAssetsASecondTime.cs" />
@@ -69,21 +90,50 @@
     <Compile Include="GivenACarBodyType\WhenAccessingIts3DAssetsASecondTime.cs" />
     <Compile Include="GivenACarBodyType\WhenAccessingItsAssets.cs" />
     <Compile Include="GivenACarBodyType\WhenAccessingItsAssetsASecondTime.cs" />
+    <Compile Include="GivenACarGrade\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarGrade\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenACarGrade\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenACarGrade\WhenAccessingItsAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarGrade\WhenAccessingItsAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsAvailableForUpholsteriesForTheFirstTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsAvailableForUpholsteriesForTheSecondTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsLabels.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsAvailableForExteriorColoursForTheFirstTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsAvailableForExteriorColoursForTheSecondTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsPriceForTheFirstTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsPriceForTheSecondTime.cs" />
+    <Compile Include="GivenACarSubModel\WhenAccessingItsAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarSubModel\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACarTransmission\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenACarTransmission\WhenAccessingIts3DAssetsForASecondTime.cs" />
     <Compile Include="GivenACarTransmission\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
     <Compile Include="GivenACarTransmission\WhenAccessingItsAssets.cs" />
     <Compile Include="GivenACarTransmission\WhenAccessingItsAssetsASecondTime.cs" />
+    <Compile Include="GivenACarWheelDrive\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenACarWheelDrive\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarWheelDrive\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenACarWheelDrive\WhenAccessingItsAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarWheelDrive\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsEngineForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBodyTypeForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsEngineForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBodyTypeForTheSecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsGradeForTheFirstTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsGradeForTheSecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsPacksForTheFirstTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsPacksForTheSecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsPartsForTheFirstTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsPartsForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsStartingPriceForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheSecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsSubModelForTheFirstTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsSubModelForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsTransmissionForTheFirstTime.cs" />
-    <Compile Include="GivenACar\WhenAccessingItsTransmissionsForTheSecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsTransmissionForTheSecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsWheelDriveForTheFirstTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsWheelDriveForTheSecondTime.cs" />
     <Compile Include="GivenAColourCombination\WhenAccessingItsUpholsteryForTheFirstTime.cs" />
     <Compile Include="GivenAColourCombination\WhenAccessingItsExteriorColourForTheFirstTime.cs" />
     <Compile Include="GivenAColourCombination\WhenAccessingItsUpholsteryForTheSecondTime.cs" />
@@ -209,6 +259,8 @@
     <Compile Include="GivenASubModelGrade\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenASubModelGrade\WhenAccessingItsEquipmentForTheFirstTime.cs" />
     <Compile Include="GivenASubModelGrade\WhenAccessingItsEquipmentForTheSecondTime.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessingItsPacksForTheFirstTime.cs" />
+    <Compile Include="GivenASubModelGrade\WhenAccessingItsPacksForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenASubModel\WhenAccessingItsGradesForTheFirstTime.cs" />
@@ -242,6 +294,7 @@
     <Compile Include="GivenModels\WhenRequestingTheListOfActiveModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
+    <Compile Include="Services\GivenACarPartService\WhenGetCarPartsIsCalled.cs" />
     <Compile Include="Services\GivenACarService\WhenGetCarsIsCalled.cs" />
     <Compile Include="Services\GivenAColourService\WhenGetColourCombinationsIsCalled.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledFor2DAssets.cs" />
@@ -262,7 +315,9 @@
     <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledForNonExistent3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledFor3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledFor3DAssets.cs" />
+    <Compile Include="Services\GivenAPackService\WhenGetCarPacksIsCalled.cs" />
     <Compile Include="Services\GivenAPackService\WhenGetGradePacksIsCalled.cs" />
+    <Compile Include="Services\GivenAPackService\WhenGetSubModelGradePacksIsCalled.cs" />
     <Compile Include="Services\GivenASpecificationsService\WhenGetSpecificationCategoriesIsCalled.cs" />
     <Compile Include="Services\GivenASteeringService\WhenGetSteeringsIsCalled.cs" />
     <Compile Include="Services\GivenASubModelService\WhenGetSubModelIsCalled.cs" />
@@ -274,6 +329,7 @@
     <Compile Include="TestBuilders\Base\ServiceBuilderBase.cs" />
     <Compile Include="TestBuilders\BodyTypeFactoryBuilder.cs" />
     <Compile Include="TestBuilders\CarFactoryBuilder.cs" />
+    <Compile Include="TestBuilders\CarPartFactoryBuilder.cs" />
     <Compile Include="TestBuilders\ConfigurationManagerBuilder.cs" />
     <Compile Include="TestBuilders\ContextBuilder.cs" />
     <Compile Include="TestBuilders\EngineCategoryBuilder.cs" />

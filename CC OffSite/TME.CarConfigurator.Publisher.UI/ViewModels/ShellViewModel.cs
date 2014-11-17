@@ -16,6 +16,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
     {
         private const string Brand = "Toyota";
         private const string Target = "S3";
+        private const string PublishedBy = "UIPublisher";
 
         private string _country = "DE";
         private Model _selectedModel;
@@ -119,16 +120,40 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
         public async Task PublishLiveAsync()
         {
-            var generationId = SelectedModel.Generations.Single(g => g.Approved).ID;
+            if(!SelectedModel.Approved)
+            {
+                PublishingDone("Model is not approved for live");
+                return;
+            }
 
-            await PublishAsync(generationId, PublicationDataSubset.Live);
+            var generation = SelectedModel.Generations.SingleOrDefault(g => g.Approved);
+
+            if (generation == null)
+            {
+                PublishingDone("No generation found");
+                return;
+            }
+
+            await PublishAsync(generation.ID, PublicationDataSubset.Live);
         }
 
         public async Task PublishPreviewAsync()
         {
-            var generationId = SelectedModel.Generations.Single(g => g.Preview).ID;
+            if (!SelectedModel.Preview)
+            {
+                PublishingDone("Model is not approved for preview");
+                return;
+            }
 
-            await PublishAsync(generationId, PublicationDataSubset.Preview);
+            var generation = SelectedModel.Generations.SingleOrDefault(g => g.Preview);
+
+            if (generation == null)
+            {
+                PublishingDone("No generation found");
+                return;
+            }
+
+            await PublishAsync(generation.ID, PublicationDataSubset.Preview);
         }
 
         private async Task PublishAsync(Guid generationId, PublicationDataSubset publicationDataSubset)
@@ -143,7 +168,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
                 StartPublishing();
 
-                await CarConfiguratorPublisher.PublishAsync(generationId, SelectedEnvironment, Target, Brand, Country, publicationDataSubset, Progress);
+                await CarConfiguratorPublisher.PublishAsync(generationId, SelectedEnvironment, Target, Brand, Country, publicationDataSubset, PublishedBy, Progress);
 
                 PublishingDone("Success!");
             }
@@ -165,8 +190,8 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
                 StartPublishing();
 
-                var modelsThatHaveApprovedGenerations = Models.Where(m => m.Approved && m.Generations.Any(g => g.Preview)).ToList();
-                var modelsInRandomOrder = modelsThatHaveApprovedGenerations.OrderBy(m => Guid.NewGuid()).ToList();
+                var modelsThatHaveAreApprovedForPreviewAndThatHaveGenerationsThatAreApprovedForPreview = Models.Where(m => m.Preview && m.Generations.Any(g => g.Preview)).ToList(); // naamgeving expres overdreven :P
+                var modelsInRandomOrder = modelsThatHaveAreApprovedForPreviewAndThatHaveGenerationsThatAreApprovedForPreview.OrderBy(m => Guid.NewGuid()).ToList();
                 var first5Models = modelsInRandomOrder.Take(5).ToList();
                 var generations = first5Models.Select(m => m.Generations.Single(g => g.Preview)).ToList();
 
@@ -176,7 +201,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
                 {
                     Messages.Add(string.Format("Publishing {0} for {1}", generation, Country));
 
-                    await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview, Progress);
+                    await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview, PublishedBy, Progress);
                 }
 
                 PublishingDone("Success!");
@@ -209,8 +234,11 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
         private void PublishingDone(string result)
         {
-            Progress.ProgressChanged -= ProgressChanged;
-            Progress = null;
+            if (Progress != null)
+            {
+                Progress.ProgressChanged -= ProgressChanged;
+                Progress = null;
+            }
 
             IsPublishing = false;
 

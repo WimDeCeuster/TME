@@ -32,6 +32,24 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FakeItEasy">
       <HintPath>..\packages\FakeItEasy.1.24.0\lib\net40\FakeItEasy.dll</HintPath>
@@ -87,10 +105,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builders\AssetTypeBuilder.cs" />
+    <Compile Include="Builders\CarPartServiceBuilder.cs" />
     <Compile Include="Builders\ColourCombinationPublisherBuilder.cs" />
     <Compile Include="Builders\SpecificationPublisherBuilder.cs" />
     <Compile Include="Builders\EquipmentPublisherBuilder.cs" />
-    <Compile Include="Builders\GradePacksPublisherBuilder.cs" />
+    <Compile Include="Builders\PackPublisherBuilder.cs" />
     <Compile Include="Builders\GradePublisherBuilder.cs" />
     <Compile Include="Builders\TransmissionPublisherBuilder.cs" />
     <Compile Include="Builders\WheelDrivePublisherBuilder.cs" />
@@ -103,6 +122,8 @@
     <Compile Include="Builders\PublisherBuilder.cs" />
     <Compile Include="Builders\TimeFrameBuilder.cs" />
     <Compile Include="Builders\SubModelPublisherBuilder.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingACarPartsKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingACarPacksKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASpecificationCategoriesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAnEquipmentCategoriesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingABodyTypesKey.cs" />
@@ -120,6 +141,7 @@
     <Compile Include="GivenAKeyManager\WhenRequestingASubModelAssetsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASubModelAssetsKeyWithoutMode.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASubModelGradeEquipmentKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingASubModelGradePacksKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASubModelGradesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASubModelsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingAWheelDrivesKey.cs" />
@@ -135,11 +157,14 @@
     <Compile Include="GivenAS3AssetPublisher\WhenPublishingSubModelAssets.cs" />
     <Compile Include="GivenAS3AssetPublisher\WhenPublishingTransmissionAssetsForAModelGeneration.cs" />
     <Compile Include="GivenAS3BodyTypePublisher\WhenPublishingGenerationBodyTypes.cs" />
+    <Compile Include="GivenAS3CarPartPublisher\WhenPublishingCarParts.cs" />
     <Compile Include="GivenAS3ColourPublisher\WhenPublishingGenerationColourCombinations.cs" />
-    <Compile Include="GivenAS3GradeEquipmentPublisher\WhenPublishingSubModelGradeEquipment.cs" />
+    <Compile Include="GivenAS3EquipmentPublisher\WhenPublishingSubModelGradeEquipment.cs" />
     <Compile Include="GivenAS3EquipmentPublisher\WhenPublishingEquipmentCategories.cs" />
     <Compile Include="GivenAS3EquipmentPublisher\WhenPublishingGradeEquipments.cs" />
-    <Compile Include="GivenAS3GradePackPublisher\WhenPublishingGradePacks.cs" />
+    <Compile Include="GivenAS3PackPublisher\WhenPublishingCarPacks.cs" />
+    <Compile Include="GivenAS3PackPublisher\WhenPublishingGradePacks.cs" />
+    <Compile Include="GivenAS3PackPublisher\WhenPublishingSubModelGradePacks.cs" />
     <Compile Include="GivenAS3GradePublisher\WhenPublishingASubModelGrade.cs" />
     <Compile Include="GivenAS3SteeringPublisher\WhenPublishingGenerationWheelDrives.cs" />
     <Compile Include="GivenAS3GradePublisher\WhenPublishingGenerationGrades.cs" />

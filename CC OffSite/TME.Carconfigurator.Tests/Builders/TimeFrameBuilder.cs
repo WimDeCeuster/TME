@@ -23,6 +23,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         private List<WheelDrive> _wheelDrives = new List<WheelDrive>();
         private List<Steering> _steerings = new List<Steering>();
         private List<Grade> _grades = new List<Grade>();
+        private readonly Dictionary<Guid,IList<CarPart>> _carCarParts = new Dictionary<Guid,IList<CarPart>>(); 
         private readonly Dictionary<Guid, GradeEquipment> _gradeEquipments = new Dictionary<Guid, GradeEquipment>();
         private readonly Dictionary<Guid, IReadOnlyList<GradePack>> _gradePacks = new Dictionary<Guid, IReadOnlyList<GradePack>>();
         private readonly Dictionary<Guid, IList<Grade>> _subModelGrades = new Dictionary<Guid, IList<Grade>>();
@@ -145,6 +146,12 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         public TimeFrameBuilder WithSpecificationCategories(params SpecificationCategory[] categories)
         {
             _specificationCategories = categories.ToList();
+            return this;
+        }
+
+        public TimeFrameBuilder WithCarParts(Car car, CarPart[] carParts)
+        {
+            _carCarParts.Add(car.ID,carParts.ToList());
             return this;
         }
 

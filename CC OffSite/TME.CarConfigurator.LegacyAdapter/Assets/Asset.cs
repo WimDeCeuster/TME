@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Interfaces.Assets;
-using Legacy = TMME.CarConfigurator;
 
-namespace TME.CarConfigurator.LegacyAdapter
+namespace TME.CarConfigurator.LegacyAdapter.Assets
 {
     public class Asset : IAsset
     {
 
                                 
         #region Dependencies (Adaptee)
-        private Legacy.Asset Adaptee
+        private TMME.CarConfigurator.Asset Adaptee
         {
             get;
             set;
@@ -21,7 +16,7 @@ namespace TME.CarConfigurator.LegacyAdapter
         #endregion
 
         #region Constructor
-        public Asset(Legacy.Asset adaptee)
+        public Asset(TMME.CarConfigurator.Asset adaptee)
         {
             Adaptee = adaptee;
         }

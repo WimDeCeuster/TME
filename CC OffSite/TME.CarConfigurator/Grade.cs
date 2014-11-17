@@ -14,20 +14,19 @@ namespace TME.CarConfigurator
 {
     public class Grade : BaseObject<Repository.Objects.Grade>, IGrade
     {
+        protected IReadOnlyList<IAsset> FetchedAssets;
+        private IGradeEquipment _fetchedEquipment;
+        private IReadOnlyList<IGradePack> _fetchedPacks;
+        protected IReadOnlyList<IVisibleInModeAndView> FetchedVisibleInModeAndViews;
+        private Price _price;
+
         protected readonly Repository.Objects.Publication RepositoryPublication;
         protected readonly Repository.Objects.Context RepositoryContext;
         protected readonly IAssetFactory AssetFactory;
         protected readonly IPackFactory PackFactory;
-        protected readonly IEquipmentFactory GradeEquipmentFactory;
-        protected IReadOnlyList<IAsset> FetchedAssets;
-        protected IGradeEquipment FetchedEquipment;
-        protected IReadOnlyList<IGradeEquipmentItem> EquipmentItems;
-        protected IReadOnlyList<IGradePack> FetchedPacks;
-        protected IReadOnlyList<IVisibleInModeAndView> FetchedVisibleInModeAndViews;
+        protected readonly IEquipmentFactory EquipmentFactory;
 
-        Price _price;
-
-        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory, IEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
+        public Grade(Repository.Objects.Grade repositoryGrade, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory, IEquipmentFactory equipmentFactory, IPackFactory packFactory)
             : base(repositoryGrade)
         {
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
@@ -38,7 +37,7 @@ namespace TME.CarConfigurator
             RepositoryPublication = repositoryPublication;
             RepositoryContext = repositoryContext;
             AssetFactory = assetFactory;
-            GradeEquipmentFactory = gradeEquipmentFactory;
+            EquipmentFactory = equipmentFactory;
             PackFactory = packFactory;
         }
 
@@ -60,21 +59,41 @@ namespace TME.CarConfigurator
         {
             get
             {
-                return FetchedVisibleInModeAndViews = FetchedVisibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
+                return FetchedVisibleInModeAndViews = FetchedVisibleInModeAndViews ?? FetchVisibleInModeAndViews();
             }
         }
 
-        public virtual IReadOnlyList<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext); } }
+        public virtual IReadOnlyList<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? FetchAssets(); } }
 
-        public virtual IGradeEquipment Equipment
+        public IGradeEquipment Equipment
         {
-            get { return FetchedEquipment = FetchedEquipment ?? GradeEquipmentFactory.GetGradeEquipment(RepositoryPublication, RepositoryContext, ID); }
+            get { return _fetchedEquipment = _fetchedEquipment ?? FetchEquipment(); }
         }
 
 
-        public virtual IReadOnlyList<IGradePack> Packs
+        public IReadOnlyList<IGradePack> Packs
         {
-            get { return FetchedPacks = FetchedPacks ?? PackFactory.GetGradePacks(RepositoryPublication, RepositoryContext, RepositoryObject.ID); }
+            get { return _fetchedPacks = _fetchedPacks ?? FetchPacks(); }
+        }
+
+        protected virtual IReadOnlyList<VisibleInModeAndView> FetchVisibleInModeAndViews()
+        {
+            return RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
+        }
+
+        protected virtual IReadOnlyList<IAsset> FetchAssets()
+        {
+            return AssetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext);
+        }
+
+        protected virtual IGradeEquipment FetchEquipment()
+        {
+            return EquipmentFactory.GetGradeEquipment(RepositoryPublication, RepositoryContext, ID);
+        }
+
+        protected virtual IReadOnlyList<IGradePack> FetchPacks()
+        {
+            return PackFactory.GetGradePacks(RepositoryPublication, RepositoryContext, RepositoryObject.ID);
         }
     }
 }

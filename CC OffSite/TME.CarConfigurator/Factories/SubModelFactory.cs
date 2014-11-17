@@ -32,5 +32,10 @@ namespace TME.CarConfigurator.Factories
                 .Select(subModel => new SubModel(subModel, publication, context, _assetFactory,_gradeFactory))
                 .ToArray();
         }
+
+        public ISubModel GetCarSubModel(Repository.Objects.SubModel subModel, Guid carID, Publication publication, Context context)
+        {
+            return subModel == null ? null : new CarSubModel(subModel,publication,carID,context,_assetFactory,_gradeFactory);
+        }
     }
 }

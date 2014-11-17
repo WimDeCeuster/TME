@@ -14,9 +14,9 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAGrade
 {
-    public class WhenAccessingItsBasedUponGradeForTheSecondTime : TestBase
+    public class WhenAccessingItsStartingPriceForTheSecondTime : TestBase
     {
-        IGrade _car;
+        IGrade _grade;
         IPrice _firstPrice;
         IPrice _secondPrice;
         Price _repoPrice;
@@ -43,21 +43,21 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGrade
 
             var context = new ContextBuilder().Build();
 
-            var carService = A.Fake<IGradeService>();
-            A.CallTo(() => carService.GetGrades(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new[] { repoGrade });
+            var gradeService = A.Fake<IGradeService>();
+            A.CallTo(() => gradeService.GetGrades(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new[] { repoGrade });
 
             var carFactory = new GradeFactoryBuilder()
-                .WithGradeService(carService)
+                .WithGradeService(gradeService)
                 .Build();
 
-            _car = carFactory.GetGrades(publication, context).Single();
+            _grade = carFactory.GetGrades(publication, context).Single();
 
-            _firstPrice = _car.StartingPrice;
+            _firstPrice = _grade.StartingPrice;
         }
 
         protected override void Act()
         {
-            _secondPrice = _car.StartingPrice;
+            _secondPrice = _grade.StartingPrice;
         }
 
         [Fact]

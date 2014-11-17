@@ -12,7 +12,7 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.GivenAGrade
 {
-    public class WhenAccessingItsStartingPriceForTheSecondTime : TestBase
+    public class WhenAccessingItsBasedUponGradeForTheSecondTime : TestBase
     {
         IGrade _grade;
         IGradeInfo _firstGrade;

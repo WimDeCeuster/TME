@@ -17,22 +17,16 @@ namespace TME.CarConfigurator.Publisher.Mappers
         private readonly IBaseMapper _baseMapper;
         private readonly IAssetMapper _assetMapper;
         private readonly ILinkMapper _linkMapper;
-        private readonly IEquipmentMapper _equipmentMapper;
-        private readonly IGradeMapper _gradeMapper;
 
-        public SubModelMapper(IBaseMapper baseMapper, IAssetMapper assetMapper, ILinkMapper linkMapper,IEquipmentMapper equipmentMapper,IGradeMapper gradeMapper)
+        public SubModelMapper(IBaseMapper baseMapper, IAssetMapper assetMapper, ILinkMapper linkMapper)
         {
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
             if (assetMapper == null) throw new ArgumentNullException("assetMapper");
             if (linkMapper == null) throw new ArgumentNullException("linkMapper");
-            if (equipmentMapper == null) throw new ArgumentNullException("equipmentMapper");
-            if (gradeMapper == null) throw new ArgumentNullException("gradeMapper");
 
             _baseMapper = baseMapper;
             _assetMapper = assetMapper;
             _linkMapper = linkMapper;
-            _equipmentMapper = equipmentMapper;
-            _gradeMapper = gradeMapper;
         }
 
         public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
@@ -54,12 +48,12 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel);
         }
         
-        private List<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+        private IList<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
         {
-            return contextData.SubModelGrades.First(entry => entry.Key == modelGenerationSubModel.ID).Value.ToList();
+            return contextData.SubModelGrades[modelGenerationSubModel.ID].ToList();
         }
 
-        private List<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)
+        private IList<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)
         {
             return modelGenerationSubModel.Links
                 .Where(link => link.IsApplicableFor(modelGenerationSubModel.Generation))
@@ -67,7 +61,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 .ToList();
         }
 
-        private List<Asset> GetMappedAssetsForSubModel(ModelGenerationSubModel modelGenerationSubModel)
+        private IList<Asset> GetMappedAssetsForSubModel(ModelGenerationSubModel modelGenerationSubModel)
         {
             return modelGenerationSubModel.AssetSet.Assets
                 .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGenerationSubModel.Generation))

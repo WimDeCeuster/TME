@@ -23,8 +23,9 @@ namespace TME.Carconfigurator.Tests.Builders
         private ISubModelPublisher _subModelPublisher = A.Fake<ISubModelPublisher>();
         private IEquipmentPublisher _equipmentPublisher = A.Fake<IEquipmentPublisher>();
         private IColourPublisher _colourCombinationPublisher = A.Fake<IColourPublisher>();
-        private IGradePackPublisher _gradePackPublisher = A.Fake<IGradePackPublisher>();
+        private IPackPublisher _packPublisher = A.Fake<IPackPublisher>();
         private ISpecificationsPublisher _specificationsPublisher = A.Fake<ISpecificationsPublisher>();
+        private ICarPartPublisher _carPartPublisher = A.Fake<ICarPartPublisher>();
 
         public PublisherBuilder WithPublicationPublisher(IPublicationPublisher publicationPublisher)
         {
@@ -36,6 +37,12 @@ namespace TME.Carconfigurator.Tests.Builders
         public PublisherBuilder WithColourCombinationPublisher(IColourPublisher colourCombinationPublisher)
         {
             _colourCombinationPublisher = colourCombinationPublisher;
+            return this;
+        }
+
+        public PublisherBuilder WithCarPartPublisher(ICarPartPublisher carPartPublisher)
+        {
+            _carPartPublisher = carPartPublisher;
             return this;
         }
 
@@ -130,6 +137,13 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
+        public PublisherBuilder WithPackPublisher(IPackPublisher packPublisher)
+        {
+            _packPublisher = packPublisher;
+
+            return this;
+        }
+
         public Publisher Build()
         {
             return new Publisher(
@@ -147,15 +161,9 @@ namespace TME.Carconfigurator.Tests.Builders
                 _subModelPublisher,
                 _equipmentPublisher,
                 _specificationsPublisher,
-                _gradePackPublisher, 
-                _colourCombinationPublisher);
-        }
-
-        public PublisherBuilder WithGradePackPublisher(IGradePackPublisher gradePackPublisher)
-        {
-            _gradePackPublisher = gradePackPublisher;
-
-            return this;
+                _packPublisher, 
+                _colourCombinationPublisher,
+                _carPartPublisher);
         }
     }
 }

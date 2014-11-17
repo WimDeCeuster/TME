@@ -9,6 +9,7 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Packs;
 using Car = TME.CarConfigurator.Administration.Car;
+using CarPack = TME.CarConfigurator.Repository.Objects.Packs.CarPack;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
@@ -48,7 +49,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedGradePack.Optional = mappedGradePack.CalculateOptional();
             mappedGradePack.Standard = mappedGradePack.CalculateStandard();
             
-             _baseMapper.MapDefaultsWithSort(mappedGradePack, generationPack);
+            _baseMapper.MapDefaultsWithSort(mappedGradePack, generationPack);
 
             mappedGradePack.LocalCode = gradePack.LocalCode; // basemapper falls back to internalcode by default, but this shouldn't happen for grade packs
 
@@ -64,6 +65,48 @@ namespace TME.CarConfigurator.Publisher.Mappers
             });
 
             return matchingCars.Select(c => _carMapper.MapCarInfo(c)).ToList();
+        }
+
+        public CarPack MapCarPack(Administration.CarPack carPack)
+        {
+            if (carPack.ShortID == null)
+                throw new CorruptDataException(String.Format("Please provide a short id for car pack {0}", carPack.ID));
+
+            var gradePack = carPack.Car.Generation.Grades[carPack.Car.GradeID].Packs[carPack.ID];
+
+            var mappedCarPack = new CarPack
+            {
+                ID = carPack.ID,
+                GradeFeature = gradePack.GradeFeature,
+                InternalCode = carPack.Code,
+                LocalCode = carPack.LocalCode,
+                Price = new Repository.Objects.Core.Price
+                {
+                    ExcludingVat = carPack.Price,
+                    IncludingVat = carPack.VatPrice
+                },
+                ShortID = carPack.ShortID.Value,
+                SortIndex = carPack.Index,
+                Optional = carPack.Availability == Availability.Optional,
+                Standard = carPack.Availability == Availability.Standard,
+                OptionalGradeFeature = gradePack.GradeFeature && carPack.Availability == Availability.Optional,
+                AvailableForExteriorColours = carPack.ExteriorColourApplicabilities.Select(x =>
+                    new Repository.Objects.Colours.ExteriorColourInfo
+                    {
+                        ID = x.ID,
+                        InternalCode = x.Code
+                    }
+                ).ToList(),
+                AvailableForUpholsteries = carPack.UpholsteryApplicabilities.Select(x =>
+                    new Repository.Objects.Colours.UpholsteryInfo
+                    {
+                        ID = x.ID,
+                        InternalCode = x.Code
+                    }
+                ).ToList()
+            };
+
+            return _baseMapper.MapTranslation(mappedCarPack, carPack.Translation, carPack.Name);
         }
     }
 }

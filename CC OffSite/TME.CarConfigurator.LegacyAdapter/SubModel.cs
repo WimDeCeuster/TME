@@ -67,7 +67,7 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return Adaptee.Grades.Cast<Legacy.Grade>().Select(x => new Grade(x)); }
         }
 
-        public IEnumerable<IAsset> Assets
+        public IReadOnlyList<IAsset> Assets
         {
             get { return Adaptee.Assets.GetPlainAssets(); }
         }

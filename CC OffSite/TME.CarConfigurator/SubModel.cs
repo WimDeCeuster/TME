@@ -5,7 +5,6 @@ using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Core;
-using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Repository.Objects;
 
@@ -13,12 +12,12 @@ namespace TME.CarConfigurator
 {
     public class SubModel : BaseObject<Repository.Objects.SubModel>, ISubModel
     {
-        private readonly Publication _repositoryPublication;
-        private readonly Context _repositoryContext;
-        private readonly IAssetFactory _assetFactory;
+        protected readonly Publication RepositoryPublication;
+        protected readonly Context RepositoryContext;
+        protected readonly IAssetFactory AssetFactory;
         private readonly IGradeFactory _gradeFactory;
 
-        private IEnumerable<IAsset> _assets;
+        protected IReadOnlyList<IAsset> FetchedAssets;
         private IEnumerable<IGrade> _grades;
         private IEnumerable<ILink> _links;
         private IPrice _startingPrice;
@@ -31,22 +30,17 @@ namespace TME.CarConfigurator
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
             if (gradeFactory == null) throw new ArgumentNullException("gradeFactory");
 
-            _repositoryPublication = repositoryPublication;
-            _repositoryContext = repositoryContext;
-            _assetFactory = assetFactory;
+            RepositoryPublication = repositoryPublication;
+            RepositoryContext = repositoryContext;
+            AssetFactory = assetFactory;
             _gradeFactory = gradeFactory;
         }
 
         public IPrice StartingPrice { get { return _startingPrice = _startingPrice ?? new Price(RepositoryObject.StartingPrice); } }
 
-        public IEnumerable<IEquipmentItem> Equipment
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public IEnumerable<IGrade> Grades { get { return _grades = _grades ?? _gradeFactory.GetSubModelGrades(RepositoryObject.ID, RepositoryPublication, RepositoryContext); } }
 
-        public IEnumerable<IGrade> Grades { get { return _grades = _grades ?? _gradeFactory.GetSubModelGrades(RepositoryObject.ID, _repositoryPublication, _repositoryContext); } }
-
-        public IEnumerable<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetAssets(_repositoryPublication,ID,_repositoryContext); } }
+        public virtual IReadOnlyList<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetAssets(RepositoryPublication,ID, RepositoryContext); } }
 
         public IEnumerable<ILink> Links { get { return _links = _links ?? RepositoryObject.Links.Select(l => new Link(l)).ToArray(); } }
 

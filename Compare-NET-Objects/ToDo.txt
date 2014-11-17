@@ -1,0 +1,16 @@
+﻿To Do
+* Attribute Caching
+* JSON File Configuration
+* Option to go on when counts are different
+* Documentation
+	- How lists and arrays are compared
+	- Comparing Different Types
+	- Ignoring Order
+	- Reports
+	- Configuration
+	- Custom Comparison
+	- Performance
+	- What can I use this thing for?
+	- Using the results
+	- The parent object
+	- Multi-threaded

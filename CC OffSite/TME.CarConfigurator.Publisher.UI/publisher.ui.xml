@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+  <object name="ShellViewModel" type="TME.CarConfigurator.Publisher.UI.ViewModels.ShellViewModel, TME.CarConfigurator.Publisher.UI" autowire="byType" />
+</objects>

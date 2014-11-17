@@ -6,9 +6,9 @@ namespace TME.CarConfigurator.S3.Shared
 {
     public class KeyManager : IKeyManager
     {
-        private const string PublicationKeyTemplate = "publication/{0}";
-        private const string PublicationTimeFrameKeyTemplate = "publication/{0}/time-frame/{1}";
-        private const string PublicationAssetsKeyTemplate = "publication/{0}/assets";
+        private const string PUBLICATION_KEY_TEMPLATE = "publication/{0}";
+        private const string PUBLICATION_TIME_FRAME_KEY_TEMPLATE = "publication/{0}/time-frame/{1}";
+        private const string PUBLICATION_ASSETS_KEY_TEMPLATE = "publication/{0}/assets";
 
         public string GetModelsKey()
         {
@@ -17,12 +17,12 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetPublicationKey(Guid publicationID)
         {
-            return string.Format(PublicationKeyTemplate, publicationID);
+            return string.Format(PUBLICATION_KEY_TEMPLATE, publicationID);
         }
 
         private static string GetTimeFrameKey(Guid publicationID, Guid timeFrameID)
         {
-            return string.Format(PublicationTimeFrameKeyTemplate, publicationID, timeFrameID);
+            return string.Format(PUBLICATION_TIME_FRAME_KEY_TEMPLATE, publicationID, timeFrameID);
         }
 
         public string GetBodyTypesKey(Guid publicationID, Guid timeFrameID)
@@ -117,7 +117,7 @@ namespace TME.CarConfigurator.S3.Shared
 
         private static string GetAssetsKeyPrefix(Guid publicationId, Guid objectId)
         {
-            var publicationAssetsKey = string.Format(PublicationAssetsKeyTemplate, publicationId);
+            var publicationAssetsKey = string.Format(PUBLICATION_ASSETS_KEY_TEMPLATE, publicationId);
 
             return string.Format("{0}/{1}", publicationAssetsKey, objectId);
         }
@@ -166,6 +166,16 @@ namespace TME.CarConfigurator.S3.Shared
         public string GetSubModelAssetsKey(Guid publicationID, Guid subModelID, Guid objectID, string view, string mode)
         {
             return GetAssetsKeyWithViewAndMode(GetPublicationAssetsKey(publicationID, subModelID, "submodel", objectID), view, mode);
+        }
+
+        public string GetCarCarPartsKey(Guid publicationID, Guid carID)
+        {
+            return String.Format("{0}/car/{1}/carparts", GetPublicationKey(publicationID), carID);
+        }
+
+        public string GetCarPacksKey(Guid publicationID, Guid carID)
+        {
+            return String.Format("{0}/car/{1}/packs", GetPublicationKey(publicationID), carID);
         }
 
         private static string GetAssetsKeyWithViewAndMode(string assetsKey, string view, string mode)

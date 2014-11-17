@@ -2,6 +2,7 @@
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Packs;
+using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.Interfaces
 {

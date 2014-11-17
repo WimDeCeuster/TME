@@ -67,7 +67,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
                 new AssetBuilder().WithId(Guid.NewGuid()).WithAssetType(new AssetTypeBuilder().WithMode(MODE).WithView(VIEW).Build()).Build()
             };
 
-            _publication = PublicationBuilder.Initialize().WithID(Guid.NewGuid()).Build();
+            _publication = new PublicationBuilder().WithID(Guid.NewGuid()).Build();
 
             _context =
                 new ContextBuilder()

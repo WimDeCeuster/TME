@@ -32,7 +32,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAPublicationService
             const string s3Key = "fake s3 key";
             const string serializedObject = "this object is serialized";
 
-            _expectedPublication = PublicationBuilder.Initialize()
+            _expectedPublication = new PublicationBuilder()
                 .WithID(Guid.NewGuid())
                 .Build();
 

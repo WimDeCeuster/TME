@@ -36,7 +36,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                                    .Select(link => _linkMapper.MapLink(link, isPreview))
                                    .ToList(),
                 SortIndex = model.Index,
-                SSN = generation.FactoryGenerations.First().SSN                
+                SSN = generation.FactoryGenerations.OrderByDescending(e => e.ToDate).First().SSN                
             };
 
             return _baseMapper.MapDefaults(mappedGeneration, generation);

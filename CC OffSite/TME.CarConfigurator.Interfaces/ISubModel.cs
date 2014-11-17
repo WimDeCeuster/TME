@@ -8,10 +8,9 @@ namespace TME.CarConfigurator.Interfaces
     public interface ISubModel : IBaseObject
     {
         IPrice StartingPrice { get; }
-        IEnumerable<IEquipmentItem> Equipment { get; }
         IEnumerable<IGrade> Grades { get; }
 
-        IEnumerable<IAsset> Assets { get; }
+        IReadOnlyList<IAsset> Assets { get; }
         IEnumerable<ILink> Links { get; }
     }
 }

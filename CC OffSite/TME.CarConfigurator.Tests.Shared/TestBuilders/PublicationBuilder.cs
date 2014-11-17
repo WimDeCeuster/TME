@@ -16,11 +16,6 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             };
         }
 
-        public static PublicationBuilder Initialize()
-        {
-            return new PublicationBuilder();
-        }
-
         public PublicationBuilder WithGeneration(Generation generation)
         {
             _publication.Generation = generation;

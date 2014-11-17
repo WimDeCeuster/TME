@@ -29,5 +29,10 @@ namespace TME.CarConfigurator.Factories
                                  .Select(wheelDrive => new WheelDrive(wheelDrive, publication, context, _assetFactory))
                                  .ToArray();
         }
+
+        public IWheelDrive GetCarWheelDrive(Repository.Objects.WheelDrive repoWheelDrive, Guid carID, Publication publication, Context context)
+        {
+            return new CarWheelDrive(repoWheelDrive,publication,carID,context,_assetFactory);
+        }
     }
 }

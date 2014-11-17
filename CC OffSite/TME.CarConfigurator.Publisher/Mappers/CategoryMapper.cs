@@ -13,7 +13,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class CategoryMapper : ICategoryMapper
     {
-        IBaseMapper _baseMapper;
+        readonly IBaseMapper _baseMapper;
 
         public CategoryMapper(IBaseMapper baseMapper)
         {
@@ -75,7 +75,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         /// Get the flattened index
         /// </summary>
         static Int32 GetSortIndex<T>(T category, Func<T, T> getParent, Func<T, IReadOnlyList<T>> getDescendants)
-            where T : Administration.BaseObjects.ISortedIndex
+            where T : class, Administration.BaseObjects.ISortedIndex
         {
             var siblingDescendantCount = GetPreviousSiblings(category, getParent(category), getDescendants).Sum(sibling => GetDescendantCount(sibling, getDescendants));
 
@@ -86,12 +86,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
         }
 
         static IEnumerable<T> GetPreviousSiblings<T>(T category, T parent, Func<T, IReadOnlyList<T>> getDescendants)
-            where T : Administration.BaseObjects.ISortedIndex
+            where T : class, Administration.BaseObjects.ISortedIndex 
         {
-            if (parent == null)
-                return new List<T>();
-            else
-                return getDescendants(parent).Where(sibling => sibling.Index < category.Index);
+            return parent == null ? new List<T>() : getDescendants(parent).Where(sibling => sibling.Index < category.Index);
         }
 
         static Int32 GetDescendantCount<T>(T category, Func<T, IReadOnlyList<T>> getDescendants)

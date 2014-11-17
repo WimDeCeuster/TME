@@ -78,6 +78,12 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public CarBuilder WithWheelDrive(WheelDrive wheelDrive)
+        {
+            _car.WheelDrive = wheelDrive;
+            return this;
+        }
+
         public Car Build()
         {
             return _car;

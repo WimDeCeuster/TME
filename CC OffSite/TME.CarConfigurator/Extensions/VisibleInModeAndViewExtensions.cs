@@ -8,11 +8,11 @@ namespace TME.CarConfigurator.Extensions
     {
         public static bool VisibleInExteriorSpin(this IEnumerable<IVisibleInModeAndView> visibeVisibleInModeAndViews)
         {
-            return visibeVisibleInModeAndViews.Any(x=> (x.Mode == "DAY" || x.Mode.Length==0) && x.View == "EXT");
+            return visibeVisibleInModeAndViews.Any(x=> (x.Mode == "DAY" || !x.HasMode) && x.View == "EXT");
         }
         public static bool VisibleInInteriorSpin(this IEnumerable<IVisibleInModeAndView> visibeVisibleInModeAndViews)
         {
-            return visibeVisibleInModeAndViews.Any(x => x.Mode == "DAY" && x.View == "INT");
+            return visibeVisibleInModeAndViews.Any(x => (x.Mode == "DAY" || !x.HasMode) && x.View == "INT");
         }
         public static bool VisibleInXRay4X4Spin(this IEnumerable<IVisibleInModeAndView> visibeVisibleInModeAndViews)
         {

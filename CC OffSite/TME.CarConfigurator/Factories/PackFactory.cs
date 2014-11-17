@@ -22,16 +22,22 @@ namespace TME.CarConfigurator.Factories
 
         public IReadOnlyList<IGradePack> GetGradePacks(Publication publication, Context context, Guid gradeId)
         {
-            return _packService.GetGradePacks(publication.ID, publication.GetCurrentTimeFrame().ID, gradeId, context)
-                .Select(repoPack => new GradePack(repoPack))
-                .ToList();
+            return TransformIntoGradePacks(_packService.GetGradePacks(publication.ID, publication.GetCurrentTimeFrame().ID, gradeId, context));
         }
 
         public IReadOnlyList<IGradePack> GetSubModelGradePacks(Publication publication, Context context, Guid subModelId, Guid gradeId)
         {
-            return _packService.GetSubModelGradePacks(publication.ID, publication.GetCurrentTimeFrame().ID, gradeId, subModelId, context)
-                .Select(repoPack => new GradePack(repoPack))
-                .ToList();
+            return TransformIntoGradePacks(_packService.GetSubModelGradePacks(publication.ID, publication.GetCurrentTimeFrame().ID, gradeId, subModelId, context));
+        }
+
+        private static IReadOnlyList<IGradePack> TransformIntoGradePacks(IEnumerable<Repository.Objects.Packs.GradePack> repoPacks)
+        {
+            return repoPacks.Select(repoPack => new GradePack(repoPack)).ToList();
+        }
+
+        public IReadOnlyList<ICarPack> GetCarPacks(Publication publication, Context context, Guid carId)
+        {
+            return _packService.GetCarPacks(publication.ID, carId, context).Select(pack => new CarPack(pack)).ToList();
         }
     }
 }

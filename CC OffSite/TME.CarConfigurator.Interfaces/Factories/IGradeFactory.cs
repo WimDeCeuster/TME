@@ -9,6 +9,7 @@ namespace TME.CarConfigurator.Interfaces.Factories
         // ReSharper disable ReturnTypeCanBeEnumerable.Global
         IReadOnlyList<IGrade> GetGrades(Publication publication, Context context);
         IReadOnlyList<IGrade> GetSubModelGrades(Guid subModelID,Publication publication,Context context);
+        IGrade GetCarGrade(Grade repoGrade, Guid carID, Publication publication, Context context);
         // ReSharper restore ReturnTypeCanBeEnumerable.Global
     }
 }
