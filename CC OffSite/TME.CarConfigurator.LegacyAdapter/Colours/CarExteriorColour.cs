@@ -13,12 +13,18 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
             get;
             set;
         }
+        private bool ForCar
+        {
+            get;
+            set;
+        }
         #endregion
 
         #region Constructor
-        public CarExteriorColour(TMME.CarConfigurator.CarExteriorColour adaptee) : base(adaptee)
+        public CarExteriorColour(TMME.CarConfigurator.CarExteriorColour adaptee, bool forCar) : base(adaptee)
         {
             Adaptee = adaptee;
+            ForCar = forCar;
         }
 
 
@@ -29,9 +35,18 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
             get { return Adaptee.IsPromoted; }
         }
 
+        private ColourTransformation _transformation = null;
         public IColourTransformation Transformation
         {
-            get { return new ColourTransformation(Adaptee.Transformation);}
+            get
+            {
+                if (_transformation == null)
+                {
+                    _transformation = new ColourTransformation(Adaptee.Transformation);
+                }
+
+                return _transformation.IsEmpty() ? null : _transformation;
+            }
         }
 
         public IExteriorColourType Type
@@ -42,7 +57,16 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
         private IReadOnlyList<IVisibleInModeAndView> _visibleIn = null;
         public IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
-            get { return _visibleIn ?? (_visibleIn = Adaptee.Assets.GetVisibleInModeAndViews()); }
+            get
+            {
+                if (_visibleIn != null) return _visibleIn;
+
+                _visibleIn = ForCar
+                    ? Adaptee.Assets.GetVisibleInModeAndViews()
+                    : Adaptee.Assets.GetVisibleInModeAndViewsWithoutAssets();
+
+                return _visibleIn;
+            }
         }
 
         private IReadOnlyList<IAsset> _assets = null;

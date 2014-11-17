@@ -118,7 +118,7 @@ namespace TME.CarConfigurator.LegacyAdapter
                               .Cast<Legacy.Car>()
                               .SelectMany(car => car.Colours.Cast<Legacy.CarColourCombination>())
                               .GroupBy(colourCombination => Tuple.Create(colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID))
-                              .Select(group => new Colours.ColourCombination(group.First()))
+                              .Select(group => new Colours.ColourCombination(group.First(), false))
                               .OrderBy(combination => combination.ExteriorColour.Type.SortIndex)
                               .ThenBy(combination => combination.ExteriorColour.SortIndex)
                               .ThenBy(combination => combination.Upholstery.Type.SortIndex)
