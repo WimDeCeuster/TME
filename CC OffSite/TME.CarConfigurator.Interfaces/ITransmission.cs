@@ -13,7 +13,7 @@ namespace TME.CarConfigurator.Interfaces
         bool Brochure { get; }
         int NumberOfGears { get; }
 
-        IEnumerable<IVisibleInModeAndView> VisibleIn { get; }
-        IEnumerable<IAsset> Assets { get; }
+        IReadOnlyList<IVisibleInModeAndView> VisibleIn { get; }
+        IReadOnlyList<IAsset> Assets { get; }
     }            
 }

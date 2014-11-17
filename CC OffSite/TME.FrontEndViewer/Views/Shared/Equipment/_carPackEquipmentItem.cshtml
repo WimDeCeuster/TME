@@ -1,0 +1,23 @@
+﻿@model TME.CarConfigurator.Interfaces.Packs.ICarPackEquipmentItem
+@Html.Partial("Equipment/_equipmentItem", Model)
+<p class="property" data-id="TotalPricePriceExVat">Price.PriceExVat : @Html.Raw(Model.Price.PriceExVat)</p>
+<p class="property" data-id="TotalPricePriceInVat">Price.PriceInVat : @Html.Raw(Model.Price.PriceInVat)</p>
+<p class="property" data-id="Standard">Standard : @Html.Raw(Model.Standard)</p>
+<p class="property" data-id="Optional">Optional : @Html.Raw(Model.Optional)</p>
+<p class="property" data-id="ColouringModes">ColouringModes : @Html.Raw(Model.ColouringModes)</p>
+<p class="property" data-id="AvailableForExteriorColours">
+    AvailableForExteriorColours : 
+    @if (Model.AvailableForExteriorColours != null)
+    {
+        var list = Model.AvailableForExteriorColours.Select(x => x.InternalCode).OrderBy(x => x);
+        Html.Raw(String.Join(",", list));
+    }
+</p>
+<p class="property" data-id="AvailableForUpholsteries">
+    AvailableForUpholsteries : 
+    @if (Model.AvailableForUpholsteries != null)
+    {
+        var list = Model.AvailableForUpholsteries.Select(x => x.InternalCode).OrderBy(x => x);
+        Html.Raw(String.Join(",", list));
+    }
+</p>

@@ -16,8 +16,8 @@ namespace TME.CarConfigurator
         protected readonly Repository.Objects.Publication RepositoryPublication;
         protected readonly Repository.Objects.Context RepositoryContext;
         protected readonly IAssetFactory AssetFactory;
-        protected IEnumerable<IAsset> FetchedAssets;
-        protected IEnumerable<IVisibleInModeAndView> FetchedVisibleInModeAndViews;
+        protected IReadOnlyList<IAsset> FetchedAssets;
+        protected IReadOnlyList<IVisibleInModeAndView> FetchedVisibleInModeAndViews;
 
         public BodyType(Repository.Objects.BodyType repositoryBodyType, Repository.Objects.Publication publication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory)
             : base(repositoryBodyType)
@@ -34,7 +34,7 @@ namespace TME.CarConfigurator
         public int NumberOfDoors { get { return RepositoryObject.NumberOfDoors; } }
         public int NumberOfSeats { get { return RepositoryObject.NumberOfSeats; } }
 
-        public virtual IEnumerable<IVisibleInModeAndView> VisibleIn
+        public virtual IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
             get
             {
@@ -44,7 +44,7 @@ namespace TME.CarConfigurator
             }
         }
 
-        public virtual IEnumerable<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext); } }
+        public virtual IReadOnlyList<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext); } }
 
         [Obsolete("Use the new VisibleIn property instead")]
         public bool VisibleInExteriorSpin { get { return VisibleIn.VisibleInExteriorSpin(); } }

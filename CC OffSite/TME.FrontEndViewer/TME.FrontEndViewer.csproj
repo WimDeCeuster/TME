@@ -160,6 +160,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ModelCarPackAssetsController.cs" />
+    <Compile Include="Controllers\ModelCarPackEquipmentController.cs" />
     <Compile Include="Controllers\ModelCarPacksController.cs" />
     <Compile Include="Controllers\ModelSubModelAssetsController.cs" />
     <Compile Include="Controllers\ModelUpholsteryVisibleInAssetsController.cs" />
@@ -362,6 +363,9 @@
     <Content Include="Views\Shared\Equipment\_exteriorColour.cshtml" />
     <Content Include="Views\ModelCarPacks\details.cshtml" />
     <Content Include="Views\ModelCarPacks\Index.cshtml" />
+    <Content Include="Views\ModelCarPackEquipment\details.cshtml" />
+    <Content Include="Views\ModelCarPackEquipment\Index.cshtml" />
+    <Content Include="Views\Shared\Equipment\_carPackEquipmentItem.cshtml" />
     <Content Include="Views\Shared\_grade.cshtml" />
     <Content Include="Views\Shared\_subModel.cshtml" />
   </ItemGroup>

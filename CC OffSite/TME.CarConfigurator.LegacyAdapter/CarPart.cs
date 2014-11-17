@@ -38,9 +38,11 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public Guid ID { get { return Adaptee.ID; } }
 
+        private IReadOnlyList<IVisibleInModeAndView> _visibleIn = null;
         public IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
-            get { return Adaptee.Assets.GetVisibleInModeAndViews(); }
+            get { return _visibleIn ?? (_visibleIn = Adaptee.Assets.GetVisibleInModeAndViews()); }
         }
+
     }
 }

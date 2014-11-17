@@ -10,8 +10,8 @@ namespace TME.CarConfigurator.Interfaces
         Boolean KeyFeature { get; }
         Boolean Brochure { get; }
 
-        IEnumerable<IVisibleInModeAndView> VisibleIn { get; }
-        IEnumerable<IAsset> Assets { get; }
+        IReadOnlyList<IVisibleInModeAndView> VisibleIn { get; }
+        IReadOnlyList<IAsset> Assets { get; }
 
         [Obsolete]
         bool VisibleInExteriorSpin { get; }
