@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TME.CarConfigurator.AutoComparer.Extensions;
-using TME.CarConfigurator.DI;
-using TME.CarConfigurator.Publisher.Common.Enums;
-using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.S3.QueryServices.Exceptions;
-using TMME.CarConfigurator;
-using TMME.CarConfigurator.Exceptions;
 
 namespace TME.CarConfigurator.AutoComparer
 {

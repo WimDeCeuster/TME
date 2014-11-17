@@ -62,6 +62,8 @@ namespace TME.CarConfigurator.Comparer
                 //model => model.WheelDrives
             );
 
+            config.MembersToIgnore.Add("Assets");
+
             config.PathsToIgnore = new List<String>
             { 
                 ".Grades[].Equipment.Accessories[].ExteriorColour.SortIndex",

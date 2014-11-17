@@ -20,7 +20,6 @@ namespace TME.CarConfigurator.AutoComparer
 
             Administration.MyContext.SetSystemContext(brand, "ZZ", "EN");
             var countryCodes = Administration.MyContext.GetContext().Countries
-                                                                    .Cast<Administration.Country>()
                                                                     .Select(country => country.Code)
                                                                     .ToList();
 
@@ -88,7 +87,7 @@ namespace TME.CarConfigurator.AutoComparer
 
             var presentModelIds = newModelIds.Intersect(oldModelIds).ToList();
 
-            var results = presentModelIds.Take(1).AsParallel().Select(modelId =>
+            var results = presentModelIds.AsParallel().Select(modelId =>
             {
                 try
                 {
