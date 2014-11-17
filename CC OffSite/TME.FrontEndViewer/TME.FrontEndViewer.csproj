@@ -159,6 +159,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ModelCarEquipmentAssetsController.cs" />
+    <Compile Include="Controllers\ModelCarEquipmentVisibleInAssetsController.cs" />
     <Compile Include="Controllers\ModelCarPackAssetsController.cs" />
     <Compile Include="Controllers\ModelCarPackEquipmentController.cs" />
     <Compile Include="Controllers\ModelCarPacksController.cs" />
