@@ -63,13 +63,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarPack
         }
 
         [Fact]
-        public void ThenItShouldNotRecalculateTheLabels()
+        public void ThenItShouldNotRecalculateTheItems()
         {
             _secondExteriorColourInfos.Should().BeSameAs(_firstExteriorColourInfos);
         }
 
         [Fact]
-        public void ThenItShouldHaveTheLabels()
+        public void ThenItShouldHaveTheItems()
         {
             _secondExteriorColourInfos.Count().Should().Be(2);
 

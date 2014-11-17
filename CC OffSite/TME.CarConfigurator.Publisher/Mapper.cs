@@ -301,7 +301,7 @@ namespace TME.CarConfigurator.Publisher
                                   .ExteriorColours()
                                   .ToDictionary(
                                     colour => colour.ID,
-                                    colour => colour.AssetSet.Assets.GetGenerationAssets()
+                                    colour => colour.AssetSet.Assets.GetExteriorColourAssets()
                                         .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 

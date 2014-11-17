@@ -63,13 +63,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarPack
         }
 
         [Fact]
-        public void ThenItShouldNotRecalculateTheLabels()
+        public void ThenItShouldNotRecalculateTheItems()
         {
             _secondUpholsteryInfos.Should().BeSameAs(_firstUpholsteryInfos);
         }
 
         [Fact]
-        public void ThenItShouldHaveTheLabels()
+        public void ThenItShouldHaveTheItems()
         {
             _secondUpholsteryInfos.Count().Should().Be(2);
 
