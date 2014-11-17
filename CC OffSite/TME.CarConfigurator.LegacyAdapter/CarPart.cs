@@ -35,9 +35,11 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return Adaptee.Name; }
         }
 
+        private IReadOnlyList<IVisibleInModeAndView> _visibleIn = null;
         public IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
-            get { return Adaptee.Assets.GetVisibleInModeAndViews(); }
+            get { return _visibleIn ?? (_visibleIn = Adaptee.Assets.GetVisibleInModeAndViews()); }
         }
+
     }
 }

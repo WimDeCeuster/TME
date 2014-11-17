@@ -62,7 +62,11 @@ namespace TME.CarConfigurator
 
         public IReadOnlyList<ICarPart> Parts
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return new List<ICarPart>();
+                //TODO: NotImplemented
+            }
         }
 
         public ICarEquipment Equipment
@@ -72,7 +76,11 @@ namespace TME.CarConfigurator
 
         public IReadOnlyList<ICarPack> Packs
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return new List<ICarPack>();
+                //TODO: NotImplemented
+            }
         }
     }
 }

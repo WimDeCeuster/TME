@@ -47,14 +47,16 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
             get { return Adaptee.SortIndex; }
         }
 
+        private IReadOnlyList<IVisibleInModeAndView> _visibleIn = null;
         public IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
-            get { return Adaptee.Assets.GetVisibleInModeAndViews().ToList(); }
+            get { return _visibleIn ?? (_visibleIn = Adaptee.Assets.GetVisibleInModeAndViews()); }
         }
 
+        private IReadOnlyList<IAsset> _assets = null;
         public IReadOnlyList<IAsset> Assets
         {
-            get { return Adaptee.Assets.GetPlainAssets().ToList(); }
+            get { return _assets ?? (_assets = Adaptee.Assets.GetPlainAssets()); }
         }
     }
 }

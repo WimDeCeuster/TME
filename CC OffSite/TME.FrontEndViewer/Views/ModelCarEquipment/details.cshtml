@@ -38,18 +38,8 @@
                 <p class="property" data-id="PostProductionOption">PostProductionOption : @Html.Raw(model.PostProductionOption)</p>*@
                 @if (model.ParentOption != null)
                 {
-                    <div class="object" data-id="@(model.ID)">
-                        <div class="title">
-                            <strong>@Html.Raw(model.Name)</strong>
-                        </div>
-                        <div class="content">
-                            @Html.Partial("Equipment/_optionInfo", model.ParentOption)
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <p class="property" data-id="ParentOption">ParentOption : @Html.Raw(model.ParentOption)</p>
+                    <p class="property" data-id="ParentOptionShortID">ParentOption.ShortID : @Html.Raw(model.ParentOption.ShortID)</p>
+                    <p class="property" data-id="ParentOptionName">ParentOption.Name : @Html.Raw(model.ParentOption.Name)</p>
                 }
             </div>
         </div>
