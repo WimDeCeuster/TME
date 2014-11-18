@@ -17,8 +17,8 @@ namespace TME.CarConfigurator
         protected readonly Context RepositoryContext;
         protected readonly IAssetFactory AssetFactory;
 
-        protected IReadOnlyList<IAsset> FetchedAssets;
-        protected IReadOnlyList<IVisibleInModeAndView> FetchedVisibleInModeAndViews;
+        private IReadOnlyList<IAsset> _fetchedAssets;
+        private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
 
         private ITransmissionType _type;
 
@@ -39,15 +39,25 @@ namespace TME.CarConfigurator
         public Boolean Brochure { get { return RepositoryObject.Brochure; } }
         public Int32 NumberOfGears { get { return RepositoryObject.NumberOfGears; } }
 
-        public virtual IReadOnlyList<IVisibleInModeAndView> VisibleIn
+        public IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
             get
             {
-                return FetchedVisibleInModeAndViews = FetchedVisibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
+                return _fetchedVisibleInModeAndViews = _fetchedVisibleInModeAndViews ?? FetchVisibleInModeAndViews();
             }
         }
 
-        public virtual IReadOnlyList<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext); } }
+        public IReadOnlyList<IAsset> Assets { get { return _fetchedAssets = _fetchedAssets ?? FetchAssets(); } }
+
+        protected  virtual IReadOnlyList<VisibleInModeAndView> FetchVisibleInModeAndViews()
+        {
+            return RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
+        }
+
+        protected virtual IReadOnlyList<IAsset> FetchAssets()
+        {
+            return AssetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext);
+        }
 
         [Obsolete("Use the new VisibleIn property instead")]
         public bool VisibleInExteriorSpin { get { return VisibleIn.VisibleInExteriorSpin(); } }
