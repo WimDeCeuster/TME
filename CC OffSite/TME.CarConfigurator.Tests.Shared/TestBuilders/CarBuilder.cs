@@ -84,6 +84,12 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public CarBuilder WithSteering(Steering steering)
+        {
+            _car.Steering = steering;
+            return this;
+        }
+
         public Car Build()
         {
             return _car;

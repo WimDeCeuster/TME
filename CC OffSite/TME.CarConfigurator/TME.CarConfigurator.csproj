@@ -72,6 +72,7 @@
     <Compile Include="CarGrade.cs" />
     <Compile Include="CarInfo.cs" />
     <Compile Include="CarPart.cs" />
+    <Compile Include="CarSteering.cs" />
     <Compile Include="CarSubModel.cs" />
     <Compile Include="CarTransmission.cs" />
     <Compile Include="CarWheelDrive.cs" />

@@ -13,7 +13,7 @@ namespace TME.CarConfigurator.Publisher.Interfaces
     {
         GradeAccessory MapGradeAccessory(ModelGenerationGradeAccessory generationGradeAccessory, Administration.EquipmentItem crossModelAccessory, EquipmentCategories categories, IReadOnlyList<Car> cars, Boolean isPreview);
         GradeOption MapGradeOption(ModelGenerationGradeOption generationGradeOption, Administration.EquipmentItem crossModelOption, EquipmentCategories categories, IReadOnlyList<Car> cars, Boolean isPreview);
-        CarAccessory MapCarAccessory(Administration.CarAccessory generationCarAccessory, EquipmentItem crossModelEquipmentItem, EquipmentCategories categories, bool isPreview);
-        CarOption MapCarOption(Administration.CarOption generationCarOption, EquipmentItem crossModelEquipmentItem, EquipmentCategories categories, Boolean isPreview);
+        CarAccessory MapCarAccessory(Administration.CarAccessory generationCarAccessory, EquipmentItem crossModelEquipmentItem, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars);
+        CarOption MapCarOption(Administration.CarOption generationCarOption, EquipmentItem crossModelEquipmentItem, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars);
     }
 }

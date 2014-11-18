@@ -1,13 +1,16 @@
-﻿using TME.CarConfigurator.Core;
+﻿using System;
+using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.Equipment
 {
     public class CarAccessory : CarEquipmentItem<Repository.Objects.Equipment.CarAccessory>, ICarAccessory
     {
-        public CarAccessory(Repository.Objects.Equipment.CarAccessory repositoryObject)
-            : base(repositoryObject)
+        public CarAccessory(Repository.Objects.Equipment.CarAccessory repositoryObject, Guid carID, Publication publication, Context context, IAssetFactory assetFactory)
+            : base(repositoryObject, publication, carID, context, assetFactory)
         {
         }
 

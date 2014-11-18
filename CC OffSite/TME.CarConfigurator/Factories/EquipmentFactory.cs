@@ -25,14 +25,17 @@ namespace TME.CarConfigurator.Factories
     {
         private readonly IEquipmentService _equipmentService;
         private readonly IColourFactory _colourFactory;
+        private readonly IAssetFactory _assetFactory;
 
-        public EquipmentFactory(IEquipmentService equipmentService, IColourFactory colourFactory)
+        public EquipmentFactory(IEquipmentService equipmentService, IColourFactory colourFactory, IAssetFactory assetFactory)
         {
             if (equipmentService == null) throw new ArgumentNullException("equipmentService");
             if (colourFactory == null) throw new ArgumentNullException("colourFactory");
+            if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
             _equipmentService = equipmentService;
             _colourFactory = colourFactory;
+            _assetFactory = assetFactory;
         }
 
         public IGradeEquipment GetSubModelGradeEquipment(Publication publication, Guid subModelID, Context context,
@@ -50,11 +53,11 @@ namespace TME.CarConfigurator.Factories
         {
             var carEquipment = _equipmentService.GetCarEquipment(carID, publication.ID, context);
             return new CarEquipment(
-                carEquipment.Accessories.Select(accessory => GetCarAccessory(accessory)),
-                carEquipment.Options.Select(option => GetCarOption(option,carEquipment.Options)));
+                carEquipment.Accessories.Select(accessory => GetCarAccessory(accessory, carID, publication, context)),
+                carEquipment.Options.Select(option => GetCarOption(carID, publication, context, option,carEquipment.Options)));
         }
 
-        ICarOption GetCarOption(CarOption option, IEnumerable<CarOption> repoCarOptions)
+        ICarOption GetCarOption(Guid carID, Publication publication, Context context, CarOption option, IEnumerable<CarOption> repoCarOptions)
         {
            var parentGradeOption = option.ParentOptionShortID == 0
                 ? null
@@ -62,7 +65,7 @@ namespace TME.CarConfigurator.Factories
 
            var parentOptionInfo = parentGradeOption == null ? null : new OptionInfo(parentGradeOption.ShortID, parentGradeOption.Name);
 
-            return new Equipment.CarOption(option,parentOptionInfo);
+            return new Equipment.CarOption(option, parentOptionInfo, carID, publication, context, _assetFactory);
         }
 
         public IGradeEquipment GetGradeEquipment(Publication publication, Context context, Guid gradeId)
@@ -74,9 +77,9 @@ namespace TME.CarConfigurator.Factories
                 gradeEquipment.Options.Select(option => GetGradeOption(option, gradeEquipment.Options, publication, context)));
         }
 
-        ICarAccessory GetCarAccessory(CarAccessory accessory)
+        ICarAccessory GetCarAccessory(CarAccessory accessory, Guid carID, Publication publication, Context context)
         {
-            return new Equipment.CarAccessory(accessory);
+            return new Equipment.CarAccessory(accessory, carID, publication, context, _assetFactory);
         }
 
         IGradeAccessory GetGradeAccessory(RepoGradeAccessory accessory, Publication publication, Context context)

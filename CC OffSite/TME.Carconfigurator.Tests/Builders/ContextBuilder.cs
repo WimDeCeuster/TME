@@ -169,7 +169,7 @@ namespace TME.Carconfigurator.Tests.Builders
         public ContextBuilder WithCarParts(string language, Guid carID, CarPart[] carParts)
         {
             var data = _context.ContextData[language];
-            var carCarParts = data.CarCarParts;
+            var carCarParts = data.CarParts;
 
             if (!carCarParts.ContainsKey(carID))
                 carCarParts.Add(carID, new List<CarPart>());

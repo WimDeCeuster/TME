@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TME.CarConfigurator.Equipment;
 using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Factories;
@@ -25,6 +26,11 @@ namespace TME.CarConfigurator.Factories
             return _steeringService.GetSteerings(publication.ID, publication.GetCurrentTimeFrame().ID, context)
                                  .Select(steering => new Steering(steering))
                                  .ToArray();
+        }
+
+        public ISteering GetCarSteering(Repository.Objects.Steering steering, Guid carID, Publication publication, Context context)
+        {
+            return new CarSteering(steering, carID, publication, context);
         }
     }
 }

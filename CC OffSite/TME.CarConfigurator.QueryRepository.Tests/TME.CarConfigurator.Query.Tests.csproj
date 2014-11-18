@@ -130,6 +130,8 @@
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsStartingPriceForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBasePriceForTheSecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsSteeringForTheFirstTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsSteeringForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsSubModelForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsSubModelForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsTransmissionForTheFirstTime.cs" />
@@ -397,7 +399,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="GivenACarOption\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

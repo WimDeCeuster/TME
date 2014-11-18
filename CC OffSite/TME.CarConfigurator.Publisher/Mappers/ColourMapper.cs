@@ -7,6 +7,7 @@ using TME.CarConfigurator.Publisher.Exceptions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
+using ExteriorColourInfo = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColourInfo;
 using ExteriorColourType = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColourType;
 using Upholstery = TME.CarConfigurator.Repository.Objects.Colours.Upholstery;
 using UpholsteryType = TME.CarConfigurator.Repository.Objects.Colours.UpholsteryType;
@@ -75,6 +76,15 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 ID = colourCombination.ID,
                 SortIndex = 0, // will be replaced with list position based on exttype/ext/upholtype/uphol order in calling function
                 Upholstery = MapUpholstery(colourCombination.Upholstery)
+            };
+        }
+
+        public ExteriorColourInfo MapExteriorColourInfo(Administration.ExteriorColourInfo colour)
+        {
+            return new ExteriorColourInfo
+            {
+                ID = colour.ID,
+                InternalCode = colour.Code
             };
         }
 

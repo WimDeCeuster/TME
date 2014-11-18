@@ -21,7 +21,7 @@ namespace TME.CarConfigurator.S3.Publisher
 
         public async Task PublishCarPartsAsync(IContext context)
         {
-            var tasks = context.ContextData.Values.Select(contextData => PublishCarPartsAsync(context.Brand, context.Country, contextData.Publication.ID, contextData.CarCarParts)).ToList();
+            var tasks = context.ContextData.Values.Select(contextData => PublishCarPartsAsync(context.Brand, context.Country, contextData.Publication.ID, contextData.CarParts)).ToList();
             await Task.WhenAll(tasks);
         }
 

@@ -43,6 +43,7 @@
     <constructor-arg ref="VisibilityMapper" />
     <constructor-arg ref="CategoryMapper" />
     <constructor-arg ref="ColourMapper" />
+    <constructor-arg ref="AssetSetMapper" />
   </object>
   <object name="BodyTypeMapper" type="TME.CarConfigurator.Publisher.Mappers.BodyTypeMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />

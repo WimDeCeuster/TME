@@ -1,5 +1,7 @@
 ﻿using System;
 using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.Equipment
 {
@@ -7,8 +9,8 @@ namespace TME.CarConfigurator.Equipment
     {
         private readonly IOptionInfo _parentOptionInfo;
 
-        public CarOption(Repository.Objects.Equipment.CarOption repositoryObject, IOptionInfo parentOptionInfo) 
-            : base(repositoryObject)
+        public CarOption(Repository.Objects.Equipment.CarOption repositoryObject, IOptionInfo parentOptionInfo, Guid carID, Publication publication, Context context, IAssetFactory assetFactory) 
+            : base(repositoryObject,publication,carID,context,assetFactory)
         {
             _parentOptionInfo = parentOptionInfo;
         }
