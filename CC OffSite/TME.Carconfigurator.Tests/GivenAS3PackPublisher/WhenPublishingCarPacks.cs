@@ -79,7 +79,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3PackPublisher
         public void ThenGenerationCarPacksShouldBePutForAllLanguages()
         {
             A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
-                .MustHaveHappened(Repeated.Exactly.Times(2));
+                .MustHaveHappened(Repeated.Exactly.Twice);
         }
 
         [Fact]

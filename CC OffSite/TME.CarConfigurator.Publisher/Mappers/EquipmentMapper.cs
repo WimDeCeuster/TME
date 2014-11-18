@@ -52,7 +52,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         public GradeOption MapGradeOption(ModelGenerationGradeOption generationGradeOption, EquipmentItem crossModelOption, EquipmentCategories categories, IReadOnlyList<Car> cars, bool isPreview)
         {
             if (generationGradeOption.HasParentOption && !generationGradeOption.ParentOption.ShortID.HasValue)
-                throw new CorruptDataException(String.Format("Please supply a ShortID for grade option {0}", generationGradeOption.ParentOption.ID));
+                throw new CorruptDataException(String.Format("Please supply a ShortID for grade option {0}", generationGradeOption.ParentOption.Name));
 
             var generationOption = (ModelGenerationOption)generationGradeOption.Grade.Generation.Equipment[generationGradeOption.ID];
 
@@ -69,7 +69,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             where T : GradeEquipmentItem, IAvailabilityProperties
         {
             if (!generationGradeEquipmentItem.ShortID.HasValue)
-                throw new CorruptDataException(String.Format("Please supply a ShortID for grade equipment item {0}", generationGradeEquipmentItem.ID));
+                throw new CorruptDataException(String.Format("Please supply a ShortID for grade equipment item {0}", generationGradeEquipmentItem.Name));
 
             var hasColour = generationGradeEquipmentItem.Colour.ID != Guid.Empty;
             var isOwner = generationGradeEquipmentItem.Owner == MyContext.GetContext().CountryCode;

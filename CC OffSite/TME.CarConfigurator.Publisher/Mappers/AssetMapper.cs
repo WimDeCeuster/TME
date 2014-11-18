@@ -23,10 +23,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         public Asset MapLinkedAsset(LinkedAsset linkedAsset)
         {
-            var assetInfo = Administration.Assets.DetailedAssetInfo.GetDetailedAssetInfo(linkedAsset.ID);
+            var assetInfo = DetailedAssetInfo.GetDetailedAssetInfo(linkedAsset.ID);
 
             if (linkedAsset.ShortID == null)
-                throw new CorruptDataException(String.Format("Please provide a shortID for linkedAsset {0}", linkedAsset.ID));
+                throw new CorruptDataException(String.Format("Please provide a shortID for linkedAsset {0}", linkedAsset.Name));
 
             return new Asset
             {
@@ -65,7 +65,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         private Asset MapGenerationAssetSetAsset(AssetSetAsset assetSetAsset, ModelGeneration modelGeneration)
         {
             if (assetSetAsset.Asset.ShortID == null)
-                throw new CorruptDataException(String.Format("Please provide a shortID for assetSetAsset {0}", assetSetAsset.ID));
+                throw new CorruptDataException(String.Format("Please provide a shortID for assetSetAsset {0}", assetSetAsset.Name));
 
             return new Asset()
             {
