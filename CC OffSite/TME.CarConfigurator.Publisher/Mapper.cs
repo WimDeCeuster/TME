@@ -266,8 +266,12 @@ namespace TME.CarConfigurator.Publisher
         {
             if (objectWithAssetSet == null) return;
             var objectAssetsOnCarLevel = GetObjectAssetsOnCarLevel(car, modelGeneration, objectWithAssetSet);
-            var objectAssetsOnGenerationLevel = GetObjectAssetsOnGenerationLevel(objectWithAssetSet.GetObjectID(),
-                contextData.Assets);
+
+            var hasMappedGenerationAssets = contextData.Assets.ContainsKey(objectWithAssetSet.GetObjectID());
+
+            var objectAssetsOnGenerationLevel = hasMappedGenerationAssets ?
+                GetObjectAssetsOnGenerationLevel(objectWithAssetSet.GetObjectID(), contextData.Assets) :
+                objectWithAssetSet.AssetSet.Assets.GetGenerationAssets().Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList();
 
             var allCarAssetsForThisObject = objectAssetsOnCarLevel.Concat(objectAssetsOnGenerationLevel).ToList();
 
