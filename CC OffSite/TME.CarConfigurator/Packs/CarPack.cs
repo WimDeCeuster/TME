@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Colours;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces.Assets;
@@ -30,8 +28,8 @@ namespace TME.CarConfigurator.Packs
         public CarPack(RepositoryCarPack pack, Repository.Objects.Publication publication, Guid carId, Repository.Objects.Context context, IAssetFactory assetFactory)
             : base(pack)
         {
-            if (publication == null) throw new ArgumentNullException("repositoryPublication");
-            if (context == null) throw new ArgumentNullException("repositoryContext");
+            if (publication == null) throw new ArgumentNullException("publication");
+            if (context == null) throw new ArgumentNullException("context");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
             _publication = publication;
