@@ -454,14 +454,15 @@ namespace TME.CarConfigurator.Publisher
 
             var mappedSubModels = new List<SubModel>();
 
-            var mappedSubModelGrades = new Dictionary<Guid, IReadOnlyList<Grade>>();
             var mappedSubModelGradeEquipments = new Dictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>>();
+            
+            timeFrame.SubModelGrades = applicableSubModels.ToDictionary(
+                subModel => subModel.ID,
+                subModel => GetSubModelGrades(grades, subModel, timeFrame));
 
             foreach (var modelGenerationSubModel in applicableSubModels)
             {
                 var subModelId = modelGenerationSubModel.ID;
-
-                mappedSubModelGrades.Add(subModelId, GetSubModelGrades(grades, modelGenerationSubModel, timeFrame));
 
                 var mappedSubModel = _subModelMapper.MapSubModel(modelGenerationSubModel, timeFrame, isPreview);
 
@@ -473,7 +474,6 @@ namespace TME.CarConfigurator.Publisher
             }
             
             timeFrame.SubModels = mappedSubModels;
-            timeFrame.SubModelGrades = mappedSubModelGrades;
             timeFrame.SubModelGradeEquipments = mappedSubModelGradeEquipments;
         }
 
