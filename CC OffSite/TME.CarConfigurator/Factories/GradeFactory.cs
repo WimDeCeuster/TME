@@ -16,7 +16,6 @@ namespace TME.CarConfigurator.Factories
         private readonly IAssetFactory _assetFactory;
         private readonly IEquipmentFactory _gradeEquipmentFactory;
         private readonly IPackFactory _packFactory;
-        private IList<RepoGrade> _repoGenerationGrades;
 
 
         public GradeFactory(IGradeService gradeService, IAssetFactory assetFactory, IEquipmentFactory gradeEquipmentFactory, IPackFactory packFactory)
@@ -34,7 +33,7 @@ namespace TME.CarConfigurator.Factories
 
         public IReadOnlyList<IGrade> GetGrades(Publication publication, Context context)
         {
-            var repoGrades = GetRepoGrades(publication, context);
+            var repoGrades = _gradeService.GetGrades(publication.ID, publication.GetCurrentTimeFrame().ID, context).ToList();
             var grades = new List<IGrade>();
 
             return repoGrades.Select(repoGrade => GetGrade(repoGrade, grades, publication, context)).ToArray();
@@ -52,11 +51,6 @@ namespace TME.CarConfigurator.Factories
         {
             return new CarGrade(repoGrade, publication, carID, context, _assetFactory, _gradeEquipmentFactory,
                 _packFactory);
-        }
-
-        private IEnumerable<RepoGrade> GetRepoGrades(Publication publication, Context context)
-        {
-            return _repoGenerationGrades = _repoGenerationGrades ??_gradeService.GetGrades(publication.ID, publication.GetCurrentTimeFrame().ID, context).ToList();
         }
 
         private IGrade GetSubModelGrade(RepoGrade repoGrade, ICollection<IGrade> grades, Publication publication, Context context, Guid subModelID)

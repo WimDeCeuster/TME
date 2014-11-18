@@ -24,6 +24,21 @@ namespace TME.CarConfigurator.LegacyAdapter.Extensions
                     .ToList();
             return groups;
         }
+        public static IReadOnlyList<IVisibleInModeAndView> GetVisibleInModeAndViewsWithoutAssets(this Legacy.Assets assets)
+        {
+            var groups = assets.Cast<Legacy.Asset>()
+                    .Where(x => x.AssetType.Details.View == "EXT" || x.AssetType.Details.View == "INT")
+                    .GroupBy(x => new { x.AssetType.Details.Mode, x.AssetType.Details.View })
+                    .Select(group => new VisibleInModeAndView()
+                    {
+                        Mode = group.Key.Mode,
+                        View = group.Key.View,
+                        Assets = new List<IAsset>()
+                    })
+                    .ToList();
+            return groups;
+        }
+
 
         public static IReadOnlyList<IAsset> GetPlainAssets(this Legacy.Assets assets)
         {

@@ -168,7 +168,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.Labels = _labelMapper.MapLabels(generationCarEquipmentItem.Translation.Labels,
                 generationEquipmentItem.Translation.Labels, crossModelEquipmentItem.Translation.Labels);
 
-            mappedEquipmentItem.GradeFeature = false; //?
+            mappedEquipmentItem.GradeFeature = generationCarEquipmentItem.Car.Grade.IsEmpty();
+                //false; //?
             mappedEquipmentItem.OptionalGradeFeature = false; //?
             mappedEquipmentItem.AvailableForUpholsteries = new List<UpholsteryInfo>(); //?
 

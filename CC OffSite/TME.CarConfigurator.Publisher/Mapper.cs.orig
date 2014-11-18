@@ -152,6 +152,7 @@ namespace TME.CarConfigurator.Publisher
                 FillColourCombinations(cars, modelGeneration, contextData, isPreview);
                 progress.Report(new PublishProgress("Fill generation cars"));
                 FillCars(cars, contextData, isPreview);
+                FillCarPacks(cars, modelGeneration, contextData);
                 progress.Report(new PublishProgress("Fill generation grades"));
                 FillGrades(cars, modelGeneration, contextData);
                 progress.Report(new PublishProgress("Fill grade equipment"));
@@ -176,6 +177,14 @@ namespace TME.CarConfigurator.Publisher
             }
         }
 
+
+        private void FillCarPartAssets(ModelGeneration modelGeneration, ContextData contextData, IEnumerable<ModelGenerationCarPart> carParts, Car car)
+        {
+            foreach (var carPart in carParts)
+            {
+                var assets = carPart.AssetSet.Assets.Where(assetSetAsset => assetSetAsset.BodyType.ID == car.BodyTypeID && assetSetAsset.Steering.ID == car.SteeringID);
+                contextData.CarAssets[car.ID].Add(carPart.ID, new List<Asset>(assets.Select(asset => _assetMapper.MapCarAssetSetAsset(asset, modelGeneration)).ToList()));
+            }
         private static IEnumerable<KeyValuePair<string, Tuple<ModelGeneration, Model>>> GetModelGenerationForEachLanguage(String brand, String countryCode, Guid generationID)
         {
             var country = MyContext.GetContext().Countries.Single(ctry => ctry.Code.Equals(countryCode, StringComparison.InvariantCultureIgnoreCase));
@@ -215,7 +224,7 @@ namespace TME.CarConfigurator.Publisher
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.WheelDrives[car.WheelDriveID]);
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.SubModels[car.SubModelID]);
                 FillCarListAssets(car, contextData, modelGeneration, GetValidCarParts(car));
-//                FillCarListAssets(car, contextData, modelGeneration, GetValidCarEquipment(car));
+                FillCarListAssets(car, contextData, modelGeneration, GetValidCarEquipment(car));
             }
         }
 
@@ -233,7 +242,7 @@ namespace TME.CarConfigurator.Publisher
 
         private void FillCarListAssets(Car car, ContextData contextData, ModelGeneration modelGeneration, IEnumerable<IHasAssetSet> itemsWithAssetSet)
         {
-            foreach (var item in itemsWithAssetSet.Where(item => item.AssetSet.NumberOfAssets != 0))
+            foreach (var item in itemsWithAssetSet)
             {
                 FillCarAssets(car,contextData,modelGeneration,item);
             }
@@ -387,7 +396,7 @@ namespace TME.CarConfigurator.Publisher
             });
         }
 
-        private static IEnumerable<ModelGenerationEquipmentItem> GetValidCarEquipment(Car car)
+        private static List<ModelGenerationEquipmentItem> GetValidCarEquipment(Car car)
         {
             return car.Generation.Equipment.Where(carEquipment => carEquipment.AssetSet.NumberOfAssets != 0).ToList();
         }

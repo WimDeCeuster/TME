@@ -31,25 +31,32 @@ namespace TME.CarConfigurator.Publisher.Mappers
         public Grade MapGenerationGrade(ModelGenerationGrade generationGrade, IEnumerable<Car> cars)
         {
             var gradeCars = generationGrade.Cars().ToArray();
-            var cheapestCar = cars.Where(car => gradeCars.Any(gradeCar => gradeCar.ID == car.ID))
+            var repositoryCarsOfGrade = cars.Where(car => gradeCars.Any(gradeCar => gradeCar.ID == car.ID)).ToList();
+            var cheapestCarIncludingVat = repositoryCarsOfGrade
                 .OrderBy(car => car.StartingPrice.IncludingVat)
                 .First();
+            var cheapestCarExcludingVat = repositoryCarsOfGrade
+                .OrderBy(car => car.StartingPrice.ExcludingVat)
+                .First();
 
-            var mappedGrade = GetMappedGrade(generationGrade, cheapestCar);
+            var mappedGrade = GetMappedGrade(generationGrade, cheapestCarExcludingVat, cheapestCarIncludingVat);
 
             return _baseMapper.MapDefaultsWithSort(mappedGrade, generationGrade);
         }
 
-        public Grade MapSubModelGrade(ModelGenerationGrade grade, ModelGenerationSubModel subModel,IEnumerable<Car> cars)
+        public Grade MapSubModelGrade(ModelGenerationGrade grade, ModelGenerationSubModel subModel, IEnumerable<Car> cars)
         {
             var generationGradeSubModel = grade.SubModels.Where(s => s.Name == subModel.Name).Single(s => s.SubModel.ID == subModel.ID);
             var gradeCars = grade.Cars().Where(car => subModel.Cars().Any(subModelCar => subModelCar.ID == car.ID)).ToArray();
-            var cheapestCar = cars.Where(car => gradeCars.Any(gradeCar => gradeCar.ID == car.ID))
+            var repositoryCarsOfGrade = cars.Where(car => gradeCars.Any(gradeCar => gradeCar.ID == car.ID)).ToList();
+            var cheapestCarIncludingVat = repositoryCarsOfGrade
                 .OrderBy(car => car.StartingPrice.IncludingVat)
                 .First();
+            var cheapestCarExcludingVat = repositoryCarsOfGrade
+                .OrderBy(car => car.StartingPrice.ExcludingVat)
+                .First();
 
-
-            var mappedGrade = GetMappedGrade(grade, cheapestCar);
+            var mappedGrade = GetMappedGrade(grade, cheapestCarExcludingVat, cheapestCarIncludingVat);
 
             var mappedGradeForSubModelWithDefaults = _baseMapper.MapDefaultsWithSort(mappedGrade, grade);
 
@@ -64,16 +71,16 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return mappedGradeForSubModelWithDefaults;
         }
 
-        private Grade GetMappedGrade(ModelGenerationGrade grade, Car cheapestCar)
+        private Grade GetMappedGrade(ModelGenerationGrade grade, Car cheapestCarExcludingVat, Car cheapestCarIncludingVat)
         {
             var mappedGrade = new Grade
             {
                 BasedUpon = GetBasedUponGradeInfo(grade),
                 Special = grade.Special,
-                StartingPrice = new Price()
+                StartingPrice = new Price
                 {
-                    ExcludingVat = cheapestCar.BasePrice.ExcludingVat,
-                    IncludingVat = cheapestCar.BasePrice.IncludingVat
+                    ExcludingVat = cheapestCarExcludingVat.BasePrice.ExcludingVat,
+                    IncludingVat = cheapestCarIncludingVat.BasePrice.IncludingVat
                 },
                 VisibleIn = _assetSetMapper.GetVisibility(grade.AssetSet).ToList()
             };

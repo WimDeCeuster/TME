@@ -2,6 +2,7 @@
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
+using TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter.Colours
 {
@@ -13,13 +14,19 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
             get;
             set;
         }
+        private bool ForCar
+        {
+            get;
+            set;
+        }
         #endregion
 
         #region Constructor
-        public Upholstery(TMME.CarConfigurator.CarUpholstery adaptee)
+        public Upholstery(CarUpholstery adaptee, bool forCar)
             : base(adaptee)
         {
             Adaptee = adaptee;
+            ForCar = forCar;
         }
         #endregion
 
@@ -41,7 +48,16 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
         private IReadOnlyList<IVisibleInModeAndView> _visibleIn = null;
         public IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
-            get { return _visibleIn ?? (_visibleIn = Adaptee.Assets.GetVisibleInModeAndViews()); }
+            get
+            {
+                if (_visibleIn != null) return _visibleIn;
+
+                _visibleIn = ForCar
+                    ? Adaptee.Assets.GetVisibleInModeAndViews()
+                    : Adaptee.Assets.GetVisibleInModeAndViewsWithoutAssets();
+
+                return _visibleIn;
+            }
         }
 
         private IReadOnlyList<IAsset> _assets = null;

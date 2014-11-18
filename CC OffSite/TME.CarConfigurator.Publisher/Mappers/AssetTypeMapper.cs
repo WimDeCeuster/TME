@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Administration.Assets;
 using TME.CarConfigurator.Publisher.Interfaces;
-using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
 using AssetType = TME.CarConfigurator.Repository.Objects.Assets.AssetType;
 
 namespace TME.CarConfigurator.Publisher.Mappers
@@ -39,10 +34,12 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var assetType = MapBaseAssetType(asset, modelGeneration);
 
             //custom CarAssetType Properties
-            if (assetType.UpholsteryCode == string.Empty)
-                assetType.Name = assetType.Name;
-            else
+            if (assetType.UpholsteryCode != string.Empty)
                 assetType.Name = assetType.Name + "__" + assetType.UpholsteryCode;
+            else if(assetType.EquipmentCode != string.Empty)
+                assetType.Name = assetType.Name + "__" + assetType.EquipmentCode;
+            else
+                assetType.Name = assetType.Name;
 
             return assetType;
         }
@@ -53,7 +50,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             if (assetSetAsset.EquipmentItem.ID != Guid.Empty)
                 equipmentCode = modelGeneration.Equipment[assetSetAsset.EquipmentItem.ID].BaseCode;
 
-            return new AssetType()
+            return new AssetType
             {
                 Code = assetSetAsset.AssetType.Code,
                 EquipmentCode = equipmentCode,
