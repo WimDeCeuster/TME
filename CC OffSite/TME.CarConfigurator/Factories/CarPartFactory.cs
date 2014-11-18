@@ -24,7 +24,7 @@ namespace TME.CarConfigurator.Factories
 
         public IReadOnlyList<ICarPart> GetCarParts(Guid carID, Publication publication, Context context)
         {
-            return _carPartService.GetCarParts(publication.ID, carID, context).ToList().Select(carPart => new CarCarPart(carPart,publication,carID,context,_assetFactory)).ToList();
+            return _carPartService.GetCarParts(publication.ID, carID, context).Select(carPart => new CarCarPart(carPart,publication,carID,context,_assetFactory)).ToList();
         }
     }
 }

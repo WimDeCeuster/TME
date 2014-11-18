@@ -91,8 +91,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3EquipmentPublisher
                 .WithLanguages(LANGUAGE1,LANGUAGE2)
                 .WithPublication(LANGUAGE1, publication1)
                 .WithPublication(LANGUAGE2, publication2)
-                .WithCars(LANGUAGE1,car1,car2,car3,car4)
-                .WithCars(LANGUAGE2,car1,car2,car3,car4)
                 .WithTimeFrames(LANGUAGE1, timeFrame1, timeFrame2)
                 .WithTimeFrames(LANGUAGE2, timeFrame3, timeFrame4)
                 .Build();

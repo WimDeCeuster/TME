@@ -1,6 +1,7 @@
 ﻿using KellermanSoftware.CompareNetObjects;
 using KellermanSoftware.CompareNetObjects.TypeComparers;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -12,10 +13,17 @@ using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.Interfaces.Packs;
+using IEquipmentCategory = TME.CarConfigurator.Interfaces.Equipment.ICategory;
+using IEquipmentCategoryInfo = TME.CarConfigurator.Interfaces.Equipment.ICategoryInfo;
+using ISpecificationCategory = TME.CarConfigurator.Interfaces.TechnicalSpecifications.ICategory;
+using ISpecificationCategoryInfo = TME.CarConfigurator.Interfaces.TechnicalSpecifications.ICategoryInfo;
+using IEquipmentExteriorColour = TME.CarConfigurator.Interfaces.Equipment.IExteriorColour;
 
 namespace TME.CarConfigurator.Comparer
 {
-    public class Comparer : IComparer
+    public class Comparer : Interfaces.IComparer
     {
         public ICompareResult Compare(object modelA, object modelB)
         {
@@ -81,17 +89,24 @@ namespace TME.CarConfigurator.Comparer
                 //GetFullMemberName<IGrade>(grade => grade.VisibleIn),
                 //GetFullMemberName<ITransmission>(transmission => transmissions.VisibleIn),
                 //GetFullMemberName<IWheelDrive>(wheelDrive => wheelDrive.VisibleIn)
-                GetFullMemberName<IUpholstery>(upholstery => upholstery.VisibleIn)
+                GetFullMemberName<IUpholstery>(upholstery => upholstery.VisibleIn),
+                GetFullMemberName<ICarPack>(carPack => carPack.AvailableForExteriorColours),
+                GetFullMemberName<ICarPack>(carPack => carPack.AvailableForUpholsteries)
             };
 
-            Func<object, object, bool> invariantCompare = (item1, item2) => String.Equals((string)item1, (string)item2, StringComparison.InvariantCultureIgnoreCase);
+            Func<object, object, bool?> invariantCompare = (item1, item2) => String.Equals((string)item1, (string)item2, StringComparison.InvariantCultureIgnoreCase);
+            Func<object, object, bool?> nullEqualsEmpty = (item1, item2) => item1 != null ? (bool?)null : ((ICollection)item2).Count == 0;
+            Func<object, object, bool?> emptyIsValid = (item1, item2) => ((string)item1) == string.Empty ? true : (bool?)null;
 
-            config.CustomPropertyComparers = new Dictionary<String, Func<object, object, bool>> {
-                { GetFullMemberName<TME.CarConfigurator.Interfaces.Equipment.IEquipmentItem>(item => item.Path), invariantCompare },
-                { GetFullMemberName<TME.CarConfigurator.Interfaces.Equipment.ICategory>(item => item.Path), invariantCompare },
-                { GetFullMemberName<TME.CarConfigurator.Interfaces.Equipment.ICategoryInfo>(item => item.Path), invariantCompare },
-                { GetFullMemberName<TME.CarConfigurator.Interfaces.TechnicalSpecifications.ICategory>(item => item.Path), invariantCompare },
-                { GetFullMemberName<TME.CarConfigurator.Interfaces.TechnicalSpecifications.ICategoryInfo>(item => item.Path), invariantCompare }
+            config.CustomPropertyComparers = new Dictionary<String, Func<object, object, bool?>> {
+                { GetFullMemberName<IEquipmentItem>(item => item.Path), invariantCompare },
+                { GetFullMemberName<IEquipmentCategory>(item => item.Path), invariantCompare },
+                { GetFullMemberName<IEquipmentCategoryInfo>(item => item.Path), invariantCompare },
+                { GetFullMemberName<ISpecificationCategory>(item => item.Path), invariantCompare },
+                { GetFullMemberName<ISpecificationCategoryInfo>(item => item.Path), invariantCompare },
+                { GetFullMemberName<ICarPack>(item => item.AvailableForExteriorColours), nullEqualsEmpty },
+                { GetFullMemberName<ICarPack>(item => item.AvailableForUpholsteries), nullEqualsEmpty },
+                { GetFullMemberName<IEquipmentExteriorColour>(item => item.Name), emptyIsValid}
             };
 
             //config.CollectionMatchingSpec = new Dictionary<Type, IEnumerable<string>> {
@@ -109,7 +124,9 @@ namespace TME.CarConfigurator.Comparer
                 { typeof(IColourCombination), o => {
                     var colourCombination = o as IColourCombination;
                     return String.Format("{0}-{1}", colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID);
-                } }
+                } },
+                { typeof(IUpholsteryInfo), o => ((IUpholsteryInfo)o).ID.ToString()},
+                { typeof(IExteriorColourInfo), o => ((IExteriorColourInfo)o).ID.ToString()}
             };
 
             config.DetectMissingAndMisordered = true;

@@ -16,6 +16,9 @@ namespace TME.CarConfigurator
             _carID = carID;
         }
 
-        public override IReadOnlyList<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetCarAssets(RepositoryPublication, _carID, RepositoryObject.ID, RepositoryContext); } }
+        protected override IReadOnlyList<IAsset> FetchAssets()
+        {
+            return AssetFactory.GetCarAssets(RepositoryPublication, _carID, ID, RepositoryContext);
+        }
     }
 }

@@ -98,6 +98,7 @@ namespace TME.CarConfigurator.AutoComparer
             }
 
             var dir = Path.Combine(path, DirName, country, result.Language);
+            Directory.CreateDirectory(dir);
             File.WriteAllText(Path.Combine(dir, String.Format("report-{0}-{1}.txt", country, result.Language)), languageOutput.ToString());
         }
 

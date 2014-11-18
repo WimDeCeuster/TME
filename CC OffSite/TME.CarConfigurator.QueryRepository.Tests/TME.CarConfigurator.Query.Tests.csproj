@@ -95,6 +95,8 @@
     <Compile Include="GivenACarGrade\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACarGrade\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenACarGrade\WhenAccessingItsAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACarPack\WhenAccessingItsAvailableForUpholsteriesForTheFirstTime.cs" />
     <Compile Include="GivenACarPack\WhenAccessingItsAvailableForUpholsteriesForTheSecondTime.cs" />
     <Compile Include="GivenACarPack\WhenAccessingItsLabels.cs" />

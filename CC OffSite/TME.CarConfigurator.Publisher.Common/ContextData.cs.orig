@@ -17,8 +17,21 @@ namespace TME.CarConfigurator.Publisher.Common
         public IList<Generation> Generations { get; private set; }
         public IList<Model> Models { get; private set; }
         public IDictionary<Guid, IList<Asset>> Assets { get; set; }
+<<<<<<< HEAD
+        public IList<WheelDrive> WheelDrives { get; private set; }
+        public IList<Steering> Steerings { get; private set; }
+        public IList<Grade> Grades { get; private set; }
+        public IList<SubModel> SubModels { get; private set; }
+        public IDictionary<Guid,IList<Grade>> SubModelGrades { get; private set; }
+        public IDictionary<Guid, GradeEquipment> GradeEquipment { get; private set; }
+        public IList<ColourCombination> ColourCombinations { get; private set; }
+        public IList<EquipmentCategory> EquipmentCategories { get; private set; }
+        public IList<SpecificationCategory> SpecificationCategories { get; private set; }
         public IDictionary<Guid, CarEquipment> CarEquipment { get; set; }
         public IDictionary<Guid, IList<CarPart>> CarParts { get; private set; }
+=======
+        public IDictionary<Guid, IList<CarPart>> CarCarParts { get; private set; }
+>>>>>>> 42ede7692756514419fd474183281a18bd78a140
         public IDictionary<Guid, IReadOnlyList<CarPack>> CarPacks { get; private set; }
         public IDictionary<Guid, IDictionary<Guid, IList<Asset>>> CarAssets { get; private set; }
         public IDictionary<Guid, IDictionary<Guid, IList<Asset>>> SubModelAssets { get; private set; }
@@ -30,8 +43,18 @@ namespace TME.CarConfigurator.Publisher.Common
             Assets = new Dictionary<Guid, IList<Asset>>();
             CarAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
             SubModelAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
+<<<<<<< HEAD
+            Steerings = new List<Steering>();
+            Grades = new List<Grade>();
+            SubModels = new List<SubModel>();
+            GradeEquipment = new Dictionary<Guid, GradeEquipment>();
             CarEquipment = new Dictionary<Guid, CarEquipment>();
+            ColourCombinations = new List<ColourCombination>();
+            GradePacks = new Dictionary<Guid, IReadOnlyList<GradePack>>();
             CarParts = new Dictionary<Guid, IList<CarPart>>();
+=======
+            CarCarParts = new Dictionary<Guid, IList<CarPart>>();
+>>>>>>> 42ede7692756514419fd474183281a18bd78a140
             CarPacks = new Dictionary<Guid, IReadOnlyList<CarPack>>();
         }
     }

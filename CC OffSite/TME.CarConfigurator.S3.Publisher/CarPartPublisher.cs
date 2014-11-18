@@ -25,9 +25,9 @@ namespace TME.CarConfigurator.S3.Publisher
             await Task.WhenAll(tasks);
         }
 
-        private async Task PublishCarPartsAsync(string brand, string country, Guid id, IEnumerable<KeyValuePair<Guid, IList<CarPart>>> carCarParts)
+        private async Task PublishCarPartsAsync(string brand, string country, Guid publicationId, IEnumerable<KeyValuePair<Guid, IList<CarPart>>> carCarParts)
         {
-            var tasks = carCarParts.Select(entry => _service.PutCarCarParts(brand, country, id, entry.Key, entry.Value)).ToList();
+            var tasks = carCarParts.Select(entry => _service.PutCarCarParts(brand, country, publicationId, entry.Key, entry.Value)).ToList();
             await Task.WhenAll(tasks);
         }
     }

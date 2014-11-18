@@ -102,8 +102,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
                     new CarBuilder().Build()
                 };
 
-                contextBuilder.WithCars(language, cars);
-
                 var timeFrames = new[] {
                     new TimeFrameBuilder()
                         .WithDateRange(new DateTime(2014, 1, 1), 

@@ -60,7 +60,11 @@ namespace TME.CarConfigurator.Publisher.Mappers
         public GradeOption MapGradeOption(ModelGenerationGradeOption generationGradeOption, EquipmentItem crossModelOption, EquipmentCategories categories, IReadOnlyList<Car> cars, bool isPreview)
         {
             if (generationGradeOption.HasParentOption && !generationGradeOption.ParentOption.ShortID.HasValue)
+<<<<<<< HEAD
+                throw new CorruptDataException(String.Format("Please supply a ShortID for grade generationCarOption {0}", generationGradeOption.ParentOption.ID));
+=======
                 throw new CorruptDataException(String.Format("Please supply a ShortID for grade option {0}", generationGradeOption.ParentOption.Name));
+>>>>>>> 42ede7692756514419fd474183281a18bd78a140
 
             var generationOption = (ModelGenerationOption)generationGradeOption.Grade.Generation.Equipment[generationGradeOption.ID];
 

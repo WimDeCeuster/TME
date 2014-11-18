@@ -13,11 +13,15 @@ namespace TME.CarConfigurator.Factories
     public class PackFactory : IPackFactory
     {
         private readonly IPackService _packService;
+        private readonly IAssetFactory _assetFactory;
 
-        public PackFactory(IPackService packService)
+        public PackFactory(IPackService packService, IAssetFactory assetFactory)
         {
             if (packService == null) throw new ArgumentNullException("packService");
+            if (assetFactory == null) throw new ArgumentNullException("assetFactory");
+
             _packService = packService;
+            _assetFactory = assetFactory;
         }
 
         public IReadOnlyList<IGradePack> GetGradePacks(Publication publication, Context context, Guid gradeId)
@@ -37,7 +41,7 @@ namespace TME.CarConfigurator.Factories
 
         public IReadOnlyList<ICarPack> GetCarPacks(Publication publication, Context context, Guid carId)
         {
-            return _packService.GetCarPacks(publication.ID, carId, context).Select(pack => new CarPack(pack)).ToList();
+            return _packService.GetCarPacks(publication.ID, carId, context).Select(pack => new CarPack(pack, publication, carId, context, _assetFactory)).ToList();
         }
     }
 }

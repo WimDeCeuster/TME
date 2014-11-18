@@ -18,17 +18,14 @@ namespace TME.CarConfigurator
             _carID = carID;
         }
 
-        public override IReadOnlyList<IVisibleInModeAndView> VisibleIn
+        protected override IReadOnlyList<VisibleInModeAndView> FetchVisibleInModeAndViews()
         {
-            get
-            {
-                return
-                    FetchedVisibleInModeAndViews = FetchedVisibleInModeAndViews ??
-                                                        RepositoryObject.VisibleIn.Select(visibleIn =>
-                                                            new CarVisibleInModeAndView(_carID, RepositoryObject.ID, visibleIn,RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
-            }
+            return RepositoryObject.VisibleIn.Select(visibleIn => new CarVisibleInModeAndView(_carID, RepositoryObject.ID, visibleIn, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
         }
 
-        public override IReadOnlyList<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetCarAssets(RepositoryPublication, _carID, RepositoryObject.ID, RepositoryContext); } }
+        protected override IReadOnlyList<IAsset> FetchAssets()
+        {
+            return AssetFactory.GetCarAssets(RepositoryPublication, _carID, ID, RepositoryContext);
+        }
     }
 }

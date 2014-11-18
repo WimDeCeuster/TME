@@ -29,9 +29,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _linkMapper = linkMapper;
         }
 
-        public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData, bool isPreview)
+        public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, TimeFrame timeFrame, bool isPreview)
         {
-            var cheapestCar = GetTheCheapestCar(modelGenerationSubModel, contextData.Cars);
+            var cheapestCar = GetTheCheapestCar(modelGenerationSubModel, timeFrame.Cars);
 
             var mappedSubModel = new SubModel
             {
@@ -42,15 +42,15 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 },
                 Assets = GetMappedAssetsForSubModel(modelGenerationSubModel),
                 Links = GetMappedLinksForSubModel(modelGenerationSubModel, isPreview),
-                Grades = GetSubModelGrades(modelGenerationSubModel,contextData)
+                Grades = GetSubModelGrades(modelGenerationSubModel, timeFrame)
             };
 
             return _baseMapper.MapDefaultsWithSort(mappedSubModel, modelGenerationSubModel);
         }
         
-        private IList<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, ContextData contextData)
+        private IList<Grade> GetSubModelGrades(ModelGenerationSubModel modelGenerationSubModel, TimeFrame timeFrame)
         {
-            return contextData.SubModelGrades[modelGenerationSubModel.ID].ToList();
+            return timeFrame.SubModelGrades[modelGenerationSubModel.ID].ToList();
         }
 
         private IList<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)

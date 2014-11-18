@@ -98,6 +98,7 @@
     <Compile Include="Extensions\CarsExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\LinkExtensions.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Interfaces\IAssetFileService.cs" />
     <Compile Include="Interfaces\IAssetPublisher.cs" />
     <Compile Include="Interfaces\IAssetMapper.cs" />

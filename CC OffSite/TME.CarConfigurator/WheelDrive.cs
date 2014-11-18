@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Assets;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces;
@@ -18,8 +16,8 @@ namespace TME.CarConfigurator
         protected readonly Repository.Objects.Context RepositoryContext;
         protected readonly IAssetFactory AssetFactory;
 
-        protected IReadOnlyList<IVisibleInModeAndView> FetchedVisibleInModeAndViews;
-        protected IReadOnlyList<IAsset> FetchedAssets;
+        private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
+        private IReadOnlyList<IAsset> _fetchedAssets;
 
         public WheelDrive(Repository.Objects.WheelDrive repositoryWheelDrive, Repository.Objects.Publication repositoryPublication, Repository.Objects.Context repositoryContext, IAssetFactory assetFactory)
             : base(repositoryWheelDrive)
@@ -37,15 +35,25 @@ namespace TME.CarConfigurator
 
         public Boolean Brochure { get { return RepositoryObject.Brochure; } }
 
-        public virtual IReadOnlyList<IVisibleInModeAndView> VisibleIn
+        public IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
             get
             {
-                return FetchedVisibleInModeAndViews = FetchedVisibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
+                return _fetchedVisibleInModeAndViews = _fetchedVisibleInModeAndViews ?? FetchVisibleInModeAndViews();
             }
         }
 
-        public virtual IReadOnlyList<IAsset> Assets { get { return FetchedAssets = FetchedAssets ?? AssetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext); } }
+        public IReadOnlyList<IAsset> Assets { get { return _fetchedAssets = _fetchedAssets ?? FetchAssets(); } }
+
+        protected virtual IReadOnlyList<VisibleInModeAndView> FetchVisibleInModeAndViews()
+        {
+            return RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
+        }
+
+        protected virtual IReadOnlyList<IAsset> FetchAssets()
+        {
+            return AssetFactory.GetAssets(RepositoryPublication, ID, RepositoryContext);
+        }
 
         [Obsolete("Use the new VisibleIn property instead")]
         public bool VisibleInExteriorSpin { get { return VisibleIn.VisibleInExteriorSpin(); } }

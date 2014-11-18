@@ -34,7 +34,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             if (steering == null) throw new ArgumentNullException("steering");
             
             if (car.ShortID == null)
-                throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.ID));
+                throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.Name));
 
             var cheapestColourCombination = car.ColourCombinations
                                                .OrderBy(cc => cc.ExteriorColour.VatPrice + cc.Upholstery.VatPrice)
@@ -72,7 +72,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         public CarInfo MapCarInfo(Administration.Car car)
         {
             if (car.ShortID == null)
-                throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.ID));
+                throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.Name));
 
             return new CarInfo
             {
