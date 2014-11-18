@@ -83,17 +83,17 @@ namespace TME.CarConfigurator.S3.QueryServices
         }
 
 
-        public IEnumerable<CarPartAssets> GetCarPartsAssets(Guid publicationID, Guid carID, Context context, string view, string mode)
+        public IEnumerable<Dictionary<Guid, List<Asset>>> GetCarPartsAssets(Guid publicationID, Guid carID, Context context, string view, string mode)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<CarEquipmentAssets> GetCarEquipmentAssets(Guid publicationID, Guid carID, Context context)
+        public IEnumerable<Dictionary<Guid, List<Asset>>> GetCarEquipmentAssets(Guid publicationID, Guid carID, Context context)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<CarEquipmentAssets> GetCarEquipmentAssets(Guid publicationID, Guid carID, Context context, string view, string mode)
+        public IEnumerable<Dictionary<Guid, List<Asset>>> GetCarEquipmentAssets(Guid publicationID, Guid carID, Context context, string view, string mode)
         {
             throw new NotImplementedException();
         }

@@ -66,19 +66,28 @@ namespace TME.CarConfigurator.S3.CommandServices
             await _service.PutObjectAsync(brand, country, path, value);
         }
 
-        public Task PutCarPartsAssetsByModeAndView(string brand, string country, Guid publicationID, Guid carID, string mode, string view, IEnumerable<CarPartAssets> carPartAssets)
+        private async Task PutAssets(string brand, string country, string path, IDictionary<Guid, IList<Asset>> assets)
         {
-            throw new NotImplementedException();
+            var value = _serialiser.Serialise(assets);
+            await _service.PutObjectAsync(brand, country, path, value);
         }
 
-        public Task PutDefaultCarEquipmentAssets(string brand, string country, Guid publicationID, Guid carID, IEnumerable<CarEquipmentAssets> carEquipmentAssets)
+        public async Task PutCarPartsAssetsByModeAndView(string brand, string country, Guid publicationID, Guid carID, string mode, string view, Dictionary<Guid, IList<Asset>> carPartAssets)
         {
-            throw new NotImplementedException();
+            var path = _keyManager.GetCarPartAssetsKey(publicationID, carID, view, mode);
+            await PutAssets(brand, country, path, carPartAssets);
         }
 
-        public Task PutCarEquipmentAssetsByModeAndView(string brand, string country, Guid publicationID, Guid carID, string mode, string view, IEnumerable<CarEquipmentAssets> carEquipmentAssets)
+        public async Task PutDefaultCarEquipmentAssets(string brand, string country, Guid publicationID, Guid carID, Dictionary<Guid, IList<Asset>> carEquipmentAssets)
         {
-            throw new NotImplementedException();
+            var path = _keyManager.GetDefaultCarEquipmentAssetsKey(publicationID, carID);
+            await PutAssets(brand, country, path, carEquipmentAssets);
+        }
+
+        public async Task PutCarEquipmentAssetsByModeAndView(string brand, string country, Guid publicationID, Guid carID, string mode, string view, Dictionary<Guid, IList<Asset>> carEquipmentAssets)
+        {
+            var path = _keyManager.GetCarEquipmentAssetsKey(publicationID, carID, view, mode);
+            await PutAssets(brand, country, path, carEquipmentAssets);
         }
 
     }
