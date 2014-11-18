@@ -37,6 +37,7 @@ namespace TME.CarConfigurator.Packs
             _publication = publication;
             _context = context;
             _assetFactory = assetFactory;
+            _carId = carId;
         }
 
         public bool Standard { get { return RepositoryObject.Standard; } }

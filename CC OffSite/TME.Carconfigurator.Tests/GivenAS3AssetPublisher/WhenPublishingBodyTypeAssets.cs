@@ -57,7 +57,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
                         .WithCountry(Country)
                         .WithLanguages(_languages.ToArray())
                         .WithPublication(_languages.First(), _publication)
-                        .WithBodyTypes(_languages.First(), _bodyTypes)
                         .WithAssets(_languages.First(), _assets, _bodyTypes[0].ID)
                         .Build();
 

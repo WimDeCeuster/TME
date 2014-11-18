@@ -160,10 +160,12 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                     var key = info.DeclaringType.FullName + "." + info.Name;
                     if (parms.Config.CustomPropertyComparers.ContainsKey(key))
                     {
-                        if (!parms.Config.CustomPropertyComparers[info.DeclaringType.FullName + "." + info.Name](objectValue1, objectValue2))
-                        {
+                        var comparison = parms.Config.CustomPropertyComparers[key](objectValue1, objectValue2);
+
+                        if (comparison == null)
+                            _rootComparer.Compare(childParms);
+                        else if (!comparison.Value)
                             this.AddDifference(childParms);
-                        }
                     }
                     else
                     {

@@ -26,7 +26,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         private readonly Dictionary<Guid,IList<CarPart>> _carCarParts = new Dictionary<Guid,IList<CarPart>>(); 
         private readonly Dictionary<Guid, GradeEquipment> _gradeEquipments = new Dictionary<Guid, GradeEquipment>();
         private readonly Dictionary<Guid, IReadOnlyList<GradePack>> _gradePacks = new Dictionary<Guid, IReadOnlyList<GradePack>>();
-        private readonly Dictionary<Guid, IList<Grade>> _subModelGrades = new Dictionary<Guid, IList<Grade>>();
+        private readonly Dictionary<Guid, IReadOnlyList<Grade>> _subModelGrades = new Dictionary<Guid, IReadOnlyList<Grade>>();
         private readonly Dictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>> _subModelGradeEquipments = new Dictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>>();
         private readonly Dictionary<Guid, IDictionary<Guid, IReadOnlyList<GradePack>>> _subModelGradePacks = new Dictionary<Guid, IDictionary<Guid, IReadOnlyList<GradePack>>>();
         private List<Transmission> _transmissions = new List<Transmission>();
@@ -157,28 +157,28 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 
         public TimeFrame Build()
         {
-            return new TimeFrame(
-                _from,
-                _until,
-                _cars,
-                _bodyTypes,
-                _engines,
-                _wheelDrives,
-                _transmissions,
-                _steerings,
-                _grades,
-                _gradeEquipments,
-                _subModelGrades,
-                _gradePacks,
-                _subModels,
-                _colourCombinations,
-                _equipmentCategories,
-                _subModelGradeEquipments,
-                _specificationCategories,
-                _subModelGradePacks.ToDictionary(
+            var timeFrame = new TimeFrame(_from, _until, (_cars ?? new List<Car>()).Select(car => car.ID));
+
+            timeFrame.Cars = _cars;
+            timeFrame.BodyTypes = _bodyTypes;
+            timeFrame.Engines = _engines;
+            timeFrame.WheelDrives = _wheelDrives;
+            timeFrame.Transmissions = _transmissions;
+            timeFrame.Steerings = _steerings;
+            timeFrame.Grades = _grades;
+            timeFrame.GradeEquipments = _gradeEquipments;
+            timeFrame.SubModelGrades = _subModelGrades;
+            timeFrame.GradePacks = _gradePacks;
+            timeFrame.SubModels = _subModels;
+            timeFrame.ColourCombinations = _colourCombinations;
+            timeFrame.EquipmentCategories = _equipmentCategories;
+            timeFrame.SubModelGradeEquipments = _subModelGradeEquipments;
+            timeFrame.SpecificationCategories = _specificationCategories;
+            timeFrame.SubModelGradePacks = _subModelGradePacks.ToDictionary(
                     entry => entry.Key,
-                    entry => (IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>>)entry.Value.ToDictionary()
-                ));
+                    entry => (IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>>)entry.Value.ToDictionary());
+
+            return timeFrame;
         }
     }
 }

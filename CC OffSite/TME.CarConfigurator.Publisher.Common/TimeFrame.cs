@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Equipment;
@@ -13,85 +14,53 @@ namespace TME.CarConfigurator.Publisher.Common
     {
         public DateTime From { get; private set; }
         public DateTime Until;
+        public IReadOnlyList<Guid> TimeFrameCarIds { get; private set; }
 
-        public IReadOnlyList<Car> Cars { get; private set; }
-        public IReadOnlyList<BodyType> BodyTypes { get; private set; }
-        public IReadOnlyList<Engine> Engines { get; private set; }
-        public IReadOnlyList<WheelDrive> WheelDrives { get; private set; }
-        public IReadOnlyList<Transmission> Transmissions { get; private set; }
-        public IReadOnlyList<Steering> Steerings { get; private set; }
-        public IReadOnlyList<Grade> Grades { get; private set; }
-        public IReadOnlyDictionary<Guid, GradeEquipment> GradeEquipments { get; private set; }
-        public IReadOnlyDictionary<Guid, IList<Grade>> SubModelGrades { get; private set; }
-        public IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>> GradePacks { get; private set; }
-        public IReadOnlyList<SubModel> SubModels { get; private set; }
-        public IReadOnlyList<ColourCombination> ColourCombinations { get; private set; }
-        public IReadOnlyList<EquipmentCategory> EquipmentCategories { get; private set; }
+        public IReadOnlyList<Car> Cars { get; set; }
+        public IReadOnlyList<BodyType> BodyTypes { get; set; }
+        public IReadOnlyList<Engine> Engines { get; set; }
+        public IReadOnlyList<WheelDrive> WheelDrives { get; set; }
+        public IReadOnlyList<Transmission> Transmissions { get; set; }
+        public IReadOnlyList<Steering> Steerings { get; set; }
+        public IReadOnlyList<Grade> Grades { get; set; }
+        public IReadOnlyDictionary<Guid, GradeEquipment> GradeEquipments { get;set; }
+        public IReadOnlyDictionary<Guid, IReadOnlyList<Grade>> SubModelGrades { get; set; }
+        public IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>> GradePacks { get; set; }
+        public IReadOnlyList<SubModel> SubModels { get; set; }
+        public IReadOnlyList<ColourCombination> ColourCombinations { get; set; }
+        public IReadOnlyList<EquipmentCategory> EquipmentCategories { get; set; }
         public IReadOnlyList<SpecificationCategory> SpecificationCategories { get; set; }
         public IReadOnlyDictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>> SubModelGradeEquipments { get; set; }
         public IReadOnlyDictionary<Guid, IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>>> SubModelGradePacks { get; set; }
 
         public readonly Guid ID;
 
-        public TimeFrame(
-            DateTime from,
-            DateTime until,
-            IReadOnlyList<Car> cars,
-            IReadOnlyList<BodyType> bodyTypes,
-            IReadOnlyList<Engine> engines,
-            IReadOnlyList<WheelDrive> wheelDrives,
-            IReadOnlyList<Transmission> transmissions,
-            IReadOnlyList<Steering> steerings,
-            IReadOnlyList<Grade> grades,
-            IReadOnlyDictionary<Guid, GradeEquipment> gradeEquipments,
-            IReadOnlyDictionary<Guid, IList<Grade>> subModelGrades,
-            IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>> gradePacks,
-            IReadOnlyList<SubModel> subModels,
-            IReadOnlyList<ColourCombination> colourCombinations,
-            IReadOnlyList<EquipmentCategory> equipmentCategories,
-            IReadOnlyDictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>> subModelGradeEquipments,
-            IReadOnlyList<SpecificationCategory> specificationCategories,
-            IReadOnlyDictionary<Guid, IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>>> subModelGradePacks)
+        public TimeFrame(DateTime from, DateTime until, IEnumerable<Guid> timeFrameCarIds)
         {
-            if (cars == null) throw new ArgumentNullException("cars");
-            if (bodyTypes == null) throw new ArgumentNullException("bodyTypes");
-            if (engines == null) throw new ArgumentNullException("engines");
-            if (wheelDrives == null) throw new ArgumentNullException("wheelDrives");
-            if (transmissions == null) throw new ArgumentNullException("transmissions");
-            if (steerings == null) throw new ArgumentNullException("steerings");
-            if (grades == null) throw new ArgumentNullException("grades");
-            if (gradeEquipments == null) throw new ArgumentNullException("gradeEquipments");
-            if (subModelGrades == null) throw new ArgumentNullException("subModelGrades");
-            if (gradePacks == null) throw new ArgumentNullException("gradePacks");
-            if (subModels == null) throw new ArgumentNullException("subModels");
-            if (colourCombinations == null) throw new ArgumentNullException("colourCombinations");
-            if (subModelGradeEquipments == null) throw new ArgumentNullException("subModelGradeEquipments");
-            if (equipmentCategories == null) throw new ArgumentNullException("equipmentCategories");
-            if (specificationCategories == null) throw new ArgumentNullException("specificationCategories");
-            if (subModelGradePacks == null) throw new ArgumentNullException("subModelGradePacks");
-
-            From = from;
-            Until = until;
-            GradePacks = gradePacks;
-            ColourCombinations = colourCombinations;
-            Cars = cars;
-            BodyTypes = bodyTypes;
-            Engines = engines;
-            WheelDrives = wheelDrives;
-            Transmissions = transmissions;
-            Steerings = steerings;
-            Grades = grades;
-            SubModelGrades = subModelGrades;
-            GradeEquipments = gradeEquipments;
-            SubModels = subModels;
-            SubModelGradeEquipments = subModelGradeEquipments;
-            EquipmentCategories = equipmentCategories;
-            SpecificationCategories = specificationCategories;
-            SubModelGradePacks = subModelGradePacks;
+            if (timeFrameCarIds == null) throw new ArgumentNullException("timeFrameCarIds");
 
             ID = Guid.NewGuid();
+            From = from;
+            Until = until;
+
+            TimeFrameCarIds = timeFrameCarIds.ToList();
+
+            GradePacks = new Dictionary<Guid, IReadOnlyList<GradePack>>();
+            ColourCombinations = new List<ColourCombination>();
+            Cars = new List<Car>();
+            BodyTypes = new List<BodyType>();
+            Engines = new List<Engine>();
+            WheelDrives = new List<WheelDrive>();
+            Transmissions = new List<Transmission>();
+            Steerings = new List<Steering>();
+            Grades = new List<Grade>();
+            SubModelGrades = new Dictionary<Guid, IReadOnlyList<Grade>>();
+            GradeEquipments = new Dictionary<Guid, GradeEquipment>();
+            SubModels = new List<SubModel>();
+            SubModelGradeEquipments = new Dictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>>();
+            EquipmentCategories = new List<EquipmentCategory>();
+            SpecificationCategories = new List<SpecificationCategory>();
+            SubModelGradePacks = new Dictionary<Guid, IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>>>();
         }
-
-
     }
 }

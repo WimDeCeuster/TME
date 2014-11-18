@@ -70,36 +70,15 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
-        public ContextBuilder WithCars(String language, params Car[] cars)
-        {
-            foreach (var car in cars)
-                _context.ContextData[language].Cars.Add(car);
-            return this;
-        }
-
         public ContextBuilder WithTimeFrames(String language, params TimeFrame[] timeFrames)
         {
             _context.TimeFrames[language] = timeFrames;
             return this;
         }
 
-        public ContextBuilder WithTransmissions(String language, params Transmission[] transmissions)
-        {
-            foreach (var transmission in transmissions)
-                _context.ContextData[language].Transmissions.Add(transmission);
-            return this;
-        }
-
         public ContextBuilder WithAssets(String language, List<Asset> assets, Guid objectID)
         {
                 _context.ContextData[language].Assets.Add(objectID,assets);    
-            return this;
-        }
-
-        public ContextBuilder WithBodyTypes(String language, List<BodyType> bodyTypes)
-        {
-            foreach (var bodyType in bodyTypes)
-                _context.ContextData[language].BodyTypes.Add(bodyType);
             return this;
         }
 

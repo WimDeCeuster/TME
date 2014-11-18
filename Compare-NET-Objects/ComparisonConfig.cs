@@ -221,7 +221,7 @@ namespace KellermanSoftware.CompareNetObjects
         /// <summary>
         /// Custom property comparers.
         /// </summary>
-        public Dictionary<string, Func<object, object, bool>> CustomPropertyComparers {get; set; }
+        public Dictionary<string, Func<object, object, bool?>> CustomPropertyComparers {get; set; }
 
         /// <summary>
         /// When true will add differences for missing and misordered list items. Uses CollectionMatchingKey to find misordered items.
@@ -289,7 +289,7 @@ namespace KellermanSoftware.CompareNetObjects
             MaxByteArrayDifferences = 1;
             CollectionMatchingSpec = new Dictionary<Type, IEnumerable<string>>();
             CustomStringifier = x => null;
-            CustomPropertyComparers = new Dictionary<string, Func<object, object ,bool>>();
+            CustomPropertyComparers = new Dictionary<string, Func<object, object ,bool?>>();
             PathsToIgnore = new List<string>();
             CollectionMatchingKey = new Dictionary<Type, Func<object, string>>();
             IgnoreOrderFor = new List<string>();

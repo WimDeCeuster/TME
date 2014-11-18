@@ -76,8 +76,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
                 .WithLanguages(LANGUAGE1,LANGUAGE2)
                 .WithPublication(LANGUAGE1, _publication)
                 .WithPublication(LANGUAGE2, _publication)
-                .WithTransmissions(LANGUAGE1,_transmissions)
-                .WithTransmissions(LANGUAGE2,_transmissions)
                 .WithAssets(LANGUAGE1, _assetsForTransmission1,generationTransmission1.ID)
                 .WithAssets(LANGUAGE2, _assetsForTransmission1,generationTransmission1.ID)
                 .WithAssets(LANGUAGE1, _assetsForTransmission2,generationTransmission2.ID)
