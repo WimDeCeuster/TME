@@ -14,5 +14,9 @@ namespace TME.CarConfigurator.CommandServices
         Task PutCarAssetsByModeAndView(string brand, string country, Guid publicationID, Guid carID, Guid objectID, string mode, string view, IEnumerable<Asset> assets);
         Task PutDefaultSubModelAssets(string brand, string country, Guid publicationID, Guid subModelID, Guid objectID, IEnumerable<Asset> assets);
         Task PutSubModelAssetsByModeAndView(string brand, string country, Guid publicationID, Guid subModelID, Guid objectID, string mode, string view, IEnumerable<Asset> assets);
+
+        Task PutCarPartsAssetsByModeAndView(string brand, string country, Guid publicationID, Guid carID, string mode, string view, IEnumerable<CarPartAssets> carPartAssets);
+        Task PutDefaultCarEquipmentAssets(string brand, string country, Guid publicationID, Guid carID, IEnumerable<CarEquipmentAssets> carEquipmentAssets);
+        Task PutCarEquipmentAssetsByModeAndView(string brand, string country, Guid publicationID, Guid carID, string mode, string view, IEnumerable<CarEquipmentAssets> carEquipmentAssets);
     }
 }

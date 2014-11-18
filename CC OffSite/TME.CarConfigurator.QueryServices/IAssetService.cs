@@ -13,5 +13,9 @@ namespace TME.CarConfigurator.QueryServices
         IEnumerable<Asset> GetCarAssets(Guid publicationId, Guid carId, Guid objectId, Context context);
         IEnumerable<Asset> GetSubModelAssets(Guid publicationID, Guid subModelID, Guid objectID, Context context);
         IEnumerable<Asset> GetSubModelAssets(Guid publicationID, Guid subModelID, Guid objectID, Context context, string view, string mode);
+
+        IEnumerable<CarPartAssets> GetCarPartsAssets(Guid publicationID, Guid carID, Context context, string view, string mode);
+        IEnumerable<CarEquipmentAssets> GetCarEquipmentAssets(Guid publicationID, Guid carID, Context context);
+        IEnumerable<CarEquipmentAssets> GetCarEquipmentAssets(Guid publicationID, Guid carID, Context context, string view, string mode);
     }
 }

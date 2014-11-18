@@ -77,9 +77,6 @@
     <Reference Include="TME.BusinessObjects.ValidationRules">
       <HintPath>..\..\Libraries\TME.BusinessObjects.ValidationRules.dll</HintPath>
     </Reference>
-    <Reference Include="TME.CarConfigurator.Administration">
-      <HintPath>..\..\Libraries\TME.CarConfigurator.Administration.dll</HintPath>
-    </Reference>
     <Reference Include="TME.Common">
       <HintPath>..\..\Libraries\TME.Common.dll</HintPath>
     </Reference>
@@ -188,6 +185,10 @@
     <Compile Include="Services\AssetFileService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TME.CarConfigurator.Administration\TME.CarConfigurator.Administration.vbproj">
+      <Project>{0638684f-634b-4447-a411-11ae50c4202b}</Project>
+      <Name>TME.CarConfigurator.Administration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.CommandServices\TME.CarConfigurator.CommandServices.csproj">
       <Project>{3db012ee-feb6-40f1-9c09-97212c142013}</Project>
       <Name>TME.CarConfigurator.CommandServices</Name>

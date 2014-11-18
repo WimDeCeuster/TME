@@ -65,5 +65,21 @@ namespace TME.CarConfigurator.S3.CommandServices
             var value = _serialiser.Serialise(assets);
             await _service.PutObjectAsync(brand, country, path, value);
         }
+
+        public Task PutCarPartsAssetsByModeAndView(string brand, string country, Guid publicationID, Guid carID, string mode, string view, IEnumerable<CarPartAssets> carPartAssets)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task PutDefaultCarEquipmentAssets(string brand, string country, Guid publicationID, Guid carID, IEnumerable<CarEquipmentAssets> carEquipmentAssets)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task PutCarEquipmentAssetsByModeAndView(string brand, string country, Guid publicationID, Guid carID, string mode, string view, IEnumerable<CarEquipmentAssets> carEquipmentAssets)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
