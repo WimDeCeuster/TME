@@ -1,0 +1,694 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0638684F-634B-4447-A411-11AE50C4202B}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>TME.CarConfigurator.Administration</AssemblyName>
+    <AssemblyOriginatorKeyFile>TMME.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>On</OptionStrict>
+    <RootNamespace>TME.CarConfigurator.Administration</RootNamespace>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SignAssembly>true</SignAssembly>
+    <OptionInfer>On</OptionInfer>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <BaseAddress>318767104</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42105,42106,42107</WarningsAsErrors>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <DebugType>none</DebugType>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42105,42106,42107</WarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations" Condition="'$(Configuration)'=='Debug'">
+      <HintPath>..\..\..\_RELEASES\JetBrains.Annotations.7.0\lib\net40\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="TME.BusinessObjects, Version=4.0.11.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TME.BusinessObjects.dll</HintPath>
+    </Reference>
+    <Reference Include="TME.BusinessObjects.Templates, Version=2.2.3.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TME.BusinessObjects.Templates.dll</HintPath>
+    </Reference>
+    <Reference Include="TME.BusinessObjects.ValidationRules">
+      <HintPath>..\..\Libraries\TME.BusinessObjects.ValidationRules.dll</HintPath>
+    </Reference>
+    <Reference Include="TME.Common, Version=1.5.0.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TME.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="TMME.Common.DataObjects">
+      <Name>TMME.Common.DataObjects</Name>
+      <HintPath>..\..\Libraries\TMME.Common.DataObjects.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TMME.Security.Library, Version=1.3.0.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\TMME.Security.Library.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Data.SqlClient" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Security.Principal" />
+    <Import Include="System.Threading" />
+    <Import Include="System.Xml" />
+    <Import Include="TME.BusinessObjects" />
+    <Import Include="TME.CarConfigurator.Administration.BaseObjects" />
+    <Import Include="TME.CarConfigurator.Administration.Extensions" />
+    <Import Include="TME.CarConfigurator.Administration.Interfaces" />
+    <Import Include="TME.Common.Database" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccentColourCombinations.vb" />
+    <Compile Include="Accessories.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AccessoryCategories.vb" />
+    <Compile Include="AccessoryFittings.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AccessoryGeneration.vb" />
+    <Compile Include="AccessoryIncompatibilities.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActiveFilterTool\Classification.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActiveFilterTool\Enumerations\VehicleType.vb" />
+    <Compile Include="ActiveFilterTool\FilterValueApplicabilities.vb" />
+    <Compile Include="ActiveFilterTool\DecimalValueFilter.vb" />
+    <Compile Include="ActiveFilterTool\Enumerations\FilterType.vb" />
+    <Compile Include="ActiveFilterTool\FilterValueApplicability.vb" />
+    <Compile Include="ActiveFilterTool\FilterValueEquipmentItem.vb" />
+    <Compile Include="ActiveFilterTool\ValueListFilter.vb" />
+    <Compile Include="ActiveFilterTool\FilterValue.vb" />
+    <Compile Include="ActiveFilterTool\FilterValueEquipment.vb" />
+    <Compile Include="ActiveFilterTool\FilterValues.vb" />
+    <Compile Include="ActiveFilterTool\Filters.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActiveFilterTool\ModelSubSet.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActiveFilterTool\ModelSubSetCarSpecification.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActiveFilterTool\ModelSubSetClassification.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActiveFilterTool\ModelSubSetFitting.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ActiveFilterTool\PriceFilter.vb" />
+    <Compile Include="ActiveFilterTool\SpecificationFilter.vb" />
+    <Compile Include="Aliases.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Assets\AssetGroups.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Assets\AssetInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Assets\AssetReferences.vb" />
+    <Compile Include="Assets\Assets.vb" />
+    <Compile Include="Assets\AssetSetAssets.vb" />
+    <Compile Include="Assets\AssetSets.vb" />
+    <Compile Include="Assets\AssetTypeDetails.vb" />
+    <Compile Include="Assets\AssetTypeGroups.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Assets\AssetTypes.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Assets\Enums\AssetScope.vb" />
+    <Compile Include="Assets\LinkedAssets.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CarEquipment.vb" />
+    <Compile Include="CarEquipmentRules.vb" />
+    <Compile Include="CarPackExteriorColours.vb" />
+    <Compile Include="CarPackItems.vb" />
+    <Compile Include="CarPackRules.vb" />
+    <Compile Include="CarRule.vb" />
+    <Compile Include="CarExteriorColourApplicability.vb" />
+    <Compile Include="CarPacks.vb" />
+    <Compile Include="CarParts.vb" />
+    <Compile Include="CarRules.vb" />
+    <Compile Include="CarUpholsteryApplicability.vb" />
+    <Compile Include="ActiveFilterTool\Enumerations\DefaultType.vb" />
+    <Compile Include="Components\AccessoryComponents.vb" />
+    <Compile Include="Components\Interfaces\ICanBeModelGenerationOptionComponent.vb" />
+    <Compile Include="Components\Interfaces\ICanHaveComponentsWithAssets.vb" />
+    <Compile Include="Components\ModelGenerationOptionAccessoryComponent.vb" />
+    <Compile Include="Components\ModelGenerationOptionComponents.vb" />
+    <Compile Include="Components\ModelGenerationOptionFactoryOptionValueComponent.vb" />
+    <Compile Include="CarSpecificationValues.vb" />
+    <Compile Include="CarPackUpholsteries.vb" />
+    <Compile Include="Configurations\ConfigurationTypes.vb" />
+    <Compile Include="Configurations\DefaultConfigurations.vb" />
+    <Compile Include="Configurations\DefaultConfigurationSelectedEquipment.vb" />
+    <Compile Include="Configurations\DefaultConfigurationSelectedPackEquipment.vb" />
+    <Compile Include="Configurations\DefaultConfigurationSelectedPacks.vb" />
+    <Compile Include="Enums\Availability.vb" />
+    <Compile Include="Enums\ColouringModes.vb" />
+    <Compile Include="Enums\ItemVisibility.vb" />
+    <Compile Include="Enums\MasterEquipmentType.vb" />
+    <Compile Include="Enums\DisplayControl.vb" />
+    <Compile Include="Enums\Entity.vb" />
+    <Compile Include="Enums\LocalizationMode.vb" />
+    <Compile Include="Enums\EquipmentType.vb" />
+    <Compile Include="Enums\MasterPackType.vb" />
+    <Compile Include="Enums\PriceType.vb" />
+    <Compile Include="Enums\RuleCategory.vb" />
+    <Compile Include="Enums\RuleType.vb" />
+    <Compile Include="Enums\Status.vb" />
+    <Compile Include="Enums\ValueSelectionType.vb" />
+    <Compile Include="EquipmentFittingRules.vb" />
+    <Compile Include="Exceptions\AccessoryCategoryContainsSubCategoriesException.vb" />
+    <Compile Include="Exceptions\AssetTypeAlreadyExistsException.vb" />
+    <Compile Include="Exceptions\CanNotLocalizeData.vb" />
+    <Compile Include="Exceptions\CarNeedsToBeApproved.vb" />
+    <Compile Include="Exceptions\SuffixOptionAlreadyOfferedThroughPackException.vb" />
+    <Compile Include="Exceptions\EquipmenItemCanNotBeFittedOnThisSpecification.vb" />
+    <Compile Include="Exceptions\EquipmenItemCanNotCategorized.vb" />
+    <Compile Include="Exceptions\NonSuffixOptionOfferedThroughPackException.vb" />
+    <Compile Include="Exceptions\OptionIsNotASuffixOptionException.vb" />
+    <Compile Include="Exceptions\OptionNotFoundOnCarException.vb" />
+    <Compile Include="Exceptions\PackContentCouldNotBeFound.vb" />
+    <Compile Include="Exceptions\RuleEntityNotSupportedException.vb" />
+    <Compile Include="Exceptions\SpecificationValueAlreadyDefinedForLanguageException.vb" />
+    <Compile Include="Exceptions\GenerationCanNotBeChangedException.vb" />
+    <Compile Include="Exceptions\GradeAlreadyExistsException.vb" />
+    <Compile Include="Exceptions\IndexItemOutOfRangeException.vb" />
+    <Compile Include="Exceptions\InvalidCarIdentifier.vb" />
+    <Compile Include="Exceptions\InvalidEquipmentType.vb" />
+    <Compile Include="Exceptions\InvalidLanguageIdentifier.vb" />
+    <Compile Include="Exceptions\KatashikiNotAvailable.vb" />
+    <Compile Include="Exceptions\ModelGenerationFactoryGenerationAlreadyExistsException.vb" />
+    <Compile Include="Exceptions\ModelNeedsToBeApproved.vb" />
+    <Compile Include="Exceptions\NoBrandSelected.vb" />
+    <Compile Include="Exceptions\OptionAssetTypeAlreadyExistsException.vb" />
+    <Compile Include="Exceptions\RuleAlreadyDefinedException.vb" />
+    <Compile Include="Exceptions\RuleNotSupportedException.vb" />
+    <Compile Include="Exceptions\StateNotValidException.vb" />
+    <Compile Include="Extensions\AccessoryCategoryExtensions.vb" />
+    <Compile Include="Extensions\ColouringModesExtensions.vb" />
+    <Compile Include="Extensions\CurrentPrincipalExtensions.vb" />
+    <Compile Include="Extensions\DataReaderExtensions.vb" />
+    <Compile Include="Extensions\IntegerExtensions.vb" />
+    <Compile Include="Extensions\MasterPathExtensions.vb" />
+    <Compile Include="Extensions\Extensions.vb" />
+    <Compile Include="Extensions\EntityExtensions.vb" />
+    <Compile Include="Extensions\MasterEquipmentTypeExtensions.vb" />
+    <Compile Include="Extensions\MasterObjectExtensions.vb" />
+    <Compile Include="Extensions\MasterPackTypeExtensions.vb" />
+    <Compile Include="Extensions\StringExtensions.vb" />
+    <Compile Include="Extensions\OwnerExtensions.vb" />
+    <Compile Include="Interfaces\IColouringModesRule.vb" />
+    <Compile Include="Extensions\VisibilityExtensions.vb" />
+    <Compile Include="Interfaces\IEntityObject.vb" />
+    <Compile Include="Interfaces\IApplicabilities.vb" />
+    <Compile Include="Interfaces\IApplicability.vb" />
+    <Compile Include="Interfaces\IEquipmentBestVisibleIn.vb" />
+    <Compile Include="Interfaces\IExteriorColourApplicabilities.vb" />
+    <Compile Include="Interfaces\IExteriorColourApplicability.vb" />
+    <Compile Include="Interfaces\IInteriorColourApplicabilities.vb" />
+    <Compile Include="Interfaces\IInteriorColourApplicability.vb" />
+    <Compile Include="Interfaces\IMasterListObject.vb" />
+    <Compile Include="Interfaces\IMasterListObjectReference.vb" />
+    <Compile Include="Interfaces\IMasterObject.vb" />
+    <Compile Include="Interfaces\IMasterObjectReference.vb" />
+    <Compile Include="Interfaces\IGenerationObject.vb" />
+    <Compile Include="Interfaces\IMasterPathObject.vb" />
+    <Compile Include="Interfaces\IMasterPathObjectReference.vb" />
+    <Compile Include="Interfaces\IOverwritable.vb" />
+    <Compile Include="Interfaces\IPrice.vb" />
+    <Compile Include="Interfaces\IStronglySortedObject.vb" />
+    <Compile Include="Interfaces\IUpholsteryApplicabilities.vb" />
+    <Compile Include="Languages.vb" />
+    <Compile Include="Interfaces\IUpholsteryApplicability.vb" />
+    <Compile Include="InteriorColourApplicabilities.vb" />
+    <Compile Include="LocalConfigurations.vb" />
+    <Compile Include="Exceptions\CanNotUnLocalizeData.vb" />
+    <Compile Include="Exceptions\MultipleSpecificationValuesFoundForCar.vb" />
+    <Compile Include="Extensions\OptionMappingExtensions.vb" />
+    <Compile Include="ActiveFilterTool\Enumerations\FilterCompareMode.vb" />
+    <Compile Include="Markets.vb" />
+    <Compile Include="ModelGenerationFactoryCars.vb" />
+    <Compile Include="Interfaces\IHasAssetSet.vb" />
+    <Compile Include="Interfaces\ILinkedAssets.vb" />
+    <Compile Include="Interfaces\ILinks.vb" />
+    <Compile Include="Interfaces\IRule.vb" />
+    <Compile Include="Interfaces\IUniqueGuid.vb" />
+    <Compile Include="ModelGenerationFactoryOptions.vb" />
+    <Compile Include="ModelGenerationFactoryOptionValues.vb" />
+    <Compile Include="ModelGenerationGradeOptionPackRelations.vb" />
+    <Compile Include="ModelGenerationGradeClassificationGrades.vb" />
+    <Compile Include="ModelGenerationGradeClassifications.vb" />
+    <Compile Include="ModelGenerationGradePacks.vb" />
+    <Compile Include="ModelGenerationGradeSubmodels.vb" />
+    <Compile Include="ModelGenerationMasterPacks.vb" />
+    <Compile Include="ModelGenerationQueryResults.vb" />
+    <Compile Include="ModelGenerationRule.vb" />
+    <Compile Include="ModelGenerationRules.vb" />
+    <Compile Include="ModelGenerationSubModelDefaultFittings.vb" />
+    <Compile Include="Normalizers\Accessories\AvailabilityNormalizer.vb" />
+    <Compile Include="Normalizers\Equipment\AvailabilityNormalizer.vb" />
+    <Compile Include="Normalizers\IGenerationNormalizer.vb" />
+    <Compile Include="Normalizers\IGradeNormalizer.vb" />
+    <Compile Include="Normalizers\Normalizer.vb" />
+    <Compile Include="Normalizers\Options\ApplicabilitiesNormalizer.vb" />
+    <Compile Include="Normalizers\Options\AvailabilityNormalizer.vb" />
+    <Compile Include="Normalizers\Options\RuleNormalizer.vb" />
+    <Compile Include="PartNumber.vb" />
+    <Compile Include="Regions.vb" />
+    <Compile Include="Security\CrossModel\EquipmentItemPermissions.vb" />
+    <Compile Include="Security\CrossModel\CrossModelPermissionBroker.vb" />
+    <Compile Include="Security\DefaultPermissionBroker.vb" />
+    <Compile Include="Security\Interface\IEquipmentItemPermissions.vb" />
+    <Compile Include="Security\Interface\ICarPermissions.vb" />
+    <Compile Include="Security\Interface\ICrossModelPermissionBroker.vb" />
+    <Compile Include="Security\Interface\IEquipmentPermissions.vb" />
+    <Compile Include="Security\Interface\IGlobalPermissions.vb" />
+    <Compile Include="Security\Interface\IModelGenerationEquipmentPermissions.vb" />
+    <Compile Include="Security\Interface\IModelPermissions.vb" />
+    <Compile Include="Security\Interface\IPermissionBroker.vb" />
+    <Compile Include="Security\Interface\IPermissions.vb" />
+    <Compile Include="Security\Interface\ISpecificationPermissions.vb" />
+    <Compile Include="Security\LocalConfigurationPermissionBroker.vb" />
+    <Compile Include="Security\LocalConfiguration\CarPermissions.vb" />
+    <Compile Include="Security\LocalConfiguration\EquipmentPermissions.vb" />
+    <Compile Include="Security\LocalConfiguration\GlobalPermissions.vb" />
+    <Compile Include="Security\LocalConfiguration\ModelGenerationEquipmentPermissions.vb" />
+    <Compile Include="Security\LocalConfiguration\ModelPermissions.vb" />
+    <Compile Include="Security\LocalConfiguration\Permissions.vb" />
+    <Compile Include="Security\LocalConfiguration\SpecificationPermissions.vb" />
+    <Compile Include="Security\OldPermissions\AccessoriesPermissions.vb" />
+    <Compile Include="Security\OldPermissions\ActiveFilterToolPermissions.vb" />
+    <Compile Include="Security\OldPermissions\Base\Permissions.vb" />
+    <Compile Include="Security\OldPermissions\Base\PermissionsWithAssetPermissions.vb" />
+    <Compile Include="Security\OldPermissions\BodyTypePermissions.vb" />
+    <Compile Include="Security\OldPermissions\CarPermissions.vb" />
+    <Compile Include="Security\OldPermissions\CorePermissions.vb" />
+    <Compile Include="Security\OldPermissions\EnginePermissions.vb" />
+    <Compile Include="Security\OldPermissions\EngineTypePermissions.vb" />
+    <Compile Include="Security\OldPermissions\EquipmentCategoriesPermissions.vb" />
+    <Compile Include="Security\OldPermissions\EquipmentGroupsPermissions.vb" />
+    <Compile Include="Security\OldPermissions\EquipmentItemsPermissions.vb" />
+    <Compile Include="Security\OldPermissions\EquipmentPackPermissions.vb" />
+    <Compile Include="Security\OldPermissions\EquipmentPermissions.vb" />
+    <Compile Include="Security\OldPermissions\ExteriorColourPermissions.vb" />
+    <Compile Include="Security\OldPermissions\FactoryCarPermissions.vb" />
+    <Compile Include="Security\OldPermissions\FactoryGradePermissions.vb" />
+    <Compile Include="Security\OldPermissions\FeaturesPermissions.vb" />
+    <Compile Include="Security\OldPermissions\GradeClassificationPermissions.vb" />
+    <Compile Include="Security\OldPermissions\GradePermissions.vb" />
+    <Compile Include="Security\OldPermissions\InteriorColourPermissions.vb" />
+    <Compile Include="Security\OldPermissions\LinkedAssetPermissions.vb" />
+    <Compile Include="Security\OldPermissions\LinkedColourPermissions.vb" />
+    <Compile Include="Security\OldPermissions\LinkPermissions.vb" />
+    <Compile Include="Security\OldPermissions\ModelGenerationEquipmentPermissions.vb" />
+    <Compile Include="Security\OldPermissions\ModelGenerationPermissions.vb" />
+    <Compile Include="Security\OldPermissions\ModelPermissions.vb" />
+    <Compile Include="Security\OldPermissions\OptionsPermissions.vb" />
+    <Compile Include="Security\OldPermissions\PackPermissions.vb" />
+    <Compile Include="Security\OldPermissions\DefaultPermissions.vb" />
+    <Compile Include="Security\OldPermissions\SpecificationCategoriesPermissions.vb" />
+    <Compile Include="Security\OldPermissions\SpecificationItemsPermissions.vb" />
+    <Compile Include="Security\OldPermissions\SpecificationPermissions.vb" />
+    <Compile Include="Security\OldPermissions\SpecificationValuesPermissions.vb" />
+    <Compile Include="Security\OldPermissions\SubModelPermissions.vb" />
+    <Compile Include="Security\OldPermissions\TransmissionPermissions.vb" />
+    <Compile Include="Security\OldPermissions\TrimmingPermissions.vb" />
+    <Compile Include="Security\OldPermissions\UpholsteryPermissions.vb" />
+    <Compile Include="Security\OldPermissions\WheelDrivePermissions.vb" />
+    <Compile Include="Security\PermissionBroker.vb" />
+    <Compile Include="Promotions\DiscountPromotion.vb" />
+    <Compile Include="Promotions\Enums\DiscountPriceApplicability.vb" />
+    <Compile Include="Promotions\Enums\DiscountSectionApplicability.vb" />
+    <Compile Include="Promotions\Enums\PromotionEntity.vb" />
+    <Compile Include="Promotions\Enums\PromotionTypeId.vb" />
+    <Compile Include="Promotions\FixedPriceDiscountPromotion.vb" />
+    <Compile Include="Promotions\PercentageDiscountPromotion.vb" />
+    <Compile Include="Promotions\PromotionApplicabilities.vb" />
+    <Compile Include="Promotions\PromotionIssuers.vb" />
+    <Compile Include="Promotions\PromotionItems.vb" />
+    <Compile Include="Promotions\Promotions.vb" />
+    <Compile Include="Promotions\PromotionTypes.vb" />
+    <Compile Include="Promotions\SpotlightPromotion.vb" />
+    <Compile Include="Security\ReadOnlyPermissionBroker.vb" />
+    <Compile Include="Security\ReadOnly\EquipmentPermissions.vb" />
+    <Compile Include="Security\ReadOnly\GlobalPermissions.vb" />
+    <Compile Include="Security\ReadOnly\CarPermissions.vb" />
+    <Compile Include="Security\ReadOnly\ModelGenerationEquipmentPermissions.vb" />
+    <Compile Include="Security\ReadOnly\ModelPermissions.vb" />
+    <Compile Include="Security\ReadOnly\Permissions.vb" />
+    <Compile Include="Security\ReadOnly\SpecificationPermissions.vb" />
+    <Compile Include="State\Accessory\Draft.vb" />
+    <Compile Include="State\Accessory\PhasedOut.vb" />
+    <Compile Include="State\Accessory\Published.vb" />
+    <Compile Include="State\Accessory\AccessoryState.vb" />
+    <Compile Include="State\Accessory\Withdrawn.vb" />
+    <Compile Include="SuffixColourCombinations.vb" />
+    <Compile Include="Translations\LabelDefinitions.vb" />
+    <Compile Include="Translations\LabelEntityDefinitions.vb" />
+    <Compile Include="Translations\Labels.vb" />
+    <Compile Include="Copy.vb" />
+    <Compile Include="Exceptions\DevelopperException.vb" />
+    <Compile Include="ModelGenerationGradeEquipment.vb" />
+    <Compile Include="ModelGenerationPackUpholsteries.vb" />
+    <Compile Include="EngineCategory.vb" />
+    <Compile Include="ModelGenerationEquipmentRules.vb" />
+    <Compile Include="ModelGenerationPackExteriorColours.vb" />
+    <Compile Include="ModelGenerationSubModelEquipment.vb" />
+    <Compile Include="UpholsteryApplicabilities.vb" />
+    <Compile Include="Exceptions\ObjectAlreadyExists.vb" />
+    <Compile Include="ExteriorColourApplicabilities.vb" />
+    <Compile Include="ModelGenerationCarParts.vb" />
+    <Compile Include="Interfaces\IOwnedBy.vb" />
+    <Compile Include="ModelGenerationAssetTypes.vb" />
+    <Compile Include="BaseObjects\ContextBusinessBase.vb" />
+    <Compile Include="BaseObjects\ContextCommandBase.vb" />
+    <Compile Include="BaseObjects\ContextReadOnlyBase.vb" />
+    <Compile Include="BaseObjects\ContextUniqueGuidBusinessBase.vb" />
+    <Compile Include="BaseObjects\ContextUniqueGuidReadOnlyBase.vb" />
+    <Compile Include="BaseObjects\LocalizeableBusinessBase.vb" />
+    <Compile Include="BaseObjects\SqlDatabaseContext.vb" />
+    <Compile Include="BaseObjects\StronglySortedListBase.vb" />
+    <Compile Include="BaseObjects\TranslateableBusinessBase.vb" />
+    <Compile Include="BluePrint.vb" />
+    <Compile Include="BodyTypes.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Brands.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CarSpecifications.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ChangeTypes.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CarSuffix.vb" />
+    <Compile Include="Exceptions\InvalidTransition.vb" />
+    <Compile Include="Exceptions\InvalidFactoryOption.vb" />
+    <Compile Include="ExteriorColourTypes.vb" />
+    <Compile Include="ModelGenerationColourCombinations.vb" />
+    <Compile Include="ModelGenerationEquipment.vb" />
+    <Compile Include="ModelGenerationExteriorColours.vb" />
+    <Compile Include="ModelGenerationUpholsteries.vb" />
+    <Compile Include="SuffixOptions.vb" />
+    <Compile Include="Exceptions\BaseSuffixCanNotBeChanged.vb" />
+    <Compile Include="Suffixes.vb" />
+    <Compile Include="FactoryGenerationOptions.vb" />
+    <Compile Include="FactoryGenerationOptionValues.vb" />
+    <Compile Include="OptionMapping.vb" />
+    <Compile Include="Exceptions\InvalidFactoryGenerationIdentifier.vb" />
+    <Compile Include="Exceptions\InvalidFactoryModelIdentifier.vb" />
+    <Compile Include="FactoryGenerations.vb" />
+    <Compile Include="Translations\Translation.vb" />
+    <Compile Include="Countries.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Destinations.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engines.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EngineTypes.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Environment.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EquipmentCategories.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EquipmentFittings.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EquipmentGroups.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EquipmentIncompatibilities.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EquipmentItems.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EquipmentRules.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FactoryMasterSpecs.vb" />
+    <Compile Include="FactoryMasterSpecValues.vb" />
+    <Compile Include="Exceptions\BaseLinkAlreadyExists.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exceptions\CarCanNotBeChanged.vb" />
+    <Compile Include="Exceptions\CarNeedsToBeValid.vb" />
+    <Compile Include="Exceptions\InvalidBrandIdentifier.vb" />
+    <Compile Include="Exceptions\InvalidCountryIdentifier.vb" />
+    <Compile Include="Exceptions\InvalidModelGenerationIdentifier.vb" />
+    <Compile Include="Exceptions\InvalidModelIdentifier.vb" />
+    <Compile Include="Exceptions\NoDataFoundForQuery.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exceptions\UpdateNotAllowed.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ExteriorColours.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FactoryCars.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FactoryGrades.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FactoryModels.vb" />
+    <Compile Include="FileTypes.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FuelTypes.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelGenerationFactoryGenerations.vb" />
+    <Compile Include="InteriorColours.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LinkedColourCombinations.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LinkedExteriorColours.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LinkedUpholsteries.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Links\BaseLink.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Links\Link.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Links\LinkType.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelGenerationBodyTypes.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelGenerationEngines.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelGenerationGradeBodyTypes.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelGenerationGrades.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelGenerationPackItems.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelGenerationPackRules.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelGenerationPacks.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelGenerations.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelGenerationSpecifications.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelGenerationSpecificationValues.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelGenerationSubModels.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelGenerationTransmissions.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelGenerationWheelDrives.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MyContext.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Options.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PartialCarSpecification.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProductionPlants.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpecificationCategories.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SpecificationCodes.vb" />
+    <Compile Include="SpecificationMapping.vb" />
+    <Compile Include="Specifications.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Cars.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Steerings.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SuffixFittings.vb" />
+    <Compile Include="Transmissions.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransmissionTypes.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Trimmings.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Units.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Upholsteries.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UpholsteryTypes.vb" />
+    <Compile Include="ValidationRules\MasterReference.vb" />
+    <Compile Include="Util\DebugUtil.vb" />
+    <Compile Include="Versions\CarConfiguratorVersions.vb" />
+    <Compile Include="Versions\ModelGenerationCarConfiguratorVersions.vb" />
+    <Compile Include="WheelDrives.vb">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="TMME.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

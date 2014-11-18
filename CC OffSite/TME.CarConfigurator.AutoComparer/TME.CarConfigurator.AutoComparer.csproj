@@ -55,10 +55,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Libraries\TME.BusinessObjects.ValidationRules.dll</HintPath>
     </Reference>
-    <Reference Include="TME.CarConfigurator.Administration, Version=7.1.4.1, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libraries\TME.CarConfigurator.Administration.dll</HintPath>
-    </Reference>
     <Reference Include="TME.Common, Version=1.5.0.0, Culture=neutral, PublicKeyToken=e6963f4af1c2f0e2, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Libraries\TME.Common.dll</HintPath>
@@ -112,6 +108,10 @@
     <ProjectReference Include="..\..\Compare-NET-Objects\Compare-NET-Objects.csproj">
       <Project>{94f1f5f2-6bc4-464b-ac51-fbdb4fa3f3ad}</Project>
       <Name>Compare-NET-Objects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Administration\TME.CarConfigurator.Administration.vbproj">
+      <Project>{0638684f-634b-4447-a411-11ae50c4202b}</Project>
+      <Name>TME.CarConfigurator.Administration</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Comparer\TME.CarConfigurator.Comparer.csproj">
       <Project>{d8d351d9-c23d-46ef-a679-49e0bd1c8a9b}</Project>

@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Repository.Objects", "TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj", "{2154EAAA-3D11-4654-BEA6-7B147451DBA8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator", "TME.CarConfigurator\TME.CarConfigurator.csproj", "{89489B1E-DFAA-4164-93C3-A79859368CF8}"
@@ -53,6 +51,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.AutoComparer", "TME.CarConfigurator.AutoComparer\TME.CarConfigurator.AutoComparer.csproj", "{0C21F2A1-B002-4667-B905-F2E5F4D31AA8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compare-NET-Objects", "..\Compare-NET-Objects\Compare-NET-Objects.csproj", "{94F1F5F2-6BC4-464B-AC51-FBDB4FA3F3AD}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TME.CarConfigurator.Administration", "TME.CarConfigurator.Administration\TME.CarConfigurator.Administration.vbproj", "{0638684F-634B-4447-A411-11AE50C4202B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -152,6 +152,10 @@ Global
 		{94F1F5F2-6BC4-464B-AC51-FBDB4FA3F3AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94F1F5F2-6BC4-464B-AC51-FBDB4FA3F3AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94F1F5F2-6BC4-464B-AC51-FBDB4FA3F3AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0638684F-634B-4447-A411-11AE50C4202B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0638684F-634B-4447-A411-11AE50C4202B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0638684F-634B-4447-A411-11AE50C4202B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0638684F-634B-4447-A411-11AE50C4202B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
