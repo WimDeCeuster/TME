@@ -81,5 +81,21 @@ namespace TME.CarConfigurator.S3.QueryServices
                 return new Asset[] { };
             }
         }
+
+
+        public IEnumerable<CarPartAssets> GetCarPartsAssets(Guid publicationID, Guid carID, Context context, string view, string mode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<CarEquipmentAssets> GetCarEquipmentAssets(Guid publicationID, Guid carID, Context context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<CarEquipmentAssets> GetCarEquipmentAssets(Guid publicationID, Guid carID, Context context, string view, string mode)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
