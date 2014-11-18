@@ -30,18 +30,25 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
             get { return Adaptee.IsPromoted; }
         }
 
+
+        private ColourTransformation _transformation = null;
         public IColourTransformation Transformation
         {
             get
             {
-                try
+                if (_transformation == null)
                 {
-                    return new ColourTransformation(Adaptee.Transformation);
+                    try
+                    {
+                        _transformation = new ColourTransformation(Adaptee.Transformation);
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
                 }
-                catch (Exception)
-                {
-                    return null;
-                }
+
+                return _transformation.IsEmpty() ? null : _transformation;
             }
         }
 

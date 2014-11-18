@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Core;
@@ -14,8 +12,8 @@ namespace TME.CarConfigurator
 {
     public class Car : BaseObject<Repository.Objects.Car>, ICar
     {
-        readonly Repository.Objects.Publication _repositoryPublication;
-        readonly Repository.Objects.Context _repositoryContext;
+        readonly Publication _repositoryPublication;
+        readonly Context _repositoryContext;
         readonly IBodyTypeFactory _bodyTypeFactory;
         readonly ITransmissionFactory _transmissionFactory;
         readonly IWheelDriveFactory _wheelDriveFactory;
@@ -38,8 +36,8 @@ namespace TME.CarConfigurator
 
         public Car(
             Repository.Objects.Car repositoryCar,
-            Repository.Objects.Publication repositoryPublication,
-            Repository.Objects.Context repositoryContext,
+            Publication repositoryPublication,
+            Context repositoryContext,
             IBodyTypeFactory bodyTypeFactory,
             IEngineFactory engineFactory,
             ITransmissionFactory transmissionFactory,

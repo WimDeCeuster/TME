@@ -51,5 +51,16 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
         {
             get { return Adaptee.Alpha; }
         }
+
+        public bool IsEmpty()
+        {
+            if (RGB.Length!=0) return false;
+            if (Hue != 0) return false;
+            if (Saturation != 0) return false;
+            if (Brightness != 0) return false;
+            if (Contrast != 0) return false;
+            if (Alpha != 0) return false;
+            return true;
+        }
     }
 }

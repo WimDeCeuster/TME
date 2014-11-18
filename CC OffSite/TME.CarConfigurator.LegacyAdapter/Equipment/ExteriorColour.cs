@@ -77,21 +77,24 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
             get { return 0; }
         }
 
+        private ColourTransformation _transformation = null;
         public IColourTransformation Transformation
         {
             get
             {
-
-                try
+                if (_transformation == null)
                 {
-                    return new ColourTransformation(Adaptee.Transformation);
-                }
-                catch (Exception)
-                {
-                    return null;
+                    try
+                    {
+                        _transformation = new ColourTransformation(Adaptee.Transformation);
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
                 }
 
-               
+                return _transformation.IsEmpty() ? null : _transformation;
             }
         }
 
