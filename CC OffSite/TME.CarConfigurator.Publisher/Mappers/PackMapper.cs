@@ -31,7 +31,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
 
             if (!gradePack.ShortID.HasValue)
-                throw new CorruptDataException(String.Format("Please supply a ShortID for grade pack {0}", gradePack.ID));
+                throw new CorruptDataException(String.Format("Please supply a ShortID for grade pack {0}", gradePack.Name));
 
             var mappedGradePack = new GradePack
             {
@@ -70,7 +70,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         public CarPack MapCarPack(Administration.CarPack carPack)
         {
             if (carPack.ShortID == null)
-                throw new CorruptDataException(String.Format("Please provide a short id for car pack {0}", carPack.ID));
+                throw new CorruptDataException(String.Format("Please provide a short id for car pack {0}", carPack.Name));
 
             var gradePack = carPack.Car.Generation.Grades[carPack.Car.GradeID].Packs[carPack.ID];
 
