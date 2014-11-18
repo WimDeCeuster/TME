@@ -22,6 +22,8 @@ namespace TME.CarConfigurator.Publisher.Common
         public IDictionary<Guid, IReadOnlyList<CarPack>> CarPacks { get; private set; }
         public IDictionary<Guid, IDictionary<Guid, IList<Asset>>> CarAssets { get; private set; }
         public IDictionary<Guid, IDictionary<Guid, IList<Asset>>> SubModelAssets { get; private set; }
+        public IDictionary<Guid, IDictionary<Guid, IList<Asset>>> CarEquipmentAssets { get; private set; }
+        public IDictionary<Guid, IDictionary<Guid, IList<Asset>>> CarPartAssets { get; set; }
 
         public ContextData()
         {
@@ -32,6 +34,8 @@ namespace TME.CarConfigurator.Publisher.Common
             SubModelAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
             CarEquipment = new Dictionary<Guid, CarEquipment>();
             CarParts = new Dictionary<Guid, IList<CarPart>>();
+            CarEquipmentAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
+            CarPartAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
             CarPacks = new Dictionary<Guid, IReadOnlyList<CarPack>>();
         }
     }

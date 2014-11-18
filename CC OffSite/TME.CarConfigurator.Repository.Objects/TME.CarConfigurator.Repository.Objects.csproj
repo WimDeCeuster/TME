@@ -68,10 +68,8 @@
   <ItemGroup>
     <Compile Include="Assets\Asset.cs" />
     <Compile Include="Assets\AssetType.cs" />
-    <Compile Include="Assets\CarEquipmentAssets.cs" />
     <Compile Include="Assets\Enums\Scope.cs" />
     <Compile Include="Assets\FileType.cs" />
-    <Compile Include="Assets\CarPartAssets.cs" />
     <Compile Include="Assets\VisibleInModeAndView.cs" />
     <Compile Include="CarPart.cs" />
     <Compile Include="Colours\ColourCombination.cs" />
