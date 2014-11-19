@@ -17,6 +17,7 @@ namespace TME.Carconfigurator.Tests.GivenACarConfiguratorPublisher
         const String Country = "BE";
         const String Target = "S3";
         const String PublishedBy = "test";
+        const String AssetUrl = "";
         const PublicationDataSubset DataSubset = PublicationDataSubset.Live;
         IPublisherFactory _publisherFactory;
         ICarConfiguratorPublisher _carConfiguratorPublisher;
@@ -37,7 +38,7 @@ namespace TME.Carconfigurator.Tests.GivenACarConfiguratorPublisher
 
         protected override void Act()
         {
-            _carConfiguratorPublisher.PublishAsync(_generationId, Environment, Target, Brand, Country, DataSubset, PublishedBy, new Progress<PublishProgress>()).Wait();
+            _carConfiguratorPublisher.PublishAsync(_generationId, Environment, Target, Brand, Country, DataSubset, PublishedBy, AssetUrl, new Progress<PublishProgress>()).Wait();
         }
 
         [Fact]

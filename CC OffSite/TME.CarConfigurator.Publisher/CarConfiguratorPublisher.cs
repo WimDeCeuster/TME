@@ -22,7 +22,7 @@ namespace TME.CarConfigurator.Publisher
             _mapper = mapper;
         }
 
-        public async Task PublishAsync(Guid generationID, string environment, string target, string brand, string country, PublicationDataSubset dataSubset, string publishedBy, IProgress<PublishProgress> progress)
+        public async Task PublishAsync(Guid generationID, string environment, string target, string brand, string country, PublicationDataSubset dataSubset, string publishedBy, string assetUrl, IProgress<PublishProgress> progress)
         {
             if (String.IsNullOrWhiteSpace(environment)) throw new ArgumentNullException("environment");
             if (String.IsNullOrWhiteSpace(target)) throw new ArgumentNullException("target");
@@ -32,7 +32,7 @@ namespace TME.CarConfigurator.Publisher
             // create a progress object when client isn't interested in it, instead of doing nullchecks on progess object in further code
             if (progress == null) progress = new Progress<PublishProgress>();
 
-            var context = new Context(brand, country, generationID, dataSubset);
+            var context = new Context(brand, country, generationID, dataSubset, assetUrl);
 
             await MapAsync(progress, context);
 

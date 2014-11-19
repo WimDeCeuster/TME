@@ -94,19 +94,16 @@ namespace TME.CarConfigurator.Comparer
                 GetFullMemberName<ICarPack>(carPack => carPack.AvailableForUpholsteries)
             };
 
-            Func<object, object, bool?> invariantCompare = (item1, item2) => String.Equals((string)item1, (string)item2, StringComparison.InvariantCultureIgnoreCase);
-            Func<object, object, bool?> nullEqualsEmpty = (item1, item2) => item1 != null ? (bool?)null : ((ICollection)item2).Count == 0;
+            Func<object, object, bool?> ignoreCase = (item1, item2) => String.Equals((string)item1, (string)item2, StringComparison.InvariantCultureIgnoreCase);
             Func<object, object, bool?> emptyIsValid = (item1, item2) => ((string)item1) == string.Empty ? true : (bool?)null;
 
             config.CustomPropertyComparers = new Dictionary<String, Func<object, object, bool?>> {
-                { GetFullMemberName<IEquipmentItem>(item => item.Path), invariantCompare },
-                { GetFullMemberName<IEquipmentCategory>(item => item.Path), invariantCompare },
-                { GetFullMemberName<IEquipmentCategoryInfo>(item => item.Path), invariantCompare },
-                { GetFullMemberName<ISpecificationCategory>(item => item.Path), invariantCompare },
-                { GetFullMemberName<ISpecificationCategoryInfo>(item => item.Path), invariantCompare },
-                { GetFullMemberName<ICarPack>(item => item.AvailableForExteriorColours), nullEqualsEmpty },
-                { GetFullMemberName<ICarPack>(item => item.AvailableForUpholsteries), nullEqualsEmpty },
-                { GetFullMemberName<IEquipmentExteriorColour>(item => item.Name), emptyIsValid}
+                { GetFullMemberName<IEquipmentItem>(item => item.Path), ignoreCase },
+                { GetFullMemberName<IEquipmentCategory>(item => item.Path), ignoreCase },
+                { GetFullMemberName<IEquipmentCategoryInfo>(item => item.Path), ignoreCase },
+                { GetFullMemberName<ISpecificationCategory>(item => item.Path), ignoreCase },
+                { GetFullMemberName<ISpecificationCategoryInfo>(item => item.Path), ignoreCase },
+                { GetFullMemberName<IEquipmentExteriorColour>(item => item.Name), emptyIsValid }
             };
 
             //config.CollectionMatchingSpec = new Dictionary<Type, IEnumerable<string>> {

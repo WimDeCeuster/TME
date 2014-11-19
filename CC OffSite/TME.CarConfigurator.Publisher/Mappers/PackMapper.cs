@@ -17,14 +17,20 @@ namespace TME.CarConfigurator.Publisher.Mappers
     {
         private readonly IBaseMapper _baseMapper;
         private readonly ICarMapper _carMapper;
+        private readonly IColourMapper _colourMapper;
+        private readonly IEquipmentMapper _equipmentMapper;
 
-        public PackMapper(IBaseMapper baseMapper, ICarMapper carMapper)
+        public PackMapper(IBaseMapper baseMapper, ICarMapper carMapper, IColourMapper colourMapper, IEquipmentMapper equipmentMapper)
         {
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
             if (carMapper == null) throw new ArgumentNullException("carMapper");
+            if (colourMapper == null) throw new ArgumentNullException("colourMapper");
+            if (equipmentMapper == null) throw new ArgumentNullException("equipmentMapper");
 
             _baseMapper = baseMapper;
             _carMapper = carMapper;
+            _colourMapper = colourMapper;
+            _equipmentMapper = equipmentMapper;
         }
 
         public GradePack MapGradePack(ModelGenerationGradePack gradePack, ModelGenerationPack generationPack, IReadOnlyCollection<Car> gradeCars)
@@ -90,20 +96,11 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Optional = carPack.Availability == Availability.Optional,
                 Standard = carPack.Availability == Availability.Standard,
                 OptionalGradeFeature = gradePack.GradeFeature && carPack.Availability == Availability.Optional,
-                AvailableForExteriorColours = carPack.ExteriorColourApplicabilities.Select(x =>
-                    new Repository.Objects.Colours.ExteriorColourInfo
-                    {
-                        ID = x.ID,
-                        InternalCode = x.Code
-                    }
-                ).ToList(),
-                AvailableForUpholsteries = carPack.UpholsteryApplicabilities.Select(x =>
-                    new Repository.Objects.Colours.UpholsteryInfo
-                    {
-                        ID = x.ID,
-                        InternalCode = x.Code
-                    }
-                ).ToList()
+                AvailableForExteriorColours = carPack.ExteriorColourApplicabilities.Where(item => !item.Cleared).Select(_colourMapper.MapExteriorColourApplicability).ToList(),
+                AvailableForUpholsteries = carPack.UpholsteryApplicabilities.Where(item => !item.Cleared).Select(_colourMapper.MapUpholsteryApplicability).ToList()/*,
+                Equipment = new CarPackEquipment {
+                    Accessories = _equipmentMapper.MapCarAccessory()
+                }*/
             };
 
             return _baseMapper.MapTranslation(mappedCarPack, carPack.Translation, carPack.Name);

@@ -30,6 +30,8 @@
   <object name="PackMapper" type="TME.CarConfigurator.Publisher.Mappers.PackMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />
     <constructor-arg ref="CarMapper" />
+    <constructor-arg ref="ColourMapper" />
+    <constructor-arg ref="EquipmentMapper" />
   </object>
   <object name="GenerationMapper" type="TME.CarConfigurator.Publisher.Mappers.GenerationMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="AssetMapper" />

@@ -59,7 +59,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             CarPublisher = A.Fake<ICarPublisher>(x => x.Strict());
             AssetPublisher = A.Fake<IAssetPublisher>(x => x.Strict());
 
-            Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live);
+            Context = new Context(Brand, Country, GenerationID, PublicationDataSubset.Live, String.Empty);
 
             var contextDataForLanguage1 = new ContextData();
             contextDataForLanguage1.Models.Add(new Model

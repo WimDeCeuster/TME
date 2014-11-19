@@ -6,7 +6,7 @@ namespace TME.CarConfigurator.Publisher.Job
     {
         public Configuration LoadConfiguration()
         {
-            return new Configuration(GetSection<string>("brand"), GetSection<string>("countries"), GetSection<string>("environment"), GetSection<string>("datasubset"), GetSection<string>("target"), GetSection<string>("publishedBy"));
+            return new Configuration(GetSection<string>("brand"), GetSection<string>("countries"), GetSection<string>("environment"), GetSection<string>("datasubset"), GetSection<string>("target"), GetSection<string>("publishedBy"), GetSection<string>("assetUrl"));
         }
 
         private static T GetSection<T>(string sectionName) where T : class
