@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders
@@ -22,6 +24,15 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         public CarOptionBuilder WithAvailableForUpholsteries(params Repository.Objects.Colours.UpholsteryInfo[] upholsteryInfos)
         {
             _carOption.AvailableForUpholsteries = upholsteryInfos.ToList();
+
+            return this;
+        }
+
+        public CarOptionBuilder WithVisibleIn(string mode, string view)
+        {
+            if (_carOption.VisibleIn == null)
+                _carOption.VisibleIn = new List<VisibleInModeAndView>();
+            _carOption.VisibleIn.Add(new VisibleInModeAndView(){Mode = mode, View = view});
 
             return this;
         }
