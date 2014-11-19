@@ -13,6 +13,7 @@ using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Progress;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Extensions;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
@@ -244,10 +245,41 @@ namespace TME.CarConfigurator.Publisher
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.Transmissions[car.TransmissionID]);
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.WheelDrives[car.WheelDriveID]);
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.SubModels[car.SubModelID]);
-                FillCarListAssets(car, contextData, modelGeneration, GetValidCarParts(car), carItemAssets, carItemsGenerationAssets);
                 FillCarListAssets(car, contextData, modelGeneration, GetValidCarPacks(car), carItemAssets, carItemsGenerationAssets);
-                //FillCarListAssets(car, contextData, modelGeneration, GetValidCarEquipment(car), carItemAssets, carItemsGenerationAssets);
+
+                FillCarEquipmentAssets(car, contextData, GetValidCarEquipment(car), carItemAssets, carItemsGenerationAssets);
+                FillCarPartAssets(car, contextData, GetValidCarParts(car), carItemAssets, carItemsGenerationAssets);
             }
+        }
+
+        private void FillCarPartAssets(Car car, ContextData contextData, IEnumerable<ModelGenerationCarPart> carParts, Dictionary<Guid, Asset> carItemAssets, Dictionary<Guid, IList<Asset>> carItemsGenerationAssets)
+        {
+            contextData.CarPartAssets.Add(car.ID, carParts.ToDictionary(
+                item => item.ID,
+                item => GetCarItemAssets(item, car, carItemAssets, carItemsGenerationAssets)));
+        }
+
+        private void FillCarEquipmentAssets(Car car, ContextData contextData, IEnumerable<ModelGenerationEquipmentItem> equipmentItems, Dictionary<Guid, Asset> carItemAssets, Dictionary<Guid, IList<Asset>> carItemsGenerationAssets)
+        {
+            contextData.CarEquipmentAssets.Add(car.ID, equipmentItems.ToDictionary(
+                item => item.ID,
+                item => GetCarItemAssets(item, car, carItemAssets, carItemsGenerationAssets)));
+        }
+
+        private IList<Asset> GetCarItemAssets(IHasAssetSet objectWithAssetSet, Car car, Dictionary<Guid, Asset> carItemAssets, Dictionary<Guid, IList<Asset>> carItemsGenerationAssets)
+        {
+            var applicableAssets = objectWithAssetSet.AssetSet.Assets.Filter(car).ToList();
+            var unmappedApplicableAsset = applicableAssets.Where(asset => !carItemAssets.ContainsKey(asset.ID));
+
+            foreach (var assetSetAsset in unmappedApplicableAsset)
+                carItemAssets.Add(assetSetAsset.ID, _assetMapper.MapCarAssetSetAsset(assetSetAsset, car.Generation));
+
+            var applicableGenerationAssets = objectWithAssetSet.AssetSet.Assets.GetGenerationAssets();
+
+            if (!carItemsGenerationAssets.ContainsKey(objectWithAssetSet.GetObjectID()))
+                carItemsGenerationAssets.Add(objectWithAssetSet.GetObjectID(), applicableGenerationAssets.Select(asset => _assetMapper.MapCarAssetSetAsset(asset, car.Generation)).ToList());
+
+            return applicableAssets.Select(asset => carItemAssets[asset.ID]).Concat(carItemsGenerationAssets[objectWithAssetSet.GetObjectID()]).ToList();
         }
 
         private void FillCarAssets(Car car, ContextData contextData, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
@@ -262,28 +294,16 @@ namespace TME.CarConfigurator.Publisher
                 contextData.CarAssets[car.ID].Add(objectWithAssetSet.GetObjectID(), allCarAssetsForThisObject);
         }
 
-        private void FillCarAssets(Car car, ContextData contextData, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet, Dictionary<Guid, Asset> carItemAssets, Dictionary<Guid, IList<Asset>> carItemsGenerationAssets)
+        private void FillCarAssets(Car car, ContextData contextData, IHasAssetSet objectWithAssetSet, Dictionary<Guid, Asset> carItemAssets, Dictionary<Guid, IList<Asset>> carItemsGenerationAssets)
         {
-            var applicableAssets = objectWithAssetSet.AssetSet.Assets.Filter(car).ToList();
-            var unmappedApplicableAsset = applicableAssets.Where(asset => !carItemAssets.ContainsKey(asset.ID));
-
-            foreach (var assetSetAsset in unmappedApplicableAsset)
-                carItemAssets.Add(assetSetAsset.ID, _assetMapper.MapCarAssetSetAsset(assetSetAsset, modelGeneration));
-
-            var applicableGenerationAssets = objectWithAssetSet.AssetSet.Assets.GetGenerationAssets();
-
-            if(!carItemsGenerationAssets.ContainsKey(objectWithAssetSet.GetObjectID()))
-                carItemsGenerationAssets.Add(objectWithAssetSet.GetObjectID(), applicableGenerationAssets.Select(asset => _assetMapper.MapCarAssetSetAsset(asset, modelGeneration)).ToList());
-
-            contextData.CarAssets[car.ID].Add(objectWithAssetSet.GetObjectID(),
-                applicableAssets.Select(asset => carItemAssets[asset.ID]).Concat(carItemsGenerationAssets[objectWithAssetSet.GetObjectID()]).ToList());
+            contextData.CarAssets[car.ID].Add(objectWithAssetSet.GetObjectID(), GetCarItemAssets(objectWithAssetSet, car, carItemAssets, carItemsGenerationAssets));
         }
 
         private void FillCarListAssets(Car car, ContextData contextData, ModelGeneration modelGeneration, IEnumerable<IHasAssetSet> itemsWithAssetSet, Dictionary<Guid, Asset> carItemAssets, Dictionary<Guid, IList<Asset>> carItemsGenerationAssets)
         {
             foreach (var item in itemsWithAssetSet)
             {
-                FillCarAssets(car, contextData, modelGeneration, item, carItemAssets, carItemsGenerationAssets);
+                FillCarAssets(car, contextData, item, carItemAssets, carItemsGenerationAssets);
             }
         }
 

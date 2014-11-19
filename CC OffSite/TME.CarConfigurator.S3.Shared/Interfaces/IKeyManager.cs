@@ -31,5 +31,8 @@ namespace TME.CarConfigurator.S3.Shared.Interfaces
         String GetCarCarPartsKey(Guid publicationID, Guid carID);
         String GetCarEquipmentKey(Guid publicationID, Guid carID);
         String GetCarPacksKey(Guid publicationID, Guid carID);
+        String GetCarPartAssetsKey(Guid publicationID, Guid carID, String view, String mode);
+        String GetDefaultCarEquipmentAssetsKey(Guid publicationID, Guid carID);
+        String GetCarEquipmentAssetsKey(Guid publicationID, Guid carID, String view, String mode);
     }
 }

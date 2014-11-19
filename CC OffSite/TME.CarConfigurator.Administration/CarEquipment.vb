@@ -428,7 +428,16 @@ End Class
             Return GradeEquipmentItem.Index
         End Get
     End Property
-
+    Public ReadOnly Property GradeFeature() As Boolean
+        Get
+            Return GradeEquipmentItem.GradeFeature
+        End Get
+    End Property
+    Public ReadOnly Property OptionalGradeFeature() As Boolean
+        Get
+            Return GradeEquipmentItem.OptionalGradeFeature
+        End Get
+    End Property
     Public ReadOnly Property SortPath() As String
         Get
             Return GradeEquipmentItem.SortPath
