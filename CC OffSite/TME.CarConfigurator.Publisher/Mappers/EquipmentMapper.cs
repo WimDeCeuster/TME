@@ -124,7 +124,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 }
             };
 
-            return MapCarEquipmentItem(mappedAccessory, generationCarAccessory, generationAccessory, crossModelEquipmentItem, categories, isPreview, exteriorColourTypes);
+            return MapCarEquipmentItem(mappedAccessory, generationCarAccessory, generationAccessory, crossModelAccessory, categories, isPreview, exteriorColourTypes);
         }
 
         T MapCarEquipmentItem<T>(T mappedEquipmentItem, Administration.CarEquipmentItem generationCarEquipmentItem, ModelGenerationEquipmentItem generationEquipmentItem, EquipmentItem crossModelEquipmentItem, EquipmentCategories categories, bool isPreview, ExteriorColourTypes exteriorColourTypes)
@@ -153,7 +153,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.GradeFeature = generationCarEquipmentItem.GradeFeature;
             mappedEquipmentItem.OptionalGradeFeature = generationCarEquipmentItem.OptionalGradeFeature;
             mappedEquipmentItem.LocalCode = generationCarEquipmentItem.LocalCode.DefaultIfEmpty(isOwner ? generationEquipmentItem.BaseCode : String.Empty);
-            mappedEquipmentItem.VisibleIn = _assetSetMapper.GetVisibility(generationEquipmentItem.AssetSet).ToList();
+            mappedEquipmentItem.VisibleIn =
+                _assetSetMapper.GetVisibility(generationEquipmentItem.AssetSet).ToList();
             
             mappedEquipmentItem.Optional = generationCarEquipmentItem.Availability == Availability.Optional;
             mappedEquipmentItem.Standard = generationCarEquipmentItem.Availability == Availability.Standard;
