@@ -129,6 +129,7 @@ namespace TME.CarConfigurator.Publisher
                 var crossModelEquipment = EquipmentItems.GetEquipmentItems();
                 var categories = EquipmentCategories.GetEquipmentCategories(true);
                 var exteriorColourTypes = ExteriorColourTypes.GetExteriorColourTypes();
+                var upholsteryTypes = UpholsteryTypes.GetUpholsteryTypes();
 
                 progress.Report(new PublishProgress(String.Format("Fill context data for language {0}", language)));
 
@@ -182,7 +183,7 @@ namespace TME.CarConfigurator.Publisher
                     progress.Report(new PublishProgress("Fill generation specification categories"));
                     FillSpecificationCategories(timeFrame);
                     progress.Report(new PublishProgress("Fill generation colour combinations"));
-                    FillColourCombinations(timeFrameCars, modelGeneration, timeFrame, isPreview, exteriorColourTypes);
+                    FillColourCombinations(timeFrameCars, modelGeneration, timeFrame, isPreview, exteriorColourTypes, upholsteryTypes);
                 }
 
                 progress.Report(new PublishProgress("Fill submodel assets"));
@@ -498,12 +499,18 @@ namespace TME.CarConfigurator.Publisher
                                       .ToList();
         }
 
-        private void FillColourCombinations(IEnumerable<Car> cars, ModelGeneration modelGeneration, TimeFrame timeFrame, Boolean isPreview, ExteriorColourTypes exteriorColourTypes)
+        private void FillColourCombinations(IEnumerable<Car> cars, ModelGeneration modelGeneration, TimeFrame timeFrame, Boolean isPreview, ExteriorColourTypes exteriorColourTypes, UpholsteryTypes upholsteryTypes)
         {
             var colourCombinations = modelGeneration.ColourCombinations.Where(
                 colourCombination => cars.Any(
                     car => car.ColourCombinations[colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID] != null && car.ColourCombinations[colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID].Approved))
-                    .Select(colourCombination => _colourMapper.MapColourCombination(modelGeneration, colourCombination, isPreview, exteriorColourTypes))
+                    .Select(colourCombination => 
+                        _colourMapper.MapColourCombination(
+                            modelGeneration, 
+                            colourCombination, 
+                            isPreview, 
+                            exteriorColourTypes[colourCombination.ExteriorColour.Type.ID],
+                            upholsteryTypes[colourCombination.Upholstery.Type.ID]))
                     .OrderBy(combination => combination.ExteriorColour.Type.SortIndex)
                     .ThenBy(combination => combination.ExteriorColour.SortIndex)
                     .ThenBy(combination => combination.Upholstery.Type.SortIndex)

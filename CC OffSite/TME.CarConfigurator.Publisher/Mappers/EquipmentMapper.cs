@@ -16,7 +16,6 @@ using CarEquipmentItem = TME.CarConfigurator.Repository.Objects.Equipment.CarEqu
 using CarOption = TME.CarConfigurator.Repository.Objects.Equipment.CarOption;
 using EquipmentItem = TME.CarConfigurator.Administration.EquipmentItem;
 using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
-using ExteriorColourInfo = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColourInfo;
 using UpholsteryInfo = TME.CarConfigurator.Repository.Objects.Colours.UpholsteryInfo;
 
 
@@ -129,7 +128,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return MapCarEquipmentItem(mappedAccessory, generationCarAccessory, generationAccessory, crossModelEquipmentItem, categories, isPreview, cars, exteriorColourTypes);
         }
 
-        T MapCarEquipmentItem<T>(T mappedEquipmentItem, Administration.CarEquipmentItem generationCarEquipmentItem, ModelGenerationEquipmentItem generationEquipmentItem, EquipmentItem crossModelEquipmentItem, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes)
+        private T MapCarEquipmentItem<T>(T mappedEquipmentItem, Administration.CarEquipmentItem generationCarEquipmentItem, ModelGenerationEquipmentItem generationEquipmentItem, EquipmentItem crossModelEquipmentItem, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes)
             where T : CarEquipmentItem, IAvailabilityProperties
         {
             if (!generationCarEquipmentItem.ShortID.HasValue)
@@ -249,14 +248,18 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         private ExteriorColour GetMappedExteriorColour(ModelGenerationEquipmentItem generationEquipmentItem, bool isPreview, ExteriorColourTypes exteriorColourTypes)
         {
-            var generationExteriorColour = generationEquipmentItem.Generation.ColourCombinations.ExteriorColours()
-                    .FirstOrDefault(clr => clr.ID == generationEquipmentItem.Colour.ID);
+            ExteriorColourType exteriorColourType;
+            var generationExteriorColour = generationEquipmentItem.Generation.ColourCombinations.ExteriorColours().FirstOrDefault(clr => clr.ID == generationEquipmentItem.Colour.ID);
 
             if (generationExteriorColour != null)
-                return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, generationExteriorColour, isPreview, exteriorColourTypes);
+            {
+                exteriorColourType = exteriorColourTypes[generationExteriorColour.Type.ID];
+                return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, generationExteriorColour, isPreview, exteriorColourType);
+            }
 
             var crossModelColour = ExteriorColours.GetExteriorColours()[generationEquipmentItem.Colour.ID];
-            return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, crossModelColour, isPreview, exteriorColourTypes);
+            exteriorColourType = exteriorColourTypes[crossModelColour.Type.ID];
+            return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, crossModelColour, isPreview, exteriorColourType);
         }
 
         static IReadOnlyList<CarInfo> GetAvailabilityInfo(Guid equipmentItemID, Availability availability, IEnumerable<Car> cars)
