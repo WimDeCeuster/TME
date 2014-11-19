@@ -32,7 +32,18 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _assetFileService = assetFileService;
         }
 
-        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, ModelGenerationExteriorColour colour, Boolean isPreview, ExteriorColourTypes exteriorColourTypes)
+        public ColourCombination MapColourCombination(ModelGeneration modelGeneration, ModelGenerationColourCombination colourCombination, Boolean isPreview, Administration.ExteriorColourType exteriorColourType, Administration.UpholsteryType upholsteryType)
+        {
+            return new ColourCombination
+            {
+                ExteriorColour = MapExteriorColour(modelGeneration, colourCombination.ExteriorColour, isPreview, exteriorColourType),
+                ID = colourCombination.ID,
+                SortIndex = 0, // will be replaced with list position based on exttype/ext/upholtype/uphol order in calling function
+                Upholstery = MapUpholstery(colourCombination.Upholstery, upholsteryType)
+            };
+        }
+
+        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, ModelGenerationExteriorColour colour, Boolean isPreview, Administration.ExteriorColourType exteriorColourType)
         {
             var mappedColour = new ExteriorColour
             {
@@ -41,14 +52,13 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Promoted = colour.Promoted,
                 SortIndex = colour.Index,
                 Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview),
-                Type = MapExteriorColourType(colour.Type, exteriorColourTypes),
+                Type = MapExteriorColourType(exteriorColourType),
                 VisibleIn = _assetSetMapper.GetVisibility(colour.AssetSet).ToList()
             };
 
             return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
         }
-
-        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ExteriorColour colour, Boolean isPreview, ExteriorColourTypes exteriorColourTypes)
+        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ExteriorColour colour, Boolean isPreview, Administration.ExteriorColourType exteriorColourType)
         {
             var mappedColour = new ExteriorColour
             {
@@ -57,7 +67,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Promoted = false,
                 SortIndex = 0,
                 Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview),
-                Type = MapExteriorColourType(colour.Type, exteriorColourTypes),
+                Type = MapExteriorColourType(exteriorColourType),
                 VisibleIn = _assetSetMapper.GetVisibility(colour.Assets).ToList()
             };
 
@@ -67,18 +77,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             return mappedColour;
         }
-
-        public ColourCombination MapColourCombination(ModelGeneration modelGeneration, ModelGenerationColourCombination colourCombination, Boolean isPreview, ExteriorColourTypes exteriorColourTypes)
-        {
-            return new ColourCombination
-            {
-                ExteriorColour = MapExteriorColour(modelGeneration, colourCombination.ExteriorColour, isPreview, exteriorColourTypes),
-                ID = colourCombination.ID,
-                SortIndex = 0, // will be replaced with list position based on exttype/ext/upholtype/uphol order in calling function
-                Upholstery = MapUpholstery(colourCombination.Upholstery)
-            };
-        }
-
         public ExteriorColourInfo MapExteriorColourInfo(Administration.ExteriorColourInfo colour)
         {
             return new ExteriorColourInfo
@@ -87,22 +85,20 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 InternalCode = colour.Code
             };
         }
-
-        ExteriorColourType MapExteriorColourType(ExteriorColourTypeInfo typeInfo, ExteriorColourTypes exteriorColourTypes)
+        
+        private ExteriorColourType MapExteriorColourType(Administration.ExteriorColourType type)
         {
-            var type = exteriorColourTypes[typeInfo.ID];
-
             var mappedType = new ExteriorColourType
             {
                 InternalCode = type.Code,
                 LocalCode = String.Empty,
-                SortIndex = typeInfo.Index
+                SortIndex = type.Index
             };
 
             return _baseMapper.MapTranslateableDefaults(mappedType, type);
         }
 
-        Upholstery MapUpholstery(ModelGenerationUpholstery modelGenerationUpholstery)
+        private Upholstery MapUpholstery(ModelGenerationUpholstery modelGenerationUpholstery, Administration.UpholsteryType upholsteryType)
         {
             var mappedUpholstery = new Upholstery
             {
@@ -110,28 +106,25 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 LocalCode = String.Empty,
                 InteriorColourCode = modelGenerationUpholstery.InteriorColour.Code,
                 TrimCode = modelGenerationUpholstery.Trim.Code,
-                Type = MapUpholsteryType(modelGenerationUpholstery.Type),
+                Type = MapUpholsteryType(upholsteryType),
                 VisibleIn = _assetSetMapper.GetVisibility(modelGenerationUpholstery.AssetSet).ToList()
             };
 
             return _baseMapper.MapTranslateableDefaultsWithSort(mappedUpholstery, modelGenerationUpholstery);
         }
-
-        UpholsteryType MapUpholsteryType(UpholsteryTypeInfo upholsteryTypeInfo)
+        private UpholsteryType MapUpholsteryType(Administration.UpholsteryType type)
         {
-            var upholstery = UpholsteryTypes.GetUpholsteryTypes()[upholsteryTypeInfo.ID];
-
             var mappedUpholsteryType = new UpholsteryType
             {
-                InternalCode = upholstery.Code,
+                InternalCode = type.Code,
                 LocalCode = String.Empty,
-                SortIndex = upholstery.Index
+                SortIndex = type.Index
             };
 
-            return _baseMapper.MapTranslateableDefaults(mappedUpholsteryType, upholstery);
+            return _baseMapper.MapTranslateableDefaults(mappedUpholsteryType, type);
         }
 
-        ColourTransformation GetColourTransformation(ModelGeneration generation, String colourCode, Boolean isPreview)
+        private ColourTransformation GetColourTransformation(ModelGeneration generation, String colourCode, Boolean isPreview)
         {
             var colourSchemaAsset = GetColourSchemaAsset(generation, isPreview);
             if (colourSchemaAsset == null)
@@ -176,7 +169,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
         }
 
-        static Administration.Assets.LinkedAsset GetColourSchemaAsset(ModelGeneration generation, Boolean isPreview)
+        private static Administration.Assets.LinkedAsset GetColourSchemaAsset(ModelGeneration generation, Boolean isPreview)
         {
             const string colourschema = "colourschema";
             const string previewColourschema = "preview_colourschema";
