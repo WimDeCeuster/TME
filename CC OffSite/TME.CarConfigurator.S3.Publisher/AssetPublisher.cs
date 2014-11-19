@@ -74,7 +74,7 @@ namespace TME.CarConfigurator.S3.Publisher
 
         private static async Task PublishAsync(IEnumerable<Asset> assets, Func<IEnumerable<Asset>, Task> getModeAndViewTasks, Func<IEnumerable<Asset>, Task> getDefaultTask)
         {
-            var orderedAssets = assets.OrderBy(asset => asset.Name).ThenBy(asset => asset.AssetType.Name).ToList();
+            var orderedAssets = assets.Ordered().ToList();
 
             var modeAndViewTasks = getModeAndViewTasks(orderedAssets);
             var defaultTask = getDefaultTask(orderedAssets);
