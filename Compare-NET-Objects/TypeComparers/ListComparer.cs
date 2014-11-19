@@ -48,6 +48,9 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
 
                 bool countsDifferent = ListsHaveDifferentCounts(parms);
 
+                if (countsDifferent && parms.Config.QuickFailLists)
+                    return;
+
                 if (parms.Result.ExceededDifferences)
                     return;
 
@@ -131,7 +134,10 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                                               BreadCrumb = currentBreadCrumb
                                           };
 
-                RootComparer.Compare(childParms);
+                var match = RootComparer.Compare(childParms);
+
+                if (!match && parms.Config.QuickFailLists)
+                    return;
 
                 if (parms.Result.ExceededDifferences)
                     return;

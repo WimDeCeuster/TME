@@ -17,7 +17,7 @@ namespace TME.Carconfigurator.Tests.GivenACarConfiguratorPublisher
         const String Country = "BE";
         const String Target = "S3";
         const String PublishedBy = "test";
-        const String AssetUrl = "";
+        const String AssetUrl = "foo";
         const PublicationDataSubset DataSubset = PublicationDataSubset.Live;
         IPublisherFactory _publisherFactory;
         ICarConfiguratorPublisher _carConfiguratorPublisher;

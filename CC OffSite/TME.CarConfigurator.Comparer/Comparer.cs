@@ -70,7 +70,7 @@ namespace TME.CarConfigurator.Comparer
                 //model => model.WheelDrives
             );
 
-            config.MembersToIgnore.Add("Assets");
+            //config.MembersToIgnore.Add("Assets");
 
             config.PathsToIgnore = new List<String>
             { 
@@ -127,6 +127,7 @@ namespace TME.CarConfigurator.Comparer
             };
 
             config.DetectMissingAndMisordered = true;
+            config.QuickFailLists = true;
 
             var rootComparer = RootComparerFactory.GetRootComparer();
 
