@@ -257,15 +257,15 @@ namespace TME.CarConfigurator.Publisher
         private void FillCarPartAssets(Car car, ContextData contextData, IEnumerable<ModelGenerationCarPart> carParts, Dictionary<Guid, Asset> carItemAssets, Dictionary<Guid, IList<Asset>> carItemsGenerationAssets)
         {
             contextData.CarPartAssets.Add(car.ID, carParts.ToDictionary(
-                item => item.ID,
-                item => GetCarItemAssets(item, car, carItemAssets, carItemsGenerationAssets)));
+                carPart => carPart.ID,
+                carPart => GetCarItemAssets(carPart, car, carItemAssets, carItemsGenerationAssets)));
         }
 
         private void FillCarEquipmentAssets(Car car, ContextData contextData, IEnumerable<ModelGenerationEquipmentItem> equipmentItems, Dictionary<Guid, Asset> carItemAssets, Dictionary<Guid, IList<Asset>> carItemsGenerationAssets)
         {
             contextData.CarEquipmentAssets.Add(car.ID, equipmentItems.ToDictionary(
-                item => item.ID,
-                item => GetCarItemAssets(item, car, carItemAssets, carItemsGenerationAssets)));
+                equipmentItem => equipmentItem.ID,
+                equipmentItem => GetCarItemAssets(equipmentItem, car, carItemAssets, carItemsGenerationAssets)));
         }
 
         private IList<Asset> GetCarItemAssets(IHasAssetSet objectWithAssetSet, Car car, Dictionary<Guid, Asset> carItemAssets, Dictionary<Guid, IList<Asset>> carItemsGenerationAssets)
