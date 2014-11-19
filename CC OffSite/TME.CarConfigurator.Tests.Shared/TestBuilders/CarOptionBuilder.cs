@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders
@@ -16,6 +17,20 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         {
             _carOption.ID = ID;
             return this;    
+        }
+
+        public CarOptionBuilder WithAvailableForUpholsteries(params Repository.Objects.Colours.UpholsteryInfo[] upholsteryInfos)
+        {
+            _carOption.AvailableForUpholsteries = upholsteryInfos.ToList();
+
+            return this;
+        }
+
+        public CarOptionBuilder WithAvailableForExteriorColours(params Repository.Objects.Colours.ExteriorColourInfo[] exteriorColourInfos)
+        {
+            _carOption.AvailableForExteriorColours = exteriorColourInfos.ToList();
+
+            return this;
         }
 
         public CarOption Build()

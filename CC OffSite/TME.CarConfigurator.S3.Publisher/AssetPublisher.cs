@@ -90,7 +90,7 @@ namespace TME.CarConfigurator.S3.Publisher
             await _assetService.PutDefaultAssets(brand, country, publicationID, objectID, defaultAssets);
         }
 
-        private async Task PublishDefaultCarItemAssets(string brand, string country, Guid publicationID, Guid carID, IDictionary<Guid, IList<Asset>> carItemAssets, PublishDefaultCarItems publish)
+        private static async Task PublishDefaultCarItemAssets(string brand, string country, Guid publicationID, Guid carID, IDictionary<Guid, IList<Asset>> carItemAssets, PublishDefaultCarItems publish)
         {
             var defaultAssets = carItemAssets.DefaultAssets();
 

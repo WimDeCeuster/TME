@@ -6,6 +6,7 @@ using System.IO;
 using System;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.CarConfigurator.S3.Shared.Exceptions;
+using System.Collections.Generic;
 
 namespace TME.CarConfigurator.S3.Shared
 {
@@ -13,6 +14,7 @@ namespace TME.CarConfigurator.S3.Shared
     {
         IAmazonS3 _client;
         readonly String _bucketNameTemplate;
+        readonly HashSet<String> _verifiedBuckets;
 
         public Service(String bucketNameTemplate, String accessKey, String secretKey, IAmazonS3Factory clientFactory)
         {
@@ -23,6 +25,8 @@ namespace TME.CarConfigurator.S3.Shared
 
             _client = clientFactory.CreateInstance(accessKey, secretKey);
             _bucketNameTemplate = bucketNameTemplate;
+
+            _verifiedBuckets = new HashSet<String>();
         }
 
         public async Task PutObjectAsync(String brand, String country, String key, String item)
@@ -69,13 +73,19 @@ namespace TME.CarConfigurator.S3.Shared
             if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
 
+            var bucketName = GetBucketName(brand, country);
+            if (_verifiedBuckets.Contains(bucketName))
+                return true;
+
             try
             {
                 _client.ListObjects(new ListObjectsRequest
                 {
-                    BucketName = GetBucketName(brand, country),
+                    BucketName = bucketName,
                     MaxKeys = 0
                 });
+
+                _verifiedBuckets.Add(bucketName);
 
                 return true;
             }

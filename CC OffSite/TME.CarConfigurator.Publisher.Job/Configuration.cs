@@ -13,8 +13,9 @@ namespace TME.CarConfigurator.Publisher.Job
         public PublicationDataSubset Datasubset { get; set; }
         public string Target { get; set; }
         public string PublishedBy { get; set; }
+        public string AssetUrl { get; set; }
 
-        public Configuration(string brand, string countries, string environment, string datasubset, string target, string publishedBy)
+        public Configuration(string brand, string countries, string environment, string datasubset, string target, string publishedBy, string assetUrl)
         {
             Brand = brand;
             Countries = countries.Split(',').ToList();
@@ -22,7 +23,7 @@ namespace TME.CarConfigurator.Publisher.Job
             Target = target;
             PublishedBy = publishedBy;
             Datasubset = (PublicationDataSubset)Enum.Parse(typeof(PublicationDataSubset), datasubset, true);
+            AssetUrl = assetUrl;
         }
-
     }
 }

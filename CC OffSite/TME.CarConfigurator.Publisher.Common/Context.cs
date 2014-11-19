@@ -14,15 +14,17 @@ namespace TME.CarConfigurator.Publisher.Common
         public Guid GenerationID { get; private set; }
 
         public PublicationDataSubset DataSubset { get; private set; }
+        public String AssetUrl { get; private set; }
 
         public String Brand { get; private set; }
         public String Country { get; private set; }
 
-        public Context(String brand, String country, Guid generationID, PublicationDataSubset dataSubset)
+        public Context(String brand, String country, Guid generationID, PublicationDataSubset dataSubset, String assetUrl)
         {
             DataSubset = dataSubset;
             Brand = brand;
             Country = country;
+            AssetUrl = assetUrl;
 
             GenerationID = generationID;
 
