@@ -16,6 +16,7 @@ namespace TME.CarConfigurator.Publisher.Services
         public String GetFileContent(String filePath, String assetUrl)
         {
             if (String.IsNullOrWhiteSpace(filePath)) throw new ArgumentNullException("filePath");
+            if (String.IsNullOrWhiteSpace(assetUrl)) throw new ArgumentNullException("assetUrl");
 
             var key = filePath.ToLowerInvariant();
             if (!_cache.ContainsKey(key))

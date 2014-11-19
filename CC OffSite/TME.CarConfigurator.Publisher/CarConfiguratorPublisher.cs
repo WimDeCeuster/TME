@@ -28,6 +28,8 @@ namespace TME.CarConfigurator.Publisher
             if (String.IsNullOrWhiteSpace(target)) throw new ArgumentNullException("target");
             if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand");
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
+            if (String.IsNullOrWhiteSpace(publishedBy)) throw new ArgumentNullException("publishedBy");
+            if (String.IsNullOrWhiteSpace(assetUrl)) throw new ArgumentNullException("assetUrl");
 
             // create a progress object when client isn't interested in it, instead of doing nullchecks on progess object in further code
             if (progress == null) progress = new Progress<PublishProgress>();
