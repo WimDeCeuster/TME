@@ -8,6 +8,7 @@ using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
@@ -19,8 +20,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarCarPart
         private IEnumerable<IAsset> _assets;
         private string _view;
         private string _mode;
-        private Repository.Objects.Assets.Asset _asset1;
-        private Repository.Objects.Assets.Asset _asset2;
+        private Asset _asset1;
+        private Asset _asset2;
         private IAssetService _assetService;
         private ICarPart _carPart;
 
@@ -56,8 +57,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarCarPart
             var context = new ContextBuilder().Build();
 
             _assetService = A.Fake<IAssetService>();
-            A.CallTo(() => _assetService.GetCarAssets(publication.ID, carId, repoCarPart.ID, context, _view, _mode))
-                .Returns(new List<Repository.Objects.Assets.Asset> { _asset1, _asset2 });
+            A.CallTo(() => _assetService.GetCarPartsAssets(publication.ID, carId, context, _view, _mode))
+                .Returns(new Dictionary<Guid, List<Asset>> { { repoCarPart.ID, new List<Asset> { _asset1, _asset2 } }});
 
             var assetFactory = new AssetFactoryBuilder()
                 .WithAssetService(_assetService)
@@ -82,7 +83,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarCarPart
         [Fact]
         public void ThenItShouldFetchTheAssetsFromTheService()
         {
-            A.CallTo(() => _assetService.GetCarAssets(A<Guid>._, A<Guid>._, A<Guid>._, A<Context>._, A<string>._, A<string>._)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _assetService.GetCarPartsAssets(A<Guid>._, A<Guid>._, A<Context>._, A<string>._, A<string>._)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]

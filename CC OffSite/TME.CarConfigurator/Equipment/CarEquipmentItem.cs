@@ -25,7 +25,7 @@ namespace TME.CarConfigurator.Equipment
         private CategoryInfo _categoryInfo;
         private List<Link> _links;
         private ExteriorColour _exteriorColour;
-        private IReadOnlyList<CarVisibleInModeAndView> _visibleIn;
+        private IReadOnlyList<IVisibleInModeAndView> _visibleIn;
         private readonly Publication _repositoryPublication;
         private readonly Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
@@ -76,10 +76,12 @@ namespace TME.CarConfigurator.Equipment
 
         public IReadOnlyList<ILink> Links { get { return _links = _links ?? RepositoryObject.Links.Select(link => new Link(link)).ToList(); } }
 
-        //restjes
         public IPrice Price { get { throw new NotImplementedException(); }  }
-        public IReadOnlyList<IVisibleInModeAndView> VisibleIn { get { return _visibleIn = _visibleIn ?? RepositoryObject.VisibleIn.Select(visibleIn => new CarVisibleInModeAndView(_carID,RepositoryObject.ID,visibleIn,_repositoryPublication,_repositoryContext,_assetFactory)).ToList(); } }
-        public IReadOnlyList<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetCarAssets(_repositoryPublication, _carID, RepositoryObject.ID, _repositoryContext); } }
+
+        public IReadOnlyList<IVisibleInModeAndView> VisibleIn { get { return _visibleIn = _visibleIn ?? RepositoryObject.VisibleIn.Select(visibleIn => new CarEquipmentVisibleInModeAndView(_carID,RepositoryObject.ID,visibleIn,_repositoryPublication,_repositoryContext,_assetFactory)).ToList(); } }
+
+        public IReadOnlyList<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetCarEquipmentAssets(_repositoryPublication, _carID, RepositoryObject.ID, _repositoryContext); } }
+
         public IReadOnlyList<IExteriorColourInfo> AvailableForExteriorColours { get { return _availableOnExteriorColors = _availableOnExteriorColors ?? RepositoryObject.AvailableForExteriorColours.Select(colorInfo => new ExteriorColourInfo(colorInfo)).ToList() ; } }
         public IReadOnlyList<IUpholsteryInfo> AvailableForUpholsteries { get { throw new NotImplementedException(); } }
     }

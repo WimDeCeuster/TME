@@ -27,7 +27,7 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
 
         protected override void Act()
         {
-            _actualKey = _keyManager.GetCarCarPartsKey(_publicationId,  _carID);
+            _actualKey = _keyManager.GetCarPartsKey(_publicationId,  _carID);
         }
 
         [Fact]

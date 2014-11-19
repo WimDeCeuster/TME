@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
@@ -67,6 +68,25 @@ namespace TME.CarConfigurator.S3.QueryServices
             return GetAssets(context, key);
         }
 
+
+        public Dictionary<Guid, List<Asset>> GetCarPartsAssets(Guid publicationID, Guid carID, Context context, string view, string mode)
+        {
+            var key = _keyManager.GetCarPartAssetsKey(publicationID, carID, view, mode);
+            return GetDictionaryAssets(context, key);
+        }
+
+        public Dictionary<Guid, List<Asset>> GetCarEquipmentAssets(Guid publicationID, Guid carID, Context context)
+        {
+            var key = _keyManager.GetDefaultCarEquipmentAssetsKey(publicationID, carID);
+            return GetDictionaryAssets(context, key);
+        }
+
+        public Dictionary<Guid, List<Asset>> GetCarEquipmentAssets(Guid publicationID, Guid carID, Context context, string view, string mode)
+        {
+            var key = _keyManager.GetCarEquipmentAssetsKey(publicationID, carID, view, mode);
+            return GetDictionaryAssets(context, key);
+        }
+
         private IEnumerable<Asset> GetAssets(Context context, String key)
         {
             try { 
@@ -82,20 +102,20 @@ namespace TME.CarConfigurator.S3.QueryServices
             }
         }
 
-
-        public IEnumerable<Dictionary<Guid, List<Asset>>> GetCarPartsAssets(Guid publicationID, Guid carID, Context context, string view, string mode)
+        private Dictionary<Guid, List<Asset>> GetDictionaryAssets(Context context, String key)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var serialisedObject = _service.GetObject(context.Brand, context.Country, key);
+                return _serialiser.Deserialise<Dictionary<Guid, List<Asset>>>(serialisedObject);
+            }
+            catch(ObjectNotFoundException ex)
+            {
+                if (!String.Equals(ex.Path, key, StringComparison.InvariantCultureIgnoreCase))
+                    throw;
 
-        public IEnumerable<Dictionary<Guid, List<Asset>>> GetCarEquipmentAssets(Guid publicationID, Guid carID, Context context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Dictionary<Guid, List<Asset>>> GetCarEquipmentAssets(Guid publicationID, Guid carID, Context context, string view, string mode)
-        {
-            throw new NotImplementedException();
+                return new Dictionary<Guid,List<Asset>> { };
+            }
         }
     }
 }

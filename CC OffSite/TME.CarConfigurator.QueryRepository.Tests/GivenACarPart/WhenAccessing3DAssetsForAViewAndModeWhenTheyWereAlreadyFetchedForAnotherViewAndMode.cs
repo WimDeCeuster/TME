@@ -8,6 +8,7 @@ using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
@@ -20,9 +21,9 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarPart
         private string _mode1;
         private string _view2;
         private string _mode2;
-        private Repository.Objects.Assets.Asset _asset1;
-        private Repository.Objects.Assets.Asset _asset2;
-        private Repository.Objects.Assets.Asset _asset3;
+        private Asset _asset1;
+        private Asset _asset2;
+        private Asset _asset3;
         private IAssetService _assetService;
         private IEnumerable<IAsset> _fetchedAssets1;
         private IEnumerable<IAsset> _fetchedAssets2;
@@ -68,10 +69,12 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarPart
 
             _assetService = A.Fake<IAssetService>();
 
-            A.CallTo(() => _assetService.GetCarAssets(publication.ID, carId, repoCarPart.ID, context, _view1, _mode1))
-                .Returns(new List<Repository.Objects.Assets.Asset> { _asset1, _asset2 });
-            A.CallTo(() => _assetService.GetCarAssets(publication.ID, carId, repoCarPart.ID, context, _view2, _mode2))
-                .Returns(new List<Repository.Objects.Assets.Asset> { _asset3 });
+            A.CallTo(() => _assetService.GetCarPartsAssets(publication.ID, carId, context, _view1, _mode1))
+                .Returns(new Dictionary<Guid, List<Asset>> { { repoCarPart.ID, new List<Asset> { _asset1, _asset2 } } });
+
+            A.CallTo(() => _assetService.GetCarPartsAssets(publication.ID, carId, context, _view2, _mode2))
+                .Returns( new Dictionary<Guid, List<Asset>> { { repoCarPart.ID, new List<Asset> { _asset3 } } });
+
 
             var assetFactory = new AssetFactoryBuilder()
                 .WithAssetService(_assetService)
@@ -98,13 +101,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarPart
         [Fact]
         public void ThenItShouldFetchTheAssetsFromTheServiceForTheFirstModeAndView()
         {
-            A.CallTo(() => _assetService.GetCarAssets(A<Guid>._, A<Guid>._, A<Guid>._, A<Context>._, _view1, _mode1)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _assetService.GetCarPartsAssets(A<Guid>._, A<Guid>._, A<Context>._, _view1, _mode1)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public void ThenItShouldFetchTheAssetsFromTheServiceForTheSecondModeAndView()
         {
-            A.CallTo(() => _assetService.GetCarAssets(A<Guid>._, A<Guid>._, A<Guid>._, A<Context>._, _view2, _mode2)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _assetService.GetCarPartsAssets(A<Guid>._, A<Guid>._, A<Context>._, _view2, _mode2)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]

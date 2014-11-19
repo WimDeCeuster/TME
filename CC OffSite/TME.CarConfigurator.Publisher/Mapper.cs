@@ -194,8 +194,12 @@ namespace TME.CarConfigurator.Publisher
 
                 foreach (var car in cars)
                 {
+                    progress.Report(new PublishProgress("Fill car: " + car.Name));
+                    progress.Report(new PublishProgress("Fill car parts"));
                     FillCarParts(car, contextData);
+                    progress.Report(new PublishProgress("Fill car packs"));
                     FillCarPacks(car, contextData);
+                    progress.Report(new PublishProgress("Fill car equipment"));
                     FillCarEquipment(car, contextData, categories, crossModelEquipment, isPreview, cars, exteriorColourTypes);
                 }
             }
@@ -472,7 +476,7 @@ namespace TME.CarConfigurator.Publisher
 
         private static IEnumerable<ModelGenerationCarPart> GetValidCarParts(Car car)
         {
-            return car.Generation.CarParts;
+            return car.Generation.CarParts.Where(carPart => carPart.AssetSet.NumberOfAssets != 0);
         }
 
         void FillTransmissions(IEnumerable<Car> cars, ModelGeneration modelGeneration, TimeFrame timeFrame)

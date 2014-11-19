@@ -34,12 +34,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var assetType = MapBaseAssetType(asset, modelGeneration);
 
             //custom CarAssetType Properties
-            if (assetType.UpholsteryCode != string.Empty)
-                assetType.Name = assetType.Name + "__" + assetType.UpholsteryCode;
-            else if(assetType.EquipmentCode != string.Empty)
-                assetType.Name = assetType.Name + "__" + assetType.EquipmentCode;
-            else
-                assetType.Name = assetType.Name;
+                assetType.Name = assetType.Name + "_" + assetType.ExteriorColourCode + "_" + assetType.UpholsteryCode + "_" + assetType.EquipmentCode;
 
             return assetType;
         }
