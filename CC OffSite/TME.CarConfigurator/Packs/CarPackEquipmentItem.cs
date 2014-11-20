@@ -1,6 +1,7 @@
 ﻿using System;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Equipment;
+using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces.Enums;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Interfaces.Packs;
@@ -21,7 +22,7 @@ namespace TME.CarConfigurator.Packs
 
         public ColouringModes ColouringModes
         {
-            get { throw new NotImplementedException(); }
+            get { return RepositoryObject.ColouringModes.Convert(); }
         }
 
         public override Interfaces.Core.IPrice Price

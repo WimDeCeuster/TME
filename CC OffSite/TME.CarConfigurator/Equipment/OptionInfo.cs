@@ -10,6 +10,12 @@ namespace TME.CarConfigurator.Equipment
             Name = name;
         }
 
+        public OptionInfo(Repository.Objects.Equipment.OptionInfo optionInfo)
+        {
+            ShortID = optionInfo.ShortID;
+            Name = optionInfo.Name;
+        }
+
         public int ShortID { get; private set; }
 
         public string Name { get; private set; }

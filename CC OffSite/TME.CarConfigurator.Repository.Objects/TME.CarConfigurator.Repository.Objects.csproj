@@ -91,6 +91,7 @@
     <Compile Include="Equipment\CarEquipment.cs" />
     <Compile Include="Equipment\CarAccessory.cs" />
     <Compile Include="Equipment\GradeEquipment.cs" />
+    <Compile Include="Equipment\OptionInfo.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Equipment\MountingCosts.cs" />
     <Compile Include="Grade.cs" />

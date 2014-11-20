@@ -484,7 +484,7 @@ namespace TME.CarConfigurator.Publisher
             contextData.CarParts.Add(car.ID,GetValidCarParts(car).Select(carPart => _carPartMapper.MapCarPart(carPart)).ToList());
         }
 
-	private void FillCarEquipment(Car car, ContextData contextData, EquipmentCategories categories, EquipmentGroups groups, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, String assetUrl)
+	    private void FillCarEquipment(Car car, ContextData contextData, EquipmentCategories categories, EquipmentGroups groups, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, String assetUrl)
         {
             contextData.CarEquipment.Add(car.ID,new CarEquipment
             {

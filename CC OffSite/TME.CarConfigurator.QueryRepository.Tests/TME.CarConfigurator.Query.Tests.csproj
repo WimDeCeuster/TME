@@ -86,6 +86,16 @@
     <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAvailableForExteriorColoursForTheSecondTime.cs" />
     <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAvailableForUpholsteriesForTheFirstTime.cs" />
     <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAvailableForUpholsteriesForTheSecondTime.cs" />
+    <Compile Include="GivenACarPackEquipmentItem\WhenAccessingItsPriceForTheFirstTime.cs" />
+    <Compile Include="GivenACarPackEquipmentItem\WhenAccessingItsPriceForTheSecondTime.cs" />
+    <Compile Include="GivenACarPackExteriorColourType\WhenAccessingItsColourCombinationsForTheFirstTime.cs" />
+    <Compile Include="GivenACarPackExteriorColourType\WhenAccessingItsColourCombinationsForTheSecondTime.cs" />
+    <Compile Include="GivenACarPackOption\WhenAccessingItsParentOptionForTheFirstTime.cs" />
+    <Compile Include="GivenACarPackOption\WhenAccessingItsParentOptionForTheSecondTime.cs" />
+    <Compile Include="GivenACarPackUpholsteryType\WhenAccessingItsColourCombinationsForTheFirstTime.cs" />
+    <Compile Include="GivenACarPackUpholsteryType\WhenAccessingItsColourCombinationsForTheSecondTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsEquipmentForTheFirstTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsEquipmentForTheSecondTime.cs" />
     <Compile Include="GivenACarPart\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenACarPart\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
     <Compile Include="GivenACarPart\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
@@ -410,9 +420,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GivenACarOption\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

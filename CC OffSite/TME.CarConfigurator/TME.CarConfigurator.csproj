@@ -77,6 +77,7 @@
     <Compile Include="CarSubModel.cs" />
     <Compile Include="CarTransmission.cs" />
     <Compile Include="CarWheelDrive.cs" />
+    <Compile Include="Colours\ColourCombinationInfo.cs" />
     <Compile Include="Colours\UpholsteryInfo.cs" />
     <Compile Include="Colours\ExteriorColourInfo.cs" />
     <Compile Include="Equipment\BestVisibleIn.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Equipment\ExteriorColour.cs" />
     <Compile Include="Equipment\ModelEquipment.cs" />
     <Compile Include="Equipment\MountingCosts.cs" />
+    <Compile Include="Extensions\ColouringModesExtensions.cs" />
     <Compile Include="Extensions\VisibilityExtensions.cs" />
     <Compile Include="Colours\ExteriorColour.cs" />
     <Compile Include="Colours\ExteriorColourType.cs" />

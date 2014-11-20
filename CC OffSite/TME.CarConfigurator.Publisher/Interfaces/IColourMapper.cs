@@ -12,8 +12,10 @@ namespace TME.CarConfigurator.Publisher.Interfaces
         ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ExteriorColour crossModelColour, bool isPreview, Administration.ExteriorColourType exteriorColourType, string assetUrl);
         ColourCombination MapColourCombination(ModelGeneration modelGeneration, ModelGenerationColourCombination colourCombination, bool isPreview, Administration.ExteriorColourType exteriorColourType, Administration.UpholsteryType upholsteryType, string assetUrl);
         ExteriorColourInfo MapExteriorColourInfo(Administration.ExteriorColourInfo colour);
+        ExteriorColourInfo MapExteriorColourInfo(CarPackExteriorColour exteriorColour);
         ExteriorColourInfo MapExteriorColourApplicability(ExteriorColourApplicability applicability);
         UpholsteryInfo MapUpholsteryApplicability(UpholsteryApplicability applicability);
-        UpholsteryInfo MapUpholsteryInfo(LinkedUpholstery upholstery);
+        UpholsteryInfo MapUpholsteryInfo(Administration.UpholsteryInfo upholstery);
+        UpholsteryInfo MapUpholsteryInfo(CarPackUpholstery upholstery);
     }
 }

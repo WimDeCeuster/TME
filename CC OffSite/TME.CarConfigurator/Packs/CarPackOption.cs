@@ -1,4 +1,5 @@
 ﻿using System;
+using TME.CarConfigurator.Equipment;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Interfaces.Packs;
@@ -8,6 +9,8 @@ namespace TME.CarConfigurator.Packs
 {
     public class CarPackOption : CarPackEquipmentItem<Repository.Objects.Packs.CarPackOption>, ICarPackOption
     {
+        private OptionInfo _parentOption;
+
         public CarPackOption(Repository.Objects.Packs.CarPackOption repositoryCarPackOption, Publication publication, Guid carId, Context context, IAssetFactory assetFactory)
             : base(repositoryCarPackOption, publication, carId, context, assetFactory)
         {
@@ -31,7 +34,7 @@ namespace TME.CarConfigurator.Packs
 
         public IOptionInfo ParentOption
         {
-            get { throw new NotImplementedException(); }
+            get { return _parentOption = _parentOption ?? (RepositoryObject.ParentOption == null ? null : new OptionInfo(RepositoryObject.ParentOption)); }
         }
     }
 }

@@ -59,6 +59,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
         }
+        
         public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ExteriorColour colour, Boolean isPreview, Administration.ExteriorColourType exteriorColourType, String assetUrl)
         {
             var mappedColour = new ExteriorColour
@@ -78,6 +79,16 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             return mappedColour;
         }
+        
+        public ExteriorColourInfo MapExteriorColourInfo(CarPackExteriorColour exteriorColour)
+        {
+            return new ExteriorColourInfo
+            {
+                ID = exteriorColour.ID,
+                InternalCode = exteriorColour.Code
+            };
+        }
+
         public ExteriorColourInfo MapExteriorColourInfo(Administration.ExteriorColourInfo colour)
         {
             return new ExteriorColourInfo
@@ -87,6 +98,15 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
         }
         
+        public ExteriorColourInfo MapExteriorColourApplicability(ExteriorColourApplicability applicability)
+        {
+            return new ExteriorColourInfo
+                {
+                    ID = applicability.ID,
+                    InternalCode = applicability.Code
+                };
+        }
+
         private ExteriorColourType MapExteriorColourType(Administration.ExteriorColourType type)
         {
             var mappedType = new ExteriorColourType
@@ -181,16 +201,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
                    generation.Assets[colourschema]; //// colourschema
         }
 
-
-        public ExteriorColourInfo MapExteriorColourApplicability(ExteriorColourApplicability applicability)
-        {
-            return new ExteriorColourInfo
-                {
-                    ID = applicability.ID,
-                    InternalCode = applicability.Code
-                };
-        }
-
         public UpholsteryInfo MapUpholsteryApplicability(UpholsteryApplicability applicability)
         {
             return new 
@@ -201,7 +211,16 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 };
         }
 
-        public UpholsteryInfo MapUpholsteryInfo(LinkedUpholstery upholstery)
+        public UpholsteryInfo MapUpholsteryInfo(Administration.UpholsteryInfo upholstery)
+        {
+            return new UpholsteryInfo
+            {
+                ID = upholstery.ID,
+                InternalCode = upholstery.Code
+            };
+        }
+
+        public UpholsteryInfo MapUpholsteryInfo(CarPackUpholstery upholstery)
         {
             return new UpholsteryInfo
             {

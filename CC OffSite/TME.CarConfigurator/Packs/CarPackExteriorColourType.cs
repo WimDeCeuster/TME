@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using TME.CarConfigurator.Colours;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Interfaces.Packs;
@@ -9,6 +11,8 @@ namespace TME.CarConfigurator.Packs
 {
     public class CarPackExteriorColourType : CarPackEquipmentItem<Repository.Objects.Packs.CarPackExteriorColourType>, ICarPackExteriorColourType
     {
+        private IReadOnlyList<IColourCombinationInfo> _colourCombinations;
+
         public CarPackExteriorColourType(Repository.Objects.Packs.CarPackExteriorColourType repositoryCarPackExteriorColourType, Publication publication, Guid carId, Context context, IAssetFactory assetFactory)
             : base(repositoryCarPackExteriorColourType, publication, carId, context, assetFactory)
         {
@@ -17,7 +21,7 @@ namespace TME.CarConfigurator.Packs
 
         public IReadOnlyList<IColourCombinationInfo> ColourCombinations
         {
-            get { throw new NotImplementedException(); }
+            get { return _colourCombinations = _colourCombinations ?? RepositoryObject.ColourCombinations.Select(cc => new ColourCombinationInfo(cc)).ToList(); }
         }
     }
 }

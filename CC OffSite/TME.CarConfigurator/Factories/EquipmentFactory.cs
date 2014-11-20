@@ -9,7 +9,6 @@ using TME.CarConfigurator.Interfaces.Packs;
 using TME.CarConfigurator.Packs;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Equipment;
 using CarAccessory = TME.CarConfigurator.Repository.Objects.Equipment.CarAccessory;
 using CarEquipment = TME.CarConfigurator.Equipment.CarEquipment;
 using CarOption = TME.CarConfigurator.Repository.Objects.Equipment.CarOption;

@@ -10,12 +10,12 @@ namespace TME.CarConfigurator.S3.Publisher.Extensions
     {
         public static IEnumerable<Asset> DefaultAssets(this IEnumerable<Asset> assets)
         {
-            return assets.Where(a => String.IsNullOrEmpty(a.AssetType.View));
+            return assets.Where(a => String.IsNullOrEmpty(a.AssetType.View)).Ordered();
         }
 
         public static IOrderedEnumerable<Asset> Ordered(this IEnumerable<Asset> assets)
         {
-            return assets.OrderBy(asset => asset.Name).ThenBy(asset => asset.AssetType.Name);
+            return assets.OrderBy(asset => asset.Name).ThenBy(asset => asset.AssetType.Name).ThenBy(asset => asset.ShortID);
         } 
 
         public static Dictionary<Guid, IList<Asset>> DefaultAssets(this IDictionary<Guid, IList<Asset>> carItemAssets)
