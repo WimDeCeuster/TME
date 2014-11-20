@@ -8,7 +8,7 @@
         </div>
         <div class="content">
             @Html.Partial("_baseObject", model)
-            <p class="property" data-id="Path">Path : @Html.Raw(model.Path.ToLowerInvariant())</p>
+            <p class="property" data-id="Path">Path : @Html.Raw(model.Path)</p>
             <p class="property" data-id="NumberOfChildren">Number Of Children : @Html.Raw(model.Categories.Count)</p>
             <p class="property" data-id="ParentID">Parent ID : @(model.Parent == null ? string.Empty : model.Parent.ID.ToString() )</p>
         </div>

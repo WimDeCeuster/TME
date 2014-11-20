@@ -7,7 +7,9 @@ namespace TME.CarConfigurator.Interfaces.TechnicalSpecifications
         /* NEAR FUTURE Enhancement
          * 
         IReadOnlyList<ITechnicalSpecification> TechnicalSpecifications { get; }
-         */
+                         */
+// ReSharper disable once ReturnTypeCanBeEnumerable.Global
         IReadOnlyList<ICategory> Categories { get; }
+
     }
 }

@@ -1,0 +1,14 @@
+﻿@model IEnumerable<TME.CarConfigurator.Interfaces.IFuelType>
+
+@foreach (var model in Model)
+{
+    <div class="object" data-id="@Html.Raw(model.ID)">
+        <div class="title">
+            <strong>@Html.Raw(model.Name)</strong>
+        </div>
+        <div class="content">
+            @Html.Partial("_baseObject", model)
+            <p class="property" data-id="Hybrid">Hybrid : @Html.Raw(model.Hybrid)</p>
+        </div>
+    </div>
+}

@@ -9,5 +9,8 @@ namespace TME.CarConfigurator.Repository.Objects.Equipment
 
         public bool TechnologyItem { get; set; }
         public int ParentOptionShortID { get; set; }
+
+        public bool PostProductionOption { get; set; }
+        public bool SuffixOption { get; set; }
     }
 }

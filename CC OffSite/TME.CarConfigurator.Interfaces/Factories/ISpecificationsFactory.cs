@@ -9,5 +9,6 @@ namespace TME.CarConfigurator.Interfaces.Factories
     {
         IModelTechnicalSpecifications GetModelSpecifications(Publication publication, Context context);
         IReadOnlyList<ICategory> GetCategories(Publication publication, Context context);
+        IReadOnlyList<ICarTechnicalSpecification> GetCarTechnicalSpecifications(Guid carID, Publication publication, Context context);
     }
 }

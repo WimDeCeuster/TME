@@ -34,11 +34,11 @@ namespace TME.CarConfigurator.Publisher
             // create a progress object when client isn't interested in it, instead of doing nullchecks on progess object in further code
             if (progress == null) progress = new Progress<PublishProgress>();
 
-            var context = new Context(brand, country, generationID, dataSubset, assetUrl);
+            var context = new Context(brand, country, generationID, dataSubset, assetUrl, publishedBy);
 
             await MapAsync(progress, context);
 
-            await PublishAsync(environment, target, dataSubset, publishedBy, context, progress);
+            await PublishAsync(environment, target, dataSubset, context, progress);
         }
 
         private async Task MapAsync(IProgress<PublishProgress> progress, IContext context)
@@ -52,7 +52,7 @@ namespace TME.CarConfigurator.Publisher
             progress.Report(new PublishProgress(string.Format("Mapping completed after {0} seconds", DateTime.Now.Subtract(startOfMapping).TotalSeconds)));
         }
 
-        private async Task PublishAsync(string environment, string target, PublicationDataSubset dataSubset, string publishedBy, IContext context, IProgress<PublishProgress> progress)
+        private async Task PublishAsync(string environment, string target, PublicationDataSubset dataSubset, IContext context, IProgress<PublishProgress> progress)
         {
             var publisher = _publisherFactory.GetPublisher(target, environment, dataSubset);
 
@@ -60,7 +60,7 @@ namespace TME.CarConfigurator.Publisher
 
             progress.Report(new PublishProgress("Publishing started"));
 
-            await publisher.PublishAsync(context, publishedBy);
+            await publisher.PublishAsync(context);
 
             progress.Report(new PublishProgress(string.Format("Publishing completed after {0} seconds", DateTime.Now.Subtract(startOfPublishing).TotalSeconds)));
         }

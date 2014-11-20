@@ -27,7 +27,18 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
 
         public string Path
         {
-            get { return Adaptee.Path; }
+            get
+            {
+                var category = Adaptee;
+                var path = category.Name;
+
+                while (category.Parent != null && category.Parent.ID != Guid.Empty)
+                {
+                    category = category.Parent;
+                    path = string.Format("{0}/{1}", category.Name, path);
+                }
+                return path;
+            }
         }
 
         public int SortIndex

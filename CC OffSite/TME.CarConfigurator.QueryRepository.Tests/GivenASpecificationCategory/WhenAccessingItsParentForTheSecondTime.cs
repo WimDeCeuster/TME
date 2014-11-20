@@ -6,13 +6,13 @@ using TME.CarConfigurator.Interfaces.TechnicalSpecifications;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.TechnicalSpecifications;
 using TME.CarConfigurator.Repository.Objects.Extensions;
+using TME.CarConfigurator.Repository.Objects.TechnicalSpecifications;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.GivenSpecificationCategory
+namespace TME.CarConfigurator.Query.Tests.GivenASpecificationCategory
 {
     public class WhenAccessingItsParentForTheSecondTime : TestBase
     {
@@ -50,7 +50,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenSpecificationCategory
                 .WithSpecificationsService(specificationsService)
                 .Build();
 
-            _category = categoryFactory.GetCategories(publication, context).Flatten(category => category.Categories).Single(category => category.ID == repoCategory.ID);
+            _category = categoryFactory.GetCategories(publication, context).ToList().Flatten(category => category.Categories.ToList()).Single(category => category.ID == repoCategory.ID);
             
             _firstParentCategory = _category.Parent;
         }

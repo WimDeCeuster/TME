@@ -1,3 +1,4 @@
+Imports System.Collections.Generic
 Imports TME.CarConfigurator.Administration.Security
 Imports TME.CarConfigurator.Administration.Enums
 Imports Rules = TME.BusinessObjects.ValidationRules
@@ -65,6 +66,21 @@ Imports Rules = TME.BusinessObjects.ValidationRules
             command.Parameters.AddWithValue("@CATEGORYID", _categoryID)
         End Sub
     End Class
+#End Region
+
+#Region " Data Access "
+    Protected Overrides Sub FetchNextResult(ByVal dataReader As Common.Database.SafeDataReader)
+        With dataReader
+            While .Read()
+                Dim specificationId = .GetGuid("TECHSPECID")
+                Dim specification = Me(specificationId)
+                If specification Is Nothing Then Continue While
+
+                specification.AddValueSortOrder(.GetString("VALUE"), .GetInt16("SORTORDER"))
+
+            End While
+        End With
+    End Sub
 #End Region
 
 End Class
@@ -330,6 +346,12 @@ End Class
             End If
         End Set
     End Property
+    Public ReadOnly Property SystemValueFormat() As String
+        Get
+            Return ConvertToSystemPlaceHolders(ValueFormat)
+        End Get
+    End Property
+
     Public Property ImportFormat() As String
         Get
             Return _importFormat
@@ -430,6 +452,17 @@ End Class
 
     End Function
 
+
+    Private ReadOnly _valueSortOrder As Dictionary(Of String, Short) = New Dictionary(Of String, Short)()
+
+    Friend Sub AddValueSortOrder(ByVal value As String, ByVal sortOrder As Short)
+        _valueSortOrder.Add(value, sortOrder)
+    End Sub
+    Public Function GetSortOrderForValue(ByVal value As String) As Short
+        If Not _valueSortOrder.ContainsKey(value) Then Return 0
+        Return _valueSortOrder(value)
+    End Function
+
 #End Region
 
 #Region " Business & Validation Rules "
@@ -475,7 +508,7 @@ End Class
         If _specification.ValueFormat.Length = 0 Then Return True
 
         Try
-            Return (String.Format(ConvertToSystemPlaceHolders(_specification.ValueFormat), "value", "unit").Length > 0)
+            Return (String.Format(_specification.SystemValueFormat, "value", "unit").Length > 0)
         Catch ex As Exception
             e.Description = "The Display Format is not valid: " & ex.Message
             Return False
@@ -631,7 +664,7 @@ End Class
             .Parameters.AddWithValue("@EXPRESSION", Me.Expression)
             .Parameters.AddWithValue("@TYPECODE", Me.TypeCode)
             .Parameters.AddWithValue("@HELPTEXT", Me.HelpText)
-            .Parameters.AddWithValue("@VALUEFORMAT", ConvertToSystemPlaceHolders(Me.ValueFormat))
+            .Parameters.AddWithValue("@VALUEFORMAT", Me.SystemValueFormat)
             .Parameters.AddWithValue("@IMPORTFORMAT", Me.ImportFormat)
             .Parameters.AddWithValue("@STATUSID", _status)
             .Parameters.AddWithValue("@BROCHURE", Me.Brochure)

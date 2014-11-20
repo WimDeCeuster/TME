@@ -78,7 +78,7 @@ namespace TME.CarConfigurator
 
         public IReadOnlyList<IGrade> Grades { get { return _grades = _grades ?? _gradeFactory.GetGrades(RepositoryPublication, _repositoryContext); } }
 
-        public IReadOnlyList<IFuelType> FuelTypes { get { throw new NotImplementedException(); } }
+        public IReadOnlyList<IFuelType> FuelTypes { get { return Engines.Select(x => x.Type.FuelType).Distinct().ToList();} }
 
         public IReadOnlyList<ICar> Cars { get { return _cars = _cars ?? _carFactory.GetCars(RepositoryPublication, _repositoryContext); } }
 

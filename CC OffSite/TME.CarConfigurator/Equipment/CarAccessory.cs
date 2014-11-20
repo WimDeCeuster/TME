@@ -21,5 +21,14 @@ namespace TME.CarConfigurator.Equipment
         public IMountingCosts MountingCostsOnNewVehicle { get { return new MountingCosts(RepositoryObject.MountingCostsOnNewVehicle); } }
 
         public IMountingCosts MountingCostsOnUsedVehicle { get { return new MountingCosts(RepositoryObject.MountingCostsOnUsedVehicle); } }
+
+        public override IPrice Price
+        {
+            get { return new Price(new Repository.Objects.Core.Price
+            {
+                ExcludingVat =  RepositoryObject.BasePrice.ExcludingVat + RepositoryObject.MountingCostsOnNewVehicle.Price.ExcludingVat,
+                IncludingVat = RepositoryObject.BasePrice.IncludingVat + RepositoryObject.MountingCostsOnNewVehicle.Price.IncludingVat
+            }); }
+        }
     }
 }

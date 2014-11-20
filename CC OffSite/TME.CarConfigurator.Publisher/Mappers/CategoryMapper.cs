@@ -6,6 +6,7 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using EquipmentCategoryInfo = TME.CarConfigurator.Repository.Objects.Equipment.CategoryInfo;
 using EquipmentCategory = TME.CarConfigurator.Repository.Objects.Equipment.Category;
 using SpecificationCategory = TME.CarConfigurator.Repository.Objects.TechnicalSpecifications.Category;
+using SpecificationCategoryInfo = TME.CarConfigurator.Repository.Objects.TechnicalSpecifications.CategoryInfo;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
@@ -55,7 +56,15 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             return _baseMapper.MapDefaults(mappedCategory, category);
         }
-
+        public SpecificationCategoryInfo MapSpecificationCategoryInfo(Administration.SpecificationCategory category)
+        {
+            return new SpecificationCategoryInfo
+            {
+                ID = category.ID,
+                Path = GetPath(category, cat => cat.ParentCategory),
+                SortIndex = GetSortIndex(category, cat => cat.ParentCategory, cat => cat.Categories) - 1
+            };
+        }
         /// <summary>
         /// Get the translated path
         /// </summary>
@@ -66,7 +75,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var parent = getParent(category);
             var parentPath = parent == null ? "" : GetPath(parent, getParent);
             var fullPath = String.IsNullOrWhiteSpace(parentPath) ? name : String.Format("{0}/{1}", GetPath(parent, getParent), name);
-            return fullPath.ToLowerInvariant();
+            return fullPath;
         }
 
         /// <summary>

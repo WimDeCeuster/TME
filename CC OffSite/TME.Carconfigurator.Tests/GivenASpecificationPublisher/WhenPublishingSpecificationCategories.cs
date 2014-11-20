@@ -63,11 +63,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3SpecificationsPublisher
             var publicationTimeFrame4 = new PublicationTimeFrame { ID = timeFrame4.ID };
 
             var publication1 = new PublicationBuilder()
+                                .WithID(Guid.NewGuid())
                                 .WithTimeFrames(publicationTimeFrame1,
                                                 publicationTimeFrame2)
                                 .Build();
 
             var publication2 = new PublicationBuilder()
+                                .WithID(Guid.NewGuid())
                                 .WithTimeFrames(publicationTimeFrame3,
                                                 publicationTimeFrame4)
                                 .Build();

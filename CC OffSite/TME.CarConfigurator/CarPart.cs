@@ -11,29 +11,43 @@ namespace TME.CarConfigurator
 {
     public class CarPart : ICarPart
     {
-        protected readonly Repository.Objects.CarPart RepositoryCarPart;
-        protected IAssetFactory AssetFactory;
-        protected Publication RepositoryPublication;
-        protected Context RepositoryContext;
-        protected IReadOnlyList<VisibleInModeAndView> FetchedVisibleIn;
+        private readonly Repository.Objects.CarPart _repositoryCarPart;
+        private readonly IAssetFactory _assetFactory;
+        private readonly Publication _repositoryPublication;
+        private readonly Guid _carID;
+        private readonly Context _repositoryContext;
+        private IReadOnlyList<VisibleInModeAndView> _fetchedVisibleIn;
 
-        public CarPart(Repository.Objects.CarPart repositoryCarPart, Publication repositoryPublication, Context repositoryContext, IAssetFactory assetFactory)
+        public CarPart(Repository.Objects.CarPart repositoryCarPart, Publication repositoryPublication, Guid carID, Context repositoryContext, IAssetFactory assetFactory)
         {
             if (repositoryCarPart == null) throw new ArgumentNullException("repositoryCarPart");
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
-            RepositoryCarPart = repositoryCarPart;
-            AssetFactory = assetFactory;
-            RepositoryContext = repositoryContext;
-            RepositoryPublication = repositoryPublication;
+            _repositoryCarPart = repositoryCarPart;
+            _assetFactory = assetFactory;
+            _repositoryContext = repositoryContext;
+            _repositoryPublication = repositoryPublication;
+            _carID = carID;
         }
 
-        public string Code { get { return RepositoryCarPart.Code; } }
-        public string Name { get { return RepositoryCarPart.Name; } }
-        public Guid ID { get { return RepositoryCarPart.ID; } }
+        public string Code { get { return _repositoryCarPart.Code; } }
+        public string Name { get { return _repositoryCarPart.Name; } }
+        public Guid ID { get { return _repositoryCarPart.ID; } }
 
-        public virtual IReadOnlyList<IVisibleInModeAndView> VisibleIn { get { throw new NotImplementedException(); } }
+        public IReadOnlyList<IVisibleInModeAndView> VisibleIn
+        {
+            get
+            {
+                return
+                    _fetchedVisibleIn =
+                    _fetchedVisibleIn ??
+                    _repositoryCarPart.VisibleIn.Select(
+                    visibleIn =>
+                    new CarPartVisibleInModeAndView(_carID, ID, visibleIn, _repositoryPublication,
+                    _repositoryContext, _assetFactory)).ToList();
+            }
+        }
     }
 }

@@ -66,6 +66,7 @@
     <Compile Include="TestBuilders\CarAccessoryBuilder.cs" />
     <Compile Include="TestBuilders\CarEquipmentBuilder.cs" />
     <Compile Include="TestBuilders\CarOptionBuilder.cs" />
+    <Compile Include="TestBuilders\CarSpecBuilder.cs" />
     <Compile Include="TestBuilders\UpholsteryInfoBuilder.cs" />
     <Compile Include="TestBuilders\GradePackBuilder.cs" />
     <Compile Include="TestBuilders\CarPackBuilder.cs" />

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.S3.Publisher.Helpers;
 
@@ -14,6 +12,11 @@ namespace TME.CarConfigurator.S3.Publisher.Extensions
         {
             return assets.Where(a => String.IsNullOrEmpty(a.AssetType.View));
         }
+
+        public static IOrderedEnumerable<Asset> Ordered(this IEnumerable<Asset> assets)
+        {
+            return assets.OrderBy(asset => asset.Name).ThenBy(asset => asset.AssetType.Name);
+        } 
 
         public static Dictionary<Guid, IList<Asset>> DefaultAssets(this IDictionary<Guid, IList<Asset>> carItemAssets)
         {
@@ -43,7 +46,7 @@ namespace TME.CarConfigurator.S3.Publisher.Extensions
                 modeAndView => splitCarItemAssets.Where(entry => entry.Value.ContainsKey(modeAndView))
                                                  .ToDictionary(
                                                     entry => entry.Key,
-                                                    entry => (IList<Asset>)entry.Value[modeAndView]));
+                                                    entry => (IList<Asset>)entry.Value[modeAndView].Ordered().ToList()));
         }
     }
 }

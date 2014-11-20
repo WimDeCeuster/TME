@@ -1,4 +1,5 @@
 Imports System.Collections.Generic
+Imports System.ComponentModel
 Imports TME.CarConfigurator.Administration.Security
 Imports TME.CarConfigurator.Administration.Enums
 Imports Rules = TME.BusinessObjects.ValidationRules
@@ -177,8 +178,16 @@ Imports Rules = TME.BusinessObjects.ValidationRules
     End Sub
     Protected Overrides Sub FetchNextResult(ByVal dataReader As Common.Database.SafeDataReader)
         FetchSpecifications(dataReader)
+
+        If Not dataReader.NextResult() Then Throw New ApplicationException("Value Sort Order result set is not being retrieved")
+        FetchSpecificationValueSortOrders(dataReader)
+
+
         If dataReader.NextResult() Then FetchMapping(dataReader)
     End Sub
+
+
+
     Private Sub FetchSpecifications(ByVal dataReader As Common.Database.SafeDataReader)
         With dataReader
 
@@ -193,6 +202,18 @@ Imports Rules = TME.BusinessObjects.ValidationRules
                 If currentCategory IsNot Nothing Then
                     Call currentCategory.Specifications.Add(dataReader)
                 End If
+            End While
+        End With
+    End Sub
+    Private Sub FetchSpecificationValueSortOrders(ByVal dataReader As SafeDataReader)
+        With dataReader
+            While .Read()
+                Dim specificationId = .GetGuid("TECHSPECID")
+                Dim specification = _referenceMap.Values.SelectMany(Function(category) category.Specifications.Where(Function(spec) spec.ID = specificationId)).FirstOrDefault()
+                If specification Is Nothing Then Continue While
+
+                specification.AddValueSortOrder(.GetString("VALUE"), .GetInt16("SORTORDER"))
+
             End While
         End With
     End Sub

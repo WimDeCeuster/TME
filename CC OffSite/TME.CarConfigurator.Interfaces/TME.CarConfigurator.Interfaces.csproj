@@ -67,6 +67,7 @@
     <Compile Include="Colours\IColourTransformation.cs" />
     <Compile Include="Colours\IExteriorColour.cs" />
     <Compile Include="Colours\IExteriorColourInfo.cs" />
+    <Compile Include="Enums\ValueSelectionType.cs" />
     <Compile Include="Enums\ColouringModes.cs" />
     <Compile Include="Equipment\ICarEquipment.cs" />
     <Compile Include="Factories\ICarPartFactory.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="TechnicalSpecifications\ICategory.cs" />
     <Compile Include="TechnicalSpecifications\ICategoryInfo.cs" />
     <Compile Include="TechnicalSpecifications\IModelTechnicalSpecifications.cs" />
+    <Compile Include="TechnicalSpecifications\ICarTechnicalSpecification.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj">
