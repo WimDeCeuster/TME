@@ -4,9 +4,9 @@ using TME.CarConfigurator.Repository.Objects.Enums;
 
 namespace TME.CarConfigurator.Extensions
 {
-    public static class RepositoryModelExtensions
+    internal static class RepositoryModelExtensions
     {
-        public static PublicationInfo GetActivePublicationInfo(this Repository.Objects.Model repositoryModel)
+        internal static PublicationInfo GetActivePublicationInfo(this Repository.Objects.Model repositoryModel)
         {
             return repositoryModel.Publications.Single(p => p.State == PublicationState.Activated);
         }

@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.30723.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Repository.Objects", "TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj", "{2154EAAA-3D11-4654-BEA6-7B147451DBA8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator", "TME.CarConfigurator\TME.CarConfigurator.csproj", "{89489B1E-DFAA-4164-93C3-A79859368CF8}"
@@ -55,6 +53,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compare-NET-Objects", "..\Compare-NET-Objects\Compare-NET-Objects.csproj", "{94F1F5F2-6BC4-464B-AC51-FBDB4FA3F3AD}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TME.CarConfigurator.Administration", "TME.CarConfigurator.Administration\TME.CarConfigurator.Administration.vbproj", "{0638684F-634B-4447-A411-11AE50C4202B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Extensions", "TME.CarConfigurator.Extensions\TME.CarConfigurator.Extensions.csproj", "{F7DC4AA7-76F7-44C4-B98D-3D416335CA1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -254,6 +254,12 @@ Global
 		{0638684F-634B-4447-A411-11AE50C4202B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0638684F-634B-4447-A411-11AE50C4202B}.Release|x64.ActiveCfg = Release|x64
 		{0638684F-634B-4447-A411-11AE50C4202B}.Release|x64.Build.0 = Release|x64
+		{F7DC4AA7-76F7-44C4-B98D-3D416335CA1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7DC4AA7-76F7-44C4-B98D-3D416335CA1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7DC4AA7-76F7-44C4-B98D-3D416335CA1E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F7DC4AA7-76F7-44C4-B98D-3D416335CA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7DC4AA7-76F7-44C4-B98D-3D416335CA1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7DC4AA7-76F7-44C4-B98D-3D416335CA1E}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
