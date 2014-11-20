@@ -15,6 +15,7 @@ namespace TME.CarConfigurator.Factories
         private readonly Dictionary<String, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>> _carEquipmentAssets = new Dictionary<string, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>>();
         private readonly Dictionary<String, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>>  _carPartAssets = new Dictionary<string, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>>();
         private decimal _counter;
+        private Dictionary<Guid, List<Repository.Objects.Assets.Asset>> _defaultCarEquipmentAssets;
 
         public AssetFactory(IAssetService assetService)
         {
@@ -53,8 +54,9 @@ namespace TME.CarConfigurator.Factories
 
         public IReadOnlyList<IAsset> GetCarEquipmentAssets(Publication publication, Guid carID, Guid objectID, Context context)
         {
-            var repoAssets = _assetService.GetCarEquipmentAssets(publication.ID, carID, context);
-            var filteredRepoAssets = FilterDictionaryItemsPerObjectID(objectID, repoAssets);
+            _defaultCarEquipmentAssets = _defaultCarEquipmentAssets ?? _assetService.GetCarEquipmentAssets(publication.ID, carID, context);
+
+            var filteredRepoAssets = FilterDictionaryItemsPerObjectID(objectID, _defaultCarEquipmentAssets);
 
             return TransformIntoNonRepoAssets(filteredRepoAssets);
         }
@@ -65,8 +67,6 @@ namespace TME.CarConfigurator.Factories
             if (!_carEquipmentAssets.ContainsKey(key))
                 _carEquipmentAssets.Add(key,_assetService.GetCarEquipmentAssets(publication.ID, carID, context,view, mode));
 
-            if (objectID.Equals(new Guid("d039d979-3f1e-4538-9bfd-191c5454770e")))
-                _counter++;
             var filteredRepoAssets = FilterDictionaryItemsPerObjectID(objectID, _carEquipmentAssets[key]);
 
             return TransformIntoNonRepoAssets(filteredRepoAssets);
