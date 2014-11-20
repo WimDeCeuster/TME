@@ -93,6 +93,7 @@
     <Compile Include="Extensions\AssetSetAssetExtensions.cs" />
     <Compile Include="Extensions\AvailabilityPropertiesExtensions.cs" />
     <Compile Include="Extensions\CarsExtensions.cs" />
+    <Compile Include="Extensions\ComponentExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\LinkExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />

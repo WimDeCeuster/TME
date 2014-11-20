@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon.OpsWorks.Model;
 using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.Administration.Components;
 using TME.CarConfigurator.Administration.Enums;
 using TME.CarConfigurator.Administration.Interfaces;
 using TME.CarConfigurator.Publisher.Common;
@@ -282,9 +284,15 @@ namespace TME.CarConfigurator.Publisher
         private IList<Asset> GetCarItemAssets(IHasAssetSet objectWithAssetSet, Car car, Dictionary<Guid, Asset> carItemAssets, Dictionary<Guid, IList<Asset>> carItemsGenerationAssets)
         {
             var applicableAssets = objectWithAssetSet.AssetSet.Assets.Filter(car).ToList();
-            var unmappedApplicableAsset = applicableAssets.Where(asset => !carItemAssets.ContainsKey(asset.ID));
 
-            foreach (var assetSetAsset in unmappedApplicableAsset)
+            if (objectWithAssetSet is ModelGenerationOption && ((ModelGenerationOption)objectWithAssetSet).Components.Count != 0)
+                applicableAssets.AddRange(((ModelGenerationOption) objectWithAssetSet).Components.GetFilteredAssets(car));
+
+            var filteredApplicableAssets = applicableAssets.Distinct();
+
+            var unmappedApplicableAssets = filteredApplicableAssets.Where(asset => !carItemAssets.ContainsKey(asset.ID));
+
+            foreach (var assetSetAsset in unmappedApplicableAssets)
                 carItemAssets.Add(assetSetAsset.ID, _assetMapper.MapCarAssetSetAsset(assetSetAsset, car.Generation));
 
             var applicableGenerationAssets = objectWithAssetSet.AssetSet.Assets.GetGenerationAssets();

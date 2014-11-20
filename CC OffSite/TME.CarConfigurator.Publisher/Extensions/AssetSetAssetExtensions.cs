@@ -3,7 +3,6 @@ using System.Linq;
 using System.Text;
 using TME.CarConfigurator.Administration.Assets;
 using TME.CarConfigurator.Publisher.Exceptions;
-using TME.CarConfigurator.Repository.Objects.Colours;
 
 namespace TME.CarConfigurator.Publisher.Extensions
 {
