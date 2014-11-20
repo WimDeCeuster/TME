@@ -15,5 +15,6 @@ namespace TME.CarConfigurator.Publisher.Common.Interfaces
         IDictionary<String, ContextData> ContextData { get; }
         IDictionary<String, IReadOnlyList<TimeFrame>> TimeFrames { get; }
         Guid GenerationID { get; }
+        string PublishedBy { get; }
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Amazon.OpsWorks.Model;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Administration.Enums;
 using TME.CarConfigurator.Administration.Interfaces;
@@ -13,9 +12,7 @@ using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Progress;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Equipment;
-using TME.CarConfigurator.Repository.Objects.Extensions;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
 using GradePack = TME.CarConfigurator.Repository.Objects.Packs.GradePack;
 using Car = TME.CarConfigurator.Administration.Car;
@@ -133,7 +130,7 @@ namespace TME.CarConfigurator.Publisher
                 // fill contextData
                 var equipmentGroups = MyContext.GetContext().EquipmentGroups;
                 var equipmentCategories = EquipmentCategories.GetEquipmentCategories(true);
-                var specificationCategories = SpecificationCategories.GetSpecificationCategories();
+                var specificationCategories = SpecificationCategories.GetSpecificationCategories(true);
                 var units = Units.GetUnits();
                 var exteriorColourTypes = ExteriorColourTypes.GetExteriorColourTypes();
                 var upholsteryTypes = UpholsteryTypes.GetUpholsteryTypes();

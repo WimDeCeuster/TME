@@ -16,7 +16,6 @@ using CarEquipmentItem = TME.CarConfigurator.Repository.Objects.Equipment.CarEqu
 using CarOption = TME.CarConfigurator.Repository.Objects.Equipment.CarOption;
 using EquipmentItem = TME.CarConfigurator.Administration.EquipmentItem;
 using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
-using UpholsteryInfo = TME.CarConfigurator.Repository.Objects.Colours.UpholsteryInfo;
 
 
 namespace TME.CarConfigurator.Publisher.Mappers
@@ -80,7 +79,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var generationOption = (ModelGenerationOption)generationCarOption.Car.Generation.Equipment[generationCarOption.ID];
             var mappedOption = new CarOption
             {
+                SuffixOption = generationCarOption.SuffixOption,
+                PostProductionOption = generationOption.PostProductionOption,
                 TechnologyItem = generationOption.TechnologyItem,
+                ParentOptionShortID = generationOption.HasParentOption ? generationCarOption.ParentOption.ShortID.Value : 0,
                 Price = new Price
                 {
                     ExcludingVat = generationCarOption.FittingPrice,

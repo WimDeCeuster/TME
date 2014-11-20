@@ -59,11 +59,11 @@ namespace TME.CarConfigurator.Factories
 
         ICarOption GetCarOption(Guid carID, Publication publication, Context context, CarOption option, IEnumerable<CarOption> repoCarOptions)
         {
-           var parentGradeOption = option.ParentOptionShortID == 0
+           var parentCarOption = option.ParentOptionShortID == 0
                 ? null
                 : repoCarOptions.Single(grd => grd.ShortID == option.ParentOptionShortID);
 
-           var parentOptionInfo = parentGradeOption == null ? null : new OptionInfo(parentGradeOption.ShortID, parentGradeOption.Name);
+           var parentOptionInfo = parentCarOption == null ? null : new OptionInfo(parentCarOption.ShortID, parentCarOption.Name);
 
             return new Equipment.CarOption(option, parentOptionInfo, carID, publication, context, _assetFactory);
         }

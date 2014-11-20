@@ -44,7 +44,7 @@ namespace TME.Carconfigurator.Tests.GivenACarConfiguratorPublisher
         [Fact]
         public void ThenACallToPublisherPublishHappens()
         {
-            A.CallTo(() => _publisher.PublishAsync(A<Context>.That.Matches(c => c.Brand == Brand && c.Country == Country && c.GenerationID == _generationId), PublishedBy))
+            A.CallTo(() => _publisher.PublishAsync(A<Context>.That.Matches(c => c.Brand == Brand && c.Country == Country && c.GenerationID == _generationId)))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 

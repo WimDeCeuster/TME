@@ -1,4 +1,6 @@
 ﻿using System;
+using TME.CarConfigurator.Core;
+using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Repository.Objects;
@@ -15,11 +17,13 @@ namespace TME.CarConfigurator.Equipment
             _parentOptionInfo = parentOptionInfo;
         }
 
+        public override IPrice Price { get { return new Price(RepositoryObject.Price); }}
+
         public bool TechnologyItem { get { return RepositoryObject.TechnologyItem; } }
 
         public IOptionInfo ParentOption { get { return _parentOptionInfo; } }
 
-        public bool PostProductionOption { get { throw new NotImplementedException(); } }
-        public bool SuffixOption { get { throw new NotImplementedException(); } }
+        public bool PostProductionOption { get { return RepositoryObject.PostProductionOption; } }
+        public bool SuffixOption { get { return RepositoryObject.SuffixOption; } }
     }
 }
