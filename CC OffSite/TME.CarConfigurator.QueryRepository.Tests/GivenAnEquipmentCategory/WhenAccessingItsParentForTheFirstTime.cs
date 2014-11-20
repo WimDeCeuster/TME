@@ -49,7 +49,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnEquipmentCategory
                 .WithEquipmentService(equipmentService)
                 .Build();
 
-            _category = categoryFactory.GetCategories(publication, context).Flatten(category => category.Categories).Single(category => category.ID == repoCategory.ID);
+            _category = categoryFactory.GetCategories(publication, context).ToList().Flatten(category => category.Categories.ToList()).Single(category => category.ID == repoCategory.ID);
         }
 
         protected override void Act()
