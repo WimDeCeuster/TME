@@ -165,65 +165,65 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         }
 
         [Fact]
-        public void ThenAPublicationShouldBePublished()
+        public void ThenItShouldPublishAPublication()
         {
             A.CallTo(() => _publicationPublisher.PublishPublicationsAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
-        public void ThenAPublishCarEquipmentShouldHappen()
+        public void ThenItShouldPublishCarEquipment()
         {
             A.CallTo(() => _carEquipmentPublisher.PublishCarEquipmentAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
         [Fact]
-        public void ThenAPublishCarTechnicalSpecificationsShouldHappen()
+        public void ThenItShouldPublishCarTechnicalSpecifications()
         {
             A.CallTo(() => _specificationsPublisher.PublishCarTechnicalSpecificationsAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
         [Fact]
-        public void ThenAPublishGenerationBodyTypesShouldHappen()
+        public void ThenItShouldPublishGenerationBodyTypes()
         {
             A.CallTo(() => _bodyTypePublisher.PublishGenerationBodyTypesAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
-        public void ThenAPublishCarPartsShouldHappen()
+        public void ThenItShouldPublishCarParts()
         {
             A.CallTo(() => _carPartPublisher.PublishCarPartsAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
-        public void ThenAPublishGenerationEnginesShouldHappen()
+        public void ThenItShouldPublishGenerationEngines()
         {
             A.CallTo(() => _enginePublisher.PublishGenerationEnginesAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
-        public void ThenAPublishGenerationTransmissionsShouldHappen()
+        public void ThenItShouldPublishGenerationTransmissions()
         {
             A.CallTo(() => _transmissionPublisher.PublishGenerationTransmissionsAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
-        public void ThenAPublishGenerationWheelDrivesShouldHappen()
+        public void ThenItShouldPublishGenerationWheelDrives()
         {
             A.CallTo(() => _wheelDrivePublisher.PublishGenerationWheelDrivesAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
-        public void ThenAPublishGenerationSteeringsShouldHappen()
+        public void ThenItShouldPublishGenerationSteerings()
         {
             A.CallTo(() => _steeringPublisher.PublishGenerationSteeringsAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
-        public void ThenAPublishGenerationGradesShouldHappen()
+        public void ThenItShouldPublishGenerationGrades()
         {
             A.CallTo(() => _gradePublisher.PublishGenerationGradesAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
-        public void ThenAPublishGenerationCarsShouldHappen()
+        public void ThenItShouldPublishGenerationCars()
         {
             A.CallTo(() => _carPublisher.PublishGenerationCarsAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
