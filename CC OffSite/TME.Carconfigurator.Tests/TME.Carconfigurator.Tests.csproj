@@ -178,6 +178,7 @@
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatAlreadyHadAPublicationAndTheModelPropertiesHaveChanged.cs" />
     <Compile Include="GivenAS3Publisher\WhenActivatingAPublicationForAModelThatDoesntHaveAPublicationYet.cs" />
     <Compile Include="GivenAS3Publisher\WhenPublishingAModelGeneration.cs" />
+    <Compile Include="GivenASpecificationPublisher\WhenPublishingCarSpecifications.cs" />
     <Compile Include="GivenASpecificationPublisher\WhenPublishingSpecificationCategories.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

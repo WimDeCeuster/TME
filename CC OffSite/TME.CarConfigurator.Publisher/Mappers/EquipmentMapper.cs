@@ -163,8 +163,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.Links =
                 crossModelEquipmentItem.Links.Select(link => _linkMapper.MapLink(link, isPreview)).ToList();
 
-            mappedEquipmentItem.Labels = _labelMapper.MapLabels(generationCarEquipmentItem.Translation.Labels,
-                generationEquipmentItem.Translation.Labels, crossModelEquipmentItem.Translation.Labels);
+            mappedEquipmentItem.Labels = _labelMapper.MapLabels(generationEquipmentItem.Translation.Labels, crossModelEquipmentItem.Translation.Labels);
 
             mappedEquipmentItem.GradeFeature = generationCarEquipmentItem.Car.Grade.IsEmpty();
                 //false; //?
@@ -192,7 +191,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.GradeFeature = generationGradeEquipmentItem.GradeFeature;
             mappedEquipmentItem.ID = generationGradeEquipmentItem.ID;
 
-            mappedEquipmentItem.Labels = _labelMapper.MapLabels(generationGradeEquipmentItem.Translation.Labels, generationEquipmentItem.Translation.Labels, crossModelEquipmentItem.Translation.Labels);
+            mappedEquipmentItem.Labels = _labelMapper.MapLabels(generationEquipmentItem.Translation.Labels, crossModelEquipmentItem.Translation.Labels);
 
             mappedEquipmentItem.Links = crossModelEquipmentItem.Links.Select(link => _linkMapper.MapLink(link, isPreview)).ToList();
             mappedEquipmentItem.Name = generationGradeEquipmentItem.Translation.Name.DefaultIfEmpty(generationGradeEquipmentItem.Name);

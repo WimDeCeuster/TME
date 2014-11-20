@@ -4,8 +4,10 @@ using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Packs;
+using TME.CarConfigurator.Interfaces.TechnicalSpecifications;
 using TME.CarConfigurator.LegacyAdapter.Equipment;
 using TME.CarConfigurator.LegacyAdapter.Packs;
+using TME.CarConfigurator.LegacyAdapter.TechnicalSpecifications;
 using Legacy = TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter
@@ -116,5 +118,12 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get { return Adaptee.Packs.Cast<Legacy.CarPack>().Select(x => new CarPack(x, Adaptee)).ToList(); }
         }
+
+        public IReadOnlyList<ICarTechnicalSpecification> TechnicalSpecifications
+        {
+            get { return Adaptee.TechnicalSpecifications.Cast<Legacy.TechnicalSpecification>().Select(x => new CarTechnicalSpecification(x)).ToList(); }
+        }
     }
+
+
 }

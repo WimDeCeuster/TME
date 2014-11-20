@@ -45,6 +45,7 @@ namespace TME.CarConfigurator.Publisher
         readonly IColourMapper _colourMapper;
         readonly ICategoryMapper _categoryMapper;
         readonly ICarPartMapper _carPartMapper;
+        readonly ITechnicalSpecificationMapper _technicalSpecificationMapper;
 
         public Mapper(
             ITimeFrameMapper timeFrameMapper,
@@ -63,7 +64,8 @@ namespace TME.CarConfigurator.Publisher
             IPackMapper packMapper,
             IColourMapper colourMapper,
             ICategoryMapper categoryMapper,
-            ICarPartMapper carPartMapper)
+            ICarPartMapper carPartMapper,
+            ITechnicalSpecificationMapper technicalSpecificationMapper)
         {
             if (timeFrameMapper == null) throw new ArgumentNullException("timeFrameMapper");
             if (modelMapper == null) throw new ArgumentNullException("modelMapper");
@@ -81,6 +83,7 @@ namespace TME.CarConfigurator.Publisher
             if (packMapper == null) throw new ArgumentNullException("packMapper");
             if (categoryMapper == null) throw new ArgumentNullException("categoryMapper");
             if (carPartMapper == null) throw new ArgumentNullException("carPartMapper");
+            if (technicalSpecificationMapper == null) throw new ArgumentNullException("technicalSpecificationMapper");
 
             _timeFrameMapper = timeFrameMapper;
             _modelMapper = modelMapper;
@@ -99,6 +102,7 @@ namespace TME.CarConfigurator.Publisher
             _colourMapper = colourMapper;
             _categoryMapper = categoryMapper;
             _carPartMapper = carPartMapper;
+            _technicalSpecificationMapper = technicalSpecificationMapper;
         }
 
         public Task MapAsync(IContext context, IProgress<PublishProgress> progress)
@@ -127,8 +131,10 @@ namespace TME.CarConfigurator.Publisher
                 context.ContextData[language] = contextData;
 
                 // fill contextData
-                var groups = MyContext.GetContext().EquipmentGroups;
-                var categories = EquipmentCategories.GetEquipmentCategories(true);
+                var equipmentGroups = MyContext.GetContext().EquipmentGroups;
+                var equipmentCategories = EquipmentCategories.GetEquipmentCategories(true);
+                var specificationCategories = SpecificationCategories.GetSpecificationCategories();
+                var units = Units.GetUnits();
                 var exteriorColourTypes = ExteriorColourTypes.GetExteriorColourTypes();
                 var upholsteryTypes = UpholsteryTypes.GetUpholsteryTypes();
 
@@ -174,15 +180,15 @@ namespace TME.CarConfigurator.Publisher
                     progress.Report(new PublishProgress("Fill generation grade packs"));
                     FillGradePacks(timeFrameGrades, timeFrame, isPreview);
                     progress.Report(new PublishProgress("Fill grade equipment"));
-                    FillGradeEquipment(categories, groups, timeFrameCars, timeFrameGrades, timeFrame, isPreview, exteriorColourTypes);
+                    FillGradeEquipment(equipmentCategories, equipmentGroups, timeFrameCars, timeFrameGrades, timeFrame, isPreview, exteriorColourTypes);
                     progress.Report(new PublishProgress("Fill generation submodels"));
                     FillSubModels(timeFrameGrades, timeFrameCars, modelGeneration, timeFrame, isPreview);
                     progress.Report(new PublishProgress("Fill submodel grade packs"));
                     FillSubModelGradePacks(timeFrameGrades, modelGeneration, timeFrame, isPreview);
                     progress.Report(new PublishProgress("Fill generation equipment categories"));
-                    FillEquipmentCategories(categories, timeFrame);
+                    FillEquipmentCategories(equipmentCategories, timeFrame);
                     progress.Report(new PublishProgress("Fill generation specification categories"));
-                    FillSpecificationCategories(timeFrame);
+                    FillSpecificationCategories(specificationCategories, timeFrame);
                     progress.Report(new PublishProgress("Fill generation colour combinations"));
                     FillColourCombinations(timeFrameCars, modelGeneration, timeFrame, isPreview, exteriorColourTypes, upholsteryTypes);
                 }
@@ -198,7 +204,8 @@ namespace TME.CarConfigurator.Publisher
                 {
                     FillCarParts(car, contextData);
                     FillCarPacks(car, contextData);
-                    FillCarEquipment(car, contextData, categories, groups, isPreview, cars, exteriorColourTypes);
+                    FillCarEquipment(car, contextData, equipmentCategories, equipmentGroups, isPreview, cars, exteriorColourTypes);
+                    FillCarTechnicalSpecifications(car, specificationCategories, units, contextData);
                 }
             }
         }
@@ -443,6 +450,27 @@ namespace TME.CarConfigurator.Publisher
                                                        .ToList();
         }
 
+
+        private void FillCarTechnicalSpecifications(Car car, SpecificationCategories categories, Units units, ContextData contextData)
+        {
+            var technicalSpecifications = car
+                .Specifications
+                .Where(specification => specification.Approved)
+                .Select(specification=> 
+                    _technicalSpecificationMapper.MapTechnicalSpecification(
+                        specification,
+                        categories.FindSpecification(specification.ID),
+                        units[specification.Unit.ID]
+                        )
+                    )
+                .Where(mappedSpecification=>mappedSpecification.RawValue.Length != 0)
+                .OrderBy(mappedSpecification => mappedSpecification.Category.SortIndex)
+                .ThenBy(mappedSpecification => mappedSpecification.SortIndex)
+                .ThenBy(mappedSpecification => mappedSpecification.Name)
+                .ToList();
+
+            contextData.CarTechnicalSpecifications.Add(car.ID, technicalSpecifications);
+        }
         private void FillCarPacks(Car car, ContextData contextData)
         {
             var packs = car.Packs.Where(pack => pack.Availability != Availability.NotAvailable).Select(_packMapper.MapCarPack).ToList();
@@ -724,9 +752,9 @@ namespace TME.CarConfigurator.Publisher
                 .ToList();
         }
 
-        private void FillSpecificationCategories(TimeFrame timeFrame)
+        private void FillSpecificationCategories(SpecificationCategories categories, TimeFrame timeFrame)
         {
-            timeFrame.SpecificationCategories = SpecificationCategories.GetSpecificationCategories()
+            timeFrame.SpecificationCategories = categories
                 .Flatten(category => category.Categories)
                 .Select(_categoryMapper.MapSpecificationCategory)
                 .ToList();

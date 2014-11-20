@@ -1,12 +1,12 @@
 ﻿using System;
-using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.Interfaces.TechnicalSpecifications;
 
-namespace TME.CarConfigurator.LegacyAdapter.Equipment
+namespace TME.CarConfigurator.LegacyAdapter.TechnicalSpecifications
 {
     public class  CategoryInfo : ICategoryInfo
     {
         #region Dependencies (Adaptee)
-        private TMME.CarConfigurator.Equipment.Category Adaptee
+        private TMME.CarConfigurator.TechnicalSpecifications.Category Adaptee
         {
             get;
             set;
@@ -14,7 +14,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
         #endregion
 
         #region Constructor
-        public CategoryInfo(TMME.CarConfigurator.Equipment.Category adaptee)
+        public CategoryInfo(TMME.CarConfigurator.TechnicalSpecifications.Category adaptee)
         {
             Adaptee = adaptee;
         }

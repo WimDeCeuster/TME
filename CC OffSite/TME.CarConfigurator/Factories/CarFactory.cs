@@ -22,8 +22,9 @@ namespace TME.CarConfigurator.Factories
         private readonly IEquipmentFactory _carEquipmentFactory;
         private readonly IPackFactory _packFactory;
         private readonly ISteeringFactory _steeringFactory;
+        private readonly ISpecificationsFactory _specificationsFactory;
 
-        public CarFactory(ICarService carService, IBodyTypeFactory bodyTypeFactory, IEngineFactory engineFactory, ITransmissionFactory transmissionFactory, IWheelDriveFactory wheelDriveFactory, IGradeFactory gradeFactory, ISubModelFactory subModelFactory, ICarPartFactory carPartFactory, IEquipmentFactory carEquipmentFactory, IPackFactory packFactory, ISteeringFactory steeringFactory)
+        public CarFactory(ICarService carService, IBodyTypeFactory bodyTypeFactory, IEngineFactory engineFactory, ITransmissionFactory transmissionFactory, IWheelDriveFactory wheelDriveFactory, IGradeFactory gradeFactory, ISubModelFactory subModelFactory, ICarPartFactory carPartFactory, IEquipmentFactory carEquipmentFactory, IPackFactory packFactory, ISteeringFactory steeringFactory, ISpecificationsFactory specificationsFactory)
         {
             if (carService == null) throw new ArgumentNullException("carService");
             if (bodyTypeFactory == null) throw new ArgumentNullException("bodyTypeFactory");
@@ -36,6 +37,7 @@ namespace TME.CarConfigurator.Factories
             if (carEquipmentFactory == null) throw new ArgumentNullException("carEquipmentFactory");
             if (packFactory == null) throw new ArgumentNullException("packFactory");
             if (steeringFactory == null) throw new ArgumentNullException("steeringFactory");
+            if (specificationsFactory == null) throw new ArgumentNullException("specificationsFactory");
 
             _carService = carService;
             _bodyTypeFactory = bodyTypeFactory;
@@ -48,12 +50,13 @@ namespace TME.CarConfigurator.Factories
             _carEquipmentFactory = carEquipmentFactory;
             _packFactory = packFactory;
             _steeringFactory = steeringFactory;
+            _specificationsFactory = specificationsFactory;
         }
 
         public IReadOnlyList<ICar> GetCars(Publication publication, Context context)
         {
             return _carService.GetCars(publication.ID, publication.GetCurrentTimeFrame().ID, context)
-                                 .Select(car => new Car(car, publication, context, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _gradeFactory, _subModelFactory,_carPartFactory,_carEquipmentFactory,_packFactory,_steeringFactory))
+                                 .Select(car => new Car(car, publication, context, _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _gradeFactory, _subModelFactory, _carPartFactory, _carEquipmentFactory, _packFactory, _steeringFactory, _specificationsFactory))
                                  .ToArray();
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces.Equipment;
 
@@ -23,10 +24,23 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
         }
         #endregion
 
+
         public string Path
         {
-            get { return Adaptee.Path; }
+            get
+            {
+                var category = Adaptee;
+                var path = category.Name;
+
+                while (category.Parent != null && category.Parent.ID != Guid.Empty)
+                {
+                    category = category.Parent;
+                    path = string.Format("{0}/{1}", category.Name, path);
+                }
+                return path;
+            }
         }
+
 
         public ICategory Parent
         {

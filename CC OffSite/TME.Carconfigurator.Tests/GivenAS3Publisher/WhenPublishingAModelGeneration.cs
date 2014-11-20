@@ -150,6 +150,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => _equipmentPublisher.PublishCategoriesAsync(_context)).Returns(task);
             A.CallTo(() => _equipmentPublisher.PublishSubModelGradeEquipmentAsync(_context)).Returns(task);
             A.CallTo(() => _specificationsPublisher.PublishCategoriesAsync(_context)).Returns(task);
+            A.CallTo(() => _specificationsPublisher.PublishCarTechnicalSpecificationsAsync(_context)).Returns(task);
             A.CallTo(() => _packPublisher.PublishGradePacksAsync(_context)).Returns(task);
             A.CallTo(() => _packPublisher.PublishCarPacksAsync(_context)).Returns(task);
             A.CallTo(() => _packPublisher.PublishSubModelGradePacksAsync(_context)).Returns(task);
@@ -174,7 +175,11 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         {
             A.CallTo(() => _carEquipmentPublisher.PublishCarEquipmentAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
-
+        [Fact]
+        public void ThenAPublishCarTechnicalSpecificationsShouldHappen()
+        {
+            A.CallTo(() => _specificationsPublisher.PublishCarTechnicalSpecificationsAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
+        }
         [Fact]
         public void ThenAPublishGenerationBodyTypesShouldHappen()
         {

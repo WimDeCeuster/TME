@@ -13,23 +13,30 @@ namespace TME.CarConfigurator.Factories
 {
     public class SpecificationsFactory : ISpecificationsFactory
     {
-        private readonly ISpecificationsService _equipmentService;
+        private readonly ISpecificationsService _specificationsService;
         
         public SpecificationsFactory(ISpecificationsService specificationService)
         {
             if (specificationService == null) throw new ArgumentNullException("specificationService");
            
-            _equipmentService = specificationService;
+            _specificationsService = specificationService;
         }
 
         public IModelTechnicalSpecifications GetModelSpecifications(Publication publication, Context context)
         {
             return new ModelTechnicalSpecifications(publication, context, this);
         }
+        public IReadOnlyList<ICarTechnicalSpecification> GetCarTechnicalSpecifications(Guid carID, Publication publication, Context context)
+        {
+            return
+                _specificationsService.GetCarTechnicalSpecifications(publication.ID, carID, context)
+                    .Select(x => new CarTechnicalSpecification(x))
+                    .ToList();
+        }
 
         public IReadOnlyList<ICategory> GetCategories(Publication publication, Context context)
         {
-            var repoCategories = _equipmentService.GetCategories(publication.ID, publication.GetCurrentTimeFrame().ID, context).ToList();
+            var repoCategories = _specificationsService.GetCategories(publication.ID, publication.GetCurrentTimeFrame().ID, context).ToList();
 
             var mappedCategories = repoCategories.Select(category => new Category(category)).ToList(); ;
 
@@ -44,6 +51,8 @@ namespace TME.CarConfigurator.Factories
 
             return topLevelCategories.ToList();
         }
+
+
 
         static void LinkParents(IReadOnlyList<Category> mappedCategories, IReadOnlyList<RepoCategory> repoCategories)
         {
