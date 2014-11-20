@@ -30,14 +30,14 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
             foreach (var duplicateKey in duplicateKeys1)
             {
                 AddDifference(parms, String.Format("Left side has got multiple items with key {0}", duplicateKey));
-                if (parms.Result.ExceededDifferences)
+                if (parms.Result.ExceededDifferences || parms.Config.QuickFailLists)
                     return;
             }
 
             foreach (var duplicateKey in duplicateKeys2)
             {
                 AddDifference(parms, String.Format("Right side has got multiple items with key {0}", duplicateKey));
-                if (parms.Result.ExceededDifferences)
+                if (parms.Result.ExceededDifferences || parms.Config.QuickFailLists)
                     return;
             }
 
@@ -48,7 +48,7 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
             {
                 var missingIndex = keys2.IndexOf(missingKey);
                 AddDifference(parms, String.Format("Left side is missing item with key {0} (index {1})", missingKey, missingIndex), DifferenceType.Missing);
-                if (parms.Result.ExceededDifferences)
+                if (parms.Result.ExceededDifferences || parms.Config.QuickFailLists)
                     return;
             }
 
@@ -56,7 +56,7 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
             {
                 var missingIndex = keys1.IndexOf(missingKey);
                 AddDifference(parms, String.Format("Right side is missing item with key {0} (index {1})", missingKey, missingIndex), DifferenceType.Missing);
-                if (parms.Result.ExceededDifferences)
+                if (parms.Result.ExceededDifferences || parms.Config.QuickFailLists)
                     return;
             }
 
@@ -97,7 +97,10 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                     if (!ignoreOrder)
                         AddDifference(GetItemParms(parms, item1, misorderedItem2, key1), String.Format("Misordered item with key {0} (index {1} vs {2})", key1, i, wrongIndex), DifferenceType.Misorder);
 
-                    _rootComparer.Compare(childParms);
+                    var match = _rootComparer.Compare(childParms);
+
+                    if (!match && parms.Config.QuickFailLists)
+                        return;
                 }
 
                 if (parms.Result.ExceededDifferences)

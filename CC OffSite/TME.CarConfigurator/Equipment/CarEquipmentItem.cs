@@ -14,6 +14,7 @@ using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Repository.Objects;
 using ExteriorColourInfo = TME.CarConfigurator.Colours.ExteriorColourInfo;
 using IExteriorColour = TME.CarConfigurator.Interfaces.Equipment.IExteriorColour;
+using UpholsteryInfo = TME.CarConfigurator.Colours.UpholsteryInfo;
 
 namespace TME.CarConfigurator.Equipment
 {
@@ -25,12 +26,13 @@ namespace TME.CarConfigurator.Equipment
         private CategoryInfo _categoryInfo;
         private List<Link> _links;
         private ExteriorColour _exteriorColour;
-        private IReadOnlyList<CarVisibleInModeAndView> _visibleIn;
+        private IReadOnlyList<IVisibleInModeAndView> _visibleIn;
         private readonly Publication _repositoryPublication;
         private readonly Context _repositoryContext;
         private readonly IAssetFactory _assetFactory;
         private IReadOnlyList<IAsset> _assets;
         private List<ExteriorColourInfo> _availableOnExteriorColors;
+        private List<UpholsteryInfo> _availableOnUpholsteries;
 
         protected CarEquipmentItem(T repositoryObject,Publication publication, Guid carID, Context context, IAssetFactory assetFactory) 
             : base(repositoryObject)
@@ -76,11 +78,13 @@ namespace TME.CarConfigurator.Equipment
 
         public IReadOnlyList<ILink> Links { get { return _links = _links ?? RepositoryObject.Links.Select(link => new Link(link)).ToList(); } }
 
-        //restjes
         public IPrice Price { get { throw new NotImplementedException(); }  }
-        public IReadOnlyList<IVisibleInModeAndView> VisibleIn { get { return _visibleIn = _visibleIn ?? RepositoryObject.VisibleIn.Select(visibleIn => new CarVisibleInModeAndView(_carID,RepositoryObject.ID,visibleIn,_repositoryPublication,_repositoryContext,_assetFactory)).ToList(); } }
-        public IReadOnlyList<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetCarAssets(_repositoryPublication, _carID, RepositoryObject.ID, _repositoryContext); } }
-        public IReadOnlyList<IExteriorColourInfo> AvailableForExteriorColours { get { return _availableOnExteriorColors = _availableOnExteriorColors ?? RepositoryObject.AvailableForExteriorColours.Select(colorInfo => new ExteriorColourInfo(colorInfo)).ToList() ; } }
-        public IReadOnlyList<IUpholsteryInfo> AvailableForUpholsteries { get { throw new NotImplementedException(); } }
+
+        public IReadOnlyList<IVisibleInModeAndView> VisibleIn { get { return _visibleIn = _visibleIn ?? RepositoryObject.VisibleIn.Select(visibleIn => new CarEquipmentVisibleInModeAndView(_carID,RepositoryObject.ID,visibleIn,_repositoryPublication,_repositoryContext,_assetFactory)).ToList(); } }
+
+        public IReadOnlyList<IAsset> Assets { get { return _assets = _assets ?? _assetFactory.GetCarEquipmentAssets(_repositoryPublication, _carID, RepositoryObject.ID, _repositoryContext); } }
+
+        public IReadOnlyList<IExteriorColourInfo> AvailableForExteriorColours { get { return _availableOnExteriorColors = _availableOnExteriorColors ?? RepositoryObject.AvailableForExteriorColours.Select(colorInfo => new ExteriorColourInfo(colorInfo)).ToList(); } }
+        public IReadOnlyList<IUpholsteryInfo> AvailableForUpholsteries { get { return _availableOnUpholsteries = _availableOnUpholsteries ?? RepositoryObject.AvailableForUpholsteries.Select(upholsteryInfo => new UpholsteryInfo(upholsteryInfo)).ToList(); } }
     }
 }

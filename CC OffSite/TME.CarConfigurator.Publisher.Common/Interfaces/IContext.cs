@@ -10,6 +10,7 @@ namespace TME.CarConfigurator.Publisher.Common.Interfaces
         PublicationDataSubset DataSubset { get; }
         String Brand { get; }
         String Country { get; }
+        String AssetUrl { get; }
         IDictionary<String, ModelGeneration> ModelGenerations { get; }
         IDictionary<String, ContextData> ContextData { get; }
         IDictionary<String, IReadOnlyList<TimeFrame>> TimeFrames { get; }

@@ -37,7 +37,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenACarPartService
             var service = A.Fake<IService>();
             var keyManager = A.Fake<IKeyManager>();
 
-            A.CallTo(() => keyManager.GetCarCarPartsKey(A<Guid>._, A<Guid>._)).Returns(s3Key);
+            A.CallTo(() => keyManager.GetCarPartsKey(A<Guid>._, A<Guid>._)).Returns(s3Key);
             A.CallTo(() => service.GetObject(_context.Brand, _context.Country, s3Key)).Returns(serializedObject);
             A.CallTo(() => serialiser.Deserialise<IEnumerable<Repository.Objects.CarPart>>(serializedObject)).Returns(_expectedCarParts);
 

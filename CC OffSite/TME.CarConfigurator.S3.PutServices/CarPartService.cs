@@ -20,13 +20,13 @@ namespace TME.CarConfigurator.S3.CommandServices
             _keyManager = keyManager;
         }
 
-        public async Task PutCarCarParts(String brand, String country, Guid publicationID, Guid carID, IEnumerable<CarPart> carParts)
+        public async Task PutCarParts(String brand, String country, Guid publicationID, Guid carID, IEnumerable<CarPart> carParts)
         {
             if (carParts == null) throw new ArgumentNullException("carParts");
             if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand");
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
 
-            var path = _keyManager.GetCarCarPartsKey(publicationID, carID);
+            var path = _keyManager.GetCarPartsKey(publicationID, carID);
             var value = _serialiser.Serialise(carParts);
 
             await _service.PutObjectAsync(brand, country, path, value);
