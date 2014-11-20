@@ -6,7 +6,7 @@ namespace TME.CarConfigurator.Extensions
 {
     internal static class RepositoryPublicationExtensions
     {
-        public static PublicationTimeFrame GetCurrentTimeFrame(this Publication publication)
+        internal static PublicationTimeFrame GetCurrentTimeFrame(this Publication publication)
         {
             return publication.TimeFrames.Single(tf => tf.LineOffFrom <= DateTime.Now && DateTime.Now <= tf.LineOffTo);
         }

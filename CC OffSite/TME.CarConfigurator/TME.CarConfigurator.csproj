@@ -69,7 +69,6 @@
     <Compile Include="BodyType.cs" />
     <Compile Include="Car.cs" />
     <Compile Include="CarBodyType.cs" />
-    <Compile Include="CarCarPart.cs" />
     <Compile Include="CarConfiguratorVersion.cs" />
     <Compile Include="CarGrade.cs" />
     <Compile Include="CarInfo.cs" />

@@ -6,7 +6,7 @@ namespace TME.CarConfigurator.Extensions
 {
     internal static class VisibilityExtensions
     {
-        public static Visibility ToVisibility(this RepoVisibility visibility)
+        internal static Visibility ToVisibility(this RepoVisibility visibility)
         {
             if ((visibility & ~RepoVisibility.Web & ~RepoVisibility.CarConfigurator & ~RepoVisibility.Brochure & ~RepoVisibility.None) != 0)
                 throw new ArgumentException(String.Format("Unrecognised visibility flag in {0}", visibility.ToString("g")));
