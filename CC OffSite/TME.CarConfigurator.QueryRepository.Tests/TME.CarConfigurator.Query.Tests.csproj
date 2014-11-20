@@ -77,6 +77,15 @@
     <Compile Include="GivenABodyType\WhenAccessingIts3DAssetsASecondTime.cs" />
     <Compile Include="GivenABodyType\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenABodyType\WhenAccessingIts3DAssets.cs" />
+    <Compile Include="GivenACarEquipmentItem\WhenAccessing3DAssetsForAModeAndViewWhenTheWereAlreadyFetchedForAnotherModeAndView.cs" />
+    <Compile Include="GivenACarEquipmentItem\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarEquipmentItem\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAvailableForExteriorColoursForTheFirstTime.cs" />
+    <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAvailableForExteriorColoursForTheSecondTime.cs" />
+    <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAvailableForUpholsteriesForTheFirstTime.cs" />
+    <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAvailableForUpholsteriesForTheSecondTime.cs" />
     <Compile Include="GivenACarPart\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenACarPart\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
     <Compile Include="GivenACarPart\WhenAccessingIts3DAssetsForTheSecondTime.cs" />

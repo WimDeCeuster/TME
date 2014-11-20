@@ -9,5 +9,6 @@ namespace TME.CarConfigurator.QueryServices
     public interface ISpecificationsService
     {
         IEnumerable<Category> GetCategories(Guid publicationId, Guid timeFrameId, Context context);
+        IEnumerable<CarTechnicalSpecification> GetCarTechnicalSpecifications(Guid publicationId, Guid carId, Context context);
     }
 }

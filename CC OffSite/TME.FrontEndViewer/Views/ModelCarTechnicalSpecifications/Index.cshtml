@@ -1,0 +1,14 @@
+﻿@model TME.FrontEndViewer.Models.CompareView<IReadOnlyList<TME.CarConfigurator.Interfaces.TechnicalSpecifications.ICarTechnicalSpecification>>
+@{
+    Layout = "~/Views/Shared/_CompareLayout.cshtml";
+}
+<table>
+    <tr>
+        <td id="oldarea" class="areaview">@Html.Partial("details",Model.OldReaderModel.Model)</td>
+        <td id="newarea" class="areaview">@Html.Partial("details",Model.NewReaderModel.Model)</td>
+    </tr>
+    <tr>
+        <td>@Html.Raw(Model.OldReaderModel.TimeToLoad.TotalMinutes)</td>
+        <td>@Html.Raw(Model.NewReaderModel.TimeToLoad.TotalMinutes)</td>
+    </tr>
+</table>

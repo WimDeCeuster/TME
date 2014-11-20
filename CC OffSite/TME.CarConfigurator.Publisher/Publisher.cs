@@ -50,7 +50,8 @@ namespace TME.CarConfigurator.Publisher
             IPackPublisher packPublisher,
             IColourPublisher colourCombinationPublisher,
             ICarPartPublisher carPartPublisher,
-            ICarEquipmentPublisher carEquipmentPublisher)
+            ICarEquipmentPublisher carEquipmentPublisher
+            )
         {
             if (publicationPublisher == null) throw new ArgumentNullException("publicationPublisher");
             if (modelPublisher == null) throw new ArgumentNullException("modelPublisher");
@@ -65,11 +66,12 @@ namespace TME.CarConfigurator.Publisher
             if (assetPublisher == null) throw new ArgumentNullException("assetPublisher");
             if (subModelPublisher == null) throw new ArgumentNullException("subModelPublisher");
             if (equipmentPublisher == null) throw new ArgumentNullException("equipmentPublisher");
+            if (specificationsPublisher == null) throw new ArgumentNullException("specificationsPublisher");
             if (packPublisher == null) throw new ArgumentNullException("packPublisher");
             if (colourCombinationPublisher == null) throw new ArgumentNullException("colourCombinationPublisher");
             if (carPartPublisher == null) throw new ArgumentNullException("carPartPublisher");
             if (carEquipmentPublisher == null) throw new ArgumentNullException("carEquipmentPublisher");
-            if (specificationsPublisher == null) throw new ArgumentNullException("specificationsPublisher");
+
             
             _publicationPublisher = publicationPublisher;
             _modelPublisher = modelPublisher;
@@ -84,11 +86,12 @@ namespace TME.CarConfigurator.Publisher
             _assetPublisher = assetPublisher;
             _subModelPublisher = subModelPublisher;
             _equipmentPublisher = equipmentPublisher;
+            _specificationsPublisher = specificationsPublisher;
             _packPublisher = packPublisher;
             _colourCombinationPublisher = colourCombinationPublisher;
             _carPartPublisher = carPartPublisher;
             _carEquipmentPublisher = carEquipmentPublisher;
-            _specificationsPublisher = specificationsPublisher;
+
         }
 
         public async Task PublishAsync(IContext context, string publishedBy)
@@ -130,6 +133,7 @@ namespace TME.CarConfigurator.Publisher
                 _packPublisher.PublishSubModelGradePacksAsync(context),
                 _carPartPublisher.PublishCarPartsAsync(context),
                 _carEquipmentPublisher.PublishCarEquipmentAsync(context),
+                _specificationsPublisher.PublishCarTechnicalSpecificationsAsync(context),
                 _assetPublisher.PublishAsync(context)
             };
 

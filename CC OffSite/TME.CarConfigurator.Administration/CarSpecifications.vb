@@ -143,13 +143,13 @@ End Class
     Private _refObject As ModelGenerationSpecification
 
 
-    Friend ReadOnly Property Car() As Car
+    Public ReadOnly Property Car() As Car
         Get
             If Parent Is Nothing Then Return Nothing
             Return DirectCast(Parent, CarSpecifications).Car
         End Get
     End Property
-    Friend Property GenerationSpecification() As ModelGenerationSpecification
+    Public Property GenerationSpecification() As ModelGenerationSpecification
         Get
             If _refObject Is Nothing Then
                 If Car Is Nothing Then Return Nothing
@@ -159,7 +159,7 @@ End Class
 
             Return _refObject
         End Get
-        Set(ByVal obj As ModelGenerationSpecification)
+        Friend Set(ByVal obj As ModelGenerationSpecification)
             _refObject = obj
         End Set
     End Property
@@ -190,7 +190,21 @@ End Class
             Return GenerationSpecification.Declined
         End Get
     End Property
-
+    <XmlInfo(XmlNodeType.Attribute)> Public ReadOnly Property Brochure() As Boolean
+        Get
+            Return GenerationSpecification.Brochure
+        End Get
+    End Property
+    <XmlInfo(XmlNodeType.Attribute)> Public ReadOnly Property KeyFeature() As Boolean
+        Get
+            Return GenerationSpecification.KeyFeature
+        End Get
+    End Property
+    <XmlInfo(XmlNodeType.Attribute)> Public ReadOnly Property EnergyEfficiencySpecification() As Boolean
+        Get
+            Return GenerationSpecification.EnergyEfficiencySpecification
+        End Get
+    End Property
     <XmlInfo(XmlNodeType.Attribute)> Public ReadOnly Property QuickSpecification() As Boolean
         Get
             Return GenerationSpecification.QuickSpecification

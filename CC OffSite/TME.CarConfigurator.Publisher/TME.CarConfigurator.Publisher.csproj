@@ -96,6 +96,7 @@
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\LinkExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Interfaces\ITechnicalSpecificationMapper.cs" />
     <Compile Include="Interfaces\IAssetFileService.cs" />
     <Compile Include="Interfaces\IAssetPublisher.cs" />
     <Compile Include="Interfaces\IAssetMapper.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Mappers\FileTypeMapper.cs" />
     <Compile Include="Mappers\FuelTypeMapper.cs" />
     <Compile Include="Mappers\GenerationMapper.cs" />
+    <Compile Include="Mappers\TechnicalSpecificationMapper.cs" />
     <Compile Include="Mappers\LabelMapper.cs" />
     <Compile Include="Mappers\LinkMapper.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

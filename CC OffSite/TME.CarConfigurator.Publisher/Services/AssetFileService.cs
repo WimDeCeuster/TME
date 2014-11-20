@@ -13,21 +13,22 @@ namespace TME.CarConfigurator.Publisher.Services
     {
         readonly Dictionary<String, String> _cache = new Dictionary<String, String>();
 
-        public String GetFileContent(String filePath)
+        public String GetFileContent(String filePath, String assetUrl)
         {
             if (String.IsNullOrWhiteSpace(filePath)) throw new ArgumentNullException("filePath");
+            if (String.IsNullOrWhiteSpace(assetUrl)) throw new ArgumentNullException("assetUrl");
 
             var key = filePath.ToLowerInvariant();
             if (!_cache.ContainsKey(key))
-                _cache.Add(key, FetchFileContent(filePath));
+                _cache.Add(key, FetchFileContent(filePath, assetUrl));
 
             return _cache[key];
         }
 
-        static String FetchFileContent(String path)
+        static String FetchFileContent(String path, String assetUrl)
         {
             using (var webClient = new WebClient()) { 
-                var content = webClient.DownloadString(new Uri(new Uri(@"http://t1-carassets.toyota-europe.com"), path));
+                var content = webClient.DownloadString(new Uri(new Uri(assetUrl), path));
             
                 return content;
             }

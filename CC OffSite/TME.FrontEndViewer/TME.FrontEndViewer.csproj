@@ -160,6 +160,7 @@
     <Compile Include="Controllers\ModelCarPackAssetsController.cs" />
     <Compile Include="Controllers\ModelCarPackEquipmentController.cs" />
     <Compile Include="Controllers\ModelCarPacksController.cs" />
+    <Compile Include="Controllers\ModelCarTechnicalSpecificationsController.cs" />
     <Compile Include="Controllers\ModelSubModelAssetsController.cs" />
     <Compile Include="Controllers\ModelUpholsteryVisibleInAssetsController.cs" />
     <Compile Include="Controllers\ModelExteriorColourVisibleInAssetsController.cs" />
@@ -366,6 +367,8 @@
     <Content Include="Views\Shared\Equipment\_carPackEquipmentItem.cshtml" />
     <Content Include="Views\Shared\_grade.cshtml" />
     <Content Include="Views\Shared\_subModel.cshtml" />
+    <Content Include="Views\ModelCarTechnicalSpecifications\details.cshtml" />
+    <Content Include="Views\ModelCarTechnicalSpecifications\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -242,6 +242,12 @@ namespace KellermanSoftware.CompareNetObjects
         /// Ignore list order for these members. Used by DetectMissingAndMisordered
         /// </summary>
         public List<string> IgnoreOrderFor { get; set; }
+        
+        /// <summary>
+        /// Stop processing lists on first mismatch
+        /// </summary>
+        public bool QuickFailLists { get; set; }
+
         #endregion
 
         #region Methods
@@ -297,6 +303,7 @@ namespace KellermanSoftware.CompareNetObjects
             MaxStructDepth = 2;
         }
         #endregion
+
 
 
 

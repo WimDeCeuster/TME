@@ -9,6 +9,7 @@ using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Packs;
+using TME.CarConfigurator.Repository.Objects.TechnicalSpecifications;
 
 
 namespace TME.Carconfigurator.Tests.Builders
@@ -167,6 +168,15 @@ namespace TME.Carconfigurator.Tests.Builders
             var carPacks = data.CarPacks;
 
             carPacks.Add(carId, packs.ToList());
+
+            return this;
+        }
+        public ContextBuilder WithCarSpecs(string language, Guid carId, params CarTechnicalSpecification[] specs)
+        {
+            var data = _context.ContextData[language];
+            var carspecs = data.CarTechnicalSpecifications;
+
+            carspecs.Add(carId, specs.ToList());
 
             return this;
         }

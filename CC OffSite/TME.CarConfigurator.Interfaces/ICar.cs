@@ -2,6 +2,7 @@
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Packs;
+using TME.CarConfigurator.Interfaces.TechnicalSpecifications;
 
 namespace TME.CarConfigurator.Interfaces
 {
@@ -27,6 +28,7 @@ namespace TME.CarConfigurator.Interfaces
 
         ICarEquipment Equipment { get; }
         IReadOnlyList<ICarPack> Packs { get; }
+        IReadOnlyList<ICarTechnicalSpecification> TechnicalSpecifications { get; }
 
     }
 }

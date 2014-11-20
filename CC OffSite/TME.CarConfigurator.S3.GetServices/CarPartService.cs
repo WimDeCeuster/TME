@@ -25,7 +25,7 @@ namespace TME.CarConfigurator.S3.QueryServices
 
         public IEnumerable<CarPart> GetCarParts(Guid publicationID, Guid carID, Context context)
         {
-            var key = _keyManager.GetCarCarPartsKey(publicationID, carID);
+            var key = _keyManager.GetCarPartsKey(publicationID, carID);
             var serialisedObject = _service.GetObject(context.Brand, context.Country, key);
             return _serialiser.Deserialise<IEnumerable<CarPart>>(serialisedObject);
         }

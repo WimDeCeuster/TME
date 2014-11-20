@@ -1,0 +1,30 @@
+﻿@model IEnumerable<TME.CarConfigurator.Interfaces.TechnicalSpecifications.ICarTechnicalSpecification>
+
+@foreach (var model in Model)
+{
+    <div class="object" data-id="@Html.Raw(model.ID)">
+        <div class="title">
+            <strong>@Html.Raw(model.Name.ToUpperInvariant())</strong>
+        </div>
+        <div class="content">
+            @Html.Partial("_baseObject", model)
+            <p class="property" data-id="RawValue">RawValue : @Html.Raw(model.RawValue)</p>
+            <p class="property" data-id="Unit">Unit : @Html.Raw(model.Unit)</p>
+            <p class="property allow-mismatch" data-id="ValueFormat">ValueFormat : @Html.Raw(model.ValueFormat)</p>
+            <p class="property" data-id="Value">Value : @Html.Raw(model.Value)</p>
+            <p class="property" data-id="ValueSortIndex">ValueSortIndex : @Html.Raw(model.ValueSortIndex)</p>
+            <p class="property" data-id="TypeCode">TypeCode : @Html.Raw(model.TypeCode)</p>
+            <p class="property" data-id="KeyFeature">KeyFeature : @Html.Raw(model.KeyFeature)</p>
+            <p class="property" data-id="Brochure">Brochure : @Html.Raw(model.Brochure)</p>
+            <p class="property" data-id="EnergyEfficiencySpecification">EnergyEfficiencySpecification : @Html.Raw(model.EnergyEfficiencySpecification)</p>
+            <p class="property" data-id="QuickSpecification">QuickSpecification : @Html.Raw(model.QuickSpecification)</p>
+            <p class="property" data-id="FullSpecification">FullSpecification : @Html.Raw(model.FullSpecification)</p>
+            <p class="property" data-id="Compareable">Compareable : @Html.Raw(model.Compareable)</p>
+            <p class="property" data-id="SummaryValueType">SummaryValueType : @Html.Raw(model.SummaryValueType)</p>
+            <p class="property" data-id="PromotedValueType">PromotedValueType : @Html.Raw(model.PromotedValueType)</p>
+            <p class="property" data-id="CategoryID">Category.ID : @Html.Raw(model.Category.ID)</p>
+            <p class="property" data-id="CategoryPath">Category.Path : @Html.Raw(model.Category.Path)</p>
+            <p class="property" data-id="CategorySortIndex">Category.SortIndex : @Html.Raw(model.Category.SortIndex)</p>
+        </div>
+    </div>
+}

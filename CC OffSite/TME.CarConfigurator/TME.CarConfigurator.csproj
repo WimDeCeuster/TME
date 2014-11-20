@@ -63,6 +63,8 @@
   <ItemGroup>
     <Compile Include="Assets\Asset.cs" />
     <Compile Include="Assets\AssetType.cs" />
+    <Compile Include="Assets\CarEquipmentVisibleInModeAndView.cs" />
+    <Compile Include="Assets\CarPartVisibleInModeAndView.cs" />
     <Compile Include="Assets\SubModelVisibleInModeAndView.cs" />
     <Compile Include="BodyType.cs" />
     <Compile Include="Car.cs" />
@@ -114,7 +116,9 @@
     <Compile Include="Packs\GradePack.cs" />
     <Compile Include="Equipment\OptionInfo.cs" />
     <Compile Include="SubModel.cs" />
+    <Compile Include="TechnicalSpecifications\CarTechnicalSpecification.cs" />
     <Compile Include="TechnicalSpecifications\Category.cs" />
+    <Compile Include="TechnicalSpecifications\CategoryInfo.cs" />
     <Compile Include="TechnicalSpecifications\ModelTechnicalSpecifications.cs" />
     <Compile Include="SubModelGrade.cs" />
     <Compile Include="SubModelGradeEquipment.cs" />
