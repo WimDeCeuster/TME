@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Amazon.OpsWorks.Model;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Administration.Enums;
 using TME.CarConfigurator.Administration.Interfaces;
@@ -13,7 +12,6 @@ using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Progress;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Extensions;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
@@ -751,18 +749,18 @@ namespace TME.CarConfigurator.Publisher
             return mappedGradePacks.ToList();
         }
 
-        private void FillEquipmentCategories(EquipmentCategories categories, TimeFrame timeFrame)
+        private void FillEquipmentCategories(IEnumerable<EquipmentCategory> categories, TimeFrame timeFrame)
         {
-            timeFrame.EquipmentCategories = categories
-                .Flatten(category => category.Categories)
+            timeFrame.EquipmentCategories = categories.ToList()
+                .Flatten(category => category.Categories.ToList())
                 .Select(_categoryMapper.MapEquipmentCategory)
                 .ToList();
         }
 
-        private void FillSpecificationCategories(SpecificationCategories categories, TimeFrame timeFrame)
+        private void FillSpecificationCategories(IEnumerable<SpecificationCategory> categories, TimeFrame timeFrame)
         {
-            timeFrame.SpecificationCategories = categories
-                .Flatten(category => category.Categories)
+            timeFrame.SpecificationCategories = categories.ToList()
+                .Flatten(category => category.Categories.ToList())
                 .Select(_categoryMapper.MapSpecificationCategory)
                 .ToList();
         }
