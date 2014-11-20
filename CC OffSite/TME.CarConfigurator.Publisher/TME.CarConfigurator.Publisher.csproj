@@ -96,6 +96,7 @@
     <Compile Include="Extensions\CarsExtensions.cs" />
     <Compile Include="Extensions\VisibilityExtensions.cs" />
     <Compile Include="Extensions\ColouringModesExtensions.cs" />
+    <Compile Include="Extensions\ComponentExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\LinkExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
