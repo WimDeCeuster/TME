@@ -13,7 +13,7 @@ using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.GivenACarCarPart
+namespace TME.CarConfigurator.Query.Tests.GivenACarPart
 {
     public class WhenAccessingIts3DAssetsForTheFirstTime : TestBase
     {
