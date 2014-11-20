@@ -749,7 +749,7 @@ namespace TME.CarConfigurator.Publisher
             return mappedGradePacks.ToList();
         }
 
-        private void FillEquipmentCategories(EquipmentCategories categories, TimeFrame timeFrame)
+        private void FillEquipmentCategories(IList<EquipmentCategory> categories, TimeFrame timeFrame)
         {
             timeFrame.EquipmentCategories = categories
                 .Flatten(category => category.Categories)
@@ -757,7 +757,7 @@ namespace TME.CarConfigurator.Publisher
                 .ToList();
         }
 
-        private void FillSpecificationCategories(SpecificationCategories categories, TimeFrame timeFrame)
+        private void FillSpecificationCategories(IList<SpecificationCategory> categories, TimeFrame timeFrame)
         {
             timeFrame.SpecificationCategories = categories
                 .Flatten(category => category.Categories)

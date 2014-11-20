@@ -33,7 +33,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarEquipmentItem
         protected override void Arrange()
         {
             _mode1 = "the first mode";
-            _mode1 = "the second mode";
+            _mode2 = "the second mode";
             _view1 = "the first view";
             _view2 = "the second view";
 

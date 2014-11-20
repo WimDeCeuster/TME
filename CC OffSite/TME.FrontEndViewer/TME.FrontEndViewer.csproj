@@ -161,6 +161,7 @@
     <Compile Include="Controllers\ModelCarPackEquipmentController.cs" />
     <Compile Include="Controllers\ModelCarPacksController.cs" />
     <Compile Include="Controllers\ModelCarTechnicalSpecificationsController.cs" />
+    <Compile Include="Controllers\ModelFuelTypesController.cs" />
     <Compile Include="Controllers\ModelSubModelAssetsController.cs" />
     <Compile Include="Controllers\ModelUpholsteryVisibleInAssetsController.cs" />
     <Compile Include="Controllers\ModelExteriorColourVisibleInAssetsController.cs" />
@@ -369,6 +370,8 @@
     <Content Include="Views\Shared\_subModel.cshtml" />
     <Content Include="Views\ModelCarTechnicalSpecifications\details.cshtml" />
     <Content Include="Views\ModelCarTechnicalSpecifications\Index.cshtml" />
+    <Content Include="Views\ModelFuelTypes\details.cshtml" />
+    <Content Include="Views\ModelFuelTypes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

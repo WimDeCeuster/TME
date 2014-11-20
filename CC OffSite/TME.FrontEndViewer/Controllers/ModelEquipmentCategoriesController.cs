@@ -49,7 +49,7 @@ namespace TME.FrontEndViewer.Controllers
 
             var model = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID);
             var list = GetList(model);
-            return new ModelWithMetrics<IReadOnlyList<ICategory>>()
+            return new ModelWithMetrics<IReadOnlyList<ICategory>>
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)
@@ -58,7 +58,7 @@ namespace TME.FrontEndViewer.Controllers
 
         private static IReadOnlyList<ICategory> GetList(IModel model)
         {
-            return model.Equipment.Categories.Flatten(category => category.Categories).ToList();
+            return model.Equipment.Categories.ToList().Flatten(category => category.Categories.ToList()).ToList();
         }
     }
 }
