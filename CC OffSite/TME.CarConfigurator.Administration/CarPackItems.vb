@@ -327,7 +327,11 @@ End Class
             Return GenerationPackItem.Colour
         End Get
     End Property
-
+ Public ReadOnly Property Index() As Integer
+        Get
+            Return GenerationPackItem.Index
+        End Get
+    End Property
 
     Public ReadOnly Property MasterID() As Guid Implements IMasterObjectReference.MasterID
         Get
