@@ -10,6 +10,7 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
     {
         private IPackService _packService;
         private IAssetFactory _assetFactory = A.Fake<IAssetFactory>();
+        private IEquipmentFactory _equipmentFactory = A.Fake<IEquipmentFactory>();
 
         public PackFactoryBuilder WithPackService(IPackService packService)
         {
@@ -25,9 +26,16 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
             return this;
         }
 
+        public PackFactoryBuilder WithEquipmentFactory(IEquipmentFactory equipmentFactory)
+        {
+            _equipmentFactory = equipmentFactory;
+
+            return this;
+        }
+
         public IPackFactory Build()
         {
-            return new PackFactory(_packService, _assetFactory);
+            return new PackFactory(_packService, _assetFactory, _equipmentFactory);
         }
     }
 }

@@ -196,7 +196,7 @@ namespace TME.CarConfigurator.Publisher
                 foreach (var car in cars)
                 {
                     FillCarParts(car, contextData);
-                    FillCarPacks(car, contextData);
+                    FillCarPacks(car, contextData, groups, categories, isPreview, cars, exteriorColourTypes, context.AssetUrl);
                     FillCarEquipment(car, contextData, categories, groups, isPreview, cars, exteriorColourTypes, context.AssetUrl);
                 }
                 progress.Report(new PublishProgress("Mapping complete"));
@@ -443,9 +443,11 @@ namespace TME.CarConfigurator.Publisher
                                                        .ToList();
         }
 
-        private void FillCarPacks(Car car, ContextData contextData)
+        private void FillCarPacks(Car car, ContextData contextData, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, string assetUrl)
         {
-            var packs = car.Packs.Where(pack => pack.Availability != Availability.NotAvailable).Select(_packMapper.MapCarPack).ToList();
+            var packs = car.Packs.Where(pack => pack.Availability != Availability.NotAvailable)
+                                 .Select(pack => _packMapper.MapCarPack(pack, groups, categories, isPreview, cars, exteriorColourTypes, assetUrl))
+                                 .ToList();
             contextData.CarPacks.Add(car.ID, packs);
         }
 
@@ -454,7 +456,7 @@ namespace TME.CarConfigurator.Publisher
             contextData.CarEquipment.Add(car.ID,new CarEquipment
             {
                 Accessories = car.Equipment.Where(equipment => equipment.Type == EquipmentType.Accessory && equipment.Availability != Availability.NotAvailable)
-                                           .Select(accessory => _equipmentMapper.MapCarAccessory((CarAccessory)accessory, groups.FindAccessory(accessory.ID), categories, isPreview, cars, car, exteriorColourTypes, assetUrl))
+                                           .Select(accessory => _equipmentMapper.MapCarAccessory((CarAccessory)accessory, groups.FindAccessory(accessory.ID), categories, isPreview, cars, exteriorColourTypes, assetUrl))
                                            .ToList(),
                 Options = car.Equipment.Where(equipment => equipment.Type == EquipmentType.Option && equipment.Availability != Availability.NotAvailable)
                                        .Select(option => _equipmentMapper.MapCarOption((CarOption)option, groups.FindOption(option.ID), categories, isPreview, cars, exteriorColourTypes, assetUrl))
@@ -646,9 +648,6 @@ namespace TME.CarConfigurator.Publisher
             foreach (var applicableCar in applicableCars)
                 applicableCar.Grade = mappedGrade;
         }
-
-
-
 
         void FillGradeEquipment(EquipmentCategories categories, EquipmentGroups groups, IEnumerable<Car> cars, IEnumerable<ModelGenerationGrade> grades, TimeFrame timeFrame, bool isPreview, ExteriorColourTypes exteriorColourTypes, String assetUrl)
         {

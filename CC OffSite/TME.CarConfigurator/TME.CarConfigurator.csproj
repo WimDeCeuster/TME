@@ -111,6 +111,12 @@
     <Compile Include="Equipment\GradeEquipmentItem.cs" />
     <Compile Include="GradeInfo.cs" />
     <Compile Include="Packs\CarPack.cs" />
+    <Compile Include="Packs\CarPackUpholsteryType.cs" />
+    <Compile Include="Packs\CarPackExteriorColourType.cs" />
+    <Compile Include="Packs\CarPackOption.cs" />
+    <Compile Include="Packs\CarPackAccessory.cs" />
+    <Compile Include="Packs\CarPackEquipment.cs" />
+    <Compile Include="Packs\CarPackEquipmentItem.cs" />
     <Compile Include="Packs\GradePack.cs" />
     <Compile Include="Equipment\OptionInfo.cs" />
     <Compile Include="SubModel.cs" />

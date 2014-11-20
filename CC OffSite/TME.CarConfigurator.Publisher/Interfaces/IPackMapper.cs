@@ -7,6 +7,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
     public interface IPackMapper
     {
         GradePack MapGradePack(ModelGenerationGradePack gradePack, ModelGenerationPack generationPack, IReadOnlyCollection<Car> gradeCars);
-        Repository.Objects.Packs.CarPack MapCarPack(Administration.CarPack carPack);
+        Repository.Objects.Packs.CarPack MapCarPack(Administration.CarPack carPack, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, string assetUrl);
     }
 }

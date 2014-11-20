@@ -15,6 +15,7 @@ namespace TME.CarConfigurator.Packs
     public class CarPack : BaseObject<RepositoryCarPack>, ICarPack
     {
         private readonly IAssetFactory _assetFactory;
+        private readonly IEquipmentFactory _equipmentFactory;
         
         private readonly Repository.Objects.Publication _publication;
         private readonly Guid _carId;
@@ -24,17 +25,20 @@ namespace TME.CarConfigurator.Packs
         private IReadOnlyList<IExteriorColourInfo> _availableForExteriorColours;
         private IReadOnlyList<IUpholsteryInfo> _availableForUpholsteries;
         private IReadOnlyList<IAsset> _assets;
+        private ICarPackEquipment _equipment;
 
-        public CarPack(RepositoryCarPack pack, Repository.Objects.Publication publication, Guid carId, Repository.Objects.Context context, IAssetFactory assetFactory)
+        public CarPack(RepositoryCarPack pack, Repository.Objects.Publication publication, Guid carId, Repository.Objects.Context context, IAssetFactory assetFactory, IEquipmentFactory equipmentFactory)
             : base(pack)
         {
             if (publication == null) throw new ArgumentNullException("publication");
             if (context == null) throw new ArgumentNullException("context");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
+            if (equipmentFactory == null) throw new ArgumentNullException("equipmentFactory");
 
             _publication = publication;
             _context = context;
             _assetFactory = assetFactory;
+            _equipmentFactory = equipmentFactory;
             _carId = carId;
         }
 
@@ -56,6 +60,6 @@ namespace TME.CarConfigurator.Packs
 
         public IReadOnlyList<IUpholsteryInfo> AvailableForUpholsteries { get { return _availableForUpholsteries = _availableForUpholsteries ?? RepositoryObject.AvailableForUpholsteries.Select(info => new UpholsteryInfo(info)).ToList(); } }
 
-        public ICarPackEquipment Equipment { get { throw new NotImplementedException(); } }
+        public ICarPackEquipment Equipment { get { return _equipment = _equipment ?? _equipmentFactory.GetCarPackEquipment(RepositoryObject.Equipment, _publication, _context, _carId); } }
     }
 }

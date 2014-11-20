@@ -9,12 +9,14 @@ namespace TME.CarConfigurator.Equipment
 {
     public class CarAccessory : CarEquipmentItem<Repository.Objects.Equipment.CarAccessory>, ICarAccessory
     {
+        private Price _price;
+
         public CarAccessory(Repository.Objects.Equipment.CarAccessory repositoryObject, Guid carID, Publication publication, Context context, IAssetFactory assetFactory)
             : base(repositoryObject, publication, carID, context, assetFactory)
         {
         }
 
-        public IPrice BasePrice { get { return new Price(RepositoryObject.BasePrice); } }
+        public IPrice BasePrice { get { return _price = _price ?? new Price(RepositoryObject.BasePrice); } }
 
         public IMountingCosts MountingCostsOnNewVehicle { get { return new MountingCosts(RepositoryObject.MountingCostsOnNewVehicle); } }
 

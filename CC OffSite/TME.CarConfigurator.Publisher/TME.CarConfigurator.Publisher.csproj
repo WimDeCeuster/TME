@@ -89,10 +89,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CarConfiguratorPublisher.cs" />
+    <Compile Include="Exceptions\UnrecognisedColouringModeException.cs" />
     <Compile Include="Exceptions\UnrecognisedItemVisibilityException.cs" />
     <Compile Include="Extensions\AssetSetAssetExtensions.cs" />
     <Compile Include="Extensions\AvailabilityPropertiesExtensions.cs" />
     <Compile Include="Extensions\CarsExtensions.cs" />
+    <Compile Include="Extensions\VisibilityExtensions.cs" />
+    <Compile Include="Extensions\ColouringModesExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\LinkExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
@@ -126,7 +129,6 @@
     <Compile Include="Interfaces\IGradeMapper.cs" />
     <Compile Include="Interfaces\ISubModelMapper.cs" />
     <Compile Include="Interfaces\ISubModelPublisher.cs" />
-    <Compile Include="Interfaces\IVisibilityMapper.cs" />
     <Compile Include="Interfaces\IWheelDriveMapper.cs" />
     <Compile Include="Interfaces\ISteeringPublisher.cs" />
     <Compile Include="Interfaces\IGradePublisher.cs" />
@@ -175,7 +177,6 @@
     <Compile Include="Mappers\GradeMapper.cs" />
     <Compile Include="Mappers\SubModelMapper.cs" />
     <Compile Include="Mappers\TimeFrameMapper.cs" />
-    <Compile Include="Mappers\VisibilityMapper.cs" />
     <Compile Include="Mappers\WheelDriveMapper.cs" />
     <Compile Include="Mappers\TransmissionMapper.cs" />
     <Compile Include="Mappers\TransmissionTypeMapper.cs" />

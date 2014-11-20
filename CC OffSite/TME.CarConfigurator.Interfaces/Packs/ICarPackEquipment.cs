@@ -4,7 +4,7 @@ namespace TME.CarConfigurator.Interfaces.Packs
 {
     public interface ICarPackEquipment
     {
-// ReSharper disable ReturnTypeCanBeEnumerable.Global
+        // ReSharper disable ReturnTypeCanBeEnumerable.Global
         IReadOnlyList<ICarPackAccessory> Accessories { get; }
         IReadOnlyList<ICarPackOption> Options { get; }
         IReadOnlyList<ICarPackExteriorColourType> ExteriorColourTypes { get; }

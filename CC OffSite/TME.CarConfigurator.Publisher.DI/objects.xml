@@ -42,7 +42,6 @@
   <object name="EquipmentMapper" type="TME.CarConfigurator.Publisher.Mappers.EquipmentMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="LabelMapper" />
     <constructor-arg ref="LinkMapper" />
-    <constructor-arg ref="VisibilityMapper" />
     <constructor-arg ref="CategoryMapper" />
     <constructor-arg ref="ColourMapper" />
     <constructor-arg ref="AssetSetMapper" />
@@ -50,8 +49,6 @@
   <object name="BodyTypeMapper" type="TME.CarConfigurator.Publisher.Mappers.BodyTypeMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />
     <constructor-arg ref="AssetSetMapper" />
-  </object>
-  <object name="VisibilityMapper" type="TME.CarConfigurator.Publisher.Mappers.VisibilityMapper, TME.CarConfigurator.Publisher">
   </object>
   <object name="CategoryMapper" type="TME.CarConfigurator.Publisher.Mappers.CategoryMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />
