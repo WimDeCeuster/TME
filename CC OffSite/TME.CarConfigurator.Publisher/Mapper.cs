@@ -13,6 +13,7 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Progress;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Equipment;
+using TME.CarConfigurator.Repository.Objects.Extensions;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
 using GradePack = TME.CarConfigurator.Repository.Objects.Packs.GradePack;
 using Car = TME.CarConfigurator.Administration.Car;
@@ -748,18 +749,18 @@ namespace TME.CarConfigurator.Publisher
             return mappedGradePacks.ToList();
         }
 
-        private void FillEquipmentCategories(IEnumerable<EquipmentCategory> categories, TimeFrame timeFrame)
+        private void FillEquipmentCategories(IList<EquipmentCategory> categories, TimeFrame timeFrame)
         {
-            timeFrame.EquipmentCategories = categories.ToList()
-                .Flatten(category => category.Categories.ToList())
+            timeFrame.EquipmentCategories = categories
+                .Flatten(category => category.Categories)
                 .Select(_categoryMapper.MapEquipmentCategory)
                 .ToList();
         }
 
-        private void FillSpecificationCategories(IEnumerable<SpecificationCategory> categories, TimeFrame timeFrame)
+        private void FillSpecificationCategories(IList<SpecificationCategory> categories, TimeFrame timeFrame)
         {
-            timeFrame.SpecificationCategories = categories.ToList()
-                .Flatten(category => category.Categories.ToList())
+            timeFrame.SpecificationCategories = categories
+                .Flatten(category => category.Categories)
                 .Select(_categoryMapper.MapSpecificationCategory)
                 .ToList();
         }
