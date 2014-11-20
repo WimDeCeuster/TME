@@ -94,22 +94,22 @@ namespace TME.CarConfigurator.Publisher
 
         }
 
-        public async Task PublishAsync(IContext context, string publishedBy)
+        public async Task PublishAsync(IContext context)
         {
             var languageCodes = context.ContextData.Keys;
 
-            await PublishAsync(context, languageCodes, publishedBy);
+            await PublishAsync(context, languageCodes);
 
             await ActivateAsync(context, languageCodes);
         }
 
-        private async Task PublishAsync(IContext context, IEnumerable<string> languageCodes, string publishedBy)
+        private async Task PublishAsync(IContext context, IEnumerable<string> languageCodes)
         {
             foreach (var lanuageCode in languageCodes)
             {
                 var data = context.ContextData[lanuageCode];
                 var timeFrames = context.TimeFrames[lanuageCode];
-                CreateAndAddPublication(data, timeFrames, publishedBy);
+                CreateAndAddPublication(data, timeFrames, context.PublishedBy);
             }
             var tasks = new List<Task>
             {
