@@ -13,6 +13,7 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Progress;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Equipment;
+using TME.CarConfigurator.Repository.Objects.Extensions;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
 using GradePack = TME.CarConfigurator.Repository.Objects.Packs.GradePack;
 using Car = TME.CarConfigurator.Administration.Car;
