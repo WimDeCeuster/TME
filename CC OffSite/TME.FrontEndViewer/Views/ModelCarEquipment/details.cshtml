@@ -43,8 +43,8 @@
             <div class="content">
                 @Html.Partial("Equipment/_carEquipmentItem", model)
                 <p class="property allow-mismatch" data-id="TechnologyItem">TechnologyItem : @Html.Raw(model.TechnologyItem)</p>
-              <p class="property" data-id="SuffixOption">SuffixOption : @Html.Raw(model.SuffixOption)</p>
-                <p class="property" data-id="PostProductionOption">PostProductionOption : @Html.Raw(model.PostProductionOption)</p>
+@*              <p class="property" data-id="SuffixOption">SuffixOption : @Html.Raw(model.SuffixOption)</p>*@
+@*                <p class="property" data-id="PostProductionOption">PostProductionOption : @Html.Raw(model.PostProductionOption)</p>*@
                 @if (model.ParentOption != null)
                 {
                     <p class="property" data-id="ParentOptionShortID">ParentOption.ShortID : @Html.Raw(model.ParentOption.ShortID)</p>

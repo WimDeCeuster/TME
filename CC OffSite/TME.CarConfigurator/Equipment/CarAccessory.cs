@@ -22,7 +22,11 @@ namespace TME.CarConfigurator.Equipment
 
         public override IPrice Price
         {
-            get { return BasePrice; }
+            get { return new Price(new Repository.Objects.Core.Price
+            {
+                ExcludingVat =  RepositoryObject.BasePrice.ExcludingVat + RepositoryObject.MountingCostsOnNewVehicle.Price.ExcludingVat,
+                IncludingVat = RepositoryObject.BasePrice.IncludingVat + RepositoryObject.MountingCostsOnNewVehicle.Price.IncludingVat
+            }); }
         }
     }
 }

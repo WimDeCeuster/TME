@@ -82,6 +82,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 SuffixOption = generationCarOption.SuffixOption,
                 PostProductionOption = generationOption.PostProductionOption,
                 TechnologyItem = generationOption.TechnologyItem,
+                ParentOptionShortID = generationOption.HasParentOption ? generationCarOption.ParentOption.ShortID.Value : 0,
                 Price = new Price
                 {
                     ExcludingVat = generationCarOption.FittingPrice,

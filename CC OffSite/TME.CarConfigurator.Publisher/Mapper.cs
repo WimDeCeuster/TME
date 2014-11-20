@@ -133,7 +133,7 @@ namespace TME.CarConfigurator.Publisher
                 // fill contextData
                 var equipmentGroups = MyContext.GetContext().EquipmentGroups;
                 var equipmentCategories = EquipmentCategories.GetEquipmentCategories(true);
-                var specificationCategories = SpecificationCategories.GetSpecificationCategories();
+                var specificationCategories = SpecificationCategories.GetSpecificationCategories(true);
                 var units = Units.GetUnits();
                 var exteriorColourTypes = ExteriorColourTypes.GetExteriorColourTypes();
                 var upholsteryTypes = UpholsteryTypes.GetUpholsteryTypes();
