@@ -64,6 +64,7 @@ namespace TME.CarConfigurator.Equipment
 
         public bool Optional { get { return RepositoryObject.Optional; } }
 
+        public abstract IPrice Price { get; }
 
         public Visibility Visibility { get { return RepositoryObject.Visibility.ToVisibility(); } }
 
@@ -77,8 +78,6 @@ namespace TME.CarConfigurator.Equipment
         public IExteriorColour ExteriorColour { get { return RepositoryObject.ExteriorColour == null ? null : _exteriorColour = _exteriorColour ?? new ExteriorColour(RepositoryObject.ExteriorColour); } }
 
         public IReadOnlyList<ILink> Links { get { return _links = _links ?? RepositoryObject.Links.Select(link => new Link(link)).ToList(); } }
-
-        public IPrice Price { get { throw new NotImplementedException(); }  }
 
         public IReadOnlyList<IVisibleInModeAndView> VisibleIn { get { return _visibleIn = _visibleIn ?? RepositoryObject.VisibleIn.Select(visibleIn => new CarEquipmentVisibleInModeAndView(_carID,RepositoryObject.ID,visibleIn,_repositoryPublication,_repositoryContext,_assetFactory)).ToList(); } }
 
