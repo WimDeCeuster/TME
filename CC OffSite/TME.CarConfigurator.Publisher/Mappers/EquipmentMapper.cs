@@ -215,6 +215,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var carEquipmentItem = carPackItem.Pack.Car.Equipment[carPackItem.ID];
             var generationEquipmentItem = carPackItem.Pack.Car.Generation.Equipment[carPackItem.ID];
             var crossModelEquipmentItem = groups.FindEquipment(carPackItem.ID);
+
             mappedCarPackEquipmentItem.Price = new Price
             {
                 ExcludingVat = carPackItem.Price,
@@ -265,15 +266,15 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.VisibleIn = _assetSetMapper.GetVisibility(generationEquipmentItem.AssetSet).ToList();
 
             if (generationEquipmentItem is ModelGenerationOption && ((ModelGenerationOption)generationEquipmentItem).Components.Count != 0)
-                AddComponentAssetsToVisibleIn(mappedEquipmentItem, generationCarEquipmentItem, generationEquipmentItem);
+                AddComponentAssetsToVisibleIn(mappedEquipmentItem, carEquipmentItem, generationEquipmentItem);
             
             mappedEquipmentItem.Optional = carEquipmentItem.Availability == Availability.Optional;
             mappedEquipmentItem.Standard = carEquipmentItem.Availability == Availability.Standard;
             
-            mappedEquipmentItem.Links =
+            mappedEquipmentItem.Links = crossModelEquipmentItem == null ? new List<Repository.Objects.Link>() :
                 crossModelEquipmentItem.Links.Select(link => _linkMapper.MapLink(link, isPreview)).ToList();
 
-            mappedEquipmentItem.Labels = _labelMapper.MapLabels(generationEquipmentItem.Translation.Labels, crossModelEquipmentItem.Translation.Labels);
+            mappedEquipmentItem.Labels = crossModelEquipmentItem == null ? _labelMapper.MapLabels(generationEquipmentItem.Translation.Labels) : _labelMapper.MapLabels(generationEquipmentItem.Translation.Labels, crossModelEquipmentItem.Translation.Labels);
 
 
             return mappedEquipmentItem;

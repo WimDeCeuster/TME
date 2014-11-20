@@ -16,6 +16,8 @@ namespace TME.CarConfigurator.Publisher.Common
 
         public IList<Generation> Generations { get; private set; }
         public IList<Model> Models { get; private set; }
+        public IList<EquipmentCategory> EquipmentCategories { get; set; }
+        public IList<SpecificationCategory> SpecificationCategories { get; set; }
         public IDictionary<Guid, IList<Asset>> Assets { get; set; }
         public IDictionary<Guid, CarEquipment> CarEquipment { get; private set; }
         public IDictionary<Guid, IList<CarPart>> CarParts { get; private set; }
@@ -30,6 +32,8 @@ namespace TME.CarConfigurator.Publisher.Common
         {
             Models = new List<Model>();
             Generations = new List<Generation>();
+            EquipmentCategories = new List<EquipmentCategory>();
+            SpecificationCategories = new List<SpecificationCategory>();
             Assets = new Dictionary<Guid, IList<Asset>>();
             CarAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
             SubModelAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
@@ -40,5 +44,6 @@ namespace TME.CarConfigurator.Publisher.Common
             CarPacks = new Dictionary<Guid, IReadOnlyList<CarPack>>();
             CarTechnicalSpecifications = new Dictionary<Guid, IReadOnlyList<CarTechnicalSpecification>>();
         }
+
     }
 }

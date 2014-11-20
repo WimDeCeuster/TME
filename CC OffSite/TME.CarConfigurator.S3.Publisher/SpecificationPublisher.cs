@@ -29,7 +29,8 @@ namespace TME.CarConfigurator.S3.Publisher
         {
             if (context == null) throw new ArgumentNullException("context");
 
-            await _timeFramePublishHelper.PublishList(context, timeFrame => timeFrame.SpecificationCategories, _specificationsService.PutCategoriesAsync);
+            await Task.WhenAll(context.ContextData.Select(entry =>
+                _specificationsService.PutCategoriesAsync(context.Brand, context.Country, entry.Value.Publication.ID, entry.Value.SpecificationCategories)));
         }
 
         public async Task PublishCarTechnicalSpecificationsAsync(IContext context)

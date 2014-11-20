@@ -36,7 +36,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenSpecificationCategory
             var context = new ContextBuilder().Build();
 
             _specificationsService = A.Fake<ISpecificationsService>();
-            A.CallTo(() => _specificationsService.GetCategories(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new [] { repoCategory });
+            A.CallTo(() => _specificationsService.GetCategories(A<Guid>._, A<Context>._)).Returns(new [] { repoCategory });
 
             var categoryFactory = new SpecificationsFactoryBuilder()
                 .WithSpecificationsService(_specificationsService)

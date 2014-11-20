@@ -37,7 +37,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenASpecificationService
             var service = A.Fake<IService>();
             var keyManager = A.Fake<IKeyManager>();
 
-            A.CallTo(() => keyManager.GetSpecificationCategoriesKey(A<Guid>._, A<Guid>._)).Returns(s3Key);
+            A.CallTo(() => keyManager.GetSpecificationCategoriesKey(A<Guid>._)).Returns(s3Key);
             A.CallTo(() => service.GetObject(_context.Brand, _context.Country, s3Key)).Returns(serializedObject);
             A.CallTo(() => serialiser.Deserialise<IEnumerable<Category>>(serializedObject)).Returns(_expectedCategories);
 
@@ -51,7 +51,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenASpecificationService
 
         protected override void Act()
         {
-            _actualCategories = _specificationService.GetCategories(Guid.NewGuid(), Guid.NewGuid(), _context);
+            _actualCategories = _specificationService.GetCategories(Guid.NewGuid(), _context);
         }
 
         [Fact]

@@ -156,6 +156,11 @@ namespace TME.CarConfigurator.Publisher
                 progress.Report(new PublishProgress("Fill generation assets"));
                 FillAssets(modelGeneration, contextData);
 
+                progress.Report(new PublishProgress("Fill generation equipment categories"));
+                FillEquipmentCategories(equipmentCategories, contextData);
+                progress.Report(new PublishProgress("Fill generation specification categories"));
+                FillSpecificationCategories(specificationCategories, contextData);
+
                 progress.Report(new PublishProgress("Fill timeframes"));
                 foreach (var timeFrame in context.TimeFrames[language])
                 {
@@ -185,10 +190,6 @@ namespace TME.CarConfigurator.Publisher
                     FillSubModels(timeFrameGrades, timeFrameCars, modelGeneration, timeFrame, isPreview);
                     progress.Report(new PublishProgress("Fill submodel grade packs"));
                     FillSubModelGradePacks(timeFrameGrades, modelGeneration, timeFrame, isPreview);
-                    progress.Report(new PublishProgress("Fill generation equipment categories"));
-                    FillEquipmentCategories(equipmentCategories, timeFrame);
-                    progress.Report(new PublishProgress("Fill generation specification categories"));
-                    FillSpecificationCategories(specificationCategories, timeFrame);
                     progress.Report(new PublishProgress("Fill generation colour combinations"));
                     FillColourCombinations(timeFrameCars, modelGeneration, timeFrame, isPreview, exteriorColourTypes, upholsteryTypes, context.AssetUrl);
                 }
@@ -757,17 +758,17 @@ namespace TME.CarConfigurator.Publisher
             return mappedGradePacks.ToList();
         }
 
-        private void FillEquipmentCategories(IList<EquipmentCategory> categories, TimeFrame timeFrame)
+        private void FillEquipmentCategories(IList<EquipmentCategory> categories, ContextData contextData)
         {
-            timeFrame.EquipmentCategories = categories
+            contextData.EquipmentCategories = categories
                 .Flatten(category => category.Categories)
                 .Select(_categoryMapper.MapEquipmentCategory)
                 .ToList();
         }
 
-        private void FillSpecificationCategories(IList<SpecificationCategory> categories, TimeFrame timeFrame)
+        private void FillSpecificationCategories(IList<SpecificationCategory> categories, ContextData contextData)
         {
-            timeFrame.SpecificationCategories = categories
+            contextData.SpecificationCategories = categories
                 .Flatten(category => category.Categories)
                 .Select(_categoryMapper.MapSpecificationCategory)
                 .ToList();

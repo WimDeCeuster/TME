@@ -28,8 +28,6 @@ namespace TME.CarConfigurator.Publisher.Common
         public IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>> GradePacks { get; set; }
         public IReadOnlyList<SubModel> SubModels { get; set; }
         public IReadOnlyList<ColourCombination> ColourCombinations { get; set; }
-        public IReadOnlyList<EquipmentCategory> EquipmentCategories { get; set; }
-        public IReadOnlyList<SpecificationCategory> SpecificationCategories { get; set; }
         public IReadOnlyDictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>> SubModelGradeEquipments { get; set; }
         public IReadOnlyDictionary<Guid, IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>>> SubModelGradePacks { get; set; }
 
@@ -58,8 +56,6 @@ namespace TME.CarConfigurator.Publisher.Common
             GradeEquipments = new Dictionary<Guid, GradeEquipment>();
             SubModels = new List<SubModel>();
             SubModelGradeEquipments = new Dictionary<Guid, IReadOnlyDictionary<Guid, GradeEquipment>>();
-            EquipmentCategories = new List<EquipmentCategory>();
-            SpecificationCategories = new List<SpecificationCategory>();
             SubModelGradePacks = new Dictionary<Guid, IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>>>();
         }
     }

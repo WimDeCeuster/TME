@@ -34,20 +34,14 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModelSpecification
                 .WithId(Guid.NewGuid())
                 .Build();
 
-            var publicationTimeFrame = new PublicationTimeFrameBuilder()
-                .WithID(Guid.NewGuid())
-                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
-                .Build();
-
             var publication = new PublicationBuilder()
                 .WithID(Guid.NewGuid())
-                .AddTimeFrame(publicationTimeFrame)
                 .Build();
 
             var context = new ContextBuilder().Build();
 
             _specificationService = A.Fake<ISpecificationsService>();
-            A.CallTo(() => _specificationService.GetCategories(publication.ID, publicationTimeFrame.ID, context)).Returns(new [] { _category1, _category2 });
+            A.CallTo(() => _specificationService.GetCategories(publication.ID, context)).Returns(new [] { _category1, _category2 });
 
             var specificationsFactory = new SpecificationsFactoryBuilder()
                 .WithSpecificationsService(_specificationService)
@@ -66,7 +60,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAModelSpecification
         [Fact]
         public void ThenItShouldNotFetchTheCategoriesFromTheServiceAgain()
         {
-            A.CallTo(() => _specificationService.GetCategories(A<Guid>._, A<Guid>._, A<Context>._)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _specificationService.GetCategories(A<Guid>._, A<Context>._)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]

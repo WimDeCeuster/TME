@@ -32,8 +32,6 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         private List<Transmission> _transmissions = new List<Transmission>();
         private List<SubModel> _subModels = new List<SubModel>();
         private List<ColourCombination> _colourCombinations = new List<ColourCombination>();
-        private List<EquipmentCategory> _equipmentCategories = new List<EquipmentCategory>();
-        private List<SpecificationCategory> _specificationCategories = new List<SpecificationCategory>();
         private readonly Dictionary<Guid, IDictionary<Guid, IList<Asset>>> _subModelAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
 
         public TimeFrameBuilder WithDateRange(DateTime from, DateTime until)
@@ -136,18 +134,6 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             _subModelGrades.Add(subModel.ID, grades.ToList());
             return this;
         }
-               	
-	    public TimeFrameBuilder WithEquipmentCategories(params Category[] categories)
-        {
-            _equipmentCategories = categories.ToList();
-            return this;
-        }
-
-        public TimeFrameBuilder WithSpecificationCategories(params SpecificationCategory[] categories)
-        {
-            _specificationCategories = categories.ToList();
-            return this;
-        }
 
         public TimeFrameBuilder WithCarParts(Car car, CarPart[] carParts)
         {
@@ -171,9 +157,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             timeFrame.GradePacks = _gradePacks;
             timeFrame.SubModels = _subModels;
             timeFrame.ColourCombinations = _colourCombinations;
-            timeFrame.EquipmentCategories = _equipmentCategories;
             timeFrame.SubModelGradeEquipments = _subModelGradeEquipments;
-            timeFrame.SpecificationCategories = _specificationCategories;
             timeFrame.SubModelGradePacks = _subModelGradePacks.ToDictionary(
                     entry => entry.Key,
                     entry => (IReadOnlyDictionary<Guid, IReadOnlyList<GradePack>>)entry.Value.ToDictionary());

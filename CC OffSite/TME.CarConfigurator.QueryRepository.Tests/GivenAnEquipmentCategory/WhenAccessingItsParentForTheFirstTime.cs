@@ -43,7 +43,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnEquipmentCategory
             var context = new ContextBuilder().Build();
 
             var equipmentService = A.Fake<IEquipmentService>();
-            A.CallTo(() => equipmentService.GetCategories(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new [] { repoCategory, _repoParentCategory });
+            A.CallTo(() => equipmentService.GetCategories(A<Guid>._, A<Context>._)).Returns(new [] { repoCategory, _repoParentCategory });
 
             var categoryFactory = new EquipmentFactoryBuilder()
                 .WithEquipmentService(equipmentService)

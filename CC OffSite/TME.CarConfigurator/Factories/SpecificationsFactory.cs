@@ -36,7 +36,7 @@ namespace TME.CarConfigurator.Factories
 
         public IReadOnlyList<ICategory> GetCategories(Publication publication, Context context)
         {
-            var repoCategories = _specificationsService.GetCategories(publication.ID, publication.GetCurrentTimeFrame().ID, context).ToList();
+            var repoCategories = _specificationsService.GetCategories(publication.ID, context).ToList();
 
             var mappedCategories = repoCategories.Select(category => new Category(category)).ToList(); ;
 
