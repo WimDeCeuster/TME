@@ -47,9 +47,9 @@ namespace TME.Carconfigurator.Tests.GivenASpecificationPublisher
                 .Build();
 
             var keyManager = A.Fake<IKeyManager>();
-            A.CallTo(() => keyManager.GetCarCarPartsKey(publication.ID, car1ID))
+            A.CallTo(() => keyManager.GetCarTechnicalSpecificationsKey(publication.ID, car1ID))
                 .Returns(CAR_SPEC_KEY_FOR_CAR_1);
-            A.CallTo(() => keyManager.GetCarCarPartsKey(publication.ID, car2ID))
+            A.CallTo(() => keyManager.GetCarTechnicalSpecificationsKey(publication.ID, car2ID))
                 .Returns(CAR_SPEC_KEY_FOR_CAR_2);
 
             var serialiser = A.Fake<ISerialiser>();
