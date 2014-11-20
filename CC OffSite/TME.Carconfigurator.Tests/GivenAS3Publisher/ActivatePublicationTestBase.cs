@@ -42,7 +42,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         protected const string FootNoteForLanguage1 = "FootNote";
         protected const string TooltipForLanguage1 = "ToolTip";
         protected const int SortIndexForLanguage1 = 4;
-        protected List<Label> LabelsForLanguage1 = new List<Label>()
+        protected List<Label> LabelsForLanguage1 = new List<Label>
         {
             new Label{Code = "New Code 1",Value = "new value 1"},
             new Label{Code = "New Code 2",Value = "new value 2"},
