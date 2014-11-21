@@ -205,7 +205,7 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetCarColourCombinationsKey(Guid publicationID, Guid carID)
         {
-            throw new NotImplementedException();
+            return String.Format("{0}/car/{1}/colourcombinations", GetPublicationKey(publicationID), carID);
         }
 
         private static string GetAssetsKeyWithViewAndMode(string assetsKey, string view, string mode)

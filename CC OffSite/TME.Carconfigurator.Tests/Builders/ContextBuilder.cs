@@ -7,6 +7,7 @@ using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
+using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Packs;
 using TME.CarConfigurator.Repository.Objects.TechnicalSpecifications;
@@ -196,9 +197,18 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
-        public IContext Build()
+        public ContextBuilder AddCarColourCombination(String language, Guid carID, params ColourCombination[] colourCombinations)
         {
-            return _context;
+            var data = _context.ContextData[language];
+            var carColourCombinations = data.CarColourCombinations;
+
+            if (!carColourCombinations.ContainsKey(carID))
+                carColourCombinations.Add(carID, new List<ColourCombination>());
+
+            foreach (var colourCombination in colourCombinations)
+                carColourCombinations[carID].Add(colourCombination);
+
+            return this;
         }
 
         public ContextBuilder AddCarEquipmentAssets(string language, Guid carId, Guid objectId, params Asset[] assets)
@@ -212,7 +222,7 @@ namespace TME.Carconfigurator.Tests.Builders
             carEquipmentAssets[carId].Add(objectId,new List<Asset>(assets));
             return this;
         }
-        
+
         public ContextBuilder AddCarPartAssets(string language, Guid carId, Guid objectId, params Asset[] assets)
         {
             var data = _context.ContextData[language];
@@ -223,6 +233,11 @@ namespace TME.Carconfigurator.Tests.Builders
 
             carPartAssets[carId].Add(objectId,new List<Asset>(assets));
             return this;
+        }
+
+        public IContext Build()
+        {
+            return _context;
         }
     }
 }
