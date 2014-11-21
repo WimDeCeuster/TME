@@ -104,8 +104,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var generationAccessory = carAccessory.Car.Generation.Equipment[carAccessory.ID];
 
             var colourCombinations = carAccessory.Car.ColourCombinations;
-            var exteriorColours = colourCombinations.ExteriorColours();
-            var upholsteries = colourCombinations.Upholsteries();
+            var approvedColourCombinations = colourCombinations.Where(cc => cc.Approved).ToList();
+            var exteriorColours = approvedColourCombinations.Select(cc => cc.ExteriorColour).Distinct().ToList();
+            var upholsteries = approvedColourCombinations.Select(cc => cc.Upholstery).Distinct().ToList();
 
             var mappedAccessory = new CarAccessory
             {
@@ -180,11 +181,11 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         public CarPackExteriorColourType MapCarPackExteriorColourType(Administration.CarPackExteriorColourType type, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, string assetUrl)
         {
-            var upholsteries = type.Pack.Car.ColourCombinations.Upholsteries();
-
+            var upholsteries = type.Pack.Car.ColourCombinations.Where(cc => cc.Approved).Select(cc => cc.Upholstery).Distinct().ToList();
+            
             var mappedType = new CarPackExteriorColourType
             {
-                ColourCombinations = type.ExteriorColours.SelectMany(exteriorColour => upholsteries.Select(upholstery => new ColourCombinationInfo {
+                ColourCombinations = type.ExteriorColours.Where(colour => colour.Approved).SelectMany(exteriorColour => upholsteries.Select(upholstery => new ColourCombinationInfo {
                     ExteriorColour = _colourMapper.MapExteriorColourInfo(exteriorColour),
                     Upholstery = _colourMapper.MapUpholsteryInfo(upholstery.GetInfo())
                 })).ToList()
@@ -195,11 +196,11 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         public CarPackUpholsteryType MapCarPackUpholsteryType(Administration.CarPackUpholsteryType type, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, string assetUrl)
         {
-            var exteriorColours = type.Pack.Car.ColourCombinations.ExteriorColours();
+            var exteriorColours = type.Pack.Car.ColourCombinations.Where(cc => cc.Approved).Select(cc => cc.ExteriorColour).Distinct();
 
             var mappedType = new CarPackUpholsteryType
             {
-                ColourCombinations = type.Upholsteries.SelectMany(upholstery => exteriorColours.Select(exteriorColour => new ColourCombinationInfo
+                ColourCombinations = type.Upholsteries.Where(upholstery => upholstery.Approved).SelectMany(upholstery => exteriorColours.Select(exteriorColour => new ColourCombinationInfo
                 {
                     ExteriorColour = _colourMapper.MapExteriorColourInfo(exteriorColour.GetInfo()),
                     Upholstery = _colourMapper.MapUpholsteryInfo(upholstery)
@@ -215,7 +216,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var carEquipmentItem = carPackItem.Pack.Car.Equipment[carPackItem.ID];
             var generationEquipmentItem = carPackItem.Pack.Car.Generation.Equipment[carPackItem.ID];
             var crossModelEquipmentItem = groups.FindEquipment(carPackItem.ID);
-
+            
             mappedCarPackEquipmentItem.Price = new Price
             {
                 ExcludingVat = carPackItem.Price,
@@ -252,7 +253,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.Description = carEquipmentItem.Translation.Description;
             mappedEquipmentItem.FootNote = carEquipmentItem.Translation.FootNote;
             mappedEquipmentItem.ID = carEquipmentItem.ID;
-            mappedEquipmentItem.LocalCode = carEquipmentItem.LocalCode;
             mappedEquipmentItem.Name = carEquipmentItem.Translation.Name.DefaultIfEmpty(carEquipmentItem.Name);
             mappedEquipmentItem.PartNumber = carEquipmentItem.PartNumber;
             mappedEquipmentItem.Path = MyContext.GetContext().EquipmentGroups.Find(carEquipmentItem.Group.ID).Path.ToLowerInvariant();
