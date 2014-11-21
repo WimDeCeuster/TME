@@ -6,19 +6,16 @@ using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.Assets
 {
-    public class CarEquipmentVisibleInModeAndView : VisibleInModeAndView
+    public class CarEquipmentVisibleInModeAndView : CarVisibleInModeAndView
     {
-        private readonly Guid _carID;
-
         public CarEquipmentVisibleInModeAndView(Guid carID, Guid objectID, Repository.Objects.Assets.VisibleInModeAndView repositoryVisibleInModeAndView, Publication repositoryPublication, Context repositoryContext, IAssetFactory assetFactory) 
-            : base(objectID, repositoryVisibleInModeAndView, repositoryPublication, repositoryContext, assetFactory)
+            : base(carID, objectID, repositoryVisibleInModeAndView, repositoryPublication, repositoryContext, assetFactory)
         {
-            _carID = carID;
         }
 
         protected override IReadOnlyList<IAsset> FetchAssets()
         {
-            return AssetFactory.GetCarEquipmentAssets(RepositoryPublication, _carID, ObjectID, RepositoryContext, View, Mode);
+            return AssetFactory.GetCarEquipmentAssets(RepositoryPublication, CarID, ObjectID, RepositoryContext, View, Mode);
         }
     }
 }
