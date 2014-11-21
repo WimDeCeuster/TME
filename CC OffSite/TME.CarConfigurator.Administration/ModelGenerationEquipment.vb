@@ -1205,6 +1205,15 @@ End Class
     Inherits ModelGenerationEquipmentItem
 
 #Region " Business Properties & Methods "
+
+    Private _code As String = String.Empty
+
+    Public ReadOnly Property Code() As String
+        Get
+            Return _code
+        End Get
+    End Property
+
     Public Overloads Overrides ReadOnly Property Type() As EquipmentType
         Get
             Return EquipmentType.ExteriorColourType
@@ -1232,6 +1241,11 @@ End Class
 #End Region
 
 #Region " Data Access "
+
+    Protected Overrides Sub FetchFields(ByVal dataReader As Common.Database.SafeDataReader)
+        _code = dataReader.GetString("INTERNALCODE")
+        MyBase.FetchFields(dataReader)
+    End Sub
     Protected Overrides Sub AddCommandFields(ByVal command As System.Data.SqlClient.SqlCommand)
         MyBase.AddCommandFields(command)
         command.Parameters.AddWithValue("@TECHITEM", False)
@@ -1239,11 +1253,26 @@ End Class
     End Sub
 #End Region
 
+#Region "Base Object Overrides"
+    Protected Friend Overrides Function GetBaseCode() As String
+        Return Code
+    End Function
+#End Region
+
 End Class
 <Serializable(), XmlInfo("upholsterytype")> Public NotInheritable Class ModelGenerationUpholsteryType
     Inherits ModelGenerationEquipmentItem
 
 #Region " Business Properties & Methods "
+
+    Private _code As String = String.Empty
+
+    Public ReadOnly Property Code() As String
+        Get
+            Return _code
+        End Get
+    End Property
+
     Public Overloads Overrides ReadOnly Property Type() As EquipmentType
         Get
             Return EquipmentType.UpholsteryType
@@ -1271,11 +1300,21 @@ End Class
 #End Region
 
 #Region " Data Access "
+    Protected Overrides Sub FetchFields(ByVal dataReader As Common.Database.SafeDataReader)
+        _code = dataReader.GetString("INTERNALCODE")
+        MyBase.FetchFields(dataReader)
+    End Sub
     Protected Overrides Sub AddCommandFields(ByVal command As System.Data.SqlClient.SqlCommand)
         MyBase.AddCommandFields(command)
         command.Parameters.AddWithValue("@TECHITEM", False)
         command.Parameters.AddWithValue("@VISIBLE", False)
     End Sub
+#End Region
+
+#Region "Base Object Overrides"
+    Protected Friend Overrides Function GetBaseCode() As String
+        Return Code
+    End Function
 #End Region
 
 End Class
