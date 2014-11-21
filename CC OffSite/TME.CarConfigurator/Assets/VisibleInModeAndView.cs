@@ -49,7 +49,7 @@ namespace TME.CarConfigurator.Assets
             get { return !String.IsNullOrWhiteSpace(Mode); }
         }
 
-        public virtual IReadOnlyList<IAsset> Assets
+        public IReadOnlyList<IAsset> Assets
         {
             get { return _fetchedAssets = _fetchedAssets ?? FetchAssets(); }
         }
