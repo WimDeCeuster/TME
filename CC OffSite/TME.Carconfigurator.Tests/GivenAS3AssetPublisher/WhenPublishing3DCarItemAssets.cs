@@ -45,15 +45,10 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
             const string language = "NL";
 
             var context = new ContextBuilder()
-                .WithLanguages(language)
+                .WithLanguages(language) 
                 .WithPublication(language, new PublicationBuilder().Build())
-                .AddCarEquipmentAsset(language, carId, objectId, asset1)
-                .AddCarPartAsset(language, carId, objectId, asset3)
-                .AddCarEquipmentAsset(language, carId, objectId, incorrectAsset)
-                .AddCarPartAsset(language, carId, objectId, incorrectAsset)
-                .AddCarEquipmentAsset(language, carId, objectId, defaultAsset)
-                .AddCarEquipmentAsset(language, carId, objectId, asset2)
-                .AddCarPartAsset(language, carId, objectId, asset4)
+                .AddCarEquipmentAssets(language, carId, objectId, new[] { asset1, asset2, incorrectAsset, defaultAsset })
+                .AddCarPartAssets(language, carId, objectId, new[] { asset3, asset4, incorrectAsset })
                 .Build();
 
             // act
