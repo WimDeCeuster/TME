@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TME.CarConfigurator.Administration.Enums;
+﻿using TME.CarConfigurator.Administration.Enums;
 using TME.CarConfigurator.Publisher.Exceptions;
-using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects.Enums;
 
-namespace TME.CarConfigurator.Publisher.Mappers
+namespace TME.CarConfigurator.Publisher.Extensions
 {
-    public class VisibilityMapper : IVisibilityMapper
+    public static class VisibilityExtensions
     {
-        public Visibility MapVisibility(ItemVisibility visibility)
+        public static Visibility Convert(this ItemVisibility visibility)
         {
             if ((visibility & ~ItemVisibility.Website & ~ItemVisibility.CarConfigurator & ~ItemVisibility.Brochure & ~ItemVisibility.None) != 0)
                 throw new UnrecognisedItemVisibilityException(visibility);

@@ -9,12 +9,14 @@ namespace TME.CarConfigurator.Equipment
 {
     public class CarAccessory : CarEquipmentItem<Repository.Objects.Equipment.CarAccessory>, ICarAccessory
     {
+        private Price _price;
+
         public CarAccessory(Repository.Objects.Equipment.CarAccessory repositoryObject, Guid carID, Publication publication, Context context, IAssetFactory assetFactory)
             : base(repositoryObject, publication, carID, context, assetFactory)
         {
         }
 
-        public IPrice BasePrice { get { return new Price(RepositoryObject.BasePrice); } }
+        public IPrice BasePrice { get { return _price = _price ?? new Price(RepositoryObject.BasePrice); } }
 
         public IMountingCosts MountingCostsOnNewVehicle { get { return new MountingCosts(RepositoryObject.MountingCostsOnNewVehicle); } }
 
@@ -23,10 +25,11 @@ namespace TME.CarConfigurator.Equipment
         public override IPrice Price
         {
             get { return new Price(new Repository.Objects.Core.Price
-            {
-                ExcludingVat =  RepositoryObject.BasePrice.ExcludingVat + RepositoryObject.MountingCostsOnNewVehicle.Price.ExcludingVat,
-                IncludingVat = RepositoryObject.BasePrice.IncludingVat + RepositoryObject.MountingCostsOnNewVehicle.Price.IncludingVat
-            }); }
+                {
+                    ExcludingVat =  RepositoryObject.BasePrice.ExcludingVat + RepositoryObject.MountingCostsOnNewVehicle.Price.ExcludingVat,
+                    IncludingVat = RepositoryObject.BasePrice.IncludingVat + RepositoryObject.MountingCostsOnNewVehicle.Price.IncludingVat
+                });
+            }
         }
     }
 }

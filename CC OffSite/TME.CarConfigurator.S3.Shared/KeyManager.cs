@@ -65,14 +65,14 @@ namespace TME.CarConfigurator.S3.Shared
             return string.Format("{0}/colour-combinations", GetTimeFrameKey(publicationID, timeFrameID));
         }
 
-        public string GetEquipmentCategoriesKey(Guid publicationID, Guid timeFrameID)
+        public string GetEquipmentCategoriesKey(Guid publicationID)
         {
-            return string.Format("{0}/equipment-categories", GetTimeFrameKey(publicationID, timeFrameID));
+            return string.Format("{0}/equipment-categories", GetPublicationKey(publicationID));
         }
 
-        public string GetSpecificationCategoriesKey(Guid publicationID, Guid timeFrameID)
+        public string GetSpecificationCategoriesKey(Guid publicationID)
         {
-            return string.Format("{0}/specification-categories", GetTimeFrameKey(publicationID, timeFrameID));
+            return string.Format("{0}/specification-categories", GetPublicationKey(publicationID));
         }
 
         public string GetSubModelsKey(Guid publicationID, Guid timeFrameID)

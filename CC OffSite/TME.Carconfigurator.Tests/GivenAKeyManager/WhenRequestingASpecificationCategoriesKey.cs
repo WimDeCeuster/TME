@@ -13,21 +13,19 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
         private string _expectedKey;
         private string _actualKey;
         private Guid _publicationId;
-        private Guid _timeFrameId;
 
         protected override void Arrange()
         {
             _keyManager = new KeyManager();
 
             _publicationId = Guid.NewGuid();
-            _timeFrameId = Guid.NewGuid();
 
-            _expectedKey = "publication/" + _publicationId + "/time-frame/" + _timeFrameId + "/specification-categories";
+            _expectedKey = "publication/" + _publicationId + "/specification-categories";
         }
 
         protected override void Act()
         {
-            _actualKey = _keyManager.GetSpecificationCategoriesKey(_publicationId, _timeFrameId);
+            _actualKey = _keyManager.GetSpecificationCategoriesKey(_publicationId);
         }
 
         [Fact]

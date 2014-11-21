@@ -77,6 +77,7 @@
     <Compile Include="CarSubModel.cs" />
     <Compile Include="CarTransmission.cs" />
     <Compile Include="CarWheelDrive.cs" />
+    <Compile Include="Colours\ColourCombinationInfo.cs" />
     <Compile Include="Colours\UpholsteryInfo.cs" />
     <Compile Include="Colours\ExteriorColourInfo.cs" />
     <Compile Include="Equipment\BestVisibleIn.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Equipment\ExteriorColour.cs" />
     <Compile Include="Equipment\ModelEquipment.cs" />
     <Compile Include="Equipment\MountingCosts.cs" />
+    <Compile Include="Extensions\ColouringModesExtensions.cs" />
     <Compile Include="Extensions\VisibilityExtensions.cs" />
     <Compile Include="Colours\ExteriorColour.cs" />
     <Compile Include="Colours\ExteriorColourType.cs" />
@@ -112,6 +114,12 @@
     <Compile Include="Equipment\GradeEquipmentItem.cs" />
     <Compile Include="GradeInfo.cs" />
     <Compile Include="Packs\CarPack.cs" />
+    <Compile Include="Packs\CarPackUpholsteryType.cs" />
+    <Compile Include="Packs\CarPackExteriorColourType.cs" />
+    <Compile Include="Packs\CarPackOption.cs" />
+    <Compile Include="Packs\CarPackAccessory.cs" />
+    <Compile Include="Packs\CarPackEquipment.cs" />
+    <Compile Include="Packs\CarPackEquipmentItem.cs" />
     <Compile Include="Packs\GradePack.cs" />
     <Compile Include="Equipment\OptionInfo.cs" />
     <Compile Include="SubModel.cs" />

@@ -171,12 +171,27 @@ namespace TME.Carconfigurator.Tests.Builders
 
             return this;
         }
+        
         public ContextBuilder WithCarSpecs(string language, Guid carId, params CarTechnicalSpecification[] specs)
         {
             var data = _context.ContextData[language];
             var carspecs = data.CarTechnicalSpecifications;
 
             carspecs.Add(carId, specs.ToList());
+
+            return this;
+        }
+
+        public ContextBuilder WithEquipmentCategories(string language, params CarConfigurator.Repository.Objects.Equipment.Category[] equipmentCategories)
+        {
+            _context.ContextData[language].EquipmentCategories = equipmentCategories.ToList();
+
+            return this;
+        }
+
+        public ContextBuilder WithSpecificationCategories(string language, params CarConfigurator.Repository.Objects.TechnicalSpecifications.Category[] specificationCategories)
+        {
+            _context.ContextData[language].SpecificationCategories = specificationCategories.ToList();
 
             return this;
         }

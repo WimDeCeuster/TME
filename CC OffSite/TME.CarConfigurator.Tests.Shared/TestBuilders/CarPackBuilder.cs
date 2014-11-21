@@ -42,6 +42,12 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+        public CarPackBuilder WithCarPackEquipment(CarPackEquipment carPackEquipment)
+        {
+            _carPack.Equipment = carPackEquipment;
+            return this;
+        }
+
         public CarPack Build()
         {
             return _carPack;

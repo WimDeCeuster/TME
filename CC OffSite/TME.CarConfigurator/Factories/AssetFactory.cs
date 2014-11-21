@@ -14,6 +14,8 @@ namespace TME.CarConfigurator.Factories
         private readonly IAssetService _assetService;
         private readonly Dictionary<String, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>> _carEquipmentAssets = new Dictionary<string, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>>();
         private readonly Dictionary<String, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>>  _carPartAssets = new Dictionary<string, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>>();
+        private decimal _counter;
+        private Dictionary<Guid, List<Repository.Objects.Assets.Asset>> _defaultCarEquipmentAssets;
 
         public AssetFactory(IAssetService assetService)
         {
@@ -52,8 +54,9 @@ namespace TME.CarConfigurator.Factories
 
         public IReadOnlyList<IAsset> GetCarEquipmentAssets(Publication publication, Guid carID, Guid objectID, Context context)
         {
-            var repoAssets = _assetService.GetCarEquipmentAssets(publication.ID, carID, context);
-            var filteredRepoAssets = FilterDictionaryItemsPerObjectID(objectID, repoAssets);
+            _defaultCarEquipmentAssets = _defaultCarEquipmentAssets ?? _assetService.GetCarEquipmentAssets(publication.ID, carID, context);
+
+            var filteredRepoAssets = FilterDictionaryItemsPerObjectID(objectID, _defaultCarEquipmentAssets);
 
             return TransformIntoNonRepoAssets(filteredRepoAssets);
         }

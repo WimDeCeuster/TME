@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using TME.CarConfigurator.Administration.Assets;
 using TME.CarConfigurator.Repository.Objects.Assets;
 
 namespace TME.CarConfigurator.Publisher.Interfaces
@@ -11,5 +8,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
     {
         IEnumerable<VisibleInModeAndView> GetVisibility(Administration.Assets.AssetSet assetSet);
         IEnumerable<VisibleInModeAndView> GetVisibility(Administration.Assets.LinkedAssets linkedAssets);
+        IEnumerable<VisibleInModeAndView> GetVisibility(IEnumerable<AssetSetAsset> assetSetAssets);
     }
 }

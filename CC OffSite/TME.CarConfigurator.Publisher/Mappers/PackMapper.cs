@@ -73,12 +73,17 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return matchingCars.Select(c => _carMapper.MapCarInfo(c)).ToList();
         }
 
-        public CarPack MapCarPack(Administration.CarPack carPack)
+        public CarPack MapCarPack(Administration.CarPack carPack, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, string assetUrl)
         {
             if (carPack.ShortID == null)
                 throw new CorruptDataException(String.Format("Please provide a short id for car pack {0}", carPack.Name));
 
             var gradePack = carPack.Car.Generation.Grades[carPack.Car.GradeID].Packs[carPack.ID];
+
+            var accessories = carPack.Equipment.OfType<Administration.CarPackAccessory>().ToList();
+            var options = carPack.Equipment.OfType<Administration.CarPackOption>().ToList();
+            var carPackExteriorColourTypes = carPack.Equipment.OfType<Administration.CarPackExteriorColourType>().ToList();
+            var carPackUpholsteryTypes = carPack.Equipment.OfType<Administration.CarPackUpholsteryType>().ToList();
 
             var mappedCarPack = new CarPack
             {
@@ -97,10 +102,13 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Standard = carPack.Availability == Availability.Standard,
                 OptionalGradeFeature = gradePack.GradeFeature && carPack.Availability == Availability.Optional,
                 AvailableForExteriorColours = carPack.ExteriorColourApplicabilities.Where(item => !item.Cleared).Select(_colourMapper.MapExteriorColourApplicability).ToList(),
-                AvailableForUpholsteries = carPack.UpholsteryApplicabilities.Where(item => !item.Cleared).Select(_colourMapper.MapUpholsteryApplicability).ToList()/*,
+                AvailableForUpholsteries = carPack.UpholsteryApplicabilities.Where(item => !item.Cleared).Select(_colourMapper.MapUpholsteryApplicability).ToList(),
                 Equipment = new CarPackEquipment {
-                    Accessories = _equipmentMapper.MapCarAccessory()
-                }*/
+                    Accessories = accessories.Select(accessory => _equipmentMapper.MapCarPackAccessory(accessory, groups, categories, isPreview, cars, exteriorColourTypes, assetUrl)).ToList(),
+                    Options = options.Select(option => _equipmentMapper.MapCarPackOption(option, groups, categories, isPreview, cars, exteriorColourTypes, assetUrl)).ToList(),
+                    ExteriorColourTypes = carPackExteriorColourTypes.Select(type => _equipmentMapper.MapCarPackExteriorColourType(type, groups, categories, isPreview, cars, exteriorColourTypes, assetUrl)).ToList(),
+                    UpholsteryTypes = carPackUpholsteryTypes.Select(type => _equipmentMapper.MapCarPackUpholsteryType(type, groups, categories, isPreview, cars, exteriorColourTypes, assetUrl)).ToList()
+                }
             };
 
             return _baseMapper.MapTranslation(mappedCarPack, carPack.Translation, carPack.Name);

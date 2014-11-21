@@ -14,7 +14,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
         }
         #endregion
 
-                #region Constructor
+        #region Constructor
 
         public CarPackAccessory(Legacy.CarPackAccessory adaptee, Legacy.CarAccessory standAloneItemOfTheAdaptee)
             : base(adaptee, standAloneItemOfTheAdaptee)

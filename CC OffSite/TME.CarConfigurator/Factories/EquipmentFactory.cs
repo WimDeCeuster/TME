@@ -5,9 +5,10 @@ using TME.CarConfigurator.Equipment;
 using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Interfaces.Packs;
+using TME.CarConfigurator.Packs;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Equipment;
 using CarAccessory = TME.CarConfigurator.Repository.Objects.Equipment.CarAccessory;
 using CarEquipment = TME.CarConfigurator.Equipment.CarEquipment;
 using CarOption = TME.CarConfigurator.Repository.Objects.Equipment.CarOption;
@@ -57,6 +58,44 @@ namespace TME.CarConfigurator.Factories
                 carEquipment.Options.Select(option => GetCarOption(carID, publication, context, option,carEquipment.Options)));
         }
 
+        public IGradeEquipment GetGradeEquipment(Publication publication, Context context, Guid gradeId)
+        {
+            var gradeEquipment = _equipmentService.GetGradeEquipment(publication.ID, publication.GetCurrentTimeFrame().ID, gradeId, context);
+
+            return new GradeEquipment(
+                gradeEquipment.Accessories.Select(accessory => GetGradeAccessory(accessory, publication, context)),
+                gradeEquipment.Options.Select(option => GetGradeOption(option, gradeEquipment.Options, publication, context)));
+        }
+
+        public ICarPackEquipment GetCarPackEquipment(Repository.Objects.Packs.CarPackEquipment repoCarPackEquipment, Publication publication, Context context, Guid carId)
+        {
+            return new CarPackEquipment(
+                repoCarPackEquipment.Accessories.Select(accessory => GetCarPackAcccessory(accessory, publication, context, carId)),
+                repoCarPackEquipment.Options.Select(option => GetCarPackOption(option, publication, context, carId)),
+                repoCarPackEquipment.ExteriorColourTypes.Select(type => GetCarPackExteriorColourType(type, publication, context, carId)),
+                repoCarPackEquipment.UpholsteryTypes.Select(type => GetCarPackUpholsteryType(type, publication, context, carId)));
+        }
+
+        private ICarPackAccessory GetCarPackAcccessory(Repository.Objects.Packs.CarPackAccessory carPackAccessory, Publication publication, Context context, Guid carId)
+        {
+            return new CarPackAccessory(carPackAccessory, publication, carId, context, _assetFactory);
+        }
+
+        private ICarPackOption GetCarPackOption(Repository.Objects.Packs.CarPackOption carPackOption, Publication publication, Context context, Guid carId)
+        {
+            return new CarPackOption(carPackOption, publication, carId, context, _assetFactory);
+        }
+
+        private ICarPackExteriorColourType GetCarPackExteriorColourType(Repository.Objects.Packs.CarPackExteriorColourType carPackExteriorColourType, Publication publication, Context context, Guid carId)
+        {
+            return new CarPackExteriorColourType(carPackExteriorColourType, publication, carId, context, _assetFactory);
+        }
+
+        private ICarPackUpholsteryType GetCarPackUpholsteryType(Repository.Objects.Packs.CarPackUpholsteryType carPackUpholsteryType, Publication publication, Context context, Guid carId)
+        {
+            return new CarPackUpholsteryType(carPackUpholsteryType, publication, carId, context, _assetFactory);
+        }
+
         ICarOption GetCarOption(Guid carID, Publication publication, Context context, CarOption option, IEnumerable<CarOption> repoCarOptions)
         {
            var parentCarOption = option.ParentOptionShortID == 0
@@ -66,15 +105,6 @@ namespace TME.CarConfigurator.Factories
            var parentOptionInfo = parentCarOption == null ? null : new OptionInfo(parentCarOption.ShortID, parentCarOption.Name);
 
             return new Equipment.CarOption(option, parentOptionInfo, carID, publication, context, _assetFactory);
-        }
-
-        public IGradeEquipment GetGradeEquipment(Publication publication, Context context, Guid gradeId)
-        {
-            var gradeEquipment = _equipmentService.GetGradeEquipment(publication.ID, publication.GetCurrentTimeFrame().ID, gradeId, context);
-
-            return new GradeEquipment(
-                gradeEquipment.Accessories.Select(accessory => GetGradeAccessory(accessory, publication, context)),
-                gradeEquipment.Options.Select(option => GetGradeOption(option, gradeEquipment.Options, publication, context)));
         }
 
         ICarAccessory GetCarAccessory(CarAccessory accessory, Guid carID, Publication publication, Context context)
@@ -105,7 +135,7 @@ namespace TME.CarConfigurator.Factories
 
         public IReadOnlyList<ICategory> GetCategories(Publication publication, Context context)
         {
-            var repoCategories = _equipmentService.GetCategories(publication.ID, publication.GetCurrentTimeFrame().ID, context).ToList();
+            var repoCategories = _equipmentService.GetCategories(publication.ID, context).ToList();
 
             var mappedCategories = repoCategories.Select(category => new Category(category)).ToList(); ;
 

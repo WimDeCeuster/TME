@@ -24,9 +24,9 @@ namespace TME.CarConfigurator.S3.QueryServices
             _keyManager = keyManager;
         }
 
-        public IEnumerable<Category> GetCategories(Guid publicationId, Guid timeFrameId, Context context)
+        public IEnumerable<Category> GetCategories(Guid publicationId, Context context)
         {
-            var key = _keyManager.GetSpecificationCategoriesKey(publicationId, timeFrameId);
+            var key = _keyManager.GetSpecificationCategoriesKey(publicationId);
             var serialisedObject = _service.GetObject(context.Brand, context.Country, key);
             return _serialiser.Deserialise<IEnumerable<Category>>(serialisedObject);
         }

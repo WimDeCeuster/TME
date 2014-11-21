@@ -24,10 +24,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3SpecificationsPublisher
         const String _serialisedSpecificationCategories = "serialised specification categories";
         const String _language1 = "lang 1";
         const String _language2 = "lang 2";
-        const String _timeFrame1SpecificationsKey = "time frame 1 specification categories key";
-        const String _timeFrame2SpecificationsKey = "time frame 2 specification categories key";
-        const String _timeFrame3SpecificationsKey = "time frame 3 specification categories key";
-        const String _timeFrame4SpecificationsKey = "time frame 4 specification categories key";
+        const String _language1SpecificationsKey = "language 1 specification categories key";
+        const String _language2SpecificationsKey = "language 2 specification categories key";
         IService _s3Service;
         ISpecificationsService _service;
         ISpecificationsPublisher _publisher;
@@ -40,38 +38,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3SpecificationsPublisher
             var specificationCategory3 = new SpecificationCategoryBuilder().Build();
             var specificationCategory4 = new SpecificationCategoryBuilder().Build();
 
-            var timeFrame1 = new TimeFrameBuilder()
-                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
-                                .WithSpecificationCategories(specificationCategory1)
-                                .Build();
-            var timeFrame2 = new TimeFrameBuilder()
-                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
-                                .WithSpecificationCategories(specificationCategory1, specificationCategory2)
-                                .Build();
-            var timeFrame3 = new TimeFrameBuilder()
-                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
-                                .WithSpecificationCategories(specificationCategory3, specificationCategory4)
-                                .Build();
-            var timeFrame4 = new TimeFrameBuilder()
-                                .WithDateRange(DateTime.MinValue, DateTime.MaxValue)
-                                .WithSpecificationCategories(specificationCategory4)
-                                .Build();
-            
-            var publicationTimeFrame1 = new PublicationTimeFrame { ID = timeFrame1.ID };
-            var publicationTimeFrame2 = new PublicationTimeFrame { ID = timeFrame2.ID };
-            var publicationTimeFrame3 = new PublicationTimeFrame { ID = timeFrame3.ID };
-            var publicationTimeFrame4 = new PublicationTimeFrame { ID = timeFrame4.ID };
-
             var publication1 = new PublicationBuilder()
                                 .WithID(Guid.NewGuid())
-                                .WithTimeFrames(publicationTimeFrame1,
-                                                publicationTimeFrame2)
                                 .Build();
 
             var publication2 = new PublicationBuilder()
                                 .WithID(Guid.NewGuid())
-                                .WithTimeFrames(publicationTimeFrame3,
-                                                publicationTimeFrame4)
                                 .Build();
 
             _context = new ContextBuilder()
@@ -80,8 +52,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3SpecificationsPublisher
                         .WithLanguages(_language1, _language2)
                         .WithPublication(_language1, publication1)
                         .WithPublication(_language2, publication2)
-                        .WithTimeFrames(_language1, timeFrame1, timeFrame2)
-                        .WithTimeFrames(_language2, timeFrame3, timeFrame4)
+                        .WithSpecificationCategories(_language1, specificationCategory1, specificationCategory2)
+                        .WithSpecificationCategories(_language2, specificationCategory3, specificationCategory4)
                         .Build();
 
             _s3Service = A.Fake<IService>();
@@ -95,10 +67,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3SpecificationsPublisher
             A.CallTo(() => serialiser.Serialise(A<IEnumerable<Category>>._))
                 .Returns(_serialisedSpecificationCategories);
 
-            A.CallTo(() => keyManager.GetSpecificationCategoriesKey(publication1.ID, publicationTimeFrame1.ID)).Returns(_timeFrame1SpecificationsKey);
-            A.CallTo(() => keyManager.GetSpecificationCategoriesKey(publication1.ID, publicationTimeFrame2.ID)).Returns(_timeFrame2SpecificationsKey);
-            A.CallTo(() => keyManager.GetSpecificationCategoriesKey(publication2.ID, publicationTimeFrame3.ID)).Returns(_timeFrame3SpecificationsKey);
-            A.CallTo(() => keyManager.GetSpecificationCategoriesKey(publication2.ID, publicationTimeFrame4.ID)).Returns(_timeFrame4SpecificationsKey);
+            A.CallTo(() => keyManager.GetSpecificationCategoriesKey(publication1.ID)).Returns(_language1SpecificationsKey);
+            A.CallTo(() => keyManager.GetSpecificationCategoriesKey(publication2.ID)).Returns(_language2SpecificationsKey);
         }
 
         protected override void Act()
@@ -107,38 +77,24 @@ namespace TME.Carconfigurator.Tests.GivenAS3SpecificationsPublisher
         }
 
         [Fact]
-        public void ThenGenerationSpecificationCategoriesShouldBePutForAllLanguagesAndTimeFrames()
+        public void ThenGenerationSpecificationCategoriesShouldBePutForAllLanguages()
         {
             A.CallTo(() => _s3Service.PutObjectAsync(A<string>._, A<string>._, A<string>._, A<string>._))
-                .MustHaveHappened(Repeated.Exactly.Times(4));
+                .MustHaveHappened(Repeated.Exactly.Times(2));
         }
 
         [Fact]
-        public void ThenGenerationSpecificationsShouldBePutForTimeFrame1()
+        public void ThenGenerationSpecificationsShouldBePutForLanguage1()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame1SpecificationsKey, _serialisedSpecificationCategories))
+            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _language1SpecificationsKey, _serialisedSpecificationCategories))
                 .MustHaveHappened(Repeated.Exactly.Once);                                                   
         }                                                                                                   
                                                                                                             
         [Fact]                                                                                              
-        public void ThenGenerationSpecificationsShouldBePutForTimeFrame2()                                 
+        public void ThenGenerationSpecificationsShouldBePutForLanguage2()                                 
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame2SpecificationsKey, _serialisedSpecificationCategories))
+            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _language2SpecificationsKey, _serialisedSpecificationCategories))
                 .MustHaveHappened(Repeated.Exactly.Once);                                                   
-        }                                                                                                   
-                                                                                                            
-        [Fact]                                                                                              
-        public void ThenGenerationSpecificationsShouldBePutForTimeFrame3()                                 
-        {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame3SpecificationsKey, _serialisedSpecificationCategories))
-                .MustHaveHappened(Repeated.Exactly.Once);                                                   
-        }                                                                                                   
-                                                                                                            
-        [Fact]                                                                                              
-        public void ThenGenerationSpecificationsShouldBePutForTimeFrame4()                                 
-        {
-            A.CallTo(() => _s3Service.PutObjectAsync(_brand, _country, _timeFrame4SpecificationsKey, _serialisedSpecificationCategories))
-                .MustHaveHappened(Repeated.Exactly.Once);
         }
     }
 }

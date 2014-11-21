@@ -9,7 +9,7 @@ namespace TME.CarConfigurator.QueryServices
     {
         GradeEquipment GetGradeEquipment(Guid publicationId, Guid timeFrameId, Guid gradeId, Context context);
         GradeEquipment GetSubModelGradeEquipment(Guid publicationID, Guid timeFrameID, Guid gradeID, Guid subModelID, Context context);
-        IEnumerable<Category> GetCategories(Guid publicationId, Guid timeFrameId, Context context);
+        IEnumerable<Category> GetCategories(Guid publicationId, Context context);
         CarEquipment GetCarEquipment(Guid carID, Guid publicationID , Context context);
     }
 }
