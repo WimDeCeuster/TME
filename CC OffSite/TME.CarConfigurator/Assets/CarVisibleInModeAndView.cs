@@ -7,7 +7,7 @@ namespace TME.CarConfigurator.Assets
 {
     public class CarVisibleInModeAndView : VisibleInModeAndView
     {
-        readonly Guid _carID;
+        protected readonly Guid CarID;
 
         public CarVisibleInModeAndView(
             Guid carID,
@@ -18,12 +18,12 @@ namespace TME.CarConfigurator.Assets
             IAssetFactory assetFactory)
             : base(objectID, repositoryVisibleInModeAndView, repositoryPublication, repositoryContext, assetFactory)
         {
-            _carID = carID;
+            CarID = carID;
         }
 
         protected override IReadOnlyList<IAsset> FetchAssets()
         {
-            return AssetFactory.GetCarAssets(RepositoryPublication, _carID, ObjectID, RepositoryContext, View, Mode);
+            return AssetFactory.GetCarAssets(RepositoryPublication, CarID, ObjectID, RepositoryContext, View, Mode);
         }
     }
 }

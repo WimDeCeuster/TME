@@ -57,6 +57,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var context = MyContext.GetContext();
             var carValues = carSpecification.Values.GetSpecificOrDefaultValue(context.CountryCode, context.LanguageCode);
 
+            if (carValues == null) return string.Empty;
             if (carValues.Value != null) return carValues.Value;
             if (carSpecification.IsMasterSpecification() && carValues.MasterValue != null) return carValues.MasterValue;
             return string.Empty;

@@ -200,5 +200,29 @@ namespace TME.Carconfigurator.Tests.Builders
         {
             return _context;
         }
+
+        public ContextBuilder AddCarEquipmentAssets(string language, Guid carId, Guid objectId, params Asset[] assets)
+        {
+            var data = _context.ContextData[language];
+            var carEquipmentAssets = data.CarEquipmentAssets;
+
+            if (!carEquipmentAssets.ContainsKey(carId))
+                carEquipmentAssets.Add(carId,new Dictionary<Guid, IList<Asset>>());
+
+            carEquipmentAssets[carId].Add(objectId,new List<Asset>(assets));
+            return this;
+        }
+        
+        public ContextBuilder AddCarPartAssets(string language, Guid carId, Guid objectId, params Asset[] assets)
+        {
+            var data = _context.ContextData[language];
+            var carPartAssets = data.CarPartAssets;
+
+            if (!carPartAssets.ContainsKey(carId))
+                carPartAssets.Add(carId,new Dictionary<Guid, IList<Asset>>());
+
+            carPartAssets[carId].Add(objectId,new List<Asset>(assets));
+            return this;
+        }
     }
 }
