@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
-
-using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
@@ -54,6 +52,18 @@ namespace TME.CarConfigurator.S3.CommandServices
 
             var path = _keyManager.GetSubModelGradeEquipmentsKey(publicationID, timeFrameID, gradeID, subModelID);
             var value = _serialiser.Serialise(gradeEquipment);
+
+            await _service.PutObjectAsync(brand, country, path, value);
+        }
+
+        public async Task PutCarEquipment(string brand, string country, Guid publicationID, Guid carID, CarEquipment carEquipment)
+        {
+            if (carEquipment == null) throw new ArgumentNullException("carEquipment");
+            if (String.IsNullOrEmpty(brand)) throw new ArgumentNullException("brand");
+            if (String.IsNullOrEmpty(country)) throw new ArgumentNullException("country");
+
+            var path = _keyManager.GetCarEquipmentKey(publicationID, carID);
+            var value = _serialiser.Serialise(carEquipment);
 
             await _service.PutObjectAsync(brand, country, path, value);
         }

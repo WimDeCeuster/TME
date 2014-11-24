@@ -3,13 +3,14 @@ using FakeItEasy;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.S3.CommandServices;
+using TME.CarConfigurator.S3.Publisher;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.Carconfigurator.Tests.GivenAS3CarEquipmentPublisher
+namespace TME.Carconfigurator.Tests.GivenAS3EquipmentPublisher
 {
     public class WhenPublishingCarEquipment : TestBase
     {
@@ -25,7 +26,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3CarEquipmentPublisher
         {
             var carEquipment = new CarEquipmentBuilder()
                 .Build();
-            
+
             var publication = new PublicationBuilder().WithID(Guid.NewGuid()).Build();
 
             var car1ID = Guid.NewGuid();
@@ -33,13 +34,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3CarEquipmentPublisher
 
             _context = new ContextBuilder()
                 .WithLanguages(LANGUAGE1)
-                .WithPublication(LANGUAGE1,publication)
-                .WithCarEquipment(LANGUAGE1,car1ID,carEquipment)
-                .WithCarEquipment(LANGUAGE1,car2ID,carEquipment)
+                .WithPublication(LANGUAGE1, publication)
+                .WithCarEquipment(LANGUAGE1, car1ID, carEquipment)
+                .WithCarEquipment(LANGUAGE1, car2ID, carEquipment)
                 .Build();
 
             _s3Service = A.Fake<IService>();
-            
+
             var serialiser = A.Fake<ISerialiser>();
             A.CallTo(() => serialiser.Serialise(carEquipment)).Returns(SERIALISED_CAREQUIPMENT);
 
@@ -47,7 +48,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3CarEquipmentPublisher
             A.CallTo(() => keymanager.GetCarEquipmentKey(publication.ID, car1ID)).Returns(CAR_EQUIPMENT_KEY_FOR_CAR_1);
             A.CallTo(() => keymanager.GetCarEquipmentKey(publication.ID, car2ID)).Returns(CAR_EQUIPMENT_KEY_FOR_CAR_2);
 
-            var equipmentService = new EquipmentService(_s3Service,serialiser,keymanager);
+            var equipmentService = new EquipmentService(_s3Service, serialiser, keymanager);
             _publisher = new EquipmentPublisherBuilder().WithService(equipmentService).Build();
         }
 
@@ -59,19 +60,19 @@ namespace TME.Carconfigurator.Tests.GivenAS3CarEquipmentPublisher
         [Fact]
         public void ThenCarEquipmentShouldBePutForAllCars()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(A<String>._,A<String>._,A<String>._,A<String>._)).MustHaveHappened(Repeated.Exactly.Twice);
+            A.CallTo(() => _s3Service.PutObjectAsync(A<String>._, A<String>._, A<String>._, A<String>._)).MustHaveHappened(Repeated.Exactly.Twice);
         }
 
         [Fact]
         public void ThenCarEquipmentShouldBePutForCar1()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(A<String>._, A<String>._,CAR_EQUIPMENT_KEY_FOR_CAR_1, SERIALISED_CAREQUIPMENT)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _s3Service.PutObjectAsync(A<String>._, A<String>._, CAR_EQUIPMENT_KEY_FOR_CAR_1, SERIALISED_CAREQUIPMENT)).MustHaveHappened(Repeated.Exactly.Once);
         }
-        
+
         [Fact]
         public void ThenCarEquipmentShouldBePutForCar2()
         {
-            A.CallTo(() => _s3Service.PutObjectAsync(A<String>._, A<String>._,CAR_EQUIPMENT_KEY_FOR_CAR_2, SERIALISED_CAREQUIPMENT)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _s3Service.PutObjectAsync(A<String>._, A<String>._, CAR_EQUIPMENT_KEY_FOR_CAR_2, SERIALISED_CAREQUIPMENT)).MustHaveHappened(Repeated.Exactly.Once);
         }
     }
 }

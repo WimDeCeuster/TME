@@ -54,6 +54,16 @@ namespace TME.CarConfigurator.S3.Publisher
                     PublishSubModelGradeEquipmentAsync);
         }
 
+        public async Task PublishCarEquipmentAsync(IContext context)
+        {
+            var tasks =
+                context.ContextData.Values.Select(
+                    contextData =>
+                        PublishCarEquipmentAsync(context.Brand, context.Country, contextData.Publication.ID,
+                            contextData.CarEquipment));
+            await Task.WhenAll(tasks);
+        }
+
         async Task Publish(string brand, string country, Guid publicationId, Guid timeFrameId, IReadOnlyDictionary<Guid, GradeEquipment> gradeEquipments)
         {
             await Task.WhenAll(gradeEquipments.Select(entry =>
@@ -64,6 +74,14 @@ namespace TME.CarConfigurator.S3.Publisher
         {
             await Task.WhenAll(gradeEquipments.Select(entry =>
                 _equipmentService.PutPerSubModel(brand, country, publicationId, timeFrameId, subModelID, entry.Key, SortGradeEquipment(entry.Value))));
+        }
+
+        async Task PublishCarEquipmentAsync(string brand, string country, Guid publicationID, IEnumerable<KeyValuePair<Guid, CarEquipment>> carEquipment)
+        {
+            var tasks =
+                carEquipment.Select(
+                    entry => _equipmentService.PutCarEquipment(brand, country, publicationID, entry.Key, entry.Value)).ToList();
+            await Task.WhenAll(tasks);
         }
 
         static GradeEquipment SortGradeEquipment(GradeEquipment equipment)
