@@ -20,17 +20,52 @@ namespace TME.CarConfigurator.Publisher.Mappers
         readonly IBaseMapper _baseMapper;
         readonly IAssetSetMapper _assetSetMapper;
         readonly IAssetFileService _assetFileService;
+        readonly ILabelMapper _labelMapper;
 
 
-        public ColourMapper(IBaseMapper baseMapper, IAssetSetMapper assetSetMapper, IAssetFileService assetFileService)
+        public ColourMapper(IBaseMapper baseMapper, IAssetSetMapper assetSetMapper, IAssetFileService assetFileService, ILabelMapper labelMapper)
         {
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
             if (assetSetMapper == null) throw new ArgumentNullException("assetSetMapper");
             if (assetFileService == null) throw new ArgumentNullException("assetFileService");
+            if (labelMapper == null) throw new ArgumentNullException("labelMapper");
 
             _baseMapper = baseMapper;
             _assetSetMapper = assetSetMapper;
             _assetFileService = assetFileService;
+            _labelMapper = labelMapper;
+        }
+
+        public ColourCombination MapLinkedColourCombination(ModelGeneration modelGeneration, LinkedColourCombination carColourCombination, bool isPreview, string assetUrl)
+        {
+            return new ColourCombination
+            {
+                ExteriorColour = MapLinkedExteriorColour(modelGeneration, carColourCombination.ExteriorColour, isPreview, assetUrl),
+                ID = carColourCombination.ID,
+                SortIndex = 0,
+                Upholstery = MapLinkedUpholstery(carColourCombination.Upholstery)
+                //VisibleIn = 
+            };
+        }
+
+        private ExteriorColour MapLinkedExteriorColour(ModelGeneration modelGeneration, LinkedExteriorColour exteriorColour, bool isPreview, string assetUrl)
+        {
+            return new ExteriorColour
+            {
+                Description = exteriorColour.Translation.Description,
+                FootNote = exteriorColour.Translation.FootNote,
+                ID = exteriorColour.ID,
+                InternalCode = exteriorColour.Code,
+                Labels = _labelMapper.MapLabels(exteriorColour.Translation.Labels),
+                LocalCode = exteriorColour.Code,
+                Name = exteriorColour.Translation.Name,
+                Promoted = exteriorColour.Promoted,
+                SortIndex = exteriorColour.Index,
+                ToolTip = exteriorColour.Translation.ToolTip,
+                //VisibleIn = 
+                Transformation = GetColourTransformation(modelGeneration, exteriorColour.Code, isPreview, assetUrl),
+                Type = MapExteriorColourTypeInfo(exteriorColour.Type)
+            };
         }
 
         public ColourCombination MapColourCombination(ModelGeneration modelGeneration, ModelGenerationColourCombination colourCombination, Boolean isPreview, Administration.ExteriorColourType exteriorColourType, Administration.UpholsteryType upholsteryType, String assetUrl)
@@ -59,7 +94,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
         }
-        
+
         public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ExteriorColour colour, Boolean isPreview, Administration.ExteriorColourType exteriorColourType, String assetUrl)
         {
             var mappedColour = new ExteriorColour
@@ -79,7 +114,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             return mappedColour;
         }
-        
+
         public ExteriorColourInfo MapExteriorColourInfo(CarPackExteriorColour exteriorColour)
         {
             return new ExteriorColourInfo
@@ -97,7 +132,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 InternalCode = colour.Code
             };
         }
-        
+
         public ExteriorColourInfo MapExteriorColourApplicability(ExteriorColourApplicability applicability)
         {
             return new ExteriorColourInfo
@@ -119,6 +154,18 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return _baseMapper.MapTranslateableDefaults(mappedType, type);
         }
 
+        private ExteriorColourType MapExteriorColourTypeInfo(ExteriorColourTypeInfo exteriorColourTypeInfo)
+        {
+            return new ExteriorColourType
+            {
+                ID = exteriorColourTypeInfo.ID,
+                InternalCode = exteriorColourTypeInfo.Code,
+                SortIndex = exteriorColourTypeInfo.Index,
+                Name = exteriorColourTypeInfo.Name,
+                LocalCode = String.Empty
+            };
+        }
+
         private Upholstery MapUpholstery(ModelGenerationUpholstery modelGenerationUpholstery, Administration.UpholsteryType upholsteryType)
         {
             var mappedUpholstery = new Upholstery
@@ -133,6 +180,39 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             return _baseMapper.MapTranslateableDefaultsWithSort(mappedUpholstery, modelGenerationUpholstery);
         }
+
+        private Upholstery MapLinkedUpholstery(LinkedUpholstery upholstery)
+        {
+            return new Upholstery
+            {
+                Description = upholstery.Translation.Description,
+                FootNote = upholstery.Translation.FootNote,
+                ID = upholstery.ID,
+                InteriorColourCode = upholstery.InteriorColour.Code,
+                InternalCode = upholstery.Code,
+                LocalCode = upholstery.Code,
+                Name = upholstery.Translation.Name,
+                TrimCode = upholstery.Trim.Code,
+                SortIndex = 0,
+                ToolTip = upholstery.Translation.ToolTip,
+                Labels = _labelMapper.MapLabels(upholstery.Translation.Labels),
+                Type = MapUpholsteryTypeInfo(upholstery.Type)
+                //VisibleIn =
+            };
+        }
+
+        private UpholsteryType MapUpholsteryTypeInfo(UpholsteryTypeInfo upholsteryTypeInfo)
+        {
+                return new UpholsteryType
+                {
+                    InternalCode = upholsteryTypeInfo.Code,
+                    LocalCode = String.Empty,
+                    SortIndex = upholsteryTypeInfo.Index,
+                    ID = upholsteryTypeInfo.ID,
+                    Name = upholsteryTypeInfo.Name
+                };
+        }
+
         private UpholsteryType MapUpholsteryType(Administration.UpholsteryType type)
         {
             var mappedUpholsteryType = new UpholsteryType

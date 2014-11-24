@@ -17,5 +17,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
         UpholsteryInfo MapUpholsteryApplicability(UpholsteryApplicability applicability);
         UpholsteryInfo MapUpholsteryInfo(Administration.UpholsteryInfo upholstery);
         UpholsteryInfo MapUpholsteryInfo(CarPackUpholstery upholstery);
+        ColourCombination MapLinkedColourCombination(ModelGeneration modelGeneration, LinkedColourCombination carColourCombination, bool isPreview, string assetUrl);
     }
 }
