@@ -56,7 +56,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             if (_grade.VisibleIn == null)
                 _grade.VisibleIn = new List<VisibleInModeAndView>();
 
-            _grade.VisibleIn.Add(new VisibleInModeAndView() { Mode = mode, View = view });
+            _grade.VisibleIn.Add(new VisibleInModeAndView() { Mode = mode, View = view, CanHaveAssets = true});
 
             return this;
         }

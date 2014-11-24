@@ -50,7 +50,12 @@
                 @Html.ActionLink(String.Format("Upholstery Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View), "Index", "ModelUpholsteryVisibleInAssets", new { modelID = ViewBag.ModelID, upholsteryID = model.Upholstery.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View }, new { })
             } <br/>
             
-          
+            @Html.ActionLink("Colour Combination Assets", "Index", "ModelColourCombinationAssets", new { modelID = ViewBag.ModelID, exteriorColourID = model.ExteriorColour.ID, upholsteryID = model.Upholstery.ID }, new { })
+            @foreach (var visibleInModeAndView in model.VisibleIn.Where(x => x.Assets.Any()))
+            {
+                @Html.Raw(" | ")
+                @Html.ActionLink(String.Format("Colour Combination Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View), "Index", "ModelColourCombinationVisibleInAssets", new { modelID = ViewBag.ModelID, exteriorColourID = model.ExteriorColour.ID, upholsteryID = model.Upholstery.ID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View }, new { })
+            } <br/>
 
         </div>
     </div>

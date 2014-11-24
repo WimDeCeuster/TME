@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
@@ -139,6 +140,11 @@ namespace TME.CarConfigurator
                         _specificationsFactory.GetCarTechnicalSpecifications(ID, _repositoryPublication,
                             _repositoryContext);
             }
+        }
+
+        public IReadOnlyList<ICarColourCombination> ColourCombinations
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 }

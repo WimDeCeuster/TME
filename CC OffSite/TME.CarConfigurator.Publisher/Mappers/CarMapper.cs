@@ -4,6 +4,7 @@ using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Publisher.Exceptions;
 using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
 
 namespace TME.CarConfigurator.Publisher.Mappers
@@ -48,8 +49,11 @@ namespace TME.CarConfigurator.Publisher.Mappers
                     IncludingVat = car.VatPrice
                 },
                 BodyType = bodyType,
-                ConfigVisible = car.ConfigVisible,
                 Engine = engine,
+                Transmission = transmission,
+                WheelDrive = wheelDrive,
+                Steering = steering,
+                ConfigVisible = car.ConfigVisible,              
                 FinanceVisible = car.FinanceVisible,
                 Promoted = car.Promoted,
                 ShortID = car.ShortID.Value,
@@ -59,10 +63,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                     ExcludingVat = car.Price + cheapestColourCombination.ExteriorColour.Price + cheapestColourCombination.Upholstery.Price,
                     IncludingVat = car.VatPrice + cheapestColourCombination.ExteriorColour.VatPrice + cheapestColourCombination.Upholstery.VatPrice
                 },
-                Steering = steering,
-                Transmission = transmission,
                 WebVisible = car.WebVisible,
-                WheelDrive = wheelDrive,
             };
 
 
@@ -78,6 +79,112 @@ namespace TME.CarConfigurator.Publisher.Mappers
             {
                 Name = car.Translation.Name.DefaultIfEmpty(car.Name),
                 ShortID = car.ShortID.Value
+            };
+        }
+        public BodyType CopyBodyType(BodyType bodyType)
+        {
+            return new BodyType
+            {
+                ID = bodyType.ID,
+                InternalCode = bodyType.InternalCode,
+                LocalCode = bodyType.LocalCode,
+                Name = bodyType.Name,
+                Description = bodyType.Description,
+                ToolTip = bodyType.ToolTip,
+                FootNote = bodyType.FootNote,
+                Labels = bodyType.Labels,
+                NumberOfDoors = bodyType.NumberOfDoors,
+                NumberOfSeats = bodyType.NumberOfSeats,
+                SortIndex = bodyType.SortIndex,
+                VisibleIn =
+                    bodyType.VisibleIn.Select(
+                        x => new VisibleInModeAndView {Mode = x.Mode, View = x.View, CanHaveAssets = true}).ToList()
+            };
+        }
+        public Engine CopyEngine(Engine engine)
+        {
+            return new Engine
+            {
+                ID = engine.ID,
+                InternalCode = engine.InternalCode,
+                LocalCode = engine.LocalCode,
+                Name = engine.Name,
+                Description = engine.Description,
+                ToolTip = engine.ToolTip,
+                FootNote = engine.FootNote,
+                Labels = engine.Labels,
+                SortIndex = engine.SortIndex,
+                Brochure = engine.Brochure,
+                Category = engine.Category,
+                KeyFeature = engine.KeyFeature,
+                Type =  engine.Type,
+                VisibleIn =
+                    engine.VisibleIn.Select(
+                        x => new VisibleInModeAndView { Mode = x.Mode, View = x.View, CanHaveAssets = true }).ToList()
+            };
+        }
+        public Transmission CopyTransmission(Transmission transmission)
+        {
+            return new Transmission
+            {
+                ID = transmission.ID,
+                InternalCode = transmission.InternalCode,
+                LocalCode = transmission.LocalCode,
+                Name = transmission.Name,
+                Description = transmission.Description,
+                ToolTip = transmission.ToolTip,
+                FootNote = transmission.FootNote,
+                Labels = transmission.Labels,
+                SortIndex = transmission.SortIndex,
+                Brochure = transmission.Brochure,
+                NumberOfGears = transmission.NumberOfGears,
+                KeyFeature = transmission.KeyFeature,
+                Type = transmission.Type,                
+                VisibleIn =
+                    transmission.VisibleIn.Select(
+                        x => new VisibleInModeAndView { Mode = x.Mode, View = x.View, CanHaveAssets = true }).ToList()
+            };
+        }
+        public WheelDrive CopyWheelDrive(WheelDrive wheelDrive)
+        {
+            return new WheelDrive
+            {
+                ID = wheelDrive.ID,
+                InternalCode = wheelDrive.InternalCode,
+                LocalCode = wheelDrive.LocalCode,
+                Name = wheelDrive.Name,
+                Description = wheelDrive.Description,
+                ToolTip = wheelDrive.ToolTip,
+                FootNote = wheelDrive.FootNote,
+                Labels = wheelDrive.Labels,
+                SortIndex = wheelDrive.SortIndex,
+                Brochure = wheelDrive.Brochure,
+                KeyFeature = wheelDrive.KeyFeature,
+                VisibleIn =
+                    wheelDrive.VisibleIn.Select(
+                        x => new VisibleInModeAndView { Mode = x.Mode, View = x.View, CanHaveAssets = true }).ToList()
+            };
+        }
+
+        public Grade CopyGrade(Grade grade)
+        {
+            return new Grade
+            {
+                ID = grade.ID,
+                InternalCode = grade.InternalCode,
+                LocalCode = grade.LocalCode,
+                Name = grade.Name,
+                Description = grade.Description,
+                ToolTip = grade.ToolTip,
+                FootNote = grade.FootNote,
+                Labels = grade.Labels,
+                SortIndex = grade.SortIndex,
+                BasedUpon = grade.BasedUpon,
+                Special = grade.Special,
+                StartingPrice = grade.StartingPrice,
+                VisibleIn =
+                    grade.VisibleIn.Select(
+                        x => new VisibleInModeAndView { Mode = x.Mode, View = x.View, CanHaveAssets = true }).ToList()
             };
         }
     }

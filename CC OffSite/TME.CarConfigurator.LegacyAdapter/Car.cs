@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Packs;
 using TME.CarConfigurator.Interfaces.TechnicalSpecifications;
+using TME.CarConfigurator.LegacyAdapter.Colours;
 using TME.CarConfigurator.LegacyAdapter.Equipment;
 using TME.CarConfigurator.LegacyAdapter.Packs;
 using TME.CarConfigurator.LegacyAdapter.TechnicalSpecifications;
@@ -67,22 +69,22 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IBodyType BodyType
         {
-            get { return new BodyType(Adaptee.BodyType); }
+            get { return new BodyType(Adaptee.BodyType, true); }
         }
 
         public IEngine Engine
         {
-            get { return new Engine(Adaptee.Engine); }
+            get { return new Engine(Adaptee.Engine, true); }
         }
 
         public ITransmission Transmission
         {
-            get { return new Transmission(Adaptee.Transmission); }
+            get { return new Transmission(Adaptee.Transmission, true); }
         }
 
         public IWheelDrive WheelDrive
         {
-            get { return new WheelDrive(Adaptee.WheelDrive); }
+            get { return new WheelDrive(Adaptee.WheelDrive, true); }
         }
 
         public ISteering Steering
@@ -92,14 +94,14 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IGrade Grade
         {
-            get { return new Grade(Adaptee.Grade); }
+            get { return new Grade(Adaptee.Grade, true); }
         }
         public ISubModel SubModel
         {
             get
             {
                 return Adaptee.SubModel != null
-                    ? new SubModel(Adaptee.SubModel)
+                    ? new SubModel(Adaptee.SubModel, true)
                     : null;
             }
         }
@@ -123,7 +125,17 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get { return Adaptee.TechnicalSpecifications.Cast<Legacy.TechnicalSpecification>().Select(x => new CarTechnicalSpecification(x)).ToList(); }
         }
-    }
 
+        public IReadOnlyList<ICarColourCombination> ColourCombinations
+        {
+            get
+            {
+                return
+                    Adaptee.Colours.Cast<Legacy.CarColourCombination>()
+                        .Select(x => new CarColourCombination(x))
+                        .ToList();
+            }
+        }
+    }
 
 }

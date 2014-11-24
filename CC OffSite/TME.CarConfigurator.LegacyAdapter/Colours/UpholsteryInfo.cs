@@ -1,12 +1,11 @@
 ﻿using System;
 using TME.CarConfigurator.Interfaces.Colours;
-using TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter.Colours
 {
     public class UpholsteryInfo : IUpholsteryInfo
     {
-        public UpholsteryInfo(CarUpholstery carUpholstery)
+        public UpholsteryInfo(TMME.CarConfigurator.CarUpholstery carUpholstery)
         {
             ID = carUpholstery.ID;
             InternalCode = carUpholstery.InternalCode;

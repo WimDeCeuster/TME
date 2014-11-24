@@ -51,7 +51,13 @@ namespace TME.CarConfigurator.Assets
 
         public IReadOnlyList<IAsset> Assets
         {
-            get { return _fetchedAssets = _fetchedAssets ?? FetchAssets(); }
+            get { return 
+                _fetchedAssets = _fetchedAssets ?? (
+                    _repositoryVisibleInModeAndView.CanHaveAssets 
+                        ? FetchAssets() 
+                        : new List<IAsset>()
+                    );
+            }
         }
 
         protected virtual IReadOnlyList<IAsset> FetchAssets()

@@ -4,6 +4,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface ITransmissionMapper
     {
-        Transmission MapTransmission(Administration.ModelGenerationTransmission transmission);
+        Transmission MapTransmission(Administration.ModelGenerationTransmission transmission, bool canHaveAssets);
     }
 }

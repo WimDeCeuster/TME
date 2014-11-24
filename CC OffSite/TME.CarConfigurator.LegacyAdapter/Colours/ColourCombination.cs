@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
-using TMME.CarConfigurator;
 
 namespace TME.CarConfigurator.LegacyAdapter.Colours
 {
@@ -26,7 +24,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
 
         #region Constructor
 
-        public ColourCombination(CarColourCombination adaptee, bool forCar)
+        public ColourCombination(TMME.CarConfigurator.CarColourCombination adaptee, bool forCar)
         {
             Adaptee = adaptee;
             ForCar = forCar;
@@ -46,7 +44,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
 
         public IUpholstery Upholstery
         {
-            get { return new Upholstery(Adaptee.Upholstery, ForCar);}
+            get { return new CarUpholstery(Adaptee.Upholstery, ForCar);}
         }
 
         public int SortIndex
@@ -54,7 +52,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
             get { return Adaptee.SortIndex; }
         }
 
-        private IReadOnlyList<IVisibleInModeAndView> _visibleIn = null;
+        private IReadOnlyList<IVisibleInModeAndView> _visibleIn;
         public IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
             get
@@ -69,7 +67,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
             }
         }
 
-        private IReadOnlyList<IAsset> _assets = null;
+        private IReadOnlyList<IAsset> _assets;
         public IReadOnlyList<IAsset> Assets
         {
             get { return _assets ?? (_assets = Adaptee.Assets.GetPlainAssets()); }

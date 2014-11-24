@@ -19,7 +19,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _assetSetMapper = assetSetMapper;
         }
 
-        public BodyType MapBodyType(Administration.ModelGenerationBodyType generationBodyType)
+        public BodyType MapBodyType(Administration.ModelGenerationBodyType generationBodyType, bool canHaveAssets)
         {
             var crossModelBodyType = Administration.BodyTypes.GetBodyTypes()[generationBodyType.ID];
 
@@ -27,7 +27,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             {
                 NumberOfDoors = generationBodyType.NumberOfDoors,
                 NumberOfSeats = generationBodyType.NumberOfSeats,
-                VisibleIn = _assetSetMapper.GetVisibility(generationBodyType.AssetSet).ToList()
+                VisibleIn = _assetSetMapper.GetVisibility(generationBodyType.AssetSet, canHaveAssets).ToList()
             };
 
             return _baseMapper.MapDefaultsWithSort(mappedBodyType, crossModelBodyType, generationBodyType);

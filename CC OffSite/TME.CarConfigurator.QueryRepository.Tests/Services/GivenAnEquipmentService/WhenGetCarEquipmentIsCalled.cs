@@ -16,8 +16,8 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAnEquipmentService
 {
     public class WhenGetCarEquipmentIsCalled : TestBase
     {
-        private CarEquipment _actualCategories;
-        private CarEquipment _expectedCategories;
+        private CarEquipment _actualEquipment;
+        private CarEquipment _expectedEquipment;
         private IEquipmentService _equipmentService;
         private Context _context;
 
@@ -28,7 +28,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAnEquipmentService
             const string s3Key = "fake s3 key";
             const string serializedObject = "this object is serialized";
 
-            _expectedCategories = new CarEquipmentBuilder().Build();
+            _expectedEquipment = new CarEquipmentBuilder().Build();
 
             var serialiser = A.Fake<ISerialiser>();
             var service = A.Fake<IService>();
@@ -36,7 +36,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAnEquipmentService
 
             A.CallTo(() => keyManager.GetCarEquipmentKey(A<Guid>._, A<Guid>._)).Returns(s3Key);
             A.CallTo(() => service.GetObject(_context.Brand, _context.Country, s3Key)).Returns(serializedObject);
-            A.CallTo(() => serialiser.Deserialise<CarEquipment>(serializedObject)).Returns(_expectedCategories);
+            A.CallTo(() => serialiser.Deserialise<CarEquipment>(serializedObject)).Returns(_expectedEquipment);
 
             var serviceFacade = new S3ServiceFacade()
                 .WithService(service)
@@ -48,13 +48,13 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAnEquipmentService
 
         protected override void Act()
         {
-            _actualCategories = _equipmentService.GetCarEquipment(Guid.NewGuid(), Guid.NewGuid(), _context);
+            _actualEquipment = _equipmentService.GetCarEquipment(Guid.NewGuid(), Guid.NewGuid(), _context);
         }
 
         [Fact]
         public void ThenItShouldReturnTheCorrectEquipmentItems()
         {
-            _actualCategories.Should().BeSameAs(_expectedCategories);
+            _actualEquipment.Should().BeSameAs(_expectedEquipment);
         }
     }
 }

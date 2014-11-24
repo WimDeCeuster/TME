@@ -67,22 +67,22 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IReadOnlyList<IBodyType> BodyTypes
         {
-            get { return Adaptee.BodyTypes.Cast<Legacy.BodyType>().Select(x => new BodyType(x)).ToList(); }
+            get { return Adaptee.BodyTypes.Cast<Legacy.BodyType>().Select(x => new BodyType(x, false)).ToList(); }
         }
 
         public IReadOnlyList<IEngine> Engines
         {
-            get { return Adaptee.Engines.Cast<Legacy.Engine>().Select(x => new Engine(x)).ToList(); }
+            get { return Adaptee.Engines.Cast<Legacy.Engine>().Select(x => new Engine(x, false)).ToList(); }
         }
 
         public IReadOnlyList<ITransmission> Transmissions
         {
-            get { return Adaptee.Transmissions.Cast<Legacy.Transmission>().Select(x => new Transmission(x)).ToList(); }
+            get { return Adaptee.Transmissions.Cast<Legacy.Transmission>().Select(x => new Transmission(x, false)).ToList(); }
         }
 
         public IReadOnlyList<IWheelDrive> WheelDrives
         {
-            get { return Adaptee.WheelDrives.Cast<Legacy.WheelDrive>().Select(x => new WheelDrive(x)).ToList(); }
+            get { return Adaptee.WheelDrives.Cast<Legacy.WheelDrive>().Select(x => new WheelDrive(x, false)).ToList(); }
         }
 
         public IReadOnlyList<ISteering> Steerings
@@ -92,7 +92,7 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IReadOnlyList<IGrade> Grades
         {
-            get { return Adaptee.Grades.Cast<Legacy.Grade>().Select(x => new Grade(x)).ToList(); }
+            get { return Adaptee.Grades.Cast<Legacy.Grade>().Select(x => new Grade(x, false)).ToList(); }
         }
 
         public IReadOnlyList<IFuelType> FuelTypes
@@ -107,7 +107,7 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IReadOnlyList<ISubModel> SubModels
         {
-            get { return Adaptee.SubModels.Cast<Legacy.SubModel>().Select(x => new SubModel(x)).ToList(); }
+            get { return Adaptee.SubModels.Cast<Legacy.SubModel>().Select(x => new SubModel(x, false)).ToList(); }
         }
 
         public IReadOnlyList<IColourCombination> ColourCombinations

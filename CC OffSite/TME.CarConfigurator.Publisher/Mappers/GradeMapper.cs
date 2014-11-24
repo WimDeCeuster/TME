@@ -39,7 +39,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 .OrderBy(car => car.StartingPrice.ExcludingVat)
                 .First();
 
-            var mappedGrade = GetMappedGrade(generationGrade, cheapestCarExcludingVat, cheapestCarIncludingVat);
+            var mappedGrade = GetMappedGrade(generationGrade, cheapestCarExcludingVat, cheapestCarIncludingVat, false);
 
             return _baseMapper.MapDefaultsWithSort(mappedGrade, generationGrade);
         }
@@ -56,7 +56,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 .OrderBy(car => car.StartingPrice.ExcludingVat)
                 .First();
 
-            var mappedGrade = GetMappedGrade(grade, cheapestCarExcludingVat, cheapestCarIncludingVat);
+            var mappedGrade = GetMappedGrade(grade, cheapestCarExcludingVat, cheapestCarIncludingVat, false);
 
             var mappedGradeForSubModelWithDefaults = _baseMapper.MapDefaultsWithSort(mappedGrade, grade);
 
@@ -71,7 +71,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return mappedGradeForSubModelWithDefaults;
         }
 
-        private Grade GetMappedGrade(ModelGenerationGrade grade, Car cheapestCarExcludingVat, Car cheapestCarIncludingVat)
+        private Grade GetMappedGrade(ModelGenerationGrade grade, Car cheapestCarExcludingVat, Car cheapestCarIncludingVat,bool canHaveAssets)
         {
             var mappedGrade = new Grade
             {
@@ -82,7 +82,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                     ExcludingVat = cheapestCarExcludingVat.BasePrice.ExcludingVat,
                     IncludingVat = cheapestCarIncludingVat.BasePrice.IncludingVat
                 },
-                VisibleIn = _assetSetMapper.GetVisibility(grade.AssetSet).ToList()
+                VisibleIn = _assetSetMapper.GetVisibility(grade.AssetSet, canHaveAssets).ToList()
             };
             return mappedGrade;
         }
