@@ -129,6 +129,8 @@ namespace TME.CarConfigurator.Comparer
             config.DetectMissingAndMisordered = true;
             config.QuickFailLists = true;
 
+            config.ShowBreadcrumb = true;
+
             var rootComparer = RootComparerFactory.GetRootComparer();
 
             //config.CustomComparers = new List<BaseTypeComparer> { new MyComparer(rootComparer) };
@@ -144,6 +146,7 @@ namespace TME.CarConfigurator.Comparer
 
             config.MaxDifferences = -1;
             config.MaxStructDepth = 2;
+            config.MaxTreeDepth = 20;
 
             config.AllowPropertyExceptions = true;
 

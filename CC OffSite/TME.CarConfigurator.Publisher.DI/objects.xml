@@ -46,6 +46,7 @@
     <constructor-arg ref="CategoryMapper" />
     <constructor-arg ref="ColourMapper" />
     <constructor-arg ref="AssetSetMapper" />
+    <constructor-arg ref="BaseMapper" />
   </object>
   <object name="TechnicalSpecificationMapper" type="TME.CarConfigurator.Publisher.Mappers.TechnicalSpecificationMapper, TME.CarConfigurator.Publisher">
     <constructor-arg ref="BaseMapper" />

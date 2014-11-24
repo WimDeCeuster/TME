@@ -124,6 +124,7 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
         /// Convert an object to a nicely formatted string
         /// </summary>
         /// <param name="obj"></param>
+        /// <param name="customStringifier"></param>
         /// <returns></returns>
         protected string NiceString(object obj, Func<object, String> customStringifier)
         {

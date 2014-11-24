@@ -8,11 +8,6 @@ namespace KellermanSoftware.CompareNetObjects
     /// </summary>
     public class CompareParms
     {
-        public CompareParms()
-        {
-
-        }
-
         /// <summary>
         /// The configuration settings
         /// </summary>

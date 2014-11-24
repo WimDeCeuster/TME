@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 
 
 namespace KellermanSoftware.CompareNetObjects.TypeComparers
@@ -41,6 +42,9 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
         {
             try
             {
+                if (parms.Config.MaxTreeDepth > -1 && parms.Config.MaxTreeDepth < parms.Result.Parents.Values.Sum())
+                    return;
+
                 parms.Result.AddParent(parms.Object1.GetHashCode());
                 parms.Result.AddParent(parms.Object2.GetHashCode());
 
@@ -51,7 +55,7 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                 {
                     return;
                 }
-
+                
                 Type t1 = parms.Object1.GetType();
                 Type t2 = parms.Object2.GetType();
 
