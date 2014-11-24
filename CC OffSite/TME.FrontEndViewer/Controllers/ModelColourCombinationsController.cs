@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Repository.Objects;
 using TME.FrontEndViewer.Models;
@@ -12,7 +11,6 @@ namespace TME.FrontEndViewer.Controllers
 {
     public class ModelColourCombinationsController : Controller
     {
-
         public ActionResult Index(Guid modelID)
         {
             var context = (Context)Session["context"];
@@ -34,7 +32,7 @@ namespace TME.FrontEndViewer.Controllers
             var list = new CarConfigurator.LegacyAdapter.Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID))
                             .ColourCombinations;
 
-            return new ModelWithMetrics<IReadOnlyList<IColourCombination>>()
+            return new ModelWithMetrics<IReadOnlyList<IColourCombination>>
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)
@@ -46,7 +44,7 @@ namespace TME.FrontEndViewer.Controllers
             var list = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID)
                 .ColourCombinations;
 
-            return new ModelWithMetrics<IReadOnlyList<IColourCombination>>()
+            return new ModelWithMetrics<IReadOnlyList<IColourCombination>>
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)

@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
-using TME.CarConfigurator.Factories;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Colours;
-using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
@@ -21,8 +19,8 @@ namespace TME.CarConfigurator.Query.Tests.GivenACar
     {
         private ICar _car;
         private ColourCombination _repoColourCombination;
-        private IReadOnlyList<IColourCombination> _secondColourCombinations;
-        private IReadOnlyList<IColourCombination> _firstColourCombinations;
+        private IReadOnlyList<ICarColourCombination> _secondColourCombinations;
+        private IReadOnlyList<ICarColourCombination> _firstColourCombinations;
         private IColourService _colourService;
 
         protected override void Arrange()

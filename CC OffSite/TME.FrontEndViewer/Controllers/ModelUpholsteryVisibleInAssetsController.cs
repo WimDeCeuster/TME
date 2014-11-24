@@ -57,8 +57,7 @@ namespace TME.FrontEndViewer.Controllers
         {
             var upholstery = (carID == null
                 ? model.ColourCombinations.First(x => x.Upholstery.ID == upholsteryID).Upholstery
-                : model.ColourCombinations.First(x => x.Upholstery.ID == upholsteryID).Upholstery
-                //: model.Cars.First(x => x.ID == carID.Value).ColourCombinations.First(x => x.Upholstery.ID == upholsteryID).Upholstery
+                : model.Cars.First(x => x.ID == carID.Value).ColourCombinations.First(x => x.Upholstery.ID == upholsteryID).Upholstery
                 );
 
             var visibleIn = upholstery.VisibleIn.FirstOrDefault(x => x.Mode == mode && x.View == view);

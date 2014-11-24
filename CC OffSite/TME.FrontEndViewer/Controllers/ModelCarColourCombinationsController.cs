@@ -12,12 +12,14 @@ namespace TME.FrontEndViewer.Controllers
 {
     public class ModelCarColourCombinationsController : Controller
     {
-       public ActionResult Index(Guid modelID, Guid carID)
+
+        public ActionResult Index(Guid modelID, Guid carID)
         {
             var context = (Context)Session["context"];
             var oldContext = MyContext.NewContext(context.Brand, context.Country, context.Language);
 
             ViewBag.ModelID = modelID;
+            ViewBag.CarID = carID;
 
             var model = new CompareView<IReadOnlyList<ICarColourCombination>>
             {
@@ -54,8 +56,8 @@ namespace TME.FrontEndViewer.Controllers
 
         private static IReadOnlyList<ICarColourCombination> GetList(IModel model, Guid carID)
         {
-            return model.Cars.First(car => car.ID == carID).ColourCombinations;
+            return model.Cars.First(x => x.ID == carID).ColourCombinations;
         }
+
     }
 }
-

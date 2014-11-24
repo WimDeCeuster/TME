@@ -14,8 +14,7 @@ namespace TME.CarConfigurator.Factories
         private readonly IAssetService _assetService;
         private readonly Dictionary<String, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>> _carEquipmentAssets = new Dictionary<string, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>>();
         private readonly Dictionary<String, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>>  _carPartAssets = new Dictionary<string, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>>();
-        private decimal _counter;
-        private Dictionary<Guid, List<Repository.Objects.Assets.Asset>> _defaultCarEquipmentAssets;
+        private readonly Dictionary<Guid, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>> _defaultCarEquipmentAssetsPerCar = new Dictionary<Guid, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>>();
 
         public AssetFactory(IAssetService assetService)
         {
@@ -54,9 +53,10 @@ namespace TME.CarConfigurator.Factories
 
         public IReadOnlyList<IAsset> GetCarEquipmentAssets(Publication publication, Guid carID, Guid objectID, Context context)
         {
-            _defaultCarEquipmentAssets = _defaultCarEquipmentAssets ?? _assetService.GetCarEquipmentAssets(publication.ID, carID, context);
+            if (!_defaultCarEquipmentAssetsPerCar.ContainsKey(carID))
+                _defaultCarEquipmentAssetsPerCar.Add(carID, _assetService.GetCarEquipmentAssets(publication.ID, carID, context));
 
-            var filteredRepoAssets = FilterDictionaryItemsPerObjectID(objectID, _defaultCarEquipmentAssets);
+            var filteredRepoAssets = FilterDictionaryItemsPerObjectID(objectID, _defaultCarEquipmentAssetsPerCar[carID]);
 
             return TransformIntoNonRepoAssets(filteredRepoAssets);
         }
@@ -72,8 +72,7 @@ namespace TME.CarConfigurator.Factories
             return TransformIntoNonRepoAssets(filteredRepoAssets);
         }
 
-        public IReadOnlyList<IAsset> GetCarPartAssets(Publication publication, Guid carID, Guid objectID, Context context, string view,
-            string mode)
+        public IReadOnlyList<IAsset> GetCarPartAssets(Publication publication, Guid carID, Guid objectID, Context context, string view, string mode)
         {
             var key = string.Format("{0}{1}", view, mode);
             if (!_carPartAssets.ContainsKey(key))

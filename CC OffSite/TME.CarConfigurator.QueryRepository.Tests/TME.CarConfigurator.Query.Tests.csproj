@@ -231,6 +231,7 @@
     <Compile Include="GivenAModel\WhenAccessingItsWheelDrivesForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsTransmissionsForTheSecondTime.cs" />
     <Compile Include="GivenAModel\WhenAccessingTopLevelAndBasedUponGrades.cs" />
+    <Compile Include="GivenAnAssetFactory\WhenRequestingAssetsForEquipmentOfDifferentCars.cs" />
     <Compile Include="GivenAnEngineCategory\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenAnEngineCategory\WhenAccessingItsLabelsForTheFirstTime.cs" />
     <Compile Include="GivenAnEngineCategory\WhenAccessingItsAssetsForTheSecondTime.cs" />

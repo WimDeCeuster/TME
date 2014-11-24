@@ -57,8 +57,7 @@ namespace TME.FrontEndViewer.Controllers
         {
             var exteriorColour = (carID == null
                 ? model.ColourCombinations.First(x => x.ExteriorColour.ID == exteriorColourID).ExteriorColour
-                : model.ColourCombinations.First(x => x.ExteriorColour.ID == exteriorColourID).ExteriorColour
-                //: model.Cars.First(x => x.ID == carID.Value).ColourCombinations.First(x => x.ExteriorColour.ID == exteriorColourID).ExteriorColour
+                : model.Cars.First(x => x.ID == carID.Value).ColourCombinations.First(x => x.ExteriorColour.ID == exteriorColourID).ExteriorColour
                 );
 
             var visibleIn = exteriorColour.VisibleIn.FirstOrDefault(x => x.Mode == mode && x.View == view);
