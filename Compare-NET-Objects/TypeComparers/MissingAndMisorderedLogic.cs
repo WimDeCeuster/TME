@@ -6,11 +6,18 @@ using System.Text;
 
 namespace KellermanSoftware.CompareNetObjects.TypeComparers
 {
+    /// <summary>
+    /// Compare lists using special key selectors and list missing and misorders as separate mismatches.
+    /// </summary>
     public class MissingAndMisorderedLogic : BaseComparer
     {
         private readonly RootComparer _rootComparer;
         private readonly List<string> _alreadyCompared = new List<string>();
 
+        /// <summary>
+        /// Missing and misordered logic
+        /// </summary>
+        /// <param name="rootComparer"></param>
         public MissingAndMisorderedLogic(RootComparer rootComparer)
         {
             _rootComparer = rootComparer;

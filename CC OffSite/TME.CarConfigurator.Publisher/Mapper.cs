@@ -203,7 +203,7 @@ namespace TME.CarConfigurator.Publisher
                 foreach (var car in cars)
                 {
                     FillCarParts(car, contextData);
-                    FillCarPacks(car, contextData, equipmentGroups, equipmentCategories, isPreview, cars, exteriorColourTypes, context.AssetUrl);
+                    FillCarPacks(car, contextData, equipmentGroups, equipmentCategories, isPreview, context.AssetUrl);
                     FillCarEquipment(car, contextData, equipmentCategories, equipmentGroups, isPreview, cars, exteriorColourTypes, context.AssetUrl);
                     FillCarTechnicalSpecifications(car, specificationCategories, units, contextData);
                     FillCarColourCombinations(car, contextData, exteriorColourTypes, upholsteryTypes, isPreview, context.AssetUrl);
@@ -258,7 +258,6 @@ namespace TME.CarConfigurator.Publisher
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.WheelDrives[car.WheelDriveID]);
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.SubModels[car.SubModelID]);
                 FillCarListAssets(car, contextData, GetValidCarPacks(car), carItemAssets, carItemsGenerationAssets);
-
                 FillCarEquipmentAssets(car, contextData, GetValidCarEquipment(car), carItemAssets, carItemsGenerationAssets);
                 FillCarPartAssets(car, contextData, GetValidCarParts(car), carItemAssets, carItemsGenerationAssets);
             }
@@ -454,7 +453,6 @@ namespace TME.CarConfigurator.Publisher
                                                        .ToList();
         }
 
-
         private void FillCarTechnicalSpecifications(Car car, SpecificationCategories categories, Units units, ContextData contextData)
         {
             var technicalSpecifications = car
@@ -476,10 +474,10 @@ namespace TME.CarConfigurator.Publisher
             contextData.CarTechnicalSpecifications.Add(car.ID, technicalSpecifications);
         }
 
-        private void FillCarPacks(Car car, ContextData contextData, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, string assetUrl)
+        private void FillCarPacks(Car car, ContextData contextData, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, string assetUrl)
         {
             var packs = car.Packs.Where(pack => pack.Availability != Availability.NotAvailable)
-                                 .Select(pack => _packMapper.MapCarPack(pack, groups, categories, isPreview, cars, exteriorColourTypes, assetUrl))
+                                 .Select(pack => _packMapper.MapCarPack(pack, groups, categories, isPreview, assetUrl))
                                  .ToList();
             contextData.CarPacks.Add(car.ID, packs);
         }
@@ -519,17 +517,20 @@ namespace TME.CarConfigurator.Publisher
             contextData.CarEquipment.Add(car.ID,new CarEquipment
             {
                 Accessories = car.Equipment.Where(equipment => equipment.Type == EquipmentType.Accessory && equipment.Availability != Availability.NotAvailable)
-                                           .Select(accessory => _equipmentMapper.MapCarAccessory((CarAccessory)accessory, groups.FindAccessory(accessory.ID), categories, isPreview, cars, exteriorColourTypes, assetUrl))
+                                           .Select(accessory => _equipmentMapper.MapCarAccessory((CarAccessory)accessory, groups.FindAccessory(accessory.ID), categories, isPreview, assetUrl))
                                            .ToList(),
                 Options = car.Equipment.Where(equipment => equipment.Type == EquipmentType.Option && equipment.Availability != Availability.NotAvailable)
-                                       .Select(option => _equipmentMapper.MapCarOption((CarOption)option, groups.FindOption(option.ID), categories, isPreview, cars, exteriorColourTypes, assetUrl))
+                                       .Select(option => _equipmentMapper.MapCarOption((CarOption)option, groups.FindOption(option.ID), categories, isPreview, assetUrl))
                                        .ToList()
             });
         }
 
         private static IEnumerable<ModelGenerationEquipmentItem> GetValidCarEquipment(Car car)
         {
-            return car.Equipment.Select(carEquipment => car.Generation.Equipment[carEquipment.ID]);
+            var carEquipmentIds = car.Equipment.Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
+            var packEquipmentIds = car.Packs.SelectMany(pack => pack.Equipment).Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
+
+            return carEquipmentIds.Concat(packEquipmentIds).Distinct().Select(id => car.Generation.Equipment[id]);
         }
 
         private IEnumerable<IHasAssetSet> GetValidCarPacks(Car car)
