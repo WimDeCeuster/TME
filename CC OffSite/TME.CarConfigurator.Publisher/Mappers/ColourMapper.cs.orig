@@ -95,7 +95,12 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
         }
+<<<<<<< HEAD
+
+        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ExteriorColour colour, Boolean isPreview, Administration.ExteriorColourType exteriorColourType, String assetUrl)
+=======
         public Repository.Objects.Equipment.ExteriorColour MapEquipmentExteriorColour(ModelGeneration modelGeneration, ModelGenerationExteriorColour colour, bool isPreview, String assetUrl)
+>>>>>>> a4b0d5c568512f44e7a8d1689dd752e9e18e7963
         {
             var mappedColour = new Repository.Objects.Equipment.ExteriorColour 
             {
@@ -119,8 +124,12 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
         }
-        
+<<<<<<< HEAD
 
+=======
+        
+        
+>>>>>>> a4b0d5c568512f44e7a8d1689dd752e9e18e7963
         public ExteriorColourInfo MapExteriorColourInfo(CarPackExteriorColour exteriorColour)
         {
             return new ExteriorColourInfo

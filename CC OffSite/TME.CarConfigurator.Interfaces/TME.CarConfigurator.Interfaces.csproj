@@ -76,6 +76,7 @@
     <Compile Include="Equipment\ICarEquipment.cs" />
     <Compile Include="Factories\ICarPartFactory.cs" />
     <Compile Include="IGradeInfo.cs" />
+    <Compile Include="Packs\IAccentColourCombination.cs" />
     <Compile Include="Packs\ICarPackEquipment.cs" />
     <Compile Include="Packs\ICarPackExteriorColourType.cs" />
     <Compile Include="Packs\ICarPackAccessory.cs" />
