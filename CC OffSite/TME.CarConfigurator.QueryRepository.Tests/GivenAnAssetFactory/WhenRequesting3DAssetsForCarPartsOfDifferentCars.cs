@@ -27,10 +27,14 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnAssetFactory
 
         private List<Asset> _expectedAssets1;
         private List<Asset> _expectedAssets2;
+        private List<Asset> _expectedAssets3;
         private IReadOnlyList<IAsset> _assets1;
         private IReadOnlyList<IAsset> _assets2;
-        private const string VIEW = "the view";
-        private const string MODE = "The mode";
+        private IReadOnlyList<IAsset> _assets3;
+        private const string VIEW1 = "the first view";
+        private const string VIEW2 = "the second view";
+        private const string MODE1 = "the first mode";
+        private const string MODE2 = "the second mode";
 
         protected override void Arrange()
         {
@@ -48,23 +52,32 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnAssetFactory
                 new AssetBuilder().WithId(Guid.NewGuid()).Build()
             };
 
+            _expectedAssets3 = new List<Asset>
+            {
+                new AssetBuilder().WithId(Guid.NewGuid()).Build()
+            };
+
             _expectedAssets1.Should().NotBeSameAs(_expectedAssets2);
 
             var assetService = A.Fake<IAssetService>();
 
-            A.CallTo(() => assetService.GetCarPartsAssets(_publication.ID, _carId1, _context, VIEW, MODE))
+            A.CallTo(() => assetService.GetCarPartsAssets(_publication.ID, _carId1, _context, VIEW1, MODE1))
                 .Returns(new Dictionary<Guid, List<Asset>> { { _equipmentId, _expectedAssets1 } });
 
-            A.CallTo(() => assetService.GetCarPartsAssets(_publication.ID, _carId2, _context, VIEW, MODE))
-                .Returns(new Dictionary<Guid, List<Asset>> { { _equipmentId, _expectedAssets2 } });
+            A.CallTo(() => assetService.GetCarPartsAssets(_publication.ID, _carId2, _context, VIEW1, MODE1))
+                .Returns(new Dictionary<Guid, List<Asset>> { { _equipmentId, _expectedAssets2 } }); 
+            
+            A.CallTo(() => assetService.GetCarPartsAssets(_publication.ID, _carId1, _context, VIEW2, MODE2))
+                .Returns(new Dictionary<Guid, List<Asset>> { { _equipmentId, _expectedAssets3 } });
 
             _assetFactory = new AssetFactory(assetService);
         }
 
         protected override void Act()
         {
-            _assets1 = _assetFactory.GetCarPartAssets(_publication, _carId1, _equipmentId, _context, VIEW, MODE);
-            _assets2 = _assetFactory.GetCarPartAssets(_publication, _carId2, _equipmentId, _context, VIEW, MODE);
+            _assets1 = _assetFactory.GetCarPartAssets(_publication, _carId1, _equipmentId, _context, VIEW1, MODE1);
+            _assets2 = _assetFactory.GetCarPartAssets(_publication, _carId2, _equipmentId, _context, VIEW1, MODE1);
+            _assets3 = _assetFactory.GetCarPartAssets(_publication, _carId1, _equipmentId, _context, VIEW2, MODE2);
         }
 
         [Fact]
@@ -82,6 +95,14 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnAssetFactory
             _assets2.Should().HaveCount(1);
 
             _assets2.Should().Contain(a => a.ID == _expectedAssets2[0].ID);
+        }
+
+        [Fact]
+        public void ThenItShouldReceiveTheCorrectListOfAssetsForCar3()
+        {
+            _assets3.Should().HaveCount(1);
+
+            _assets3.Should().Contain(a => a.ID == _expectedAssets3[0].ID);
         }
     }
 }
