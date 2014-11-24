@@ -13,7 +13,7 @@ namespace KellermanSoftware.CompareNetObjects
         /// <summary>
         /// Returns true if the property or field should be excluded
         /// </summary>
-        /// <param name="config"></param>
+        /// <param name="parms"></param>
         /// <param name="info"></param>
         /// <returns></returns>
         public static bool ShouldExcludeMember(CompareParms parms, MemberInfo info)

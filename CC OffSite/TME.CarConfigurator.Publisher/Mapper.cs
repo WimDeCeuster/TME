@@ -262,7 +262,6 @@ namespace TME.CarConfigurator.Publisher
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.WheelDrives[car.WheelDriveID]);
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.SubModels[car.SubModelID]);
                 FillCarListAssets(car, contextData, GetValidCarPacks(car), carItemAssets, carItemsGenerationAssets);
-
                 FillCarEquipmentAssets(car, contextData, GetValidCarEquipment(car), carItemAssets, carItemsGenerationAssets);
                 FillCarPartAssets(car, contextData, GetValidCarParts(car), carItemAssets, carItemsGenerationAssets);
             }
@@ -458,7 +457,6 @@ namespace TME.CarConfigurator.Publisher
                                                        .ToList();
         }
 
-
         private void FillCarTechnicalSpecifications(Car car, SpecificationCategories categories, Units units, ContextData contextData)
         {
             var technicalSpecifications = car
@@ -508,7 +506,10 @@ namespace TME.CarConfigurator.Publisher
 
         private static IEnumerable<ModelGenerationEquipmentItem> GetValidCarEquipment(Car car)
         {
-            return car.Equipment.Select(carEquipment => car.Generation.Equipment[carEquipment.ID]);
+            var carEquipmentIds = car.Equipment.Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
+            var packEquipmentIds = car.Packs.SelectMany(pack => pack.Equipment).Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
+
+            return carEquipmentIds.Concat(packEquipmentIds).Distinct().Select(id => car.Generation.Equipment[id]);
         }
 
         private IEnumerable<IHasAssetSet> GetValidCarPacks(Car car)

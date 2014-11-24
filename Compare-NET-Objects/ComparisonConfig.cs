@@ -247,6 +247,11 @@ namespace KellermanSoftware.CompareNetObjects
         /// Stop processing lists on first mismatch
         /// </summary>
         public bool QuickFailLists { get; set; }
+        
+        /// <summary>
+        /// Stop comparing class members once this parent count has been hit
+        /// </summary>
+        public int MaxTreeDepth { get; set; }
 
         #endregion
 
@@ -301,12 +306,8 @@ namespace KellermanSoftware.CompareNetObjects
             IgnoreOrderFor = new List<string>();
             IgnoreUnknownObjectTypes = false;
             MaxStructDepth = 2;
+            MaxTreeDepth = -1;
         }
         #endregion
-
-
-
-
-
     }
 }
