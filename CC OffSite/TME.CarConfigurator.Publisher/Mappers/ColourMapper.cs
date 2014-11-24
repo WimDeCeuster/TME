@@ -44,7 +44,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
         }
 
-        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, ModelGenerationExteriorColour colour, Boolean isPreview, Administration.ExteriorColourType exteriorColourType, String assetUrl)
+        private ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, ModelGenerationExteriorColour colour, Boolean isPreview, Administration.ExteriorColourType exteriorColourType, String assetUrl)
         {
             var mappedColour = new ExteriorColour
             {
@@ -59,26 +59,31 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
         }
-        
-        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ExteriorColour colour, Boolean isPreview, Administration.ExteriorColourType exteriorColourType, String assetUrl)
+        public Repository.Objects.Equipment.ExteriorColour MapEquipmentExteriorColour(ModelGeneration modelGeneration, ModelGenerationExteriorColour colour, bool isPreview, String assetUrl)
         {
-            var mappedColour = new ExteriorColour
+            var mappedColour = new Repository.Objects.Equipment.ExteriorColour 
             {
                 InternalCode = colour.Code,
                 LocalCode = String.Empty,
-                Promoted = false,
-                SortIndex = 0,
-                Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview, assetUrl),
-                Type = MapExteriorColourType(exteriorColourType),
-                VisibleIn = _assetSetMapper.GetVisibility(colour.Assets, false).ToList()
+                SortIndex = colour.Index,
+                Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview, assetUrl)
             };
 
-            _baseMapper.MapTranslateableDefaults(mappedColour, colour);
-
-            //mappedColour.Name = colour.Translation.Name; //String.Empty;
-
-            return mappedColour;
+            return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
         }
+        public Repository.Objects.Equipment.ExteriorColour MapEquipmentExteriorColour(ModelGeneration modelGeneration, Administration.ExteriorColour colour, bool isPreview, String assetUrl)
+        {
+            var mappedColour = new Repository.Objects.Equipment.ExteriorColour
+            {
+                InternalCode = colour.Code,
+                LocalCode = String.Empty,
+                SortIndex = 0,
+                Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview, assetUrl)
+            };
+
+            return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
+        }
+        
         
         public ExteriorColourInfo MapExteriorColourInfo(CarPackExteriorColour exteriorColour)
         {

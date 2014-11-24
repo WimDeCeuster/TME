@@ -93,6 +93,7 @@
     <Compile Include="Equipment\Category.cs" />
     <Compile Include="Equipment\CarEquipment.cs" />
     <Compile Include="Equipment\CarAccessory.cs" />
+    <Compile Include="Equipment\ExteriorColour.cs" />
     <Compile Include="Equipment\GradeEquipment.cs" />
     <Compile Include="Equipment\OptionInfo.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="CarInfo.cs" />
     <Compile Include="GradeInfo.cs" />
     <Compile Include="Interfaces\IAvailabilityProperties.cs" />
+    <Compile Include="Packs\AccentColourCombination.cs" />
     <Compile Include="Packs\CarPack.cs" />
     <Compile Include="Packs\GradePack.cs" />
     <Compile Include="Packs\CarPackAccessory.cs" />
