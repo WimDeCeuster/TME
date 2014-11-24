@@ -28,7 +28,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3ColourPublisher
 
             var publication = new PublicationBuilder().WithID(Guid.NewGuid()).Build();
 
-            var repoColourCombination = new ColourCombinationBuilder().WithId(Guid.NewGuid()).Build();
+            var repoColourCombination = new CarColourCombinationBuilder().WithId(Guid.NewGuid()).Build();
 
             _context = new ContextBuilder()
                 .WithLanguages(LANGUAGE1)
@@ -39,7 +39,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3ColourPublisher
             _s3Service = A.Fake<IService>();
 
             var serialiser = A.Fake<ISerialiser>();
-            A.CallTo(() => serialiser.Serialise(A<IList<ColourCombination>>._)).Returns(SERIALISEDDATA);
+            A.CallTo(() => serialiser.Serialise(A<IList<CarColourCombination>>._)).Returns(SERIALISEDDATA);
 
             var keymanager = A.Fake<IKeyManager>();
             A.CallTo(() => keymanager.GetCarColourCombinationsKey(publication.ID, carID))

@@ -8,6 +8,7 @@ using TME.CarConfigurator.Publisher.Exceptions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Colours;
+using TME.CarConfigurator.Repository.Objects.Core;
 using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
 using ExteriorColourInfo = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColourInfo;
 using ExteriorColourType = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColourType;
@@ -38,9 +39,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _labelMapper = labelMapper;
         }
 
-        public ColourCombination MapLinkedColourCombination(ModelGeneration modelGeneration, LinkedColourCombination carColourCombination, bool isPreview, string assetUrl)
+        public CarColourCombination MapLinkedColourCombination(ModelGeneration modelGeneration, LinkedColourCombination carColourCombination, bool isPreview, string assetUrl)
         {
-            return new ColourCombination
+            return new CarColourCombination
             {
                 ExteriorColour = MapLinkedExteriorColour(modelGeneration, carColourCombination.ExteriorColour, isPreview, assetUrl),
                 ID = carColourCombination.ID,
@@ -50,10 +51,15 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
         }
 
-        private ExteriorColour MapLinkedExteriorColour(ModelGeneration modelGeneration, LinkedExteriorColour exteriorColour, bool isPreview, string assetUrl)
+        private CarExteriorColour MapLinkedExteriorColour(ModelGeneration modelGeneration, LinkedExteriorColour exteriorColour, bool isPreview, string assetUrl)
         {
-            return new ExteriorColour
+            return new CarExteriorColour
             {
+                Price = new Price
+                {
+                    ExcludingVat = exteriorColour.Price,
+                    IncludingVat = exteriorColour.VatPrice
+                },
                 Description = exteriorColour.Translation.Description,
                 FootNote = exteriorColour.Translation.FootNote,
                 ID = exteriorColour.ID,
@@ -183,10 +189,15 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return _baseMapper.MapTranslateableDefaultsWithSort(mappedUpholstery, modelGenerationUpholstery);
         }
 
-        private Upholstery MapLinkedUpholstery(LinkedUpholstery upholstery)
+        private CarUpholstery MapLinkedUpholstery(LinkedUpholstery upholstery)
         {
-            return new Upholstery
+            return new CarUpholstery
             {
+                Price = new Price
+                { 
+                    ExcludingVat = upholstery.Price, 
+                    IncludingVat = upholstery.VatPrice
+                },
                 Description = upholstery.Translation.Description,
                 FootNote = upholstery.Translation.FootNote,
                 ID = upholstery.ID,

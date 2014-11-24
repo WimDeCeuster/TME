@@ -1,4 +1,5 @@
 ﻿using System;
+using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Factories;
@@ -10,12 +11,12 @@ namespace TME.CarConfigurator.Colours
     {
         private readonly Guid _carID;
 
-        public CarExteriorColour(Guid carID, Repository.Objects.Colours.ExteriorColour repositoryColour, Publication publication, Context context, IAssetFactory assetFactory) 
+        public CarExteriorColour(Guid carID, Repository.Objects.Colours.CarExteriorColour repositoryColour, Publication publication, Context context, IAssetFactory assetFactory) 
             : base(repositoryColour, publication, context, assetFactory)
         {
             _carID = carID;
         }
 
-        public IPrice Price { get; private set; }
+        public IPrice Price { get { return new Price(((Repository.Objects.Colours.CarExteriorColour) RepositoryObject).Price); } }
     }
 }

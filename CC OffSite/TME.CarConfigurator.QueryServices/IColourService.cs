@@ -8,6 +8,6 @@ namespace TME.CarConfigurator.QueryServices
     public interface IColourService
     {
         IEnumerable<ColourCombination> GetColourCombinations(Guid publicationId, Guid publicationTimeFrameId, Context context);
-        IEnumerable<ColourCombination> GetCarColourCombinations(Guid publicationID, Context context, Guid carID);
+        IEnumerable<CarColourCombination> GetCarColourCombinations(Guid publicationID, Context context, Guid carID);
     }
 }

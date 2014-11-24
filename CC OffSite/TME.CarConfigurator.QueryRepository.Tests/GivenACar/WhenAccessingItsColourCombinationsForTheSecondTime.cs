@@ -18,14 +18,14 @@ namespace TME.CarConfigurator.Query.Tests.GivenACar
     public class WhenAccessingItsColourCombinationsForTheSecondTime : TestBase
     {
         private ICar _car;
-        private ColourCombination _repoColourCombination;
+        private CarColourCombination _repoColourCombination;
         private IReadOnlyList<ICarColourCombination> _secondColourCombinations;
         private IReadOnlyList<ICarColourCombination> _firstColourCombinations;
         private IColourService _colourService;
 
         protected override void Arrange()
         {
-            _repoColourCombination = new ColourCombinationBuilder()
+            _repoColourCombination = new CarColourCombinationBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
 

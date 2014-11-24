@@ -9,6 +9,6 @@ namespace TME.CarConfigurator.CommandServices
     public interface IColourService
     {
         Task PutTimeFrameGenerationColourCombinations(String brand, String country, Guid publicationID, Guid timeFrameID, IEnumerable<ColourCombination> colourCombinations);
-        Task PutCarColourCombinations(String brand, String country, Guid publicationID, Guid carID, IList<ColourCombination> carColourCombinations);
+        Task PutCarColourCombinations(String brand, String country, Guid publicationID, Guid carID, IList<CarColourCombination> carColourCombinations);
     }
 }

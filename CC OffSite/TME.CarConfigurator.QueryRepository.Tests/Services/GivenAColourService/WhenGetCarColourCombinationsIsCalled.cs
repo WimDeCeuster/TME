@@ -18,8 +18,8 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAColourService
     {
         private Context _context;
         private IColourService _colourService;
-        private IEnumerable<ColourCombination> _expectedColours;
-        private IEnumerable<ColourCombination> _actualColours;
+        private IEnumerable<CarColourCombination> _expectedColours;
+        private IEnumerable<CarColourCombination> _actualColours;
 
         protected override void Arrange()
         {
@@ -28,10 +28,10 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAColourService
             const string s3Key = "fake s3 key";
             const string serializedObject = "this object is serialized";
 
-            _expectedColours = new List<ColourCombination>
+            _expectedColours = new List<CarColourCombination>
             {
-                new ColourCombinationBuilder().Build(),
-                new ColourCombinationBuilder().Build(),
+                new CarColourCombinationBuilder().Build(),
+                new CarColourCombinationBuilder().Build(),
             };
 
             var serialiser = A.Fake<ISerialiser>();
@@ -40,7 +40,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAColourService
 
             A.CallTo(() => keyManager.GetCarColourCombinationsKey(A<Guid>._, A<Guid>._)).Returns(s3Key);
             A.CallTo(() => service.GetObject(_context.Brand, _context.Country, s3Key)).Returns(serializedObject);
-            A.CallTo(() => serialiser.Deserialise<IEnumerable<ColourCombination>>(serializedObject)).Returns(_expectedColours);
+            A.CallTo(() => serialiser.Deserialise<IEnumerable<CarColourCombination>>(serializedObject)).Returns(_expectedColours);
 
             var serviceFacade = new S3ServiceFacade()
                 .WithService(service)

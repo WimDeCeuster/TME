@@ -10,9 +10,7 @@ namespace TME.CarConfigurator.Interfaces.Colours
         IColourTransformation Transformation { get; }
         IExteriorColourType Type { get; }
 
-// ReSharper disable ReturnTypeCanBeEnumerable.Global
         IReadOnlyList<IVisibleInModeAndView> VisibleIn { get; }
         IReadOnlyList<IAsset> Assets { get; }
-// ReSharper restore ReturnTypeCanBeEnumerable.Global
     }
 }

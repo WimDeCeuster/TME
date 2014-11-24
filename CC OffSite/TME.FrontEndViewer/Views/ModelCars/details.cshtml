@@ -1,5 +1,4 @@
-﻿@using TME.FrontEndViewer.Models
-@model IEnumerable<TME.CarConfigurator.Interfaces.ICar>
+﻿@model IEnumerable<TME.CarConfigurator.Interfaces.ICar>
 
 @foreach (var model in Model)
 {
@@ -112,7 +111,6 @@
 
             <p class="property" data-id="actionlinks">
                 @Html.ActionLink("Parts", "Index", "ModelCarParts", new { modelID = ViewBag.ModelID, carID = model.ID }, new { }) | 
-                @Html.ActionLink("Parts", "Index", "ModelColourCombinations", new { modelID = ViewBag.ModelID, carID = model.ID }, new { }) | 
                 @Html.ActionLink("Equipment", "Index", "ModelCarEquipment", new { modelID = ViewBag.ModelID, carID = model.ID }, new { }) | 
                 @Html.ActionLink("Packs", "Index", "ModelCarPacks", new { modelID = ViewBag.ModelID, carID = model.ID }, new { }) |
                 @Html.ActionLink("Colour Combinations", "Index", "ModelCarColourCombinations", new { modelID = ViewBag.ModelID, carID = model.ID }, new { }) |
