@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FakeItEasy;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Repository.Objects.Assets;
-using TME.CarConfigurator.S3.CommandServices;
 using TME.CarConfigurator.S3.Publisher;
-using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit.Extensions;
@@ -18,9 +15,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
     public class WhenPublishing3DCarItemAssets
     {
         [Theory,
-   InlineData("ext", "day"),
-   InlineData("int", "night")]
-
+            InlineData("ext", "day"),
+            InlineData("int", "night")]
         public async Task ItShouldGroupTheAssetsCorrectly(string view, string mode)
         {
             // arrange
@@ -45,15 +41,10 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
             const string language = "NL";
 
             var context = new ContextBuilder()
-                .WithLanguages(language)
+                .WithLanguages(language) 
                 .WithPublication(language, new PublicationBuilder().Build())
-                .AddCarEquipmentAsset(language, carId, objectId, asset1)
-                .AddCarPartAsset(language, carId, objectId, asset3)
-                .AddCarEquipmentAsset(language, carId, objectId, incorrectAsset)
-                .AddCarPartAsset(language, carId, objectId, incorrectAsset)
-                .AddCarEquipmentAsset(language, carId, objectId, defaultAsset)
-                .AddCarEquipmentAsset(language, carId, objectId, asset2)
-                .AddCarPartAsset(language, carId, objectId, asset4)
+                .AddCarEquipmentAssets(language, carId, objectId, new[] { asset1, asset2, incorrectAsset, defaultAsset })
+                .AddCarPartAssets(language, carId, objectId, new[] { asset3, asset4, incorrectAsset })
                 .Build();
 
             // act

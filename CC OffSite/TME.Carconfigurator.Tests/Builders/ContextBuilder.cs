@@ -7,6 +7,7 @@ using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
+using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Packs;
 using TME.CarConfigurator.Repository.Objects.TechnicalSpecifications;
@@ -193,6 +194,44 @@ namespace TME.Carconfigurator.Tests.Builders
         {
             _context.ContextData[language].SpecificationCategories = specificationCategories.ToList();
 
+            return this;
+        }
+
+        public ContextBuilder AddCarColourCombination(String language, Guid carID, params ColourCombination[] colourCombinations)
+        {
+            var data = _context.ContextData[language];
+            var carColourCombinations = data.CarColourCombinations;
+
+            if (!carColourCombinations.ContainsKey(carID))
+                carColourCombinations.Add(carID, new List<ColourCombination>());
+
+            foreach (var colourCombination in colourCombinations)
+                carColourCombinations[carID].Add(colourCombination);
+
+            return this;
+        }
+
+        public ContextBuilder AddCarEquipmentAssets(string language, Guid carId, Guid objectId, params Asset[] assets)
+        {
+            var data = _context.ContextData[language];
+            var carEquipmentAssets = data.CarEquipmentAssets;
+
+            if (!carEquipmentAssets.ContainsKey(carId))
+                carEquipmentAssets.Add(carId,new Dictionary<Guid, IList<Asset>>());
+
+            carEquipmentAssets[carId].Add(objectId,new List<Asset>(assets));
+            return this;
+        }
+
+        public ContextBuilder AddCarPartAssets(string language, Guid carId, Guid objectId, params Asset[] assets)
+        {
+            var data = _context.ContextData[language];
+            var carPartAssets = data.CarPartAssets;
+
+            if (!carPartAssets.ContainsKey(carId))
+                carPartAssets.Add(carId,new Dictionary<Guid, IList<Asset>>());
+
+            carPartAssets[carId].Add(objectId,new List<Asset>(assets));
             return this;
         }
 

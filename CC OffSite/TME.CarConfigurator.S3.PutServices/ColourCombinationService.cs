@@ -37,5 +37,17 @@ namespace TME.CarConfigurator.S3.CommandServices
 
             await _s3Service.PutObjectAsync(brand, country, path, value);
         }
+
+        public async Task PutCarColourCombinations(string brand, string country, Guid publicationID, Guid carID, IList<ColourCombination> carColourCombinations)
+        {
+            if (brand == null) throw new ArgumentNullException("brand");
+            if (country == null) throw new ArgumentNullException("country");
+            if (carColourCombinations == null) throw new ArgumentNullException("carColourCombinations");
+
+            var path = _keymanager.GetCarColourCombinationsKey(publicationID, carID);
+            var value = _serialiser.Serialise(carColourCombinations);
+
+            await _s3Service.PutObjectAsync(brand, country, path, value);
+        }
     }
 }

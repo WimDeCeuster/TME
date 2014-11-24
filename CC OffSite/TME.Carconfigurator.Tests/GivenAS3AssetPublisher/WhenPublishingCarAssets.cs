@@ -17,7 +17,6 @@ namespace TME.Carconfigurator.Tests.GivenAS3AssetPublisher
         [Theory,
             InlineData("ext", "day"),
             InlineData("int", "night")]
-
         public async Task ItShouldGroupTheAssetsCorrectly(string view, string mode)
         {
             // arrange
