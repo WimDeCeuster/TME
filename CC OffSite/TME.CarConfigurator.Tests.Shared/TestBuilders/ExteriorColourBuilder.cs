@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Colours;
 
@@ -36,7 +33,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             if (_colour.VisibleIn == null)
                 _colour.VisibleIn = new List<VisibleInModeAndView>();
 
-            _colour.VisibleIn.Add(new VisibleInModeAndView { Mode = mode, View = view });
+            _colour.VisibleIn.Add(new VisibleInModeAndView { Mode = mode, View = view, CanHaveAssets = true });
 
             return this;
         }
@@ -44,6 +41,6 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         public ExteriorColour Build()
         {
             return _colour;
-        }
+        } 
     }
 }

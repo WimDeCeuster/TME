@@ -60,6 +60,11 @@ namespace TME.CarConfigurator.Packs
 
         public IReadOnlyList<IUpholsteryInfo> AvailableForUpholsteries { get { return _availableForUpholsteries = _availableForUpholsteries ?? RepositoryObject.AvailableForUpholsteries.Select(info => new UpholsteryInfo(info)).ToList(); } }
 
+        public IReadOnlyList<IAccentColourCombination> AccentColourCombinations
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public ICarPackEquipment Equipment { get { return _equipment = _equipment ?? _equipmentFactory.GetCarPackEquipment(RepositoryObject.Equipment, _publication, _context, _carId); } }
     }
 }

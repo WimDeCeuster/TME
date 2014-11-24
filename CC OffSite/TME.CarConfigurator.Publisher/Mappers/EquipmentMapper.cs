@@ -7,6 +7,7 @@ using TME.CarConfigurator.Publisher.Exceptions;
 using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Core;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Interfaces;
@@ -15,13 +16,11 @@ using CarAccessory = TME.CarConfigurator.Repository.Objects.Equipment.CarAccesso
 using CarEquipmentItem = TME.CarConfigurator.Repository.Objects.Equipment.CarEquipmentItem;
 using CarOption = TME.CarConfigurator.Repository.Objects.Equipment.CarOption;
 using EquipmentItem = TME.CarConfigurator.Administration.EquipmentItem;
-using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
 using CarPackAccessory = TME.CarConfigurator.Repository.Objects.Packs.CarPackAccessory;
 using CarPackOption = TME.CarConfigurator.Repository.Objects.Packs.CarPackOption;
 using CarPackExteriorColourType = TME.CarConfigurator.Repository.Objects.Packs.CarPackExteriorColourType;
 using CarPackUpholsteryType = TME.CarConfigurator.Repository.Objects.Packs.CarPackUpholsteryType;
 using TME.CarConfigurator.Repository.Objects.Packs;
-using TME.CarConfigurator.Repository.Objects.Colours;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
@@ -57,7 +56,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             var generationAccessory = generationGradeAccessory.Grade.Generation.Equipment[generationGradeAccessory.ID];
 
-            return MapGradeEquipmentItem(mappedGradeEquipmentItem, generationGradeAccessory, generationAccessory, crossModelAccessory, categories, cars, isPreview, exteriorColourTypes, assetUrl);
+            return MapGradeEquipmentItem(mappedGradeEquipmentItem, generationGradeAccessory, generationAccessory, crossModelAccessory, categories, cars, isPreview, assetUrl);
         }
 
         public GradeOption MapGradeOption(ModelGenerationGradeOption generationGradeOption, Administration.Option crossModelOption, EquipmentCategories categories, IReadOnlyList<Car> cars, bool isPreview, ExteriorColourTypes exteriorColourTypes, String assetUrl)
@@ -73,10 +72,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 ParentOptionShortID = generationOption.HasParentOption ? generationGradeOption.ParentOption.ShortID.Value : 0
             };
             
-            return MapGradeEquipmentItem(mappedEquipmentItem, generationGradeOption, generationOption, crossModelOption, categories, cars, isPreview, exteriorColourTypes, assetUrl);
+            return MapGradeEquipmentItem(mappedEquipmentItem, generationGradeOption, generationOption, crossModelOption, categories, cars, isPreview, assetUrl);
         }
 
-        public CarOption MapCarOption(Administration.CarOption carOption, Administration.Option crossModelOption, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, String assetUrl)
+        public CarOption MapCarOption(Administration.CarOption carOption, Administration.Option crossModelOption, EquipmentCategories categories, bool isPreview, String assetUrl)
         {
             if (carOption.HasParentOption && !carOption.ParentOption.ShortID.HasValue)
                 throw new CorruptDataException(String.Format("Please supply a ShortID for grade generationCarOption {0}", carOption.ParentOption.ID));
@@ -97,10 +96,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 AvailableForUpholsteries = carOption.UpholsteryApplicabilities.Where(item => !item.Cleared).Select(_colourMapper.MapUpholsteryApplicability).ToList()
             };
 
-            return MapCarEquipmentItem(mappedOption, carOption, generationOption, crossModelOption, categories, isPreview, exteriorColourTypes, assetUrl, true);
+            return MapCarEquipmentItem(mappedOption, carOption, generationOption, crossModelOption, categories, isPreview, assetUrl, true);
         }
 
-        public CarAccessory MapCarAccessory(Administration.CarAccessory carAccessory, Administration.Accessory crossModelAccessory, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, String assetUrl)
+        public CarAccessory MapCarAccessory(Administration.CarAccessory carAccessory, Administration.Accessory crossModelAccessory, EquipmentCategories categories, bool isPreview, String assetUrl)
         {
             var generationAccessory = carAccessory.Car.Generation.Equipment[carAccessory.ID];
             
@@ -141,10 +140,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 AvailableForUpholsteries = upholsteries.Where(upholstery => crossModelAccessory.InteriorColourApplicabilities.Any(item => upholstery.InteriorColour.ID == item.ID)).Select(upholstery => _colourMapper.MapUpholsteryInfo(upholstery.GetInfo())).ToList()
             };
 
-            return MapCarEquipmentItem(mappedAccessory, carAccessory, generationAccessory, crossModelAccessory, categories, isPreview, exteriorColourTypes, assetUrl, true);
+            return MapCarEquipmentItem(mappedAccessory, carAccessory, generationAccessory, crossModelAccessory, categories, isPreview, assetUrl, true);
         }
 
-        public CarPackAccessory MapCarPackAccessory(Administration.CarPackAccessory accessory, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, string assetUrl)
+        public CarPackAccessory MapCarPackAccessory(Administration.CarPackAccessory accessory, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, string assetUrl)
         {
             var crossModelAccessory = groups.FindAccessory(accessory.ID);
             var colourCombinations = accessory.Pack.Car.ColourCombinations;
@@ -158,10 +157,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 AvailableForUpholsteries = upholsteries.Where(upholstery => crossModelAccessory.InteriorColourApplicabilities.Any(item => upholstery.InteriorColour.ID == item.ID)).Select(upholstery => _colourMapper.MapUpholsteryInfo(upholstery.GetInfo())).ToList()
             };
 
-            return MapCarPackEquipmentItem(mappedAccessory, accessory, groups, categories, isPreview, cars, exteriorColourTypes, assetUrl, true);
+            return MapCarPackEquipmentItem(mappedAccessory, accessory, groups, categories, isPreview, assetUrl, true);
         }
 
-        public CarPackOption MapCarPackOption(Administration.CarPackOption option, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, string assetUrl)
+        public CarPackOption MapCarPackOption(Administration.CarPackOption option, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, string assetUrl)
         {
             var generationOption = (ModelGenerationOption)option.Pack.Car.Generation.Equipment[option.ID];
             var carOption = (Administration.CarOption)option.Pack.Car.Equipment[option.ID];
@@ -176,7 +175,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 AvailableForUpholsteries = carOption.UpholsteryApplicabilities.Where(item => !item.Cleared).Select(_colourMapper.MapUpholsteryApplicability).ToList()
             };
 
-            return MapCarPackEquipmentItem(mappedOption, option, groups, categories, isPreview, cars, exteriorColourTypes, assetUrl, true);
+            return MapCarPackEquipmentItem(mappedOption, option, groups, categories, isPreview, assetUrl, true);
         }
 
         private Repository.Objects.Equipment.OptionInfo GetParentOptionInfo(Administration.CarPackOption carPackOption)
@@ -194,7 +193,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
         }
 
-        public CarPackExteriorColourType MapCarPackExteriorColourType(Administration.CarPackExteriorColourType type, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, string assetUrl)
+        public CarPackExteriorColourType MapCarPackExteriorColourType(Administration.CarPackExteriorColourType type, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, string assetUrl)
         {
             var upholsteries = type.Pack.Car.ColourCombinations.Where(cc => cc.Approved).Select(cc => cc.Upholstery).Distinct().ToList();
             
@@ -206,10 +205,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 })).ToList()
             };
 
-            return MapCarPackEquipmentItem(mappedType, type, groups, categories, isPreview, cars, exteriorColourTypes, assetUrl, true);
+            return MapCarPackEquipmentItem(mappedType, type, groups, categories, isPreview, assetUrl, true);
         }
 
-        public CarPackUpholsteryType MapCarPackUpholsteryType(Administration.CarPackUpholsteryType type, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, string assetUrl)
+        public CarPackUpholsteryType MapCarPackUpholsteryType(Administration.CarPackUpholsteryType type, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, string assetUrl)
         {
             var exteriorColours = type.Pack.Car.ColourCombinations.Where(cc => cc.Approved).Select(cc => cc.ExteriorColour).Distinct();
 
@@ -222,10 +221,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 })).ToList()
             };
 
-            return MapCarPackEquipmentItem(mappedType, type, groups, categories, isPreview, cars, exteriorColourTypes, assetUrl, true);
+            return MapCarPackEquipmentItem(mappedType, type, groups, categories, isPreview, assetUrl, true);
         }
 
-        private T MapCarPackEquipmentItem<T>(T mappedCarPackEquipmentItem, CarPackItem carPackItem, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, string assetUrl,bool canHaveAssets)
+        private T MapCarPackEquipmentItem<T>(T mappedCarPackEquipmentItem, CarPackItem carPackItem, EquipmentGroups groups, EquipmentCategories categories, bool isPreview, string assetUrl, bool canHaveAssets)
             where T : CarPackEquipmentItem
         {
             var carEquipmentItem = carPackItem.Pack.Car.Equipment[carPackItem.ID];
@@ -243,23 +242,22 @@ namespace TME.CarConfigurator.Publisher.Mappers
             
             mappedCarPackEquipmentItem.ColouringModes = carPackItem.ColouringModes.Convert();
 
-            MapCarEquipmentItem(mappedCarPackEquipmentItem, carEquipmentItem, generationEquipmentItem, crossModelEquipmentItem, categories, isPreview, exteriorColourTypes, assetUrl, canHaveAssets);
+            MapCarEquipmentItem(mappedCarPackEquipmentItem, carEquipmentItem, generationEquipmentItem, crossModelEquipmentItem, categories, isPreview, assetUrl, canHaveAssets);
 
             mappedCarPackEquipmentItem.Optional = carPackItem.Availability == Availability.Optional;
             mappedCarPackEquipmentItem.Standard = carPackItem.Availability == Availability.Standard;
-            //mappedCarPackEquipmentItem.SortIndex = carPackItem.Index;
-
+            
             return mappedCarPackEquipmentItem;
         }
 
-        T MapCarEquipmentItem<T>(T mappedEquipmentItem, Administration.CarEquipmentItem carEquipmentItem, ModelGenerationEquipmentItem generationEquipmentItem, EquipmentItem crossModelEquipmentItem, EquipmentCategories categories, bool isPreview, ExteriorColourTypes exteriorColourTypes, String assetUrl, bool canHaveAssets)
+        T MapCarEquipmentItem<T>(T mappedEquipmentItem, Administration.CarEquipmentItem carEquipmentItem, ModelGenerationEquipmentItem generationEquipmentItem, EquipmentItem crossModelEquipmentItem, EquipmentCategories categories, bool isPreview, String assetUrl, bool canHaveAssets)
             where T : CarEquipmentItem
         {
             if (!carEquipmentItem.ShortID.HasValue)
                 throw new CorruptDataException(String.Format("Please supply a ShortID for grade equipment item {0}", carEquipmentItem.ID));
 
 
-            mappedEquipmentItem = MapFromGenerationEquipmentItem(mappedEquipmentItem, generationEquipmentItem, crossModelEquipmentItem, isPreview, categories, exteriorColourTypes, assetUrl);
+            mappedEquipmentItem = MapFromGenerationEquipmentItem(mappedEquipmentItem, generationEquipmentItem, crossModelEquipmentItem, isPreview, categories, assetUrl);
             
             mappedEquipmentItem.GradeFeature = carEquipmentItem.GradeFeature;
             mappedEquipmentItem.OptionalGradeFeature = carEquipmentItem.OptionalGradeFeature;
@@ -275,13 +273,13 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return mappedEquipmentItem;
         }
 
-        T MapGradeEquipmentItem<T>(T mappedEquipmentItem, ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, ModelGenerationEquipmentItem generationEquipmentItem, EquipmentItem crossModelEquipmentItem, EquipmentCategories categories, IReadOnlyList<Car> cars, Boolean isPreview, ExteriorColourTypes exteriorColourTypes, String assetUrl)
+        T MapGradeEquipmentItem<T>(T mappedEquipmentItem, ModelGenerationGradeEquipmentItem generationGradeEquipmentItem, ModelGenerationEquipmentItem generationEquipmentItem, EquipmentItem crossModelEquipmentItem, EquipmentCategories categories, IReadOnlyList<Car> cars, Boolean isPreview, String assetUrl)
             where T : GradeEquipmentItem, IAvailabilityProperties
         {
             if (!generationGradeEquipmentItem.ShortID.HasValue)
                 throw new CorruptDataException(String.Format("Please supply a ShortID for grade equipment item {0}", generationGradeEquipmentItem.Name));
 
-            mappedEquipmentItem = MapFromGenerationEquipmentItem(mappedEquipmentItem, generationEquipmentItem, crossModelEquipmentItem, isPreview, categories, exteriorColourTypes, assetUrl);
+            mappedEquipmentItem = MapFromGenerationEquipmentItem(mappedEquipmentItem, generationEquipmentItem, crossModelEquipmentItem, isPreview, categories, assetUrl);
             
             mappedEquipmentItem.GradeFeature = generationGradeEquipmentItem.GradeFeature;
             
@@ -297,14 +295,14 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return mappedEquipmentItem;
         }
 
-        private T MapFromGenerationEquipmentItem<T>(T mappedEquipmentItem, ModelGenerationEquipmentItem generationEquipmentItem, EquipmentItem crossModelEquipmentItem, Boolean isPreview, EquipmentCategories categories, ExteriorColourTypes exteriorColourTypes, String assetUrl)
+        private T MapFromGenerationEquipmentItem<T>(T mappedEquipmentItem, ModelGenerationEquipmentItem generationEquipmentItem, EquipmentItem crossModelEquipmentItem, Boolean isPreview, EquipmentCategories categories, String assetUrl)
             where T : Repository.Objects.Equipment.EquipmentItem
         {
             _baseMapper.MapDefaults(mappedEquipmentItem, generationEquipmentItem);
             var isOwner = generationEquipmentItem.Owner == MyContext.GetContext().CountryCode;
             var hasColour = generationEquipmentItem.Colour.ID != Guid.Empty;
             mappedEquipmentItem.BestVisibleIn = new BestVisibleIn { Angle = generationEquipmentItem.BestVisibleInAngle, Mode = generationEquipmentItem.BestVisibleInMode, View = generationEquipmentItem.BestVisibleInView };
-            mappedEquipmentItem.ExteriorColour = hasColour ? GetColour(generationEquipmentItem, isPreview, exteriorColourTypes, assetUrl) : null;
+            mappedEquipmentItem.ExteriorColour = hasColour ? GetColour(generationEquipmentItem, isPreview, assetUrl) : null;
             mappedEquipmentItem.InternalName = generationEquipmentItem.BaseName;
             mappedEquipmentItem.KeyFeature = generationEquipmentItem.KeyFeature;
             mappedEquipmentItem.Visibility = generationEquipmentItem.Visibility.Convert();
@@ -321,25 +319,15 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return mappedEquipmentItem;
         }
 
-        ExteriorColour GetColour(ModelGenerationEquipmentItem generationEquipmentItem, bool isPreview, ExteriorColourTypes exteriorColourTypes, String assetUrl)
+        Repository.Objects.Equipment.ExteriorColour GetColour(ModelGenerationEquipmentItem generationEquipmentItem, bool isPreview, String assetUrl)
         {
-            return GetMappedExteriorColour(generationEquipmentItem, isPreview, exteriorColourTypes, assetUrl);
-        }
-
-        private ExteriorColour GetMappedExteriorColour(ModelGenerationEquipmentItem generationEquipmentItem, bool isPreview, ExteriorColourTypes exteriorColourTypes, String assetUrl)
-        {
-            Administration.ExteriorColourType exteriorColourType;
             var generationExteriorColour = generationEquipmentItem.Generation.ColourCombinations.ExteriorColours().FirstOrDefault(clr => clr.ID == generationEquipmentItem.Colour.ID);
 
             if (generationExteriorColour != null)
-            {
-                exteriorColourType = exteriorColourTypes[generationExteriorColour.Type.ID];
-                return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, generationExteriorColour, isPreview, exteriorColourType, assetUrl);
-            }
-
+                 return _colourMapper.MapEquipmentExteriorColour(generationEquipmentItem.Generation, generationExteriorColour, isPreview, assetUrl);
+           
             var crossModelColour = ExteriorColours.GetExteriorColours()[generationEquipmentItem.Colour.ID];
-            exteriorColourType = exteriorColourTypes[crossModelColour.Type.ID];
-            return _colourMapper.MapExteriorColour(generationEquipmentItem.Generation, crossModelColour, isPreview, exteriorColourType, assetUrl);
+            return _colourMapper.MapEquipmentExteriorColour(generationEquipmentItem.Generation, crossModelColour, isPreview, assetUrl);
         }
 
         private void AddComponentAssetsToVisibleIn<T>(T mappedEquipmentItem, Administration.CarEquipmentItem generationCarEquipmentItem,

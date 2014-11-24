@@ -6,11 +6,11 @@ using IExteriorColour = TME.CarConfigurator.Interfaces.Equipment.IExteriorColour
 
 namespace TME.CarConfigurator.Equipment
 {
-    public class ExteriorColour : BaseObject<Repository.Objects.Colours.ExteriorColour>, IExteriorColour
+    public class ExteriorColour : BaseObject<Repository.Objects.Equipment.ExteriorColour>, IExteriorColour
     {
         private IColourTransformation _transformation;
 
-        public ExteriorColour(Repository.Objects.Colours.ExteriorColour exteriorColour)
+        public ExteriorColour(Repository.Objects.Equipment.ExteriorColour exteriorColour)
             : base(exteriorColour)
         {
         }

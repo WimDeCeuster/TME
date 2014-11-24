@@ -34,7 +34,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAnExteriorColour
                 .WithId(Guid.NewGuid())
                 .Build();
 
-            var repoExteriorColour = new ExteriorColourBuilder()
+            var repoExteriorColour = new CarExteriorColourBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
 

@@ -9,45 +9,48 @@ namespace TME.CarConfigurator.Colours
 {
     public class ColourCombination : IColourCombination
     {
-        readonly Repository.Objects.Colours.ColourCombination _repositoryColourCombination;
-        readonly IColourFactory _colourFactory;
-        readonly Context _context;
-        readonly Publication _publication;
+        protected readonly Repository.Objects.Colours.ColourCombination RepositoryColourCombination;
+        protected readonly IColourFactory ColourFactory;
+        protected readonly IAssetFactory AssetFactory;
+        protected readonly Context RepositoryContext;
+        protected readonly Publication RepositoryPublication;
         
         private IExteriorColour _exteriorColour;
         private IUpholstery _upholstery;
 
-        public ColourCombination(Repository.Objects.Colours.ColourCombination repositoryColourCombination, Publication publication, Context context, IColourFactory colourFactory)
+        public ColourCombination(Repository.Objects.Colours.ColourCombination repositoryColourCombination, Publication repositoryPublication, Context repositoryContext, IColourFactory colourFactory, IAssetFactory assetFactory)
         {
             if (repositoryColourCombination == null) throw new ArgumentNullException("repositoryColourCombination");
-            if (publication == null) throw new ArgumentNullException("publication");
-            if (context == null) throw new ArgumentNullException("context");
+            if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
+            if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
             if (colourFactory == null) throw new ArgumentNullException("colourFactory");
+            if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
-            _repositoryColourCombination = repositoryColourCombination;
-            _publication = publication;
-            _context = context;
-            _colourFactory = colourFactory;
+            RepositoryColourCombination = repositoryColourCombination;
+            RepositoryPublication = repositoryPublication;
+            RepositoryContext = repositoryContext;
+            ColourFactory = colourFactory;
+            AssetFactory = assetFactory;
         }
     
         public Guid ID
         {
-	        get { return _repositoryColourCombination.ID; }
+	        get { return RepositoryColourCombination.ID; }
         }
 
         public IExteriorColour ExteriorColour
         {
-            get { return _exteriorColour = _exteriorColour ?? _colourFactory.GetExteriorColour(_repositoryColourCombination.ExteriorColour, _publication, _context); }
+            get { return _exteriorColour = _exteriorColour ?? ColourFactory.GetExteriorColour(RepositoryColourCombination.ExteriorColour, RepositoryPublication, RepositoryContext); }
         }
 
         public IUpholstery Upholstery
         {
-            get { return _upholstery = _upholstery ?? _colourFactory.GetUpholstery(_repositoryColourCombination.Upholstery, _publication, _context); }
+            get { return _upholstery = _upholstery ?? ColourFactory.GetUpholstery(RepositoryColourCombination.Upholstery, RepositoryPublication, RepositoryContext); }
         }
 
         public int SortIndex
         {
-            get { return _repositoryColourCombination.SortIndex; }
+            get { return RepositoryColourCombination.SortIndex; }
         }
 
         public IReadOnlyList<IVisibleInModeAndView> VisibleIn

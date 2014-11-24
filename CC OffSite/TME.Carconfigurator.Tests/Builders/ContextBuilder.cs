@@ -197,13 +197,13 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
-        public ContextBuilder AddCarColourCombination(String language, Guid carID, params ColourCombination[] colourCombinations)
+        public ContextBuilder AddCarColourCombination(String language, Guid carID, params CarColourCombination[] colourCombinations)
         {
             var data = _context.ContextData[language];
             var carColourCombinations = data.CarColourCombinations;
 
             if (!carColourCombinations.ContainsKey(carID))
-                carColourCombinations.Add(carID, new List<ColourCombination>());
+                carColourCombinations.Add(carID, new List<CarColourCombination>());
 
             foreach (var colourCombination in colourCombinations)
                 carColourCombinations[carID].Add(colourCombination);

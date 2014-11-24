@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Exceptions;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Colours;
+using TME.CarConfigurator.Repository.Objects.Core;
 using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
 using ExteriorColourInfo = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColourInfo;
 using ExteriorColourType = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColourType;
@@ -33,6 +36,39 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _assetFileService = assetFileService;
         }
 
+        public CarColourCombination MapLinkedColourCombination(ModelGeneration modelGeneration, LinkedColourCombination carColourCombination, Administration.ExteriorColourType exteriorColourType, Administration.UpholsteryType upholsteryType, bool isPreview, string assetUrl)
+        {
+            return new CarColourCombination
+            {
+                ExteriorColour = MapLinkedExteriorColour(modelGeneration, carColourCombination.ExteriorColour, exteriorColourType, isPreview, assetUrl),
+                ID = carColourCombination.ID,
+                SortIndex = 0,
+                Upholstery = MapLinkedUpholstery(carColourCombination.Upholstery, upholsteryType),
+                VisibleIn = new List<VisibleInModeAndView>()
+            };
+        }
+
+        private CarExteriorColour MapLinkedExteriorColour(ModelGeneration modelGeneration, LinkedExteriorColour exteriorColour, Administration.ExteriorColourType exteriorColourType, bool isPreview, string assetUrl)
+        {
+            var mappedExteriorColour = new CarExteriorColour
+            {
+                Price = new Price
+                {
+                    ExcludingVat = exteriorColour.Price,
+                    IncludingVat = exteriorColour.VatPrice
+                },
+                InternalCode = exteriorColour.Code,
+                LocalCode = String.Empty,
+                Promoted = exteriorColour.Promoted,
+                SortIndex = exteriorColour.Index,
+                VisibleIn = new List<VisibleInModeAndView>(),
+                Transformation = GetColourTransformation(modelGeneration, exteriorColour.Code, isPreview, assetUrl),
+                Type = MapExteriorColourType(exteriorColourType)
+            };
+
+            return _baseMapper.MapTranslateableDefaults(mappedExteriorColour, exteriorColour.GenerationExteriorColour);
+        }
+
         public ColourCombination MapColourCombination(ModelGeneration modelGeneration, ModelGenerationColourCombination colourCombination, Boolean isPreview, Administration.ExteriorColourType exteriorColourType, Administration.UpholsteryType upholsteryType, String assetUrl)
         {
             return new ColourCombination
@@ -44,7 +80,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
         }
 
-        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, ModelGenerationExteriorColour colour, Boolean isPreview, Administration.ExteriorColourType exteriorColourType, String assetUrl)
+        private ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, ModelGenerationExteriorColour colour, Boolean isPreview, Administration.ExteriorColourType exteriorColourType, String assetUrl)
         {
             var mappedColour = new ExteriorColour
             {
@@ -59,27 +95,32 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
         }
-        
-        public ExteriorColour MapExteriorColour(ModelGeneration modelGeneration, Administration.ExteriorColour colour, Boolean isPreview, Administration.ExteriorColourType exteriorColourType, String assetUrl)
+        public Repository.Objects.Equipment.ExteriorColour MapEquipmentExteriorColour(ModelGeneration modelGeneration, ModelGenerationExteriorColour colour, bool isPreview, String assetUrl)
         {
-            var mappedColour = new ExteriorColour
+            var mappedColour = new Repository.Objects.Equipment.ExteriorColour 
             {
                 InternalCode = colour.Code,
                 LocalCode = String.Empty,
-                Promoted = false,
-                SortIndex = 0,
-                Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview, assetUrl),
-                Type = MapExteriorColourType(exteriorColourType),
-                VisibleIn = _assetSetMapper.GetVisibility(colour.Assets, false).ToList()
+                SortIndex = colour.Index,
+                Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview, assetUrl)
             };
 
-            _baseMapper.MapTranslateableDefaults(mappedColour, colour);
+            return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
+        }
+        public Repository.Objects.Equipment.ExteriorColour MapEquipmentExteriorColour(ModelGeneration modelGeneration, Administration.ExteriorColour colour, bool isPreview, String assetUrl)
+        {
+            var mappedColour = new Repository.Objects.Equipment.ExteriorColour
+            {
+                InternalCode = colour.Code,
+                LocalCode = String.Empty,
+                SortIndex = 0,
+                Transformation = GetColourTransformation(modelGeneration, colour.Code, isPreview, assetUrl)
+            };
 
-            //mappedColour.Name = colour.Translation.Name; //String.Empty;
-
-            return mappedColour;
+            return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
         }
         
+
         public ExteriorColourInfo MapExteriorColourInfo(CarPackExteriorColour exteriorColour)
         {
             return new ExteriorColourInfo
@@ -97,7 +138,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 InternalCode = colour.Code
             };
         }
-        
+
         public ExteriorColourInfo MapExteriorColourApplicability(ExteriorColourApplicability applicability)
         {
             return new ExteriorColourInfo
@@ -133,6 +174,27 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             return _baseMapper.MapTranslateableDefaultsWithSort(mappedUpholstery, modelGenerationUpholstery);
         }
+
+        private CarUpholstery MapLinkedUpholstery(LinkedUpholstery upholstery, Administration.UpholsteryType upholsteryType)
+        {
+            var mappedUpholstery = new CarUpholstery
+            {
+                Price = new Price
+                { 
+                    ExcludingVat = upholstery.Price, 
+                    IncludingVat = upholstery.VatPrice
+                },
+                InteriorColourCode = upholstery.InteriorColour.Code,
+                InternalCode = upholstery.Code,
+                LocalCode = String.Empty,
+                TrimCode = upholstery.Trim.Code,
+                SortIndex = 0,
+                Type = MapUpholsteryType(upholsteryType),
+                VisibleIn = new List<VisibleInModeAndView>()
+            };
+            return _baseMapper.MapTranslateableDefaults(mappedUpholstery, upholstery.GenerationUpholstery);
+        }
+
         private UpholsteryType MapUpholsteryType(Administration.UpholsteryType type)
         {
             var mappedUpholsteryType = new UpholsteryType

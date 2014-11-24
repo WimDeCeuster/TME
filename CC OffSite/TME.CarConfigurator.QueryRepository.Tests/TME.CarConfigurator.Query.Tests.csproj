@@ -77,6 +77,10 @@
     <Compile Include="GivenABodyType\WhenAccessingIts3DAssetsASecondTime.cs" />
     <Compile Include="GivenABodyType\WhenAccessingItsAssetsASecondTime.cs" />
     <Compile Include="GivenABodyType\WhenAccessingIts3DAssets.cs" />
+    <Compile Include="GivenACarColourCombination\WhenAccessingItsExteriorColourForTheFirstTime.cs" />
+    <Compile Include="GivenACarColourCombination\WhenAccessingItsExteriorColourForTheSecondTime.cs" />
+    <Compile Include="GivenACarColourCombination\WhenAccessingItsUpholsteryForTheFirstTime.cs" />
+    <Compile Include="GivenACarColourCombination\WhenAccessingItsUpholsteryForTheSecondTime.cs" />
     <Compile Include="GivenACarEquipmentItem\WhenAccessing3DAssetsForAModeAndViewWhenTheWereAlreadyFetchedForAnotherModeAndView.cs" />
     <Compile Include="GivenACarEquipmentItem\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
     <Compile Include="GivenACarEquipmentItem\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
@@ -135,6 +139,8 @@
     <Compile Include="GivenACarWheelDrive\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACarWheelDrive\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenACarWheelDrive\WhenAccessingItsAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsColourCombinationsForTheFirstTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsColourCombinationsForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsEngineForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBodyTypeForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsEngineForTheSecondTime.cs" />
@@ -260,6 +266,14 @@
     <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />
+    <Compile Include="GivenAnExteriorColour\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenAnExteriorColour\WhenAccessingIts3DAssets.cs" />
+    <Compile Include="GivenAnExteriorColour\WhenAccessingIts3DAssetsASecondTime.cs" />
+    <Compile Include="GivenAnUpholstery\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
+    <Compile Include="GivenAnUpholstery\WhenAccessingIts3DAssets.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GivenAnUpholstery\WhenAccessingIts3DAssetsASecondTime.cs" />
     <Compile Include="GivenASpecificationCategory\WhenAccessingItsNonExistentParent.cs" />
     <Compile Include="GivenASpecificationCategory\WhenAccessingItsParentForTheFirstTime.cs" />
     <Compile Include="GivenASpecificationCategory\WhenAccessingItsParentForTheSecondTime.cs" />
@@ -322,6 +336,7 @@
     <Compile Include="Services\GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
     <Compile Include="Services\GivenACarPartService\WhenGetCarPartsIsCalled.cs" />
     <Compile Include="Services\GivenACarService\WhenGetCarsIsCalled.cs" />
+    <Compile Include="Services\GivenAColourService\WhenGetCarColourCombinationsIsCalled.cs" />
     <Compile Include="Services\GivenAColourService\WhenGetColourCombinationsIsCalled.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledFor2DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledFor3DAssets.cs" />

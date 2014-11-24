@@ -21,7 +21,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAColourCombination
 
         protected override void Arrange()
         {
-            _repoExteriorColour = new ExteriorColourBuilder()
+            _repoExteriorColour = new CarExteriorColourBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
 

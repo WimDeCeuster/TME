@@ -36,7 +36,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             if (_upholstery.VisibleIn == null)
                 _upholstery.VisibleIn = new List<VisibleInModeAndView>();
 
-            _upholstery.VisibleIn.Add(new VisibleInModeAndView { Mode = mode, View = view });
+            _upholstery.VisibleIn.Add(new VisibleInModeAndView { Mode = mode, View = view, CanHaveAssets = true});
 
             return this;
         }

@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestBuilders\CarAccessoryBuilder.cs" />
+    <Compile Include="TestBuilders\CarColourCombinationBuilder.cs" />
     <Compile Include="TestBuilders\CarEquipmentBuilder.cs" />
     <Compile Include="TestBuilders\CarOptionBuilder.cs" />
     <Compile Include="TestBuilders\CarPackEquipmentBuilder.cs" />
@@ -71,7 +72,9 @@
     <Compile Include="TestBuilders\CarPackExteriorColourTypeBuilder.cs" />
     <Compile Include="TestBuilders\CarPackOptionBuilder.cs" />
     <Compile Include="TestBuilders\CarSpecBuilder.cs" />
+    <Compile Include="TestBuilders\CarUpholsteryBuilder.cs" />
     <Compile Include="TestBuilders\ColourCombinationInfoBuilder.cs" />
+    <Compile Include="TestBuilders\ExteriorColourBuilder.cs" />
     <Compile Include="TestBuilders\OptionInfoBuilder.cs" />
     <Compile Include="TestBuilders\UpholsteryInfoBuilder.cs" />
     <Compile Include="TestBuilders\GradePackBuilder.cs" />
@@ -89,7 +92,7 @@
     <Compile Include="TestBuilders\ExteriorTypeColourBuilder.cs" />
     <Compile Include="TestBuilders\UpholsteryTypeBuilder.cs" />
     <Compile Include="TestBuilders\UpholsteryBuilder.cs" />
-    <Compile Include="TestBuilders\ExteriorColourBuilder.cs" />
+    <Compile Include="TestBuilders\CarExteriorColourBuilder.cs" />
     <Compile Include="TestBuilders\GradeAccessoryBuilder.cs" />
     <Compile Include="TestBuilders\GradeOptionBuilder.cs" />
     <Compile Include="TestBuilders\GradeEquipmentBuilder.cs" />
