@@ -114,7 +114,7 @@ namespace TME.CarConfigurator.S3.QueryServices
                 if (!String.Equals(ex.Path, key, StringComparison.InvariantCultureIgnoreCase))
                     throw;
 
-                return new Dictionary<Guid,List<Asset>> { };
+                return new Dictionary<Guid,List<Asset>>();
             }
         }
     }

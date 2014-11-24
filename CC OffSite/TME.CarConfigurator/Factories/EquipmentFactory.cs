@@ -54,8 +54,8 @@ namespace TME.CarConfigurator.Factories
         {
             var carEquipment = _equipmentService.GetCarEquipment(carID, publication.ID, context);
             return new CarEquipment(
-                carEquipment.Accessories.Select(accessory => GetCarAccessory(accessory, carID, publication, context)),
-                carEquipment.Options.Select(option => GetCarOption(carID, publication, context, option,carEquipment.Options)));
+                carEquipment.Accessories.Select(accessory => new Equipment.CarAccessory(accessory, carID, publication, context, _assetFactory)),
+                carEquipment.Options.Select(option => GetCarOption(carID, publication, context, option, carEquipment.Options)));
         }
 
         public IGradeEquipment GetGradeEquipment(Publication publication, Context context, Guid gradeId)
@@ -70,46 +70,21 @@ namespace TME.CarConfigurator.Factories
         public ICarPackEquipment GetCarPackEquipment(Repository.Objects.Packs.CarPackEquipment repoCarPackEquipment, Publication publication, Context context, Guid carId)
         {
             return new CarPackEquipment(
-                repoCarPackEquipment.Accessories.Select(accessory => GetCarPackAcccessory(accessory, publication, context, carId)),
-                repoCarPackEquipment.Options.Select(option => GetCarPackOption(option, publication, context, carId)),
-                repoCarPackEquipment.ExteriorColourTypes.Select(type => GetCarPackExteriorColourType(type, publication, context, carId)),
-                repoCarPackEquipment.UpholsteryTypes.Select(type => GetCarPackUpholsteryType(type, publication, context, carId)));
-        }
-
-        private ICarPackAccessory GetCarPackAcccessory(Repository.Objects.Packs.CarPackAccessory carPackAccessory, Publication publication, Context context, Guid carId)
-        {
-            return new CarPackAccessory(carPackAccessory, publication, carId, context, _assetFactory);
-        }
-
-        private ICarPackOption GetCarPackOption(Repository.Objects.Packs.CarPackOption carPackOption, Publication publication, Context context, Guid carId)
-        {
-            return new CarPackOption(carPackOption, publication, carId, context, _assetFactory);
-        }
-
-        private ICarPackExteriorColourType GetCarPackExteriorColourType(Repository.Objects.Packs.CarPackExteriorColourType carPackExteriorColourType, Publication publication, Context context, Guid carId)
-        {
-            return new CarPackExteriorColourType(carPackExteriorColourType, publication, carId, context, _assetFactory);
-        }
-
-        private ICarPackUpholsteryType GetCarPackUpholsteryType(Repository.Objects.Packs.CarPackUpholsteryType carPackUpholsteryType, Publication publication, Context context, Guid carId)
-        {
-            return new CarPackUpholsteryType(carPackUpholsteryType, publication, carId, context, _assetFactory);
+                repoCarPackEquipment.Accessories.Select(accessory => new CarPackAccessory(accessory, publication, carId, context, _assetFactory)),
+                repoCarPackEquipment.Options.Select(option => new CarPackOption(option, publication, carId, context, _assetFactory)),
+                repoCarPackEquipment.ExteriorColourTypes.Select(type => new CarPackExteriorColourType(type, publication, carId, context, _assetFactory)),
+                repoCarPackEquipment.UpholsteryTypes.Select(type => new CarPackUpholsteryType(type, publication, carId, context, _assetFactory)));
         }
 
         ICarOption GetCarOption(Guid carID, Publication publication, Context context, CarOption option, IEnumerable<CarOption> repoCarOptions)
         {
-           var parentCarOption = option.ParentOptionShortID == 0
-                ? null
-                : repoCarOptions.Single(grd => grd.ShortID == option.ParentOptionShortID);
+            var parentCarOption = option.ParentOptionShortID == 0
+                 ? null
+                 : repoCarOptions.Single(grd => grd.ShortID == option.ParentOptionShortID);
 
-           var parentOptionInfo = parentCarOption == null ? null : new OptionInfo(parentCarOption.ShortID, parentCarOption.Name);
+            var parentOptionInfo = parentCarOption == null ? null : new OptionInfo(parentCarOption.ShortID, parentCarOption.Name);
 
             return new Equipment.CarOption(option, parentOptionInfo, carID, publication, context, _assetFactory);
-        }
-
-        ICarAccessory GetCarAccessory(CarAccessory accessory, Guid carID, Publication publication, Context context)
-        {
-            return new Equipment.CarAccessory(accessory, carID, publication, context, _assetFactory);
         }
 
         IGradeAccessory GetGradeAccessory(RepoGradeAccessory accessory, Publication publication, Context context)
@@ -143,7 +118,7 @@ namespace TME.CarConfigurator.Factories
             LinkChildren(mappedCategories);
 
             var rootCategory = GetRootCategory();
-            var topLevelCategories = mappedCategories.Where(category => category.Parent == null).ToList(); 
+            var topLevelCategories = mappedCategories.Where(category => category.Parent == null).ToList();
             rootCategory.Categories = topLevelCategories;
             foreach (var category in topLevelCategories)
                 category.Parent = rootCategory;
