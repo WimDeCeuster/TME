@@ -142,12 +142,5 @@ namespace TME.CarConfigurator.Publisher.DI.S3
 
             return new CarPartService(service, _serialiser, _keyManager);
         }
-
-        public ICarEquipmentService GetCarEquipmentService(string environment, PublicationDataSubset dataSubset)
-        {
-            var service = GetService(environment, dataSubset);
-
-            return new CarEquipmentService(service,_serialiser,_keyManager);
-        }
     }
 }

@@ -63,7 +63,7 @@ namespace TME.CarConfigurator.Factories
 
         public IReadOnlyList<IAsset> GetCarEquipmentAssets(Publication publication, Guid carID, Guid objectID, Context context, string view, string mode)
         {
-            var key = string.Format("{0}{1}", view, mode);
+            var key = string.Format("{0}-{1}-{2}", view, mode, carID);
             if (!_carEquipmentAssets.ContainsKey(key))
                 _carEquipmentAssets.Add(key,_assetService.GetCarEquipmentAssets(publication.ID, carID, context,view, mode));
 
@@ -74,7 +74,7 @@ namespace TME.CarConfigurator.Factories
 
         public IReadOnlyList<IAsset> GetCarPartAssets(Publication publication, Guid carID, Guid objectID, Context context, string view, string mode)
         {
-            var key = string.Format("{0}{1}", view, mode);
+            var key = string.Format("{0}-{1}-{2}", view, mode, carID);
             if (!_carPartAssets.ContainsKey(key))
                 _carPartAssets.Add(key, _assetService.GetCarPartsAssets(publication.ID, carID, context, view, mode));
 

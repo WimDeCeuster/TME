@@ -59,7 +59,6 @@
   <ItemGroup>
     <Compile Include="AssetPublisher.cs" />
     <Compile Include="BodyTypePublisher.cs" />
-    <Compile Include="CarEquipmentPublisher.cs" />
     <Compile Include="CarPartPublisher.cs" />
     <Compile Include="CarPublisher.cs" />
     <Compile Include="Extensions\AssetExtensions.cs" />
