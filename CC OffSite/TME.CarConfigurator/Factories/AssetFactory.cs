@@ -15,8 +15,6 @@ namespace TME.CarConfigurator.Factories
         private readonly Dictionary<String, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>> _carEquipmentAssets = new Dictionary<string, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>>();
         private readonly Dictionary<String, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>>  _carPartAssets = new Dictionary<string, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>>();
         private readonly Dictionary<Guid, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>> _defaultCarEquipmentAssetsPerCar = new Dictionary<Guid, Dictionary<Guid, List<Repository.Objects.Assets.Asset>>>();
-        
-        private decimal _counter;
 
         public AssetFactory(IAssetService assetService)
         {
