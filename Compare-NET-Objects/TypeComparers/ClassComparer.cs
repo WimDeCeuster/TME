@@ -42,7 +42,7 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
         {
             try
             {
-                if (parms.Config.MaxTreeDepth > -1 && parms.Config.MaxTreeDepth < parms.Result.Parents.Values.Sum())
+                if (parms.Config.MaxClassDepth > -1 && parms.Config.MaxClassDepth < parms.ClassDepth)
                     return;
 
                 parms.Result.AddParent(parms.Object1.GetHashCode());
@@ -63,6 +63,8 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                 if (ExcludeLogic.ShouldExcludeClassType(parms.Config, t1, t2))
                     return;
 
+                parms.ClassDepth++;
+
                 parms.Object1Type = t1;
                 parms.Object2Type = t2;
 
@@ -73,6 +75,8 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                 //Compare the fields
                 if (parms.Config.CompareFields)
                     _fieldComparer.PerformCompareFields(parms);
+
+                parms.ClassDepth--;
             }
             finally
             {

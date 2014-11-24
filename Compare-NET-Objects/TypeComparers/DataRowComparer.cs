@@ -121,6 +121,7 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                 childParms.Object2 = dataRow2[i];
                 childParms.MemberPath = parms.MemberPath + "." + dataRow1.Table.Columns[i].ColumnName;
                 childParms.BreadCrumb = currentBreadCrumb;
+                childParms.ClassDepth = parms.ClassDepth;
 
 
                 RootComparer.Compare(childParms);

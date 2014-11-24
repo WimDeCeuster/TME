@@ -133,7 +133,8 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                 Object1 = item1,
                 Object2 = item2,
                 MemberPath = parms.MemberPath + "[]",
-                BreadCrumb = currentBreadCrumb
+                BreadCrumb = currentBreadCrumb,
+                ClassDepth = parms.ClassDepth
             };
         }
 

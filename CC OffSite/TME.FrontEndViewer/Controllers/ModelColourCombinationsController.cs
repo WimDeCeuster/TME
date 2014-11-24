@@ -49,6 +49,6 @@ namespace TME.FrontEndViewer.Controllers
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
-        }
+        } 
     }
 }

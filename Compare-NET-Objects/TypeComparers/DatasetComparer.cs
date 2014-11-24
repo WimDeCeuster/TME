@@ -89,6 +89,7 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                 childParms.ParentObject2 = dataSet2;
                 childParms.Object1 = dataSet1.Tables[i];
                 childParms.Object2 = dataSet2.Tables[i];
+                childParms.ClassDepth = parms.ClassDepth;
 
                 _compareDataTable.CompareType(childParms);
 

@@ -70,7 +70,7 @@ namespace TME.CarConfigurator.Comparer
                 //model => model.WheelDrives
             );
 
-            //config.MembersToIgnore.Add("Assets");
+            config.MembersToIgnore.Add("Assets");
 
             config.PathsToIgnore = new List<String>
             { 
@@ -146,7 +146,7 @@ namespace TME.CarConfigurator.Comparer
 
             config.MaxDifferences = -1;
             config.MaxStructDepth = 2;
-            config.MaxTreeDepth = 20;
+            config.MaxClassDepth = 5;
 
             config.AllowPropertyExceptions = true;
 

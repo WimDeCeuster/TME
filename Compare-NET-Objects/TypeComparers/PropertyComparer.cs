@@ -141,7 +141,8 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                     Object2 = objectValue2,
                     MemberPath = parms.MemberPath + "." + info.Name,
                     BreadCrumb = currentBreadCrumb,
-                    Property = info
+                    Property = info,
+                    ClassDepth = parms.ClassDepth
                 };
 
                 if (hasException)
