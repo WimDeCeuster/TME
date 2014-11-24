@@ -1,0 +1,39 @@
+﻿@model IEnumerable<TME.CarConfigurator.Interfaces.Packs.IAccentColourCombination
+
+
+@foreach (var model in Model)
+{
+    <div class="object" data-id="@(model.BodyColour.ID)-@(model.PrimaryAccentColour.ID)-@(model.SecondaryAccentColour.ID)">
+        <div class="title">
+            <strong>@Html.Raw(model.BodyColour.InternalCode)-@Html.Raw(model.PrimaryAccentColour.InternalCode)-@Html.Raw(model.SecondaryAccentColour.InternalCode)</strong>
+        </div>
+        <div class="content">
+             <p class="property" data-id="Default">Default : @Html.Raw(model.Default)</p>
+            <div class="object sub-item" data-id="@Html.Raw(model.BodyColour.ID)">
+                <div class="title">
+                    <strong>BodyColour</strong>
+                </div>
+                <div class="content">
+                    @Html.Partial("Equipment/_exteriorColour", model.BodyColour)
+                </div>
+            </div>
+            <div class="object sub-item" data-id="@Html.Raw(model.PrimaryAccentColour.ID)">
+                <div class="title">
+                    <strong>PrimaryAccentColour</strong>
+                </div>
+                <div class="content">
+                    @Html.Partial("Equipment/_exteriorColour", model.PrimaryAccentColour)
+                </div>
+            </div>
+            <div class="object sub-item" data-id="@Html.Raw(model.SecondaryAccentColour.ID)">
+                <div class="title">
+                    <strong>SecondaryAccentColour</strong>
+                </div>
+                <div class="content">
+                    @Html.Partial("Equipment/_exteriorColour", model.SecondaryAccentColour)
+                </div>
+            </div>                      
+
+        </div>
+    </div>
+}

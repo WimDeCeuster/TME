@@ -158,6 +158,7 @@
     <Compile Include="Controllers\ModelCarColourCombinationsController.cs" />
     <Compile Include="Controllers\ModelCarEquipmentAssetsController.cs" />
     <Compile Include="Controllers\ModelCarEquipmentVisibleInAssetsController.cs" />
+    <Compile Include="Controllers\ModelCarPackAccentColoursController.cs" />
     <Compile Include="Controllers\ModelCarPackAssetsController.cs" />
     <Compile Include="Controllers\ModelCarPackEquipmentController.cs" />
     <Compile Include="Controllers\ModelCarPacksController.cs" />
@@ -376,6 +377,8 @@
     <Content Include="Views\ModelFuelTypes\details.cshtml" />
     <Content Include="Views\ModelFuelTypes\Index.cshtml" />
     <Content Include="Views\ModelCarColourCombinations\Index.cshtml" />
+    <Content Include="Views\ModelCarPackAccentColours\details.cshtml" />
+    <Content Include="Views\ModelCarPackAccentColours\Index.cshtml" />
     <Content Include="Views\ModelCarColourCombinations\details.cshtml">
       <SubType>Code</SubType>
     </Content>
