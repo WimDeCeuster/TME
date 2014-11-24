@@ -121,7 +121,6 @@
     <constructor-arg ref="BaseMapper" />
     <constructor-arg ref="AssetSetMapper" />
     <constructor-arg ref="AssetFileService" />
-    <constructor-arg ref="LabelMapper" />
   </object>
   
   <object name="AssetFileService" type="TME.CarConfigurator.Publisher.Services.AssetFileService, TME.CarConfigurator.Publisher"></object>

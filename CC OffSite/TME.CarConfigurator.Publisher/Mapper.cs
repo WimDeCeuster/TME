@@ -206,7 +206,7 @@ namespace TME.CarConfigurator.Publisher
                     FillCarPacks(car, contextData, equipmentGroups, equipmentCategories, isPreview, cars, exteriorColourTypes, context.AssetUrl);
                     FillCarEquipment(car, contextData, equipmentCategories, equipmentGroups, isPreview, cars, exteriorColourTypes, context.AssetUrl);
                     FillCarTechnicalSpecifications(car, specificationCategories, units, contextData);
-                    FillCarColourCombinations(car, contextData, isPreview, context.AssetUrl);
+                    FillCarColourCombinations(car, contextData, exteriorColourTypes, upholsteryTypes, isPreview, context.AssetUrl);
 
                 }
                 progress.Report(new PublishProgress("Mapping complete"));
@@ -489,9 +489,29 @@ namespace TME.CarConfigurator.Publisher
             contextData.CarParts.Add(car.ID,GetValidCarParts(car).Select(carPart => _carPartMapper.MapCarPart(carPart)).ToList());
         }
 
-        private void FillCarColourCombinations(Car car, ContextData contextData, bool isPreview, string assetUrl)
+        private void FillCarColourCombinations(Car car, ContextData contextData, ExteriorColourTypes exteriorColourTypes, UpholsteryTypes upholsteryTypes, bool isPreview, string assetUrl)
         {
-            contextData.CarColourCombinations.Add(car.ID, car.ColourCombinations.Select(carColourCombination => _colourMapper.MapLinkedColourCombination(car.Generation, carColourCombination, isPreview, assetUrl)).ToList());
+            var colourCombinations = car.ColourCombinations.Where(carColourCombination => carColourCombination.Approved)
+                                      .Select(carColourCombination => _colourMapper.MapLinkedColourCombination(
+                                          car.Generation, 
+                                          carColourCombination,
+                                          exteriorColourTypes[carColourCombination.ExteriorColour.Type.ID], 
+                                          upholsteryTypes[carColourCombination.Upholstery.Type.ID],
+                                          isPreview, 
+                                          assetUrl))
+                                      .OrderBy(carCombination => carCombination.ExteriorColour.Type.SortIndex)
+                                      .ThenBy(carCombination => carCombination.ExteriorColour.SortIndex)
+                                      .ThenBy(carCombination => carCombination.Upholstery.Type.SortIndex)
+                                      .ThenBy(carCombination => carCombination.Upholstery.SortIndex)
+                                      .ToList();
+
+            var index = 0;
+            foreach (var colourCombination in colourCombinations)
+            {
+                colourCombination.SortIndex = index++;
+            }
+
+            contextData.CarColourCombinations.Add(car.ID, colourCombinations);
         }
 
         private void FillCarEquipment(Car car, ContextData contextData, EquipmentCategories categories, EquipmentGroups groups, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, String assetUrl)

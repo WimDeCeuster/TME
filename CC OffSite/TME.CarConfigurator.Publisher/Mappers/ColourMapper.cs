@@ -23,57 +23,50 @@ namespace TME.CarConfigurator.Publisher.Mappers
         readonly IBaseMapper _baseMapper;
         readonly IAssetSetMapper _assetSetMapper;
         readonly IAssetFileService _assetFileService;
-        readonly ILabelMapper _labelMapper;
 
 
-        public ColourMapper(IBaseMapper baseMapper, IAssetSetMapper assetSetMapper, IAssetFileService assetFileService, ILabelMapper labelMapper)
+        public ColourMapper(IBaseMapper baseMapper, IAssetSetMapper assetSetMapper, IAssetFileService assetFileService)
         {
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
             if (assetSetMapper == null) throw new ArgumentNullException("assetSetMapper");
             if (assetFileService == null) throw new ArgumentNullException("assetFileService");
-            if (labelMapper == null) throw new ArgumentNullException("labelMapper");
 
             _baseMapper = baseMapper;
             _assetSetMapper = assetSetMapper;
             _assetFileService = assetFileService;
-            _labelMapper = labelMapper;
         }
 
-        public CarColourCombination MapLinkedColourCombination(ModelGeneration modelGeneration, LinkedColourCombination carColourCombination, bool isPreview, string assetUrl)
+        public CarColourCombination MapLinkedColourCombination(ModelGeneration modelGeneration, LinkedColourCombination carColourCombination, Administration.ExteriorColourType exteriorColourType, Administration.UpholsteryType upholsteryType, bool isPreview, string assetUrl)
         {
             return new CarColourCombination
             {
-                ExteriorColour = MapLinkedExteriorColour(modelGeneration, carColourCombination.ExteriorColour, isPreview, assetUrl),
+                ExteriorColour = MapLinkedExteriorColour(modelGeneration, carColourCombination.ExteriorColour, exteriorColourType, isPreview, assetUrl),
                 ID = carColourCombination.ID,
                 SortIndex = 0,
-                Upholstery = MapLinkedUpholstery(carColourCombination.Upholstery),
+                Upholstery = MapLinkedUpholstery(carColourCombination.Upholstery, upholsteryType),
                 VisibleIn = new List<VisibleInModeAndView>()
             };
         }
 
-        private CarExteriorColour MapLinkedExteriorColour(ModelGeneration modelGeneration, LinkedExteriorColour exteriorColour, bool isPreview, string assetUrl)
+        private CarExteriorColour MapLinkedExteriorColour(ModelGeneration modelGeneration, LinkedExteriorColour exteriorColour, Administration.ExteriorColourType exteriorColourType, bool isPreview, string assetUrl)
         {
-            return new CarExteriorColour
+            var mappedExteriorColour = new CarExteriorColour
             {
                 Price = new Price
                 {
                     ExcludingVat = exteriorColour.Price,
                     IncludingVat = exteriorColour.VatPrice
                 },
-                Description = exteriorColour.Translation.Description,
-                FootNote = exteriorColour.Translation.FootNote,
-                ID = exteriorColour.ID,
                 InternalCode = exteriorColour.Code,
-                Labels = _labelMapper.MapLabels(exteriorColour.Translation.Labels),
-                LocalCode = exteriorColour.Code,
-                Name = exteriorColour.Translation.Name,
+                LocalCode = String.Empty,
                 Promoted = exteriorColour.Promoted,
                 SortIndex = exteriorColour.Index,
-                ToolTip = exteriorColour.Translation.ToolTip,
                 VisibleIn = new List<VisibleInModeAndView>(),
                 Transformation = GetColourTransformation(modelGeneration, exteriorColour.Code, isPreview, assetUrl),
-                Type = MapExteriorColourTypeInfo(exteriorColour.Type)
+                Type = MapExteriorColourType(exteriorColourType)
             };
+
+            return _baseMapper.MapTranslateableDefaults(mappedExteriorColour, exteriorColour.GenerationExteriorColour);
         }
 
         public ColourCombination MapColourCombination(ModelGeneration modelGeneration, ModelGenerationColourCombination colourCombination, Boolean isPreview, Administration.ExteriorColourType exteriorColourType, Administration.UpholsteryType upholsteryType, String assetUrl)
@@ -162,18 +155,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return _baseMapper.MapTranslateableDefaults(mappedType, type);
         }
 
-        private ExteriorColourType MapExteriorColourTypeInfo(ExteriorColourTypeInfo exteriorColourTypeInfo)
-        {
-            return new ExteriorColourType
-            {
-                ID = exteriorColourTypeInfo.ID,
-                InternalCode = exteriorColourTypeInfo.Code,
-                SortIndex = exteriorColourTypeInfo.Index,
-                Name = exteriorColourTypeInfo.Name,
-                LocalCode = String.Empty
-            };
-        }
-
         private Upholstery MapUpholstery(ModelGenerationUpholstery modelGenerationUpholstery, Administration.UpholsteryType upholsteryType)
         {
             var mappedUpholstery = new Upholstery
@@ -189,41 +170,24 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return _baseMapper.MapTranslateableDefaultsWithSort(mappedUpholstery, modelGenerationUpholstery);
         }
 
-        private CarUpholstery MapLinkedUpholstery(LinkedUpholstery upholstery)
+        private CarUpholstery MapLinkedUpholstery(LinkedUpholstery upholstery, Administration.UpholsteryType upholsteryType)
         {
-            return new CarUpholstery
+            var mappedUpholstery = new CarUpholstery
             {
                 Price = new Price
                 { 
                     ExcludingVat = upholstery.Price, 
                     IncludingVat = upholstery.VatPrice
                 },
-                Description = upholstery.Translation.Description,
-                FootNote = upholstery.Translation.FootNote,
-                ID = upholstery.ID,
                 InteriorColourCode = upholstery.InteriorColour.Code,
                 InternalCode = upholstery.Code,
-                LocalCode = upholstery.Code,
-                Name = upholstery.Translation.Name,
+                LocalCode = String.Empty,
                 TrimCode = upholstery.Trim.Code,
                 SortIndex = 0,
-                ToolTip = upholstery.Translation.ToolTip,
-                Labels = _labelMapper.MapLabels(upholstery.Translation.Labels),
-                Type = MapUpholsteryTypeInfo(upholstery.Type),
+                Type = MapUpholsteryType(upholsteryType),
                 VisibleIn = new List<VisibleInModeAndView>()
             };
-        }
-
-        private UpholsteryType MapUpholsteryTypeInfo(UpholsteryTypeInfo upholsteryTypeInfo)
-        {
-                return new UpholsteryType
-                {
-                    InternalCode = upholsteryTypeInfo.Code,
-                    LocalCode = String.Empty,
-                    SortIndex = upholsteryTypeInfo.Index,
-                    ID = upholsteryTypeInfo.ID,
-                    Name = upholsteryTypeInfo.Name
-                };
+            return _baseMapper.MapTranslateableDefaults(mappedUpholstery, upholstery.GenerationUpholstery);
         }
 
         private UpholsteryType MapUpholsteryType(Administration.UpholsteryType type)
