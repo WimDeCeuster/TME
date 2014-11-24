@@ -16,6 +16,7 @@ namespace TME.CarConfigurator.Interfaces.Packs
         
         IReadOnlyList<IExteriorColourInfo> AvailableForExteriorColours { get; }
         IReadOnlyList<IUpholsteryInfo> AvailableForUpholsteries { get; }
+        IReadOnlyList<IAccentColourCombination> AccentColourCombinations { get; }
         ICarPackEquipment Equipment { get; }
     }
 }

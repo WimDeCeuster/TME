@@ -4,6 +4,7 @@ using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Packs;
 using TME.CarConfigurator.LegacyAdapter.Colours;
+using TME.CarConfigurator.LegacyAdapter.Equipment;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
 using Legacy = TMME.CarConfigurator;
 using IPrice = TME.CarConfigurator.Interfaces.Core.IPrice;
@@ -94,6 +95,14 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
                     Adaptee.AvailableForUpholsteries.Cast<Legacy.CarUpholstery>()
                         .Select(x => new UpholsteryInfo(x))
                         .ToList();
+            }
+        }
+
+        public IReadOnlyList<IAccentColourCombination> AccentColourCombinations
+        {
+            get
+            {
+                return Adaptee.AccentColourCombinations.Select(x => new AccentColourCombination(x)).ToList();
             }
         }
 
