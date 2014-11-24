@@ -145,7 +145,7 @@ End Class
             Return DirectCast(Parent, LinkedExteriorColours).Generation
         End Get
     End Property
-    Private ReadOnly Property RefObject() As ModelGenerationExteriorColour
+    Public ReadOnly Property GenerationExteriorColour() As ModelGenerationExteriorColour
         Get
             If _refObject Is Nothing Then _refObject = Generation.ColourCombinations.ExteriorColours().First(Function(x) x.ID.Equals(ID))
             Return _refObject
@@ -153,39 +153,39 @@ End Class
     End Property
     <XmlInfo(XmlNodeType.Attribute)> Public ReadOnly Property Code() As String
         Get
-            Return RefObject.Code
+            Return GenerationExteriorColour.Code
         End Get
     End Property
     <XmlInfo(XmlNodeType.Attribute)> Public ReadOnly Property Name() As String
         Get
-            Return RefObject.Name
+            Return GenerationExteriorColour.Name
         End Get
     End Property
     <XmlInfo(XmlNodeType.Element)> Public ReadOnly Property Type() As ExteriorColourTypeInfo
         Get
-            Return RefObject.Type
+            Return GenerationExteriorColour.Type
         End Get
     End Property
     <XmlInfo(XmlNodeType.Attribute)> Public ReadOnly Property Index() As Integer
         Get
-            Return RefObject.Index
+            Return GenerationExteriorColour.Index
         End Get
     End Property
     <XmlInfo(XmlNodeType.Attribute)> Public ReadOnly Property Promoted() As Boolean
         Get
-            Return RefObject.Promoted
+            Return GenerationExteriorColour.Promoted
         End Get
     End Property
 
 
     Public ReadOnly Property Translation() As Translations.Translation
         Get
-            Return RefObject.Translation
+            Return GenerationExteriorColour.Translation
         End Get
     End Property
     Public ReadOnly Property AlternateName() As String
         Get
-            Return RefObject.AlternateName
+            Return GenerationExteriorColour.AlternateName
         End Get
     End Property
 

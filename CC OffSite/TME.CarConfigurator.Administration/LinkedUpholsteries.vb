@@ -158,7 +158,7 @@ End Class
         End Get
     End Property
 
-    Private ReadOnly Property RefObject() As ModelGenerationUpholstery
+    Public ReadOnly Property GenerationUpholstery() As ModelGenerationUpholstery
         Get
             If _refObject Is Nothing Then _refObject = Generation.ColourCombinations.Upholsteries().First(Function(x) x.ID.Equals(ID))
             Return _refObject
@@ -167,48 +167,48 @@ End Class
 
     <XmlInfo(XmlNodeType.Attribute)> Public ReadOnly Property Code() As String
         Get
-            Return RefObject.Code
+            Return GenerationUpholstery.Code
         End Get
     End Property
     Public ReadOnly Property Aliases() As Aliases
         Get
-            Return RefObject.Aliases
+            Return GenerationUpholstery.Aliases
         End Get
     End Property
     <XmlInfo(XmlNodeType.Attribute)> Public ReadOnly Property Name() As String
         Get
-            Return RefObject.Name
+            Return GenerationUpholstery.Name
         End Get
     End Property
     <XmlInfo(XmlNodeType.Element)> Public ReadOnly Property Type() As UpholsteryTypeInfo
         Get
-            Return RefObject.Type
+            Return GenerationUpholstery.Type
         End Get
     End Property
     <XmlInfo(XmlNodeType.Element)> Public ReadOnly Property Trim() As TrimInfo
         Get
-            Return RefObject.Trim
+            Return GenerationUpholstery.Trim
         End Get
     End Property
     <XmlInfo(XmlNodeType.Element)> Public ReadOnly Property InteriorColour() As InteriorColourInfo
         Get
-            Return RefObject.InteriorColour
+            Return GenerationUpholstery.InteriorColour
         End Get
     End Property
     <XmlInfo(XmlNodeType.Attribute)> Public ReadOnly Property Index() As Integer
         Get
-            Return RefObject.Index
+            Return GenerationUpholstery.Index
         End Get
     End Property
 
     Public ReadOnly Property Translation() As Translations.Translation
         Get
-            Return RefObject.Translation
+            Return GenerationUpholstery.Translation
         End Get
     End Property
     Public ReadOnly Property AlternateName() As String
         Get
-            Return RefObject.AlternateName
+            Return GenerationUpholstery.AlternateName
         End Get
     End Property
 
