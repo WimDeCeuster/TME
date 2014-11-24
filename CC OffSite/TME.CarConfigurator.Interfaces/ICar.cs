@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Packs;
@@ -29,7 +30,7 @@ namespace TME.CarConfigurator.Interfaces
         ICarEquipment Equipment { get; }
         IReadOnlyList<ICarPack> Packs { get; }
         IReadOnlyList<ICarTechnicalSpecification> TechnicalSpecifications { get; }
-
+        IReadOnlyList<IColourCombination> ColourCombinations { get; }
     }
 }
 

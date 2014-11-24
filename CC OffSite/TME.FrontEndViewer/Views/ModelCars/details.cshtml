@@ -112,6 +112,7 @@
 
             <p class="property" data-id="actionlinks">
                 @Html.ActionLink("Parts", "Index", "ModelCarParts", new { modelID = ViewBag.ModelID, carID = model.ID }, new { }) | 
+                @Html.ActionLink("Parts", "Index", "ModelColourCombinations", new { modelID = ViewBag.ModelID, carID = model.ID }, new { }) | 
                 @Html.ActionLink("Equipment", "Index", "ModelCarEquipment", new { modelID = ViewBag.ModelID, carID = model.ID }, new { }) | 
                 @Html.ActionLink("Packs", "Index", "ModelCarPacks", new { modelID = ViewBag.ModelID, carID = model.ID }, new { }) |
                 @Html.ActionLink("Technical Specifications", "Index", "ModelCarTechnicalSpecifications", new { modelID = ViewBag.ModelID, carID = model.ID }, new { })

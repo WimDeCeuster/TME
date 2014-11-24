@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Packs;
 using TME.CarConfigurator.Interfaces.TechnicalSpecifications;
+using TME.CarConfigurator.LegacyAdapter.Colours;
 using TME.CarConfigurator.LegacyAdapter.Equipment;
 using TME.CarConfigurator.LegacyAdapter.Packs;
 using TME.CarConfigurator.LegacyAdapter.TechnicalSpecifications;
@@ -122,6 +124,13 @@ namespace TME.CarConfigurator.LegacyAdapter
         public IReadOnlyList<ICarTechnicalSpecification> TechnicalSpecifications
         {
             get { return Adaptee.TechnicalSpecifications.Cast<Legacy.TechnicalSpecification>().Select(x => new CarTechnicalSpecification(x)).ToList(); }
+        }
+
+        public IReadOnlyList<IColourCombination> ColourCombinations {
+            get { return new List<IColourCombination>
+            {
+                new ColourCombination(Adaptee.Colours.Default, true)
+            }; }
         }
     }
 

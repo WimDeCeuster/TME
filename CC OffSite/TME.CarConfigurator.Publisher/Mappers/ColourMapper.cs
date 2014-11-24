@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Exceptions;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
 using ExteriorColourInfo = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColourInfo;
@@ -43,8 +45,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 ExteriorColour = MapLinkedExteriorColour(modelGeneration, carColourCombination.ExteriorColour, isPreview, assetUrl),
                 ID = carColourCombination.ID,
                 SortIndex = 0,
-                Upholstery = MapLinkedUpholstery(carColourCombination.Upholstery)
-                //VisibleIn = 
+                Upholstery = MapLinkedUpholstery(carColourCombination.Upholstery),
+                VisibleIn = new List<VisibleInModeAndView>()
             };
         }
 
@@ -62,7 +64,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Promoted = exteriorColour.Promoted,
                 SortIndex = exteriorColour.Index,
                 ToolTip = exteriorColour.Translation.ToolTip,
-                //VisibleIn = 
+                VisibleIn = new List<VisibleInModeAndView>(),
                 Transformation = GetColourTransformation(modelGeneration, exteriorColour.Code, isPreview, assetUrl),
                 Type = MapExteriorColourTypeInfo(exteriorColour.Type)
             };
@@ -196,8 +198,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 SortIndex = 0,
                 ToolTip = upholstery.Translation.ToolTip,
                 Labels = _labelMapper.MapLabels(upholstery.Translation.Labels),
-                Type = MapUpholsteryTypeInfo(upholstery.Type)
-                //VisibleIn =
+                Type = MapUpholsteryTypeInfo(upholstery.Type),
+                VisibleIn = new List<VisibleInModeAndView>()
             };
         }
 

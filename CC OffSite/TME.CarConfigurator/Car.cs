@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TME.CarConfigurator.Core;
 using TME.CarConfigurator.Interfaces;
+using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
@@ -26,6 +27,7 @@ namespace TME.CarConfigurator
         readonly IPackFactory _packFactory;
         readonly ISteeringFactory _steeringFactory;
         readonly ISpecificationsFactory _specificationsFactory;
+        readonly IColourFactory _colourFactory;
 
         IPrice _basePrice;
         IPrice _startingPrice;
@@ -40,6 +42,7 @@ namespace TME.CarConfigurator
         ICarEquipment _carEquipment;
         IReadOnlyList<ICarPack> _carPacks;
         IReadOnlyList<ICarTechnicalSpecification> _carTechnicalSpecifications;
+        IReadOnlyList<IColourCombination> _colourCombinations;
 
         public Car(Repository.Objects.Car repositoryCar,
         	Publication repositoryPublication, 
@@ -54,7 +57,8 @@ namespace TME.CarConfigurator
             IEquipmentFactory equipmentFactory,
             IPackFactory packFactory,
             ISteeringFactory steeringFactory,
-            ISpecificationsFactory specificationsFactory)
+            ISpecificationsFactory specificationsFactory,
+            IColourFactory colourFactory)
             : base(repositoryCar)
         {
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
@@ -70,6 +74,7 @@ namespace TME.CarConfigurator
             if (packFactory == null) throw new ArgumentNullException("packFactory");
             if (steeringFactory == null) throw new ArgumentNullException("steeringFactory");
             if (specificationsFactory == null) throw new ArgumentNullException("specificationsFactory");
+            if (colourFactory == null) throw new ArgumentNullException("colourFactory");
 
             _repositoryPublication = repositoryPublication;
             _repositoryContext = repositoryContext;
@@ -84,6 +89,7 @@ namespace TME.CarConfigurator
             _packFactory = packFactory;
             _steeringFactory = steeringFactory;
             _specificationsFactory = specificationsFactory;
+            _colourFactory = colourFactory;
         }
 
         public int ShortID { get { return RepositoryObject.ShortID; } }
@@ -128,6 +134,8 @@ namespace TME.CarConfigurator
         {
             get { return _carPacks = _carPacks ?? _packFactory.GetCarPacks(_repositoryPublication, _repositoryContext, ID); }
         }
+
+        public IReadOnlyList<IColourCombination> ColourCombinations { get { return _colourCombinations = _colourCombinations ?? _colourFactory.GetCarColourCombinations(_repositoryPublication, _repositoryContext, ID); } } 
 
         public IReadOnlyList<ICarTechnicalSpecification> TechnicalSpecifications
         {
