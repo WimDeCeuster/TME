@@ -135,6 +135,8 @@
     <Compile Include="GivenACarWheelDrive\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACarWheelDrive\WhenAccessingItsAssetsForTheFirstTime.cs" />
     <Compile Include="GivenACarWheelDrive\WhenAccessingItsAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsColourCombinationsForTheFirstTime.cs" />
+    <Compile Include="GivenACar\WhenAccessingItsColourCombinationsForTheSecondTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsEngineForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsBodyTypeForTheFirstTime.cs" />
     <Compile Include="GivenACar\WhenAccessingItsEngineForTheSecondTime.cs" />
@@ -322,6 +324,7 @@
     <Compile Include="Services\GivenABodyTypeService\WhenGetBodyTypesIsCalled.cs" />
     <Compile Include="Services\GivenACarPartService\WhenGetCarPartsIsCalled.cs" />
     <Compile Include="Services\GivenACarService\WhenGetCarsIsCalled.cs" />
+    <Compile Include="Services\GivenAColourService\WhenGetCarColourCombinationsIsCalled.cs" />
     <Compile Include="Services\GivenAColourService\WhenGetColourCombinationsIsCalled.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledFor2DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetSubModelAssetsIsCalledFor3DAssets.cs" />

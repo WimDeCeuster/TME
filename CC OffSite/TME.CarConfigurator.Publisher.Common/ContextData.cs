@@ -28,7 +28,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IDictionary<Guid, IDictionary<Guid, IList<Asset>>> SubModelAssets { get; private set; }
         public IDictionary<Guid, IDictionary<Guid, IList<Asset>>> CarEquipmentAssets { get; private set; }
         public IDictionary<Guid, IDictionary<Guid, IList<Asset>>> CarPartAssets { get; private set; }
-        public IDictionary<Guid, IList<ColourCombination>> CarColourCombinations { get; set; }
+        public IDictionary<Guid, IList<CarColourCombination>> CarColourCombinations { get; set; }
 
         public ContextData()
         {
@@ -45,7 +45,7 @@ namespace TME.CarConfigurator.Publisher.Common
             CarPartAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
             CarPacks = new Dictionary<Guid, IReadOnlyList<CarPack>>();
             CarTechnicalSpecifications = new Dictionary<Guid, IReadOnlyList<CarTechnicalSpecification>>();
-            CarColourCombinations = new Dictionary<Guid, IList<ColourCombination>>();
+            CarColourCombinations = new Dictionary<Guid, IList<CarColourCombination>>();
         }
 
     }

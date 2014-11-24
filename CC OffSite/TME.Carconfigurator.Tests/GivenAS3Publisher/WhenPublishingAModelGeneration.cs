@@ -155,6 +155,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
             A.CallTo(() => _packPublisher.PublishCarPacksAsync(_context)).Returns(task);
             A.CallTo(() => _packPublisher.PublishSubModelGradePacksAsync(_context)).Returns(task);
             A.CallTo(() => _colourCombinationPublisher.PublishGenerationColourCombinations(_context)).Returns(task);
+            A.CallTo(() => _colourCombinationPublisher.PublishCarColourCombinations(_context)).Returns(task);
             A.CallTo(() => _carPartPublisher.PublishCarPartsAsync(_context)).Returns(task);
             A.CallTo(() => _carEquipmentPublisher.PublishCarEquipmentAsync(_context)).Returns(task);
         }
@@ -269,6 +270,12 @@ namespace TME.Carconfigurator.Tests.GivenAS3Publisher
         public void ThenItShouldPublishSpecificationCategories()
         {
             A.CallTo(() => _specificationsPublisher.PublishCategoriesAsync(_context)).MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        [Fact]
+        public void ThenItShouldPublishCarColourCombinations()
+        {
+            A.CallTo(() => _colourCombinationPublisher.PublishCarColourCombinations(_context)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]

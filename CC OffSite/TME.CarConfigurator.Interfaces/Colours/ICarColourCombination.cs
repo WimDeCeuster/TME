@@ -11,9 +11,7 @@ namespace TME.CarConfigurator.Interfaces.Colours
         ICarUpholstery Upholstery { get; }
         int SortIndex { get; }
 
-        // ReSharper disable ReturnTypeCanBeEnumerable.Global
         IReadOnlyList<IVisibleInModeAndView> VisibleIn { get; }
         IReadOnlyList<IAsset> Assets { get; }
-        // ReSharper restore ReturnTypeCanBeEnumerable.Global
     }
 }

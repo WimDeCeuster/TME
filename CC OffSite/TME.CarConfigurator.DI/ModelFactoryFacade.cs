@@ -171,7 +171,7 @@ namespace TME.CarConfigurator.DI
             _gradeFactory = _gradeFactory ?? new GradeFactory(_serviceFacade.CreateGradeService(), _assetFactory, _equipmentFactory, _packFactory);
             _subModelFactory = _subModelFactory ?? new SubModelFactory(_serviceFacade.CreateSubModelService(), _assetFactory, _gradeFactory);
             _specificationsFactory = _specificationsFactory ?? new SpecificationsFactory(_serviceFacade.CreateSpecificationsService());
-            _carFactory = _carFactory ?? new CarFactory(_serviceFacade.CreateCarService(), _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _gradeFactory, _subModelFactory, _carPartFactory, _equipmentFactory, _packFactory, _steeringFactory, _specificationsFactory);
+            _carFactory = _carFactory ?? new CarFactory(_serviceFacade.CreateCarService(), _bodyTypeFactory, _engineFactory, _transmissionFactory, _wheelDriveFactory, _gradeFactory, _subModelFactory, _carPartFactory, _equipmentFactory, _packFactory, _steeringFactory, _specificationsFactory, _colourFactory);
         }
     }
 }

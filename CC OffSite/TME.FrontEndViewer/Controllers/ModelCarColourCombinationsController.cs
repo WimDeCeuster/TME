@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Colours;
-using TME.CarConfigurator.Interfaces.Equipment;
-using TME.CarConfigurator.Interfaces.Packs;
 using TME.CarConfigurator.Repository.Objects;
 using TME.FrontEndViewer.Models;
 using TMME.CarConfigurator;
@@ -27,7 +24,6 @@ namespace TME.FrontEndViewer.Controllers
             var model = new CompareView<IReadOnlyList<ICarColourCombination>>
             {
                 OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, carID),
-                //NewReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, carID)
                 NewReaderModel = GetNewReaderModelWithMetrics(context, modelID, carID)
             };
 

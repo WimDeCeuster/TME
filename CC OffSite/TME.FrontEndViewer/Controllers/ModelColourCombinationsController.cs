@@ -11,7 +11,6 @@ namespace TME.FrontEndViewer.Controllers
 {
     public class ModelColourCombinationsController : Controller
     {
-
         public ActionResult Index(Guid modelID)
         {
             var context = (Context)Session["context"];
@@ -33,7 +32,7 @@ namespace TME.FrontEndViewer.Controllers
             var list = new CarConfigurator.LegacyAdapter.Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID))
                             .ColourCombinations;
 
-            return new ModelWithMetrics<IReadOnlyList<IColourCombination>>()
+            return new ModelWithMetrics<IReadOnlyList<IColourCombination>>
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)
@@ -42,9 +41,10 @@ namespace TME.FrontEndViewer.Controllers
         private static ModelWithMetrics<IReadOnlyList<IColourCombination>> GetNewReaderModelWithMetrics(Context context, Guid modelID)
         {
             var start = DateTime.Now;
-            var list = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID).ColourCombinations;
+            var list = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID)
+                .ColourCombinations;
 
-            return new ModelWithMetrics<IReadOnlyList<IColourCombination>>()
+            return new ModelWithMetrics<IReadOnlyList<IColourCombination>>
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TME.CarConfigurator.Interfaces;
@@ -36,7 +35,7 @@ namespace TME.FrontEndViewer.Controllers
             var model = new CarConfigurator.LegacyAdapter.Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID));
             var list = GetList(model, carID);
 
-            return new ModelWithMetrics<ICarEquipment>()
+            return new ModelWithMetrics<ICarEquipment>
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)
@@ -48,7 +47,7 @@ namespace TME.FrontEndViewer.Controllers
             var model = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID);
             var list = GetList(model, carID);
 
-            return new ModelWithMetrics<ICarEquipment>()
+            return new ModelWithMetrics<ICarEquipment>
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)

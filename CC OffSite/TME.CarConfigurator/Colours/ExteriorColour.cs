@@ -21,8 +21,8 @@ namespace TME.CarConfigurator.Colours
         private IReadOnlyList<IAsset> _assets;
         private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
 
-        public ExteriorColour(Repository.Objects.Colours.ExteriorColour repositoryColor, Publication publication, Context context, IAssetFactory assetFactory)
-            : base(repositoryColor)
+        public ExteriorColour(Repository.Objects.Colours.ExteriorColour repositoryColour, Publication publication, Context context, IAssetFactory assetFactory)
+            : base(repositoryColour)
         {
             if (publication == null) throw new ArgumentNullException("publication");
             if (context == null) throw new ArgumentNullException("context");

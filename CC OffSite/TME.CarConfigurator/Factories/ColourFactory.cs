@@ -27,8 +27,15 @@ namespace TME.CarConfigurator.Factories
         public IReadOnlyList<IColourCombination> GetColourCombinations(Publication publication, Context context)
         {
             return _colourService.GetColourCombinations(publication.ID, publication.GetCurrentTimeFrame().ID, context)
-                                  .Select(colour => new ColourCombination(colour, publication, context, this))
+                                  .Select(colour => new ColourCombination(colour, publication, context, this, _assetFactory))
                                   .ToList();
+        }
+
+        public IReadOnlyList<ICarColourCombination> GetCarColourCombinations(Publication publication, Context context, Guid carID)
+        {
+            return _colourService.GetCarColourCombinations(publication.ID, context, carID)
+                .Select(colour => new CarColourCombination(carID, colour, publication, context, this, _assetFactory))
+                .ToList();
         }
 
         public IUpholstery GetUpholstery(Repository.Objects.Colours.Upholstery repositoryUpholstery, Publication publication, Context context)

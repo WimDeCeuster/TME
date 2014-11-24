@@ -44,7 +44,7 @@ namespace TME.CarConfigurator.S3.Publisher
             await Task.WhenAll(tasks);
         }
 
-        private async Task PublishCarColourCombinations(string brand, string country, Guid publicationID, IEnumerable<KeyValuePair<Guid, IList<ColourCombination>>> carColourCombinations)
+        private async Task PublishCarColourCombinations(string brand, string country, Guid publicationID, IEnumerable<KeyValuePair<Guid, IList<CarColourCombination>>> carColourCombinations)
         {
             var tasks =
                 carColourCombinations.Select(

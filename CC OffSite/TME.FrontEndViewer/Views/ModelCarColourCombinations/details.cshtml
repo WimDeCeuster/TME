@@ -39,28 +39,28 @@
                 </div>
             </div>
 
-            @Html.ActionLink("Exterior Colour Assets", "Index", "ModelExteriorColourAssets", new { modelID = ViewBag.ModelID, exteriorColourID = model.ExteriorColour.ID, carID =  ViewBag.CarID }, new { })
+            @*@Html.ActionLink("Exterior Colour Assets", "Index", "ModelExteriorColourAssets", new { modelID = ViewBag.ModelID, exteriorColourID = model.ExteriorColour.ID, carID =  ViewBag.CarID }, new { })
             @foreach (var visibleInModeAndView in model.ExteriorColour.VisibleIn.Where(x => x.Assets.Any()))
             {
                 @Html.Raw(" | ")
                 @Html.ActionLink(String.Format("Exterior Colour Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View), "Index", "ModelExteriorColourVisibleInAssets", new { modelID = ViewBag.ModelID, exteriorColourID = model.ExteriorColour.ID, carID =  ViewBag.CarID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View }, new { })
-            } <br/>
+            } <br/>*@
             
 
-            @Html.ActionLink("Upholstery Assets", "Index", "ModelUpholsteryAssets", new { modelID = ViewBag.ModelID, upholsteryID = model.Upholstery.ID, carID =  ViewBag.CarID }, new { })
+            @*@Html.ActionLink("Upholstery Assets", "Index", "ModelUpholsteryAssets", new { modelID = ViewBag.ModelID, upholsteryID = model.Upholstery.ID, carID =  ViewBag.CarID }, new { })
             @foreach (var visibleInModeAndView in model.Upholstery.VisibleIn.Where(x => x.Assets.Any()))
             {
                 @Html.Raw(" | ")
                 @Html.ActionLink(String.Format("Upholstery Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View), "Index", "ModelUpholsteryVisibleInAssets", new { modelID = ViewBag.ModelID, upholsteryID = model.Upholstery.ID, carID =  ViewBag.CarID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View }, new { })
-            } <br/>
+            } <br/>*@
             
                       
-            @Html.ActionLink("Colour Combination Assets", "Index", "ModelColourCombinationAssets", new { modelID = ViewBag.ModelID, exteriorColourID = model.ExteriorColour.ID, upholsteryID = model.Upholstery.ID, carID =  ViewBag.CarID }, new { })
+           @* @Html.ActionLink("Colour Combination Assets", "Index", "ModelColourCombinationAssets", new { modelID = ViewBag.ModelID, exteriorColourID = model.ExteriorColour.ID, upholsteryID = model.Upholstery.ID, carID =  ViewBag.CarID }, new { })
             @foreach (var visibleInModeAndView in model.VisibleIn.Where(x => x.Assets.Any()))
             {
                 @Html.Raw(" | ")
                 @Html.ActionLink(String.Format("Colour Combination Assets ({0}-{1})", visibleInModeAndView.Mode, visibleInModeAndView.View), "Index", "ModelColourCombinationVisibleInAssets", new { modelID = ViewBag.ModelID, exteriorColourID = model.ExteriorColour.ID, upholsteryID = model.Upholstery.ID , carID =  ViewBag.CarID, mode = visibleInModeAndView.Mode, view = visibleInModeAndView.View }, new { })
-            } <br/>
+            } <br/>*@
 
         </div>
     </div>
