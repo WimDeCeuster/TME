@@ -67,22 +67,22 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IBodyType BodyType
         {
-            get { return new BodyType(Adaptee.BodyType); }
+            get { return new BodyType(Adaptee.BodyType, true); }
         }
 
         public IEngine Engine
         {
-            get { return new Engine(Adaptee.Engine); }
+            get { return new Engine(Adaptee.Engine, true); }
         }
 
         public ITransmission Transmission
         {
-            get { return new Transmission(Adaptee.Transmission); }
+            get { return new Transmission(Adaptee.Transmission, true); }
         }
 
         public IWheelDrive WheelDrive
         {
-            get { return new WheelDrive(Adaptee.WheelDrive); }
+            get { return new WheelDrive(Adaptee.WheelDrive, true); }
         }
 
         public ISteering Steering
@@ -92,14 +92,14 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IGrade Grade
         {
-            get { return new Grade(Adaptee.Grade); }
+            get { return new Grade(Adaptee.Grade, true); }
         }
         public ISubModel SubModel
         {
             get
             {
                 return Adaptee.SubModel != null
-                    ? new SubModel(Adaptee.SubModel)
+                    ? new SubModel(Adaptee.SubModel, true)
                     : null;
             }
         }

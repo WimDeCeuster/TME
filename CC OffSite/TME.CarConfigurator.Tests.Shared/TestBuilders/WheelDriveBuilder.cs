@@ -34,7 +34,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             if (_wheelDrive.VisibleIn == null)
                 _wheelDrive.VisibleIn = new List<VisibleInModeAndView>();
 
-            _wheelDrive.VisibleIn.Add(new VisibleInModeAndView() { Mode = mode, View = view });
+            _wheelDrive.VisibleIn.Add(new VisibleInModeAndView() { Mode = mode, View = view, CanHaveAssets = true});
 
             return this;
         }

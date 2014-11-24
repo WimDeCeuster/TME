@@ -28,7 +28,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _assetSetMapper = assetSetMapper;
         }
 
-        public Transmission MapTransmission(Administration.ModelGenerationTransmission generationTransmission)
+        public Transmission MapTransmission(Administration.ModelGenerationTransmission generationTransmission, bool canHaveAssets)
         {
             var crossModelTransmission = Administration.Transmissions.GetTransmissions()[generationTransmission.ID];
             var transmissionType = Administration.TransmissionTypes.GetTransmissionTypes()[generationTransmission.Type.ID];
@@ -39,7 +39,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 KeyFeature = generationTransmission.KeyFeature,
                 NumberOfGears = generationTransmission.NumberOfGears,
                 Type = _transmissionTypeMapper.MapTransmissionType(transmissionType),
-                VisibleIn = _assetSetMapper.GetVisibility(generationTransmission.AssetSet).ToList()
+                VisibleIn = _assetSetMapper.GetVisibility(generationTransmission.AssetSet, canHaveAssets).ToList()
             };
 
             return _baseMapper.MapDefaultsWithSort(mappedTransmission, crossModelTransmission, generationTransmission);

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TME.CarConfigurator.Repository.Objects;
+﻿using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface IEngineMapper
     {
-        Engine MapEngine(Administration.ModelGenerationEngine generationEngine);
+        Engine MapEngine(Administration.ModelGenerationEngine generationEngine, bool canHaveAssets);
     }
 }

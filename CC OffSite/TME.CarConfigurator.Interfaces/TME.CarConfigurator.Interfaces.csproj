@@ -61,6 +61,7 @@
     <Compile Include="Assets\IAssetType.cs" />
     <Compile Include="Assets\IFileType.cs" />
     <Compile Include="Assets\IVisibleInModeAndView.cs" />
+    <Compile Include="Assets\IVisibleInModeAndViewWithAssets.cs" />
     <Compile Include="Colours\IColourCombinationInfo.cs" />
     <Compile Include="Colours\IUpholsteryInfo.cs" />
     <Compile Include="Colours\IColourCombination.cs" />

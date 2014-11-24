@@ -35,7 +35,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenACarTransmission
 
             var repoTransmission = new TransmissionBuilder()
                 .WithId(Guid.NewGuid())
-                .AddVisibleIn(_view,_mode)
+                .AddVisibleIn(_view,_mode, true)
                 .Build();
 
             var publicationTimeFrame = new PublicationTimeFrameBuilder().WithID(Guid.NewGuid()).WithDateRange(DateTime.MinValue, DateTime.MaxValue).Build();
