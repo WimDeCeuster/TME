@@ -25,7 +25,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _assetSetMapper = assetSetMapper;
         }
 
-        public Engine MapEngine(Administration.ModelGenerationEngine generationEngine)
+        public Engine MapEngine(Administration.ModelGenerationEngine generationEngine,bool canHaveAssets)
         {
             var crossModelEngine = Administration.Engines.GetEngines()[generationEngine.ID];
             var engineCategory = Administration.EngineCategories.GetEngineCategories()[crossModelEngine.Category.ID];
@@ -36,7 +36,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Category = engineCategory == null ? null : _engineCategoryMapper.MapEngineCategory(engineCategory),
                 KeyFeature = generationEngine.KeyFeature,
                 Type = _engineTypeMapper.MapEngineType(generationEngine.Type),
-                VisibleIn = _assetSetMapper.GetVisibility(generationEngine.AssetSet).ToList()
+                VisibleIn = _assetSetMapper.GetVisibility(generationEngine.AssetSet, canHaveAssets).ToList()
             };
 
             return _baseMapper.MapDefaultsWithSort(mappedEngine, crossModelEngine, generationEngine);

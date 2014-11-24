@@ -48,7 +48,7 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             if (_engine.VisibleIn == null) 
                 _engine.VisibleIn =  new List<VisibleInModeAndView>();
             
-            _engine.VisibleIn.Add(new VisibleInModeAndView() { Mode = mode, View = view });
+            _engine.VisibleIn.Add(new VisibleInModeAndView() { Mode = mode, View = view, CanHaveAssets = true});
             
             return this;
         }

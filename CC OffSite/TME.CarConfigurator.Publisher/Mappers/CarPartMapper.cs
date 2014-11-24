@@ -22,7 +22,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Code = generationCarPart.Code,
                 Name = generationCarPart.Name,
                 ID = generationCarPart.ID,
-                VisibleIn = _assetSetMapper.GetVisibility(generationCarPart.AssetSet).ToList()
+                VisibleIn = _assetSetMapper.GetVisibility(generationCarPart.AssetSet, true).ToList()
             };
         }
     }

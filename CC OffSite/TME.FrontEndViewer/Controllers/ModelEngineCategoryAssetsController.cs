@@ -33,11 +33,9 @@ namespace TME.FrontEndViewer.Controllers
         {
             var start = DateTime.Now;
 
-            var category = new CarConfigurator.LegacyAdapter.Engine(
-                    TMME.CarConfigurator.Model.GetModel(oldContext, modelID)
-                    .Engines.Cast<TMME.CarConfigurator.Engine>()
-                    .First(x => x.ID == engineID)
-                ).Category;
+            var category = new CarConfigurator.LegacyAdapter.Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID))
+                .Engines.First(x => x.ID == engineID)
+                .Category;
 
             var list = category == null ? new List<IAsset>() : category.Assets.ToList();
 

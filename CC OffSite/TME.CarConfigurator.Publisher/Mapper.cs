@@ -431,10 +431,10 @@ namespace TME.CarConfigurator.Publisher
         void FillCars(IEnumerable<Car> cars, TimeFrame timeFrame)
         {
             timeFrame.Cars = cars.Select(car => {
-                var bodyType = timeFrame.BodyTypes.Single(type => type.ID == car.BodyTypeID);
-                var engine = timeFrame.Engines.Single(eng => eng.ID == car.EngineID);
-                var transmission = timeFrame.Transmissions.Single(trans => trans.ID == car.TransmissionID);
-                var wheelDrive = timeFrame.WheelDrives.Single(drive => drive.ID == car.WheelDriveID);
+                var bodyType = _carMapper.CopyBodyType(timeFrame.BodyTypes.Single(type => type.ID == car.BodyTypeID));
+                var engine = _carMapper.CopyEngine(timeFrame.Engines.Single(eng => eng.ID == car.EngineID));
+                var transmission = _carMapper.CopyTransmission(timeFrame.Transmissions.Single(trans => trans.ID == car.TransmissionID));
+                var wheelDrive = _carMapper.CopyWheelDrive(timeFrame.WheelDrives.Single(drive => drive.ID == car.WheelDriveID));
                 var steering = timeFrame.Steerings.Single(steer => steer.ID == car.SteeringID);
                 return _carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering);
             }).ToList();
@@ -443,14 +443,14 @@ namespace TME.CarConfigurator.Publisher
         void FillBodyTypes(IEnumerable<Car> cars, ModelGeneration modelGeneration, TimeFrame timeFrame)
         {
             timeFrame.BodyTypes = modelGeneration.BodyTypes.Where(bodyType => cars.Any(car => car.BodyTypeID == bodyType.ID))
-                                                           .Select(_bodyTypeMapper.MapBodyType)
+                                                           .Select(bodyType => _bodyTypeMapper.MapBodyType(bodyType, false))
                                                            .ToList();
         }
 
         void FillEngines(IEnumerable<Car> cars, ModelGeneration modelGeneration, TimeFrame timeFrame)
         {
             timeFrame.Engines = modelGeneration.Engines.Where(engine => cars.Any(car => car.EngineID == engine.ID))
-                                                       .Select(_engineMapper.MapEngine)
+                                                       .Select(engine => _engineMapper.MapEngine(engine, false))
                                                        .ToList();
         }
 
@@ -525,7 +525,7 @@ namespace TME.CarConfigurator.Publisher
         void FillTransmissions(IEnumerable<Car> cars, ModelGeneration modelGeneration, TimeFrame timeFrame)
         {
             timeFrame.Transmissions = modelGeneration.Transmissions.Where(transmission => cars.Any(car => car.TransmissionID == transmission.ID))
-                                                                   .Select(_transmissionMapper.MapTransmission)
+                                                                   .Select(transmission => _transmissionMapper.MapTransmission(transmission,false))
                                                                    .ToList();
 
         }
@@ -533,7 +533,7 @@ namespace TME.CarConfigurator.Publisher
         void FillWheelDrives(IEnumerable<Car> cars, ModelGeneration modelGeneration, TimeFrame timeFrame)
         {
             timeFrame.WheelDrives = modelGeneration.WheelDrives.Where(wheelDrive => cars.Any(car => car.WheelDriveID == wheelDrive.ID))
-                                                               .Select(_wheelDriveMapper.MapWheelDrive)
+                                                               .Select(wheelDrive => _wheelDriveMapper.MapWheelDrive(wheelDrive, false))
                                                                .ToList();
         }
 
@@ -682,14 +682,14 @@ namespace TME.CarConfigurator.Publisher
             timeFrame.Grades = mappedGrades;
         }
 
-        private static void AddGradeToCar(IEnumerable<Car> cars, TimeFrame timeFrame, Grade mappedGrade)
+        private void AddGradeToCar(IEnumerable<Car> cars, TimeFrame timeFrame, Grade mappedGrade)
         {
             var gradeID = mappedGrade.ID;
             var applicableCars = cars.Where(car => car.GradeID == gradeID)
                 .Select(car => timeFrame.Cars.Single(contextCar => contextCar.ID == car.ID));
 
             foreach (var applicableCar in applicableCars)
-                applicableCar.Grade = mappedGrade;
+                applicableCar.Grade = _carMapper.CopyGrade(mappedGrade);
         }
 
         void FillGradeEquipment(EquipmentCategories categories, EquipmentGroups groups, IEnumerable<Car> cars, IEnumerable<ModelGenerationGrade> grades, TimeFrame timeFrame, bool isPreview, ExteriorColourTypes exteriorColourTypes, String assetUrl)

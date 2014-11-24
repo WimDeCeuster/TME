@@ -13,7 +13,7 @@ namespace TME.FrontEndViewer.Controllers
     public class ModelColourCombinationsController : Controller
     {
 
-        public ActionResult Index(Guid modelID, Guid? carID)
+        public ActionResult Index(Guid modelID)
         {
             var context = (Context)Session["context"];
             var oldContext = MyContext.NewContext(context.Brand, context.Country, context.Language);
@@ -22,13 +22,13 @@ namespace TME.FrontEndViewer.Controllers
 
             var model = new CompareView<IReadOnlyList<IColourCombination>>
             {
-                OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, carID),
-                NewReaderModel = GetNewReaderModelWithMetrics(context, modelID, carID)
+                OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID),
+                NewReaderModel = GetNewReaderModelWithMetrics(context, modelID)
             };
 
             return View(model);
         }
-        private static ModelWithMetrics<IReadOnlyList<IColourCombination>> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID, Guid? carID)
+        private static ModelWithMetrics<IReadOnlyList<IColourCombination>> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID)
         {
             var start = DateTime.Now;
             var list = new CarConfigurator.LegacyAdapter.Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID))
@@ -40,22 +40,17 @@ namespace TME.FrontEndViewer.Controllers
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
         }
-        private static ModelWithMetrics<IReadOnlyList<IColourCombination>> GetNewReaderModelWithMetrics(Context context, Guid modelID, Guid? carID)
+        private static ModelWithMetrics<IReadOnlyList<IColourCombination>> GetNewReaderModelWithMetrics(Context context, Guid modelID)
         {
             var start = DateTime.Now;
-            var model = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID);
-            var list = GetList(model, carID);
+            var list = CarConfigurator.DI.Models.GetModels(context).First(x => x.ID == modelID)
+                .ColourCombinations;
 
             return new ModelWithMetrics<IReadOnlyList<IColourCombination>>()
             {
                 Model = list,
                 TimeToLoad = DateTime.Now.Subtract(start)
             };
-        }
-
-        private static IReadOnlyList<IColourCombination> GetList(IModel model, Guid? carID)
-        {
-            return model.Cars.First(c => c.ID == carID).ColourCombinations;
         }
     }
 }

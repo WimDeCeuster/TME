@@ -31,12 +31,7 @@ namespace TME.FrontEndViewer.Controllers
         private static ModelWithMetrics<IReadOnlyList<ITransmission>> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID)
         {
             var start = DateTime.Now;
-            var list = TMME.CarConfigurator.Model.GetModel(oldContext, modelID)
-                            .Transmissions
-                            .Cast<TMME.CarConfigurator.Transmission>()
-                            .Select(x => new CarConfigurator.LegacyAdapter.Transmission(x))
-                            .Cast<ITransmission>()
-                            .ToList();
+            var list = new CarConfigurator.LegacyAdapter.Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID)).Transmissions.ToList();
 
             return new ModelWithMetrics<IReadOnlyList<ITransmission>>()
             {

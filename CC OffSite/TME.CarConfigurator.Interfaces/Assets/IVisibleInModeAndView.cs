@@ -11,4 +11,5 @@ namespace TME.CarConfigurator.Interfaces.Assets
 
         IReadOnlyList<IAsset> Assets { get; }
     }
+
 }

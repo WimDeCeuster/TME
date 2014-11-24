@@ -8,7 +8,7 @@ namespace TME.CarConfigurator.Interfaces.Factories
     public interface IColourFactory
     {
         IReadOnlyList<IColourCombination> GetColourCombinations(Publication publication, Context context);
-        IReadOnlyList<IColourCombination> GetCarColourCombinations(Publication publication, Context context, Guid carID);
+        IReadOnlyList<ICarColourCombination> GetCarColourCombinations(Publication publication, Context context, Guid carID);
         IUpholstery GetUpholstery(Repository.Objects.Colours.Upholstery repository, Publication publication, Context context);
         IExteriorColour GetExteriorColour(Repository.Objects.Colours.ExteriorColour repoExteriorColour, Publication publication, Context context);
 

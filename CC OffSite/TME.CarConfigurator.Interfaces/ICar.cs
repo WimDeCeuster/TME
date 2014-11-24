@@ -30,7 +30,7 @@ namespace TME.CarConfigurator.Interfaces
         ICarEquipment Equipment { get; }
         IReadOnlyList<ICarPack> Packs { get; }
         IReadOnlyList<ICarTechnicalSpecification> TechnicalSpecifications { get; }
-        IReadOnlyList<IColourCombination> ColourCombinations { get; }
+        IReadOnlyList<ICarColourCombination> ColourCombinations { get; }
     }
 }
 

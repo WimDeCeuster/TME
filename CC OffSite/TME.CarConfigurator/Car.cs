@@ -135,8 +135,6 @@ namespace TME.CarConfigurator
             get { return _carPacks = _carPacks ?? _packFactory.GetCarPacks(_repositoryPublication, _repositoryContext, ID); }
         }
 
-        public IReadOnlyList<IColourCombination> ColourCombinations { get { return _colourCombinations = _colourCombinations ?? _colourFactory.GetCarColourCombinations(_repositoryPublication, _repositoryContext, ID); } } 
-
         public IReadOnlyList<ICarTechnicalSpecification> TechnicalSpecifications
         {
             get
@@ -147,6 +145,11 @@ namespace TME.CarConfigurator
                         _specificationsFactory.GetCarTechnicalSpecifications(ID, _repositoryPublication,
                             _repositoryContext);
             }
+        }
+
+        public IReadOnlyList<ICarColourCombination> ColourCombinations
+        {
+            get { return _colourCombinations = _colourCombinations ?? _colourFactory.GetCarColourCombinations(_repositoryPublication, _repositoryContext, ID); } }
         }
     }
 }

@@ -34,19 +34,12 @@ namespace TME.FrontEndViewer.Controllers
             var start = DateTime.Now;
 
             if (subModelID == null)
-                list = TMME.CarConfigurator.Model.GetModel(oldContext, modelID)
-                            .Grades
-                            .Cast<TMME.CarConfigurator.Grade>()
-                            .Select(x => new CarConfigurator.LegacyAdapter.Grade(x))
-                            .Cast<IGrade>()
-                            .ToList();
+                list = new CarConfigurator.LegacyAdapter.Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID))
+                    .Grades.ToList();
             else
-                list =
-                new CarConfigurator.LegacyAdapter.SubModel(
-                    TMME.CarConfigurator.Model.GetModel(oldContext, modelID)
-                    .SubModels.Cast<TMME.CarConfigurator.SubModel>()
-                    .First(x => x.ID == subModelID)
-                ).Grades.ToList();
+                list = new CarConfigurator.LegacyAdapter.Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID))
+                    .SubModels.First(x => x.ID == subModelID)
+                    .Grades.ToList();
 
             return new ModelWithMetrics<IReadOnlyList<IGrade>>()
             {

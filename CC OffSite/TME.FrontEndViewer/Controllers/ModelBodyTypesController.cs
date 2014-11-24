@@ -7,6 +7,7 @@ using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.FrontEndViewer.Models;
 using TMME.CarConfigurator;
+using CarConfiguratorVersion = TME.CarConfigurator.CarConfiguratorVersion;
 
 namespace TME.FrontEndViewer.Controllers
 {
@@ -31,12 +32,8 @@ namespace TME.FrontEndViewer.Controllers
         private static ModelWithMetrics<IReadOnlyList<IBodyType>> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID)
         {
             var start = DateTime.Now;
-            var list = TMME.CarConfigurator.Model.GetModel(oldContext, modelID)
-                            .BodyTypes
-                            .Cast<TMME.CarConfigurator.BodyType>()
-                            .Select(x => new CarConfigurator.LegacyAdapter.BodyType(x))
-                            .Cast<IBodyType>()
-                            .ToList();
+            var list = new CarConfigurator.LegacyAdapter.Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID)).BodyTypes.ToList();
+
 
             return new ModelWithMetrics<IReadOnlyList<IBodyType>>()
             {

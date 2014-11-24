@@ -77,6 +77,9 @@
     <Compile Include="CarSubModel.cs" />
     <Compile Include="CarTransmission.cs" />
     <Compile Include="CarWheelDrive.cs" />
+    <Compile Include="Colours\CarColourCombination.cs" />
+    <Compile Include="Colours\CarExteriorColour.cs" />
+    <Compile Include="Colours\CarUpholstery.cs" />
     <Compile Include="Colours\ColourCombinationInfo.cs" />
     <Compile Include="Colours\UpholsteryInfo.cs" />
     <Compile Include="Colours\ExteriorColourInfo.cs" />

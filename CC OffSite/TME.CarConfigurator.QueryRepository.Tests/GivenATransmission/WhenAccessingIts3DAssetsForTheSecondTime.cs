@@ -32,7 +32,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenATransmission
 
             var transmission = new TransmissionBuilder()
                 .WithId(Guid.NewGuid())
-                .AddVisibleIn(VIEW, MODE)
+                .AddVisibleIn(VIEW, MODE, true)
                 .Build();
 
             var publicationTimeFrame = new PublicationTimeFrameBuilder()

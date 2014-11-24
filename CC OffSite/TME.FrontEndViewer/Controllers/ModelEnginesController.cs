@@ -31,12 +31,9 @@ namespace TME.FrontEndViewer.Controllers
         private static ModelWithMetrics<IReadOnlyList<IEngine>> GetOldReaderModelWithMetrics(MyContext oldContext, Guid modelID)
         {
             var start = DateTime.Now;
-            var list = TMME.CarConfigurator.Model.GetModel(oldContext, modelID)
-                            .Engines
-                            .Cast<TMME.CarConfigurator.Engine>()
-                            .Select(x => new CarConfigurator.LegacyAdapter.Engine(x))
-                            .Cast<IEngine>()
-                            .ToList();
+            var list =
+                new CarConfigurator.LegacyAdapter.Model(TMME.CarConfigurator.Model.GetModel(oldContext, modelID))
+                    .Engines.ToList();
 
             return new ModelWithMetrics<IReadOnlyList<IEngine>>()
             {
