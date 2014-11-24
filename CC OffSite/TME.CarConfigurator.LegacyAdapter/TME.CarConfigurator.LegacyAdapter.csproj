@@ -81,13 +81,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Colours\ColourCombinationInfo.cs" />
+    <Compile Include="Colours\CarColourCombination.cs" />
     <Compile Include="GradeInfo.cs" />
     <Compile Include="Extensions\ColouringModesExtensions.cs" />
     <Compile Include="Packs\CarPack.cs" />
     <Compile Include="CarPart.cs" />
     <Compile Include="Colours\ColourCombination.cs" />
     <Compile Include="Colours\ExteriorColour.cs" />
-    <Compile Include="Colours\Upholstery.cs" />
+    <Compile Include="Colours\CarUpholstery.cs" />
     <Compile Include="Colours\UpholsteryType.cs" />
     <Compile Include="Colours\ExteriorColourType.cs" />
     <Compile Include="Equipment\Accessory.cs" />

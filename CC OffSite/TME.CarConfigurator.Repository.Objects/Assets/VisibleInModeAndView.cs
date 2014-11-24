@@ -5,11 +5,9 @@
     {
         
         public string Mode { get; set; }
-        
         public string View { get; set; }
-
-
-
+        public bool CanHaveAssets { get; set; }
+        
         #region System.Object overrides
 
         public override bool Equals(object obj)

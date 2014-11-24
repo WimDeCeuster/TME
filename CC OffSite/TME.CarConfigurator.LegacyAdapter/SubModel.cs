@@ -14,13 +14,19 @@ namespace TME.CarConfigurator.LegacyAdapter
     {
         #region Dependencies (Adaptee)
         private Legacy.SubModel Adaptee { get; set; }
+        private bool ForCar
+        {
+            get;
+            set;
+        }
         #endregion
 
         #region Constructor
-        public SubModel(Legacy.SubModel adaptee) 
+        public SubModel(Legacy.SubModel adaptee, bool forCar)
             : base(adaptee)
         {
             Adaptee = adaptee;
+            ForCar = forCar;
         }
         #endregion
 
@@ -64,7 +70,7 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IEnumerable<IGrade> Grades
         {
-            get { return Adaptee.Grades.Cast<Legacy.Grade>().Select(x => new Grade(x)); }
+            get { return Adaptee.Grades.Cast<Legacy.Grade>().Select(x => new Grade(x, false)); }
         }
 
         public IReadOnlyList<IAsset> Assets

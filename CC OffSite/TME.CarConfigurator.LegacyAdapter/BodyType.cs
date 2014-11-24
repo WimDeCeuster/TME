@@ -17,12 +17,18 @@ namespace TME.CarConfigurator.LegacyAdapter
             get;
             set;
         }
+        private bool ForCar
+        {
+            get;
+            set;
+        }
         #endregion
 
         #region Constructor
-        public BodyType(Legacy.BodyType adaptee) : base(adaptee)
+        public BodyType(Legacy.BodyType adaptee, bool forCar) : base(adaptee)
         {
             Adaptee = adaptee;
+            ForCar = forCar;
         }
         #endregion
 
@@ -41,7 +47,7 @@ namespace TME.CarConfigurator.LegacyAdapter
         private IReadOnlyList<IVisibleInModeAndView> _visibleIn = null;
         public IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
-            get { return _visibleIn ?? (_visibleIn = Adaptee.Assets.GetVisibleInModeAndViews()); }
+            get { return _visibleIn ?? (_visibleIn = (ForCar ? Adaptee.Assets.GetVisibleInModeAndViews() : Adaptee.Assets.GetVisibleInModeAndViewsWithoutAssets())); }
         }
 
         private IReadOnlyList<IAsset> _assets = null;

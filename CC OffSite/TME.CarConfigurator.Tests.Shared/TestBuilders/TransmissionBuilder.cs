@@ -36,12 +36,12 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
-        public TransmissionBuilder AddVisibleIn(string view, string mode)
+        public TransmissionBuilder AddVisibleIn(string view, string mode, bool canHaveAssets)
         {
             if (_transmission.VisibleIn == null)
                 _transmission.VisibleIn = new List<VisibleInModeAndView>();
 
-            _transmission.VisibleIn.Add(new VisibleInModeAndView(){Mode = mode,View = view});
+            _transmission.VisibleIn.Add(new VisibleInModeAndView(){Mode = mode,View = view,CanHaveAssets = canHaveAssets});
 
             return this;
         }

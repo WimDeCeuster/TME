@@ -22,13 +22,19 @@ namespace TME.CarConfigurator.LegacyAdapter
             get;
             set;
         }
+        private bool ForCar
+        {
+            get;
+            set;
+        }
         #endregion
 
         #region Constructor
-        public Grade(Legacy.Grade adaptee)
+        public Grade(Legacy.Grade adaptee, bool forCar)
             : base(adaptee)
         {
             Adaptee = adaptee;
+            ForCar = forCar;
         }
         #endregion
 
@@ -50,14 +56,16 @@ namespace TME.CarConfigurator.LegacyAdapter
             }
         }
 
+        private IReadOnlyList<IVisibleInModeAndView> _visibleIn = null;
         public IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
-            get { return Adaptee.Assets.GetVisibleInModeAndViews(); }
+            get { return _visibleIn ?? (_visibleIn = (ForCar ? Adaptee.Assets.GetVisibleInModeAndViews() : Adaptee.Assets.GetVisibleInModeAndViewsWithoutAssets())); }
         }
 
+        private IReadOnlyList<IAsset> _assets = null;
         public IReadOnlyList<IAsset> Assets
         {
-            get { return Adaptee.Assets.GetPlainAssets(); }
+            get { return _assets ?? (_assets = Adaptee.Assets.GetPlainAssets()); }
         }
 
         public IGradeEquipment Equipment

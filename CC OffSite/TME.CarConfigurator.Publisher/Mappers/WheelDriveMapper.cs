@@ -19,7 +19,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _assetSetMapper = assetSetMapper;
         }
 
-        public WheelDrive MapWheelDrive(Administration.ModelGenerationWheelDrive generationWheelDrive)
+        public WheelDrive MapWheelDrive(Administration.ModelGenerationWheelDrive generationWheelDrive, bool canHaveAssets)
         {
             var crossModelWheelDrive = Administration.WheelDrives.GetWheelDrives()[generationWheelDrive.ID];
 
@@ -27,7 +27,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             {
                 Brochure = generationWheelDrive.Brochure,
                 KeyFeature = generationWheelDrive.KeyFeature,
-                VisibleIn = _assetSetMapper.GetVisibility(generationWheelDrive.AssetSet).ToList()
+                VisibleIn = _assetSetMapper.GetVisibility(generationWheelDrive.AssetSet, canHaveAssets).ToList()
             };
 
             return _baseMapper.MapDefaultsWithSort(mappedWheelDrive, crossModelWheelDrive, generationWheelDrive);

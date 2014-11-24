@@ -6,7 +6,7 @@ using TME.CarConfigurator.LegacyAdapter.Extensions;
 
 namespace TME.CarConfigurator.LegacyAdapter.Colours
 {
-    public class ColourCombination : IColourCombination
+    public class CarColourCombination : ICarColourCombination
     {
         
         #region Dependencies (Adaptee)
@@ -15,19 +15,13 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
             get;
             set;
         }
-        private bool ForCar
-        {
-            get;
-            set;
-        }
         #endregion
 
         #region Constructor
 
-        public ColourCombination(TMME.CarConfigurator.CarColourCombination adaptee, bool forCar)
+        public CarColourCombination(TMME.CarConfigurator.CarColourCombination adaptee)
         {
             Adaptee = adaptee;
-            ForCar = forCar;
         }
         #endregion
 
@@ -37,14 +31,14 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
             get { return Adaptee.ID; }
         }
 
-        public IExteriorColour ExteriorColour
+        public ICarExteriorColour ExteriorColour
         {
-            get { return new CarExteriorColour(Adaptee.ExteriorColour, ForCar); }
+            get { return new CarExteriorColour(Adaptee.ExteriorColour, true); }
         }
 
-        public IUpholstery Upholstery
+        public ICarUpholstery Upholstery
         {
-            get { return new CarUpholstery(Adaptee.Upholstery, ForCar);}
+            get { return new CarUpholstery(Adaptee.Upholstery, true); }
         }
 
         public int SortIndex
@@ -59,9 +53,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
             {
                 if (_visibleIn != null) return _visibleIn;
 
-                _visibleIn = ForCar 
-                    ? Adaptee.Assets.GetVisibleInModeAndViews() 
-                    : Adaptee.Assets.GetVisibleInModeAndViewsWithoutAssets();
+                _visibleIn =  Adaptee.Assets.GetVisibleInModeAndViews();
 
                 return _visibleIn;
             }

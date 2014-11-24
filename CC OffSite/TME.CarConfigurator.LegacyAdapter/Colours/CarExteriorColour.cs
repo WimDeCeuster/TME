@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
+using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
 
 namespace TME.CarConfigurator.LegacyAdapter.Colours
 {
-    public class CarExteriorColour : BaseObject, IExteriorColour
+    public class CarExteriorColour : BaseObject, ICarExteriorColour
     {
         #region Dependencies (Adaptee)
         private TMME.CarConfigurator.CarExteriorColour Adaptee
@@ -73,6 +74,11 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
         public IReadOnlyList<IAsset> Assets
         {
             get { return _assets ?? (_assets = Adaptee.Assets.GetPlainAssets()); }
+        }
+
+        public IPrice Price
+        {
+            get { return new Price(Adaptee); }
         }
     }
 }
