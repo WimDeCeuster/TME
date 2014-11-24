@@ -1,34 +1,33 @@
-﻿using FakeItEasy;
-using FluentAssertions;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TME.CarConfigurator.Interfaces;
+using FakeItEasy;
+using FluentAssertions;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
 using Xunit;
 
-namespace TME.CarConfigurator.Query.Tests.GivenAColourCombination
+namespace TME.CarConfigurator.Query.Tests.GivenACarColourCombination
 {
     public class WhenAccessingItsExteriorColourForTheFirstTime : TestBase
     {
-        IColourCombination _colourCombination;
-        IExteriorColour _exteriorColour;
-        Repository.Objects.Colours.ExteriorColour _repoExteriorColour;
+        ICarColourCombination _colourCombination;
+        ICarExteriorColour _exteriorColour;
+        CarExteriorColour _repoExteriorColour;
 
         protected override void Arrange()
         {
+            var carID = Guid.NewGuid();
+
             _repoExteriorColour = new CarExteriorColourBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
 
-            var repoColourCombination = new ColourCombinationBuilder()
+            var repoColourCombination = new CarColourCombinationBuilder()
                 .WithExteriorColour(_repoExteriorColour)
                 .Build();
 
@@ -44,13 +43,13 @@ namespace TME.CarConfigurator.Query.Tests.GivenAColourCombination
             var context = new ContextBuilder().Build();
 
             var colourService = A.Fake<IColourService>();
-            A.CallTo(() => colourService.GetColourCombinations(A<Guid>._, A<Guid>._, A<Context>._)).Returns(new [] { repoColourCombination });
+            A.CallTo(() => colourService.GetCarColourCombinations(A<Guid>._, A<Context>._, A<Guid>._)).Returns(new[] { repoColourCombination });
 
             var colourFactory = new ColourFactoryBuilder()
                 .WithColourService(colourService)
                 .Build();
 
-            _colourCombination = colourFactory.GetColourCombinations(publication, context).Single();
+            _colourCombination = colourFactory.GetCarColourCombinations(publication, context, carID).Single();
         }
 
         protected override void Act()
@@ -59,7 +58,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAColourCombination
         }
 
         [Fact]
-        public void ThenItShouldHaveTheExteriorColour()
+        public void ThenItShouldHaveTheCarExteriorColour()
         {
             _exteriorColour.ID.Should().Be(_repoExteriorColour.ID);
         }

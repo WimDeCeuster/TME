@@ -16,6 +16,8 @@ namespace TME.CarConfigurator.Colours
         private readonly Context _repositoryContext;
         private readonly IColourFactory _colourFactory;
         private readonly IAssetFactory _assetFactory;
+        private CarExteriorColour _exteriorColour;
+        private CarUpholstery _upholstery;
 
 
         public CarColourCombination(Guid carID, Repository.Objects.Colours.CarColourCombination repositoryColourCombination, Publication repositoryPublication, Context repositoryContext, IColourFactory colourFactory, IAssetFactory assetFactory)
@@ -37,8 +39,8 @@ namespace TME.CarConfigurator.Colours
         public int SortIndex { get { return _repositoryColourCombination.SortIndex; } }
         public Guid ID { get { return _repositoryColourCombination.ID; } }
 
-        public ICarExteriorColour ExteriorColour { get { return new CarExteriorColour(_carID, _repositoryColourCombination.ExteriorColour, _repositoryPublication, _repositoryContext, _assetFactory);} }
-        public ICarUpholstery Upholstery { get { return new CarUpholstery(_carID,_repositoryColourCombination.Upholstery, _repositoryPublication, _repositoryContext, _assetFactory); } }
+        public ICarExteriorColour ExteriorColour { get { return _exteriorColour = _exteriorColour ?? new CarExteriorColour(_carID, _repositoryColourCombination.ExteriorColour, _repositoryPublication, _repositoryContext, _assetFactory);} }
+        public ICarUpholstery Upholstery { get { return _upholstery = _upholstery ?? new CarUpholstery(_carID,_repositoryColourCombination.Upholstery, _repositoryPublication, _repositoryContext, _assetFactory); } }
 
         public IReadOnlyList<IVisibleInModeAndView> VisibleIn { get { throw new NotImplementedException(); } }
         public IReadOnlyList<IAsset> Assets { get { throw new NotImplementedException(); } }

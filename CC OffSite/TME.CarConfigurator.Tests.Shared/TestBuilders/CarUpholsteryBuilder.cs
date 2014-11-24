@@ -1,46 +1,46 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Colours;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
-    public class ExteriorColourBuilder
+    public class CarUpholsteryBuilder
     {
-        readonly ExteriorColour _colour;
+        readonly CarUpholstery _colour;
 
-        public ExteriorColourBuilder()
+        public CarUpholsteryBuilder()
         {
-            _colour = new ExteriorColour();
+            _colour = new CarUpholstery();
         }
 
-        public ExteriorColourBuilder WithId(Guid id)
+        public CarUpholsteryBuilder WithId(Guid id)
         {
             _colour.ID = id;
 
             return this;
         }
 
-        public ExteriorColourBuilder WithExteriorColourType(ExteriorColourType type)
+        public CarUpholsteryBuilder WithExteriorColourType(UpholsteryType type)
         {
             _colour.Type = type;
 
             return this;
         }
 
-        public ExteriorColourBuilder AddVisibleIn(String mode, String view)
+        public CarUpholsteryBuilder AddVisibleIn(String mode, String view)
         {
             if (_colour.VisibleIn == null)
                 _colour.VisibleIn = new List<VisibleInModeAndView>();
 
-            _colour.VisibleIn.Add(new VisibleInModeAndView { Mode = mode, View = view, CanHaveAssets = true });
+            _colour.VisibleIn.Add(new VisibleInModeAndView { Mode = mode, View = view });
 
             return this;
         }
 
-        public ExteriorColour Build()
+        public CarUpholstery Build()
         {
             return _colour;
-        } 
+        }
     }
 }
