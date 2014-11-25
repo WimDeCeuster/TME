@@ -524,11 +524,18 @@ namespace TME.CarConfigurator.Publisher
 
         private static IEnumerable<ModelGenerationEquipmentItem> GetValidCarEquipment(Car car)
         {
+<<<<<<< HEAD
 //            var carEquipmentIds = car.Equipment.Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
 //            var packEquipmentIds = car.Packs.SelectMany(pack => pack.Equipment).Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
             
 //            return carEquipmentIds.Concat(packEquipmentIds).Distinct().Select(id => car.Generation.Equipment[id]);
+=======
+            //var carEquipmentIds = car.Equipment.Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
+            //var packEquipmentIds = car.Packs.SelectMany(pack => pack.Equipment).Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
+            //
+            //return carEquipmentIds.Concat(packEquipmentIds).Distinct().Select(id => car.Generation.Equipment[id]);
 
+>>>>>>> 651f317c29ac8d0e805c95e544847aa6db314f71
             return car.Equipment.Select(eq => car.Generation.Equipment[eq.ID]);
         }
 

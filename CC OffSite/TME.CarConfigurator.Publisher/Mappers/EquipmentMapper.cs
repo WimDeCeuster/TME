@@ -164,7 +164,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
             var generationOption = (ModelGenerationOption)option.Pack.Car.Generation.Equipment[option.ID];
             var carOption = (Administration.CarOption)option.Pack.Car.Equipment[option.ID];
-
+            var z = option.Index;
             var mappedOption = new CarPackOption
             {
                 TechnologyItem = generationOption.TechnologyItem,
@@ -186,10 +186,12 @@ namespace TME.CarConfigurator.Publisher.Mappers
             if (!carPackOption.ShortID.HasValue)
                 throw new CorruptDataException(String.Format("Please supply a ShortID for car pack option {0}", carPackOption.ID));
 
+            var generationOption = carPackOption.Pack.Car.Generation.Equipment[carPackOption.ID];
+
             return new Repository.Objects.Equipment.OptionInfo
             {
                 ShortID = carPackOption.ShortID.Value,
-                Name = carPackOption.Name
+                Name = generationOption.Translation.Name.DefaultIfEmpty(generationOption.Name)
             };
         }
 
