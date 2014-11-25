@@ -7,6 +7,7 @@ using TME.CarConfigurator.Publisher.Exceptions;
 using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Core;
 using TME.CarConfigurator.Repository.Objects.Packs;
 using Car = TME.CarConfigurator.Administration.Car;
 using CarPack = TME.CarConfigurator.Repository.Objects.Packs.CarPack;
@@ -80,10 +81,35 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             var gradePack = carPack.Car.Generation.Grades[carPack.Car.GradeID].Packs[carPack.ID];
 
-            var accessories = carPack.Equipment.OfType<Administration.CarPackAccessory>().ToList();
-            var options = carPack.Equipment.OfType<Administration.CarPackOption>().ToList();
-            var carPackExteriorColourTypes = carPack.Equipment.OfType<Administration.CarPackExteriorColourType>().ToList();
-            var carPackUpholsteryTypes = carPack.Equipment.OfType<Administration.CarPackUpholsteryType>().ToList();
+            var accessories = carPack.Equipment.OfType<Administration.CarPackAccessory>().Where(x => x.Availability != Availability.NotAvailable).ToList();
+            var options = carPack.Equipment.OfType<Administration.CarPackOption>().Where(x => x.Availability != Availability.NotAvailable).ToList();
+            var carPackExteriorColourTypes = carPack.Equipment.OfType<Administration.CarPackExteriorColourType>().Where(x => x.Availability != Availability.NotAvailable).ToList();
+            var carPackUpholsteryTypes = carPack.Equipment.OfType<Administration.CarPackUpholsteryType>().Where(x => x.Availability != Availability.NotAvailable).ToList();
+
+            var mappedAccessories = accessories.Select(accessory => _equipmentMapper.MapCarPackAccessory(accessory, groups, categories, isPreview, assetUrl)).OrderBy(x => x.SortIndex).ToList();
+            var mappedOptions = options.Select(option => _equipmentMapper.MapCarPackOption(option, groups, categories, isPreview, assetUrl)).OrderBy(x => x.SortIndex).ToList();
+            var mappedExteriorColourTypes = carPackExteriorColourTypes.Select(type => _equipmentMapper.MapCarPackExteriorColourType(type, groups, categories, isPreview, assetUrl)).OrderBy(x => x.SortIndex).ToList();
+            var mappedUpholsteryTypes = carPackUpholsteryTypes.Select(type => _equipmentMapper.MapCarPackUpholsteryType(type, groups, categories, isPreview, assetUrl)).OrderBy(x => x.SortIndex).ToList();
+
+            var index = 0;
+
+            //foreach (var item in mappedAccessories.Cast<BaseObject>().Concat(
+            //                     mappedExteriorColourTypes).Concat(
+            //                     mappedOptions).Concat(
+            //                     mappedUpholsteryTypes))
+            //    item.SortIndex = index++;
+
+            foreach (var item in mappedAccessories)
+                item.SortIndex = index++;
+
+            foreach (var item in mappedExteriorColourTypes)
+                item.SortIndex = index++;
+
+            foreach (var item in mappedOptions)
+                item.SortIndex = index++;
+
+            foreach (var item in mappedUpholsteryTypes)
+                item.SortIndex = index++;
 
             var mappedCarPack = new CarPack
             {
@@ -104,10 +130,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 AvailableForExteriorColours = carPack.ExteriorColourApplicabilities.Where(item => !item.Cleared).Select(_colourMapper.MapExteriorColourApplicability).ToList(),
                 AvailableForUpholsteries = carPack.UpholsteryApplicabilities.Where(item => !item.Cleared).Select(_colourMapper.MapUpholsteryApplicability).ToList(),
                 Equipment = new CarPackEquipment {
-                    Accessories = accessories.Select(accessory => _equipmentMapper.MapCarPackAccessory(accessory, groups, categories, isPreview, assetUrl)).ToList(),
-                    Options = options.Select(option => _equipmentMapper.MapCarPackOption(option, groups, categories, isPreview, assetUrl)).ToList(),
-                    ExteriorColourTypes = carPackExteriorColourTypes.Select(type => _equipmentMapper.MapCarPackExteriorColourType(type, groups, categories, isPreview, assetUrl)).ToList(),
-                    UpholsteryTypes = carPackUpholsteryTypes.Select(type => _equipmentMapper.MapCarPackUpholsteryType(type, groups, categories, isPreview, assetUrl)).ToList()
+                    Accessories = mappedAccessories,
+                    Options = mappedOptions,
+                    ExteriorColourTypes = mappedExteriorColourTypes,
+                    UpholsteryTypes = mappedUpholsteryTypes
                 }
             };
 
