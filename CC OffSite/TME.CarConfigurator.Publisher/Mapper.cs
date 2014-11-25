@@ -178,7 +178,7 @@ namespace TME.CarConfigurator.Publisher
                     progress.Report(new PublishProgress("Fill generation steerings"));
                     FillSteerings(timeFrameCars, timeFrame);
                     progress.Report(new PublishProgress("Fill generation cars"));
-                    FillCars(timeFrameCars, timeFrame);
+                    FillCars(timeFrameCars, timeFrame, isPreview);
                     
                     progress.Report(new PublishProgress("Fill generation grades"));
                     FillGrades(timeFrameCars, modelGeneration, timeFrame);
@@ -427,7 +427,7 @@ namespace TME.CarConfigurator.Publisher
                                          .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        void FillCars(IEnumerable<Car> cars, TimeFrame timeFrame)
+        void FillCars(IEnumerable<Car> cars, TimeFrame timeFrame, bool isPreview)
         {
             timeFrame.Cars = cars.Select(car => {
                 var bodyType = _carMapper.CopyBodyType(timeFrame.BodyTypes.Single(type => type.ID == car.BodyTypeID));
@@ -435,7 +435,7 @@ namespace TME.CarConfigurator.Publisher
                 var transmission = _carMapper.CopyTransmission(timeFrame.Transmissions.Single(trans => trans.ID == car.TransmissionID));
                 var wheelDrive = _carMapper.CopyWheelDrive(timeFrame.WheelDrives.Single(drive => drive.ID == car.WheelDriveID));
                 var steering = timeFrame.Steerings.Single(steer => steer.ID == car.SteeringID);
-                return _carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering);
+                return _carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering, isPreview);
             }).ToList();
         }
 
