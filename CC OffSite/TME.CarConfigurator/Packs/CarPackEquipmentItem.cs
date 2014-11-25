@@ -9,12 +9,12 @@ using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.Packs
 {
-    public class CarPackEquipmentItem<T> : CarEquipmentItem<T>, ICarPackEquipmentItem
+    public abstract class CarPackEquipmentItem<T> : CarEquipmentItem<T>, ICarPackEquipmentItem
         where T: Repository.Objects.Packs.CarPackEquipmentItem
     {
         private Price _price;
 
-        public CarPackEquipmentItem(T repositoryCarPackEquipmentItem, Publication publication, Guid carId, Context context, IAssetFactory assetFactory)
+        protected CarPackEquipmentItem(T repositoryCarPackEquipmentItem, Publication publication, Guid carId, Context context, IAssetFactory assetFactory)
             : base(repositoryCarPackEquipmentItem, publication, carId, context, assetFactory)
         {
             

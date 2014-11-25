@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TME.CarConfigurator.Repository.Objects.Equipment;
+using TME.CarConfigurator.Repository.Objects.TechnicalSpecifications;
 
-namespace TME.CarConfigurator.Tests.Shared.TestBuilders
+namespace TME.CarConfigurator.Tests.Shared.TestBuilders.TechnicalSpecifications
 {
     public class CategoryInfoBuilder
     {
@@ -19,6 +16,12 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
         {
             _category.ID = id;
 
+            return this;
+        }
+
+        public CategoryInfoBuilder WithSortOrder(int sortOrder)
+        {
+            _category.SortIndex = sortOrder;
             return this;
         }
 

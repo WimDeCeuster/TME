@@ -204,7 +204,7 @@ namespace TME.CarConfigurator.Publisher
                 {
                     FillCarParts(car, contextData);
                     FillCarPacks(car, contextData, equipmentGroups, equipmentCategories, isPreview, context.AssetUrl);
-                    FillCarEquipment(car, contextData, equipmentCategories, equipmentGroups, isPreview, cars, exteriorColourTypes, context.AssetUrl);
+                    FillCarEquipment(car, contextData, equipmentCategories, equipmentGroups, isPreview, context.AssetUrl);
                     FillCarTechnicalSpecifications(car, specificationCategories, units, contextData);
                     FillCarColourCombinations(car, contextData, exteriorColourTypes, upholsteryTypes, isPreview, context.AssetUrl);
 
@@ -465,10 +465,7 @@ namespace TME.CarConfigurator.Publisher
                         units[specification.Unit.ID]
                         )
                     )
-                .Where(mappedSpecification=>mappedSpecification.RawValue.Length != 0)
-                .OrderBy(mappedSpecification => mappedSpecification.Category.SortIndex)
-                .ThenBy(mappedSpecification => mappedSpecification.SortIndex)
-                .ThenBy(mappedSpecification => mappedSpecification.Name)
+                .Where(mappedSpecification=> mappedSpecification.RawValue.Length != 0)
                 .ToList();
 
             contextData.CarTechnicalSpecifications.Add(car.ID, technicalSpecifications);
@@ -512,7 +509,7 @@ namespace TME.CarConfigurator.Publisher
             contextData.CarColourCombinations.Add(car.ID, colourCombinations);
         }
 
-        private void FillCarEquipment(Car car, ContextData contextData, EquipmentCategories categories, EquipmentGroups groups, bool isPreview, IEnumerable<Car> cars, ExteriorColourTypes exteriorColourTypes, String assetUrl)
+        private void FillCarEquipment(Car car, ContextData contextData, EquipmentCategories categories, EquipmentGroups groups, bool isPreview, String assetUrl)
         {
             contextData.CarEquipment.Add(car.ID,new CarEquipment
             {

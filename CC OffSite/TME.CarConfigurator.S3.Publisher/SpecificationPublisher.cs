@@ -48,8 +48,15 @@ namespace TME.CarConfigurator.S3.Publisher
         {
             var tasks =
              carTechnicalSpecifications.Select(
-                 entry => _specificationsService.PutCarTechnicalSpecificationsAsync(brand, country, publicationID, entry.Key, entry.Value)).ToList();
+                 entry => _specificationsService.PutCarTechnicalSpecificationsAsync(brand, country, publicationID, entry.Key, SortCarTechnicalSpecification(entry.Value))).ToList();
             await Task.WhenAll(tasks);
+        }
+
+        private IEnumerable<CarTechnicalSpecification> SortCarTechnicalSpecification(IEnumerable<CarTechnicalSpecification> carTechnicalSpecifications)
+        {
+            return carTechnicalSpecifications.OrderBy(mappedSpecification => mappedSpecification.Category.SortIndex)
+                .ThenBy(mappedSpecification => mappedSpecification.SortIndex)
+                .ThenBy(mappedSpecification => mappedSpecification.Name);
         }
     }
 }

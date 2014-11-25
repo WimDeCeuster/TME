@@ -74,13 +74,14 @@
     <Compile Include="TestBuilders\CarSpecBuilder.cs" />
     <Compile Include="TestBuilders\CarUpholsteryBuilder.cs" />
     <Compile Include="TestBuilders\ColourCombinationInfoBuilder.cs" />
+    <Compile Include="TestBuilders\Equipment\CategoryInfoBuilder.cs" />
+    <Compile Include="TestBuilders\TechnicalSpecifications\CategoryInfoBuilder.cs" />
     <Compile Include="TestBuilders\ExteriorColourBuilder.cs" />
     <Compile Include="TestBuilders\OptionInfoBuilder.cs" />
     <Compile Include="TestBuilders\UpholsteryInfoBuilder.cs" />
     <Compile Include="TestBuilders\GradePackBuilder.cs" />
     <Compile Include="TestBuilders\CarPackBuilder.cs" />
     <Compile Include="TestBuilders\CarPartBuilder.cs" />
-    <Compile Include="TestBuilders\CategoryInfoBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetUpFixture.cs" />
     <Compile Include="TestBase.cs" />
@@ -136,6 +137,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

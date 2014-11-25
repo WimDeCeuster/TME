@@ -34,7 +34,7 @@ namespace TME.CarConfigurator.Factories
         public IReadOnlyList<ICarColourCombination> GetCarColourCombinations(Publication publication, Context context, Guid carID)
         {
             return _colourService.GetCarColourCombinations(publication.ID, context, carID)
-                .Select(colour => new CarColourCombination(carID, colour, publication, context, this, _assetFactory))
+                .Select(colour => new CarColourCombination(carID, colour, publication, context, _assetFactory))
                 .ToList();
         }
 

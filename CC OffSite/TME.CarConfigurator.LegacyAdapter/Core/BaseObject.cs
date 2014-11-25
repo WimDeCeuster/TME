@@ -64,9 +64,9 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return Adaptee.SortIndex; }
         }
 
-        public IEnumerable<ILabel> Labels
+        public IReadOnlyList<ILabel> Labels
         {
-            get { return Adaptee.Labels.Cast<Legacy.Label>().Select(x => new Label(x)); }
+            get { return Adaptee.Labels.Cast<Legacy.Label>().Select(x => new Label(x)).ToList(); }
         }
 
 

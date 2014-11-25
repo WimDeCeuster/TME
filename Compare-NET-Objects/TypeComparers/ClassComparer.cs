@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
 
 
 namespace KellermanSoftware.CompareNetObjects.TypeComparers
@@ -43,7 +42,10 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
             try
             {
                 if (parms.Config.MaxClassDepth > -1 && parms.Config.MaxClassDepth < parms.ClassDepth)
+                {
+                    AddDifference(parms, "Max depth hit", DifferenceType.Exception);
                     return;
+                }
 
                 parms.Result.AddParent(parms.Object1.GetHashCode());
                 parms.Result.AddParent(parms.Object2.GetHashCode());

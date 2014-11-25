@@ -98,7 +98,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
             }
         }
 
-        public IEnumerable<ILabel> Labels
+        public IReadOnlyList<ILabel> Labels
         {
             get
             {

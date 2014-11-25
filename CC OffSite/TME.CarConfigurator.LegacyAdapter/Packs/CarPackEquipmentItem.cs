@@ -7,6 +7,7 @@ using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Enums;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Packs;
+using TME.CarConfigurator.Interfaces.Rules;
 using TME.CarConfigurator.LegacyAdapter.Colours;
 using TME.CarConfigurator.LegacyAdapter.Equipment;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
@@ -182,6 +183,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
             }
         }
 
+
         public ColouringModes ColouringModes
         {
             get { return Adaptee.ColouringModes.ToColouringModes(); }
@@ -195,6 +197,12 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
                 if (StandAloneItemOfTheAdaptee == null) return new List<ILink>();
                 return StandAloneItemOfTheAdaptee.Links.Cast<TMME.CarConfigurator.Link>().Select(x => new Link(x)).ToList();
             }
+        }
+
+
+        public IRuleSets Rules
+        {
+            get { throw new System.NotImplementedException(); }
         }
     }
 }

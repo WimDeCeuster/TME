@@ -438,6 +438,16 @@ End Class
             Return GradeEquipmentItem.OptionalGradeFeature
         End Get
     End Property
+
+    Public ReadOnly Property KeyFeature() As Boolean
+        Get
+            If Car.SubModelID.Equals(Guid.Empty) Then
+                Return GradeEquipmentItem.GenerationEquipmentItem.KeyFeature
+            Else
+                Return GradeEquipmentItem.GenerationEquipmentItem.Generation.SubModels(Car.SubModelID).Equipment(ID).KeyFeature
+            End If
+        End Get
+    End Property
     Public ReadOnly Property SortPath() As String
         Get
             Return GradeEquipmentItem.SortPath

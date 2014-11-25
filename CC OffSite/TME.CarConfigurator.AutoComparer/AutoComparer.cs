@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.QueryServices.Exceptions;
@@ -14,9 +11,9 @@ namespace TME.CarConfigurator.AutoComparer
 {
     public class AutoComparer : IAutoComparer
     {
-        public AutoCompareResult Compare(IEnumerable<string> countries, String brand, PublicationDataSubset dataSubset)
+        public AutoCompareResult Compare(IList<string> countries, String brand, PublicationDataSubset dataSubset)
         {
-            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand cannot be empty");
+            if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentNullException("brand");
 
             Administration.MyContext.SetSystemContext(brand, "ZZ", "EN");
             var countryCodes = Administration.MyContext.GetContext().Countries
@@ -30,10 +27,10 @@ namespace TME.CarConfigurator.AutoComparer
 
             var readerMode = dataSubset == PublicationDataSubset.Live ? ReaderMode.Marketing : ReaderMode.MarketingPreview;
 
-            return new AutoCompareResult(brand, dataSubset, countries.Select(countryCode => ProcessCountry(countryCode, brand)));
+            return new AutoCompareResult(brand, dataSubset, countries.Select(countryCode => ProcessCountry(countryCode, brand, readerMode)));
         }
 
-        private CountryCompareResult ProcessCountry(string countryCode, string brand)
+        private CountryCompareResult ProcessCountry(string countryCode, string brand, ReaderMode readerMode)
         {
             Console.WriteLine("Processing country {0}", countryCode);
 
@@ -46,7 +43,7 @@ namespace TME.CarConfigurator.AutoComparer
             {
                 try
                 {
-                    results.Add(ProcessLanguage(countryCode, languageCode, brand));
+                    results.Add(ProcessLanguage(countryCode, languageCode, brand, readerMode));
                 }
                 catch (CountryLanguageCombinationDoesNotExistException)
                 {
@@ -57,7 +54,7 @@ namespace TME.CarConfigurator.AutoComparer
             return new CountryCompareResult(countryCode, results, missingLanguages);
         }
 
-        private LanguageCompareResult ProcessLanguage(string countryCode, string languageCode, string brand)
+        private LanguageCompareResult ProcessLanguage(string countryCode, string languageCode, string brand, ReaderMode readerMode)
         {
             Console.WriteLine("Processing language {0}-{1}", countryCode, languageCode);
 
@@ -68,22 +65,18 @@ namespace TME.CarConfigurator.AutoComparer
                 Language = languageCode
             };
 
-            var oldContext = MyContext.NewContext(context.Brand, context.Country, context.Language);
-            var newModels = CarConfigurator.DI.Models.GetModels(context).ToList();
+            var oldContext = MyContext.NewContext(context.Brand, context.Country, context.Language, readerMode);
+            var newModels = DI.Models.GetModels(context).ToList();
 
-            var oldModels = TMME.CarConfigurator.Models.GetModels(oldContext)
+            var oldModels = Models.GetModels(oldContext)
                                                        .Cast<TMME.CarConfigurator.Model>()
-                                                       .Select(x => new CarConfigurator.LegacyAdapter.Model(x))
+                                                       .Select(x => new LegacyAdapter.Model(x))
                                                        .ToList();
 
             var newModelIds = newModels.Select(model => model.ID).ToList();
             var oldModelIds = oldModels.Select(model => model.ID).ToList();
 
-            var missingOldModelIds = newModelIds.Except(oldModelIds).ToList();
             var missingNewModelIds = oldModelIds.Except(newModelIds).ToList();
-
-            //var missingOldModels = oldModels.Where(model => missingOldModelIds.Contains(model.ID)).ToList();
-            //var missingNewModels = newModels.Where(model => missingNewModelIds.Contains(model.ID)).ToList();
 
             var presentModelIds = newModelIds.Intersect(oldModelIds).ToList();
 
@@ -95,12 +88,12 @@ namespace TME.CarConfigurator.AutoComparer
                 }
                 catch (CurrentContextEmpty)
                 {
-                    MyContext.NewContext(context.Brand, context.Country, context.Language);
+                    MyContext.NewContext(context.Brand, context.Country, context.Language, readerMode);
                 }
 
-                var threadModels = TMME.CarConfigurator.Models.GetModels(oldContext)
+                var threadModels = Models.GetModels(oldContext)
                                                               .Cast<TMME.CarConfigurator.Model>()
-                                                              .Select(x => new CarConfigurator.LegacyAdapter.Model(x))
+                                                              .Select(x => new LegacyAdapter.Model(x))
                                                               .ToList();
 
                 var oldModel = threadModels.Single(model => model.ID == modelId);

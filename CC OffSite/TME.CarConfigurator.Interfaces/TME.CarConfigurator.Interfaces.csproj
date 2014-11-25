@@ -61,7 +61,6 @@
     <Compile Include="Assets\IAssetType.cs" />
     <Compile Include="Assets\IFileType.cs" />
     <Compile Include="Assets\IVisibleInModeAndView.cs" />
-    <Compile Include="Assets\IVisibleInModeAndViewWithAssets.cs" />
     <Compile Include="Colours\ICarColourCombination.cs" />
     <Compile Include="Colours\ICarExteriorColour.cs" />
     <Compile Include="Colours\ICarUpholstery.cs" />
@@ -129,7 +128,6 @@
     <Compile Include="IEngineType.cs" />
     <Compile Include="IEngine.cs" />
     <Compile Include="Core\IBaseObject.cs" />
-    <Compile Include="Core\IShortID.cs" />
     <Compile Include="Core\IPrice.cs" />
     <Compile Include="Core\ILabel.cs" />
     <Compile Include="IBodyType.cs" />
@@ -145,6 +143,11 @@
     <Compile Include="Packs\IGradePack.cs" />
     <Compile Include="Packs\IPack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\IEquipmentItemRule.cs" />
+    <Compile Include="Rules\IPackRule.cs" />
+    <Compile Include="Rules\IRule.cs" />
+    <Compile Include="Rules\IRuleSet.cs" />
+    <Compile Include="Rules\IRuleSets.cs" />
     <Compile Include="TechnicalSpecifications\ICategory.cs" />
     <Compile Include="TechnicalSpecifications\ICategoryInfo.cs" />
     <Compile Include="TechnicalSpecifications\IModelTechnicalSpecifications.cs" />

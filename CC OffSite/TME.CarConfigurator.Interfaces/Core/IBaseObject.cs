@@ -13,6 +13,6 @@ namespace TME.CarConfigurator.Interfaces.Core
         string FootNote { get; }
         string ToolTip { get;  }
         int SortIndex { get; }
-        IEnumerable<ILabel> Labels { get; }
+        IReadOnlyList<ILabel> Labels { get; }
     }
 }
