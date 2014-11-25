@@ -11,12 +11,16 @@ namespace TME.CarConfigurator.AutoComparer
         {
             var options = new Options();
 
-            if (!CommandLine.Parser.Default.ParseArguments(args, options)) return;
-
-            var countries = GetCountries(options);
+            if (!CommandLine.Parser.Default.ParseArguments(args, options))
+            {
+                Console.WriteLine("Could not parse args");
+                return;
+            }
 
             try
             {
+                var countries = GetCountries(options);
+
                 var result = new AutoComparer().Compare(countries, options.Brand, options.DataSubset);
 
                 var reporter = new Reporter();
@@ -33,7 +37,7 @@ namespace TME.CarConfigurator.AutoComparer
             var countries = options.Countries;
 
             if (countries.Any()) return countries;
-            
+
             countries = (ConfigurationManager.AppSettings["Countries"] ?? "").Split(' ').ToList();
 
             if (!countries.Any())

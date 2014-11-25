@@ -5,7 +5,6 @@ using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces.Enums;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Interfaces.Packs;
-using TME.CarConfigurator.Interfaces.Rules;
 using TME.CarConfigurator.Repository.Objects;
 
 namespace TME.CarConfigurator.Packs
@@ -29,11 +28,6 @@ namespace TME.CarConfigurator.Packs
         public override Interfaces.Core.IPrice Price
         {
             get { return _price = _price ?? new Price(RepositoryObject.Price); }
-        }
-
-        public IRuleSets Rules
-        {
-            get { throw new NotImplementedException(); }
         }
     }
 }
