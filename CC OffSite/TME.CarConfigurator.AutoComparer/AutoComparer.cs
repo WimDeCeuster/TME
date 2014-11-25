@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.QueryServices.Exceptions;
@@ -99,11 +100,17 @@ namespace TME.CarConfigurator.AutoComparer
                 var oldModel = threadModels.Single(model => model.ID == modelId);
                 var newModel = newModels.Single(model => model.ID == modelId);
 
+                var start = DateTime.Now;
+
                 Console.WriteLine("Processing model {0}-{1}-{2}", countryCode, languageCode, oldModel.Name);
 
                 var comparisonResult = new Comparer.Comparer().Compare(oldModel, newModel);
+                
+                var result =  new ModelCompareResult(oldModel.Name, comparisonResult);
 
-                return new ModelCompareResult(oldModel.Name, comparisonResult);
+                Console.WriteLine("Done processing model {0}-{1}-{2} in {3} seconds", countryCode, languageCode, oldModel.Name, DateTime.Now.Subtract(start).TotalMilliseconds/1000);
+
+                return result;
             }).ToList();
 
             return new LanguageCompareResult(languageCode, results, missingNewModelIds, missingNewModelIds);

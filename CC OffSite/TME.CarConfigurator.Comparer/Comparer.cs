@@ -40,36 +40,37 @@ namespace TME.CarConfigurator.Comparer
                 model => model.ColourCombinations.First().ID,
                 model => model.ColourCombinations.First().SortIndex,
                 model => model.Grades.First().Equipment.Options.First().TechnologyItem
-                //model => model.Assets,
-                //model => model.BodyTypes,
-                //model => model.Brand,
-                //model => model.CarConfiguratorVersion,
-                //model => model.Cars,
-                //model => model.ColourCombinations,
-                //model => model.Description,
-                //model => model.Engines,
-                //model => model.Equipment,
-                //model => model.FootNote,
-                //model => model.FuelTypes,
-                //model => model.Grades,
-                //model => model.ID,
-                //model => model.InternalCode,
-                //model => model.Labels,
-                //model => model.Links,
-                //model => model.LocalCode,
-                //model => model.Name,
-                //model => model.Promoted,
-                //model => model.SortIndex,
-                //model => model.SSN,
-                //model => model.Steerings,
-                //model => model.SubModels,
-                //model => model.TechnicalSpecifications,
-                //model => model.ToolTip,
-                //model => model.Transmissions,
-                //model => model.WheelDrives
             );
-
+            
             config.MembersToIgnore.Add("Assets");
+
+            //// for debugging/testing where things go slow
+            //config.MembersToIgnore.AddRange(
+            //    GetFullMemberNames(
+            //        model => model.Labels,
+            //        model => model.Links,
+            //        model => model.Assets,
+            //        model => model.BodyTypes,
+            //        model => model.Engines,
+            //        model => model.Transmissions,
+            //        model => model.WheelDrives,
+            //        model => model.Steerings,
+            //        model => model.Grades,
+            //        model => model.FuelTypes,
+            //        model => model.Cars,
+            //        model => model.SubModels,
+            //        model => model.ColourCombinations
+            //        //model => model.Equipment,
+            //        //model => model.TechnicalSpecifications
+            //    ));
+
+            //// end for debugging
+
+            // fix circular comparisons
+            config.MembersToIgnore.AddRange(GetFullMemberNames(
+                    model => model.Equipment.Categories.First().Parent,
+                    model => model.TechnicalSpecifications.Categories.First().Parent
+                ));
 
             config.PathsToIgnore = new List<String>
             { 
@@ -85,10 +86,6 @@ namespace TME.CarConfigurator.Comparer
             config.IgnoreOrderFor = new List<String>
             {
                 GetFullMemberName<IBodyType>(bodyType => bodyType.VisibleIn),
-                //GetFullMemberName<IEngine>(engine => engine.VisibleIn),
-                //GetFullMemberName<IGrade>(grade => grade.VisibleIn),
-                //GetFullMemberName<ITransmission>(transmission => transmissions.VisibleIn),
-                //GetFullMemberName<IWheelDrive>(wheelDrive => wheelDrive.VisibleIn)
                 GetFullMemberName<IUpholstery>(upholstery => upholstery.VisibleIn),
                 GetFullMemberName<ICarPack>(carPack => carPack.AvailableForExteriorColours),
                 GetFullMemberName<ICarPack>(carPack => carPack.AvailableForUpholsteries)
@@ -124,7 +121,7 @@ namespace TME.CarConfigurator.Comparer
             config.DetectMissingAndMisordered = true;
             config.QuickFailLists = true;
 
-            config.ShowBreadcrumb = true;
+            config.ShowBreadcrumb = false;
             config.MaxDifferences = -1;
             config.MaxStructDepth = 2;
             config.MaxClassDepth = 15;

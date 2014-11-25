@@ -15,6 +15,10 @@ namespace TME.CarConfigurator.AutoComparer
             HelpText = "The data subset of the publication.")]
         public PublicationDataSubset DataSubset { get; set; }
 
+        [Option('w', "wait", DefaultValue = false,
+            HelpText = "Wait for the user to press a key after finishing the comparison.")]
+        public bool ReadKeyAfterFinish { get; set; }
+
         [ValueList(typeof(List<string>))]
         public IList<string> Countries { get; set; }
 
