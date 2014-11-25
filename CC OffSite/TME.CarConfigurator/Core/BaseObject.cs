@@ -8,7 +8,7 @@ namespace TME.CarConfigurator.Core
     public abstract class BaseObject<T> : IBaseObject where T : Repository.Objects.Core.BaseObject
     {
         protected readonly T RepositoryObject;
-        private IEnumerable<ILabel> _labels;
+        private IReadOnlyList<ILabel> _labels;
 
         public Guid ID
         {
@@ -50,7 +50,7 @@ namespace TME.CarConfigurator.Core
             get { return RepositoryObject.SortIndex; }
         }
 
-        public IEnumerable<ILabel> Labels
+        public IReadOnlyList<ILabel> Labels
         {
             get { return _labels = _labels ?? RepositoryObject.Labels.Select(label => new Label(label)).ToArray(); }
         }

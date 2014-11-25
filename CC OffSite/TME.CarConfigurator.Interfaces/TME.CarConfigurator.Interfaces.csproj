@@ -129,7 +129,6 @@
     <Compile Include="IEngineType.cs" />
     <Compile Include="IEngine.cs" />
     <Compile Include="Core\IBaseObject.cs" />
-    <Compile Include="Core\IShortID.cs" />
     <Compile Include="Core\IPrice.cs" />
     <Compile Include="Core\ILabel.cs" />
     <Compile Include="IBodyType.cs" />

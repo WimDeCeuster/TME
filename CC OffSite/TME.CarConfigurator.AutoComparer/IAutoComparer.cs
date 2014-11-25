@@ -8,6 +8,6 @@ namespace TME.CarConfigurator.AutoComparer
 {
     public interface IAutoComparer
     {
-        AutoCompareResult Compare(IEnumerable<string> countries, String brand, PublicationDataSubset dataSubset);
+        AutoCompareResult Compare(IList<string> countries, String brand, PublicationDataSubset dataSubset);
     }
 }
