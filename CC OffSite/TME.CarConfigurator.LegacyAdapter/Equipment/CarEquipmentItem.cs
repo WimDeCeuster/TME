@@ -4,6 +4,7 @@ using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Equipment;
+using TME.CarConfigurator.Interfaces.Rules;
 using TME.CarConfigurator.LegacyAdapter.Colours;
 using TME.CarConfigurator.LegacyAdapter.Extensions;
 using IExteriorColour = TME.CarConfigurator.Interfaces.Equipment.IExteriorColour;
@@ -151,6 +152,12 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
                         .Select(x => new UpholsteryInfo(x))
                         .ToList();
             }
+        }
+
+        
+        public IRuleSets Rules
+        {
+            get { throw new System.NotImplementedException(); }
         }
     }
 }

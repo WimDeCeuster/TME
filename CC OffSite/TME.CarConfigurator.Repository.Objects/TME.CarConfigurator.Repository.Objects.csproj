@@ -120,6 +120,9 @@
     <Compile Include="Packs\CarPackOption.cs" />
     <Compile Include="Packs\CarPackUpholsteryType.cs" />
     <Compile Include="Packs\Pack.cs" />
+    <Compile Include="Rules\EquipmentItemRule.cs" />
+    <Compile Include="Rules\PackRule.cs" />
+    <Compile Include="Rules\Rule.cs" />
     <Compile Include="Steering.cs" />
     <Compile Include="SubModel.cs" />
     <Compile Include="TechnicalSpecifications\Category.cs" />

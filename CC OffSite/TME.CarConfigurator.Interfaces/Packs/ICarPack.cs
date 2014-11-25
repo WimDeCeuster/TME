@@ -2,6 +2,7 @@
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Core;
+using TME.CarConfigurator.Interfaces.Rules;
 
 namespace TME.CarConfigurator.Interfaces.Packs
 {
@@ -13,10 +14,12 @@ namespace TME.CarConfigurator.Interfaces.Packs
         IPrice Price { get; }
 
         IReadOnlyList<IAsset> Assets { get; }
-        
+        ICarPackEquipment Equipment { get; }
+
         IReadOnlyList<IExteriorColourInfo> AvailableForExteriorColours { get; }
         IReadOnlyList<IUpholsteryInfo> AvailableForUpholsteries { get; }
         IReadOnlyList<IAccentColourCombination> AccentColourCombinations { get; }
-        ICarPackEquipment Equipment { get; }
+        IRuleSets Rules { get; }
+        
     }
 }

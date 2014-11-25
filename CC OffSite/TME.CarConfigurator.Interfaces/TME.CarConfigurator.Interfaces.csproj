@@ -145,6 +145,11 @@
     <Compile Include="Packs\IGradePack.cs" />
     <Compile Include="Packs\IPack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\IEquipmentItemRule.cs" />
+    <Compile Include="Rules\IPackRule.cs" />
+    <Compile Include="Rules\IRule.cs" />
+    <Compile Include="Rules\IRuleSet.cs" />
+    <Compile Include="Rules\IRuleSets.cs" />
     <Compile Include="TechnicalSpecifications\ICategory.cs" />
     <Compile Include="TechnicalSpecifications\ICategoryInfo.cs" />
     <Compile Include="TechnicalSpecifications\IModelTechnicalSpecifications.cs" />

@@ -66,5 +66,11 @@ namespace TME.CarConfigurator.Packs
         }
 
         public ICarPackEquipment Equipment { get { return _equipment = _equipment ?? _equipmentFactory.GetCarPackEquipment(RepositoryObject.Equipment, _publication, _context, _carId); } }
+
+
+        public Interfaces.Rules.IRuleSets Rules
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

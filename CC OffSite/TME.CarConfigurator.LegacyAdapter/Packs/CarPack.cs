@@ -113,6 +113,12 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
                 return new CarPackEquipment(Adaptee, CarOfAdaptee);
             }
         }
+
+
+        public Interfaces.Rules.IRuleSets Rules
+        {
+            get { throw new System.NotImplementedException(); }
+        }
     }
 
 
