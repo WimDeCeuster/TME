@@ -531,6 +531,7 @@ namespace TME.CarConfigurator.Publisher
             //var packEquipmentIds = car.Packs.SelectMany(pack => pack.Equipment).Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
             //
             //return carEquipmentIds.Concat(packEquipmentIds).Distinct().Select(id => car.Generation.Equipment[id]);
+
             return car.Equipment.Select(eq => car.Generation.Equipment[eq.ID]);
         }
 
