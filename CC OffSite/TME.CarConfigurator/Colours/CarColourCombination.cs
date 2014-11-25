@@ -13,25 +13,22 @@ namespace TME.CarConfigurator.Colours
         private readonly Repository.Objects.Colours.CarColourCombination _repositoryColourCombination;
         private readonly Publication _repositoryPublication;
         private readonly Context _repositoryContext;
-        private readonly IColourFactory _colourFactory;
         private readonly IAssetFactory _assetFactory;
         private CarExteriorColour _exteriorColour;
         private CarUpholstery _upholstery;
 
 
-        public CarColourCombination(Guid carID, Repository.Objects.Colours.CarColourCombination repositoryColourCombination, Publication repositoryPublication, Context repositoryContext, IColourFactory colourFactory, IAssetFactory assetFactory)
+        public CarColourCombination(Guid carID, Repository.Objects.Colours.CarColourCombination repositoryColourCombination, Publication repositoryPublication, Context repositoryContext, IAssetFactory assetFactory)
         {
             if (repositoryColourCombination == null) throw new ArgumentNullException("repositoryColourCombination");
             if (repositoryPublication == null) throw new ArgumentNullException("repositoryPublication");
             if (repositoryContext == null) throw new ArgumentNullException("repositoryContext");
-            if (colourFactory == null) throw new ArgumentNullException("colourFactory");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
             _carID = carID;
             _repositoryColourCombination = repositoryColourCombination;
             _repositoryPublication = repositoryPublication;
             _repositoryContext = repositoryContext;
-            _colourFactory = colourFactory;
             _assetFactory = assetFactory;
         }
 
