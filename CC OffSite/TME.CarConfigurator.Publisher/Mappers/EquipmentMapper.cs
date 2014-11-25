@@ -263,7 +263,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             
             mappedEquipmentItem.GradeFeature = carEquipmentItem.GradeFeature;
             mappedEquipmentItem.OptionalGradeFeature = carEquipmentItem.OptionalGradeFeature;
-            
+            mappedEquipmentItem.KeyFeature = carEquipmentItem.KeyFeature;
             mappedEquipmentItem.VisibleIn = _assetSetMapper.GetVisibility(generationEquipmentItem.AssetSet, canHaveAssets).ToList();
 
             if (generationEquipmentItem is ModelGenerationOption && ((ModelGenerationOption)generationEquipmentItem).Components.Count != 0)
@@ -306,10 +306,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.BestVisibleIn = new BestVisibleIn { Angle = generationEquipmentItem.BestVisibleInAngle, Mode = generationEquipmentItem.BestVisibleInMode, View = generationEquipmentItem.BestVisibleInView };
             mappedEquipmentItem.ExteriorColour = hasColour ? GetColour(generationEquipmentItem, isPreview, assetUrl) : null;
             mappedEquipmentItem.InternalName = generationEquipmentItem.BaseName;
-            mappedEquipmentItem.KeyFeature = generationEquipmentItem.KeyFeature;
+            
             mappedEquipmentItem.Visibility = generationEquipmentItem.Visibility.Convert();
             mappedEquipmentItem.InternalCode = generationEquipmentItem.BaseCode;
-
+            mappedEquipmentItem.KeyFeature = generationEquipmentItem.KeyFeature;
             mappedEquipmentItem.LocalCode = generationEquipmentItem.LocalCode.DefaultIfEmpty(isOwner ? generationEquipmentItem.BaseCode : String.Empty);
             mappedEquipmentItem.ShortID = generationEquipmentItem.ShortID.Value;
             mappedEquipmentItem.PartNumber = generationEquipmentItem.PartNumber;
