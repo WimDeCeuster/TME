@@ -4,14 +4,13 @@ using FakeItEasy;
 using TME.CarConfigurator.CommandServices;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.TechnicalSpecifications;
 using TME.CarConfigurator.S3.CommandServices;
-using TME.CarConfigurator.S3.Publisher;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
 using TME.CarConfigurator.Tests.Shared.TestBuilders;
+using TME.CarConfigurator.Tests.Shared.TestBuilders.TechnicalSpecifications;
 using Xunit;
 
 namespace TME.Carconfigurator.Tests.GivenASpecificationPublisher
@@ -34,10 +33,12 @@ namespace TME.Carconfigurator.Tests.GivenASpecificationPublisher
             var car1ID = Guid.NewGuid();
             var car2ID = Guid.NewGuid();
 
-            var carSpecs = new [] {new CarSpecBuilder().WithId(new Guid()).WithName("name1").Build(),
-                                   new CarSpecBuilder().WithId(new Guid()).WithName("name2").Build(),
-                                   new CarSpecBuilder().WithId(new Guid()).WithName("name3").Build(),
-                                   new CarSpecBuilder().WithId(new Guid()).WithName("name4").Build()};
+            var category = new CategoryInfoBuilder().WithId(new Guid()).WithSortOrder(1).Build();
+
+            var carSpecs = new [] {new CarSpecBuilder().WithId(new Guid()).WithName("name1").WithCategory(category).WithSortOrder(1).Build(),
+                                   new CarSpecBuilder().WithId(new Guid()).WithName("name2").WithCategory(category).WithSortOrder(2).Build(),
+                                   new CarSpecBuilder().WithId(new Guid()).WithName("name3").WithCategory(category).WithSortOrder(3).Build(),
+                                   new CarSpecBuilder().WithId(new Guid()).WithName("name4").WithCategory(category).WithSortOrder(4).Build()};
 
             _context = new ContextBuilder()
                 .WithLanguages(LANGUAGE1)
@@ -74,18 +75,18 @@ namespace TME.Carconfigurator.Tests.GivenASpecificationPublisher
                 .MustHaveHappened(Repeated.Exactly.Twice);
         }
 
-        //[Fact]
-        //public void ThenCarSpecsShouldBePutForCar1()
-        //{
-        //    A.CallTo(() => _s3Service.PutObjectAsync(A<String>._, A<String>._, CAR_SPEC_KEY_FOR_CAR_1, SERIALISED_CARSPECS))
-        //        .MustHaveHappened(Repeated.Exactly.Once);
-        //}
+        [Fact]
+        public void ThenCarSpecsShouldBePutForCar1()
+        {
+            A.CallTo(() => _s3Service.PutObjectAsync(A<String>._, A<String>._, CAR_SPEC_KEY_FOR_CAR_1, SERIALISED_CARSPECS))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
         
-        //[Fact]
-        //public void ThenCarSpecsShouldBePutForCar2()
-        //{
-        //    A.CallTo(() => _s3Service.PutObjectAsync(A<String>._, A<String>._, CAR_SPEC_KEY_FOR_CAR_2, SERIALISED_CARSPECS))
-        //        .MustHaveHappened(Repeated.Exactly.Once);
-        //}
+        [Fact]
+        public void ThenCarSpecsShouldBePutForCar2()
+        {
+            A.CallTo(() => _s3Service.PutObjectAsync(A<String>._, A<String>._, CAR_SPEC_KEY_FOR_CAR_2, SERIALISED_CARSPECS))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
     }
 }

@@ -3,7 +3,6 @@ using System.Linq;
 using FakeItEasy;
 using FluentAssertions;
 using System;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Query.Tests.TestBuilders;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
@@ -22,7 +21,7 @@ namespace TME.CarConfigurator.Query.Tests.GivenAGradeEquipmentItem
 
         protected override void Arrange()
         {
-            _repoCategory = new CarConfigurator.Tests.Shared.TestBuilders.CategoryInfoBuilder()
+            _repoCategory = new CarConfigurator.Tests.Shared.TestBuilders.Equipment.CategoryInfoBuilder()
                 .WithId(Guid.NewGuid())
                 .Build();
 

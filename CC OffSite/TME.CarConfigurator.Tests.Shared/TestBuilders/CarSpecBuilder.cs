@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.TechnicalSpecifications;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders
@@ -29,6 +26,18 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
+
+        public CarSpecBuilder WithSortOrder(int sortOrder)
+        {
+            _carSpec.SortIndex = sortOrder;
+            return this;    
+        }
+
+        public CarSpecBuilder WithCategory(CategoryInfo categoryInfo)
+        {
+            _carSpec.Category = categoryInfo;
+            return this;
+        }
 
         public CarTechnicalSpecification Build()
         {

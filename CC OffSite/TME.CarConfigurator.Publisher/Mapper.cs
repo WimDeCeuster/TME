@@ -466,9 +466,6 @@ namespace TME.CarConfigurator.Publisher
                         )
                     )
                 .Where(mappedSpecification=> mappedSpecification.RawValue.Length != 0)
-                .OrderBy(mappedSpecification => mappedSpecification.Category.SortIndex)
-                .ThenBy(mappedSpecification => mappedSpecification.SortIndex)
-                .ThenBy(mappedSpecification => mappedSpecification.Name)
                 .ToList();
 
             contextData.CarTechnicalSpecifications.Add(car.ID, technicalSpecifications);
