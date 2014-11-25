@@ -62,5 +62,10 @@ namespace KellermanSoftware.CompareNetObjects
         /// The current property we're under.
         /// </summary>
         public System.Reflection.PropertyInfo Property { get; set; }
+
+        /// <summary>
+        /// Current class depth
+        /// </summary>
+        public int ClassDepth { get; set; }
     }
 }

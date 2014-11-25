@@ -84,10 +84,6 @@
       <Project>{5F4575A4-88DB-4B32-BC1E-CD6FED06CA12}</Project>
       <Name>TME.CarConfigurator.S3.QueryServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TME.CarConfigurator.S3.PutServices\TME.CarConfigurator.S3.CommandServices.csproj">
-      <Project>{F2D02000-FCD7-4356-9356-30E98CF5B829}</Project>
-      <Name>TME.CarConfigurator.S3.CommandServices</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.S3.Shared\TME.CarConfigurator.S3.Shared.csproj">
       <Project>{07BE5767-ABBA-4DC4-BB09-F1CE85CAC7FC}</Project>
       <Name>TME.CarConfigurator.S3.Shared</Name>

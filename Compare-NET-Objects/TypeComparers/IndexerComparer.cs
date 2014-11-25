@@ -48,7 +48,8 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                     Object1 = enumerable1,
                     Object2 = enumerable2,
                     MemberPath = parms.MemberPath + "[]",
-                    BreadCrumb = parms.BreadCrumb
+                    BreadCrumb = parms.BreadCrumb,
+                    ClassDepth = parms.ClassDepth
                 };
 
                 IgnoreOrderLogic logic = new IgnoreOrderLogic(_rootComparer);
@@ -77,7 +78,8 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                         Object1 = objectValue1,
                         Object2 = objectValue2,
                         MemberPath = parms.MemberPath + "[]",
-                        BreadCrumb = currentCrumb
+                        BreadCrumb = currentCrumb,
+                        ClassDepth = parms.ClassDepth
                     };
 
                     _rootComparer.Compare(childParms);
@@ -103,7 +105,8 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                             Object1 = objectValue1,
                             Object2 = objectValue2,
                             MemberPath = parms.MemberPath + "[]",
-                            BreadCrumb = currentCrumb
+                            BreadCrumb = currentCrumb,
+                            ClassDepth = parms.ClassDepth
                         };
 
                         _rootComparer.Compare(childParms);

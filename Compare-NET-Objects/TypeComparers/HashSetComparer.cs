@@ -87,7 +87,8 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                     Object1 = enumerator1.Current,
                     Object2 = enumerator2.Current,
                     MemberPath = parms.MemberPath + "[]",
-                    BreadCrumb = currentBreadCrumb
+                    BreadCrumb = currentBreadCrumb,
+                    ClassDepth = parms.ClassDepth
                 };
 
                 RootComparer.Compare(childParms);

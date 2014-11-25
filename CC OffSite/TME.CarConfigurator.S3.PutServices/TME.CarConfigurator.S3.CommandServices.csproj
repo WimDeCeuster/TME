@@ -60,7 +60,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CarEquipmentService.cs" />
     <Compile Include="CarPartService.cs" />
     <Compile Include="CarService.cs" />
     <Compile Include="AssetsService.cs" />

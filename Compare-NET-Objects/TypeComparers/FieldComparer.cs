@@ -82,6 +82,7 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                     Object2 = objectValue2,
                     MemberPath = parms.MemberPath + "." + item.Name,
                     BreadCrumb = currentBreadCrumb,
+                    ClassDepth = parms.ClassDepth
                 };
 
                 _rootComparer.Compare(childParms);

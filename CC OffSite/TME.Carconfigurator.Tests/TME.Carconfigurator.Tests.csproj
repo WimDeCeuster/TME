@@ -164,6 +164,7 @@
     <Compile Include="GivenAS3CarPartPublisher\WhenPublishingCarParts.cs" />
     <Compile Include="GivenAS3ColourPublisher\WhenPublishingGenerationColourCombinations.cs" />
     <Compile Include="GivenAS3ColourPublisher\WhenPublishingGenerationColourCombinationsForACar.cs" />
+    <Compile Include="GivenAS3EquipmentPublisher\WhenPublishingCarEquipment.cs" />
     <Compile Include="GivenAS3EquipmentPublisher\WhenPublishingSubModelGradeEquipment.cs" />
     <Compile Include="GivenAS3EquipmentPublisher\WhenPublishingEquipmentCategories.cs" />
     <Compile Include="GivenAS3EquipmentPublisher\WhenPublishingGradeEquipments.cs" />

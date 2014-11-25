@@ -13,5 +13,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
         Task PublishAsync(IContext context);
         Task PublishCategoriesAsync(IContext context);
         Task PublishSubModelGradeEquipmentAsync(IContext context);
+        Task PublishCarEquipmentAsync(IContext context);
     }
 }

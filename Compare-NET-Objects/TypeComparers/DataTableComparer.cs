@@ -124,7 +124,8 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                     Object1 = dataTable1.Rows[i],
                     Object2 = dataTable2.Rows[i],
                     MemberPath = parms.MemberPath + ".Rows",
-                    BreadCrumb = currentBreadCrumb
+                    BreadCrumb = currentBreadCrumb,
+                    ClassDepth = parms.ClassDepth
                 };
 
                 _compareDataRow.CompareType(childParms);

@@ -22,7 +22,6 @@ namespace TME.CarConfigurator.Publisher.DI.Interfaces
         ISpecificationsService GetSpecificationsService(String environment, PublicationDataSubset dataSubset);
         IColourService GetColourCombinationService(String environment, PublicationDataSubset dataSubset);
         ICarPartService GetCarPartService(String environment, PublicationDataSubset dataSubset);
-        ICarEquipmentService GetCarEquipmentService(String environment, PublicationDataSubset dataSubset);
         IPackService GetPackService(String environment, PublicationDataSubset dataSubset);
     }
 }
