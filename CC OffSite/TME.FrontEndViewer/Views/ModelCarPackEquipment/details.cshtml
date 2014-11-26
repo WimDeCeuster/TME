@@ -2,7 +2,7 @@
 @if (Model.Accessories.Any()) {
     <h3>Accessories</h3>
     <div>
-        @foreach (var model in Model.Accessories.OrderBy(x => x.SortIndex).ThenBy(x => x.Name).ThenBy(x => x.InternalCode))
+        @foreach (var model in Model.Accessories)
         {
             <div class="object" data-id="@(model.ID)">
                 <div class="title">
@@ -27,7 +27,7 @@
 {
     <h3>Options</h3>
     <div>
-        @foreach (var model in Model.Options.OrderBy(x => x.SortIndex).ThenBy(x => x.Name).ThenBy(x => x.InternalCode))
+        @foreach (var model in Model.Options)
         {
             <div class="object" data-id="@(model.ID)">
                 <div class="title">
@@ -59,7 +59,7 @@
 @if (Model.ExteriorColourTypes.Any()) {
     <h3>Exterior Colour Types</h3>
     <div>
-        @foreach (var model in Model.ExteriorColourTypes.OrderBy(x => x.SortIndex).ThenBy(x => x.Name).ThenBy(x => x.InternalCode))
+        @foreach (var model in Model.ExteriorColourTypes)
         {
             <div class="object" data-id="@(model.ID)">
                 <div class="title">
@@ -84,7 +84,7 @@
 @if (Model.UpholsteryTypes.Any()) {
     <h3>Upholstery Types</h3>
     <div>
-        @foreach (var model in Model.UpholsteryTypes.OrderBy(x => x.SortIndex).ThenBy(x => x.Name).ThenBy(x => x.InternalCode))
+        @foreach (var model in Model.UpholsteryTypes)
         {
             <div class="object" data-id="@(model.ID)">
                 <div class="title">
