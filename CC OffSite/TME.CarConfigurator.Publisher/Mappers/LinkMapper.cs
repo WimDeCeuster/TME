@@ -21,7 +21,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             {
                 ID = link.Type.ID,
                 Label = link.Label,
-                Name = link.Type.Name,
+                Name = link.Type.TypeName,
                 Url = GetUrl(baseLink, link)
             };
         }
