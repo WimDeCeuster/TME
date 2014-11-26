@@ -30,7 +30,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
             SelectedEnvironment = Environments.First();
 
             Targets = new[] { "FileSystem", "S3" };
-            SelectedEnvironment = Targets.First();
+            SelectedTarget = Targets.First();
         }
 
         public ICarConfiguratorPublisher CarConfiguratorPublisher
