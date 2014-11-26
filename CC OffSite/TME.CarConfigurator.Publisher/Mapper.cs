@@ -23,6 +23,7 @@ using CarAccessory = TME.CarConfigurator.Administration.CarAccessory;
 using CarEquipment = TME.CarConfigurator.Repository.Objects.Equipment.CarEquipment;
 using CarOption = TME.CarConfigurator.Administration.CarOption;
 using Model = TME.CarConfigurator.Administration.Model;
+using TME.CarConfigurator.Publisher.Helpers;
 
 namespace TME.CarConfigurator.Publisher
 {
@@ -279,24 +280,25 @@ namespace TME.CarConfigurator.Publisher
 
         private IList<Asset> GetCarItemAssets(IHasAssetSet objectWithAssetSet, Car car, Dictionary<Guid, Asset> carItemAssets, Dictionary<Guid, IList<Asset>> carItemsGenerationAssets)
         {
+            var objectId = objectWithAssetSet.GetObjectID();
             var applicableAssets = objectWithAssetSet.AssetSet.Assets.Filter(car).ToList();
 
             if (objectWithAssetSet is ModelGenerationOption && ((ModelGenerationOption)objectWithAssetSet).Components.Count != 0)
                 applicableAssets.AddRange(((ModelGenerationOption) objectWithAssetSet).Components.GetFilteredAssets(car));
 
-            var filteredApplicableAssets = applicableAssets.Distinct();
+            var filteredApplicableAssets = applicableAssets.Distinct(new Helpers.Comparer<Administration.Assets.AssetSetAsset>(x => x.Asset.ID)).ToList();
 
-            var unmappedApplicableAssets = filteredApplicableAssets.Where(asset => !carItemAssets.ContainsKey(asset.ID));
+            var unmappedApplicableAssets = filteredApplicableAssets.Where(asset => !carItemAssets.ContainsKey(asset.Asset.ID));
 
             foreach (var assetSetAsset in unmappedApplicableAssets)
-                carItemAssets.Add(assetSetAsset.ID, _assetMapper.MapCarAssetSetAsset(assetSetAsset, car.Generation));
+                carItemAssets.Add(assetSetAsset.Asset.ID, _assetMapper.MapCarAssetSetAsset(assetSetAsset, car.Generation));
 
             var applicableGenerationAssets = objectWithAssetSet.AssetSet.Assets.GetGenerationAssets();
 
-            if (!carItemsGenerationAssets.ContainsKey(objectWithAssetSet.GetObjectID()))
-                carItemsGenerationAssets.Add(objectWithAssetSet.GetObjectID(), applicableGenerationAssets.Select(asset => _assetMapper.MapCarAssetSetAsset(asset, car.Generation)).ToList());
+            if (!carItemsGenerationAssets.ContainsKey(objectId))
+                carItemsGenerationAssets.Add(objectId, applicableGenerationAssets.Select(asset => _assetMapper.MapCarAssetSetAsset(asset, car.Generation)).ToList());
 
-            return applicableAssets.Select(asset => carItemAssets[asset.ID]).Concat(carItemsGenerationAssets[objectWithAssetSet.GetObjectID()]).ToList();
+            return applicableAssets.Select(asset => carItemAssets[asset.Asset.ID]).Distinct().Concat(carItemsGenerationAssets[objectId]).ToList();
         }
 
         private void FillCarAssets(Car car, ContextData contextData, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
@@ -522,13 +524,8 @@ namespace TME.CarConfigurator.Publisher
             });
         }
 
-        private static IEnumerable<ModelGenerationEquipmentItem> GetValidCarEquipment(Car car)
+        private IEnumerable<ModelGenerationEquipmentItem> GetValidCarEquipment(Car car)
         {
-            //var carEquipmentIds = car.Equipment.Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
-            //var packEquipmentIds = car.Packs.SelectMany(pack => pack.Equipment).Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
-            //
-            //return carEquipmentIds.Concat(packEquipmentIds).Distinct().Select(id => car.Generation.Equipment[id]);
-
             return car.Equipment.Select(eq => car.Generation.Equipment[eq.ID]);
         }
 

@@ -24,7 +24,7 @@ namespace TME.CarConfigurator.S3.QueryServices
 
         public Publication GetPublication(Guid publicationId, Context context)
         {
-            var key = _keyManager.GetPublicationKey(publicationId);
+            var key = _keyManager.GetPublicationFileKey(publicationId);
             var serializedPublication = _service.GetObject(context.Brand, context.Country, key);
             return _serialiser.Deserialise<Publication>(serializedPublication);
         }

@@ -5,7 +5,7 @@ namespace TME.CarConfigurator.S3.Shared.Interfaces
     public interface IKeyManager
     {
         String GetModelsKey();
-        String GetPublicationKey(Guid publicationID);
+        String GetPublicationFileKey(Guid publicationID);
         String GetBodyTypesKey(Guid publicationID, Guid timeFrameID);
         String GetEnginesKey(Guid publicationID, Guid timeFrameID);
         String GetTransmissionsKey(Guid publicationID, Guid timeFrameID);

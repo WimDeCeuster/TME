@@ -15,8 +15,8 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
         protected override void Arrange()
         {
             _keyManager = new KeyManager();
-            
-            _expectedKey = "models-per-language";
+
+            _expectedKey = "models-per-language.json";
         }
 
         protected override void Act()

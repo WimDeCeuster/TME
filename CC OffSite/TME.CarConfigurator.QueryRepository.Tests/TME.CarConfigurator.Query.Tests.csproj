@@ -350,7 +350,7 @@
     <Compile Include="Services\GivenAnEquipmentService\WhenGetSubModelGradeEquipmentIsCalled.cs" />
     <Compile Include="Services\GivenAGradeService\WhenGetGradesIsCalled.cs" />
     <Compile Include="Services\GivenAGradeService\WhenGetSubModelGradeIsCalled.cs" />
-    <Compile Include="Services\GivenAModelService\WhenGeGetModelsByLanguageIsCalled.cs" />
+    <Compile Include="Services\GivenAModelService\WhenGetModelsByLanguageIsCalled.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledForNonExistent3DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetAssetsIsCalledForNonExistent2DAssets.cs" />
     <Compile Include="Services\GivenAnAssetService\WhenGetCarAssetsIsCalledForNonExistent2DAssets.cs" />

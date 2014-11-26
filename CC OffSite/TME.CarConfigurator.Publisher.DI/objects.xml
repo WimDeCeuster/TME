@@ -132,18 +132,29 @@
   </object>
   
   <object name="PublisherFactory" type="TME.CarConfigurator.Publisher.DI.PublisherFactory, TME.CarConfigurator.Publisher.DI"></object>
-  
+
   <object name="S3PublisherFactory" type="TME.CarConfigurator.Publisher.DI.S3.PublisherFactory, TME.CarConfigurator.Publisher.DI">
     <constructor-arg ref="S3ServiceFactory" />
     <constructor-arg ref="TimeFramePublishHelper" />
   </object>
-  
+
+  <object name="FileSystemPublisherFactory" type="TME.CarConfigurator.Publisher.DI.FileSystem.PublisherFactory, TME.CarConfigurator.Publisher.DI">
+    <constructor-arg ref="FileSystemServiceFactory" />
+    <constructor-arg ref="TimeFramePublishHelper" />
+  </object>
+
   <object name="TimeFramePublishHelper" type="TME.CarConfigurator.S3.Publisher.Helpers.TimeFramePublishHelper, TME.CarConfigurator.S3.Publisher"></object>
-  
+
+  <object name="FileSystemServiceFactory" type="TME.CarConfigurator.Publisher.DI.FileSystem.ServiceFactory, TME.CarConfigurator.Publisher.DI">
+    <constructor-arg ref="S3Serialiser" />
+    <constructor-arg ref="S3KeyManager" />
+  </object>
+
   <object name="S3ServiceFactory" type="TME.CarConfigurator.Publisher.DI.S3.ServiceFactory, TME.CarConfigurator.Publisher.DI">
     <constructor-arg ref="S3Serialiser" />
     <constructor-arg ref="S3KeyManager" />
   </object>
+
   <object name="S3Serialiser" type="TME.CarConfigurator.S3.Shared.Serialiser, TME.CarConfigurator.S3.Shared"></object>
   <object name="S3KeyManager" type="TME.CarConfigurator.S3.Shared.KeyManager, TME.CarConfigurator.S3.Shared"></object>
 

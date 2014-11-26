@@ -20,12 +20,12 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
 
             _publicationId = Guid.NewGuid();
 
-            _expectedKey = "publication/" + _publicationId;
+            _expectedKey = "publication/" + _publicationId + ".json";
         }
 
         protected override void Act()
         {
-            _actualKey = _keyManager.GetPublicationKey(_publicationId);
+            _actualKey = _keyManager.GetPublicationFileKey(_publicationId);
         }
 
         [Fact]

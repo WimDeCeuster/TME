@@ -12,12 +12,17 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetModelsKey()
         {
-            return "models-per-language";
+            return "models-per-language.json";
         }
 
-        public string GetPublicationKey(Guid publicationID)
+        private static string GetPublicationKey(Guid publicationID)
         {
             return string.Format(PUBLICATION_KEY_TEMPLATE, publicationID);
+        }
+
+        public string GetPublicationFileKey(Guid publicationID)
+        {
+            return string.Format("{0}.json", GetPublicationKey(publicationID));
         }
 
         private static string GetTimeFrameKey(Guid publicationID, Guid timeFrameID)
@@ -27,57 +32,57 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetBodyTypesKey(Guid publicationID, Guid timeFrameID)
         {
-            return string.Format("{0}/body-types", GetTimeFrameKey(publicationID, timeFrameID));
+            return string.Format("{0}/body-types.json", GetTimeFrameKey(publicationID, timeFrameID));
         }
 
         public string GetEnginesKey(Guid publicationID, Guid timeFrameID)
         {
-            return string.Format("{0}/engines", GetTimeFrameKey(publicationID, timeFrameID));
+            return string.Format("{0}/engines.json", GetTimeFrameKey(publicationID, timeFrameID));
         }
 
         public string GetTransmissionsKey(Guid publicationID, Guid timeFrameID)
         {
-            return string.Format("{0}/transmissions", GetTimeFrameKey(publicationID, timeFrameID));
+            return string.Format("{0}/transmissions.json", GetTimeFrameKey(publicationID, timeFrameID));
         }
 
         public string GetWheelDrivesKey(Guid publicationID, Guid timeFrameID)
         {
-            return string.Format("{0}/wheel-drives", GetTimeFrameKey(publicationID, timeFrameID));
+            return string.Format("{0}/wheel-drives.json", GetTimeFrameKey(publicationID, timeFrameID));
         }
 
         public string GetSteeringsKey(Guid publicationID, Guid timeFrameID)
         {
-            return string.Format("{0}/steerings", GetTimeFrameKey(publicationID, timeFrameID));
+            return string.Format("{0}/steerings.json", GetTimeFrameKey(publicationID, timeFrameID));
         }
 
         public string GetGradesKey(Guid publicationID, Guid timeFrameID)
         {
-            return string.Format("{0}/grades", GetTimeFrameKey(publicationID, timeFrameID));
+            return string.Format("{0}/grades.json", GetTimeFrameKey(publicationID, timeFrameID));
         }
 
         public string GetCarsKey(Guid publicationID, Guid timeFrameID)
         {
-            return string.Format("{0}/cars", GetTimeFrameKey(publicationID, timeFrameID));
+            return string.Format("{0}/cars.json", GetTimeFrameKey(publicationID, timeFrameID));
         }
 
         public string GetColourCombinationsKey(Guid publicationID, Guid timeFrameID)
         {
-            return string.Format("{0}/colour-combinations", GetTimeFrameKey(publicationID, timeFrameID));
+            return string.Format("{0}/colour-combinations.json", GetTimeFrameKey(publicationID, timeFrameID));
         }
 
         public string GetEquipmentCategoriesKey(Guid publicationID)
         {
-            return string.Format("{0}/equipment-categories", GetPublicationKey(publicationID));
+            return string.Format("{0}/equipment-categories.json", GetPublicationKey(publicationID));
         }
 
         public string GetSpecificationCategoriesKey(Guid publicationID)
         {
-            return string.Format("{0}/specification-categories", GetPublicationKey(publicationID));
+            return string.Format("{0}/specification-categories.json", GetPublicationKey(publicationID));
         }
 
         public string GetSubModelsKey(Guid publicationID, Guid timeFrameID)
         {
-            return string.Format("{0}/submodels", GetTimeFrameKey(publicationID, timeFrameID));
+            return string.Format("{0}/submodels.json", GetTimeFrameKey(publicationID, timeFrameID));
         }
 
         private string GetGradeKey(Guid publicationID, Guid timeFrameID, Guid gradeID)
@@ -87,17 +92,17 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetSubModelGradeEquipmentsKey(Guid publicationID, Guid timeFrameID, Guid gradeID, Guid subModelID)
         {
-            return string.Format("{0}/grade/{1}/equipment", GetSubModelKey(publicationID, timeFrameID, subModelID), gradeID);
+            return string.Format("{0}/grade/{1}/equipment.json", GetSubModelKey(publicationID, timeFrameID, subModelID), gradeID);
         }
 
         public string GetSubModelGradePacksKey(Guid publicationID, Guid timeFrameID, Guid gradeID, Guid subModelID)
         {
-            return string.Format("{0}/grade/{1}/packs", GetSubModelKey(publicationID, timeFrameID, subModelID), gradeID);
+            return string.Format("{0}/grade/{1}/packs.json", GetSubModelKey(publicationID, timeFrameID, subModelID), gradeID);
         }
 
         public string GetSubModelGradesKey(Guid publicationID, Guid timeFrameID, Guid subModelID)
         {
-            return string.Format("{0}/grades", GetSubModelKey(publicationID, timeFrameID, subModelID));
+            return string.Format("{0}/grades.json", GetSubModelKey(publicationID, timeFrameID, subModelID));
         }
 
         private string GetSubModelKey(Guid publicationID, Guid timeFrameID, Guid subModelID)
@@ -107,12 +112,12 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetGradeEquipmentsKey(Guid publicationID, Guid timeFrameID, Guid gradeID)
         {
-            return string.Format("{0}/equipment", GetGradeKey(publicationID, timeFrameID, gradeID));
+            return string.Format("{0}/equipment.json", GetGradeKey(publicationID, timeFrameID, gradeID));
         }
 
         public string GetGradePacksKey(Guid publicationID, Guid timeFrameID, Guid gradeID)
         {
-            return string.Format("{0}/packs", GetGradeKey(publicationID, timeFrameID, gradeID));
+            return string.Format("{0}/packs.json", GetGradeKey(publicationID, timeFrameID, gradeID));
         }
 
         private static string GetAssetsKeyPrefix(Guid publicationId, Guid objectId)
@@ -124,7 +129,7 @@ namespace TME.CarConfigurator.S3.Shared
 
         private static string GetDefaultAssetsKey(string assetsKey)
         {
-            return string.Format("{0}/default", assetsKey);
+            return string.Format("{0}/default.json", assetsKey);
         }
 
         public string GetDefaultAssetsKey(Guid publicationId, Guid objectId)
@@ -170,22 +175,22 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetCarPartsKey(Guid publicationID, Guid carID)
         {
-            return String.Format("{0}/car/{1}/carparts", GetPublicationKey(publicationID), carID);
+            return String.Format("{0}/car/{1}/car-parts.json", GetPublicationKey(publicationID), carID);
         }
         
         public string GetCarEquipmentKey(Guid publicationID, Guid carID)
         {
-            return String.Format("{0}/car/{1}/equipment", GetPublicationKey(publicationID), carID);
+            return String.Format("{0}/car/{1}/equipment.json", GetPublicationKey(publicationID), carID);
         }
 
         public string GetCarTechnicalSpecificationsKey(Guid publicationID, Guid carID)
         {
-            return String.Format("{0}/car/{1}/specs", GetPublicationKey(publicationID), carID);
+            return String.Format("{0}/car/{1}/specs.json", GetPublicationKey(publicationID), carID);
         }
 
         public string GetCarPacksKey(Guid publicationID, Guid carID)
         {
-            return String.Format("{0}/car/{1}/packs", GetPublicationKey(publicationID), carID);
+            return String.Format("{0}/car/{1}/packs.json", GetPublicationKey(publicationID), carID);
         }
 
         public string GetCarPartAssetsKey(Guid publicationID, Guid carID, string view, string mode)
@@ -195,7 +200,7 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetDefaultCarEquipmentAssetsKey(Guid publicationID, Guid carID)
         {
-            return String.Format("{0}/car/{1}/assets/car-equipment/default", GetPublicationKey(publicationID), carID);
+            return String.Format("{0}/car/{1}/assets/car-equipment/default.json", GetPublicationKey(publicationID), carID);
         }
 
         public string GetCarEquipmentAssetsKey(Guid publicationID, Guid carID, string view, string mode)
@@ -205,7 +210,7 @@ namespace TME.CarConfigurator.S3.Shared
 
         public string GetCarColourCombinationsKey(Guid publicationID, Guid carID)
         {
-            return String.Format("{0}/car/{1}/colourcombinations", GetPublicationKey(publicationID), carID);
+            return String.Format("{0}/car/{1}/colour-combinations.json", GetPublicationKey(publicationID), carID);
         }
 
         private static string GetAssetsKeyWithViewAndMode(string assetsKey, string view, string mode)
@@ -217,10 +222,15 @@ namespace TME.CarConfigurator.S3.Shared
             stringBuilder.Append(view);
 
             if (string.IsNullOrEmpty(mode))
+            {
+                stringBuilder.Append(".json");
                 return stringBuilder.ToString();
+            }
 
             stringBuilder.Append("/");
             stringBuilder.Append(mode);
+
+            stringBuilder.Append(".json");
 
             return stringBuilder.ToString();
         }
