@@ -161,8 +161,8 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
         {
             get
             {
-                if (StandAloneItemOfTheAdaptee == null) return null;
-                if (StandAloneItemOfTheAdaptee.AvailableForExteriorColours == null) return null;
+                if (StandAloneItemOfTheAdaptee == null) return new List<IExteriorColourInfo>();
+                if (StandAloneItemOfTheAdaptee.AvailableForExteriorColours == null) return new List<IExteriorColourInfo>();
                 return
                     StandAloneItemOfTheAdaptee.AvailableForExteriorColours.Cast<TMME.CarConfigurator.CarExteriorColour>()
                         .Select(x => new ExteriorColourInfo(x))
@@ -174,8 +174,8 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
         {
             get
             {
-                if (StandAloneItemOfTheAdaptee == null) return null;
-                if (StandAloneItemOfTheAdaptee.AvailableForUpholsteries == null) return null;
+                if (StandAloneItemOfTheAdaptee == null) return new List<IUpholsteryInfo>();
+                if (StandAloneItemOfTheAdaptee.AvailableForUpholsteries == null) return new List<IUpholsteryInfo>();
                 return
                     StandAloneItemOfTheAdaptee.AvailableForUpholsteries.Cast<TMME.CarConfigurator.CarUpholstery>()
                         .Select(x => new UpholsteryInfo(x))
