@@ -38,13 +38,18 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
         public CarColourCombination MapLinkedColourCombination(ModelGeneration modelGeneration, LinkedColourCombination carColourCombination, Administration.ExteriorColourType exteriorColourType, Administration.UpholsteryType upholsteryType, bool isPreview, string assetUrl)
         {
+            var exteriorColour = MapLinkedExteriorColour(modelGeneration, carColourCombination.ExteriorColour,
+                exteriorColourType, isPreview, assetUrl);
+
+            var upholstery = MapLinkedUpholstery(carColourCombination.Upholstery, upholsteryType);
+
             return new CarColourCombination
             {
-                ExteriorColour = MapLinkedExteriorColour(modelGeneration, carColourCombination.ExteriorColour, exteriorColourType, isPreview, assetUrl),
+                ExteriorColour = exteriorColour,
                 ID = carColourCombination.ID,
                 SortIndex = 0,
-                Upholstery = MapLinkedUpholstery(carColourCombination.Upholstery, upholsteryType),
-                VisibleIn = new List<VisibleInModeAndView>()
+                Upholstery = upholstery,
+                VisibleIn = exteriorColour.VisibleIn.Concat(upholstery.VisibleIn).ToList()
             };
         }
 
@@ -61,7 +66,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 LocalCode = String.Empty,
                 Promoted = exteriorColour.Promoted,
                 SortIndex = exteriorColour.Index,
-                VisibleIn = new List<VisibleInModeAndView>(),
+                VisibleIn = _assetSetMapper.GetVisibility(exteriorColour.GenerationExteriorColour.AssetSet, true).ToList(),
                 Transformation = GetColourTransformation(modelGeneration, exteriorColour.Code, isPreview, assetUrl),
                 Type = MapExteriorColourType(exteriorColourType)
             };
@@ -190,7 +195,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 TrimCode = upholstery.Trim.Code,
                 SortIndex = 0,
                 Type = MapUpholsteryType(upholsteryType),
-                VisibleIn = new List<VisibleInModeAndView>()
+                VisibleIn = _assetSetMapper.GetVisibility(upholstery.GenerationUpholstery.AssetSet, true).ToList()
             };
             return _baseMapper.MapTranslateableDefaults(mappedUpholstery, upholstery.GenerationUpholstery);
         }

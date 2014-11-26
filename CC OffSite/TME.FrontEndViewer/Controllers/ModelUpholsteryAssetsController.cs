@@ -57,7 +57,7 @@ namespace TME.FrontEndViewer.Controllers
         {
             return (carID == null
                 ? model.ColourCombinations.First(x => x.Upholstery.ID == upholsteryID).Assets.ToList()
-                : model.Cars.First(x => x.ID == carID.Value).ColourCombinations.First(x => x.Upholstery.ID == upholsteryID).Assets.ToList());
+                : model.Cars.First(x => x.ID == carID.Value).ColourCombinations.First(x => x.Upholstery.ID == upholsteryID).Upholstery.Assets.ToList());
 
         }
 

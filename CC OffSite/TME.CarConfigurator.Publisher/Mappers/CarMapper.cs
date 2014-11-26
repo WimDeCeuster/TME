@@ -20,12 +20,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _baseMapper = baseMapper;
         }
 
-        public Car MapCar(Administration.Car car,
-            BodyType bodyType,
-            Engine engine,
-            Transmission transmission,
-            WheelDrive wheelDrive,
-            Steering steering)
+        public Car MapCar(Administration.Car car, BodyType bodyType, Engine engine, Transmission transmission, WheelDrive wheelDrive, Steering steering, bool isPreview)
         {
             if (car == null) throw new ArgumentNullException("car");
             if (bodyType == null) throw new ArgumentNullException("bodyType");
@@ -53,8 +48,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Transmission = transmission,
                 WheelDrive = wheelDrive,
                 Steering = steering,
-                ConfigVisible = car.ConfigVisible,              
-                FinanceVisible = car.FinanceVisible,
+                ConfigVisible = isPreview || car.ConfigVisible,
+                FinanceVisible = isPreview || car.FinanceVisible,
+                WebVisible = isPreview || car.WebVisible,
                 Promoted = car.Promoted,
                 ShortID = car.ShortID.Value,
                 SortIndex = car.Index,
@@ -63,7 +59,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                     ExcludingVat = car.Price + cheapestColourCombination.ExteriorColour.Price + cheapestColourCombination.Upholstery.Price,
                     IncludingVat = car.VatPrice + cheapestColourCombination.ExteriorColour.VatPrice + cheapestColourCombination.Upholstery.VatPrice
                 },
-                WebVisible = car.WebVisible,
+
             };
 
 

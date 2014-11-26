@@ -26,23 +26,20 @@ namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class EquipmentMapper : IEquipmentMapper
     {
-        readonly ILabelMapper _labelMapper;
         readonly ILinkMapper _linkMapper;
         readonly ICategoryMapper _categoryInfoMapper;
         readonly IColourMapper _colourMapper;
         readonly IAssetSetMapper _assetSetMapper;
         readonly IBaseMapper _baseMapper;
 
-        public EquipmentMapper(ILabelMapper labelMapper, ILinkMapper linkMapper, ICategoryMapper categoryInfoMapper, IColourMapper colourMapper, IAssetSetMapper assetSetMapper, IBaseMapper baseMapper)
+        public EquipmentMapper(ILinkMapper linkMapper, ICategoryMapper categoryInfoMapper, IColourMapper colourMapper, IAssetSetMapper assetSetMapper, IBaseMapper baseMapper)
         {
-            if (labelMapper == null) throw new ArgumentNullException("labelMapper");
             if (linkMapper == null) throw new ArgumentNullException("linkMapper");
             if (categoryInfoMapper == null) throw new ArgumentNullException("categoryInfoMapper");
             if (colourMapper == null) throw new ArgumentNullException("colourMapper");
             if (assetSetMapper == null) throw new ArgumentNullException("assetSetMapper");
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
 
-            _labelMapper = labelMapper;
             _linkMapper = linkMapper;
             _categoryInfoMapper = categoryInfoMapper;
             _colourMapper = colourMapper;
@@ -164,7 +161,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
             var generationOption = (ModelGenerationOption)option.Pack.Car.Generation.Equipment[option.ID];
             var carOption = (Administration.CarOption)option.Pack.Car.Equipment[option.ID];
-            var z = option.Index;
             var mappedOption = new CarPackOption
             {
                 TechnologyItem = generationOption.TechnologyItem,
@@ -248,7 +244,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             mappedCarPackEquipmentItem.Optional = carPackItem.Availability == Availability.Optional;
             mappedCarPackEquipmentItem.Standard = carPackItem.Availability == Availability.Standard;
-            
+            mappedCarPackEquipmentItem.SortIndex = carPackItem.Index;
             return mappedCarPackEquipmentItem;
         }
 
@@ -263,7 +259,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             
             mappedEquipmentItem.GradeFeature = carEquipmentItem.GradeFeature;
             mappedEquipmentItem.OptionalGradeFeature = carEquipmentItem.OptionalGradeFeature;
-            
+            mappedEquipmentItem.KeyFeature = carEquipmentItem.KeyFeature;
             mappedEquipmentItem.VisibleIn = _assetSetMapper.GetVisibility(generationEquipmentItem.AssetSet, canHaveAssets).ToList();
 
             if (generationEquipmentItem is ModelGenerationOption && ((ModelGenerationOption)generationEquipmentItem).Components.Count != 0)
@@ -306,10 +302,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.BestVisibleIn = new BestVisibleIn { Angle = generationEquipmentItem.BestVisibleInAngle, Mode = generationEquipmentItem.BestVisibleInMode, View = generationEquipmentItem.BestVisibleInView };
             mappedEquipmentItem.ExteriorColour = hasColour ? GetColour(generationEquipmentItem, isPreview, assetUrl) : null;
             mappedEquipmentItem.InternalName = generationEquipmentItem.BaseName;
-            mappedEquipmentItem.KeyFeature = generationEquipmentItem.KeyFeature;
+            
             mappedEquipmentItem.Visibility = generationEquipmentItem.Visibility.Convert();
             mappedEquipmentItem.InternalCode = generationEquipmentItem.BaseCode;
-
+            mappedEquipmentItem.KeyFeature = generationEquipmentItem.KeyFeature;
             mappedEquipmentItem.LocalCode = generationEquipmentItem.LocalCode.DefaultIfEmpty(isOwner ? generationEquipmentItem.BaseCode : String.Empty);
             mappedEquipmentItem.ShortID = generationEquipmentItem.ShortID.Value;
             mappedEquipmentItem.PartNumber = generationEquipmentItem.PartNumber;

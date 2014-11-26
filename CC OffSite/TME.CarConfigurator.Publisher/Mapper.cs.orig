@@ -23,7 +23,6 @@ using CarAccessory = TME.CarConfigurator.Administration.CarAccessory;
 using CarEquipment = TME.CarConfigurator.Repository.Objects.Equipment.CarEquipment;
 using CarOption = TME.CarConfigurator.Administration.CarOption;
 using Model = TME.CarConfigurator.Administration.Model;
-using TME.CarConfigurator.Publisher.Helpers;
 
 namespace TME.CarConfigurator.Publisher
 {
@@ -179,7 +178,7 @@ namespace TME.CarConfigurator.Publisher
                     progress.Report(new PublishProgress("Fill generation steerings"));
                     FillSteerings(timeFrameCars, timeFrame);
                     progress.Report(new PublishProgress("Fill generation cars"));
-                    FillCars(timeFrameCars, timeFrame, isPreview);
+                    FillCars(timeFrameCars, timeFrame);
                     
                     progress.Report(new PublishProgress("Fill generation grades"));
                     FillGrades(timeFrameCars, modelGeneration, timeFrame);
@@ -260,7 +259,6 @@ namespace TME.CarConfigurator.Publisher
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.SubModels[car.SubModelID]);
                 FillCarListAssets(car, contextData, GetValidCarPacks(car), carItemAssets, carItemsGenerationAssets);
                 FillCarEquipmentAssets(car, contextData, GetValidCarEquipment(car), carItemAssets, carItemsGenerationAssets);
-                FillCarColourCombinationAssets(car, contextData, carItemAssets, carItemsGenerationAssets);
                 FillCarPartAssets(car, contextData, GetValidCarParts(car), carItemAssets, carItemsGenerationAssets);
             }
         }
@@ -281,32 +279,31 @@ namespace TME.CarConfigurator.Publisher
 
         private IList<Asset> GetCarItemAssets(IHasAssetSet objectWithAssetSet, Car car, Dictionary<Guid, Asset> carItemAssets, Dictionary<Guid, IList<Asset>> carItemsGenerationAssets)
         {
-            var objectId = objectWithAssetSet.GetObjectID();
             var applicableAssets = objectWithAssetSet.AssetSet.Assets.Filter(car).ToList();
 
             if (objectWithAssetSet is ModelGenerationOption && ((ModelGenerationOption)objectWithAssetSet).Components.Count != 0)
                 applicableAssets.AddRange(((ModelGenerationOption) objectWithAssetSet).Components.GetFilteredAssets(car));
 
-            var filteredApplicableAssets = applicableAssets.Distinct(new Helpers.Comparer<Administration.Assets.AssetSetAsset>(x => x.Asset.ID)).ToList();
+            var filteredApplicableAssets = applicableAssets.Distinct();
 
-            var unmappedApplicableAssets = filteredApplicableAssets.Where(asset => !carItemAssets.ContainsKey(asset.Asset.ID));
+            var unmappedApplicableAssets = filteredApplicableAssets.Where(asset => !carItemAssets.ContainsKey(asset.ID));
 
             foreach (var assetSetAsset in unmappedApplicableAssets)
-                carItemAssets.Add(assetSetAsset.Asset.ID, _assetMapper.MapCarAssetSetAsset(assetSetAsset, car.Generation));
+                carItemAssets.Add(assetSetAsset.ID, _assetMapper.MapCarAssetSetAsset(assetSetAsset, car.Generation));
 
             var applicableGenerationAssets = objectWithAssetSet.AssetSet.Assets.GetGenerationAssets();
 
-            if (!carItemsGenerationAssets.ContainsKey(objectId))
-                carItemsGenerationAssets.Add(objectId, applicableGenerationAssets.Select(asset => _assetMapper.MapCarAssetSetAsset(asset, car.Generation)).ToList());
+            if (!carItemsGenerationAssets.ContainsKey(objectWithAssetSet.GetObjectID()))
+                carItemsGenerationAssets.Add(objectWithAssetSet.GetObjectID(), applicableGenerationAssets.Select(asset => _assetMapper.MapCarAssetSetAsset(asset, car.Generation)).ToList());
 
-            return applicableAssets.Select(asset => carItemAssets[asset.Asset.ID]).Distinct().Concat(carItemsGenerationAssets[objectId]).ToList();
+            return applicableAssets.Select(asset => carItemAssets[asset.ID]).Concat(carItemsGenerationAssets[objectWithAssetSet.GetObjectID()]).ToList();
         }
 
         private void FillCarAssets(Car car, ContextData contextData, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
         {
             if (objectWithAssetSet == null) return;
             var objectAssetsOnCarLevel = GetObjectAssetsOnCarLevel(car, modelGeneration, objectWithAssetSet);
-            var objectAssetsOnGenerationLevel = FindAssetsForObjectId(objectWithAssetSet.GetObjectID(), contextData.Assets);
+            var objectAssetsOnGenerationLevel = GetObjectAssetsOnGenerationLevel(objectWithAssetSet.GetObjectID(), contextData.Assets);
 
             var allCarAssetsForThisObject = objectAssetsOnCarLevel.Concat(objectAssetsOnGenerationLevel).ToList();
 
@@ -350,7 +347,7 @@ namespace TME.CarConfigurator.Publisher
             return objectAssetsOnCarLevel.Select(asset => _assetMapper.MapCarAssetSetAsset(asset, modelGeneration)).ToList();
         }
 
-        private static IEnumerable<Asset> FindAssetsForObjectId(Guid objectId, IDictionary<Guid, IList<Asset>> assets)
+        private IEnumerable<Asset> GetObjectAssetsOnGenerationLevel(Guid objectId, IDictionary<Guid, IList<Asset>> assets)
         {
             return assets.ContainsKey(objectId) ? assets[objectId] : new List<Asset>();
         }
@@ -361,22 +358,6 @@ namespace TME.CarConfigurator.Publisher
                 subModel => subModel.ID,
                 subModel => subModel.AssetSet.Assets.GetGenerationAssets()
                     .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
-        }
-
-        private void FillCarColourCombinationAssets(Car car, ContextData contextData, Dictionary<Guid, Asset> carItemAssets, Dictionary<Guid, IList<Asset>> carItemsGenerationAssets)
-        {
-            FillCarListAssets(car, contextData, GetCarExteriorColours(car), carItemAssets, carItemsGenerationAssets);
-            FillCarListAssets(car, contextData, GetCarUpholsteries(car), carItemAssets, carItemsGenerationAssets);
-        }
-
-        private IEnumerable<IHasAssetSet> GetCarUpholsteries(Car car)
-        {
-            return car.ColourCombinations.Upholsteries().Select(upholstery => upholstery.GenerationUpholstery);
-        }
-
-        private IEnumerable<IHasAssetSet> GetCarExteriorColours(Car car)
-        {
-            return car.ColourCombinations.ExteriorColours().Select(exCol => exCol.GenerationExteriorColour);
         }
 
         private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetColourCombinationAssets(ModelGeneration modelGeneration)
@@ -446,7 +427,7 @@ namespace TME.CarConfigurator.Publisher
                                          .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
         }
 
-        void FillCars(IEnumerable<Car> cars, TimeFrame timeFrame, bool isPreview)
+        void FillCars(IEnumerable<Car> cars, TimeFrame timeFrame)
         {
             timeFrame.Cars = cars.Select(car => {
                 var bodyType = _carMapper.CopyBodyType(timeFrame.BodyTypes.Single(type => type.ID == car.BodyTypeID));
@@ -454,7 +435,7 @@ namespace TME.CarConfigurator.Publisher
                 var transmission = _carMapper.CopyTransmission(timeFrame.Transmissions.Single(trans => trans.ID == car.TransmissionID));
                 var wheelDrive = _carMapper.CopyWheelDrive(timeFrame.WheelDrives.Single(drive => drive.ID == car.WheelDriveID));
                 var steering = timeFrame.Steerings.Single(steer => steer.ID == car.SteeringID);
-                return _carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering, isPreview);
+                return _carMapper.MapCar(car, bodyType, engine, transmission, wheelDrive, steering);
             }).ToList();
         }
 
@@ -541,8 +522,20 @@ namespace TME.CarConfigurator.Publisher
             });
         }
 
-        private IEnumerable<ModelGenerationEquipmentItem> GetValidCarEquipment(Car car)
+        private static IEnumerable<ModelGenerationEquipmentItem> GetValidCarEquipment(Car car)
         {
+<<<<<<< HEAD
+//            var carEquipmentIds = car.Equipment.Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
+//            var packEquipmentIds = car.Packs.SelectMany(pack => pack.Equipment).Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
+            
+//            return carEquipmentIds.Concat(packEquipmentIds).Distinct().Select(id => car.Generation.Equipment[id]);
+=======
+            //var carEquipmentIds = car.Equipment.Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
+            //var packEquipmentIds = car.Packs.SelectMany(pack => pack.Equipment).Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
+            //
+            //return carEquipmentIds.Concat(packEquipmentIds).Distinct().Select(id => car.Generation.Equipment[id]);
+
+>>>>>>> 651f317c29ac8d0e805c95e544847aa6db314f71
             return car.Equipment.Select(eq => car.Generation.Equipment[eq.ID]);
         }
 
