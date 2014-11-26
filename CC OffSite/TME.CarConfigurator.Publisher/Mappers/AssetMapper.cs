@@ -57,7 +57,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
             var asset = MapGenerationAssetSetAsset(assetSetAsset,modelGeneration);
             //Custom mapping for car assets.
-            asset.AssetType = _assetTypeMapper.MapCarAssetType(assetSetAsset,modelGeneration);
+            asset.AssetType = _assetTypeMapper.MapCarAssetType(assetSetAsset, modelGeneration);
 
             return asset;
         }

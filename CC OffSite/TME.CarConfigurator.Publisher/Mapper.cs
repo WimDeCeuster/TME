@@ -287,8 +287,11 @@ namespace TME.CarConfigurator.Publisher
             if (objectWithAssetSet is ModelGenerationOption && ((ModelGenerationOption)objectWithAssetSet).Components.Count != 0)
                 applicableAssets.AddRange(((ModelGenerationOption) objectWithAssetSet).Components.GetFilteredAssets(car));
 
-            var filteredApplicableAssets = applicableAssets.Distinct(new Helpers.Comparer<Administration.Assets.AssetSetAsset>(x => x.Asset.ID)).ToList();
+            var comparer = new Helpers.Comparer<Administration.Assets.AssetSetAsset>(x =>
+                Tuple.Create(x.Asset.ID, x.AssetType.Code, x.BodyType.ID, x.Engine.ID, x.EquipmentItem.ID, x.ExteriorColour.ID, x.Grade.ID, Tuple.Create(x.Steering.ID, x.Transmission.ID, x.Upholstery.ID, x.WheelDrive.ID)));
 
+            var filteredApplicableAssets = applicableAssets.Distinct(comparer).ToList();
+            
             var unmappedApplicableAssets = filteredApplicableAssets.Where(asset => !carItemAssets.ContainsKey(asset.Asset.ID));
 
             foreach (var assetSetAsset in unmappedApplicableAssets)
