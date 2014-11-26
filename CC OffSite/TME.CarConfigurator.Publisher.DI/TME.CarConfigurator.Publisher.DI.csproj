@@ -63,6 +63,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileSystem\PublisherFactory.cs" />
+    <Compile Include="FileSystem\ServiceFactory.cs" />
     <Compile Include="Interfaces\IServiceFactory.cs" />
     <Compile Include="Interfaces\ITargetPublisherFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,6 +76,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.CommandServices\TME.CarConfigurator.CommandServices.csproj">
       <Project>{3DB012EE-FEB6-40F1-9C09-97212C142013}</Project>
       <Name>TME.CarConfigurator.CommandServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.FileSystem\TME.CarConfigurator.FileSystem.csproj">
+      <Project>{3ec09995-998c-44c7-addb-5748e4feba0d}</Project>
+      <Name>TME.CarConfigurator.FileSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
       <Project>{efdb033c-66a8-40bb-b596-561f45e6c7f7}</Project>
@@ -118,11 +124,19 @@
   <ItemGroup>
     <None Include="objects.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="C:\Toyota\services.xml">
       <Link>services.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Toyota\fs-services.xml">
+      <Link>fs-services.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -21,7 +21,7 @@ namespace TME.CarConfigurator.S3.Shared
             if (clientFactory == null) throw new ArgumentNullException("clientFactory");
             if (String.IsNullOrWhiteSpace(accessKey)) throw new ArgumentNullException("accessKey");
             if (String.IsNullOrWhiteSpace(secretKey)) throw new ArgumentNullException("secretKey");
-            if (String.IsNullOrWhiteSpace(secretKey)) throw new ArgumentNullException("bucketNameTemplate");
+            if (String.IsNullOrWhiteSpace(bucketNameTemplate)) throw new ArgumentNullException("bucketNameTemplate");
 
             _client = clientFactory.CreateInstance(accessKey, secretKey);
             _bucketNameTemplate = bucketNameTemplate;
@@ -31,10 +31,6 @@ namespace TME.CarConfigurator.S3.Shared
 
         public async Task PutObjectAsync(String brand, String country, String key, String item)
         {
-            if (brand == null) throw new ArgumentNullException("brand");
-            if (country == null) throw new ArgumentNullException("country");
-            if (key == null) throw new ArgumentNullException("key");
-            if (item == null) throw new ArgumentNullException("item");
             if (String.IsNullOrWhiteSpace(brand)) throw new ArgumentException("brand cannot be empty", "brand");
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentException("country cannot be empty", "country");
             if (String.IsNullOrWhiteSpace(key)) throw new ArgumentException("key cannot be empty", "key");

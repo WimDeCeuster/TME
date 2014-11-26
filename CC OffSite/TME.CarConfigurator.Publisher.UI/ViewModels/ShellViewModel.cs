@@ -15,7 +15,6 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
     public class ShellViewModel : PropertyChangedBase
     {
         private const string Brand = "Toyota";
-        private const string Target = "S3";
         private const string PublishedBy = "UIPublisher";
         private const string AssetUrl = @"http://t1-carassets.toyota-europe.com";
 
@@ -29,6 +28,9 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
         {
             Environments = new[] { "Development", "Acceptance", "Production" };
             SelectedEnvironment = Environments.First();
+
+            Targets = new[] { "FileSystem", "S3" };
+            SelectedTarget = Targets.First();
         }
 
         public ICarConfiguratorPublisher CarConfiguratorPublisher
@@ -86,6 +88,10 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
         public IEnumerable<String> Environments { get; set; }
 
         public string SelectedEnvironment { get; set; }
+
+        public IEnumerable<String> Targets { get; set; }
+
+        public string SelectedTarget { get; set; }
 
         public bool IsPublishing
         {
@@ -169,7 +175,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
 
                 StartPublishing();
 
-                await CarConfiguratorPublisher.PublishAsync(generationId, SelectedEnvironment, Target, Brand, Country, publicationDataSubset, PublishedBy, AssetUrl, Progress);
+                await CarConfiguratorPublisher.PublishAsync(generationId, SelectedEnvironment, SelectedTarget, Brand, Country, publicationDataSubset, PublishedBy, AssetUrl, Progress);
 
                 PublishingDone("Success!");
             }
@@ -202,7 +208,7 @@ namespace TME.CarConfigurator.Publisher.UI.ViewModels
                 {
                     Messages.Add(string.Format("Publishing {0} for {1}", generation, Country));
 
-                    await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, Target, Brand, Country, PublicationDataSubset.Preview, PublishedBy, AssetUrl, Progress);
+                    await CarConfiguratorPublisher.PublishAsync(generation.ID, SelectedEnvironment, SelectedTarget, Brand, Country, PublicationDataSubset.Preview, PublishedBy, AssetUrl, Progress);
                 }
 
                 PublishingDone("Success!");

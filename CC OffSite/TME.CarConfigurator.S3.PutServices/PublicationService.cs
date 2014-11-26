@@ -26,7 +26,7 @@ namespace TME.CarConfigurator.S3.CommandServices
             if (String.IsNullOrWhiteSpace(country)) throw new ArgumentNullException("country");
             if (publication == null) throw new ArgumentNullException("publication");
 
-            var path = _keyManager.GetPublicationKey(publication.ID);
+            var path = _keyManager.GetPublicationFileKey(publication.ID);
             var value = _serialiser.Serialise(publication);
 
             await _service.PutObjectAsync(brand, country, path, value);

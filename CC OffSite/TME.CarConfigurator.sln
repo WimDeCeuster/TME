@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Web
+# Visual Studio Express 2013 for Windows Desktop
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Repository.Objects", "TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj", "{2154EAAA-3D11-4654-BEA6-7B147451DBA8}"
@@ -57,6 +57,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TME.CarConfigurator.Administration", "TME.CarConfigurator.Administration\TME.CarConfigurator.Administration.vbproj", "{0638684F-634B-4447-A411-11AE50C4202B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.Extensions", "TME.CarConfigurator.Extensions\TME.CarConfigurator.Extensions.csproj", "{F7DC4AA7-76F7-44C4-B98D-3D416335CA1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TME.CarConfigurator.FileSystem", "TME.CarConfigurator.FileSystem\TME.CarConfigurator.FileSystem.csproj", "{3EC09995-998C-44C7-ADDB-5748E4FEBA0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -262,6 +264,12 @@ Global
 		{F7DC4AA7-76F7-44C4-B98D-3D416335CA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7DC4AA7-76F7-44C4-B98D-3D416335CA1E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F7DC4AA7-76F7-44C4-B98D-3D416335CA1E}.Release|x64.ActiveCfg = Release|Any CPU
+		{3EC09995-998C-44C7-ADDB-5748E4FEBA0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EC09995-998C-44C7-ADDB-5748E4FEBA0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EC09995-998C-44C7-ADDB-5748E4FEBA0D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3EC09995-998C-44C7-ADDB-5748E4FEBA0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EC09995-998C-44C7-ADDB-5748E4FEBA0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EC09995-998C-44C7-ADDB-5748E4FEBA0D}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
