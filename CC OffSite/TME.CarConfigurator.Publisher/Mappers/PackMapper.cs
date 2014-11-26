@@ -91,25 +91,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var mappedExteriorColourTypes = carPackExteriorColourTypes.Select(type => _equipmentMapper.MapCarPackExteriorColourType(type, groups, categories, isPreview, assetUrl)).OrderBy(x => x.SortIndex).ToList();
             var mappedUpholsteryTypes = carPackUpholsteryTypes.Select(type => _equipmentMapper.MapCarPackUpholsteryType(type, groups, categories, isPreview, assetUrl)).OrderBy(x => x.SortIndex).ToList();
 
-            var index = 0;
-
-            //foreach (var item in mappedAccessories.Cast<BaseObject>().Concat(
-            //                     mappedExteriorColourTypes).Concat(
-            //                     mappedOptions).Concat(
-            //                     mappedUpholsteryTypes))
-            //    item.SortIndex = index++;
-
-            foreach (var item in mappedAccessories)
-                item.SortIndex = index++;
-
-            foreach (var item in mappedExteriorColourTypes)
-                item.SortIndex = index++;
-
-            foreach (var item in mappedOptions)
-                item.SortIndex = index++;
-
-            foreach (var item in mappedUpholsteryTypes)
-                item.SortIndex = index++;
 
             var mappedCarPack = new CarPack
             {
@@ -117,7 +98,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 GradeFeature = gradePack.GradeFeature,
                 InternalCode = carPack.Code,
                 LocalCode = carPack.LocalCode,
-                Price = new Repository.Objects.Core.Price
+                Price = new Price
                 {
                     ExcludingVat = carPack.Price,
                     IncludingVat = carPack.VatPrice
