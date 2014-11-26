@@ -135,7 +135,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\Toyota\fs-services.xml">
+    <None Include="C:\Toyota\fs-services.xml">
       <Link>fs-services.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
