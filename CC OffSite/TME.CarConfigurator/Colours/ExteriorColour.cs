@@ -12,13 +12,13 @@ namespace TME.CarConfigurator.Colours
 {
     public class ExteriorColour : BaseObject<Repository.Objects.Colours.ExteriorColour>, IExteriorColour
     {
-        private readonly Publication _publication;
-        private readonly Context _context;
-        private readonly IAssetFactory _assetFactory;
+        protected readonly Publication RepositoryPublication;
+        protected readonly Context RepositoryContext;
+        protected readonly IAssetFactory AssetFactory;
 
         private ColourTransformation _transformation;
         private ExteriorColourType _type;
-        private IReadOnlyList<IAsset> _assets;
+        private IReadOnlyList<IAsset> _fetchedAssets;
         private IReadOnlyList<IVisibleInModeAndView> _fetchedVisibleInModeAndViews;
 
         public ExteriorColour(Repository.Objects.Colours.ExteriorColour repositoryColour, Publication publication, Context context, IAssetFactory assetFactory)
@@ -28,9 +28,9 @@ namespace TME.CarConfigurator.Colours
             if (context == null) throw new ArgumentNullException("context");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
-            _publication = publication;
-            _context = context;
-            _assetFactory = assetFactory;
+            RepositoryPublication = publication;
+            RepositoryContext = context;
+            AssetFactory = assetFactory;
         }
 
         public bool Promoted
@@ -52,13 +52,23 @@ namespace TME.CarConfigurator.Colours
         {
             get
             {
-                return _fetchedVisibleInModeAndViews = _fetchedVisibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, _publication, _context, _assetFactory)).ToList();
+                return _fetchedVisibleInModeAndViews = _fetchedVisibleInModeAndViews ?? GetFetchedVisibleInModeAndViews();
             }
         }
 
         public IReadOnlyList<IAsset> Assets
         {
-            get { return _assets = _assets ?? _assetFactory.GetAssets(_publication, RepositoryObject.ID, _context); }
+            get { return _fetchedAssets = _fetchedAssets ?? FetchAssets(); }
+        }
+
+        protected virtual IReadOnlyList<IVisibleInModeAndView> GetFetchedVisibleInModeAndViews()
+        {
+            return RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
+        }
+
+        protected virtual IReadOnlyList<IAsset> FetchAssets()
+        {
+            return AssetFactory.GetAssets(RepositoryPublication, RepositoryObject.ID, RepositoryContext);
         }
     }
 }

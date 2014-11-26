@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using TME.CarConfigurator.Assets;
 using TME.CarConfigurator.Core;
+using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Factories;
@@ -18,5 +22,17 @@ namespace TME.CarConfigurator.Colours
         }
 
         public IPrice Price { get { return new Price(((Repository.Objects.Colours.CarExteriorColour) RepositoryObject).Price); } }
+
+
+        protected override IReadOnlyList<IVisibleInModeAndView> GetFetchedVisibleInModeAndViews()
+        {
+            return
+                RepositoryObject.VisibleIn.Select(
+                    visibleIn =>
+                        new CarVisibleInModeAndView(_carID, RepositoryObject.ID, visibleIn, RepositoryPublication,
+                            RepositoryContext, AssetFactory)).ToList();
+        }
+
+        protected override IReadOnlyList<IAsset> FetchAssets() { return AssetFactory.GetCarAssets(RepositoryPublication, _carID, RepositoryObject.ID, RepositoryContext); }
     }
 }
