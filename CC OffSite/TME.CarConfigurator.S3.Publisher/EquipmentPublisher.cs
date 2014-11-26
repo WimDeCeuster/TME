@@ -80,8 +80,17 @@ namespace TME.CarConfigurator.S3.Publisher
         {
             var tasks =
                 carEquipment.Select(
-                    entry => _equipmentService.PutCarEquipment(brand, country, publicationID, entry.Key, entry.Value)).ToList();
+                    entry => _equipmentService.PutCarEquipment(brand, country, publicationID, entry.Key, SortCarEquipment(entry.Value))).ToList();
             await Task.WhenAll(tasks);
+        }
+
+        static CarEquipment SortCarEquipment(CarEquipment equipment)
+        {
+            return new CarEquipment()
+            {
+                Accessories = equipment.Accessories.MainSort().ToList(),
+                Options = equipment.Options.MainSort().ToList()
+            };
         }
 
         static GradeEquipment SortGradeEquipment(GradeEquipment equipment)
