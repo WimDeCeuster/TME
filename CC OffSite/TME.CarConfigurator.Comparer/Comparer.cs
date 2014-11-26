@@ -60,9 +60,9 @@ namespace TME.CarConfigurator.Comparer
                 ".SubModels[].Grades[].Assets[]",
                 ".ColourCombinations[].ExteriorColour.Price",
                 ".ColourCombinations[].Upholstery.Price",
-                "ColourCombinations[].Upholstery.SortIndex",
-                "ColourCombinations[].ExteriorColour.SortIndex",
-                "ColourCombinations[].SortIndex",
+                ".ColourCombinations[].Upholstery.SortIndex",
+                ".ColourCombinations[].ExteriorColour.SortIndex",
+                ".ColourCombinations[].SortIndex",
                 ".Cars[].ColourCombinations[].Upholstery.SortIndex",
                 ".Cars[].ColourCombinations[].SortIndex",
             };
@@ -108,7 +108,6 @@ namespace TME.CarConfigurator.Comparer
 
             config.ShowBreadcrumb = false;
             config.MaxDifferences = -1;
-            config.MaxStructDepth = 2;
             config.MaxClassDepth = 15;
 
             config.AllowPropertyExceptions = true;
