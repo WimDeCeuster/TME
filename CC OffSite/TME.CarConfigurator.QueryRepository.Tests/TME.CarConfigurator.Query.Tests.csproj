@@ -90,6 +90,11 @@
     <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAvailableForExteriorColoursForTheSecondTime.cs" />
     <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAvailableForUpholsteriesForTheFirstTime.cs" />
     <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAvailableForUpholsteriesForTheSecondTime.cs" />
+    <Compile Include="GivenACarExteriorColour\WhenAccessing3DAssetsForAModeAndViewWhenTheyWereAlreadyFetchedForAnotherModeAndView.cs" />
+    <Compile Include="GivenACarExteriorColour\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarExteriorColour\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenACarExteriorColour\WhenAccessingItsAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarExteriorColour\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACarPackEquipmentItem\WhenAccessingItsPriceForTheFirstTime.cs" />
     <Compile Include="GivenACarPackEquipmentItem\WhenAccessingItsPriceForTheSecondTime.cs" />
     <Compile Include="GivenACarPackExteriorColourType\WhenAccessingItsColourCombinationsForTheFirstTime.cs" />
@@ -134,6 +139,11 @@
     <Compile Include="GivenACarTransmission\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
     <Compile Include="GivenACarTransmission\WhenAccessingItsAssets.cs" />
     <Compile Include="GivenACarTransmission\WhenAccessingItsAssetsASecondTime.cs" />
+    <Compile Include="GivenACarUpholstery\WhenAccessing3DAssetsForAModeAndViewWhenTheyWereAlreadyFetchedForAnotherModeAndView.cs" />
+    <Compile Include="GivenACarUpholstery\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarUpholstery\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
+    <Compile Include="GivenACarUpholstery\WhenAccessingItsAssetsForTheFirstTime.cs" />
+    <Compile Include="GivenACarUpholstery\WhenAccessingItsAssetsForTheSecondTime.cs" />
     <Compile Include="GivenACarWheelDrive\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenACarWheelDrive\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
     <Compile Include="GivenACarWheelDrive\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
