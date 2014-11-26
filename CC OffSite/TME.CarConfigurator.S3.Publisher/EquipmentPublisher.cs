@@ -86,10 +86,10 @@ namespace TME.CarConfigurator.S3.Publisher
 
         static CarEquipment SortCarEquipment(CarEquipment equipment)
         {
-            return new CarEquipment()
+            return new CarEquipment
             {
-                Accessories = equipment.Accessories.MainSort().ToList(),
-                Options = equipment.Options.MainSort().ToList()
+                Accessories = equipment.Accessories.OrderEquipment().ToList(),
+                Options = equipment.Options.OrderEquipment().ToList()
             };
         }
 

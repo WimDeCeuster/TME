@@ -40,6 +40,10 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
                 return
                     Adaptee.Equipment.OfType<Legacy.CarPackAccessory>()
                         .Select(x => new CarPackAccessory(x, CarOfAdaptee.Equipment.OfType<Legacy.CarAccessory>().FirstOrDefault(y=>y.ID == x.ID)))
+                        .OrderBy(x => x.Category.SortIndex)
+                        .ThenBy(x => x.SortIndex)
+                        .ThenBy(x => x.Name)
+                        .ThenBy(x => x.InternalCode)
                         .ToList();
             }
         }
@@ -51,6 +55,10 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
                 return
                     Adaptee.Equipment.OfType<Legacy.CarPackOption>()
                         .Select(x => new CarPackOption(x, CarOfAdaptee.Equipment.OfType<Legacy.CarOption>().FirstOrDefault(y => y.ID == x.ID)))
+                        .OrderBy(x => x.Category.SortIndex)
+                        .ThenBy(x => x.SortIndex)
+                        .ThenBy(x => x.Name)
+                        .ThenBy(x => x.InternalCode)
                         .ToList();
             }
         }

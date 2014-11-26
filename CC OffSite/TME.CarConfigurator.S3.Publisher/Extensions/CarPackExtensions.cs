@@ -12,8 +12,8 @@ namespace TME.CarConfigurator.S3.Publisher.Extensions
             {
                 carPack.Equipment = new CarPackEquipment
                 {
-                    Accessories = carPack.Equipment.Accessories.MainSort().ToList(),
-                    Options = carPack.Equipment.Options.MainSort().ToList()
+                    Accessories = carPack.Equipment.Accessories.OrderEquipment().ToList(),
+                    Options = carPack.Equipment.Options.OrderEquipment().ToList()
                 };
             }
 

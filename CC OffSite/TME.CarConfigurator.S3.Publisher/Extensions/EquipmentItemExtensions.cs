@@ -10,13 +10,7 @@ namespace TME.CarConfigurator.S3.Publisher.Extensions
             where T : EquipmentItem
         {
             return equipmentItems.OrderBy(equipmentItem => equipmentItem.Category.SortIndex)
-                                 .MainSort();
-        }
-        
-        public static IOrderedEnumerable<T> MainSort<T>(this IEnumerable<T> equipmentItems)
-            where T : EquipmentItem
-        {
-            return equipmentItems.OrderBy(equipmentItem => equipmentItem.SortIndex)
+                                 .ThenBy(equipmentItem => equipmentItem.SortIndex)
                                  .ThenBy(equipmentItem => equipmentItem.Name)
                                  .ThenBy(equipmentItem => equipmentItem.InternalCode);
         }
