@@ -259,6 +259,7 @@ namespace TME.CarConfigurator.Publisher
                 FillCarAssets(car, contextData, modelGeneration, car.Generation.SubModels[car.SubModelID]);
                 FillCarListAssets(car, contextData, GetValidCarPacks(car), carItemAssets, carItemsGenerationAssets);
                 FillCarEquipmentAssets(car, contextData, GetValidCarEquipment(car), carItemAssets, carItemsGenerationAssets);
+                FillCarColourCombinationAssets(car, contextData, carItemAssets, carItemsGenerationAssets);
                 FillCarPartAssets(car, contextData, GetValidCarParts(car), carItemAssets, carItemsGenerationAssets);
             }
         }
@@ -358,6 +359,22 @@ namespace TME.CarConfigurator.Publisher
                 subModel => subModel.ID,
                 subModel => subModel.AssetSet.Assets.GetGenerationAssets()
                     .Select(asset => _assetMapper.MapAssetSetAsset(asset, modelGeneration)).ToList());
+        }
+
+        private void FillCarColourCombinationAssets(Car car, ContextData contextData, Dictionary<Guid, Asset> carItemAssets, Dictionary<Guid, IList<Asset>> carItemsGenerationAssets)
+        {
+            FillCarListAssets(car, contextData, GetCarExteriorColours(car), carItemAssets, carItemsGenerationAssets);
+            FillCarListAssets(car, contextData, GetCarUpholsteries(car), carItemAssets, carItemsGenerationAssets);
+        }
+
+        private IEnumerable<IHasAssetSet> GetCarUpholsteries(Car car)
+        {
+            return car.ColourCombinations.Upholsteries().Select(upholstery => upholstery.GenerationUpholstery);
+        }
+
+        private IEnumerable<IHasAssetSet> GetCarExteriorColours(Car car)
+        {
+            return car.ColourCombinations.ExteriorColours().Select(exCol => exCol.GenerationExteriorColour);
         }
 
         private IEnumerable<KeyValuePair<Guid, List<Asset>>> GetColourCombinationAssets(ModelGeneration modelGeneration)
@@ -524,11 +541,6 @@ namespace TME.CarConfigurator.Publisher
 
         private static IEnumerable<ModelGenerationEquipmentItem> GetValidCarEquipment(Car car)
         {
-//            var carEquipmentIds = car.Equipment.Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
-//            var packEquipmentIds = car.Packs.SelectMany(pack => pack.Equipment).Where(eq => eq.Availability != Availability.NotAvailable).Select(eq => eq.ID);
-            
-//            return carEquipmentIds.Concat(packEquipmentIds).Distinct().Select(id => car.Generation.Equipment[id]);
-
             return car.Equipment.Select(eq => car.Generation.Equipment[eq.ID]);
         }
 

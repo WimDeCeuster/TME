@@ -12,9 +12,9 @@ namespace TME.CarConfigurator.Colours
 {
     public class Upholstery : BaseObject<Repository.Objects.Colours.Upholstery>, IUpholstery
     {
-        private readonly Publication _publication;
-        private readonly Context _context;
-        private readonly IAssetFactory _assetFactory;
+        protected readonly Publication RepositoryPublication;
+        protected readonly Context RepositoryContext;
+        protected readonly IAssetFactory AssetFactory;
 
         private UpholsteryType _type;
         private IReadOnlyList<IAsset> _assets;
@@ -27,9 +27,9 @@ namespace TME.CarConfigurator.Colours
             if (context == null) throw new ArgumentNullException("context");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
 
-            _publication = publication;
-            _context = context;
-            _assetFactory = assetFactory;
+            RepositoryPublication = publication;
+            RepositoryContext = context;
+            AssetFactory = assetFactory;
         }
 
         public string InteriorColourCode
@@ -51,13 +51,23 @@ namespace TME.CarConfigurator.Colours
         {
             get
             {
-                return _fetchedVisibleInModeAndViews = _fetchedVisibleInModeAndViews ?? RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, _publication, _context, _assetFactory)).ToList();
+                return _fetchedVisibleInModeAndViews = _fetchedVisibleInModeAndViews ?? FetchVisibleInModeAndViews();
             }
         }
 
         public IReadOnlyList<IAsset> Assets
         {
-            get { return _assets = _assets ?? _assetFactory.GetAssets(_publication, RepositoryObject.ID, _context); }
+            get { return _assets = _assets ?? FetchAssets(); }
+        }
+
+        protected virtual IReadOnlyList<IVisibleInModeAndView> FetchVisibleInModeAndViews()
+        {
+            return RepositoryObject.VisibleIn.Select(visibleInModeAndView => new VisibleInModeAndView(RepositoryObject.ID, visibleInModeAndView, RepositoryPublication, RepositoryContext, AssetFactory)).ToList();
+        }
+
+        protected virtual IReadOnlyList<IAsset> FetchAssets()
+        {
+            return AssetFactory.GetAssets(RepositoryPublication, RepositoryObject.ID, RepositoryContext);
         }
     }
 }
