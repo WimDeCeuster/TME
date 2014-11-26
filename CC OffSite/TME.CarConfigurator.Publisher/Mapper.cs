@@ -535,8 +535,9 @@ namespace TME.CarConfigurator.Publisher
         {
             contextData.CarEquipment.Add(car.ID,new CarEquipment
             {
-                Accessories = car.Equipment.Where(equipment => equipment.Type == EquipmentType.Accessory && equipment.Availability != Availability.NotAvailable)
-                                           .Select(accessory => _equipmentMapper.MapCarAccessory((CarAccessory)accessory, groups.FindAccessory(accessory.ID), categories, isPreview, assetUrl))
+                Accessories = car.Equipment.OfType<CarAccessory>()
+                                           .Where(equipment => equipment.Availability != Availability.NotAvailable)
+                                           .Select(accessory => _equipmentMapper.MapCarAccessory(accessory, groups.FindAccessory(accessory.ID), categories, isPreview, assetUrl))
                                            .ToList(),
                 Options = car.Equipment.Where(equipment => equipment.Type == EquipmentType.Option && equipment.Availability != Availability.NotAvailable && ((CarOption)equipment).Visible)
                                        .Select(option => _equipmentMapper.MapCarOption((CarOption)option, groups.FindOption(option.ID), categories, isPreview, assetUrl))

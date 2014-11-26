@@ -9,8 +9,6 @@ namespace TME.CarConfigurator.AutoComparer
     {
         static void Main(string[] args)
         {
-            var start = DateTime.Now;
-            
             var options = new Options();
 
             if (!CommandLine.Parser.Default.ParseArguments(args, options))
@@ -18,6 +16,12 @@ namespace TME.CarConfigurator.AutoComparer
                 Console.WriteLine("Could not parse args");
                 return;
             }
+
+            var start = DateTime.Now;
+
+
+            if (options.ReadKeyAfterFinish)
+                Console.WriteLine("Started at {0}\n", start);
 
             try
             {
@@ -35,7 +39,7 @@ namespace TME.CarConfigurator.AutoComparer
 
             if (!options.ReadKeyAfterFinish) return;
 
-            Console.WriteLine("\nDone after {0} seconds", DateTime.Now.Subtract(start).TotalMilliseconds/1000);
+            Console.WriteLine("\nDone after {0} seconds", DateTime.Now.Subtract(start).TotalMilliseconds / 1000);
             Console.ReadKey();
         }
 

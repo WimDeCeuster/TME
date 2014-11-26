@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Colours;
@@ -100,7 +101,7 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get
             {
-                return Adaptee.SubModel != null
+                return Adaptee.SubModel != null && Adaptee.SubModel.ID != Guid.Empty
                     ? new SubModel(Adaptee.SubModel, true)
                     : null;
             }
