@@ -69,6 +69,7 @@ End Class
     Private _liveBaseLinkPattern As String
     Private _objectLinkPattern As String
     Private _carConfiguratorversionID As Int16
+    Private _carConfiguratorversionName As String
 
 
 
@@ -81,6 +82,13 @@ End Class
         End Get
     End Property
     Public ReadOnly Property Name() As String
+        Get
+            If CarConfiguratorversionName.Length = 0 Then Return TypeName
+
+            Return String.Format("{0} {1}", TypeName, CarConfiguratorversionName)
+        End Get
+    End Property
+    Public ReadOnly Property TypeName() As String
         Get
             Return _name
         End Get
@@ -103,6 +111,11 @@ End Class
     Public ReadOnly Property CarConfiguratorversionID() As Int16
         Get
             Return _carConfiguratorversionID
+        End Get
+    End Property
+    Public ReadOnly Property CarConfiguratorversionName() As String
+        Get
+            Return _carConfiguratorversionName
         End Get
     End Property
 #End Region
@@ -148,8 +161,8 @@ End Class
             _liveBaseLinkPattern = .GetString(GetFieldName("LIVEBASELINKPATTERN"))
             _objectLinkPattern = .GetString(GetFieldName("OBJECTLINKPATTERN"))
             _carConfiguratorversionID = .GetInt16(GetFieldName("CARCONFIGURATORVERSIONID"))
+            _carConfiguratorversionName = .GetString(GetFieldName("CARCONFIGURATORVERSIONNAME"))
         End With
-
     End Sub
 
 #End Region

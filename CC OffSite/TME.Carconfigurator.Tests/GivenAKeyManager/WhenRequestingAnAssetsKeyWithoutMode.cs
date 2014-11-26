@@ -27,7 +27,7 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
             _view = "a view";
             _mode = null;
 
-            _expectedKey = "publication/" + _publicationId + "/assets/" + _objectId + "/" + _view;
+            _expectedKey = "publication/" + _publicationId + "/assets/" + _objectId + "/" + _view + ".json";
         }
 
         protected override void Act()

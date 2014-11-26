@@ -20,7 +20,7 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
 
             _publicationId = Guid.NewGuid();
 
-            _expectedKey = "publication/" + _publicationId + "/specification-categories";
+            _expectedKey = "publication/" + _publicationId + "/specification-categories.json";
         }
 
         protected override void Act()

@@ -59,7 +59,7 @@
 @if (Model.ExteriorColourTypes.Any()) {
     <h3>Exterior Colour Types</h3>
     <div>
-        @foreach (var model in Model.ExteriorColourTypes.OrderBy(x => x.SortIndex).ThenBy(x => x.Name).ThenBy(x => x.InternalCode))
+        @foreach (var model in Model.ExteriorColourTypes)
         {
             <div class="object" data-id="@(model.ID)">
                 <div class="title">
@@ -84,7 +84,7 @@
 @if (Model.UpholsteryTypes.Any()) {
     <h3>Upholstery Types</h3>
     <div>
-        @foreach (var model in Model.UpholsteryTypes.OrderBy(x => x.SortIndex).ThenBy(x => x.Name).ThenBy(x => x.InternalCode))
+        @foreach (var model in Model.UpholsteryTypes)
         {
             <div class="object" data-id="@(model.ID)">
                 <div class="title">
