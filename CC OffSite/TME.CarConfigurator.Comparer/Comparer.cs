@@ -49,6 +49,8 @@ namespace TME.CarConfigurator.Comparer
                 model => model.Cars.First().Packs.First().Equipment.UpholsteryTypes.First().KeyFeature
             );
 
+            config.MembersToIgnore.Add(GetFullMemberName<IEquipmentExteriorColour>(c => c.SortIndex));
+
             config.PathsToIgnore = new List<String>
             { 
                 ".Grades[].Equipment.Accessories[].ExteriorColour.SortIndex",
@@ -70,10 +72,14 @@ namespace TME.CarConfigurator.Comparer
             config.IgnoreOrderFor = new List<String>
             {
                 GetFullMemberName<IBodyType>(bodyType => bodyType.VisibleIn),
+                GetFullMemberName<IEngine>(engine => engine.VisibleIn),
                 GetFullMemberName<IUpholstery>(upholstery => upholstery.VisibleIn),
-                GetFullMemberName<ICarPackEquipmentItem>(option => option.VisibleIn),
+                GetFullMemberName<ICarEquipmentItem>(option => option.VisibleIn),
+                GetFullMemberName<ICarPart>(part => part.VisibleIn),
                 GetFullMemberName<ICarPack>(carPack => carPack.AvailableForExteriorColours),
                 GetFullMemberName<ICarPack>(carPack => carPack.AvailableForUpholsteries),
+                GetFullMemberName<ICarEquipmentItem>(item => item.AvailableForExteriorColours),
+                GetFullMemberName<ICarEquipmentItem>(item => item.AvailableForUpholsteries)
             };
 
             Func<object, object, bool?> ignoreCase = (item1, item2) => String.Equals((string)item1, (string)item2, StringComparison.InvariantCultureIgnoreCase);
