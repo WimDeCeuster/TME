@@ -154,6 +154,10 @@
       <Project>{3db012ee-feb6-40f1-9c09-97212c142013}</Project>
       <Name>TME.CarConfigurator.CommandServices</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.FileSystem\TME.CarConfigurator.FileSystem.csproj">
+      <Project>{3ec09995-998c-44c7-addb-5748e4feba0d}</Project>
+      <Name>TME.CarConfigurator.FileSystem</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
       <Project>{EFDB033C-66A8-40BB-B596-561F45E6C7F7}</Project>
       <Name>TME.CarConfigurator.Interfaces</Name>

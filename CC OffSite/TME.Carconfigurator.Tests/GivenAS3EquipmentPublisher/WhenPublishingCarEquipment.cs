@@ -2,8 +2,8 @@
 using FakeItEasy;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.S3.CommandServices;
-using TME.CarConfigurator.S3.Publisher;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 using TME.Carconfigurator.Tests.Builders;
 using TME.CarConfigurator.Tests.Shared;
@@ -42,7 +42,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3EquipmentPublisher
             _s3Service = A.Fake<IService>();
 
             var serialiser = A.Fake<ISerialiser>();
-            A.CallTo(() => serialiser.Serialise(carEquipment)).Returns(SERIALISED_CAREQUIPMENT);
+            A.CallTo(() => serialiser.Serialise(A<CarEquipment>._)).Returns(SERIALISED_CAREQUIPMENT);
 
             var keymanager = A.Fake<IKeyManager>();
             A.CallTo(() => keymanager.GetCarEquipmentKey(publication.ID, car1ID)).Returns(CAR_EQUIPMENT_KEY_FOR_CAR_1);

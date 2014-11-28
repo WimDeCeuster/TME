@@ -37,8 +37,10 @@ namespace TME.Carconfigurator.Tests.GivenAS3PackPublisher
             var carId1 = Guid.NewGuid();
             var carId2 = Guid.NewGuid();
 
-            var packs1 = new[] { new CarPack(), new CarPack(), new CarPack() };
-            var packs2 = new[] { new CarPack(), new CarPack(), new CarPack() };
+            var carPackEquipment = new CarPackEquipmentBuilder().Build();
+
+            var packs1 = new[] { new CarPackBuilder().WithCarPackEquipment(carPackEquipment).Build(), new CarPackBuilder().WithCarPackEquipment(carPackEquipment).Build(), new CarPackBuilder().WithCarPackEquipment(carPackEquipment).Build() };
+            var packs2 = new[] { new CarPackBuilder().WithCarPackEquipment(carPackEquipment).Build(), new CarPackBuilder().WithCarPackEquipment(carPackEquipment).Build(), new CarPackBuilder().WithCarPackEquipment(carPackEquipment).Build() };
 
             var publication1 = new PublicationBuilder().WithID(Guid.NewGuid()).Build();
             var publication2 = new PublicationBuilder().WithID(Guid.NewGuid()).Build();

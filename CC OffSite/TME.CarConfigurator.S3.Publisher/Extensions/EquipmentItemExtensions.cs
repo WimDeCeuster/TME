@@ -14,6 +14,5 @@ namespace TME.CarConfigurator.S3.Publisher.Extensions
                                  .ThenBy(equipmentItem => equipmentItem.Name)
                                  .ThenBy(equipmentItem => equipmentItem.InternalCode);
         }
-
     }
 }

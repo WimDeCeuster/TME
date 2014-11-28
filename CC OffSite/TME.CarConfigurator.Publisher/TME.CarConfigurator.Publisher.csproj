@@ -100,6 +100,7 @@
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\LinkExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Helpers\Comparer.cs" />
     <Compile Include="Interfaces\ITechnicalSpecificationMapper.cs" />
     <Compile Include="Interfaces\IAssetFileService.cs" />
     <Compile Include="Interfaces\IAssetPublisher.cs" />

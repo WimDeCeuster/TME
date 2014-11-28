@@ -24,7 +24,7 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
             _timeFrameId = Guid.NewGuid();
             _gradeId = Guid.NewGuid();
 
-            _expectedKey = "publication/" + _publicationId + "/time-frame/" + _timeFrameId + "/grade/" + _gradeId + "/equipment";
+            _expectedKey = "publication/" + _publicationId + "/time-frame/" + _timeFrameId + "/grade/" + _gradeId + "/equipment.json";
         }
 
         protected override void Act()

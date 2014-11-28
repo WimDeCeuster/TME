@@ -10,7 +10,7 @@ using Xunit;
 
 namespace TME.CarConfigurator.Query.Tests.Services.GivenAModelService
 {
-    public class WhenGeGetModelsByLanguageIsCalled : TestBase
+    public class WhenGetModelsByLanguageIsCalled : TestBase
     {
         private const string Language1 = "lang 1";
         private const string Language2 = "lang 2";

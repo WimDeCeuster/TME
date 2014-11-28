@@ -125,7 +125,6 @@
     <Compile Include="GivenAKeyManager\WhenRequestingADefaultCarEquipmentKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingATechnicalSpecificationsKey.cs" />
     <Compile Include="GivenAS3AssetPublisher\WhenPublishing3DCarItemAssets.cs" />
-    <Compile Include="GivenAS3CarEquipmentPublisher\WhenPublishingCarEquipment.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarPartsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarPacksKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingASpecificationCategoriesKey.cs" />

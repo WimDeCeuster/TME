@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using TME.CarConfigurator.AutoComparer.Extensions;
 
 namespace TME.CarConfigurator.AutoComparer
@@ -45,7 +43,6 @@ namespace TME.CarConfigurator.AutoComparer
 
             countryOutput.AppendLine("Result for {0}:", result.Country);
             countryOutput.AppendLine();
-            var languages = String.Join(", ", result.LanguageCompareResults.Select(languageCompareResult => languageCompareResult.Language));
             countryOutput.AppendLine("Valid: {0} | Total mismatches: {1} | Total missing: {2} | Total misorders: {3} | Total exceptions: {4} | Total not implemented: {5}",
                                 result.IsValid, result.TotalMismatches, result.TotalMissing, result.TotalMisorders, result.TotalExceptions, result.TotalNotImplemented);
 
@@ -57,7 +54,7 @@ namespace TME.CarConfigurator.AutoComparer
                 countryOutput.AppendLine("Missing old models: {0}", String.Join(", ", result.MissingNewModelIds.Select(id => id.ToString())));
             countryOutput.AppendLine("---------------------------------------");
 
-            output.Append(countryOutput.ToString());
+            output.Append(countryOutput);
 
             countryOutput.AppendLine();
 
@@ -68,6 +65,7 @@ namespace TME.CarConfigurator.AutoComparer
             }
 
             var dir = Path.Combine(path, DirName, result.Country);
+            Directory.CreateDirectory(dir);
             File.WriteAllText(Path.Combine(dir, String.Format("report-{0}.txt", result.Country)), countryOutput.ToString());
         }
 
@@ -87,7 +85,7 @@ namespace TME.CarConfigurator.AutoComparer
                 languageOutput.AppendLine("Missing old models: {0}", String.Join(", ", result.MissingNewModelIds.Select(id => id.ToString())));
             languageOutput.AppendLine("---------------------------------------");
 
-            output.Append(languageOutput.ToString());
+            output.Append(languageOutput);
 
             languageOutput.AppendLine();
 
@@ -113,7 +111,7 @@ namespace TME.CarConfigurator.AutoComparer
                                 result.Result.IsValid, result.Result.Mismatches.Count, result.Result.Missing.Count, result.Result.Misorders.Count, result.Result.Exceptions.Count, result.Result.NotImplemented.Count);
             modelOutput.AppendLine("---------------------------------------");
 
-            output.Append(modelOutput.ToString());
+            output.Append(modelOutput);
 
             modelOutput.AppendLine();
 

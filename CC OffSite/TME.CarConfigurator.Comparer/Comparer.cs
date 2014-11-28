@@ -39,38 +39,15 @@ namespace TME.CarConfigurator.Comparer
                 model => model.Engines.First().Type.Code,
                 model => model.ColourCombinations.First().ID,
                 model => model.ColourCombinations.First().SortIndex,
-                model => model.Grades.First().Equipment.Options.First().TechnologyItem
+                model => model.Grades.First().Equipment.Options.First().TechnologyItem,
+                model => model.Cars.First().TechnicalSpecifications.First().ValueFormat,
+                model => model.Equipment.Categories.First().Parent, // fix circular reference
+                model => model.TechnicalSpecifications.Categories.First().Parent, // fix circular reference
+                model => model.Cars.First().Packs.First().Equipment.Accessories.First().KeyFeature,
+                model => model.Cars.First().Packs.First().Equipment.Options.First().KeyFeature,
+                model => model.Cars.First().Packs.First().Equipment.ExteriorColourTypes.First().KeyFeature,
+                model => model.Cars.First().Packs.First().Equipment.UpholsteryTypes.First().KeyFeature
             );
-            
-            config.MembersToIgnore.Add("Assets");
-
-            //// for debugging/testing where things go slow
-            //config.MembersToIgnore.AddRange(
-            //    GetFullMemberNames(
-            //        model => model.Labels,
-            //        model => model.Links,
-            //        model => model.Assets,
-            //        model => model.BodyTypes,
-            //        model => model.Engines,
-            //        model => model.Transmissions,
-            //        model => model.WheelDrives,
-            //        model => model.Steerings,
-            //        model => model.Grades,
-            //        model => model.FuelTypes,
-            //        model => model.Cars,
-            //        model => model.SubModels,
-            //        model => model.ColourCombinations
-            //        //model => model.Equipment,
-            //        //model => model.TechnicalSpecifications
-            //    ));
-
-            //// end for debugging
-
-            // fix circular comparisons
-            config.MembersToIgnore.AddRange(GetFullMemberNames(
-                    model => model.Equipment.Categories.First().Parent,
-                    model => model.TechnicalSpecifications.Categories.First().Parent
-                ));
 
             config.PathsToIgnore = new List<String>
             { 
@@ -81,14 +58,22 @@ namespace TME.CarConfigurator.Comparer
                 ".SubModels[].Grades[].Equipment.Accessories[].ExteriorColour.SortIndex",
                 ".SubModels[].Grades[].Equipment.Options[].ExteriorColour.SortIndex",
                 ".SubModels[].Grades[].Assets[]",
+                ".ColourCombinations[].ExteriorColour.Price",
+                ".ColourCombinations[].Upholstery.Price",
+                ".ColourCombinations[].Upholstery.SortIndex",
+                ".ColourCombinations[].ExteriorColour.SortIndex",
+                ".ColourCombinations[].SortIndex",
+                ".Cars[].ColourCombinations[].Upholstery.SortIndex",
+                ".Cars[].ColourCombinations[].SortIndex",
             };
 
             config.IgnoreOrderFor = new List<String>
             {
                 GetFullMemberName<IBodyType>(bodyType => bodyType.VisibleIn),
                 GetFullMemberName<IUpholstery>(upholstery => upholstery.VisibleIn),
+                GetFullMemberName<ICarPackEquipmentItem>(option => option.VisibleIn),
                 GetFullMemberName<ICarPack>(carPack => carPack.AvailableForExteriorColours),
-                GetFullMemberName<ICarPack>(carPack => carPack.AvailableForUpholsteries)
+                GetFullMemberName<ICarPack>(carPack => carPack.AvailableForUpholsteries),
             };
 
             Func<object, object, bool?> ignoreCase = (item1, item2) => String.Equals((string)item1, (string)item2, StringComparison.InvariantCultureIgnoreCase);
@@ -123,7 +108,6 @@ namespace TME.CarConfigurator.Comparer
 
             config.ShowBreadcrumb = false;
             config.MaxDifferences = -1;
-            config.MaxStructDepth = 2;
             config.MaxClassDepth = 15;
 
             config.AllowPropertyExceptions = true;

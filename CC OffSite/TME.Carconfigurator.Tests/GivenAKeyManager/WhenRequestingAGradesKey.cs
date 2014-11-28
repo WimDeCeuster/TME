@@ -22,7 +22,7 @@ namespace TME.Carconfigurator.Tests.GivenAKeyManager
             _publicationId = Guid.NewGuid();
             _timeFrameId = Guid.NewGuid();
 
-            _expectedKey = "publication/" + _publicationId + "/time-frame/" + _timeFrameId + "/grades";
+            _expectedKey = "publication/" + _publicationId + "/time-frame/" + _timeFrameId + "/grades.json";
         }
 
         protected override void Act()

@@ -30,7 +30,7 @@ namespace TME.CarConfigurator.S3.Publisher.Helpers
 
             await PublishObjects(
                 context,
-                timeFrame => objectsGetter(timeFrame).Order(),
+                timeFrame => BaseObjectExtensions.Order(objectsGetter(timeFrame)),
                 async (brand, country, pubId, tfId, x) => await Task.WhenAll(publish(brand, country, pubId, tfId, x)));
         }
 

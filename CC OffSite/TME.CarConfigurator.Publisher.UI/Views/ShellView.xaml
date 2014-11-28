@@ -25,6 +25,11 @@
             <ComboBox x:Name="Environments"  Width="150">
             </ComboBox>
         </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="3">
+            <TextBlock Width="75">Target:</TextBlock>
+            <ComboBox x:Name="Targets"  Width="150">
+            </ComboBox>
+        </StackPanel>
         <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="3">
                 <Button x:Name="PublishPreviewAsync">Publish to preview</Button>

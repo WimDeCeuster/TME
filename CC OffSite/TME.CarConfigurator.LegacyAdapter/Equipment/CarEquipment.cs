@@ -32,6 +32,10 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
                         .Cast<Legacy.CarEquipmentItem>()
                         .Where(x => x.Type == Legacy.EquipmentType.Accessory)
                         .Select(x => new CarAccessory((Legacy.CarAccessory)x, Adaptee))
+                        .OrderBy(x => x.Category.SortIndex)
+                        .ThenBy(x => x.SortIndex)
+                        .ThenBy(x => x.Name)
+                        .ThenBy(x => x.InternalCode)
                         .ToList();
             }
         }
@@ -44,6 +48,10 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
                         .Cast<Legacy.CarEquipmentItem>()
                         .Where(x => x.Type != Legacy.EquipmentType.Accessory)
                         .Select(x => new CarOption((Legacy.CarOption)x, Adaptee))
+                        .OrderBy(x => x.Category.SortIndex)
+                        .ThenBy(x => x.SortIndex)
+                        .ThenBy(x => x.Name)
+                        .ThenBy(x => x.InternalCode)
                         .ToList();
             }
         }

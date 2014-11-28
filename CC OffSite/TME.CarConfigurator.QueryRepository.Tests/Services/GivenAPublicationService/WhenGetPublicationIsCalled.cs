@@ -40,7 +40,7 @@ namespace TME.CarConfigurator.Query.Tests.Services.GivenAPublicationService
             var service = A.Fake<IService>();
             var keyManager = A.Fake<IKeyManager>();
 
-            A.CallTo(() => keyManager.GetPublicationKey(A<Guid>._)).Returns(s3Key);
+            A.CallTo(() => keyManager.GetPublicationFileKey(A<Guid>._)).Returns(s3Key);
             A.CallTo(() => service.GetObject(brand, country, s3Key)).Returns(serializedObject);
             A.CallTo(() => serialiser.Deserialise<Publication>(serializedObject)).Returns(_expectedPublication);
 
