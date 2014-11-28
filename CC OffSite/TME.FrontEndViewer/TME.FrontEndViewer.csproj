@@ -155,6 +155,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ModelCarPackRulesController.cs" />
+    <Compile Include="Controllers\ModelCarEquipmentRulesController.cs" />
     <Compile Include="Controllers\ModelCarColourCombinationsController.cs" />
     <Compile Include="Controllers\ModelCarEquipmentAssetsController.cs" />
     <Compile Include="Controllers\ModelCarEquipmentVisibleInAssetsController.cs" />
@@ -382,6 +384,11 @@
     <Content Include="Views\ModelCarColourCombinations\details.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Shared\ModelRuleSets\details.cshtml" />
+    <Content Include="Views\Shared\ModelRuleSets\Index.cshtml" />
+    <Content Include="Views\Shared\Rules\_ruleSet.cshtml" />
+    <Content Include="Views\Shared\Rules\_equipmentItemRule.cshtml" />
+    <Content Include="Views\Shared\Rules\_packRule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

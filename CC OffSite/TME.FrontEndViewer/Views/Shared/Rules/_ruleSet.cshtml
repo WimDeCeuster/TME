@@ -1,0 +1,25 @@
+﻿@model TME.CarConfigurator.Interfaces.Rules.IRuleSet
+@if (Model.Accessories.Any())
+{
+    <h2>Accessories</h2>
+    foreach (var model in Model.Accessories)
+    {
+         @Html.Partial("Rules/_equipmentItemRule", model)
+    }
+}
+@if (Model.Options.Any())
+{
+    <h2>Options</h2>
+    foreach (var model in Model.Options)
+    {
+         @Html.Partial("Rules/_equipmentItemRule", model)
+    }
+}
+@if (Model.Packs.Any())
+{
+    <h2>Options</h2>
+    foreach (var model in Model.Packs)
+    {
+         @Html.Partial("Rules/_packRule", model)
+    }
+}

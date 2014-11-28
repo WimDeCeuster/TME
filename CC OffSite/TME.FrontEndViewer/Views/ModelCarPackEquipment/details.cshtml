@@ -11,6 +11,7 @@
                 <div class="content">
                     @Html.Partial("Equipment/_carPackEquipmentItem", model)
                     <p class="property" data-id="actionlinks">
+                        @Html.ActionLink("Rules", "Index", "ModelCarEquipmentRules", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID,  packID = ViewBag.PackID, equipmentID = model.ID }, new { }) | 
                         @Html.ActionLink("Assets", "Index", "ModelCarEquipmentAssets", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, packID = ViewBag.PackID, equipmentID = model.ID }, new { })
                         @foreach (var visibleInModeAndView in model.VisibleIn.Where(x => x.Assets.Any()).OrderBy(x => x.View).ThenBy(x => x.Mode))
                         {
@@ -44,6 +45,7 @@
                         <p class="property" data-id="ParentOptionName">ParentOption.Name : @Html.Raw(model.ParentOption.Name)</p>
                     }
                     <p class="property" data-id="actionlinks">
+                        @Html.ActionLink("Rules", "Index", "ModelCarEquipmentRules", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID,  packID = ViewBag.PackID, equipmentID = model.ID }, new { }) |                         
                         @Html.ActionLink("Assets", "Index", "ModelCarEquipmentAssets", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, packID = ViewBag.PackID, equipmentID = model.ID }, new { })
                         @foreach (var visibleInModeAndView in model.VisibleIn.Where(x => x.Assets.Any()).OrderBy(x => x.View).ThenBy(x => x.Mode))
                         {
@@ -69,6 +71,7 @@
                     @Html.Partial("Equipment/_carPackEquipmentItem", model)
                     <p class="property" data-id="ColourCombinations">Colour Combinations : @String.Join(", " , model.ColourCombinations.Select(x=> string.Format("{0}-{1}", x.ExteriorColour.InternalCode, x.Upholstery.InternalCode)).Distinct()) </p>
                     <p class="property" data-id="actionlinks">
+                        @Html.ActionLink("Rules", "Index", "ModelCarEquipmentRules", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID,  packID = ViewBag.PackID, equipmentID = model.ID }, new { }) |                         
                         @Html.ActionLink("Assets", "Index", "ModelCarEquipmentAssets", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, packID = ViewBag.PackID, equipmentID = model.ID }, new { })
                         @foreach (var visibleInModeAndView in model.VisibleIn.Where(x => x.Assets.Any()).OrderBy(x => x.View).ThenBy(x => x.Mode))
                         {
@@ -94,6 +97,7 @@
                     @Html.Partial("Equipment/_carPackEquipmentItem", model)
                     <p class="property" data-id="ColourCombinations">Colour Combinations : @String.Join(", " , model.ColourCombinations.Select(x=> string.Format("{0}-{1}", x.ExteriorColour.InternalCode, x.Upholstery.InternalCode)).Distinct()) </p>
                     <p class="property" data-id="actionlinks">
+                        @Html.ActionLink("Rules", "Index", "ModelCarEquipmentRules", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID,  packID = ViewBag.PackID, equipmentID = model.ID }, new { }) |                         
                         @Html.ActionLink("Assets", "Index", "ModelCarEquipmentAssets", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, packID = ViewBag.PackID, equipmentID = model.ID }, new { })
                         @foreach (var visibleInModeAndView in model.VisibleIn.Where(x => x.Assets.Any()).OrderBy(x => x.View).ThenBy(x => x.Mode))
                         {

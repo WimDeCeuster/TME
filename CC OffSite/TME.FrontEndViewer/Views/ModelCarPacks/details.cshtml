@@ -32,9 +32,10 @@
                 }
             </p>
             <p class="property" data-id="actionlinks">
-                @Html.ActionLink("Assets", "Index", "ModelCarPackAssets", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, packID = model.ID }, new { })
-                @Html.ActionLink("Equipment", "Index", "ModelCarPackEquipment", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, packID = model.ID }, new { })
-                @Html.ActionLink("Accent Colours", "Index", "ModelCarPackAccentColours", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, packID = model.ID }, new { })
+                @Html.ActionLink("Rules", "Index", "ModelCarPackRules", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, packID = model.ID }, new { }) | 
+                @Html.ActionLink("Equipment", "Index", "ModelCarPackEquipment", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, packID = model.ID }, new { }) | 
+                @Html.ActionLink("Accent Colours", "Index", "ModelCarPackAccentColours", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, packID = model.ID }, new { }) | 
+                                @Html.ActionLink("Assets", "Index", "ModelCarPackAssets", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, packID = model.ID }, new { })
             </p>
         </div>
     </div>

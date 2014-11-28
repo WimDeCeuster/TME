@@ -31,7 +31,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
                 return Adaptee.Equipment
                         .Cast<Legacy.CarEquipmentItem>()
                         .Where(x => x.Type == Legacy.EquipmentType.Accessory)
-                        .Select(x => new CarAccessory((Legacy.CarAccessory)x))
+                        .Select(x => new CarAccessory((Legacy.CarAccessory)x, Adaptee))
                         .OrderBy(x => x.Category.SortIndex)
                         .ThenBy(x => x.SortIndex)
                         .ThenBy(x => x.Name)

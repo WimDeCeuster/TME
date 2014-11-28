@@ -49,6 +49,8 @@ namespace TME.CarConfigurator.Comparer
                 model => model.Cars.First().Packs.First().Equipment.UpholsteryTypes.First().KeyFeature
             );
 
+            config.MembersToIgnore.Add(GetFullMemberName<IEquipmentExteriorColour>(c => c.SortIndex));
+
             config.PathsToIgnore = new List<String>
             { 
                 ".Grades[].Equipment.Accessories[].ExteriorColour.SortIndex",
@@ -70,10 +72,20 @@ namespace TME.CarConfigurator.Comparer
             config.IgnoreOrderFor = new List<String>
             {
                 GetFullMemberName<IBodyType>(bodyType => bodyType.VisibleIn),
+                GetFullMemberName<IEngine>(engine => engine.VisibleIn),
                 GetFullMemberName<IUpholstery>(upholstery => upholstery.VisibleIn),
-                GetFullMemberName<ICarPackEquipmentItem>(option => option.VisibleIn),
+                GetFullMemberName<ICarEquipmentItem>(option => option.VisibleIn),
+                GetFullMemberName<ICarPart>(part => part.VisibleIn),
                 GetFullMemberName<ICarPack>(carPack => carPack.AvailableForExteriorColours),
                 GetFullMemberName<ICarPack>(carPack => carPack.AvailableForUpholsteries),
+                GetFullMemberName<ICarEquipmentItem>(item => item.AvailableForExteriorColours),
+                GetFullMemberName<ICarEquipmentItem>(item => item.AvailableForUpholsteries),
+                GetFullMemberName<IModel>(item => item.Assets),
+                GetFullMemberName<ICarPackUpholsteryType>(type => type.ColourCombinations),
+                GetFullMemberName<ICarPackExteriorColourType>(type => type.ColourCombinations),
+                GetFullMemberName<IGradeEquipmentItem>(item => item.OptionalOn),
+                GetFullMemberName<IGradeEquipmentItem>(item => item.NotAvailableOn),
+                GetFullMemberName<IGradeEquipmentItem>(item => item.StandardOn)
             };
 
             Func<object, object, bool?> ignoreCase = (item1, item2) => String.Equals((string)item1, (string)item2, StringComparison.InvariantCultureIgnoreCase);
@@ -100,15 +112,17 @@ namespace TME.CarConfigurator.Comparer
                     return String.Format("{0}-{1}", colourCombination.ExteriorColour.ID, colourCombination.Upholstery.ID);
                 } },
                 { typeof(IUpholsteryInfo), o => ((IUpholsteryInfo)o).ID.ToString()},
-                { typeof(IExteriorColourInfo), o => ((IExteriorColourInfo)o).ID.ToString()}
+                { typeof(IExteriorColourInfo), o => ((IExteriorColourInfo)o).ID.ToString()},
+                { typeof(IColourCombinationInfo), o => ((IColourCombinationInfo)o).ExteriorColour.ID.ToString() + "|" + ((IColourCombinationInfo)o).Upholstery.ID.ToString() },
+                { typeof(ICarInfo), o => ((ICarInfo)o).ShortID.ToString() }
             };
 
             config.DetectMissingAndMisordered = true;
-            config.QuickFailLists = true;
+            //config.QuickFailLists = true;
 
             config.ShowBreadcrumb = false;
             config.MaxDifferences = -1;
-            config.MaxClassDepth = 15;
+            config.MaxClassDepth = -1;
 
             config.AllowPropertyExceptions = true;
 

@@ -17,22 +17,17 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
     {
 
         #region Dependencies (Adaptee)
-        private TMME.CarConfigurator.CarEquipmentItem Adaptee
-        {
-            get;
-            set;
-        }
+        private TMME.CarConfigurator.CarEquipmentItem Adaptee { get; set;}
+        private TMME.CarConfigurator.Car CarOfAdaptee { get; set; }
         #endregion
 
         #region Constructor
-        protected CarEquipmentItem(TMME.CarConfigurator.CarEquipmentItem adaptee)
+        protected CarEquipmentItem(TMME.CarConfigurator.CarEquipmentItem adaptee, TMME.CarConfigurator.Car carOfAdaptee)
             : base(adaptee)
         {
             Adaptee = adaptee;
+            CarOfAdaptee = carOfAdaptee;
         }
-
-
-
         #endregion
 
         public int ShortID
@@ -118,13 +113,13 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
 
         public abstract IPrice Price { get; }
 
-        private IReadOnlyList<IVisibleInModeAndView> _visibleIn = null;
+        private IReadOnlyList<IVisibleInModeAndView> _visibleIn;
         public IReadOnlyList<IVisibleInModeAndView> VisibleIn
         {
             get { return _visibleIn ?? (_visibleIn = Adaptee.Assets.GetVisibleInModeAndViews()); }
         }
 
-        private IReadOnlyList<IAsset> _assets = null;
+        private IReadOnlyList<IAsset> _assets;
         public IReadOnlyList<IAsset> Assets
         {
             get { return _assets ?? (_assets = Adaptee.Assets.GetPlainAssets()); }
@@ -154,10 +149,13 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
             }
         }
 
-        
+        private IRuleSets _rules;   
         public IRuleSets Rules
         {
-            get { throw new System.NotImplementedException(); }
+            get
+            {
+                return _rules ?? (_rules = new CarEquipmentItemRules(Adaptee, CarOfAdaptee));
+            }
         }
     }
 }

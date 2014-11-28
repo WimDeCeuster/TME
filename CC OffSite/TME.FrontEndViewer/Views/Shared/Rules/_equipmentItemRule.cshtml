@@ -1,0 +1,12 @@
+﻿@model TME.CarConfigurator.Interfaces.Rules.IEquipmentRule
+<div class="object" data-id="equipment-@(Model.ShortID)">
+    <div class="title">
+        <strong>@Html.Raw(Model.Name)</strong>
+    </div>
+    <div class="content">
+        <p class="property" data-id="ShortID">ShortID : @Html.Raw(Model.ShortID)</p>
+        <p class="property" data-id="Name">Name : @Html.Raw(Model.Name)</p>
+        <p class="property" data-id="ColouringModes">ColouringModes : @Html.Raw(Model.ColouringModes)</p>
+        <p class="property allowed-mismatch" data-id="Category">Category : @Html.Raw(Model.Category)</p>
+    </div>
+</div>

@@ -185,7 +185,7 @@ namespace TME.CarConfigurator.Publisher
                     progress.Report(new PublishProgress("Fill grade equipment"));
                     FillGradeEquipment(equipmentCategories, equipmentGroups, timeFrameCars, timeFrameGrades, timeFrame, isPreview, exteriorColourTypes, context.AssetUrl);
                     progress.Report(new PublishProgress("Fill generation submodels"));
-                    FillSubModels(timeFrameGrades, timeFrameCars, modelGeneration, timeFrame, isPreview);
+                    FillSubModels(timeFrameGrades, timeFrameCars, modelGeneration, timeFrame, isPreview, equipmentCategories, equipmentGroups, exteriorColourTypes, context.AssetUrl);
                     progress.Report(new PublishProgress("Fill submodel grade packs"));
                     FillSubModelGradePacks(timeFrameGrades, modelGeneration, timeFrame, isPreview);
                     progress.Report(new PublishProgress("Fill generation colour combinations"));
@@ -608,7 +608,7 @@ namespace TME.CarConfigurator.Publisher
             timeFrame.ColourCombinations = colourCombinations;
         }
 
-        private void FillSubModels(IList<ModelGenerationGrade> grades, IList<Car> cars, ModelGeneration modelGeneration, TimeFrame timeFrame, bool isPreview)
+        private void FillSubModels(IList<ModelGenerationGrade> grades, IList<Car> cars, ModelGeneration modelGeneration, TimeFrame timeFrame, bool isPreview, EquipmentCategories categories, EquipmentGroups groups, ExteriorColourTypes exteriorColourTypes, String assetUrl)
         {
             var applicableSubModels = modelGeneration.SubModels.Where(submodel => cars.Any(car => car.SubModelID == submodel.ID)).ToList();
 
@@ -628,7 +628,7 @@ namespace TME.CarConfigurator.Publisher
 
                 mappedSubModels.Add(mappedSubModel);
 
-                mappedSubModelGradeEquipments.Add(subModelId, GetSubModelGradeEquipment(grades, modelGenerationSubModel, timeFrame, isPreview));
+                mappedSubModelGradeEquipments.Add(subModelId, GetSubModelGradeEquipment(grades, modelGenerationSubModel, isPreview, categories, groups, exteriorColourTypes, assetUrl));
 
                 AddSubModelToCar(cars, timeFrame, mappedSubModel);
             }
@@ -645,44 +645,13 @@ namespace TME.CarConfigurator.Publisher
                     .ToList();
         }
 
-        private IReadOnlyDictionary<Guid, GradeEquipment> GetSubModelGradeEquipment(IEnumerable<ModelGenerationGrade> modelGenerationGrades, ModelGenerationSubModel modelGenerationSubModel, TimeFrame timeFrame, bool isPreview)
+        private IReadOnlyDictionary<Guid, GradeEquipment> GetSubModelGradeEquipment(IEnumerable<ModelGenerationGrade> modelGenerationGrades, ModelGenerationSubModel modelGenerationSubModel, bool isPreview, EquipmentCategories categories, EquipmentGroups groups, ExteriorColourTypes exteriorColourTypes, String assetUrl)
         {
             return modelGenerationGrades.ToDictionary(
                 modelGenerationGrade => modelGenerationGrade.ID,
-                modelGenerationGrade => GetSubModelGradeEquipment(modelGenerationGrade, modelGenerationGrade.Cars().Filter(isPreview)
+                modelGenerationGrade => GetGradeEquipment(modelGenerationGrade, modelGenerationGrade.Cars().Filter(isPreview)
                                                                                                                    .Where(car => car.SubModelID == modelGenerationSubModel.ID)
-                                                                                                                   .ToList(), modelGenerationSubModel, timeFrame));
-        }
-
-        private static GradeEquipment GetSubModelGradeEquipment(ModelGenerationGrade modelGenerationGrade, IEnumerable<Car> cars, ModelGenerationSubModel modelGenerationSubModel, TimeFrame timeFrame)
-        {
-            var accessories =
-                timeFrame.GradeEquipments[modelGenerationGrade.ID].Accessories.Where(
-                    accessory =>
-                        cars.Any(
-                            car =>
-                                car.Equipment[accessory.ID] != null &&
-                                car.Equipment[accessory.ID].Availability !=
-                                Availability.NotAvailable)).ToList();
-
-            var options = timeFrame.GradeEquipments[modelGenerationGrade.ID].Options.Where(
-                option => cars.Any(
-                            car =>
-                                car.Equipment[option.ID] != null &&
-                                car.Equipment[option.ID].Availability !=
-                                Availability.NotAvailable)).ToList();
-
-            foreach (var gradeAccessory in accessories)
-            {
-                gradeAccessory.KeyFeature = modelGenerationSubModel.Equipment[gradeAccessory.ID].KeyFeature;
-            }
-
-            foreach (var gradeOption in options)
-            {
-                gradeOption.KeyFeature = modelGenerationSubModel.Equipment[gradeOption.ID].KeyFeature;
-            }
-
-            return new GradeEquipment { Accessories = accessories.ToList(), Options = options.ToList() };
+                                                                                                                   .ToList(), isPreview, categories, groups, exteriorColourTypes, assetUrl));
         }
 
         private static void AddSubModelToCar(IEnumerable<Car> cars, TimeFrame timeFrame, SubModel mappedSubModel)

@@ -1,0 +1,10 @@
+﻿@model TME.CarConfigurator.Interfaces.Rules.IRuleSets
+
+<h3>Includes</h3>
+<div>
+    @Html.Partial("Rules/_ruleSet", Model.Include)
+</div>
+<h3>Excludes</h3>
+<div>
+      @Html.Partial("Rules/_ruleSet", Model.Exclude)
+</div>
