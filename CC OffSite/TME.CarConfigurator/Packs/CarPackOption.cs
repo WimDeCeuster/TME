@@ -11,8 +11,8 @@ namespace TME.CarConfigurator.Packs
     {
         private OptionInfo _parentOption;
 
-        public CarPackOption(Repository.Objects.Packs.CarPackOption repositoryCarPackOption, Publication publication, Guid carId, Context context, IAssetFactory assetFactory)
-            : base(repositoryCarPackOption, publication, carId, context, assetFactory)
+        public CarPackOption(Repository.Objects.Packs.CarPackOption repositoryCarPackOption, Publication publication, Guid carId, Context context, IAssetFactory assetFactory, IRuleFactory ruleFactory)
+            : base(repositoryCarPackOption, publication, carId, context, assetFactory, ruleFactory)
         {
 
         }

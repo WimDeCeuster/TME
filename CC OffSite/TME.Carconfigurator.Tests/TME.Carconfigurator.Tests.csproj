@@ -122,6 +122,7 @@
     <Compile Include="GivenAKeyManager\WhenRequestingACarEquipmentAssetsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarEquipmentKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarPartAssetsKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingACarRulesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingADefaultCarEquipmentKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingATechnicalSpecificationsKey.cs" />
     <Compile Include="GivenAS3AssetPublisher\WhenPublishing3DCarItemAssets.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="GivenAS3PackPublisher\WhenPublishingGradePacks.cs" />
     <Compile Include="GivenAS3PackPublisher\WhenPublishingSubModelGradePacks.cs" />
     <Compile Include="GivenAS3GradePublisher\WhenPublishingASubModelGrade.cs" />
+    <Compile Include="GivenAS3RulePublisher\WhenPublishingCarRules.cs" />
     <Compile Include="GivenAS3SteeringPublisher\WhenPublishingGenerationWheelDrives.cs" />
     <Compile Include="GivenAS3GradePublisher\WhenPublishingGenerationGrades.cs" />
     <Compile Include="GivenAS3SubModelPublisher\WhenPublishingASubModel.cs" />

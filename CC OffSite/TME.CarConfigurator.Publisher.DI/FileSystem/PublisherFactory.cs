@@ -97,6 +97,11 @@ namespace TME.CarConfigurator.Publisher.DI.FileSystem
             return new CarPartPublisher(service);
         }
 
+        private IRulePublisher GetRulePublisher(IRuleService service)
+        {
+            return new RulePublisher(service);
+        }
+
         private IPackPublisher GetPackPublisher(IPackService service)
         {
             return new PackPublisher(service, _timeFramePublishHelper);
@@ -121,7 +126,8 @@ namespace TME.CarConfigurator.Publisher.DI.FileSystem
                 GetSpecificationsPublisher(_serviceFactory.GetSpecificationsService(environment, dataSubset)),
                 GetPackPublisher(_serviceFactory.GetPackService(environment, dataSubset)),
                 GetColourCombinationPublisher(_serviceFactory.GetColourCombinationService(environment,dataSubset)),
-                GetCarPartPublisher(_serviceFactory.GetCarPartService(environment,dataSubset)
+                GetCarPartPublisher(_serviceFactory.GetCarPartService(environment,dataSubset)),
+                GetRulePublisher(_serviceFactory.GetRuleService(environment, dataSubset)
             ));
         }
     }

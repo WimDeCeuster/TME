@@ -27,16 +27,19 @@ namespace TME.CarConfigurator.Factories
         private readonly IEquipmentService _equipmentService;
         private readonly IColourFactory _colourFactory;
         private readonly IAssetFactory _assetFactory;
+        private readonly IRuleFactory _ruleFactory;
 
-        public EquipmentFactory(IEquipmentService equipmentService, IColourFactory colourFactory, IAssetFactory assetFactory)
+        public EquipmentFactory(IEquipmentService equipmentService, IColourFactory colourFactory, IAssetFactory assetFactory, IRuleFactory ruleFactory)
         {
             if (equipmentService == null) throw new ArgumentNullException("equipmentService");
             if (colourFactory == null) throw new ArgumentNullException("colourFactory");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
+            if (ruleFactory == null) throw new ArgumentNullException("ruleFactory");
 
             _equipmentService = equipmentService;
             _colourFactory = colourFactory;
             _assetFactory = assetFactory;
+            _ruleFactory = ruleFactory;
         }
 
         public IGradeEquipment GetSubModelGradeEquipment(Publication publication, Guid subModelID, Context context,
@@ -54,7 +57,7 @@ namespace TME.CarConfigurator.Factories
         {
             var carEquipment = _equipmentService.GetCarEquipment(carID, publication.ID, context);
             return new CarEquipment(
-                carEquipment.Accessories.Select(accessory => new Equipment.CarAccessory(accessory, carID, publication, context, _assetFactory)),
+                carEquipment.Accessories.Select(accessory => new Equipment.CarAccessory(accessory, carID, publication, context, _assetFactory, _ruleFactory)),
                 carEquipment.Options.Select(option => GetCarOption(carID, publication, context, option, carEquipment.Options)));
         }
 
@@ -70,10 +73,10 @@ namespace TME.CarConfigurator.Factories
         public ICarPackEquipment GetCarPackEquipment(Repository.Objects.Packs.CarPackEquipment repoCarPackEquipment, Publication publication, Context context, Guid carId)
         {
             return new CarPackEquipment(
-                repoCarPackEquipment.Accessories.Select(accessory => new CarPackAccessory(accessory, publication, carId, context, _assetFactory)),
-                repoCarPackEquipment.Options.Select(option => new CarPackOption(option, publication, carId, context, _assetFactory)),
-                repoCarPackEquipment.ExteriorColourTypes.Select(type => new CarPackExteriorColourType(type, publication, carId, context, _assetFactory)),
-                repoCarPackEquipment.UpholsteryTypes.Select(type => new CarPackUpholsteryType(type, publication, carId, context, _assetFactory)));
+                repoCarPackEquipment.Accessories.Select(accessory => new CarPackAccessory(accessory, publication, carId, context, _assetFactory, _ruleFactory)),
+                repoCarPackEquipment.Options.Select(option => new CarPackOption(option, publication, carId, context, _assetFactory, _ruleFactory)),
+                repoCarPackEquipment.ExteriorColourTypes.Select(type => new CarPackExteriorColourType(type, publication, carId, context, _assetFactory, _ruleFactory)),
+                repoCarPackEquipment.UpholsteryTypes.Select(type => new CarPackUpholsteryType(type, publication, carId, context, _assetFactory, _ruleFactory)));
         }
 
         ICarOption GetCarOption(Guid carID, Publication publication, Context context, CarOption option, IEnumerable<CarOption> repoCarOptions)
@@ -84,7 +87,7 @@ namespace TME.CarConfigurator.Factories
 
             var parentOptionInfo = parentCarOption == null ? null : new OptionInfo(parentCarOption.ShortID, parentCarOption.Name);
 
-            return new Equipment.CarOption(option, parentOptionInfo, carID, publication, context, _assetFactory);
+            return new Equipment.CarOption(option, parentOptionInfo, carID, publication, context, _assetFactory, _ruleFactory);
         }
 
         IGradeAccessory GetGradeAccessory(RepoGradeAccessory accessory, Publication publication, Context context)

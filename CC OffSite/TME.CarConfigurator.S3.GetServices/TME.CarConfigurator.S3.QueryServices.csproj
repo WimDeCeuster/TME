@@ -62,6 +62,7 @@
     <Compile Include="CarPartService.cs" />
     <Compile Include="ColourService.cs" />
     <Compile Include="CarService.cs" />
+    <Compile Include="RuleService.cs" />
     <Compile Include="SpecificationsService.cs" />
     <Compile Include="EquipmentService.cs" />
     <Compile Include="GradeService.cs" />

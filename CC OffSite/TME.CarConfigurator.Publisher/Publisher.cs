@@ -31,6 +31,7 @@ namespace TME.CarConfigurator.Publisher
         private readonly IPackPublisher _packPublisher;
         private readonly IColourPublisher _colourCombinationPublisher;
         private readonly ICarPartPublisher _carPartPublisher;
+        private readonly IRulePublisher _rulePublisher;
 
         public Publisher(IPublicationPublisher publicationPublisher,
             IModelPublisher modelPublisher,
@@ -48,8 +49,8 @@ namespace TME.CarConfigurator.Publisher
             ISpecificationsPublisher specificationsPublisher,
             IPackPublisher packPublisher,
             IColourPublisher colourCombinationPublisher,
-            ICarPartPublisher carPartPublisher
-            )
+            ICarPartPublisher carPartPublisher, 
+            IRulePublisher rulePublisher)
         {
             if (publicationPublisher == null) throw new ArgumentNullException("publicationPublisher");
             if (modelPublisher == null) throw new ArgumentNullException("modelPublisher");
@@ -68,8 +69,9 @@ namespace TME.CarConfigurator.Publisher
             if (packPublisher == null) throw new ArgumentNullException("packPublisher");
             if (colourCombinationPublisher == null) throw new ArgumentNullException("colourCombinationPublisher");
             if (carPartPublisher == null) throw new ArgumentNullException("carPartPublisher");
+            if (rulePublisher == null) throw new ArgumentNullException("rulePublisher");
 
-            
+
             _publicationPublisher = publicationPublisher;
             _modelPublisher = modelPublisher;
             _modelService = modelService;
@@ -87,6 +89,7 @@ namespace TME.CarConfigurator.Publisher
             _packPublisher = packPublisher;
             _colourCombinationPublisher = colourCombinationPublisher;
             _carPartPublisher = carPartPublisher;
+            _rulePublisher = rulePublisher;
         }
 
         public async Task PublishAsync(IContext context)
@@ -130,6 +133,7 @@ namespace TME.CarConfigurator.Publisher
                 _carPartPublisher.PublishCarPartsAsync(context),
                 _equipmentPublisher.PublishCarEquipmentAsync(context),
                 _specificationsPublisher.PublishCarTechnicalSpecificationsAsync(context),
+                _rulePublisher.PublishCarRulesAsync(context),
                 _assetPublisher.PublishAsync(context)
             };
 

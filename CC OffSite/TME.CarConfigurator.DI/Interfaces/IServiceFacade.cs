@@ -34,5 +34,6 @@ namespace TME.CarConfigurator.DI.Interfaces
         IColourService CreateColourService();
         IPackService CreatePackService();
         ICarPartService CreateCarPartService();
+        IRuleService CreateRuleService();
     }
 }

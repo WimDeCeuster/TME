@@ -98,10 +98,12 @@
     <Compile Include="Equipment\ModelEquipment.cs" />
     <Compile Include="Equipment\MountingCosts.cs" />
     <Compile Include="Extensions\ColouringModesExtensions.cs" />
+    <Compile Include="Extensions\RuleCategoryExtensions.cs" />
     <Compile Include="Extensions\VisibilityExtensions.cs" />
     <Compile Include="Colours\ExteriorColour.cs" />
     <Compile Include="Colours\ExteriorColourType.cs" />
     <Compile Include="Factories\CarPartFactory.cs" />
+    <Compile Include="Factories\RuleFactory.cs" />
     <Compile Include="Factories\SpecificationsFactory.cs" />
     <Compile Include="Factories\EquipmentFactory.cs" />
     <Compile Include="Factories\ColourFactory.cs" />
@@ -125,6 +127,10 @@
     <Compile Include="Packs\CarPackEquipmentItem.cs" />
     <Compile Include="Packs\GradePack.cs" />
     <Compile Include="Equipment\OptionInfo.cs" />
+    <Compile Include="Rules\EquipmentRule.cs" />
+    <Compile Include="Rules\PackRule.cs" />
+    <Compile Include="Rules\RuleSet.cs" />
+    <Compile Include="Rules\RuleSets.cs" />
     <Compile Include="SubModel.cs" />
     <Compile Include="TechnicalSpecifications\CarTechnicalSpecification.cs" />
     <Compile Include="TechnicalSpecifications\Category.cs" />

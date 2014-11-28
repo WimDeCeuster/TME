@@ -25,6 +25,7 @@ namespace TME.CarConfigurator.DI
         private IPackFactory _packFactory;
         private ISpecificationsFactory _specificationsFactory;
         private ICarPartFactory _carPartFactory;
+        private IRuleFactory _ruleFactory;
 
         public IModelFactoryFacade WithServiceFacade(IServiceFacade serviceFacade)
         {
@@ -38,6 +39,12 @@ namespace TME.CarConfigurator.DI
             _publicationFactory = publicationFactory;
 
             return this;
+        }
+
+        public IModelFactoryFacade WithRuleFactory(IRuleFactory ruleFactory)
+        {
+            _ruleFactory = ruleFactory;
+            return this;    
         }
 
         public IModelFactoryFacade WithBodyTypeFactory(IBodyTypeFactory bodyTypeFactory)
@@ -166,8 +173,9 @@ namespace TME.CarConfigurator.DI
             _wheelDriveFactory = _wheelDriveFactory ?? new WheelDriveFactory(_serviceFacade.CreateWheelDriveService(), _assetFactory);
             _steeringFactory = _steeringFactory ?? new SteeringFactory(_serviceFacade.CreateSteeringService());
             _colourFactory = _colourFactory ?? new ColourFactory(_serviceFacade.CreateColourService(), _assetFactory);
-            _equipmentFactory = _equipmentFactory ?? new EquipmentFactory(_serviceFacade.CreateEquipmentService(), _colourFactory,_assetFactory);
-            _packFactory = _packFactory ?? new PackFactory(_serviceFacade.CreatePackService(), _assetFactory, _equipmentFactory);
+            _ruleFactory = _ruleFactory ?? new RuleFactory(_serviceFacade.CreateRuleService());
+            _equipmentFactory = _equipmentFactory ?? new EquipmentFactory(_serviceFacade.CreateEquipmentService(), _colourFactory,_assetFactory, _ruleFactory);
+            _packFactory = _packFactory ?? new PackFactory(_serviceFacade.CreatePackService(), _assetFactory, _equipmentFactory, _ruleFactory);
             _gradeFactory = _gradeFactory ?? new GradeFactory(_serviceFacade.CreateGradeService(), _assetFactory, _equipmentFactory, _packFactory);
             _subModelFactory = _subModelFactory ?? new SubModelFactory(_serviceFacade.CreateSubModelService(), _assetFactory, _gradeFactory);
             _specificationsFactory = _specificationsFactory ?? new SpecificationsFactory(_serviceFacade.CreateSpecificationsService());

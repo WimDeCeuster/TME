@@ -87,6 +87,7 @@
     <Compile Include="Context.cs" />
     <Compile Include="Enums\ColouringModes.cs" />
     <Compile Include="Enums\RuleCategory.cs" />
+    <Compile Include="Enums\RuleType.cs" />
     <Compile Include="Enums\ValueSelectionType.cs" />
     <Compile Include="Equipment\BestVisibleIn.cs" />
     <Compile Include="Equipment\CarEquipmentItem.cs" />
@@ -124,6 +125,8 @@
     <Compile Include="Rules\EquipmentItemRule.cs" />
     <Compile Include="Rules\PackRule.cs" />
     <Compile Include="Rules\Rule.cs" />
+    <Compile Include="Rules\RuleSet.cs" />
+    <Compile Include="Rules\RuleSets.cs" />
     <Compile Include="Steering.cs" />
     <Compile Include="SubModel.cs" />
     <Compile Include="TechnicalSpecifications\Category.cs" />

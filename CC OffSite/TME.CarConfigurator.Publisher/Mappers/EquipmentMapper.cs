@@ -31,20 +31,23 @@ namespace TME.CarConfigurator.Publisher.Mappers
         readonly IColourMapper _colourMapper;
         readonly IAssetSetMapper _assetSetMapper;
         readonly IBaseMapper _baseMapper;
+        readonly IRuleMapper _ruleMapper;
 
-        public EquipmentMapper(ILinkMapper linkMapper, ICategoryMapper categoryInfoMapper, IColourMapper colourMapper, IAssetSetMapper assetSetMapper, IBaseMapper baseMapper)
+        public EquipmentMapper(ILinkMapper linkMapper, ICategoryMapper categoryInfoMapper, IColourMapper colourMapper, IAssetSetMapper assetSetMapper, IBaseMapper baseMapper, IRuleMapper ruleMapper)
         {
             if (linkMapper == null) throw new ArgumentNullException("linkMapper");
             if (categoryInfoMapper == null) throw new ArgumentNullException("categoryInfoMapper");
             if (colourMapper == null) throw new ArgumentNullException("colourMapper");
             if (assetSetMapper == null) throw new ArgumentNullException("assetSetMapper");
             if (baseMapper == null) throw new ArgumentNullException("baseMapper");
+            if (ruleMapper == null) throw new ArgumentNullException("ruleMapper");
 
             _linkMapper = linkMapper;
             _categoryInfoMapper = categoryInfoMapper;
             _colourMapper = colourMapper;
             _assetSetMapper = assetSetMapper;
             _baseMapper = baseMapper;
+            _ruleMapper = ruleMapper;
         }
 
         public GradeAccessory MapGradeAccessory(ModelGenerationGradeAccessory generationGradeAccessory, Administration.Accessory crossModelAccessory, EquipmentCategories categories, IReadOnlyList<Car> cars, Boolean isPreview, ExteriorColourTypes exteriorColourTypes, String assetUrl)

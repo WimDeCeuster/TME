@@ -23,5 +23,6 @@ namespace TME.CarConfigurator.Publisher.DI.Interfaces
         IColourService GetColourCombinationService(String environment, PublicationDataSubset dataSubset);
         ICarPartService GetCarPartService(String environment, PublicationDataSubset dataSubset);
         IPackService GetPackService(String environment, PublicationDataSubset dataSubset);
+        IRuleService GetRuleService(String environment, PublicationDataSubset dataSubset);
     }
 }

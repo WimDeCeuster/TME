@@ -75,6 +75,7 @@
     <Compile Include="TestBuilders\CarUpholsteryBuilder.cs" />
     <Compile Include="TestBuilders\ColourCombinationInfoBuilder.cs" />
     <Compile Include="TestBuilders\Equipment\CategoryInfoBuilder.cs" />
+    <Compile Include="TestBuilders\RuleSetBuilder.cs" />
     <Compile Include="TestBuilders\TechnicalSpecifications\CategoryInfoBuilder.cs" />
     <Compile Include="TestBuilders\ExteriorColourBuilder.cs" />
     <Compile Include="TestBuilders\OptionInfoBuilder.cs" />

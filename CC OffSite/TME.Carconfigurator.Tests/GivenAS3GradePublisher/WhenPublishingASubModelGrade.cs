@@ -21,13 +21,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePublisher
         private IGradePublisher _submodelGradePublisher;
         private IService _s3Service;
         private IContext _context;
-        private const String SUBMODEL_GRADE_KEY_FOR_TIMEFRAME1_SUBMODEL1 = "SubModelGradeKeyForTimeFrame1SubModel1";
-        private const String SUBMODEL_GRADE_KEY_FOR_TIMEFRAME1_SUBMODEL2 = "SubModelGradeKeyForTimeFrame1SubModel2";
-        private const String SUBMODEL_GRADE_KEY_FOR_TIMEFRAME2_SUBMODEL2 = "SubModelGradeKeyForTimeFrame2SubModel2";
-        private const String SERIALISEDDATA = "SerialisedData";
-        private const String BRAND = "Toyota";
-        private const String COUNTRY = "DE";
-        private const String LANGUAGE1 = "de";
+        private const String SubmodelGradeKeyForTimeframe1Submodel1 = "SubModelGradeKeyForTimeFrame1SubModel1";
+        private const String SubmodelGradeKeyForTimeframe1Submodel2 = "SubModelGradeKeyForTimeFrame1SubModel2";
+        private const String SubmodelGradeKeyForTimeframe2Submodel2 = "SubModelGradeKeyForTimeFrame2SubModel2";
+        private const String Serialiseddata = "SerialisedData";
+        private const String Brand = "Toyota";
+        private const String Country = "DE";
+        private const String Language1 = "de";
 
         protected override void Arrange()
         {
@@ -60,25 +60,25 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePublisher
                 .Build();
 
             _context = new ContextBuilder()
-                .WithBrand(BRAND)
-                .WithCountry(COUNTRY)
-                .WithLanguages(LANGUAGE1)
-                .WithPublication(LANGUAGE1,publication)
-                .WithTimeFrames(LANGUAGE1,timeFrame1,timeFrame2)
+                .WithBrand(Brand)
+                .WithCountry(Country)
+                .WithLanguages(Language1)
+                .WithPublication(Language1,publication)
+                .WithTimeFrames(Language1,timeFrame1,timeFrame2)
                 .Build();
 
             _s3Service = A.Fake<IService>();
 
             var serialiser = A.Fake<ISerialiser>();
-            A.CallTo(() => serialiser.Serialise(A<List<Grade>>._)).Returns(SERIALISEDDATA);
+            A.CallTo(() => serialiser.Serialise(A<List<Grade>>._)).Returns(Serialiseddata);
 
             var keyManager = A.Fake<IKeyManager>();
             A.CallTo(() => keyManager.GetSubModelGradesKey(publication.ID, timeFrame1.ID, subModel1.ID))
-                .Returns(SUBMODEL_GRADE_KEY_FOR_TIMEFRAME1_SUBMODEL1);
+                .Returns(SubmodelGradeKeyForTimeframe1Submodel1);
             A.CallTo(() => keyManager.GetSubModelGradesKey(publication.ID, timeFrame1.ID, subModel2.ID))
-                .Returns(SUBMODEL_GRADE_KEY_FOR_TIMEFRAME1_SUBMODEL2);
+                .Returns(SubmodelGradeKeyForTimeframe1Submodel2);
             A.CallTo(() => keyManager.GetSubModelGradesKey(publication.ID, timeFrame2.ID, subModel2.ID))
-                .Returns(SUBMODEL_GRADE_KEY_FOR_TIMEFRAME2_SUBMODEL2);
+                .Returns(SubmodelGradeKeyForTimeframe2Submodel2);
 
             var gradeService = new GradeService(_s3Service,serialiser,keyManager);
 
@@ -102,13 +102,13 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePublisher
         {
             A.CallTo(
                 () =>
-                    _s3Service.PutObjectAsync(BRAND, COUNTRY, SUBMODEL_GRADE_KEY_FOR_TIMEFRAME1_SUBMODEL1,
-                        SERIALISEDDATA)).MustHaveHappened(Repeated.Exactly.Once);
+                    _s3Service.PutObjectAsync(Brand, Country, SubmodelGradeKeyForTimeframe1Submodel1,
+                        Serialiseddata)).MustHaveHappened(Repeated.Exactly.Once);
             
             A.CallTo(
                 () =>
-                    _s3Service.PutObjectAsync(BRAND, COUNTRY, SUBMODEL_GRADE_KEY_FOR_TIMEFRAME1_SUBMODEL2,
-                        SERIALISEDDATA)).MustHaveHappened(Repeated.Exactly.Once);
+                    _s3Service.PutObjectAsync(Brand, Country, SubmodelGradeKeyForTimeframe1Submodel2,
+                        Serialiseddata)).MustHaveHappened(Repeated.Exactly.Once);
         }
         
         [Fact]
@@ -116,8 +116,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3GradePublisher
         {
             A.CallTo(
                 () =>
-                    _s3Service.PutObjectAsync(BRAND, COUNTRY, SUBMODEL_GRADE_KEY_FOR_TIMEFRAME2_SUBMODEL2,
-                        SERIALISEDDATA)).MustHaveHappened(Repeated.Exactly.Once);
+                    _s3Service.PutObjectAsync(Brand, Country, SubmodelGradeKeyForTimeframe2Submodel2,
+                        Serialiseddata)).MustHaveHappened(Repeated.Exactly.Once);
         }
     }
 }

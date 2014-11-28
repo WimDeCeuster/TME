@@ -10,6 +10,7 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
         private IEquipmentService _equipmentService = A.Fake<IEquipmentService>();
         private IColourFactory _colourFactory = A.Fake<IColourFactory>();
         private IAssetFactory _assetFactory = A.Fake<IAssetFactory>();
+        private IRuleFactory _ruleFactory = A.Fake<IRuleFactory>();
 
         public EquipmentFactoryBuilder WithEquipmentService(IEquipmentService equipmentService)
         {
@@ -24,6 +25,13 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
 
             return this;
         }
+        
+        public EquipmentFactoryBuilder WithRuleFactory(IRuleFactory ruleFactory)
+        {
+            _ruleFactory = ruleFactory;
+
+            return this;
+        }
 
         public EquipmentFactoryBuilder WithAssetFactory(IAssetFactory assetFactory)
         {
@@ -33,7 +41,7 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
 
         public IEquipmentFactory Build()
         {
-            return new EquipmentFactory(_equipmentService, _colourFactory,_assetFactory);
+            return new EquipmentFactory(_equipmentService, _colourFactory, _assetFactory, _ruleFactory);
         }
     }
 }

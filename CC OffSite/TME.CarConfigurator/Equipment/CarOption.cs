@@ -11,8 +11,8 @@ namespace TME.CarConfigurator.Equipment
     {
         private readonly IOptionInfo _parentOptionInfo;
 
-        public CarOption(Repository.Objects.Equipment.CarOption repositoryObject, IOptionInfo parentOptionInfo, Guid carID, Publication publication, Context context, IAssetFactory assetFactory) 
-            : base(repositoryObject,publication,carID,context,assetFactory)
+        public CarOption(Repository.Objects.Equipment.CarOption repositoryObject, IOptionInfo parentOptionInfo, Guid carID, Publication publication, Context context, IAssetFactory assetFactory, IRuleFactory ruleFactory) 
+            : base(repositoryObject,publication,carID,context,assetFactory, ruleFactory)
         {
             _parentOptionInfo = parentOptionInfo;
         }

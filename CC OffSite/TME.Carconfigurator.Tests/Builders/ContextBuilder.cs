@@ -10,6 +10,7 @@ using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Packs;
+using TME.CarConfigurator.Repository.Objects.Rules;
 using TME.CarConfigurator.Repository.Objects.TechnicalSpecifications;
 
 
@@ -238,6 +239,19 @@ namespace TME.Carconfigurator.Tests.Builders
         public IContext Build()
         {
             return _context;
+        }
+
+        public ContextBuilder WithCarRules(string language, Guid carItemID, Guid carID, RuleSets carRules)
+        {
+            var data = _context.ContextData[language].CarRules;
+
+            if (!data.ContainsKey(carID))
+                data.Add(carID,new Dictionary<Guid, RuleSets>());
+
+            if (!data[carID].ContainsKey(carItemID))
+                data[carID].Add(carItemID, carRules);
+
+            return this;
         }
     }
 }

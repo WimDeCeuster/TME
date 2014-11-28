@@ -14,8 +14,8 @@ namespace TME.CarConfigurator.Packs
     {
         private Price _price;
 
-        protected CarPackEquipmentItem(T repositoryCarPackEquipmentItem, Publication publication, Guid carId, Context context, IAssetFactory assetFactory)
-            : base(repositoryCarPackEquipmentItem, publication, carId, context, assetFactory)
+        protected CarPackEquipmentItem(T repositoryCarPackEquipmentItem, Publication publication, Guid carId, Context context, IAssetFactory assetFactory, IRuleFactory ruleFactory)
+            : base(repositoryCarPackEquipmentItem, publication, carId, context, assetFactory, ruleFactory)
         {
             
         }

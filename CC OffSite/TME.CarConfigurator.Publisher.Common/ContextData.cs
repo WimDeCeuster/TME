@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Colours;
+using TME.CarConfigurator.Repository.Objects.Enums;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Packs;
+using TME.CarConfigurator.Repository.Objects.Rules;
 using TME.CarConfigurator.Repository.Objects.TechnicalSpecifications;
 using EquipmentCategory = TME.CarConfigurator.Repository.Objects.Equipment.Category;
 using SpecificationCategory = TME.CarConfigurator.Repository.Objects.TechnicalSpecifications.Category;
@@ -30,6 +32,7 @@ namespace TME.CarConfigurator.Publisher.Common
         public IDictionary<Guid, IDictionary<Guid, IList<Asset>>> CarPartAssets { get; private set; }
         public IDictionary<Guid, IList<CarColourCombination>> CarColourCombinations { get; set; }
         public IDictionary<Guid, List<Asset>> CarColourCombinationAssets { get; private set; }
+        public IDictionary<Guid, IDictionary<Guid, RuleSets>> CarRules { get; set; }
 
         public ContextData()
         {
@@ -45,6 +48,7 @@ namespace TME.CarConfigurator.Publisher.Common
             CarEquipmentAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
             CarPartAssets = new Dictionary<Guid, IDictionary<Guid, IList<Asset>>>();
             CarPacks = new Dictionary<Guid, IReadOnlyList<CarPack>>();
+            CarRules = new Dictionary<Guid, IDictionary<Guid, RuleSets>>();
             CarTechnicalSpecifications = new Dictionary<Guid, IReadOnlyList<CarTechnicalSpecification>>();
             CarColourCombinations = new Dictionary<Guid, IList<CarColourCombination>>();
             CarColourCombinationAssets = new Dictionary<Guid, List<Asset>>();

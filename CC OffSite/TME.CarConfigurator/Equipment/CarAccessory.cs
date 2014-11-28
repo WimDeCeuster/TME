@@ -11,8 +11,8 @@ namespace TME.CarConfigurator.Equipment
     {
         private Price _price;
 
-        public CarAccessory(Repository.Objects.Equipment.CarAccessory repositoryObject, Guid carID, Publication publication, Context context, IAssetFactory assetFactory)
-            : base(repositoryObject, publication, carID, context, assetFactory)
+        public CarAccessory(Repository.Objects.Equipment.CarAccessory repositoryObject, Guid carID, Publication publication, Context context, IAssetFactory assetFactory, IRuleFactory ruleFactory)
+            : base(repositoryObject, publication, carID, context, assetFactory, ruleFactory)
         {
         }
 

@@ -23,7 +23,6 @@ using CarAccessory = TME.CarConfigurator.Administration.CarAccessory;
 using CarEquipment = TME.CarConfigurator.Repository.Objects.Equipment.CarEquipment;
 using CarOption = TME.CarConfigurator.Administration.CarOption;
 using Model = TME.CarConfigurator.Administration.Model;
-using TME.CarConfigurator.Publisher.Helpers;
 
 namespace TME.CarConfigurator.Publisher
 {
@@ -47,6 +46,7 @@ namespace TME.CarConfigurator.Publisher
         readonly ICategoryMapper _categoryMapper;
         readonly ICarPartMapper _carPartMapper;
         readonly ITechnicalSpecificationMapper _technicalSpecificationMapper;
+        readonly IRuleMapper _ruleMapper;
 
         public Mapper(
             ITimeFrameMapper timeFrameMapper,
@@ -66,7 +66,8 @@ namespace TME.CarConfigurator.Publisher
             IColourMapper colourMapper,
             ICategoryMapper categoryMapper,
             ICarPartMapper carPartMapper,
-            ITechnicalSpecificationMapper technicalSpecificationMapper)
+            ITechnicalSpecificationMapper technicalSpecificationMapper, 
+            IRuleMapper ruleMapper)
         {
             if (timeFrameMapper == null) throw new ArgumentNullException("timeFrameMapper");
             if (modelMapper == null) throw new ArgumentNullException("modelMapper");
@@ -85,6 +86,7 @@ namespace TME.CarConfigurator.Publisher
             if (categoryMapper == null) throw new ArgumentNullException("categoryMapper");
             if (carPartMapper == null) throw new ArgumentNullException("carPartMapper");
             if (technicalSpecificationMapper == null) throw new ArgumentNullException("technicalSpecificationMapper");
+            if (ruleMapper == null) throw new ArgumentNullException("ruleMapper");
 
             _timeFrameMapper = timeFrameMapper;
             _modelMapper = modelMapper;
@@ -104,6 +106,7 @@ namespace TME.CarConfigurator.Publisher
             _categoryMapper = categoryMapper;
             _carPartMapper = carPartMapper;
             _technicalSpecificationMapper = technicalSpecificationMapper;
+            _ruleMapper = ruleMapper;
         }
 
         public Task MapAsync(IContext context, IProgress<PublishProgress> progress)
@@ -207,6 +210,7 @@ namespace TME.CarConfigurator.Publisher
                     FillCarPacks(car, contextData, equipmentGroups, equipmentCategories, isPreview, context.AssetUrl);
                     FillCarEquipment(car, contextData, equipmentCategories, equipmentGroups, isPreview, context.AssetUrl);
                     FillCarTechnicalSpecifications(car, specificationCategories, units, contextData);
+                    FillCarRules(car, contextData);
                     FillCarColourCombinations(car, contextData, exteriorColourTypes, upholsteryTypes, isPreview, context.AssetUrl);
 
                 }
@@ -499,6 +503,18 @@ namespace TME.CarConfigurator.Publisher
                                  .Select(pack => _packMapper.MapCarPack(pack, groups, categories, isPreview, assetUrl))
                                  .ToList();
             contextData.CarPacks.Add(car.ID, packs);
+        }
+
+        private void FillCarRules(Car car, ContextData contextData)
+        {
+            var packRules = car.Packs.Where(pack => pack.Availability != Availability.NotAvailable)
+                .ToDictionary(pack => pack.ID, pack => _ruleMapper.MapCarPackRules(pack.Rules));
+            var equipmentRules = car.Equipment.Where(eq => eq.Availability != Availability.NotAvailable)
+                .ToDictionary(carEquipmentItem => carEquipmentItem.ID, carEquipmentItem => _ruleMapper.MapCarEquipmentRules(carEquipmentItem.Rules));
+
+            var carRules = packRules.Concat(equipmentRules).ToDictionary();
+
+            contextData.CarRules.Add(car.ID, carRules);
         }
 
         private void FillCarParts(Car car, ContextData contextData)

@@ -128,7 +128,14 @@ namespace TME.CarConfigurator.Publisher.DI.FileSystem
 
             return new PackService(service, _serialiser, _keyManager);
         }
-        
+
+        public IRuleService GetRuleService(string environment, PublicationDataSubset dataSubset)
+        {
+            var service = GetService(environment, dataSubset);
+
+            return new RuleService(service, _serialiser, _keyManager);
+        }
+
         public IColourService GetColourCombinationService(String environment, PublicationDataSubset dataSubset)
         {
             var service = GetService(environment, dataSubset);

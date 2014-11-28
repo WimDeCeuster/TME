@@ -64,6 +64,7 @@
     <Compile Include="Extensions\AssetExtensions.cs" />
     <Compile Include="Extensions\CarPackExtensions.cs" />
     <Compile Include="Helpers\ModeAndView.cs" />
+    <Compile Include="RulePublisher.cs" />
     <Compile Include="SpecificationPublisher.cs" />
     <Compile Include="Extensions\EquipmentItemExtensions.cs" />
     <Compile Include="ColourPublisher.cs" />

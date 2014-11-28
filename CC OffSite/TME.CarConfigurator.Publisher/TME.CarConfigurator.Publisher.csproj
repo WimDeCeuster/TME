@@ -91,6 +91,7 @@
     <Compile Include="CarConfiguratorPublisher.cs" />
     <Compile Include="Exceptions\UnrecognisedColouringModeException.cs" />
     <Compile Include="Exceptions\UnrecognisedItemVisibilityException.cs" />
+    <Compile Include="Exceptions\UnrecognisedRuleCategoryException.cs" />
     <Compile Include="Extensions\AssetSetAssetExtensions.cs" />
     <Compile Include="Extensions\AvailabilityPropertiesExtensions.cs" />
     <Compile Include="Extensions\CarsExtensions.cs" />
@@ -101,6 +102,8 @@
     <Compile Include="Extensions\LinkExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Helpers\Comparer.cs" />
+    <Compile Include="Interfaces\IRuleMapper.cs" />
+    <Compile Include="Interfaces\IRulePublisher.cs" />
     <Compile Include="Interfaces\ITechnicalSpecificationMapper.cs" />
     <Compile Include="Interfaces\IAssetFileService.cs" />
     <Compile Include="Interfaces\IAssetPublisher.cs" />
@@ -170,6 +173,7 @@
     <Compile Include="Mappers\FileTypeMapper.cs" />
     <Compile Include="Mappers\FuelTypeMapper.cs" />
     <Compile Include="Mappers\GenerationMapper.cs" />
+    <Compile Include="Mappers\RuleMapper.cs" />
     <Compile Include="Mappers\TechnicalSpecificationMapper.cs" />
     <Compile Include="Mappers\LabelMapper.cs" />
     <Compile Include="Mappers\LinkMapper.cs" />

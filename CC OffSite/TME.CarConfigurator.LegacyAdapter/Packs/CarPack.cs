@@ -117,7 +117,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
 
         public Interfaces.Rules.IRuleSets Rules
         {
-            get { throw new System.NotImplementedException(); }
+            get { return new CarPackRules(Adaptee, CarOfAdaptee); }
         }
     }
 

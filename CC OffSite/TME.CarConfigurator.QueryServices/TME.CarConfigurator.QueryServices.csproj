@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="ICarPartService.cs" />
     <Compile Include="IColourService.cs" />
+    <Compile Include="IRuleService.cs" />
     <Compile Include="ISpecificationService.cs" />
     <Compile Include="IEquipmentService.cs" />
     <Compile Include="IAssetService.cs" />

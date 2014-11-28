@@ -75,6 +75,7 @@
     <Compile Include="Enums\ColouringModes.cs" />
     <Compile Include="Equipment\ICarEquipment.cs" />
     <Compile Include="Factories\ICarPartFactory.cs" />
+    <Compile Include="Factories\IRuleFactory.cs" />
     <Compile Include="IGradeInfo.cs" />
     <Compile Include="Packs\IAccentColourCombination.cs" />
     <Compile Include="Packs\ICarPackEquipment.cs" />

@@ -223,7 +223,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var root = XDocument.Parse(fileContent).Root;
             
             if (root == null)
-                throw new CorruptDataException(string.Format("Colour transformation file {0} does not haqve a root element", colourSchemaAsset.FileName));
+                throw new CorruptDataException(string.Format("Colour transformation file {0} does not have a root element", colourSchemaAsset.FileName));
             
             var item = root.Descendants("item").FirstOrDefault(el => el.Attribute("name").Value.Equals(colourCode, StringComparison.InvariantCultureIgnoreCase));
 

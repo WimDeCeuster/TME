@@ -32,6 +32,7 @@ namespace TME.CarConfigurator.DI
         private IColourService _colourService;
         private IPackService _packService;
         private ICarPartService _carPartService;
+        private IRuleService _ruleService;
 
         public IService Service
         {
@@ -265,6 +266,11 @@ namespace TME.CarConfigurator.DI
         public ICarPartService CreateCarPartService()
         {
             return _carPartService ?? new CarPartService(Serializer, KeyManager, Service);
+        }
+
+        public IRuleService CreateRuleService()
+        {
+            return _ruleService ?? new RuleService(Service, Serializer, KeyManager);
         }
     }
 }

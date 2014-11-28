@@ -1,9 +1,7 @@
 ﻿using FakeItEasy;
-using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Publisher;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.QueryServices;
-using TME.CarConfigurator.S3.Publisher.Interfaces;
 
 namespace TME.Carconfigurator.Tests.Builders
 {
@@ -26,6 +24,7 @@ namespace TME.Carconfigurator.Tests.Builders
         private IPackPublisher _packPublisher = A.Fake<IPackPublisher>();
         private ISpecificationsPublisher _specificationsPublisher = A.Fake<ISpecificationsPublisher>();
         private ICarPartPublisher _carPartPublisher = A.Fake<ICarPartPublisher>();
+        private IRulePublisher _rulePublisher = A.Fake<IRulePublisher>();
 
         public PublisherBuilder WithPublicationPublisher(IPublicationPublisher publicationPublisher)
         {
@@ -43,6 +42,12 @@ namespace TME.Carconfigurator.Tests.Builders
         public PublisherBuilder WithCarPartPublisher(ICarPartPublisher carPartPublisher)
         {
             _carPartPublisher = carPartPublisher;
+            return this;
+        }
+
+        public PublisherBuilder WithRulePublisher(IRulePublisher rulePublisher)
+        {
+            _rulePublisher = rulePublisher;
             return this;
         }
 
@@ -163,7 +168,8 @@ namespace TME.Carconfigurator.Tests.Builders
                 _specificationsPublisher,
                 _packPublisher,
                 _colourCombinationPublisher,
-                _carPartPublisher);
+                _carPartPublisher,
+                _rulePublisher);
         }
     }
 }

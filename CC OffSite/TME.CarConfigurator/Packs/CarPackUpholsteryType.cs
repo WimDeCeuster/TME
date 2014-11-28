@@ -13,8 +13,8 @@ namespace TME.CarConfigurator.Packs
     {
         private IReadOnlyList<IColourCombinationInfo> _colourCombinations;
 
-        public CarPackUpholsteryType(Repository.Objects.Packs.CarPackUpholsteryType repositoryCarPackUpholsteryType, Publication publication, Guid carId, Context context, IAssetFactory assetFactory)
-            : base(repositoryCarPackUpholsteryType, publication, carId, context, assetFactory)
+        public CarPackUpholsteryType(Repository.Objects.Packs.CarPackUpholsteryType repositoryCarPackUpholsteryType, Publication publication, Guid carId, Context context, IAssetFactory assetFactory, IRuleFactory ruleFactory)
+            : base(repositoryCarPackUpholsteryType, publication, carId, context, assetFactory, ruleFactory)
         {
 
         }

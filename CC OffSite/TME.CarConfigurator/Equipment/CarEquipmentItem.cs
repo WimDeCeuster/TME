@@ -13,6 +13,7 @@ using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Interfaces.Rules;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Rules;
 using ExteriorColourInfo = TME.CarConfigurator.Colours.ExteriorColourInfo;
 using IExteriorColour = TME.CarConfigurator.Interfaces.Equipment.IExteriorColour;
 using UpholsteryInfo = TME.CarConfigurator.Colours.UpholsteryInfo;
@@ -34,13 +35,17 @@ namespace TME.CarConfigurator.Equipment
         private IReadOnlyList<IAsset> _assets;
         private List<ExteriorColourInfo> _availableOnExteriorColors;
         private List<UpholsteryInfo> _availableOnUpholsteries;
+        private IRuleSets _rules;
+        private IRuleFactory _ruleFactory;
 
-        protected CarEquipmentItem(T repositoryObject,Publication publication, Guid carID, Context context, IAssetFactory assetFactory) 
+        protected CarEquipmentItem(T repositoryObject,Publication publication, Guid carID, Context context, IAssetFactory assetFactory, IRuleFactory ruleFactory) 
             : base(repositoryObject)
         {
+            if (ruleFactory == null) throw new ArgumentNullException("ruleFactory");
             _carID = carID;
             _repositoryContext = context;
             _assetFactory = assetFactory;
+            _ruleFactory = ruleFactory;
             _repositoryPublication = publication;
         }
 
@@ -89,7 +94,14 @@ namespace TME.CarConfigurator.Equipment
 
         public IRuleSets Rules
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return
+                    _rules =
+                        _rules ??
+                        _ruleFactory.GetCarEquipmentRuleSets(RepositoryObject.ID, _carID, _repositoryPublication,
+                            _repositoryContext);
+            }
         }
     }
 }
