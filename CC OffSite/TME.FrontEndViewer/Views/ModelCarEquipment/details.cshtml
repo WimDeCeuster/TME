@@ -19,6 +19,7 @@
                 <p class="property" data-id="MountingCostsOnUsedVehiclePriceInVat">MountingCostsOnUsedVehicle.PriceInVat : @Html.Raw(model.MountingCostsOnUsedVehicle.Price.PriceInVat)</p>
                 <p class="property" data-id="MountingCostsOnUsedVehicleTime">MountingCostsOnUsedVehicle.Time : @Html.Raw(model.MountingCostsOnUsedVehicle.Time)</p>
                 <p class="property" data-id="actionlinks">
+                    @Html.ActionLink("Rules", "Index", "ModelCarEquipmentRules", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, equipmentID = model.ID }, new { }) | 
                     @Html.ActionLink("Assets", "Index", "ModelCarEquipmentAssets", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, equipmentID = model.ID }, new { })
                     @foreach (var visibleInModeAndView in model.VisibleIn.Where(x => x.Assets.Any()).OrderBy(x => x.Mode).ThenBy(x => x.View))
                     {
@@ -51,6 +52,7 @@
                     <p class="property" data-id="ParentOptionName">ParentOption.Name : @Html.Raw(model.ParentOption.Name)</p>
                 }
                 <p class="property" data-id="actionlinks">
+                    @Html.ActionLink("Rules", "Index", "ModelCarEquipmentRules", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, equipmentID = model.ID }, new { }) | 
                     @Html.ActionLink("Assets", "Index", "ModelCarEquipmentAssets", new { modelID = ViewBag.ModelID, carID = ViewBag.CarID, equipmentID = model.ID }, new { })
                     @foreach (var visibleInModeAndView in model.VisibleIn.Where(x => x.Assets.Any()).OrderBy(x => x.Mode).ThenBy(x => x.View))
                     {

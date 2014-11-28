@@ -80,6 +80,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Equipment\CarEquipmentItemRules.cs" />
+    <Compile Include="Rules\EquipmentRule.cs" />
+    <Compile Include="Rules\PackRule.cs" />
+    <Compile Include="Packs\CarPackRules.cs" />
+    <Compile Include="Rules\RuleSet.cs" />
     <Compile Include="Packs\AccentColourCombination.cs" />
     <Compile Include="Colours\ColourCombinationInfo.cs" />
     <Compile Include="Colours\CarColourCombination.cs" />
@@ -157,6 +162,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.Interfaces\TME.CarConfigurator.Interfaces.csproj">
       <Project>{efdb033c-66a8-40bb-b596-561f45e6c7f7}</Project>
       <Name>TME.CarConfigurator.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.Repository.Objects\TME.CarConfigurator.Repository.Objects.csproj">
+      <Project>{2154EAAA-3D11-4654-BEA6-7B147451DBA8}</Project>
+      <Name>TME.CarConfigurator.Repository.Objects</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
