@@ -14,7 +14,6 @@ namespace TME.CarConfigurator.Publisher.Common
     public class ContextData
     {
         public Publication Publication { get; set; }
-
         public IList<Generation> Generations { get; private set; }
         public IList<Model> Models { get; private set; }
         public IList<EquipmentCategory> EquipmentCategories { get; set; }
@@ -49,6 +48,5 @@ namespace TME.CarConfigurator.Publisher.Common
             CarColourCombinations = new Dictionary<Guid, IList<CarColourCombination>>();
             CarColourCombinationAssets = new Dictionary<Guid, List<Asset>>();
         }
-
     }
 }
