@@ -74,6 +74,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Libraries\TME.BusinessObjects.Templates.dll</HintPath>
     </Reference>
+    <Reference Include="TMME.Common.DataObjects">
+      <HintPath>..\..\Libraries\TMME.Common.DataObjects.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
@@ -93,6 +96,10 @@
     <ProjectReference Include="..\TME.CarConfigurator.Administration\TME.CarConfigurator.Administration.vbproj">
       <Project>{0638684f-634b-4447-a411-11ae50c4202b}</Project>
       <Name>TME.CarConfigurator.Administration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TME.CarConfigurator.FileSystem\TME.CarConfigurator.FileSystem.csproj">
+      <Project>{3ec09995-998c-44c7-addb-5748e4feba0d}</Project>
+      <Name>TME.CarConfigurator.FileSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TME.CarConfigurator.Publisher.Common\TME.CarConfigurator.Publisher.Common.csproj">
       <Project>{86BF7D2D-EF86-40DC-94A9-540A0DDCD68E}</Project>

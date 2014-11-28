@@ -10,7 +10,7 @@
     @if (Model.AvailableForExteriorColours != null)
     {
         var list = Model.AvailableForExteriorColours.Select(x => x.InternalCode).OrderBy(x => x);
-        Html.Raw(String.Join(",", list));
+        @Html.Raw(String.Join(",", list));
     }
 </p>
 <p class="property" data-id="AvailableForUpholsteries">
@@ -18,6 +18,6 @@
     @if (Model.AvailableForUpholsteries != null)
     {
         var list = Model.AvailableForUpholsteries.Select(x => x.InternalCode).OrderBy(x => x);
-        Html.Raw(String.Join(",", list));
+        @Html.Raw(String.Join(",", list));
     }
 </p>

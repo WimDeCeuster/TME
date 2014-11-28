@@ -32,7 +32,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
                         .Cast<Legacy.EquipmentCompareItem>()
                         .Where(x => x.Type == Legacy.EquipmentType.Accessory)
                         .Select(x => new GradeAccesory((Legacy.EquipmentCompareAccessory)x))
-                        //.OrderBy(x => x.Category.SortIndex).ThenBy(x => x.SortIndex).ThenBy(x => x.Name)
+                        .OrderBy(x => x.Category.SortIndex).ThenBy(x => x.SortIndex).ThenBy(x => x.Name).ThenBy(x => x.InternalCode)
                         .ToList();
             }
         }
