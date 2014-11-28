@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Amazon.OpsWorks.Model;
 using TME.CarConfigurator.Administration;
-using TME.CarConfigurator.Administration.Components;
 using TME.CarConfigurator.Administration.Enums;
 using TME.CarConfigurator.Administration.Interfaces;
 using TME.CarConfigurator.Publisher.Common;
@@ -23,7 +21,6 @@ using CarAccessory = TME.CarConfigurator.Administration.CarAccessory;
 using CarEquipment = TME.CarConfigurator.Repository.Objects.Equipment.CarEquipment;
 using CarOption = TME.CarConfigurator.Administration.CarOption;
 using Model = TME.CarConfigurator.Administration.Model;
-using TME.CarConfigurator.Publisher.Helpers;
 
 namespace TME.CarConfigurator.Publisher
 {
