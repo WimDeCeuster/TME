@@ -70,6 +70,7 @@
     <Compile Include="Colours\IColourTransformation.cs" />
     <Compile Include="Colours\IExteriorColour.cs" />
     <Compile Include="Colours\IExteriorColourInfo.cs" />
+    <Compile Include="Enums\RuleCategory.cs" />
     <Compile Include="Enums\ValueSelectionType.cs" />
     <Compile Include="Enums\ColouringModes.cs" />
     <Compile Include="Equipment\ICarEquipment.cs" />

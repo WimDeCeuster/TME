@@ -86,6 +86,7 @@
     <Compile Include="Colours\ExteriorColourType.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Enums\ColouringModes.cs" />
+    <Compile Include="Enums\RuleCategory.cs" />
     <Compile Include="Enums\ValueSelectionType.cs" />
     <Compile Include="Equipment\BestVisibleIn.cs" />
     <Compile Include="Equipment\CarEquipmentItem.cs" />
