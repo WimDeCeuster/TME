@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using TME.CarConfigurator.Publisher.Common.Enums;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.S3.QueryServices.Exceptions;

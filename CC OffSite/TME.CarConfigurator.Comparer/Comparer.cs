@@ -134,12 +134,6 @@ namespace TME.CarConfigurator.Comparer
             return member.DeclaringType.FullName + "." + member.Name;
         }
 
-        String GetMemberName<T>(Expression<Func<T, object>> expression)
-        {
-            var member = GetMember(expression);
-            return member.Name;
-        }
-
         MemberInfo GetMember<T>(Expression<Func<T, object>> expression)
         {
             var memberExpression = expression.Body is MemberExpression ? expression.Body as MemberExpression :
