@@ -36,8 +36,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var carPackIncludeRules = includes.OfType<CarPackRule>();
             var carEquipmentItemIncludeRules = includes.OfType<CarEquipmentItemRule>().ToList();
 
-            var x = car.Packs.First().Rules.First();
-
             var carAccessoryExcludeRules = carEquipmentItemExcludeRules.Where(rule => car.Equipment[rule.ID].Type == EquipmentType.Accessory);
             var carOptionExcludeRules = carEquipmentItemExcludeRules.Where(rule => car.Equipment[rule.ID].Type == EquipmentType.Accessory);
 
