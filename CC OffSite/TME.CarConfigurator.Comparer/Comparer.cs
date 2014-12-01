@@ -11,6 +11,7 @@ using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Packs;
+using TME.CarConfigurator.Interfaces.Rules;
 using IEquipmentCategory = TME.CarConfigurator.Interfaces.Equipment.ICategory;
 using IEquipmentCategoryInfo = TME.CarConfigurator.Interfaces.Equipment.ICategoryInfo;
 using ISpecificationCategory = TME.CarConfigurator.Interfaces.TechnicalSpecifications.ICategory;
@@ -50,6 +51,7 @@ namespace TME.CarConfigurator.Comparer
             );
 
             config.MembersToIgnore.Add(GetFullMemberName<IEquipmentExteriorColour>(c => c.SortIndex));
+            config.MembersToIgnore.Add(GetFullMemberName<IRule>(c => c.Category));
 
             config.PathsToIgnore = new List<String>
             { 
