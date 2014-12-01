@@ -294,17 +294,17 @@ namespace TME.CarConfigurator.Publisher
 
             var filteredApplicableAssets = applicableAssets.Distinct(comparer).ToList();
             
-            var unmappedApplicableAssets = filteredApplicableAssets.Where(asset => !carItemAssets.ContainsKey(asset.Asset.ID));
+            var unmappedApplicableAssets = filteredApplicableAssets.Where(asset => !carItemAssets.ContainsKey(asset.ID));
 
             foreach (var assetSetAsset in unmappedApplicableAssets)
-                carItemAssets.Add(assetSetAsset.Asset.ID, _assetMapper.MapCarAssetSetAsset(assetSetAsset, car.Generation));
+                carItemAssets.Add(assetSetAsset.ID, _assetMapper.MapCarAssetSetAsset(assetSetAsset, car.Generation));
 
             var applicableGenerationAssets = objectWithAssetSet.AssetSet.Assets.GetGenerationAssets();
 
             if (!carItemsGenerationAssets.ContainsKey(objectId))
                 carItemsGenerationAssets.Add(objectId, applicableGenerationAssets.Select(asset => _assetMapper.MapCarAssetSetAsset(asset, car.Generation)).ToList());
 
-            return applicableAssets.Select(asset => carItemAssets[asset.Asset.ID]).Distinct().Concat(carItemsGenerationAssets[objectId]).ToList();
+            return applicableAssets.Select(asset => carItemAssets[asset.ID]).Distinct().Concat(carItemsGenerationAssets[objectId]).ToList();
         }
 
         private void FillCarAssets(Car car, ContextData contextData, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
