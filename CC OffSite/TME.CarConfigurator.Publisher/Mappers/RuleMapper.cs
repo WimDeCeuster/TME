@@ -37,10 +37,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var carEquipmentItemIncludeRules = includes.OfType<CarEquipmentItemRule>().ToList();
 
             var carAccessoryExcludeRules = carEquipmentItemExcludeRules.Where(rule => car.Equipment[rule.ID].Type == EquipmentType.Accessory);
-            var carOptionExcludeRules = carEquipmentItemExcludeRules.Where(rule => car.Equipment[rule.ID].Type == EquipmentType.Accessory);
+            var carOptionExcludeRules = carEquipmentItemExcludeRules.Where(rule => car.Equipment[rule.ID].Type == EquipmentType.Option);
 
             var carAccessoryIncludeRules = carEquipmentItemIncludeRules.Where(rule => car.Equipment[rule.ID].Type == EquipmentType.Accessory);
-            var carOptionIncludeRules = carEquipmentItemIncludeRules.Where(rule => car.Equipment[rule.ID].Type == EquipmentType.Accessory);
+            var carOptionIncludeRules = carEquipmentItemIncludeRules.Where(rule => car.Equipment[rule.ID].Type == EquipmentType.Option);
 
             return new RuleSets
             {
@@ -74,7 +74,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             {
                 ShortID = equipmentItem.ShortID ?? 0,
                 ColouringModes = carRule.ColouringMode.Convert(),
-                Name = carRule.Name,
+                Name = equipmentItem.Translation.Name ?? carRule.Name,
                 Category = MapRuleCategory(carRule.Category)
             };
         }
