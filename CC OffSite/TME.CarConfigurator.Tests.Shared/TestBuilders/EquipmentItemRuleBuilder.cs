@@ -18,15 +18,21 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             return this;
         }
 
-        public EquipmentItemRule Build()
+        public EquipmentItemRuleBuilder WithColouringMode(ColouringModes colouringModes)
         {
-            return _equipmentItem;
+            _equipmentItem.ColouringModes = colouringModes;
+            return this;
         }
 
         public EquipmentItemRuleBuilder WithShortID(int shortID)
         {
             _equipmentItem.ShortID = shortID;
             return this;
+        }
+
+        public EquipmentItemRule Build()
+        {
+            return _equipmentItem;
         }
     }
 }
