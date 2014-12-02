@@ -260,8 +260,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             mappedEquipmentItem = MapFromGenerationEquipmentItem(mappedEquipmentItem, generationEquipmentItem, crossModelEquipmentItem, isPreview, categories, assetUrl);
             
-            mappedEquipmentItem.GradeFeature = carEquipmentItem.GradeFeature;
-            mappedEquipmentItem.OptionalGradeFeature = carEquipmentItem.OptionalGradeFeature;
+            mappedEquipmentItem.GradeFeature = carEquipmentItem.GradeFeature && carEquipmentItem.Availability == Availability.Standard;
+            mappedEquipmentItem.OptionalGradeFeature = carEquipmentItem.OptionalGradeFeature && carEquipmentItem.Availability == Availability.Optional;
             mappedEquipmentItem.KeyFeature = carEquipmentItem.KeyFeature;
             mappedEquipmentItem.VisibleIn = _assetSetMapper.GetVisibility(generationEquipmentItem.AssetSet, canHaveAssets).ToList();
 
@@ -282,10 +282,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             mappedEquipmentItem = MapFromGenerationEquipmentItem(mappedEquipmentItem, generationEquipmentItem, crossModelEquipmentItem, isPreview, categories, assetUrl);
             
-            mappedEquipmentItem.GradeFeature = generationGradeEquipmentItem.GradeFeature;
-            
+
+
             mappedEquipmentItem.NotAvailableOn = GetAvailabilityInfo(generationGradeEquipmentItem.ID, Availability.NotAvailable, cars);
-            mappedEquipmentItem.OptionalGradeFeature = generationGradeEquipmentItem.OptionalGradeFeature;
+            
             mappedEquipmentItem.OptionalOn = GetAvailabilityInfo(generationGradeEquipmentItem.ID, Availability.Optional, cars);
             mappedEquipmentItem.StandardOn = GetAvailabilityInfo(generationGradeEquipmentItem.ID, Availability.Standard, cars);
             
@@ -293,6 +293,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.Optional = mappedEquipmentItem.CalculateOptional();
             mappedEquipmentItem.Standard = mappedEquipmentItem.CalculateStandard();
 
+            mappedEquipmentItem.GradeFeature = generationGradeEquipmentItem.GradeFeature && mappedEquipmentItem.StandardOn.Any();
+            mappedEquipmentItem.OptionalGradeFeature = generationGradeEquipmentItem.OptionalGradeFeature && mappedEquipmentItem.OptionalOn.Any(); ;
+            
             return mappedEquipmentItem;
         }
 
