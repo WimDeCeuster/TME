@@ -145,7 +145,6 @@
     <Compile Include="WheelDrive.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="TransmissionType.cs" />
-    <Compile Include="Core\StartingPrice.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="EngineCategory.cs" />
     <Compile Include="EngineType.cs" />
