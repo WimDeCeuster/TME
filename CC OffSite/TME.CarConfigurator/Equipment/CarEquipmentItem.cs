@@ -41,8 +41,13 @@ namespace TME.CarConfigurator.Equipment
         protected CarEquipmentItem(T repositoryObject,Publication publication, Guid carID, Context context, IAssetFactory assetFactory, IRuleFactory ruleFactory) 
             : base(repositoryObject)
         {
+            if (publication == null) throw new ArgumentNullException("publication");
+            if (context == null) throw new ArgumentNullException("context");
+            if (assetFactory == null) throw new ArgumentNullException("assetFactory");
             if (ruleFactory == null) throw new ArgumentNullException("ruleFactory");
+
             _carID = carID;
+
             _repositoryContext = context;
             _assetFactory = assetFactory;
             _ruleFactory = ruleFactory;

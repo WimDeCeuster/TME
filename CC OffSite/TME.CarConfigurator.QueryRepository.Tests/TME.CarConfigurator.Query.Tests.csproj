@@ -90,6 +90,8 @@
     <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAvailableForExteriorColoursForTheSecondTime.cs" />
     <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAvailableForUpholsteriesForTheFirstTime.cs" />
     <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAvailableForUpholsteriesForTheSecondTime.cs" />
+    <Compile Include="GivenACarEquipmentItem\WhenAccessingItsRulesForTheFirstTime.cs" />
+    <Compile Include="GivenACarEquipmentItem\WhenAccessingItsRulesForTheSecondTime.cs" />
     <Compile Include="GivenACarExteriorColour\WhenAccessing3DAssetsForAModeAndViewWhenTheyWereAlreadyFetchedForAnotherModeAndView.cs" />
     <Compile Include="GivenACarExteriorColour\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
     <Compile Include="GivenACarExteriorColour\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
@@ -105,6 +107,8 @@
     <Compile Include="GivenACarPackUpholsteryType\WhenAccessingItsColourCombinationsForTheSecondTime.cs" />
     <Compile Include="GivenACarPack\WhenAccessingItsEquipmentForTheFirstTime.cs" />
     <Compile Include="GivenACarPack\WhenAccessingItsEquipmentForTheSecondTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsRulesFortheFirstTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsRulesForTheSecondTime.cs" />
     <Compile Include="GivenACarPart\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenACarPart\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
     <Compile Include="GivenACarPart\WhenAccessingIts3DAssetsForTheSecondTime.cs" />
@@ -278,6 +282,10 @@
     <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />
+    <Compile Include="GivenAnEquipmentRule\WhenAccessingItsCategory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GivenAnEquipmentRule\WhenAccessingItsColouringModes.cs" />
     <Compile Include="GivenAnExteriorColour\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenAnExteriorColour\WhenAccessingIts3DAssets.cs" />
     <Compile Include="GivenAnExteriorColour\WhenAccessingIts3DAssetsASecondTime.cs" />
@@ -388,6 +396,7 @@
     <Compile Include="TestBuilders\ContextBuilder.cs" />
     <Compile Include="TestBuilders\EngineCategoryBuilder.cs" />
     <Compile Include="TestBuilders\ColourFactoryBuilder.cs" />
+    <Compile Include="TestBuilders\RuleFactoryBuilder.cs" />
     <Compile Include="TestBuilders\SpecificationFactoryBuilder.cs" />
     <Compile Include="TestBuilders\EquipmentFactoryBuilder.cs" />
     <Compile Include="TestBuilders\GradeFactoryBuilder.cs" />

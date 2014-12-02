@@ -13,6 +13,7 @@ namespace TME.CarConfigurator.Rules
         public EquipmentRule(EquipmentItemRule equipmentItemRule)
         {
             if (equipmentItemRule == null) throw new ArgumentNullException("equipmentItemRule");
+
             _equipmentItemRule = equipmentItemRule;
         }
 
