@@ -68,9 +68,9 @@ namespace TME.CarConfigurator.LegacyAdapter
             }
         }
 
-        public IEnumerable<IGrade> Grades
+        public IReadOnlyList<IGrade> Grades
         {
-            get { return Adaptee.Grades.Cast<Legacy.Grade>().Select(x => new Grade(x, false)); }
+            get { return Adaptee.Grades.Cast<Legacy.Grade>().Select(x => new Grade(x, false)).ToList(); }
         }
 
         public IReadOnlyList<IAsset> Assets
@@ -78,9 +78,9 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return Adaptee.Assets.GetPlainAssets(); }
         }
 
-        public IEnumerable<ILink> Links
+        public IReadOnlyList<ILink> Links
         {
-            get { return Adaptee.Links.Cast<Legacy.Link>().Select(x => new Link(x)); }
+            get { return Adaptee.Links.Cast<Legacy.Link>().Select(x => new Link(x)).OrderBy(x => x.Name).ToList(); }
         }
     }
 }

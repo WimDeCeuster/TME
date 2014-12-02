@@ -189,7 +189,7 @@ namespace TME.CarConfigurator.Publisher
                     progress.Report(new PublishProgress("Fill grade equipment"));
                     FillGradeEquipment(equipmentCategories, equipmentGroups, timeFrameCars, timeFrameGrades, timeFrame, isPreview, exteriorColourTypes, context.AssetUrl);
                     progress.Report(new PublishProgress("Fill generation submodels"));
-                    FillSubModels(timeFrameGrades, timeFrameCars, modelGeneration, timeFrame, isPreview, equipmentCategories, equipmentGroups, exteriorColourTypes, context.AssetUrl);
+                    FillSubModels(model, timeFrameGrades, timeFrameCars, modelGeneration, timeFrame, isPreview, equipmentCategories, equipmentGroups, exteriorColourTypes, context.AssetUrl);
                     progress.Report(new PublishProgress("Fill submodel grade packs"));
                     FillSubModelGradePacks(timeFrameGrades, modelGeneration, timeFrame, isPreview);
                     progress.Report(new PublishProgress("Fill generation colour combinations"));
@@ -625,7 +625,7 @@ namespace TME.CarConfigurator.Publisher
             timeFrame.ColourCombinations = colourCombinations;
         }
 
-        private void FillSubModels(IList<ModelGenerationGrade> grades, IList<Car> cars, ModelGeneration modelGeneration, TimeFrame timeFrame, bool isPreview, EquipmentCategories categories, EquipmentGroups groups, ExteriorColourTypes exteriorColourTypes, String assetUrl)
+        private void FillSubModels(Model model, IList<ModelGenerationGrade> grades, IList<Car> cars, ModelGeneration modelGeneration, TimeFrame timeFrame, bool isPreview, EquipmentCategories categories, EquipmentGroups groups, ExteriorColourTypes exteriorColourTypes, String assetUrl)
         {
             var applicableSubModels = modelGeneration.SubModels.Where(submodel => cars.Any(car => car.SubModelID == submodel.ID)).ToList();
 
@@ -641,7 +641,7 @@ namespace TME.CarConfigurator.Publisher
             {
                 var subModelId = modelGenerationSubModel.ID;
 
-                var mappedSubModel = _subModelMapper.MapSubModel(modelGenerationSubModel, timeFrame, isPreview);
+                var mappedSubModel = _subModelMapper.MapSubModel(model, modelGenerationSubModel, timeFrame, isPreview);
 
                 mappedSubModels.Add(mappedSubModel);
 

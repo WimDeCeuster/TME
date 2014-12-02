@@ -1,19 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using TME.CarConfigurator.Administration;
+using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Repository.Objects;
+using Link = TME.CarConfigurator.Repository.Objects.Link;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
     public class LinkMapper : ILinkMapper
     {
+
+        public List<Link> MapLinks(ModelGeneration generation, IEnumerable<Administration.Link> links, bool isPreview)
+        {
+            return links.Where(link => link.IsApplicableFor(generation))
+                .Select(link => MapLink(link, isPreview))
+                .OrderBy(link => link.Name)
+                .ToList();
+
+        }
         public Link MapLink(Administration.Link link, Boolean isPreview)
         {
-            var currentContext = Administration.MyContext.GetContext();
+            var currentContext = MyContext.GetContext();
             var countryCode = currentContext.CountryCode;
             var languageCode = currentContext.LanguageCode;
 
-            var baseLink = Administration.BaseLinks.GetBaseLinks(link.Type, isPreview)
+            var baseLink = BaseLinks.GetBaseLinks(link.Type, isPreview)
                                                    .SingleOrDefault(baseLnk => baseLnk.CountryCode == countryCode &&
                                                                                baseLnk.LanguageCode == languageCode);
 
@@ -26,7 +38,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
         }
 
-        String GetUrl(Administration.BaseLink baseLink, Administration.Link link)
+        static String GetUrl(BaseLink baseLink, Administration.Link link)
         {
             if (baseLink == null || String.IsNullOrWhiteSpace(baseLink.Url))
                 return link.UrlPart;
