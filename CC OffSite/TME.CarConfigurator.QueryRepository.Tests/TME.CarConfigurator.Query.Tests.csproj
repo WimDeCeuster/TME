@@ -282,6 +282,9 @@
     <Compile Include="GivenAModel\WhenAccessingItsLinks.cs" />
     <Compile Include="GivenAModel\WhenAccesingItsAssets.cs" />
     <Compile Include="GivenAModel\WhenAccessingItsLinksASecondTime.cs" />
+    <Compile Include="GivenAnEquipmentRule\WhenAccessingItsCategoryForTheFirstTime.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GivenAnExteriorColour\WhenAccessing3DAssetsForAViewAndModeWhenTheyWereAlreadyFetchedForAnotherViewAndMode.cs" />
     <Compile Include="GivenAnExteriorColour\WhenAccessingIts3DAssets.cs" />
     <Compile Include="GivenAnExteriorColour\WhenAccessingIts3DAssetsASecondTime.cs" />
@@ -449,9 +452,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GivenAnEquipmentRule\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
