@@ -18,8 +18,8 @@ namespace TME.CarConfigurator
         private readonly IGradeFactory _gradeFactory;
 
         private IReadOnlyList<IAsset> _fetchedAssets;
-        private IEnumerable<IGrade> _grades;
-        private IEnumerable<ILink> _links;
+        private IReadOnlyList<IGrade> _grades;
+        private IReadOnlyList<ILink> _links;
         private IPrice _startingPrice;
 
         public SubModel(Repository.Objects.SubModel repositorySubModel, Publication repositoryPublication, Context repositoryContext, IAssetFactory assetFactory, IGradeFactory gradeFactory)
@@ -38,11 +38,11 @@ namespace TME.CarConfigurator
 
         public IPrice StartingPrice { get { return _startingPrice = _startingPrice ?? new Price(RepositoryObject.StartingPrice); } }
 
-        public IEnumerable<IGrade> Grades { get { return _grades = _grades ?? _gradeFactory.GetSubModelGrades(RepositoryObject.ID, RepositoryPublication, RepositoryContext); } }
+        public IReadOnlyList<IGrade> Grades { get { return _grades = _grades ?? _gradeFactory.GetSubModelGrades(RepositoryObject.ID, RepositoryPublication, RepositoryContext); } }
 
         public virtual IReadOnlyList<IAsset> Assets { get { return _fetchedAssets = _fetchedAssets ?? FetchAssets(); } }
 
-        public IEnumerable<ILink> Links { get { return _links = _links ?? RepositoryObject.Links.Select(l => new Link(l)).ToArray(); } }
+        public IReadOnlyList<ILink> Links { get { return _links = _links ?? RepositoryObject.Links.Select(l => new Link(l)).ToList(); } }
         
         protected virtual IReadOnlyList<IAsset> FetchAssets()
         {

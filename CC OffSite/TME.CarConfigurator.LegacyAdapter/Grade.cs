@@ -45,7 +45,24 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IPrice StartingPrice
         {
-            get { return new StartingPrice(Adaptee); }
+            get
+            {
+                return new Price
+                {
+                    PriceInVat =
+                        Adaptee.Cars()
+                            .Cast<Legacy.Car>()
+                            .Select(x => new Car(x).StartingPrice.PriceInVat)
+                            .OrderBy(x => x)
+                            .First(),
+                    PriceExVat =
+                        Adaptee.Cars()
+                            .Cast<Legacy.Car>()
+                            .Select(x => new Car(x).StartingPrice.PriceExVat)
+                            .OrderBy(x => x)
+                            .First()
+                };
+            }
         }
 
         public IGradeInfo BasedUpon

@@ -34,8 +34,8 @@
                 </div>
                 <div class="content">
                     @Html.Partial("Colours/_upholstery", model.Upholstery)
-                    <p class="property" data-id="PriceExVat">PriceExVat : @Html.Raw(model.ExteriorColour.Price.PriceExVat)</p>
-                    <p class="property" data-id="PriceInVat">PriceInVat : @Html.Raw(model.ExteriorColour.Price.PriceInVat)</p>
+                    <p class="property" data-id="PriceExVat">PriceExVat : @Html.Raw(model.Upholstery.Price.PriceExVat)</p>
+                    <p class="property" data-id="PriceInVat">PriceInVat : @Html.Raw(model.Upholstery.Price.PriceInVat)</p>
                 </div>
             </div>
 

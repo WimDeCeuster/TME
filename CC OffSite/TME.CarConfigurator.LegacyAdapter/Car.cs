@@ -65,7 +65,26 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IPrice StartingPrice
         {
-            get { return new StartingPrice(Adaptee); }
+            get
+            {
+                var startingPrice = new Price(Adaptee);
+                var cheapestColourPriceIncludingTax =
+                    ColourCombinations
+                        .OrderBy(x => x.ExteriorColour.Price.PriceInVat + x.Upholstery.Price.PriceInVat)
+                        .Select(x => x.ExteriorColour.Price.PriceInVat + x.Upholstery.Price.PriceInVat)
+                        .FirstOrDefault();
+
+                var cheapestColourPriceExcludingTax =
+                    ColourCombinations
+                        .OrderBy(x => x.ExteriorColour.Price.PriceExVat + x.Upholstery.Price.PriceExVat)
+                        .Select(x => x.ExteriorColour.Price.PriceExVat + x.Upholstery.Price.PriceExVat)
+                        .FirstOrDefault();
+
+                startingPrice.PriceInVat += cheapestColourPriceIncludingTax;
+                startingPrice.PriceInVat += cheapestColourPriceExcludingTax;
+                return startingPrice;
+
+            }
         }
 
         public IBodyType BodyType

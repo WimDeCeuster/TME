@@ -79,8 +79,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 Special = grade.Special,
                 StartingPrice = new Price
                 {
-                    ExcludingVat = cheapestCarExcludingVat.BasePrice.ExcludingVat,
-                    IncludingVat = cheapestCarIncludingVat.BasePrice.IncludingVat
+                    ExcludingVat = cheapestCarExcludingVat.StartingPrice.ExcludingVat,
+                    IncludingVat = cheapestCarIncludingVat.StartingPrice.IncludingVat
                 },
                 VisibleIn = _assetSetMapper.GetVisibility(grade.AssetSet, canHaveAssets).ToList()
             };

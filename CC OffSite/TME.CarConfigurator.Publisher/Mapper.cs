@@ -190,7 +190,7 @@ namespace TME.CarConfigurator.Publisher
                     progress.Report(new PublishProgress("Fill grade equipment"));
                     FillGradeEquipment(equipmentCategories, equipmentGroups, timeFrameCars, timeFrameGrades, timeFrame, isPreview, exteriorColourTypes, context.AssetUrl);
                     progress.Report(new PublishProgress("Fill generation submodels"));
-                    FillSubModels(timeFrameGrades, timeFrameCars, modelGeneration, timeFrame, isPreview, equipmentCategories, equipmentGroups, exteriorColourTypes, context.AssetUrl);
+                    FillSubModels(model, timeFrameGrades, timeFrameCars, modelGeneration, timeFrame, isPreview, equipmentCategories, equipmentGroups, exteriorColourTypes, context.AssetUrl);
                     progress.Report(new PublishProgress("Fill submodel grade packs"));
                     FillSubModelGradePacks(timeFrameGrades, modelGeneration, timeFrame, isPreview);
                     progress.Report(new PublishProgress("Fill generation colour combinations"));
@@ -211,7 +211,6 @@ namespace TME.CarConfigurator.Publisher
                     FillCarTechnicalSpecifications(car, specificationCategories, units, contextData);
                     FillCarRules(car, contextData, equipmentGroups, equipmentItems);
                     FillCarColourCombinations(car, contextData, exteriorColourTypes, upholsteryTypes, isPreview, context.AssetUrl);
-
                 }
                 progress.Report(new PublishProgress("Mapping complete"));
             }
@@ -298,17 +297,17 @@ namespace TME.CarConfigurator.Publisher
 
             var filteredApplicableAssets = applicableAssets.Distinct(comparer).ToList();
             
-            var unmappedApplicableAssets = filteredApplicableAssets.Where(asset => !carItemAssets.ContainsKey(asset.Asset.ID));
+            var unmappedApplicableAssets = filteredApplicableAssets.Where(asset => !carItemAssets.ContainsKey(asset.ID));
 
             foreach (var assetSetAsset in unmappedApplicableAssets)
-                carItemAssets.Add(assetSetAsset.Asset.ID, _assetMapper.MapCarAssetSetAsset(assetSetAsset, car.Generation));
+                carItemAssets.Add(assetSetAsset.ID, _assetMapper.MapCarAssetSetAsset(assetSetAsset, car.Generation));
 
             var applicableGenerationAssets = objectWithAssetSet.AssetSet.Assets.GetGenerationAssets();
 
             if (!carItemsGenerationAssets.ContainsKey(objectId))
                 carItemsGenerationAssets.Add(objectId, applicableGenerationAssets.Select(asset => _assetMapper.MapCarAssetSetAsset(asset, car.Generation)).ToList());
 
-            return applicableAssets.Select(asset => carItemAssets[asset.Asset.ID]).Distinct().Concat(carItemsGenerationAssets[objectId]).ToList();
+            return applicableAssets.Select(asset => carItemAssets[asset.ID]).Distinct().Concat(carItemsGenerationAssets[objectId]).ToList();
         }
 
         private void FillCarAssets(Car car, ContextData contextData, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
@@ -504,6 +503,7 @@ namespace TME.CarConfigurator.Publisher
             var packs = car.Packs.Where(pack => pack.Availability != Availability.NotAvailable)
                                  .Select(pack => _packMapper.MapCarPack(pack, groups, categories, isPreview, assetUrl))
                                  .ToList();
+
             contextData.CarPacks.Add(car.ID, packs);
         }
 
@@ -629,7 +629,7 @@ namespace TME.CarConfigurator.Publisher
             timeFrame.ColourCombinations = colourCombinations;
         }
 
-        private void FillSubModels(IList<ModelGenerationGrade> grades, IList<Car> cars, ModelGeneration modelGeneration, TimeFrame timeFrame, bool isPreview, EquipmentCategories categories, EquipmentGroups groups, ExteriorColourTypes exteriorColourTypes, String assetUrl)
+        private void FillSubModels(Model model, IList<ModelGenerationGrade> grades, IList<Car> cars, ModelGeneration modelGeneration, TimeFrame timeFrame, bool isPreview, EquipmentCategories categories, EquipmentGroups groups, ExteriorColourTypes exteriorColourTypes, String assetUrl)
         {
             var applicableSubModels = modelGeneration.SubModels.Where(submodel => cars.Any(car => car.SubModelID == submodel.ID)).ToList();
 
@@ -645,7 +645,7 @@ namespace TME.CarConfigurator.Publisher
             {
                 var subModelId = modelGenerationSubModel.ID;
 
-                var mappedSubModel = _subModelMapper.MapSubModel(modelGenerationSubModel, timeFrame, isPreview);
+                var mappedSubModel = _subModelMapper.MapSubModel(model, modelGenerationSubModel, timeFrame, isPreview);
 
                 mappedSubModels.Add(mappedSubModel);
 

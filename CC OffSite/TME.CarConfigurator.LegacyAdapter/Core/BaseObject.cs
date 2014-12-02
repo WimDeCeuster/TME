@@ -29,7 +29,7 @@ namespace TME.CarConfigurator.LegacyAdapter
             get { return Adaptee.ID; }
         }
 
-        public string InternalCode
+        public virtual string InternalCode
         {
             get { return Adaptee.InternalCode; }
         }

@@ -12,11 +12,12 @@ namespace TME.CarConfigurator.Rules
         public RuleSet(Repository.Objects.Rules.RuleSet ruleSet)
         {
             if (ruleSet == null) throw new ArgumentNullException("ruleSet");
+
             _ruleSet = ruleSet;
         }
 
-        public IReadOnlyList<IEquipmentRule> Options { get { return _ruleSet.AccessoryRules.Select(a => new EquipmentRule(a)).ToList(); } }
-        public IReadOnlyList<IEquipmentRule> Accessories { get { return _ruleSet.OptionRules.Select(o => new EquipmentRule(o)).ToList(); } } 
+        public IReadOnlyList<IEquipmentRule> Options { get { return _ruleSet.OptionRules.Select(a => new EquipmentRule(a)).ToList(); } }
+        public IReadOnlyList<IEquipmentRule> Accessories { get { return _ruleSet.AccessoryRules.Select(o => new EquipmentRule(o)).ToList(); } } 
         public IReadOnlyList<IPackRule> Packs { get { return _ruleSet.PackRules.Select(p => new PackRule(p)).ToList(); }}
     }
 }

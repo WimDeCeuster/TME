@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Common;
-using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Core;
 using Link = TME.CarConfigurator.Repository.Objects.Link;
+using Model = TME.CarConfigurator.Administration.Model;
 
 namespace TME.CarConfigurator.Publisher.Mappers
 {
@@ -29,7 +29,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _linkMapper = linkMapper;
         }
 
-        public SubModel MapSubModel(ModelGenerationSubModel modelGenerationSubModel, TimeFrame timeFrame, bool isPreview)
+        public SubModel MapSubModel(Model model, ModelGenerationSubModel modelGenerationSubModel, TimeFrame timeFrame, bool isPreview)
         {
             var cheapestCar = GetTheCheapestCar(modelGenerationSubModel, timeFrame.Cars);
 
@@ -41,7 +41,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
                     IncludingVat = cheapestCar.StartingPrice.IncludingVat,
                 },
                 Assets = GetMappedAssetsForSubModel(modelGenerationSubModel),
-                Links = GetMappedLinksForSubModel(modelGenerationSubModel, isPreview),
+                Links = GetMappedLinksForSubModel(model, modelGenerationSubModel, isPreview),
                 Grades = GetSubModelGrades(modelGenerationSubModel, timeFrame)
             };
 
@@ -53,13 +53,20 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return timeFrame.SubModelGrades[modelGenerationSubModel.ID].ToList();
         }
 
-        private IList<Link> GetMappedLinksForSubModel(ModelGenerationSubModel modelGenerationSubModel, bool isPreview)
+        private IList<Link> GetMappedLinksForSubModel(Model model, ModelGenerationSubModel modelGenerationSubModel, bool isPreview)
         {
-            return modelGenerationSubModel.Links
-                .Where(link => link.IsApplicableFor(modelGenerationSubModel.Generation))
-                .Select(link => _linkMapper.MapLink(link, isPreview))
-                .ToList();
+            var generation = modelGenerationSubModel.Generation;
+
+            var modelLinksNotAvailableForSubmodel = model.Links.Where(x => !modelGenerationSubModel.Links.Contains(x.Type));
+            var mappedModelLinks = _linkMapper.MapLinks(generation, modelLinksNotAvailableForSubmodel, isPreview);
+            var mappedSubModelLinks = _linkMapper.MapLinks(generation, modelGenerationSubModel.Links, isPreview);
+            
+            mappedSubModelLinks.AddRange(mappedModelLinks);
+            return mappedSubModelLinks.OrderBy(x=>x.Name).ToList();
+
         }
+
+
 
         private IList<Asset> GetMappedAssetsForSubModel(ModelGenerationSubModel modelGenerationSubModel)
         {

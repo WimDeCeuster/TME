@@ -89,8 +89,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 ParentOptionShortID = generationOption.HasParentOption ? carOption.ParentOption.ShortID.Value : 0,
                 Price = new Price
                 {
-                    ExcludingVat = carOption.FittingPrice,
-                    IncludingVat = carOption.FittingVatPrice
+                    ExcludingVat = (carOption.Availability == Availability.Optional ? carOption.FittingPrice : 0),
+                    IncludingVat = (carOption.Availability == Availability.Optional ? carOption.FittingVatPrice : 0)
                 },
                 AvailableForExteriorColours = carOption.ExteriorColourApplicabilities.Where(item => !item.Cleared).Select(_colourMapper.MapExteriorColourApplicability).ToList(),
                 AvailableForUpholsteries = carOption.UpholsteryApplicabilities.Where(item => !item.Cleared).Select(_colourMapper.MapUpholsteryApplicability).ToList()
@@ -112,16 +112,16 @@ namespace TME.CarConfigurator.Publisher.Mappers
             {
                 BasePrice = new Price
                 {
-                    ExcludingVat = carAccessory.BasePrice,
-                    IncludingVat = carAccessory.BaseVatPrice
+                    ExcludingVat = (carAccessory.Availability == Availability.Optional ? carAccessory.BasePrice : 0),
+                    IncludingVat = (carAccessory.Availability == Availability.Optional ? carAccessory.BaseVatPrice : 0)
                 },
 
                 MountingCostsOnNewVehicle = new MountingCosts
                 {
                     Price = new Price
                     {
-                        ExcludingVat = carAccessory.FittingPriceNewCar,
-                        IncludingVat = carAccessory.FittingVatPriceNewCar
+                        ExcludingVat = (carAccessory.Availability == Availability.Optional ? carAccessory.FittingPriceNewCar : 0),
+                        IncludingVat =(carAccessory.Availability == Availability.Optional ?  carAccessory.FittingVatPriceNewCar : 0)
                     },
                     Time = carAccessory.FittingTimeNewCar
                 },
@@ -130,8 +130,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 {
                     Price = new Price
                     {
-                        ExcludingVat = carAccessory.FittingPriceExistingCar,
-                        IncludingVat = carAccessory.FittingVatPriceExistingCar
+                        ExcludingVat =(carAccessory.Availability == Availability.Optional ?  carAccessory.FittingPriceExistingCar : 0),
+                        IncludingVat = (carAccessory.Availability == Availability.Optional ? carAccessory.FittingVatPriceExistingCar : 0)
                     },
                     Time = carAccessory.FittingTimeExistingCar
                 },
@@ -260,8 +260,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             mappedEquipmentItem = MapFromGenerationEquipmentItem(mappedEquipmentItem, generationEquipmentItem, crossModelEquipmentItem, isPreview, categories, assetUrl);
             
-            mappedEquipmentItem.GradeFeature = carEquipmentItem.GradeFeature;
-            mappedEquipmentItem.OptionalGradeFeature = carEquipmentItem.OptionalGradeFeature;
+            mappedEquipmentItem.GradeFeature = carEquipmentItem.GradeFeature && carEquipmentItem.Availability == Availability.Standard;
+            mappedEquipmentItem.OptionalGradeFeature = carEquipmentItem.OptionalGradeFeature && carEquipmentItem.Availability == Availability.Optional;
             mappedEquipmentItem.KeyFeature = carEquipmentItem.KeyFeature;
             mappedEquipmentItem.VisibleIn = _assetSetMapper.GetVisibility(generationEquipmentItem.AssetSet, canHaveAssets).ToList();
 
@@ -282,10 +282,10 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             mappedEquipmentItem = MapFromGenerationEquipmentItem(mappedEquipmentItem, generationEquipmentItem, crossModelEquipmentItem, isPreview, categories, assetUrl);
             
-            mappedEquipmentItem.GradeFeature = generationGradeEquipmentItem.GradeFeature;
-            
+
+
             mappedEquipmentItem.NotAvailableOn = GetAvailabilityInfo(generationGradeEquipmentItem.ID, Availability.NotAvailable, cars);
-            mappedEquipmentItem.OptionalGradeFeature = generationGradeEquipmentItem.OptionalGradeFeature;
+            
             mappedEquipmentItem.OptionalOn = GetAvailabilityInfo(generationGradeEquipmentItem.ID, Availability.Optional, cars);
             mappedEquipmentItem.StandardOn = GetAvailabilityInfo(generationGradeEquipmentItem.ID, Availability.Standard, cars);
             
@@ -293,6 +293,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
             mappedEquipmentItem.Optional = mappedEquipmentItem.CalculateOptional();
             mappedEquipmentItem.Standard = mappedEquipmentItem.CalculateStandard();
 
+            mappedEquipmentItem.GradeFeature = generationGradeEquipmentItem.GradeFeature && mappedEquipmentItem.StandardOn.Any();
+            mappedEquipmentItem.OptionalGradeFeature = generationGradeEquipmentItem.OptionalGradeFeature && mappedEquipmentItem.OptionalOn.Any(); ;
+            
             return mappedEquipmentItem;
         }
 

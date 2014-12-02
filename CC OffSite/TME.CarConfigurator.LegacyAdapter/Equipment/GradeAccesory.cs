@@ -21,5 +21,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
         }
         #endregion
 
+        public override string InternalCode { get { return Adaptee.PartNumber; } }
+
     }
 }
