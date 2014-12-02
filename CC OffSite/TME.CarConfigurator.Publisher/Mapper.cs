@@ -210,7 +210,6 @@ namespace TME.CarConfigurator.Publisher
                     FillCarTechnicalSpecifications(car, specificationCategories, units, contextData);
                     FillCarRules(car, contextData);
                     FillCarColourCombinations(car, contextData, exteriorColourTypes, upholsteryTypes, isPreview, context.AssetUrl);
-
                 }
                 progress.Report(new PublishProgress("Mapping complete"));
             }
@@ -500,6 +499,7 @@ namespace TME.CarConfigurator.Publisher
             var packs = car.Packs.Where(pack => pack.Availability != Availability.NotAvailable)
                                  .Select(pack => _packMapper.MapCarPack(pack, groups, categories, isPreview, assetUrl))
                                  .ToList();
+
             contextData.CarPacks.Add(car.ID, packs);
         }
 

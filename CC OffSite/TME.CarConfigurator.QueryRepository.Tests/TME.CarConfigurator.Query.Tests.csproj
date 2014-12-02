@@ -90,6 +90,7 @@
     <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAvailableForExteriorColoursForTheSecondTime.cs" />
     <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAvailableForUpholsteriesForTheFirstTime.cs" />
     <Compile Include="GivenACarEquipmentItem\WhenAccessingItsAvailableForUpholsteriesForTheSecondTime.cs" />
+    <Compile Include="GivenACarEquipmentItem\WhenAccessingItsRulesForTheFirstTime.cs" />
     <Compile Include="GivenACarExteriorColour\WhenAccessing3DAssetsForAModeAndViewWhenTheyWereAlreadyFetchedForAnotherModeAndView.cs" />
     <Compile Include="GivenACarExteriorColour\WhenAccessingIts3DAssetsForTheFirstTime.cs" />
     <Compile Include="GivenACarExteriorColour\WhenAccessingIts3DAssetsForTheSecondTime.cs" />

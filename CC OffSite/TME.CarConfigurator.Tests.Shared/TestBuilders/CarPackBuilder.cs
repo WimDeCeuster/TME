@@ -1,12 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using TME.CarConfigurator.Repository.Objects;
-using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Core;
 using TME.CarConfigurator.Repository.Objects.Packs;
-using TME.CarConfigurator.Repository.Objects.Rules;
 
 namespace TME.CarConfigurator.Tests.Shared.TestBuilders
 {
