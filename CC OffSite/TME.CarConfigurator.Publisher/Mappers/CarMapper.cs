@@ -32,9 +32,15 @@ namespace TME.CarConfigurator.Publisher.Mappers
             if (car.ShortID == null)
                 throw new CorruptDataException(String.Format("Please provide a shortID for car {0}", car.Name));
 
-            var cheapestColourCombination = car.ColourCombinations
-                                               .OrderBy(cc => cc.ExteriorColour.VatPrice + cc.Upholstery.VatPrice)
+            var cheapestColourCombinationExcludingVat = car.ColourCombinations
+                                               .Where(cc=> cc.Approved)
+                                               .OrderBy(cc => cc.ExteriorColour.Price + cc.Upholstery.Price)
                                                .First();
+
+            var cheapestColourCombinationIncludingVat = car.ColourCombinations
+                                   .Where(cc => cc.Approved)
+                                   .OrderBy(cc => cc.ExteriorColour.VatPrice + cc.Upholstery.VatPrice)
+                                   .First();
 
             var mappedCar = new Car
             {
@@ -56,8 +62,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 SortIndex = car.Index,
                 StartingPrice = new Price
                 {
-                    ExcludingVat = car.Price + cheapestColourCombination.ExteriorColour.Price + cheapestColourCombination.Upholstery.Price,
-                    IncludingVat = car.VatPrice + cheapestColourCombination.ExteriorColour.VatPrice + cheapestColourCombination.Upholstery.VatPrice
+                    ExcludingVat = car.Price + cheapestColourCombinationExcludingVat.ExteriorColour.Price + cheapestColourCombinationExcludingVat.Upholstery.Price,
+                    IncludingVat = car.VatPrice + cheapestColourCombinationIncludingVat.ExteriorColour.VatPrice + cheapestColourCombinationIncludingVat.Upholstery.VatPrice
                 },
 
             };
