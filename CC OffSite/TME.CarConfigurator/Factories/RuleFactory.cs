@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Interfaces.Rules;
 using TME.CarConfigurator.QueryServices;
