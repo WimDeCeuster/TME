@@ -42,11 +42,12 @@ namespace TME.CarConfigurator.LegacyAdapter
         {
             get
             {
-                return new StartingPrice(
-                    GetCars()
-                        .OrderBy(x => x.MinimumPriceInVat)
-                        .First()
-                        );
+                var cars = GetCars().Select(x => new Car(x)).ToList();
+                return new Price
+                {
+                    PriceInVat = cars.OrderBy(x => x.StartingPrice.PriceInVat).First().StartingPrice.PriceInVat,
+                    PriceExVat = cars.OrderBy(x => x.StartingPrice.PriceExVat).First().StartingPrice.PriceExVat
+                 };
             }
         }
         
