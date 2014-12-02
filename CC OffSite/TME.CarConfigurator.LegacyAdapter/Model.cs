@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using TME.CarConfigurator.Interfaces;
 using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Colours;
@@ -57,7 +58,7 @@ namespace TME.CarConfigurator.LegacyAdapter
 
         public IReadOnlyList<ILink> Links
         {
-            get { return Adaptee.Links.Cast<Legacy.Link>().Select(x => new Link(x)).ToList(); }
+            get { return Adaptee.Links.Cast<Legacy.Link>().Select(x => new Link(x)).OrderBy(x=>x.Name).ToList(); }
         }
 
         public IReadOnlyList<IAsset> Assets
