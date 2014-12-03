@@ -52,7 +52,7 @@ namespace TME.CarConfigurator.Comparer
 
             config.MembersToIgnore.Add(GetFullMemberName<IEquipmentExteriorColour>(c => c.SortIndex));
             config.MembersToIgnore.Add(GetFullMemberName<IRule>(c => c.Category));
-
+            
             config.PathsToIgnore = new List<String>
             { 
                 ".Grades[].Equipment.Accessories[].ExteriorColour.SortIndex",
@@ -69,6 +69,8 @@ namespace TME.CarConfigurator.Comparer
                 ".ColourCombinations[].SortIndex",
                 ".Cars[].ColourCombinations[].Upholstery.SortIndex",
                 ".Cars[].ColourCombinations[].SortIndex",
+                ".ColourCombinations[].ExteriorColour.Assets",
+                ".ColourCombinations[].Upholstery.Assets"
             };
 
             config.IgnoreOrderFor = new List<String>
@@ -87,7 +89,9 @@ namespace TME.CarConfigurator.Comparer
                 GetFullMemberName<ICarPackExteriorColourType>(type => type.ColourCombinations),
                 GetFullMemberName<IGradeEquipmentItem>(item => item.OptionalOn),
                 GetFullMemberName<IGradeEquipmentItem>(item => item.NotAvailableOn),
-                GetFullMemberName<IGradeEquipmentItem>(item => item.StandardOn)
+                GetFullMemberName<IGradeEquipmentItem>(item => item.StandardOn),
+                GetFullMemberName<ICarEquipmentItem>(item => item.Rules),
+                GetFullMemberName<ICarPack>(pack => pack.Rules)
             };
 
             config.AllowMissingFor = new List<String>
@@ -135,7 +139,8 @@ namespace TME.CarConfigurator.Comparer
                 { typeof(IUpholsteryInfo), o => ((IUpholsteryInfo)o).ID.ToString()},
                 { typeof(IExteriorColourInfo), o => ((IExteriorColourInfo)o).ID.ToString()},
                 { typeof(IColourCombinationInfo), o => ((IColourCombinationInfo)o).ExteriorColour.ID.ToString() + "|" + ((IColourCombinationInfo)o).Upholstery.ID.ToString() },
-                { typeof(ICarInfo), o => ((ICarInfo)o).ShortID.ToString() }
+                { typeof(ICarInfo), o => ((ICarInfo)o).ShortID.ToString() },
+                { typeof(IRule), o => ((IRule)o).ShortID.ToString() }
             };
 
             config.DetectMissingAndMisordered = true;

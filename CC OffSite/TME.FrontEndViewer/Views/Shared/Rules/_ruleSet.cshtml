@@ -2,7 +2,7 @@
 @if (Model.Accessories.Any())
 {
     <h2>Accessories</h2>
-    foreach (var model in Model.Accessories)
+    foreach (var model in Model.Accessories.OrderBy(rule => rule.ShortID))
     {
          @Html.Partial("Rules/_equipmentItemRule", model)
     }
@@ -10,7 +10,7 @@
 @if (Model.Options.Any())
 {
     <h2>Options</h2>
-    foreach (var model in Model.Options)
+    foreach (var model in Model.Options.OrderBy(rule => rule.ShortID))
     {
          @Html.Partial("Rules/_equipmentItemRule", model)
     }
@@ -18,7 +18,7 @@
 @if (Model.Packs.Any())
 {
     <h2>Options</h2>
-    foreach (var model in Model.Packs)
+    foreach (var model in Model.Packs.OrderBy(rule => rule.ShortID))
     {
          @Html.Partial("Rules/_packRule", model)
     }

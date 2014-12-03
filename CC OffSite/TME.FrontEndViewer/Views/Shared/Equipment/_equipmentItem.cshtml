@@ -9,6 +9,23 @@
 <p class="property" data-id="OptionalGradeFeature">OptionalGradeFeature : @Html.Raw(Model.OptionalGradeFeature)</p>
 <p class="property" data-id="Path">Path : @Html.Raw(Model.Path)</p>
 <p class="property" data-id="Visibility">Visibility : @Html.Raw(Model.Visibility.ToString("g"))</p>
+<div>
+    <p><strong>Links:</strong></p>
+    @foreach (var link in Model.Links)
+    {
+        <div class="object sub-item" data-id="@Html.Raw(link.ID)">
+            <div class="title">
+                <strong>@Html.Raw(link.Name)</strong>
+            </div>
+            <div class="content">
+                <p class="property" data-id="ID">ID : @Html.Raw(link.ID)</p>
+                <p class="property" data-id="Name">Name : @Html.Raw(link.Name)</p>
+                <p class="property" data-id="Label">Label : @Html.Raw(link.Label)</p>
+                <p class="property" data-id="Url">Url : @Html.Raw(link.Url)</p>
+            </div>
+        </div>
+    }
+</div>
 <div class="object sub-item" data-id="@Html.Raw(Model.Category.ID)">
     <div class="title">
         <strong>Category</strong>

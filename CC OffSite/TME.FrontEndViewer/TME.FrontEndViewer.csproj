@@ -335,8 +335,6 @@
     <Content Include="Views\ModelSubModels\Index.cshtml" />
     <Content Include="Views\ModelSubModels\details.cshtml" />
     <Content Include="Views\Shared\_engine.cshtml" />
-    <Content Include="Views\Shared\Links\Index.cshtml" />
-    <Content Include="Views\Shared\Links\details.cshtml" />
     <Content Include="Views\Shared\_link.cshtml" />
     <Content Include="Views\Shared\_gradeEquipmentItem.cshtml" />
     <Content Include="Views\Shared\Colours\_exteriorColour.cshtml" />

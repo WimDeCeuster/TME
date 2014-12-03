@@ -27,21 +27,154 @@ namespace TME.CarConfigurator.Publisher.Mappers
     {
         private static readonly Helpers.Comparer<RuleInfo> RuleInfoComparer = new Helpers.Comparer<RuleInfo>(rule => rule.Target);
 
-        public RuleSets MapCarEquipmentRules(CarEquipmentItem equipmentItem, EquipmentGroups equipmentGroups, EquipmentItems equipmentItems)
+        public IDictionary<Guid, RuleSets> MapCarRules(Car car, EquipmentGroups equipmentGroups, EquipmentItems equipmentItems)
+        {
+            var packRules = car.Packs.Where(pack => pack.Availability != Availability.NotAvailable)
+                .ToDictionary(pack => pack, pack => MapCarPackRules(pack.Rules));
+            var equipmentRules = car.Equipment.Where(eq => eq.Availability != Availability.NotAvailable)
+                .ToDictionary(carEquipmentItem => carEquipmentItem, carEquipmentItem => MapCarEquipmentRules(carEquipmentItem, equipmentGroups, equipmentItems));
+
+            Func<Repository.Objects.Rules.EquipmentItemRule, Administration.CarEquipmentItem, Repository.Objects.Rules.EquipmentItemRule> CopyEquipmentToEquipmentRule = (rule, item) => new Repository.Objects.Rules.EquipmentItemRule
+            {
+                Category = rule.Category,
+                ColouringModes = rule.ColouringModes,
+                Name = item.Translation.Name.DefaultIfEmpty(item.Name),
+                ShortID = item.ShortID ?? 0
+            };
+
+            Func<Repository.Objects.Rules.PackRule, Administration.CarEquipmentItem, Repository.Objects.Rules.EquipmentItemRule> CopyPackToEquipmentRule = (rule, item) => new Repository.Objects.Rules.EquipmentItemRule
+            {
+                Category = rule.Category,
+                ColouringModes = Repository.Objects.Enums.ColouringModes.None,
+                Name = item.Translation.Name.DefaultIfEmpty(item.Name),
+                ShortID = item.ShortID ?? 0
+            };
+
+            Func<Repository.Objects.Rules.EquipmentItemRule, Administration.CarPack, Repository.Objects.Rules.PackRule> CopyEquipmentToPackRule = (rule, pack) => new Repository.Objects.Rules.PackRule
+            {
+                Category = rule.Category,
+                Name = pack.Translation.Name.DefaultIfEmpty(pack.Name),
+                ShortID = pack.ShortID ?? 0
+            };
+
+            Func<Repository.Objects.Rules.PackRule, Administration.CarPack, Repository.Objects.Rules.PackRule> CopyPackToPackRule = (rule, pack) => new Repository.Objects.Rules.PackRule
+            {
+                Category = rule.Category,
+                Name = pack.Translation.Name.DefaultIfEmpty(pack.Name),
+                ShortID = pack.ShortID ?? 0
+            };
+
+            foreach (var entry in packRules)
+            {
+                var sourceShortId = entry.Key.ShortID ?? 0;
+
+                foreach (var excludeRule in entry.Value.Exclude.AccessoryRules)
+                {
+                    var targetRules = equipmentRules.First(targetEntry => targetEntry.Key.ShortID == excludeRule.ShortID && targetEntry.Key.Type == EquipmentType.Accessory).Value;
+                    if (!targetRules.Exclude.PackRules.Any(rule => rule.ShortID == sourceShortId))
+                        targetRules.Exclude.PackRules.Add(CopyEquipmentToPackRule(excludeRule, entry.Key));
+                }
+
+                foreach (var excludeRule in entry.Value.Exclude.OptionRules)
+                {
+                    var targetRules = equipmentRules.First(targetEntry => targetEntry.Key.ShortID == excludeRule.ShortID && targetEntry.Key.Type == EquipmentType.Option).Value;
+                    if (!targetRules.Exclude.PackRules.Any(rule => rule.ShortID == sourceShortId))
+                        targetRules.Exclude.PackRules.Add(CopyEquipmentToPackRule(excludeRule, entry.Key));
+                }
+
+                foreach (var excludeRule in entry.Value.Exclude.PackRules)
+                {
+                    var targetRules = packRules.First(targetEntry => targetEntry.Key.ShortID == excludeRule.ShortID).Value;
+                    if (!targetRules.Exclude.PackRules.Any(rule => rule.ShortID == sourceShortId))
+                        targetRules.Exclude.PackRules.Add(CopyPackToPackRule(excludeRule, entry.Key));
+                }
+            }
+
+            foreach (var entry in equipmentRules)
+            {
+                var sourceShortId = entry.Key.ShortID ?? 0;
+
+                foreach (var excludeRule in entry.Value.Exclude.AccessoryRules)
+                {
+                    var targetRules = equipmentRules.First(targetEntry => targetEntry.Key.ShortID == excludeRule.ShortID && targetEntry.Key.Type == EquipmentType.Accessory).Value;
+                    if (entry.Key.Type == EquipmentType.Accessory)
+                    {
+                        if (!targetRules.Exclude.AccessoryRules.Any(rule => rule.ShortID == sourceShortId))
+                            targetRules.Exclude.AccessoryRules.Add(CopyEquipmentToEquipmentRule(excludeRule, entry.Key));
+                    }
+                    else if (entry.Key.Type == EquipmentType.Option)
+                    {
+                        if (!targetRules.Exclude.OptionRules.Any(rule => rule.ShortID == sourceShortId))
+                            targetRules.Exclude.OptionRules.Add(CopyEquipmentToEquipmentRule(excludeRule, entry.Key));
+                    }
+                }
+
+                foreach (var excludeRule in entry.Value.Exclude.OptionRules)
+                {
+                    var targetRules = equipmentRules.First(targetEntry => targetEntry.Key.ShortID == excludeRule.ShortID && targetEntry.Key.Type == EquipmentType.Option).Value;
+                    if (entry.Key.Type == EquipmentType.Accessory)
+                    {
+                        if (!targetRules.Exclude.AccessoryRules.Any(rule => rule.ShortID == sourceShortId))
+                            targetRules.Exclude.AccessoryRules.Add(CopyEquipmentToEquipmentRule(excludeRule, entry.Key));
+                    }
+                    else if (entry.Key.Type == EquipmentType.Option)
+                    {
+                        if (!targetRules.Exclude.OptionRules.Any(rule => rule.ShortID == sourceShortId))
+                            targetRules.Exclude.OptionRules.Add(CopyEquipmentToEquipmentRule(excludeRule, entry.Key));
+                    }
+                }
+
+                foreach (var excludeRule in entry.Value.Exclude.PackRules)
+                {
+                    var targetRules = packRules.First(targetEntry => targetEntry.Key.ShortID == excludeRule.ShortID).Value;
+                    if (entry.Key.Type == EquipmentType.Accessory)
+                    {
+                        if (!targetRules.Exclude.AccessoryRules.Any(rule => rule.ShortID == sourceShortId))
+                            targetRules.Exclude.AccessoryRules.Add(CopyPackToEquipmentRule(excludeRule, entry.Key));
+                    }
+                    else if (entry.Key.Type == EquipmentType.Option)
+                    {
+                        if (!targetRules.Exclude.OptionRules.Any(rule => rule.ShortID == sourceShortId))
+                            targetRules.Exclude.OptionRules.Add(CopyPackToEquipmentRule(excludeRule, entry.Key));
+                    }
+                }
+            }
+
+            var carRules = packRules.ToDictionary(entry => entry.Key.ID, entry => entry.Value).Concat(equipmentRules.ToDictionary(entry => entry.Key.ID, entry => entry.Value)).ToDictionary();
+
+            return carRules;
+        }
+
+        private static RuleSets MapCarEquipmentRules(CarEquipmentItem equipmentItem, EquipmentGroups equipmentGroups, EquipmentItems equipmentItems)
         {
             var equipmentItemGroup = equipmentGroups.Find(equipmentItem.Group.ID);
-            var groupRules = equipmentItemGroup.Rules;
+            var groupRules = new [] {equipmentItemGroup.Rules}.Concat(GetParentGroups(equipmentItemGroup).Select(group => group.Rules)).Reverse().ToList();
             var itemRules = equipmentItem.Rules;
             var crmItemRules = equipmentItems[equipmentItem.ID].Rules;
             var orderedGroups = equipmentGroups.Concat(equipmentGroups.SelectMany(eg => eg.Groups.Flatten(subGroup => subGroup.Groups))).ToList();
 
+            var groupRulesInfos = groupRules.Select(rules => UnrollGroupRules(rules, orderedGroups, equipmentItem, equipmentGroups));
 
-
-            var groupRuleInfo = UnrollGroupRules(equipmentItemGroup.Rules, orderedGroups, equipmentItem, equipmentGroups);
-
+            var groupRuleInfo = groupRulesInfos.Aggregate(ApplyRules);
+            
             var crmRulesResult = ApplyRules(groupRuleInfo, UnrollGroupRules(crmItemRules, orderedGroups, equipmentItem, equipmentGroups));
 
             var equipmentItemRulesInfo = itemRules.OfType<CarEquipmentItemRule>().Where(item => EquipmentItemIsApplicable(equipmentItem.Car, item.ID)).Select(GetRuleInfo).ToList();
+
+            if (equipmentItem is CarOption)
+            {
+                var option = equipmentItem as CarOption;
+                if (option.HasParentOption)
+                {
+                    equipmentItemRulesInfo.Add(new RuleInfo
+                    {
+                        Category = Administration.Enums.RuleCategory.VISUAL,
+                        ColouringModes = ColouringModes.None,
+                        Target = option.ParentOption.ID,
+                        Type = RuleType.Include
+                    });
+                }
+            }
 
             var clearedTargets = itemRules.Where(rule => rule.Cleared).Select(rule => rule.ID).ToList();
 
@@ -68,20 +201,20 @@ namespace TME.CarConfigurator.Publisher.Mappers
             {
                 Include = new RuleSet
                 {
-                    AccessoryRules = accessoryIncludeRules.Select(rule => MapRuleInfo(rule, equipmentItem.Car)).ToList(),
-                    OptionRules = optionIncludeRules.Select(rule => MapRuleInfo(rule, equipmentItem.Car)).ToList(),
+                    AccessoryRules = accessoryIncludeRules.Where(rule => rule.Target != equipmentItem.ID).Select(rule => MapRuleInfo(rule, equipmentItem.Car)).ToList(),
+                    OptionRules = optionIncludeRules.Where(rule => rule.Target != equipmentItem.ID).Select(rule => MapRuleInfo(rule, equipmentItem.Car)).ToList(),
                     PackRules = includePackRules.Select(rule => MapPackRule(rule, equipmentItem.Car)).ToList()
                 },
                 Exclude = new RuleSet
                 {
-                    AccessoryRules = accessoryExcludeRules.Select(rule => MapRuleInfo(rule, equipmentItem.Car)).ToList(),
-                    OptionRules = optionExcludeRules.Select(rule => MapRuleInfo(rule, equipmentItem.Car)).ToList(),
+                    AccessoryRules = accessoryExcludeRules.Where(rule => rule.Target != equipmentItem.ID).Select(rule => MapRuleInfo(rule, equipmentItem.Car)).ToList(),
+                    OptionRules = optionExcludeRules.Where(rule => rule.Target != equipmentItem.ID).Select(rule => MapRuleInfo(rule, equipmentItem.Car)).ToList(),
                     PackRules = excludePackRules.Select(rule => MapPackRule(rule, equipmentItem.Car)).ToList()
                 }
             };
         }
 
-        private PackRule MapPackRule(CarPackRule rule, Car car)
+        private static PackRule MapPackRule(CarPackRule rule, Car car)
         {
             var pack = car.Packs[rule.ID];
 
@@ -93,7 +226,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
             };
         }
 
-        private EquipmentItemRule MapRuleInfo(RuleInfo info, Car car)
+        private static EquipmentItemRule MapRuleInfo(RuleInfo info, Car car)
         {
             var item = car.Equipment[info.Target];
 
@@ -115,8 +248,6 @@ namespace TME.CarConfigurator.Publisher.Mappers
         {
             return car.Packs[carPackId] != null && car.Packs[carPackId].Availability != Availability.NotAvailable;
         }
-
-
 
         private static List<RuleInfo> ApplyRules(IList<RuleInfo> existingRules, IList<RuleInfo> newRules)
         {
@@ -149,7 +280,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
         private static IList<RuleInfo> GetGroupRules(CarEquipmentItem equipmentItem, EquipmentGroupRule groupRule, EquipmentGroups equipmentGroups)
         {
             var group = equipmentGroups.Find(groupRule.ID);
-            var groupItemRules = group.Equipment.Where(item => EquipmentItemIsApplicable(equipmentItem.Car, item.ID)).Select(item => GetRuleInfo(groupRule, item.ID)).ToList();
+            var subGroups = group.Groups.Flatten(subGroup => subGroup.Groups);
+            var equipment = group.Equipment.Concat(subGroups.SelectMany(subGroup => subGroup.Equipment));
+            var groupItemRules = equipment.Where(item => EquipmentItemIsApplicable(equipmentItem.Car, item.ID)).Select(item => GetRuleInfo(groupRule, item.ID)).ToList();
             return groupItemRules.ToList();
         }
 
@@ -169,31 +302,12 @@ namespace TME.CarConfigurator.Publisher.Mappers
             return ApplyRules(groupRulesResult, groupItemRules);
         }
 
+        private static List<EquipmentGroup> GetParentGroups(EquipmentGroup group)
+        {
+            return group.ParentGroup.ID == Guid.Empty ? new List<EquipmentGroup>() : new[] { group.ParentGroup }.Concat(GetParentGroups(group.ParentGroup)).ToList();
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        //public RuleSets MapCarEquipmentRules(CarEquipmentRules rules)
-        //{
-        //    return MapRuleSets(rules, rules.EquipmentItem.Car);
-        //}
-
-        public RuleSets MapCarPackRules(CarPackRules rules)
+        private static RuleSets MapCarPackRules(CarPackRules rules)
         {
             return MapRuleSets(rules, rules.Pack.Car);
         }

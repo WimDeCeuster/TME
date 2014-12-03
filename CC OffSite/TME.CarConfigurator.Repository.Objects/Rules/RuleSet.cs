@@ -11,8 +11,8 @@ namespace TME.CarConfigurator.Repository.Objects.Rules
             AccessoryRules = new List<EquipmentItemRule>();
         }
 
-        public IReadOnlyList<PackRule> PackRules { get; set; }
-        public IReadOnlyList<EquipmentItemRule> OptionRules { get; set; }
-        public IReadOnlyList<EquipmentItemRule> AccessoryRules { get; set; }
+        public IList<PackRule> PackRules { get; set; }
+        public IList<EquipmentItemRule> OptionRules { get; set; }
+        public IList<EquipmentItemRule> AccessoryRules { get; set; }
     }
 }

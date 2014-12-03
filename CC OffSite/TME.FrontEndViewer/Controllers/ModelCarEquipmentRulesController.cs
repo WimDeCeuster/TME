@@ -25,7 +25,6 @@ namespace TME.FrontEndViewer.Controllers
             var model = new CompareView<IRuleSets>
             {
                 OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, carID, packID, equipmentID),
-                //NewReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, carID, packID, equipmentID)
                 NewReaderModel = GetNewReaderModelWithMetrics(context, modelID, carID, packID, equipmentID)
             };
 

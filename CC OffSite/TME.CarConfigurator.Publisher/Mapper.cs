@@ -521,14 +521,7 @@ namespace TME.CarConfigurator.Publisher
 
         private void FillCarRules(Car car, ContextData contextData, EquipmentGroups equipmentGroups, EquipmentItems equipmentItems)
         {
-            var packRules = car.Packs.Where(pack => pack.Availability != Availability.NotAvailable)
-                .ToDictionary(pack => pack.ID, pack => _ruleMapper.MapCarPackRules(pack.Rules));
-            var equipmentRules = car.Equipment.Where(eq => eq.Availability != Availability.NotAvailable)
-                .ToDictionary(carEquipmentItem => carEquipmentItem.ID, carEquipmentItem => _ruleMapper.MapCarEquipmentRules(carEquipmentItem, equipmentGroups, equipmentItems));
-
-            var carRules = packRules.Concat(equipmentRules).ToDictionary();
-
-            contextData.CarRules.Add(car.ID, carRules);
+            contextData.CarRules.Add(car.ID, _ruleMapper.MapCarRules(car, equipmentGroups, equipmentItems));
         }
 
         private void FillCarParts(Car car, ContextData contextData)
