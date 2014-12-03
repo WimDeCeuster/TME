@@ -11,6 +11,6 @@ namespace TME.CarConfigurator.CommandServices
     {
         Task PutTimeFrameGenerationColourCombinations(String brand, String country, Guid publicationID, Guid timeFrameID, IEnumerable<ColourCombination> colourCombinations);
         Task PutCarColourCombinations(String brand, String country, Guid publicationID, Guid carID, IList<CarColourCombination> carColourCombinations);
-        Task PutCarPackAccentColourCombinations(string brand, String country, Guid publicationID, Guid carID, IDictionary<Guid, IList<AccentColourCombination>> carPackAccentColourCombinations);
+        Task PutCarPackAccentColourCombinations(String brand, String country, Guid publicationID, Guid carID, IDictionary<Guid, List<AccentColourCombination>> carPackAccentColourCombinations);
     }
 }

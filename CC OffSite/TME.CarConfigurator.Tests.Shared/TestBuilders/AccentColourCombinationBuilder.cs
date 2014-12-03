@@ -17,6 +17,18 @@ namespace TME.CarConfigurator.Tests.Shared.TestBuilders
             _accentColourCombination.BodyColour = bodyColour;
             return this;
         }
+        
+        public AccentColourCombinationBuilder WithPrimaryColour(ExteriorColour primary)
+        {
+            _accentColourCombination.PrimaryAccentColour = primary;
+            return this;
+        }
+        
+        public AccentColourCombinationBuilder WithSecondaryColour(ExteriorColour secondary)
+        {
+            _accentColourCombination.SecondaryAccentColour = secondary;
+            return this;
+        }
 
         public AccentColourCombination Build()
         {

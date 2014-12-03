@@ -51,7 +51,7 @@ namespace TME.CarConfigurator.S3.CommandServices
             await _s3Service.PutObjectAsync(brand, country, path, value);
         }
 
-        public async Task PutCarPackAccentColourCombinations(string brand, string country, Guid publicationID, Guid carID, IDictionary<Guid, IList<AccentColourCombination>> carPackAccentColourCombinations)
+        public async Task PutCarPackAccentColourCombinations(string brand, string country, Guid publicationID, Guid carID, IDictionary<Guid, List<AccentColourCombination>> carPackAccentColourCombinations)
         {
             if (brand == null) throw new ArgumentNullException("brand");
             if (country == null) throw new ArgumentNullException("country");

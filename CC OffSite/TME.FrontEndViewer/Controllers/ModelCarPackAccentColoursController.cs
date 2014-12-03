@@ -24,8 +24,7 @@ namespace TME.FrontEndViewer.Controllers
             var model = new CompareView<IReadOnlyList<IAccentColourCombination>>
             {
                 OldReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, carID, packID),
-                NewReaderModel = GetOldReaderModelWithMetrics(oldContext, modelID, carID, packID)
-                //NewReaderModel = GetNewReaderModelWithMetrics(context, modelID, carID, packID)
+                NewReaderModel = GetNewReaderModelWithMetrics(context, modelID, carID, packID)
             };
 
             return View(model);

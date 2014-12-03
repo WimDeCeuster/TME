@@ -506,8 +506,7 @@ namespace TME.CarConfigurator.Publisher
         private void FillCarPackAccentColourCombination(ContextData contextData, Car car, ModelGeneration modelGeneration, bool isPreview, string assetUrl)
         {
             var packAccentColours = car.Packs.Where(pack => pack.Availability != Availability.NotAvailable)
-                .ToDictionary(pack => pack.ID, pack => car.Generation.Packs[pack.ID].AccentColourCombinations.Select(acc => _colourMapper.MapPackAccentColourCombination(acc, car, modelGeneration, isPreview, assetUrl)).ToList());
-
+                .ToDictionary(pack => pack.ID, pack => car.Generation.Packs[pack.ID].AccentColourCombinations.Where(accentColourCombination => accentColourCombination.IsAvailable).Select(acc => _colourMapper.MapPackAccentColourCombination(acc, car, modelGeneration, isPreview, assetUrl)).ToList());
             if (!contextData.CarPackAccentColourCombinations.ContainsKey(car.ID))
                 contextData.CarPackAccentColourCombinations.Add(car.ID, new Dictionary<Guid, IList<AccentColourCombination>>());
 

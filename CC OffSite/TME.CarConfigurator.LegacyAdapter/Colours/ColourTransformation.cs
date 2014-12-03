@@ -1,4 +1,5 @@
-﻿using TME.CarConfigurator.Interfaces.Colours;
+﻿using System;
+using TME.CarConfigurator.Interfaces.Colours;
 
 namespace TME.CarConfigurator.LegacyAdapter.Colours
 {
@@ -18,8 +19,10 @@ namespace TME.CarConfigurator.LegacyAdapter.Colours
 
         public ColourTransformation(TMME.CarConfigurator.ColourTransformation adaptee)
         {
+            if (adaptee == null) throw new ArgumentNullException("adaptee");
             Adaptee = adaptee;
         }
+
         #endregion
 
         public string RGB

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FakeItEasy;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 using TME.CarConfigurator.Publisher.Interfaces;
+using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Packs;
 using TME.CarConfigurator.S3.CommandServices;
 using TME.CarConfigurator.S3.Shared.Interfaces;
@@ -27,7 +28,11 @@ namespace TME.Carconfigurator.Tests.GivenAS3ColourPublisher
             var packID = Guid.NewGuid();
             var carID = Guid.NewGuid();
 
-            var repoAccentColourCombination = new AccentColourCombinationBuilder().Build();
+            var repoAccentColourCombination = new AccentColourCombinationBuilder()
+                .WithBodyColour(A.Fake<ExteriorColour>())
+                .WithPrimaryColour(A.Fake<ExteriorColour>())
+                .WithSecondaryColour(A.Fake<ExteriorColour>())
+                .Build();
 
             var publication = new PublicationBuilder()
                 .WithID(Guid.NewGuid())
@@ -45,7 +50,7 @@ namespace TME.Carconfigurator.Tests.GivenAS3ColourPublisher
                 .Returns(CarPackAccentColourCombinationKey);
 
             var serialiser = A.Fake<ISerialiser>();
-            A.CallTo(() => serialiser.Serialise(A<IDictionary<Guid, IList<AccentColourCombination>>>._)).Returns(SerialisedData);
+            A.CallTo(() => serialiser.Serialise(A<IDictionary<Guid, List<AccentColourCombination>>>._)).Returns(SerialisedData);
 
             var colourCombinationService = new ColourService(_service, serialiser, keymanager);
 
