@@ -35,6 +35,8 @@ namespace TME.CarConfigurator.Publisher.Mappers
             var crmItemRules = equipmentItems[equipmentItem.ID].Rules;
             var orderedGroups = equipmentGroups.Concat(equipmentGroups.SelectMany(eg => eg.Groups.Flatten(subGroup => subGroup.Groups))).ToList();
 
+
+
             var groupRuleInfo = UnrollGroupRules(equipmentItemGroup.Rules, orderedGroups, equipmentItem, equipmentGroups);
 
             var crmRulesResult = ApplyRules(groupRuleInfo, UnrollGroupRules(crmItemRules, orderedGroups, equipmentItem, equipmentGroups));

@@ -155,18 +155,20 @@
         }
 
         function findMatchingObject(object, linkedSelector) {
+            var id = getDataId(object)
+            var relativeOrderOfDuplicates = object.parent().children('.object[data-id="' + id + '"]').index(object)
+
             var parentIds = object.parents('.object')
                                   .toArray()
                                   .map(getDataId)
 
-            var id = getDataId(object)
             return $(linkedSelector + ' .object[data-id="' + id + '"]').filter(function () {
                 var candidateParentIds = $(this).parents('.object')
                                                 .toArray()
                                                 .map(getDataId)
 
                 return parentIds.like(candidateParentIds)
-            })
+            }).eq(relativeOrderOfDuplicates)
         }
 
         function isClosestTo(parent) {
@@ -182,37 +184,6 @@
         function sameDataId(el1, el2) {
             return getDataId(el1) === getDataId(el2)
         }
-
-        //$("#oldarea .object").each(function () {
-        //    var id = $(this).data('id');
-        //    var newObject = $("#newarea .object[data-id=" + id + "]");
-
-
-        //    if (newObject.length == 0) {
-        //        $(this).parent().addClass('missing');
-        //        return;
-        //    }
-
-        //    $('.property', this).each(function () {
-        //        var propertyid = $(this).data('id');
-        //        var newProperty = $(".property[data-id=" + propertyid + "]", newObject);
-
-        //        if (newProperty.length != 1 || $(newProperty[0]).html() != $(this).html()) {
-
-        //            $(newProperty).parent().parent().addClass('mismatch');
-        //            $(newProperty).addClass('mismatch');
-        //            $(this).parent().parent().addClass('mismatch');
-        //            $(this).addClass('mismatch');
-        //        }
-
-
-        //    });
-
-        //});
-
-
-
-
     </script>    
 </body>
 </html>
