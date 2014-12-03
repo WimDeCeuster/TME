@@ -80,7 +80,8 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
             {
                 if (Adaptee.AvailableForExteriorColours == null) return new List<IExteriorColourInfo>();
                 return
-                    Adaptee.AvailableForExteriorColours.Cast<Legacy.CarExteriorColour>()
+                    Adaptee.AvailableForExteriorColours.Cast<TMME.CarConfigurator.CarExteriorColour>()
+                        .Where(x => CarOfAdaptee.Colours.ExteriorColours.Cast<CarExteriorColour>().Any(y => y.ID == x.ID))
                         .Select(x => new ExteriorColourInfo(x))
                         .ToList();
             }
@@ -92,12 +93,12 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
             {
                 if (Adaptee.AvailableForUpholsteries == null) return new List<IUpholsteryInfo>();
                 return
-                    Adaptee.AvailableForUpholsteries.Cast<Legacy.CarUpholstery>()
+                    Adaptee.AvailableForUpholsteries.Cast<TMME.CarConfigurator.CarUpholstery>()
+                        .Where(x => CarOfAdaptee.Colours.Upholsteries.Cast<CarUpholstery>().Any(y => y.ID == x.ID))
                         .Select(x => new UpholsteryInfo(x))
                         .ToList();
             }
         }
-
         public IReadOnlyList<IAccentColourCombination> AccentColourCombinations
         {
             get
