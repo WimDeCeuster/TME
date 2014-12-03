@@ -1,6 +1,7 @@
 ﻿using System;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Repository.Objects.Colours;
+using AccentColourCombination = TME.CarConfigurator.Repository.Objects.Packs.AccentColourCombination;
 using ExteriorColourInfo = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColourInfo;
 using ExteriorColourType = TME.CarConfigurator.Administration.ExteriorColourType;
 using UpholsteryInfo = TME.CarConfigurator.Repository.Objects.Colours.UpholsteryInfo;
@@ -21,5 +22,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
         UpholsteryInfo MapUpholsteryInfo(Administration.UpholsteryInfo upholstery);
         UpholsteryInfo MapUpholsteryInfo(CarPackUpholstery upholstery);
         CarColourCombination MapLinkedColourCombination(ModelGeneration modelGeneration, LinkedColourCombination carColourCombination, ExteriorColourType exteriorColourType, UpholsteryType upholsteryType, bool isPreview, string assetUrl);
+        AccentColourCombination MapPackAccentColourCombination(Administration.AccentColourCombination accentColourCombination, Car car, ModelGeneration modelGeneration, bool isPreview, string assetUrl);
     }
 }

@@ -63,7 +63,7 @@
     <Compile Include="CarPartService.cs" />
     <Compile Include="CarService.cs" />
     <Compile Include="AssetsService.cs" />
-    <Compile Include="ColourCombinationService.cs" />
+    <Compile Include="ColourService.cs" />
     <Compile Include="RuleService.cs" />
     <Compile Include="SpecificationService.cs" />
     <Compile Include="EquipmentService.cs" />

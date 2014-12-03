@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
 using TME.CarConfigurator.Administration;
 using TME.CarConfigurator.Publisher.Exceptions;
+using TME.CarConfigurator.Publisher.Extensions;
 using TME.CarConfigurator.Publisher.Interfaces;
-using TME.CarConfigurator.Repository.Objects.Assets;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.Repository.Objects.Core;
+using AccentColourCombination = TME.CarConfigurator.Repository.Objects.Packs.AccentColourCombination;
 using ExteriorColour = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColour;
 using ExteriorColourInfo = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColourInfo;
 using ExteriorColourType = TME.CarConfigurator.Repository.Objects.Colours.ExteriorColourType;
@@ -36,7 +36,9 @@ namespace TME.CarConfigurator.Publisher.Mappers
             _assetFileService = assetFileService;
         }
 
-        public CarColourCombination MapLinkedColourCombination(ModelGeneration modelGeneration, LinkedColourCombination carColourCombination, Administration.ExteriorColourType exteriorColourType, Administration.UpholsteryType upholsteryType, bool isPreview, string assetUrl)
+        public CarColourCombination MapLinkedColourCombination(ModelGeneration modelGeneration,
+            LinkedColourCombination carColourCombination, Administration.ExteriorColourType exteriorColourType,
+            Administration.UpholsteryType upholsteryType, bool isPreview, string assetUrl)
         {
             var exteriorColour = MapLinkedExteriorColour(modelGeneration, carColourCombination.ExteriorColour,
                 exteriorColourType, isPreview, assetUrl);
@@ -50,6 +52,23 @@ namespace TME.CarConfigurator.Publisher.Mappers
                 SortIndex = 0,
                 Upholstery = upholstery,
                 VisibleIn = exteriorColour.VisibleIn.Concat(upholstery.VisibleIn).ToList()
+            };
+        }
+
+        public AccentColourCombination MapPackAccentColourCombination(Administration.AccentColourCombination accentColourCombination, Car car, ModelGeneration modelGeneration, bool isPreview, string assetUrl)
+        {
+            var modelGenerationExteriorColours = car.Generation.ColourCombinations.ExteriorColours().Filter(car).ToList();
+
+            var bodyColour = modelGenerationExteriorColours.FirstOrDefault(ec => ec.ID == accentColourCombination.BodyColour.ID);
+            var primaryColour = modelGenerationExteriorColours.FirstOrDefault(ec => ec.ID == accentColourCombination.PrimaryAccentColour.ID);
+            var secondaryColour = modelGenerationExteriorColours.FirstOrDefault(ec => ec.ID == accentColourCombination.SecondaryAccentColour.ID);
+
+            return new AccentColourCombination
+            {
+                Default = accentColourCombination.IsDefault,
+                BodyColour = bodyColour != null ? MapEquipmentExteriorColour(modelGeneration, bodyColour, isPreview, assetUrl) : new Repository.Objects.Equipment.ExteriorColour(),
+                PrimaryAccentColour = primaryColour != null ? MapEquipmentExteriorColour(modelGeneration, primaryColour, isPreview, assetUrl) : new Repository.Objects.Equipment.ExteriorColour(),
+                SecondaryAccentColour = secondaryColour != null ? MapEquipmentExteriorColour(modelGeneration, secondaryColour, isPreview, assetUrl) : new Repository.Objects.Equipment.ExteriorColour()
             };
         }
 
@@ -100,6 +119,7 @@ namespace TME.CarConfigurator.Publisher.Mappers
 
             return _baseMapper.MapTranslateableDefaults(mappedColour, colour);
         }
+
         public Repository.Objects.Equipment.ExteriorColour MapEquipmentExteriorColour(ModelGeneration modelGeneration, ModelGenerationExteriorColour colour, bool isPreview, String assetUrl)
         {
             var mappedColour = new Repository.Objects.Equipment.ExteriorColour 

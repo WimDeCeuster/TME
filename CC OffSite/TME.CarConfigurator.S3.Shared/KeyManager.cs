@@ -218,6 +218,11 @@ namespace TME.CarConfigurator.S3.Shared
             return String.Format("{0}/car/{1}/rules.json", GetPublicationKey(publicationID), carID);
         }
 
+        public string GetCarPackAccentColourCombinationsKey(Guid publicationID, Guid carID)
+        {
+            return String.Format("{0}/car/{1}/pack-accent-colour-combinations.json", GetPublicationKey(publicationID), carID);
+        }
+
         private static string GetAssetsKeyWithViewAndMode(string assetsKey, string view, string mode)
         {
             var stringBuilder = new StringBuilder();

@@ -207,7 +207,7 @@ namespace TME.CarConfigurator.Publisher
                 {
                     FillCarParts(car, contextData);
                     FillCarPacks(car, contextData, equipmentGroups, equipmentCategories, isPreview, context.AssetUrl);
-//                    FillCarPackAccentColourCombination(contextData, car, modelGeneration, exteriorColourTypes, isPreview, context.AssetUrl);
+                    FillCarPackAccentColourCombination(contextData, car, modelGeneration, isPreview, context.AssetUrl);
                     FillCarEquipment(car, contextData, equipmentCategories, equipmentGroups, isPreview, context.AssetUrl);
                     FillCarTechnicalSpecifications(car, specificationCategories, units, contextData);
                     FillCarRules(car, contextData);
@@ -503,17 +503,17 @@ namespace TME.CarConfigurator.Publisher
             contextData.CarPacks.Add(car.ID, packs);
         }
         
-        /*private void FillCarPackAccentColourCombination(ContextData contextData, Car car, ModelGeneration modelGeneration, ExteriorColourTypes exteriorColourTypes, bool isPreview, string assetUrl)
+        private void FillCarPackAccentColourCombination(ContextData contextData, Car car, ModelGeneration modelGeneration, bool isPreview, string assetUrl)
         {
             var packAccentColours = car.Packs.Where(pack => pack.Availability != Availability.NotAvailable)
-                .ToDictionary(pack => pack.ID, pack => car.Generation.Packs[pack.ID].AccentColourCombinations.Select(acc => _colourMapper.MapPackAccentColourCombination(acc, car, modelGeneration, isPreview, exteriorColourTypes, assetUrl)).ToList());
+                .ToDictionary(pack => pack.ID, pack => car.Generation.Packs[pack.ID].AccentColourCombinations.Select(acc => _colourMapper.MapPackAccentColourCombination(acc, car, modelGeneration, isPreview, assetUrl)).ToList());
 
             if (!contextData.CarPackAccentColourCombinations.ContainsKey(car.ID))
                 contextData.CarPackAccentColourCombinations.Add(car.ID, new Dictionary<Guid, IList<AccentColourCombination>>());
 
             foreach (var entry in packAccentColours)
                 contextData.CarPackAccentColourCombinations[car.ID].Add(entry.Key,new List<AccentColourCombination>(entry.Value));
-        }*/
+        }
 
         private void FillCarRules(Car car, ContextData contextData)
         {

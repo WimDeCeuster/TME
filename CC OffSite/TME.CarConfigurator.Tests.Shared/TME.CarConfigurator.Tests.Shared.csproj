@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestBuilders\AccentColourCombinationBuilder.cs" />
     <Compile Include="TestBuilders\CarAccessoryBuilder.cs" />
     <Compile Include="TestBuilders\CarColourCombinationBuilder.cs" />
     <Compile Include="TestBuilders\CarEquipmentBuilder.cs" />

@@ -12,6 +12,7 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
         private IAssetFactory _assetFactory = A.Fake<IAssetFactory>();
         private IEquipmentFactory _equipmentFactory = A.Fake<IEquipmentFactory>();
         private IRuleFactory _ruleFactory = A.Fake<IRuleFactory>();
+        private IColourFactory _colourFactory = A.Fake<IColourFactory>();
 
         public PackFactoryBuilder WithPackService(IPackService packService)
         {
@@ -41,9 +42,16 @@ namespace TME.CarConfigurator.Query.Tests.TestBuilders
             return this;
         }
 
+        public PackFactoryBuilder WithColourFactory(IColourFactory colourFactory)
+        {
+            _colourFactory = colourFactory;
+
+            return this;
+        }
+
         public IPackFactory Build()
         {
-            return new PackFactory(_packService, _assetFactory, _equipmentFactory, _ruleFactory);
+            return new PackFactory(_packService, _assetFactory, _equipmentFactory, _ruleFactory, _colourFactory);
         }
     }
 }

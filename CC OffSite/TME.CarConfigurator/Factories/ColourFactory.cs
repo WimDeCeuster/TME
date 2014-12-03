@@ -5,8 +5,10 @@ using TME.CarConfigurator.Colours;
 using TME.CarConfigurator.Extensions;
 using TME.CarConfigurator.Interfaces.Colours;
 using TME.CarConfigurator.Interfaces.Factories;
+using TME.CarConfigurator.Interfaces.Packs;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Packs;
 
 namespace TME.CarConfigurator.Factories
 {
@@ -14,6 +16,7 @@ namespace TME.CarConfigurator.Factories
     {
         private readonly IColourService _colourService;
         private readonly IAssetFactory _assetFactory;
+        private readonly Dictionary<Guid, IDictionary<Guid,IEnumerable<AccentColourCombination>>> _carPackAccentColourCombination = new Dictionary<Guid, IDictionary<Guid, IEnumerable<AccentColourCombination>>>();
 
         public ColourFactory(IColourService colourService, IAssetFactory assetFactory)
         {
@@ -46,6 +49,22 @@ namespace TME.CarConfigurator.Factories
         public IExteriorColour GetExteriorColour(Repository.Objects.Colours.ExteriorColour repositoryExteriorColour, Publication publication, Context context)
         {
             return new ExteriorColour(repositoryExteriorColour, publication, context, _assetFactory);
+        }
+
+        public IReadOnlyList<IAccentColourCombination> GetCarPackAccentColourCombinations(Publication publication, Context context, Guid carID, Guid packID)
+        {
+            if (!_carPackAccentColourCombination.ContainsKey(carID))
+                _carPackAccentColourCombination.Add(carID, _colourService.GetCarPackAccentColourCombinations(carID, publication.ID, context));
+
+            return FilterByPack(_carPackAccentColourCombination[carID], packID);
+        }
+
+        private IReadOnlyList<IAccentColourCombination> FilterByPack(IDictionary<Guid, IEnumerable<AccentColourCombination>> packAccentColourCombinations, Guid packID)
+        {
+            if (!packAccentColourCombinations.ContainsKey(packID))
+                packAccentColourCombinations.Add(packID, new List<AccentColourCombination>());
+
+            return packAccentColourCombinations[packID].Select(accentColourCombination => new Packs.AccentColourCombination(accentColourCombination)).ToList();
         }
     }
 }

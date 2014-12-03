@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TME.CarConfigurator.Interfaces;
-using TME.CarConfigurator.Interfaces.Assets;
 using TME.CarConfigurator.Interfaces.Equipment;
 using TME.CarConfigurator.Interfaces.Packs;
 using TME.CarConfigurator.Interfaces.Rules;

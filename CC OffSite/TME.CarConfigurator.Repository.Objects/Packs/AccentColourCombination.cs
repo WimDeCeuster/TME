@@ -1,4 +1,5 @@
-﻿using TME.CarConfigurator.Repository.Objects.Colours;
+﻿
+using TME.CarConfigurator.Repository.Objects.Equipment;
 
 namespace TME.CarConfigurator.Repository.Objects.Packs
 {

@@ -118,6 +118,7 @@
     <Compile Include="Equipment\GradeEquipment.cs" />
     <Compile Include="Equipment\GradeEquipmentItem.cs" />
     <Compile Include="GradeInfo.cs" />
+    <Compile Include="Packs\AccentColourCombination.cs" />
     <Compile Include="Packs\CarPack.cs" />
     <Compile Include="Packs\CarPackUpholsteryType.cs" />
     <Compile Include="Packs\CarPackExteriorColourType.cs" />

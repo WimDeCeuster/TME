@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TME.CarConfigurator.Repository.Objects.Colours;
 using TME.CarConfigurator.QueryServices;
 using TME.CarConfigurator.Repository.Objects;
+using TME.CarConfigurator.Repository.Objects.Packs;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.S3.QueryServices
@@ -26,6 +27,8 @@ namespace TME.CarConfigurator.S3.QueryServices
 
         public IEnumerable<ColourCombination> GetColourCombinations(Guid publicationId, Guid publicationTimeFrameId, Context context)
         {
+            if (context == null) throw new ArgumentNullException("context");
+
             var key = _keyManager.GetColourCombinationsKey(publicationId, publicationTimeFrameId);
             var serializedObject = _service.GetObject(context.Brand, context.Country, key);
             return _serializer.Deserialise<IEnumerable<ColourCombination>>(serializedObject);
@@ -33,9 +36,20 @@ namespace TME.CarConfigurator.S3.QueryServices
 
         public IEnumerable<CarColourCombination> GetCarColourCombinations(Guid publicationID, Context context, Guid carID)
         {
+            if (context == null) throw new ArgumentNullException("context");
+
             var key = _keyManager.GetCarColourCombinationsKey(publicationID, carID);
             var serialisedObject = _service.GetObject(context.Brand, context.Country, key);
             return _serializer.Deserialise<IEnumerable<CarColourCombination>>(serialisedObject);
+        }
+
+        public IDictionary<Guid, IEnumerable<AccentColourCombination>> GetCarPackAccentColourCombinations(Guid carID, Guid publicationID, Context context)
+        {
+            if (context == null) throw new ArgumentNullException("context");
+
+            var key = _keyManager.GetCarPackAccentColourCombinationsKey(publicationID, carID);
+            var serialisedObject = _service.GetObject(context.Brand, context.Country, key);
+            return _serializer.Deserialise<IDictionary<Guid, IEnumerable<AccentColourCombination>>>(serialisedObject);
         }
     }
 }

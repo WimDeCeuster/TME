@@ -4,17 +4,18 @@ using System.Threading.Tasks;
 using TME.CarConfigurator.CommandServices;
 
 using TME.CarConfigurator.Repository.Objects.Colours;
+using TME.CarConfigurator.Repository.Objects.Packs;
 using TME.CarConfigurator.S3.Shared.Interfaces;
 
 namespace TME.CarConfigurator.S3.CommandServices
 {
-    public class ColourCombinationService : IColourService
+    public class ColourService : IColourService
     {
         private readonly IService _s3Service;
         private readonly ISerialiser _serialiser;
         private readonly IKeyManager _keymanager;
 
-        public ColourCombinationService(IService s3Service, ISerialiser serialiser, IKeyManager keymanager)
+        public ColourService(IService s3Service, ISerialiser serialiser, IKeyManager keymanager)
         {
             if (s3Service == null) throw new ArgumentNullException("s3Service");
             if (serialiser == null) throw new ArgumentNullException("serialiser");
@@ -46,6 +47,18 @@ namespace TME.CarConfigurator.S3.CommandServices
 
             var path = _keymanager.GetCarColourCombinationsKey(publicationID, carID);
             var value = _serialiser.Serialise(carColourCombinations);
+
+            await _s3Service.PutObjectAsync(brand, country, path, value);
+        }
+
+        public async Task PutCarPackAccentColourCombinations(string brand, string country, Guid publicationID, Guid carID, IDictionary<Guid, IList<AccentColourCombination>> carPackAccentColourCombinations)
+        {
+            if (brand == null) throw new ArgumentNullException("brand");
+            if (country == null) throw new ArgumentNullException("country");
+            if (carPackAccentColourCombinations == null) throw new ArgumentNullException("carPackAccentColourCombinations");
+            
+            var path = _keymanager.GetCarPackAccentColourCombinationsKey(publicationID, carID);
+            var value = _serialiser.Serialise(carPackAccentColourCombinations);
 
             await _s3Service.PutObjectAsync(brand, country, path, value);
         }

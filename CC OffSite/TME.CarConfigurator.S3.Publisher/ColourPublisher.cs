@@ -7,6 +7,7 @@ using TME.CarConfigurator.Publisher.Common.Interfaces;
 
 using TME.CarConfigurator.Publisher.Interfaces;
 using TME.CarConfigurator.Repository.Objects.Colours;
+using TME.CarConfigurator.Repository.Objects.Packs;
 using TME.CarConfigurator.S3.Publisher.Interfaces;
 
 namespace TME.CarConfigurator.S3.Publisher
@@ -41,6 +42,29 @@ namespace TME.CarConfigurator.S3.Publisher
                     data =>
                         PublishCarColourCombinations(context.Brand, context.Country, data.Publication.ID,
                             data.CarColourCombinations));
+            await Task.WhenAll(tasks);
+        }
+
+        public async Task PublishCarPackAccentColourCombinations(IContext context)
+        {
+            if (context == null) throw new ArgumentNullException("context");
+            var tasks = context.ContextData.Values.Select(
+                data =>
+                    PublishCarPackAccentColourCombinations(context.Brand,
+                        context.Country,
+                        data.Publication.ID,
+                        data.CarPackAccentColourCombinations));
+            await Task.WhenAll(tasks);
+        }
+
+        private async Task PublishCarPackAccentColourCombinations(string brand, string country, Guid publicationID, IDictionary<Guid, IDictionary<Guid, IList<AccentColourCombination>>> carPackAccentColourCombinations)
+        {
+            var tasks =
+                carPackAccentColourCombinations.Select(
+                    entry =>
+                        _service.PutCarPackAccentColourCombinations(brand, country, publicationID, entry.Key,
+                            entry.Value))
+                    .ToList();
             await Task.WhenAll(tasks);
         }
 

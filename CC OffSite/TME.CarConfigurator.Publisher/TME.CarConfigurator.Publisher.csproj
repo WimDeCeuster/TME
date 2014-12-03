@@ -95,6 +95,7 @@
     <Compile Include="Extensions\AssetSetAssetExtensions.cs" />
     <Compile Include="Extensions\AvailabilityPropertiesExtensions.cs" />
     <Compile Include="Extensions\CarsExtensions.cs" />
+    <Compile Include="Extensions\ExteriorColourExtensions.cs" />
     <Compile Include="Extensions\VisibilityExtensions.cs" />
     <Compile Include="Extensions\ColouringModesExtensions.cs" />
     <Compile Include="Extensions\ComponentExtensions.cs" />

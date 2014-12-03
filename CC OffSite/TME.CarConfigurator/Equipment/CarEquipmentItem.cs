@@ -36,7 +36,7 @@ namespace TME.CarConfigurator.Equipment
         private List<ExteriorColourInfo> _availableOnExteriorColors;
         private List<UpholsteryInfo> _availableOnUpholsteries;
         private IRuleSets _rules;
-        private IRuleFactory _ruleFactory;
+        readonly IRuleFactory _ruleFactory;
 
         protected CarEquipmentItem(T repositoryObject,Publication publication, Guid carID, Context context, IAssetFactory assetFactory, IRuleFactory ruleFactory) 
             : base(repositoryObject)

@@ -102,7 +102,7 @@
   <ItemGroup>
     <Compile Include="Builders\AssetTypeBuilder.cs" />
     <Compile Include="Builders\CarPartServiceBuilder.cs" />
-    <Compile Include="Builders\ColourCombinationPublisherBuilder.cs" />
+    <Compile Include="Builders\ColourPublisherBuilder.cs" />
     <Compile Include="Builders\SpecificationPublisherBuilder.cs" />
     <Compile Include="Builders\EquipmentPublisherBuilder.cs" />
     <Compile Include="Builders\PackPublisherBuilder.cs" />
@@ -121,6 +121,7 @@
     <Compile Include="GivenAKeyManager\WhenRequestingACarColourCombinationsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarEquipmentAssetsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarEquipmentKey.cs" />
+    <Compile Include="GivenAKeyManager\WhenRequestingACarPackAccentColourCombinationsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarPartAssetsKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingACarRulesKey.cs" />
     <Compile Include="GivenAKeyManager\WhenRequestingADefaultCarEquipmentKey.cs" />
@@ -164,6 +165,7 @@
     <Compile Include="GivenAS3CarPartPublisher\WhenPublishingCarParts.cs" />
     <Compile Include="GivenAS3ColourPublisher\WhenPublishingGenerationColourCombinations.cs" />
     <Compile Include="GivenAS3ColourPublisher\WhenPublishingGenerationColourCombinationsForACar.cs" />
+    <Compile Include="GivenAS3ColourPublisher\WhenPublishingPackAccentColourCombinationsOfACar.cs" />
     <Compile Include="GivenAS3EquipmentPublisher\WhenPublishingCarEquipment.cs" />
     <Compile Include="GivenAS3EquipmentPublisher\WhenPublishingSubModelGradeEquipment.cs" />
     <Compile Include="GivenAS3EquipmentPublisher\WhenPublishingEquipmentCategories.cs" />

@@ -12,22 +12,25 @@ namespace TME.CarConfigurator.Factories
 {
     public class PackFactory : IPackFactory
     {
-        private readonly IPackService _packService;
-        private readonly IAssetFactory _assetFactory;
-        private readonly IEquipmentFactory _equipmentFactory;
-        private readonly IRuleFactory _ruleFactory;
+        readonly IPackService _packService;
+        readonly IAssetFactory _assetFactory;
+        readonly IEquipmentFactory _equipmentFactory;
+        readonly IRuleFactory _ruleFactory;
+        readonly IColourFactory _colourFactory;
 
-        public PackFactory(IPackService packService, IAssetFactory assetFactory, IEquipmentFactory equipmentFactory, IRuleFactory ruleFactory)
+        public PackFactory(IPackService packService, IAssetFactory assetFactory, IEquipmentFactory equipmentFactory, IRuleFactory ruleFactory, IColourFactory colourFactory)
         {
             if (packService == null) throw new ArgumentNullException("packService");
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
             if (equipmentFactory == null) throw new ArgumentNullException("equipmentFactory");
             if (ruleFactory == null) throw new ArgumentNullException("ruleFactory");
+            if (colourFactory == null) throw new ArgumentNullException("colourFactory");
 
             _packService = packService;
             _assetFactory = assetFactory;
             _equipmentFactory = equipmentFactory;
             _ruleFactory = ruleFactory;
+            _colourFactory = colourFactory;
         }
 
         public IReadOnlyList<IGradePack> GetGradePacks(Publication publication, Context context, Guid gradeId)
@@ -47,7 +50,7 @@ namespace TME.CarConfigurator.Factories
 
         public IReadOnlyList<ICarPack> GetCarPacks(Publication publication, Context context, Guid carId)
         {
-            return _packService.GetCarPacks(publication.ID, carId, context).Select(pack => new CarPack(pack, publication, carId, context, _assetFactory, _equipmentFactory, _ruleFactory)).ToList();
+            return _packService.GetCarPacks(publication.ID, carId, context).Select(pack => new CarPack(pack, publication, carId, context, _assetFactory, _equipmentFactory, _ruleFactory, _colourFactory)).ToList();
         }
     }
 }
