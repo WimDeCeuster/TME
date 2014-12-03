@@ -132,6 +132,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
                 if (Adaptee.AvailableForExteriorColours == null) return new List<IExteriorColourInfo>();
                 return
                     Adaptee.AvailableForExteriorColours.Cast<TMME.CarConfigurator.CarExteriorColour>()
+                        .Where(x => CarOfAdaptee.Colours.ExteriorColours.Cast<TMME.CarConfigurator.CarExteriorColour>().Any(y => y.ID == x.ID))
                         .Select(x => new ExteriorColourInfo(x))
                         .ToList();
             }
@@ -144,6 +145,7 @@ namespace TME.CarConfigurator.LegacyAdapter.Equipment
                 if (Adaptee.AvailableForUpholsteries == null) return new List<IUpholsteryInfo>();
                 return
                     Adaptee.AvailableForUpholsteries.Cast<TMME.CarConfigurator.CarUpholstery>()
+                        .Where(x => CarOfAdaptee.Colours.Upholsteries.Cast<TMME.CarConfigurator.CarUpholstery>().Any(y => y.ID == x.ID))
                         .Select(x => new UpholsteryInfo(x))
                         .ToList();
             }

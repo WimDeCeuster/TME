@@ -15,6 +15,8 @@ namespace TME.CarConfigurator.Extensions
                     return RuleCategory.Product;
                 case Repository.Objects.Enums.RuleCategory.Visual:
                     return RuleCategory.Visual;
+                case 0:
+                    return RuleCategory.None;
                 default :
                     throw new Exception(String.Format("error on {0}", category));
             }

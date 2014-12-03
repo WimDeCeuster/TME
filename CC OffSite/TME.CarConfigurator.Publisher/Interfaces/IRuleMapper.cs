@@ -7,7 +7,7 @@ namespace TME.CarConfigurator.Publisher.Interfaces
 {
     public interface IRuleMapper
     {
-        RuleSets MapCarEquipmentRules(CarEquipmentRules rules);
+        RuleSets MapCarEquipmentRules(CarEquipmentItem equipmentItem, EquipmentGroups equipmentGroups, EquipmentItems equipmentItems);
         RuleSets MapCarPackRules(CarPackRules rules);
     }
 }

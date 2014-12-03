@@ -134,13 +134,14 @@ namespace TME.CarConfigurator.Publisher
                 context.ContextData[language] = contextData;
 
                 // fill contextData
+                var equipmentItems = Administration.EquipmentItems.GetEquipmentItems();
                 var equipmentGroups = MyContext.GetContext().EquipmentGroups;
                 var equipmentCategories = EquipmentCategories.GetEquipmentCategories(true);
                 var specificationCategories = SpecificationCategories.GetSpecificationCategories(true);
                 var units = Units.GetUnits();
                 var exteriorColourTypes = ExteriorColourTypes.GetExteriorColourTypes();
                 var upholsteryTypes = UpholsteryTypes.GetUpholsteryTypes();
-
+                
                 progress.Report(new PublishProgress(String.Format("Fill context data for language {0}", language)));
 
                 progress.Report(new PublishProgress("Map generation"));
@@ -210,7 +211,7 @@ namespace TME.CarConfigurator.Publisher
                     FillCarPackAccentColourCombination(contextData, car, modelGeneration, isPreview, context.AssetUrl);
                     FillCarEquipment(car, contextData, equipmentCategories, equipmentGroups, isPreview, context.AssetUrl);
                     FillCarTechnicalSpecifications(car, specificationCategories, units, contextData);
-                    FillCarRules(car, contextData);
+                    FillCarRules(car, contextData, equipmentGroups, equipmentItems);
                     FillCarColourCombinations(car, contextData, exteriorColourTypes, upholsteryTypes, isPreview, context.AssetUrl);
                 }
                 progress.Report(new PublishProgress("Mapping complete"));
@@ -290,8 +291,11 @@ namespace TME.CarConfigurator.Publisher
             if (objectWithAssetSet is ModelGenerationOption && ((ModelGenerationOption)objectWithAssetSet).Components.Count != 0)
                 applicableAssets.AddRange(((ModelGenerationOption) objectWithAssetSet).Components.GetFilteredAssets(car));
 
+            //var comparer = new Helpers.Comparer<Administration.Assets.AssetSetAsset>(x =>
+            //    Tuple.Create(x.Asset.ID, x.AssetType.Code, x.BodyType.ID, x.Engine.ID, x.EquipmentItem.ID, x.ExteriorColour.ID, x.Grade.ID, Tuple.Create(x.Steering.ID, x.Transmission.ID, x.Upholstery.ID, x.WheelDrive.ID)));
+
             var comparer = new Helpers.Comparer<Administration.Assets.AssetSetAsset>(x =>
-                Tuple.Create(x.Asset.ID, x.AssetType.Code, x.BodyType.ID, x.Engine.ID, x.EquipmentItem.ID, x.ExteriorColour.ID, x.Grade.ID, Tuple.Create(x.Steering.ID, x.Transmission.ID, x.Upholstery.ID, x.WheelDrive.ID)));
+                String.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}", x.Asset.ID, x.AssetType.Code, x.BodyType.ID, x.Engine.ID, x.EquipmentItem.ID, x.ExteriorColour.ID, x.Grade.ID, x.Steering.ID, x.Transmission.ID, x.Upholstery.ID, x.WheelDrive.ID));
 
             var filteredApplicableAssets = applicableAssets.Distinct(comparer).ToList();
             
@@ -514,12 +518,12 @@ namespace TME.CarConfigurator.Publisher
                 contextData.CarPackAccentColourCombinations[car.ID].Add(entry.Key,new List<AccentColourCombination>(entry.Value));
         }
 
-        private void FillCarRules(Car car, ContextData contextData)
+        private void FillCarRules(Car car, ContextData contextData, EquipmentGroups equipmentGroups, EquipmentItems equipmentItems)
         {
             var packRules = car.Packs.Where(pack => pack.Availability != Availability.NotAvailable)
                 .ToDictionary(pack => pack.ID, pack => _ruleMapper.MapCarPackRules(pack.Rules));
             var equipmentRules = car.Equipment.Where(eq => eq.Availability != Availability.NotAvailable)
-                .ToDictionary(carEquipmentItem => carEquipmentItem.ID, carEquipmentItem => _ruleMapper.MapCarEquipmentRules(carEquipmentItem.Rules));
+                .ToDictionary(carEquipmentItem => carEquipmentItem.ID, carEquipmentItem => _ruleMapper.MapCarEquipmentRules(carEquipmentItem, equipmentGroups, equipmentItems));
 
             var carRules = packRules.Concat(equipmentRules).ToDictionary();
 
