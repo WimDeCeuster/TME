@@ -13,5 +13,7 @@ namespace TME.CarConfigurator.Publisher.Extensions
         {
             return String.IsNullOrWhiteSpace(str) ? defaultStr : str;
         }
+
+
     }
 }

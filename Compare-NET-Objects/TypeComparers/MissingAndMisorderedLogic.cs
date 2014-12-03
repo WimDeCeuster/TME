@@ -31,21 +31,20 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
             var keys1 = GetKeys(parms.Result, list1, parms.Config.CollectionMatchingKey);
             var keys2 = GetKeys(parms.Result, list2, parms.Config.CollectionMatchingKey);
 
-            var duplicateKeys1 = keys1.GroupBy(x => x).Where(group => group.Count() > 1).Select(group => group.Key).ToList();
-            var duplicateKeys2 = keys2.GroupBy(x => x).Where(group => group.Count() > 1).Select(group => group.Key).ToList();
-
-            foreach (var duplicateKey in duplicateKeys1)
+            var keyCounts1 = keys1.GroupBy(x => x).ToDictionary(group => group.Key, group => group.Count());
+            var keyCounts2 = keys2.GroupBy(x => x).ToDictionary(group => group.Key, group => group.Count());
+            
+            foreach (var key in keyCounts1.Keys.Intersect(keyCounts2.Keys))
             {
-                AddDifference(parms, String.Format("Left side has got multiple items with key {0}", duplicateKey));
-                if (parms.Result.ExceededDifferences || parms.Config.QuickFailLists)
-                    return;
-            }
+                var count1 = keyCounts1[key];
+                var count2 = keyCounts2[key];
 
-            foreach (var duplicateKey in duplicateKeys2)
-            {
-                AddDifference(parms, String.Format("Right side has got multiple items with key {0}", duplicateKey));
-                if (parms.Result.ExceededDifferences || parms.Config.QuickFailLists)
-                    return;
+                if (count1 != count2)
+                {
+                    AddDifference(parms, String.Format("Key {0} has got mismatching occurences {1}, {2}", key, count1, count2));
+                    if (parms.Result.ExceededDifferences || parms.Config.QuickFailLists)
+                        return;
+                }
             }
 
             var missingKeys1 = keys2.Except(keys1).ToList();
@@ -67,8 +66,8 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
                     return;
             }
 
-            var ignoreIndexes1 = missingKeys2.Concat(duplicateKeys1).Concat(duplicateKeys2).Distinct().SelectMany(key => Enumerable.Range(0, keys1.Count).Where(i => keys1[i] == key)).Distinct().ToList();
-            var ignoreIndexes2 = missingKeys1.Concat(duplicateKeys1).Concat(duplicateKeys2).Distinct().SelectMany(key => Enumerable.Range(0, keys2.Count).Where(i => keys2[i] == key)).Distinct().ToList();
+            var ignoreIndexes1 = missingKeys2/*.Concat(duplicateKeys1).Concat(duplicateKeys2).Distinct()*/.SelectMany(key => Enumerable.Range(0, keys1.Count).Where(i => keys1[i] == key)).Distinct().ToList();
+            var ignoreIndexes2 = missingKeys1/*.Concat(duplicateKeys1).Concat(duplicateKeys2).Distinct()*/.SelectMany(key => Enumerable.Range(0, keys2.Count).Where(i => keys2[i] == key)).Distinct().ToList();
 
             var items1 = list1.Cast<object>().Where((item, i) => !ignoreIndexes1.Contains(i)).ToList();
             var items2 = list2.Cast<object>().Where((item, i) => !ignoreIndexes2.Contains(i)).ToList();
@@ -76,14 +75,13 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
             var itemKeys1 = keys1.Where((item, i) => !ignoreIndexes1.Contains(i)).ToList();
             var itemKeys2 = keys2.Where((item, i) => !ignoreIndexes2.Contains(i)).ToList();
 
-            CompareLists(parms, items1, items2, itemKeys1, itemKeys2);
+            var ignoreOrder = parms.Property != null && parms.Config.IgnoreOrderFor.Any(memberString => memberString == parms.Property.DeclaringType.FullName + "." + parms.Property.Name);
+            CompareLists(parms, items1, items2, itemKeys1, itemKeys2, ignoreOrder);
         }
 
-        private void CompareLists(CompareParms parms, List<object> items1, List<object> items2, List<string> itemKeys1, List<string> itemKeys2)
+        private void CompareLists(CompareParms parms, List<object> items1, List<object> items2, List<string> itemKeys1, List<string> itemKeys2, bool ignoreOrder)
         {
-            var ignoreOrder = parms.Property != null && parms.Config.IgnoreOrderFor.Any(memberString => memberString == parms.Property.DeclaringType.FullName + "." + parms.Property.Name);
-            
-            for (var i = 0; i < items1.Count; i++)
+            for (var i = 0; i < Math.Min(items1.Count, items2.Count); i++)
             {
                 var item1 = items1[i];
                 var item2 = items2[i];
