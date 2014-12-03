@@ -90,6 +90,25 @@ namespace TME.CarConfigurator.Comparer
                 GetFullMemberName<IGradeEquipmentItem>(item => item.StandardOn)
             };
 
+            config.AllowMissingFor = new List<String>
+            {
+                GetFullMemberName<IBodyType>(bodyType => bodyType.VisibleIn),
+                GetFullMemberName<ICarColourCombination>(colourCombination => colourCombination.VisibleIn),
+                GetFullMemberName<IColourCombination>(colourCombination => colourCombination.VisibleIn),
+                GetFullMemberName<CarConfigurator.Interfaces.Colours.IExteriorColour>(exteriorColour => exteriorColour.VisibleIn),
+                GetFullMemberName<IUpholstery>(upholstery => upholstery.VisibleIn),
+                GetFullMemberName<ICarEquipmentItem>(item => item.VisibleIn),
+                GetFullMemberName<ICarPart>(carPart => carPart.VisibleIn),
+                GetFullMemberName<IEngine>(engine => engine.VisibleIn),
+                GetFullMemberName<IGrade>(grade => grade.VisibleIn),
+                GetFullMemberName<ITransmission>(transmission => transmission.VisibleIn),
+                GetFullMemberName<IWheelDrive>(wheelDrive => wheelDrive.VisibleIn),
+                GetFullMemberName<IGrade>(grade => grade.VisibleIn),
+                GetFullMemberName<IGrade>(grade => grade.VisibleIn),
+                GetFullMemberName<IGrade>(grade => grade.VisibleIn),
+                
+            };
+
             Func<object, object, bool?> ignoreCase = (item1, item2) => String.Equals((string)item1, (string)item2, StringComparison.InvariantCultureIgnoreCase);
             Func<object, object, bool?> emptyIsValid = (item1, item2) => ((string)item1) == string.Empty ? true : (bool?)null;
 

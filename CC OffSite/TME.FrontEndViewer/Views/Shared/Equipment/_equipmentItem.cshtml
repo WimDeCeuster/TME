@@ -1,5 +1,6 @@
 ﻿@model TME.CarConfigurator.Interfaces.Equipment.IEquipmentItem
 @Html.Partial("_baseObject", Model)
+<p class="property" data-id="ShortID">ShortID : @Html.Raw(Model.ShortID)</p>
 <p class="property" data-id="PartNumber">PartNumber : @Html.Raw(Model.PartNumber)</p>
 <p class="property" data-id="InternalName">InternalName : @Html.Raw(Model.InternalName)</p>
 <p class="property" data-id="Brochure">Brochure : @Html.Raw(Model.Brochure)</p>

@@ -50,20 +50,22 @@ namespace KellermanSoftware.CompareNetObjects.TypeComparers
             var missingKeys1 = keys2.Except(keys1).ToList();
             var missingKeys2 = keys1.Except(keys2).ToList();
 
-            foreach (var missingKey in missingKeys1)
-            {
-                var missingIndex = keys2.IndexOf(missingKey);
-                AddDifference(parms, String.Format("Left side is missing item with key {0} (index {1})", missingKey, missingIndex), DifferenceType.Missing);
-                if (parms.Result.ExceededDifferences || parms.Config.QuickFailLists)
-                    return;
-            }
+            if (!parms.Config.AllowMissingFor.Contains(String.Format("{0}.{1}", parms.Property.DeclaringType.FullName, parms.Property.Name))) {
+                foreach (var missingKey in missingKeys1)
+                {
+                    var missingIndex = keys2.IndexOf(missingKey);
+                    AddDifference(parms, String.Format("Left side is missing item with key {0} (index {1})", missingKey, missingIndex), DifferenceType.Missing);
+                    if (parms.Result.ExceededDifferences || parms.Config.QuickFailLists)
+                        return;
+                }
 
-            foreach (var missingKey in missingKeys2)
-            {
-                var missingIndex = keys1.IndexOf(missingKey);
-                AddDifference(parms, String.Format("Right side is missing item with key {0} (index {1})", missingKey, missingIndex), DifferenceType.Missing);
-                if (parms.Result.ExceededDifferences || parms.Config.QuickFailLists)
-                    return;
+                foreach (var missingKey in missingKeys2)
+                {
+                    var missingIndex = keys1.IndexOf(missingKey);
+                    AddDifference(parms, String.Format("Right side is missing item with key {0} (index {1})", missingKey, missingIndex), DifferenceType.Missing);
+                    if (parms.Result.ExceededDifferences || parms.Config.QuickFailLists)
+                        return;
+                }
             }
 
             var ignoreIndexes1 = missingKeys2/*.Concat(duplicateKeys1).Concat(duplicateKeys2).Distinct()*/.SelectMany(key => Enumerable.Range(0, keys1.Count).Where(i => keys1[i] == key)).Distinct().ToList();

@@ -242,6 +242,11 @@ namespace KellermanSoftware.CompareNetObjects
         /// Ignore list order for these members. Used by DetectMissingAndMisordered
         /// </summary>
         public List<string> IgnoreOrderFor { get; set; }
+
+        /// <summary>
+        /// When using detect missing and misordered, allow missing for these members.
+        /// </summary>
+        public List<string> AllowMissingFor { get; set; }
         
         /// <summary>
         /// Stop processing lists on first mismatch
@@ -304,10 +309,12 @@ namespace KellermanSoftware.CompareNetObjects
             PathsToIgnore = new List<string>();
             CollectionMatchingKey = new Dictionary<Type, Func<object, string>>();
             IgnoreOrderFor = new List<string>();
+            AllowMissingFor = new List<string>();
             IgnoreUnknownObjectTypes = false;
             MaxStructDepth = 2;
             MaxClassDepth = -1;
         }
         #endregion
+
     }
 }
