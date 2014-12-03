@@ -14,6 +14,7 @@ using TME.CarConfigurator.Publisher.Progress;
 using TME.CarConfigurator.Repository.Objects;
 using TME.CarConfigurator.Repository.Objects.Equipment;
 using TME.CarConfigurator.Repository.Objects.Extensions;
+using AccentColourCombination = TME.CarConfigurator.Repository.Objects.Packs.AccentColourCombination;
 using Asset = TME.CarConfigurator.Repository.Objects.Assets.Asset;
 using GradePack = TME.CarConfigurator.Repository.Objects.Packs.GradePack;
 using Car = TME.CarConfigurator.Administration.Car;
@@ -206,6 +207,7 @@ namespace TME.CarConfigurator.Publisher
                 {
                     FillCarParts(car, contextData);
                     FillCarPacks(car, contextData, equipmentGroups, equipmentCategories, isPreview, context.AssetUrl);
+//                    FillCarPackAccentColourCombination(contextData, car, modelGeneration, exteriorColourTypes, isPreview, context.AssetUrl);
                     FillCarEquipment(car, contextData, equipmentCategories, equipmentGroups, isPreview, context.AssetUrl);
                     FillCarTechnicalSpecifications(car, specificationCategories, units, contextData);
                     FillCarRules(car, contextData);
@@ -298,12 +300,10 @@ namespace TME.CarConfigurator.Publisher
             foreach (var assetSetAsset in unmappedApplicableAssets)
                 carItemAssets.Add(assetSetAsset.ID, _assetMapper.MapCarAssetSetAsset(assetSetAsset, car.Generation));
 
-            var applicableGenerationAssets = objectWithAssetSet.AssetSet.Assets.GetGenerationAssets();
-
             if (!carItemsGenerationAssets.ContainsKey(objectId))
-                carItemsGenerationAssets.Add(objectId, applicableGenerationAssets.Select(asset => _assetMapper.MapCarAssetSetAsset(asset, car.Generation)).ToList());
+                carItemsGenerationAssets.Add(objectId, objectWithAssetSet.AssetSet.Assets.GetGenerationAssets().Select(asset => _assetMapper.MapCarAssetSetAsset(asset, car.Generation)).ToList());
 
-            return applicableAssets.Select(asset => carItemAssets[asset.ID]).Distinct().Concat(carItemsGenerationAssets[objectId]).ToList();
+            return filteredApplicableAssets.Select(asset => carItemAssets[asset.ID]).Distinct().Concat(carItemsGenerationAssets[objectId]).ToList();
         }
 
         private void FillCarAssets(Car car, ContextData contextData, ModelGeneration modelGeneration, IHasAssetSet objectWithAssetSet)
@@ -502,6 +502,18 @@ namespace TME.CarConfigurator.Publisher
 
             contextData.CarPacks.Add(car.ID, packs);
         }
+        
+        /*private void FillCarPackAccentColourCombination(ContextData contextData, Car car, ModelGeneration modelGeneration, ExteriorColourTypes exteriorColourTypes, bool isPreview, string assetUrl)
+        {
+            var packAccentColours = car.Packs.Where(pack => pack.Availability != Availability.NotAvailable)
+                .ToDictionary(pack => pack.ID, pack => car.Generation.Packs[pack.ID].AccentColourCombinations.Select(acc => _colourMapper.MapPackAccentColourCombination(acc, car, modelGeneration, isPreview, exteriorColourTypes, assetUrl)).ToList());
+
+            if (!contextData.CarPackAccentColourCombinations.ContainsKey(car.ID))
+                contextData.CarPackAccentColourCombinations.Add(car.ID, new Dictionary<Guid, IList<AccentColourCombination>>());
+
+            foreach (var entry in packAccentColours)
+                contextData.CarPackAccentColourCombinations[car.ID].Add(entry.Key,new List<AccentColourCombination>(entry.Value));
+        }*/
 
         private void FillCarRules(Car car, ContextData contextData)
         {
