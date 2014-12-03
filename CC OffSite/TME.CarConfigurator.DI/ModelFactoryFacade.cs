@@ -175,7 +175,7 @@ namespace TME.CarConfigurator.DI
             _colourFactory = _colourFactory ?? new ColourFactory(_serviceFacade.CreateColourService(), _assetFactory);
             _ruleFactory = _ruleFactory ?? new RuleFactory(_serviceFacade.CreateRuleService());
             _equipmentFactory = _equipmentFactory ?? new EquipmentFactory(_serviceFacade.CreateEquipmentService(), _colourFactory,_assetFactory, _ruleFactory);
-            _packFactory = _packFactory ?? new PackFactory(_serviceFacade.CreatePackService(), _assetFactory, _equipmentFactory, _ruleFactory);
+            _packFactory = _packFactory ?? new PackFactory(_serviceFacade.CreatePackService(), _assetFactory, _equipmentFactory, _ruleFactory, _colourFactory);
             _gradeFactory = _gradeFactory ?? new GradeFactory(_serviceFacade.CreateGradeService(), _assetFactory, _equipmentFactory, _packFactory);
             _subModelFactory = _subModelFactory ?? new SubModelFactory(_serviceFacade.CreateSubModelService(), _assetFactory, _gradeFactory);
             _specificationsFactory = _specificationsFactory ?? new SpecificationsFactory(_serviceFacade.CreateSpecificationsService());

@@ -1,16 +1,13 @@
 Imports System.Collections.Generic
 Imports TME.CarConfigurator.Administration.Assets
 Imports TME.CarConfigurator.Administration.Enums
-
 <Serializable()> Public NotInheritable Class ModelGenerationPacks
     Inherits StronglySortedListBase(Of ModelGenerationPacks, ModelGenerationPack)
-
 #Region " Delegates & Events "
     Friend Delegate Sub PacksChangedHandler(ByVal pack As ModelGenerationPack)
     Friend Event PackAdded As PacksChangedHandler
     Friend Event PackRemoved As PacksChangedHandler
 #End Region
-
 #Region " Business Properties & Methods "
     Friend Property Generation() As ModelGeneration
         Get
@@ -21,7 +18,6 @@ Imports TME.CarConfigurator.Administration.Enums
             SetParent(value)
         End Set
     End Property
-
     Private Sub MyListChanged(ByVal sender As Object, ByVal e As ComponentModel.ListChangedEventArgs) Handles Me.ListChanged
         If e.ListChangedType = ComponentModel.ListChangedType.ItemAdded Then
             RaiseEvent PackAdded(Me(e.NewIndex))
@@ -30,11 +26,8 @@ Imports TME.CarConfigurator.Administration.Enums
     Private Sub MyRemovingItem(ByVal sender As Object, ByVal e As Core.RemovingItemEventArgs) Handles Me.RemovingItem
         RaiseEvent PackRemoved(DirectCast(e.RemovingItem, ModelGenerationPack))
     End Sub
-
 #End Region
-
 #Region " Shared Factory Methods "
-
     Friend Shared Function NewModelGenerationPacks(ByVal generation As ModelGeneration) As ModelGenerationPacks
         Dim packs As ModelGenerationPacks = New ModelGenerationPacks()
         packs.Generation = generation
@@ -45,23 +38,18 @@ Imports TME.CarConfigurator.Administration.Enums
         packs.Generation = generation
         Return packs
     End Function
-
 #End Region
-
 #Region " Constructors "
     Private Sub New()
         'Prevent direct creation
         MarkAsChild()
     End Sub
 #End Region
-
 #Region " Criteria "
     <Serializable()> Private Class CustomCriteria
         Inherits CommandCriteria
-
         Private ReadOnly _modelID As Guid
         Private ReadOnly _generationID As Guid
-
         Public Sub New(ByVal generation As ModelGeneration)
             _modelID = generation.Model.ID
             _generationID = generation.ID
@@ -70,17 +58,14 @@ Imports TME.CarConfigurator.Administration.Enums
             command.Parameters.AddWithValue("@MODELID", _modelID)
             command.Parameters.AddWithValue("@GENERATIONID", _generationID)
         End Sub
-
     End Class
 #End Region
-
 #Region " Data Access "
     Protected Overrides ReadOnly Property RaiseListChangedEventsDuringFetch() As Boolean
         Get
             Return False
         End Get
     End Property
-
     Protected Overrides Sub FetchNextResult(ByVal dataReader As Common.Database.SafeDataReader)
         FetchExteriorColourApplicabilities(dataReader)
         If dataReader.NextResult Then FetchUpholsteryApplicabilities(dataReader)
@@ -91,30 +76,24 @@ Imports TME.CarConfigurator.Administration.Enums
         While dataReader.Read
             Dim pack = Item(dataReader.GetGuid("PACKID"))
             If pack Is Nothing Then Continue While
-
             pack.ExteriorColourApplicabilities.Add(dataReader)
         End While
     End Sub
-
     Private Sub FetchUpholsteryApplicabilities(ByVal dataReader As Common.Database.SafeDataReader)
         While dataReader.Read
             Dim pack = Item(dataReader.GetGuid("PACKID"))
             If pack Is Nothing Then Continue While
-
             pack.UpholsteryApplicabilities.Add(dataReader)
         End While
     End Sub
-
     Private Sub FetchRules(ByVal dataReader As Common.Database.SafeDataReader)
         While dataReader.Read
             Dim pack = Item(dataReader.GetGuid("PACKID"))
             If pack Is Nothing Then Continue While
-
             pack.Rules.Add(dataReader)
         End While
     End Sub
 #End Region
-
 End Class
 <Serializable()> Public NotInheritable Class ModelGenerationPack
     Inherits LocalizeableBusinessBase
@@ -124,7 +103,6 @@ End Class
     Implements IOwnedBy
     Implements IPrice
     Implements IMasterListObject
-
 #Region " Business Properties & Methods "
     Private _shortID As Nullable(Of Integer) = Nothing
     Private _code As String = String.Empty
@@ -140,10 +118,8 @@ End Class
     Private WithEvents _extColourApplicabilities As ExteriorColourApplicabilities
     Private _upholsteryApplicabilities As UpholsteryApplicabilities
     Private _assetSet As AssetSet
-
     Private _masterPacks As ModelGenerationMasterPacks
     Private _accentColourCombinations As AccentColourCombinations
-
     Public ReadOnly Property Generation() As ModelGeneration
         Get
             If Parent Is Nothing Then Return Nothing
@@ -206,13 +182,11 @@ End Class
             Return _owner
         End Get
     End Property
-
     Private ReadOnly Property MasterCode() As String Implements IMasterListObjectReference.MasterCode
         Get
             Return Code
         End Get
     End Property
-
     Public ReadOnly Property MasterIDs() As List(Of Guid) Implements IMasterListObjectReference.MasterIDs
         Get
             Return MasterPacks.Select(Function(x) x.ID).ToList()
@@ -224,7 +198,6 @@ End Class
             Return MasterPackType.None
         End Get
     End Property
-
     Public Property Activated() As Boolean
         Get
             Return ((_status And Status.AvailableToNmscs) = Status.AvailableToNmscs)
@@ -262,7 +235,6 @@ End Class
             End If
         End Set
     End Property
-
     Public ReadOnly Property Equipment() As ModelGenerationPackItems
         Get
             If _equipment Is Nothing Then
@@ -275,7 +247,6 @@ End Class
             Return _equipment
         End Get
     End Property
-
     Private Sub EquipmentChanged(ByVal item As ModelGenerationPackItem) Handles _equipment.PackItemAdded, _equipment.PackItemRemoved
         ValidationRules.CheckRules("EquipmentAndRules")
         AccentColourCombinations.Synchronize()
@@ -283,7 +254,6 @@ End Class
     Private Sub EquipmentColouringModeChanged(item As ModelGenerationPackItem) Handles _equipment.PackItemColouringModeChanged
         AccentColourCombinations.Synchronize()
     End Sub
-
     Public ReadOnly Property Rules() As ModelGenerationPackRules
         Get
             If _rules Is Nothing Then _rules = ModelGenerationPackRules.NewModelGenerationPackRules(Me)
@@ -293,7 +263,6 @@ End Class
     Private Sub RulesChanged(ByVal rule As ModelGenerationRule) Handles _rules.RuleAdded, _rules.RuleRemoved
         ValidationRules.CheckRules("EquipmentAndRules")
     End Sub
-
     Public ReadOnly Property ExteriorColourApplicabilities() As ExteriorColourApplicabilities
         Get
             If _extColourApplicabilities Is Nothing Then _extColourApplicabilities = ExteriorColourApplicabilities.NewExteriorColourApplicabilities(Me)
@@ -303,15 +272,12 @@ End Class
     Private Sub ExteriorColourApplicabilitiesChanged(exteriorColourApplicability As ExteriorColourApplicability) Handles _extColourApplicabilities.ApplicabilityAdded, _extColourApplicabilities.ApplicabilityRemoved
         AccentColourCombinations.Synchronize()
     End Sub
-
     Public ReadOnly Property UpholsteryApplicabilities() As UpholsteryApplicabilities
         Get
             If _upholsteryApplicabilities Is Nothing Then _upholsteryApplicabilities = UpholsteryApplicabilities.NewUpholsteryApplicabilities(Me)
             Return _upholsteryApplicabilities
         End Get
     End Property
-
-
     Public ReadOnly Property AssetSet() As AssetSet Implements IHasAssetSet.AssetSet
         Get
             If _assetSet Is Nothing Then
@@ -320,24 +286,19 @@ End Class
             Return _assetSet
         End Get
     End Property
-
     Public Sub ChangeReference(ByVal updatedAssetSet As AssetSet) Implements IUpdatableAssetSet.ChangeReference
         _assetSet = updatedAssetSet
     End Sub
-
     Public Overloads Overrides Function CanWriteProperty(ByVal propertyName As String) As Boolean
         If MyContext.GetContext().IsGlobal Then Return MyBase.CanWriteProperty(propertyName)
         If Owner.Equals(MyContext.GetContext().CountryCode(), StringComparison.InvariantCultureIgnoreCase) Then Return MyBase.CanWriteProperty(propertyName)
-
         Select Case propertyName
             Case "Index", "Price", "VatPrice", "LocalCode"
                 Return MyBase.CanWriteProperty(propertyName)
             Case Else
                 Return False
         End Select
-
     End Function
-
     Public ReadOnly Property MasterPacks() As ModelGenerationMasterPacks
         Get
             If _masterPacks Is Nothing Then
@@ -345,9 +306,7 @@ End Class
             End If
             Return _masterPacks
         End Get
-
     End Property
-
     Public ReadOnly Property AccentColourCombinations() As AccentColourCombinations
         Get
             If _accentColourCombinations Is Nothing Then
@@ -357,49 +316,40 @@ End Class
             Return _accentColourCombinations
         End Get
     End Property
-
     Public Function BodyColours() As IEnumerable(Of ExteriorColourInfo)
         If ExteriorColourApplicabilities.Any() Then Return ExteriorColourApplicabilities.Select(Function(x) x.GetInfo())
         Return Generation.ColourCombinations.ExteriorColours().Select(Function(x) x.GetInfo())
     End Function
     Public Function PrimaryAccentColours() As IEnumerable(Of ExteriorColourInfo)
         Return Equipment.
-            Where(Function(x) Not x.Colour.IsEmpty() AndAlso (x.ColouringModes And ColouringModes.PrimaryAccentColour) = ColouringModes.PrimaryAccentColour).
-            Select(Function(x) x.Colour).
-            Distinct()
+        Where(Function(x) Not x.Colour.IsEmpty() AndAlso (x.ColouringModes And ColouringModes.PrimaryAccentColour) = ColouringModes.PrimaryAccentColour).
+        Select(Function(x) x.Colour).
+        Distinct()
     End Function
     Public Function SecondaryAccentColours() As IEnumerable(Of ExteriorColourInfo)
         Return Equipment.
-            Where(Function(x) Not x.Colour.IsEmpty() AndAlso (x.ColouringModes And ColouringModes.SecondaryAccentColour) = ColouringModes.SecondaryAccentColour).
-            Select(Function(x) x.Colour).
-            Distinct()
+        Where(Function(x) Not x.Colour.IsEmpty() AndAlso (x.ColouringModes And ColouringModes.SecondaryAccentColour) = ColouringModes.SecondaryAccentColour).
+        Select(Function(x) x.Colour).
+        Distinct()
     End Function
-
-
-
     Public ReadOnly Property ContainsSuffixOptions() As Boolean
         Get
             Return Equipment.OfType(Of ModelGenerationPackOption).Any(Function(o) DirectCast(Generation.Equipment(o.ID), ModelGenerationOption).SuffixOption)
         End Get
     End Property
 #End Region
-
 #Region " Business & Validation Rules "
     Protected Overrides Sub AddBusinessRules()
         ValidationRules.AddRule(DirectCast(AddressOf BusinessObjects.ValidationRules.String.Required, Validation.RuleHandler), "Code")
         ValidationRules.AddRule(DirectCast(AddressOf BusinessObjects.ValidationRules.String.Required, Validation.RuleHandler), "Name")
-
         ValidationRules.AddRule(DirectCast(AddressOf BusinessObjects.ValidationRules.String.MaxLength, Validation.RuleHandler), New BusinessObjects.ValidationRules.String.MaxLengthRuleArgs("Code", 50))
         ValidationRules.AddRule(DirectCast(AddressOf BusinessObjects.ValidationRules.String.MaxLength, Validation.RuleHandler), New BusinessObjects.ValidationRules.String.MaxLengthRuleArgs("Name", 255))
-
         ValidationRules.AddRule(DirectCast(AddressOf BusinessObjects.ValidationRules.Value.Unique, Validation.RuleHandler), "Code")
         ValidationRules.AddRule(DirectCast(AddressOf BusinessObjects.ValidationRules.Value.Unique, Validation.RuleHandler), "Name")
-
         ValidationRules.AddRule(DirectCast(AddressOf EquipmentAndRulesValidationRule, Validation.RuleHandler), "EquipmentAndRules")
     End Sub
     Private Shared Function EquipmentAndRulesValidationRule(ByVal target As Object, ByVal e As Validation.RuleArgs) As Boolean
         Dim pack As ModelGenerationPack = DirectCast(target, ModelGenerationPack)
-
         If pack.Rules.Any(Function(x) pack.Equipment.Contains(x.ID)) Then
             e.Description = String.Format("The pack has an include/exclude on an equipment item which is also a part of the pack's content.{0}This is not allowed!", System.Environment.NewLine)
             Return False
@@ -407,7 +357,6 @@ End Class
         Return True
     End Function
 #End Region
-
 #Region " System.Object Overrides "
     Public Overloads Overrides Function ToString() As String
         Return Name
@@ -417,9 +366,7 @@ End Class
         Return String.Compare(Code, obj, True) = 0
     End Function
 #End Region
-
 #Region " Framework Overrides "
-
     Public Overloads Overrides ReadOnly Property IsValid() As Boolean
         Get
             If Not MyBase.IsValid Then Return False
@@ -446,15 +393,12 @@ End Class
             Return False
         End Get
     End Property
-
 #End Region
-
 #Region " Constructors "
     Private Sub New()
         'Prevent direct creation
     End Sub
 #End Region
-
 #Region " Data Access "
     Protected Overrides Sub InitializeFields()
         MyBase.InitializeFields()
@@ -477,16 +421,14 @@ End Class
         MyBase.FetchFields(dataReader)
         AllowNew = True
         AllowEdit = True
-        AllowRemove = (String.Compare(MyContext.GetContext().CountryCode, _owner, True) = 0)    ' for the moment only only local packs to be deleted locally
+        AllowRemove = (String.Compare(MyContext.GetContext().CountryCode, _owner, True) = 0) ' for the moment only only local packs to be deleted locally
     End Sub
-
     Protected Overrides Sub AddInsertCommandFields(ByVal command As SqlCommand)
         AddCommandFields(command)
     End Sub
     Protected Overrides Sub AddUpdateCommandFields(ByVal command As SqlCommand)
         AddCommandFields(command)
     End Sub
-
     Private Sub AddCommandFields(ByVal command As SqlCommand)
         command.Parameters.AddWithValue("@OWNER", Owner)
         command.Parameters.AddWithValue("@INTERNALCODE", Code)
@@ -501,7 +443,6 @@ End Class
         command.Parameters.AddWithValue("@MODELID", Generation.Model.ID)
         command.Parameters.AddWithValue("@GENERATIONID", Generation.ID)
     End Sub
-
     Protected Overrides Sub UpdateChildren(ByVal transaction As System.Data.SqlClient.SqlTransaction)
         If Not _assetSet Is Nothing Then _assetSet.Update(transaction)
         If Not _equipment Is Nothing Then _equipment.Update(transaction)
@@ -513,21 +454,17 @@ End Class
         MyBase.UpdateChildren(transaction)
     End Sub
 #End Region
-
 #Region " Base Object Overrides"
-
     Public Overrides ReadOnly Property ModelID() As Guid
         Get
             Return Generation.Model.ID
         End Get
     End Property
-
     Public Overrides ReadOnly Property GenerationID() As Guid
         Get
             Return Generation.ID
         End Get
     End Property
-
     Protected Friend Overrides Function GetBaseCode() As String
         Return Code
     End Function
@@ -539,9 +476,5 @@ End Class
             Return Entity.PACK
         End Get
     End Property
-
-
 #End Region
-
-
 End Class

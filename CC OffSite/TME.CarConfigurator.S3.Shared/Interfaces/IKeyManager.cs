@@ -37,5 +37,6 @@ namespace TME.CarConfigurator.S3.Shared.Interfaces
         String GetCarEquipmentAssetsKey(Guid publicationID, Guid carID, String view, String mode);
         String GetCarColourCombinationsKey(Guid publicationID, Guid carID);
         String GetCarRulesKey(Guid publicationID, Guid carID);
+        String GetCarPackAccentColourCombinationsKey(Guid publicationID, Guid carID);
     }
 }

@@ -236,6 +236,20 @@ namespace TME.Carconfigurator.Tests.Builders
             return this;
         }
 
+        public ContextBuilder AddCarPackAccentColourCombinations(string language, Guid carID, Guid packID, params AccentColourCombination[] accentColourCombinations)
+        {
+            var data = _context.ContextData[language];
+            var carPackAccentColourCombinations = data.CarPackAccentColourCombinations;
+
+            if (!carPackAccentColourCombinations.ContainsKey(carID))
+                carPackAccentColourCombinations.Add(carID, new Dictionary<Guid, IList<AccentColourCombination>>());
+
+            if (!carPackAccentColourCombinations[carID].ContainsKey(packID))
+                carPackAccentColourCombinations[carID].Add(packID, new List<AccentColourCombination>(accentColourCombinations));
+
+            return this;
+        }
+
         public IContext Build()
         {
             return _context;

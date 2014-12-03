@@ -7,14 +7,14 @@ using TME.CarConfigurator.S3.Publisher.Interfaces;
 
 namespace TME.Carconfigurator.Tests.Builders
 {
-    public class ColourCombinationPublisherBuilder
+    public class ColourPublisherBuilder
     {
         private readonly ITimeFramePublishHelper _timeFramePublishHelper = new TimeFramePublishHelper();
         private IColourService _service;
 
-        public ColourCombinationPublisherBuilder WithService(ColourCombinationService colourCombinationService)
+        public ColourPublisherBuilder WithService(ColourService colourService)
         {
-            _service = colourCombinationService;
+            _service = colourService;
             return this;
         }
 

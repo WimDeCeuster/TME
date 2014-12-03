@@ -91,8 +91,8 @@ namespace TME.Carconfigurator.Tests.GivenAS3ColourCombinationPublisher
             A.CallTo(() => keymanager.GetColourCombinationsKey(publication2.ID, publicationTimeFrame4.ID))
                 .Returns(TIME_FRAME4_EXTERIOR_COLOUR_KEY);
 
-            var colourCombinationService = new ColourCombinationService(_s3Service, serialiser,keymanager);
-            _colourPublisher = new ColourCombinationPublisherBuilder().WithService(colourCombinationService).Build();
+            var colourCombinationService = new ColourService(_s3Service, serialiser,keymanager);
+            _colourPublisher = new ColourPublisherBuilder().WithService(colourCombinationService).Build();
         }
 
         protected override void Act()

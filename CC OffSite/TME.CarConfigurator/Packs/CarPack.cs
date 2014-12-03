@@ -9,6 +9,7 @@ using TME.CarConfigurator.Interfaces.Core;
 using TME.CarConfigurator.Interfaces.Factories;
 using TME.CarConfigurator.Interfaces.Packs;
 using TME.CarConfigurator.Interfaces.Rules;
+using TME.CarConfigurator.Repository.Objects;
 using RepositoryCarPack = TME.CarConfigurator.Repository.Objects.Packs.CarPack;
 
 namespace TME.CarConfigurator.Packs
@@ -18,6 +19,7 @@ namespace TME.CarConfigurator.Packs
         private readonly IAssetFactory _assetFactory;
         private readonly IEquipmentFactory _equipmentFactory;
         private readonly IRuleFactory _ruleFactory;
+        private readonly IColourFactory _colourFactory;
 
         private readonly Repository.Objects.Publication _publication;
         private readonly Guid _carId;
@@ -29,9 +31,9 @@ namespace TME.CarConfigurator.Packs
         private IReadOnlyList<IAsset> _assets;
         private ICarPackEquipment _equipment;
         private IRuleSets _rules;
+        private IReadOnlyList<IAccentColourCombination> _accentColourCombinations;
 
-        public CarPack(RepositoryCarPack pack, Repository.Objects.Publication publication, Guid carId,
-            Repository.Objects.Context context, IAssetFactory assetFactory, IEquipmentFactory equipmentFactory, IRuleFactory ruleFactory)
+        public CarPack(RepositoryCarPack pack, Publication publication, Guid carId, Context context, IAssetFactory assetFactory, IEquipmentFactory equipmentFactory, IRuleFactory ruleFactory, IColourFactory colourFactory)
             : base(pack)
         {
             if (publication == null) throw new ArgumentNullException("publication");
@@ -39,12 +41,14 @@ namespace TME.CarConfigurator.Packs
             if (assetFactory == null) throw new ArgumentNullException("assetFactory");
             if (equipmentFactory == null) throw new ArgumentNullException("equipmentFactory");
             if (ruleFactory == null) throw new ArgumentNullException("ruleFactory");
+            if (colourFactory == null) throw new ArgumentNullException("colourFactory");
 
             _publication = publication;
             _context = context;
             _assetFactory = assetFactory;
             _equipmentFactory = equipmentFactory;
             _ruleFactory = ruleFactory;
+            _colourFactory = colourFactory;
             _carId = carId;
         }
 
@@ -112,7 +116,12 @@ namespace TME.CarConfigurator.Packs
 
         public IReadOnlyList<IAccentColourCombination> AccentColourCombinations
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return
+                    _accentColourCombinations =
+                        _accentColourCombinations ?? _colourFactory.GetCarPackAccentColourCombinations(_publication, _context, _carId, RepositoryObject.ID);
+            }
         }
 
         public ICarPackEquipment Equipment

@@ -29,7 +29,7 @@ namespace TME.CarConfigurator.Publisher
         private readonly IEquipmentPublisher _equipmentPublisher;
         private readonly ISpecificationsPublisher _specificationsPublisher;
         private readonly IPackPublisher _packPublisher;
-        private readonly IColourPublisher _colourCombinationPublisher;
+        private readonly IColourPublisher _colourPublisher;
         private readonly ICarPartPublisher _carPartPublisher;
         private readonly IRulePublisher _rulePublisher;
 
@@ -48,7 +48,7 @@ namespace TME.CarConfigurator.Publisher
             IEquipmentPublisher equipmentPublisher,
             ISpecificationsPublisher specificationsPublisher,
             IPackPublisher packPublisher,
-            IColourPublisher colourCombinationPublisher,
+            IColourPublisher colourPublisher,
             ICarPartPublisher carPartPublisher, 
             IRulePublisher rulePublisher)
         {
@@ -67,7 +67,7 @@ namespace TME.CarConfigurator.Publisher
             if (equipmentPublisher == null) throw new ArgumentNullException("equipmentPublisher");
             if (specificationsPublisher == null) throw new ArgumentNullException("specificationsPublisher");
             if (packPublisher == null) throw new ArgumentNullException("packPublisher");
-            if (colourCombinationPublisher == null) throw new ArgumentNullException("colourCombinationPublisher");
+            if (colourPublisher == null) throw new ArgumentNullException("colourPublisher");
             if (carPartPublisher == null) throw new ArgumentNullException("carPartPublisher");
             if (rulePublisher == null) throw new ArgumentNullException("rulePublisher");
 
@@ -87,7 +87,7 @@ namespace TME.CarConfigurator.Publisher
             _equipmentPublisher = equipmentPublisher;
             _specificationsPublisher = specificationsPublisher;
             _packPublisher = packPublisher;
-            _colourCombinationPublisher = colourCombinationPublisher;
+            _colourPublisher = colourPublisher;
             _carPartPublisher = carPartPublisher;
             _rulePublisher = rulePublisher;
         }
@@ -120,8 +120,8 @@ namespace TME.CarConfigurator.Publisher
                 _gradePublisher.PublishGenerationGradesAsync(context),
                 _subModelPublisher.PublishGenerationSubModelsAsync(context),
                 _carPublisher.PublishGenerationCarsAsync(context),
-                _colourCombinationPublisher.PublishGenerationColourCombinations(context),
-                _colourCombinationPublisher.PublishCarColourCombinations(context),
+                _colourPublisher.PublishGenerationColourCombinations(context),
+                _colourPublisher.PublishCarColourCombinations(context),
                 _gradePublisher.PublishSubModelGradesAsync(context),
                 _equipmentPublisher.PublishAsync(context),
                 _equipmentPublisher.PublishCategoriesAsync(context),
@@ -134,6 +134,7 @@ namespace TME.CarConfigurator.Publisher
                 _equipmentPublisher.PublishCarEquipmentAsync(context),
                 _specificationsPublisher.PublishCarTechnicalSpecificationsAsync(context),
                 _rulePublisher.PublishCarRulesAsync(context),
+                _colourPublisher.PublishCarPackAccentColourCombinations(context),
                 _assetPublisher.PublishAsync(context)
             };
 

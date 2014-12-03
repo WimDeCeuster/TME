@@ -103,7 +103,11 @@ namespace TME.CarConfigurator.LegacyAdapter.Packs
         {
             get
             {
-                return Adaptee.AccentColourCombinations.Select(x => new AccentColourCombination(x)).ToList();
+                return Adaptee.AccentColourCombinations.Select(x => new AccentColourCombination(x))
+                    .OrderBy(colourCombination => colourCombination.BodyColour.InternalCode)
+                    .ThenBy(colourCombination => colourCombination.PrimaryAccentColour.InternalCode)
+                    .ThenBy(colourCombination => colourCombination.SecondaryAccentColour.InternalCode)
+                    .ToList();
             }
         }
 

@@ -105,6 +105,8 @@
     <Compile Include="GivenACarPackOption\WhenAccessingItsParentOptionForTheSecondTime.cs" />
     <Compile Include="GivenACarPackUpholsteryType\WhenAccessingItsColourCombinationsForTheFirstTime.cs" />
     <Compile Include="GivenACarPackUpholsteryType\WhenAccessingItsColourCombinationsForTheSecondTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsAccentColourCombinationsForTheFirstTime.cs" />
+    <Compile Include="GivenACarPack\WhenAccessingItsAccentColourCombinationsForTheSecondTime.cs" />
     <Compile Include="GivenACarPack\WhenAccessingItsEquipmentForTheFirstTime.cs" />
     <Compile Include="GivenACarPack\WhenAccessingItsEquipmentForTheSecondTime.cs" />
     <Compile Include="GivenACarPack\WhenAccessingItsRulesFortheFirstTime.cs" />

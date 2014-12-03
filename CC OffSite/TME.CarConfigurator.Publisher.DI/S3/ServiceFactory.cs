@@ -140,7 +140,7 @@ namespace TME.CarConfigurator.Publisher.DI.S3
         {
             var service = GetService(environment, dataSubset);
 
-            return new ColourCombinationService(service, _serialiser, _keyManager);
+            return new ColourService(service, _serialiser, _keyManager);
         }
 
         public ICarPartService GetCarPartService(string environment, PublicationDataSubset dataSubset)

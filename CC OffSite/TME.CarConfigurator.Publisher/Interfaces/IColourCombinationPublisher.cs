@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TME.CarConfigurator.Publisher.Common.Interfaces;
 
@@ -9,5 +8,6 @@ namespace TME.CarConfigurator.Publisher.Interfaces
     {
         Task PublishGenerationColourCombinations(IContext context);
         Task PublishCarColourCombinations(IContext context);
+        Task PublishCarPackAccentColourCombinations(IContext context);
     }
 }
